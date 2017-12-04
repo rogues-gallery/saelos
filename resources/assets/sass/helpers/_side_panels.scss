@@ -1,0 +1,178 @@
+/**
+ * Base Structure
+ * All Overlays must have .side-overlay class
+ * All panels must have .panel-side class
+ */
+.side-overlay {
+  background-color: rgba(#000, .3);
+  bottom: 0;
+  content: '';
+  left: 0;
+  position: fixed;
+  opacity: 0;
+  right: 0;
+  top: 0;
+  transform: translateX(100%);
+  transition: opacity .2s ease;
+  z-index: 1000;
+}
+
+.side-panel {
+  background-color: #fff;
+  bottom: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transform: translateX(100%);
+  transition: all .4s ease;
+  width: 600px;
+  z-index: 1001;
+
+  & .panel {
+    width: 100%;
+  }
+}
+
+/**
+ * Base Content Flyout
+ */
+
+.content-side-overlay {
+  .content-side-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.content-side {
+  .content-side-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+/**
+ * Contact Flyouts
+ */
+
+.contact-side-overlay {
+  z-index: 2000;
+
+  .contact-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.contact-history-overlay {
+  z-index: 3000;
+
+  .contact-history-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.contact-edit-overlay {
+  z-index: 3000;
+
+  .contact-edit-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.contact-contact-overlay {
+  z-index: 3000;
+
+  .contact-contact-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.contact-side {
+  z-index: 2001;
+
+  .contact-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+
+  .action-panel-open &,
+  .contact-history-panel-open &,
+  .contact-edit-panel-open &,
+  .contact-contact-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(-300px);
+  }
+}
+
+.contact-history-side {
+  z-index: 3001;
+
+  .contact-history-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+.contact-edit-side {
+  z-index: 3001;
+
+  .contact-edit-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+.contact-contact-side {
+  z-index: 3001;
+
+  .contact-contact-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+/**
+ * Account Flyouts
+ */
+.account-side-overlay {
+  z-index: 2000;
+
+  .account-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.account-panel-side {
+  z-index: 3001;
+
+  .account-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+/**
+ * VECTOR Flyouts
+ */
+.call-panel-overlay {
+  z-index: 2000;
+
+  .call-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.call-panel-side {
+  z-index: 3001;
+
+  .call-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}

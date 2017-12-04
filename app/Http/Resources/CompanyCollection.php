@@ -6,14 +6,10 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class CompanyCollection extends ResourceCollection
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => array_column($this->collection->toArray(), 'resource'),
+        ];
     }
 }

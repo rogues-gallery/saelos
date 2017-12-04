@@ -1,0 +1,18 @@
+.dashboard {
+	@media(min-width: $media-xs) {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		height: 100%;
+	}
+}
+
+.dashboard-contact-container {
+	width: 50%;
+	float:left;
+}
+
+.dashboard-right-container {
+	width: 50%;
+	float:left;
+}

@@ -11,10 +11,5 @@
 |
 */
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('people', 'PersonController@index')->name('people.index');
-});
+Route::get('/', 'ReactController@index')->name('react-home');
+Route::get('/{slug}', 'ReactController@index')->name('react');
