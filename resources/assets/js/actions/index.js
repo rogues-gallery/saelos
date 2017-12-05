@@ -7,6 +7,7 @@ import * as AccountActions from './accounts';
 import fetch from '../utils/fetch';
 import Cookies from 'universal-cookie';
 import * as types from './types';
+import {API_CLIENT_ID, API_CLIENT_SECRET, API_GRANT_TYPE, API_SCOPE} from "../config/_entrypoint";
 
 export function errorHandler(dispatch, error, type) {
     let errorMessage = '';
@@ -39,20 +40,24 @@ export function loginUser(formProps) {
     headers.set('Accept', '*/*');
 
     let data = new FormData();
-    data.append('_username', formProps.username);
-    data.append('_password', formProps.password);
+    data.append('username', formProps.username);
+    data.append('password', formProps.password);
+    data.append('grant_type', API_GRANT_TYPE);
+    data.append('client_id', API_CLIENT_ID);
+    data.append('client_secret', API_CLIENT_SECRET);
+    data.append('scope', API_SCOPE);
 
     let cookies = new Cookies();
 
     return (dispatch) => {
-        fetch('/login_check', {
+        fetch('/oauth/token', {
             method: 'POST',
             body: data,
-            headers: headers
+            headers: headers,
+            forAuth: true
         })
-            .then((response) => { return response.json(); })
             .then((data) => {
-                cookies.set('token', data.token, {path: '/'});
+                cookies.set('token', data.access_token, {path: '/'});
                 dispatch({type: types.AUTH_USER});
                 window.location.href = '/';
             })

@@ -10,13 +10,12 @@ export function fetchOpportunities(page = 1) {
         let URL = '/deals?page=' + page;
 
         fetch(URL)
-            .then((response) => response.json())
             .then((response) => {
                 dispatch({
                     type: types.FETCHING_OPPORTUNITIES_SUCCESS,
-                    data: response['hydra:member'],
+                    data: response.data.data,
                     dataFetched: true,
-                    pagination: response['hydra:view']
+                    pagination: response.data.meta
                 });
             });
     }

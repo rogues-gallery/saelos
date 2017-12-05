@@ -1141,6 +1141,8 @@ var _types = __webpack_require__(5);
 
 var types = _interopRequireWildcard(_types);
 
+var _entrypoint = __webpack_require__(412);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -1176,20 +1178,23 @@ function loginUser(formProps) {
     headers.set('Accept', '*/*');
 
     var data = new FormData();
-    data.append('_username', formProps.username);
-    data.append('_password', formProps.password);
+    data.append('username', formProps.username);
+    data.append('password', formProps.password);
+    data.append('grant_type', _entrypoint.API_GRANT_TYPE);
+    data.append('client_id', _entrypoint.API_CLIENT_ID);
+    data.append('client_secret', _entrypoint.API_CLIENT_SECRET);
+    data.append('scope', _entrypoint.API_SCOPE);
 
     var cookies = new _universalCookie2.default();
 
     return function (dispatch) {
-        (0, _fetch2.default)('/login_check', {
+        (0, _fetch2.default)('/oauth/token', {
             method: 'POST',
             body: data,
-            headers: headers
-        }).then(function (response) {
-            return response.json();
+            headers: headers,
+            forAuth: true
         }).then(function (data) {
-            cookies.set('token', data.token, { path: '/' });
+            cookies.set('token', data.access_token, { path: '/' });
             dispatch({ type: types.AUTH_USER });
             window.location.href = '/';
         }).catch(function (error) {
@@ -2581,46 +2586,51 @@ ProgressWrapper.propTypes = {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 exports.default = function (url) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  if ('undefined' === typeof options.headers) options.headers = new Headers();
-  if (null === options.headers.get('Accept')) options.headers.set('Accept', jsonLdMimeType);
+    if ('undefined' === typeof options.headers) options.headers = new Headers();
+    if (null === options.headers.get('Accept')) options.headers.set('Accept', jsonLdMimeType);
 
-  if ('undefined' !== options.body && !(options.body instanceof FormData) && null === options.headers.get('Content-Type')) {
-    options.headers.set('Content-Type', jsonLdMimeType);
-  }
+    if ('undefined' !== options.body && !(options.body instanceof FormData) && null === options.headers.get('Content-Type')) {
+        options.headers.set('Content-Type', jsonLdMimeType);
+    }
 
-  var cookies = new _universalCookie2.default();
-  var bearerToken = cookies.get('token');
+    var forAuth = options.hasOwnProperty('forAuth') && options.forAuth;
+    var cookies = new _universalCookie2.default();
+    var bearerToken = cookies.get('token');
 
-  if (bearerToken && /\/login/.test(window.location.href) === false) {
-    options.headers.set('Authorization', 'Bearer ' + bearerToken);
-  }
+    if (bearerToken && /\/login/.test(window.location.href) === false) {
+        options.headers.set('Authorization', 'Bearer ' + bearerToken);
+    }
 
-  var link = url.includes(_entrypoint.API_PATH) ? _entrypoint.API_HOST + url : _entrypoint.API_HOST + _entrypoint.API_PATH + url;
+    var link = url.includes(_entrypoint.API_PATH) || forAuth ? _entrypoint.API_HOST + url : _entrypoint.API_HOST + _entrypoint.API_PATH + url;
+    var method = options.hasOwnProperty('method') ? options.method : 'GET';
+    var data = options.hasOwnProperty('body') ? options.body : {};
 
-  return fetch(link, options).then(function (response) {
-    if (response.ok) return response;
+    return _axios2.default[method.toLowerCase()](link, data).then(function (response) {
+        console.log(response);
 
-    return response.json().then(function (json) {
-      var error = json['description'] ? json['description'] : response.statusText;
+        if (response.statusText === 'OK') return response;
 
-      // We likely have an expired JWT, so redirect to login
-      window.location.href = '/login';
-      if (!json.violations) throw Error(error);
+        return response.json().then(function (json) {
+            var error = json['description'] ? json['description'] : response.statusText;
 
-      var errors = { _error: error };
-      json.violations.map(function (violation) {
-        return errors[violation.propertyPath] = violation.message;
-      });
+            // We likely have an expired JWT, so redirect to login
+            //window.location.href = '/login';
+            if (!json.violations) throw Error(error);
 
-      throw new _reduxForm.SubmissionError(errors);
+            var errors = { _error: error };
+            json.violations.map(function (violation) {
+                return errors[violation.propertyPath] = violation.message;
+            });
+
+            throw new _reduxForm.SubmissionError(errors);
+        });
     });
-  });
 };
 
 var _reduxForm = __webpack_require__(55);
@@ -44034,14 +44044,12 @@ var Contacts = function (_Component) {
             var initialPage = 0;
             var pageCount = 10;
 
-            if (this.props.pagination.hasOwnProperty('@id')) {
-                var currentPage = this.props.pagination['@id'];
-                initialPage = parseInt(currentPage.substr(currentPage.indexOf('=') + 1), 10) - 1;
+            if (this.props.pagination.hasOwnProperty('current_page')) {
+                initialPage = this.props.pagination.current_page - 1;
             }
 
-            if (this.props.pagination.hasOwnProperty('hydra:last')) {
-                var lastPage = this.props.pagination['hydra:last'];
-                pageCount = parseInt(lastPage.substr(lastPage.indexOf('=') + 1), 10);
+            if (this.props.pagination.hasOwnProperty('last_page')) {
+                pageCount = this.props.pagination.last_page;
             }
 
             return this.props.isFetching && this.props.contacts.length === 0 ? _react2.default.createElement(
@@ -44158,9 +44166,9 @@ var Contact = exports.Contact = function (_Component2) {
                             _react2.default.createElement(
                                 'a',
                                 { onClick: this._toggleBodyClass.bind(this) },
-                                this.state.contact.firstName,
+                                this.state.contact.first_name,
                                 ' ',
-                                this.state.contact.lastName
+                                this.state.contact.last_name
                             )
                         ),
                         this.state.contact.company ? _react2.default.createElement(
@@ -47223,13 +47231,11 @@ function fetchContacts() {
     var URL = '/people?page=' + page;
 
     (0, _fetch2.default)(URL).then(function (response) {
-      return response.json();
-    }).then(function (response) {
       dispatch({
         type: types.FETCHING_CONTACTS_SUCCESS,
-        data: response['hydra:member'],
+        data: response.data.data,
         dataFetched: true,
-        pagination: response['hydra:view']
+        pagination: response.data.meta
       });
     });
   };
@@ -47245,8 +47251,12 @@ function fetchContacts() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var API_HOST = exports.API_HOST = 'https://saelos.dev';
-var API_PATH = exports.API_PATH = '/v2/api';
+var API_HOST = exports.API_HOST = '';
+var API_PATH = exports.API_PATH = '/api/v1';
+var API_GRANT_TYPE = exports.API_GRANT_TYPE = 'password';
+var API_CLIENT_ID = exports.API_CLIENT_ID = 3;
+var API_CLIENT_SECRET = exports.API_CLIENT_SECRET = 'AnUFeRuRYcVHqClNlK7Vhnxp1OmzQYxSLFbyj2y4';
+var API_SCOPE = exports.API_SCOPE = '';
 
 /***/ }),
 /* 413 */
@@ -48431,13 +48441,11 @@ function fetchOpportunities() {
         var URL = '/deals?page=' + page;
 
         (0, _fetch2.default)(URL).then(function (response) {
-            return response.json();
-        }).then(function (response) {
             dispatch({
                 type: types.FETCHING_OPPORTUNITIES_SUCCESS,
-                data: response['hydra:member'],
+                data: response.data.data,
                 dataFetched: true,
-                pagination: response['hydra:view']
+                pagination: response.data.meta
             });
         });
     };
@@ -48515,13 +48523,11 @@ function fetchAccounts() {
         var URL = '/companies?page=' + page;
 
         (0, _fetch2.default)(URL).then(function (response) {
-            return response.json();
-        }).then(function (response) {
             dispatch({
                 type: types.FETCHING_ACCOUNTS_SUCCESS,
-                data: response['hydra:member'],
+                data: response.data.data,
                 dataFetched: true,
-                pagination: response['hydra:view']
+                pagination: response.data.meta
             });
         });
     };

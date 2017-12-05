@@ -1,5 +1,5 @@
 import { SubmissionError } from 'redux-form';
-import { API_HOST, API_PATH } from '../config/_entrypoint';
+import { API_HOST, API_PATH, API_CLIENT_ID, API_GRANT_TYPE, API_SCOPE, API_CLIENT_SECRET } from '../config/_entrypoint';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 
@@ -13,6 +13,7 @@ export default function (url, options = {}) {
     options.headers.set('Content-Type', jsonLdMimeType);
   }
 
+  let forAuth = (options.hasOwnProperty('forAuth') && options.forAuth);
   let cookies = new Cookies();
   let bearerToken = cookies.get('token');
 
@@ -20,24 +21,30 @@ export default function (url, options = {}) {
       options.headers.set('Authorization', 'Bearer ' + bearerToken);
   }
 
-  const link = url.includes(API_PATH) ? API_HOST + url : API_HOST + API_PATH + url;
+  let link = (url.includes(API_PATH) || forAuth)
+      ? API_HOST + url
+      : API_HOST + API_PATH + url;
+  let method = options.hasOwnProperty('method') ? options.method : 'GET';
+  let data = options.hasOwnProperty('body') ? options.body : {};
 
-  return fetch(link, options).then(response => {
-    if (response.ok) return response;
+  return axios[method.toLowerCase()](link, data).then(function (response) {
+      console.log(response);
 
-    return response
-      .json()
-      .then(json => {
-        const error = json['description'] ? json['description'] : response.statusText;
+      if (response.statusText === 'OK') return response;
 
-        // We likely have an expired JWT, so redirect to login
-        window.location.href = '/login';
-        if (!json.violations) throw Error(error);
+      return response
+          .json()
+          .then(json => {
+              const error = json['description'] ? json['description'] : response.statusText;
 
-        let errors = {_error: error};
-        json.violations.map((violation) => errors[violation.propertyPath] = violation.message);
+              // We likely have an expired JWT, so redirect to login
+              //window.location.href = '/login';
+              if (!json.violations) throw Error(error);
 
-        throw new SubmissionError(errors);
-      });
+              let errors = {_error: error};
+              json.violations.map((violation) => errors[violation.propertyPath] = violation.message);
+
+              throw new SubmissionError(errors);
+          });
   });
 }

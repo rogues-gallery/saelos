@@ -38,14 +38,12 @@ class Contacts extends Component {
         let initialPage = 0;
         let pageCount = 10;
 
-        if (this.props.pagination.hasOwnProperty('@id')) {
-            let currentPage = this.props.pagination['@id'];
-            initialPage = parseInt(currentPage.substr(currentPage.indexOf('=') + 1), 10) - 1;
+        if (this.props.pagination.hasOwnProperty('current_page')) {
+            initialPage = this.props.pagination.current_page - 1;
         }
 
-        if (this.props.pagination.hasOwnProperty('hydra:last')) {
-            let lastPage = this.props.pagination['hydra:last'];
-            pageCount = parseInt(lastPage.substr(lastPage.indexOf('=') + 1), 10);
+        if (this.props.pagination.hasOwnProperty('last_page')) {
+            pageCount = this.props.pagination.last_page;
         }
 
         return (
@@ -123,7 +121,7 @@ export class Contact extends Component {
                     <div className="title-wrapper">
                         <div className="title">
                             <a onClick={this._toggleBodyClass.bind(this)}>
-                                {this.state.contact.firstName} {this.state.contact.lastName}
+                                {this.state.contact.first_name} {this.state.contact.last_name}
                             </a>
                         </div>
                         {this.state.contact.company ?
