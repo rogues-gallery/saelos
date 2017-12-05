@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Deal::class);
     }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

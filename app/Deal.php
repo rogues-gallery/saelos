@@ -11,6 +11,11 @@ class Deal extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function team()
+    {
+        return $this->user->team();
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class);
@@ -19,5 +24,10 @@ class Deal extends Model
     public function people()
     {
         return $this->belongsToMany(Person::class, 'deal_person');
+    }
+
+    public function stage()
+    {
+        return $this->belongsTo(Stage::class);
     }
 }

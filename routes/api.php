@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 Route::group([
     'prefix' => '/v1',
     'as' => 'api.',
+    'middleware' => 'auth:api',
 ], function () {
     # People
     Route::get('/people', function() {
@@ -34,4 +35,11 @@ Route::group([
         return new App\Http\Resources\CompanyCollection(App\Company::with(['user', 'people', 'deals'])->paginate());
     });
     Route::get('/companies/{id}', 'CompanyController@show');
+
+    # Stages
+    Route::get('/stages', function() {
+        return new App\Http\Resources\StageCollection(App\Stage::with(['deals', 'userDeals', 'teamDeals'])->paginate());
+    });
+    Route::get('/stages/{id}', 'StageController@show');
+
 });

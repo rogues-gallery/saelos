@@ -28,8 +28,7 @@ class PersonController extends Controller
 
     public function store(Request $request)
     {
-        $company = Person::create($request->all());
-        return $company;
+        return Person::create($request->all());
     }
 
     public function destroy($id)

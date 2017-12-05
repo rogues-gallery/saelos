@@ -41,7 +41,7 @@ export default class ContactPanel extends Component {
                     <Panel>
                         <div className="panel-user">
                             <div className="panel-user-content">
-                                {this.props.contact.firstName ? <div className="panel-user-name">{this.props.contact.firstName} {this.props.contact.lastName}</div> : ''}
+                                {this.props.contact.first_name ? <div className="panel-user-name">{this.props.contact.first_name} {this.props.contact.last_name}</div> : ''}
 
                                 {this.props.contact.company ? <div className="panel-user-subtitle">{this.props.contact.company.name}</div> : ''}
 

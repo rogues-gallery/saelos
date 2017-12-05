@@ -4,6 +4,7 @@ import * as ProjectActions from './projects';
 import * as OpportunityActions from './opportunities';
 import * as TaskActions from './tasks';
 import * as AccountActions from './accounts';
+import * as StageActions from './stages';
 import fetch from '../utils/fetch';
 import Cookies from 'universal-cookie';
 import * as types from './types';
@@ -57,7 +58,7 @@ export function loginUser(formProps) {
             forAuth: true
         })
             .then((data) => {
-                cookies.set('token', data.access_token, {path: '/'});
+                cookies.set('token', data.data.access_token, {path: '/'});
                 dispatch({type: types.AUTH_USER});
                 window.location.href = '/';
             })
@@ -76,5 +77,13 @@ export function logoutUser() {
     }
 }
 
-export const actionCreators = Object.assign({}, ContactActions, MemberActions, ProjectActions, AccountActions, OpportunityActions, TaskActions);
+export const actionCreators = Object.assign({},
+    ContactActions,
+    MemberActions,
+    ProjectActions,
+    AccountActions,
+    OpportunityActions,
+    TaskActions,
+    StageActions
+);
 

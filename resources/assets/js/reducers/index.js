@@ -7,6 +7,7 @@ import authReducer from './auth';
 import accountReducer from './accounts';
 import { reducer as formReducer } from 'redux-form';
 import opportunityReducer from "./opportunities";
+import stageReducer from './stages';
 
 export default combineReducers({
     contactState: contactReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
     authState: authReducer,
     form: formReducer,
     accountState: accountReducer,
-    opportunityState: opportunityReducer
+    opportunityState: opportunityReducer,
+    stageState: stageReducer
 });

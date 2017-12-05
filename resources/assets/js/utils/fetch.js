@@ -1,5 +1,5 @@
 import { SubmissionError } from 'redux-form';
-import { API_HOST, API_PATH, API_CLIENT_ID, API_GRANT_TYPE, API_SCOPE, API_CLIENT_SECRET } from '../config/_entrypoint';
+import { API_HOST, API_PATH } from '../config/_entrypoint';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 
@@ -18,7 +18,9 @@ export default function (url, options = {}) {
   let bearerToken = cookies.get('token');
 
   if (bearerToken && /\/login/.test(window.location.href) === false) {
-      options.headers.set('Authorization', 'Bearer ' + bearerToken);
+      window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + bearerToken;
+  } else {
+      delete window.axios.defaults.headers.common['Authorization'];
   }
 
   let link = (url.includes(API_PATH) || forAuth)
