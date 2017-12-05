@@ -28,17 +28,14 @@ export default function (url, options = {}) {
   let data = options.hasOwnProperty('body') ? options.body : {};
 
   return axios[method.toLowerCase()](link, data).then(function (response) {
-      console.log(response);
-
       if (response.statusText === 'OK') return response;
 
       return response
-          .json()
           .then(json => {
               const error = json['description'] ? json['description'] : response.statusText;
 
               // We likely have an expired JWT, so redirect to login
-              //window.location.href = '/login';
+              window.location.href = '/login';
               if (!json.violations) throw Error(error);
 
               let errors = {_error: error};

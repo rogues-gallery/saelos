@@ -26,7 +26,7 @@ export default class InfoboxOpportunity extends Component {
                         <div className="flex-row-nospace">
                             <div>
                                 <span>Status</span>
-                                <strong>{this.props.opportunity.status.name}</strong>
+                                <strong>{this.props.opportunity.status ? this.props.opportunity.status.name : ''}</strong>
                             </div>
                             <div>
                                 <span>Amount</span>

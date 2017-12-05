@@ -1,4 +1,5 @@
 import * as types from './types';
+import fetch from '../utils/fetch';
 
 export function fetchMembers() {
     return (dispatch) => {
@@ -6,8 +7,9 @@ export function fetchMembers() {
             type: types.FETCHING_MEMBERS
         });
 
-        fetch('/data/members.json')
-            .then((response) => response.json())
+        let URL = '/data/members.json';
+
+        fetch(URL)
             .then((response) => {
                 dispatch({
                     type: types.FETCHING_MEMBERS_SUCCESS,

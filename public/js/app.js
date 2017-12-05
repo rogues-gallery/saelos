@@ -2612,15 +2612,13 @@ exports.default = function (url) {
     var data = options.hasOwnProperty('body') ? options.body : {};
 
     return _axios2.default[method.toLowerCase()](link, data).then(function (response) {
-        console.log(response);
-
         if (response.statusText === 'OK') return response;
 
-        return response.json().then(function (json) {
+        return response.then(function (json) {
             var error = json['description'] ? json['description'] : response.statusText;
 
             // We likely have an expired JWT, so redirect to login
-            //window.location.href = '/login';
+            window.location.href = '/login';
             if (!json.violations) throw Error(error);
 
             var errors = { _error: error };
@@ -48348,6 +48346,12 @@ var _types = __webpack_require__(5);
 
 var types = _interopRequireWildcard(_types);
 
+var _fetch = __webpack_require__(44);
+
+var _fetch2 = _interopRequireDefault(_fetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function fetchMembers() {
@@ -48356,9 +48360,9 @@ function fetchMembers() {
             type: types.FETCHING_MEMBERS
         });
 
-        fetch('/data/members.json').then(function (response) {
-            return response.json();
-        }).then(function (response) {
+        var URL = '/data/members.json';
+
+        (0, _fetch2.default)(URL).then(function (response) {
             dispatch({
                 type: types.FETCHING_MEMBERS_SUCCESS,
                 data: response.data,
@@ -51427,7 +51431,7 @@ var InfoboxOpportunity = function (_Component) {
                                 _react2.default.createElement(
                                     'strong',
                                     null,
-                                    this.props.opportunity.status.name
+                                    this.props.opportunity.status ? this.props.opportunity.status.name : ''
                                 )
                             ),
                             _react2.default.createElement(
