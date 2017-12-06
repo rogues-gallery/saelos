@@ -18,11 +18,7 @@ Route::group([
     'middleware' => 'auth:api',
 ], function () {
     # People
-    Route::get('/people', function() {
-        return new App\Http\Resources\PersonCollection(App\Person::with(['user', 'company', 'deals'])->paginate());
-    });
-    Route::get('/people/{id}', 'PersonController@show');
-    Route::delete('/people/{id}', 'PersonController@destroy');
+    Route::resource('people', 'PersonController');
 
     # Deals
     Route::get('/deals', function() {

@@ -32,7 +32,7 @@ class Contacts extends Component {
 
     render() {
         let results = this.props.contacts.map((contact) => {
-            return <Contact key={contact.id} contact={contact} />
+            return <Contact key={contact.id} contact={contact} dispatch={this.props.dispatch} />
         });
 
         let initialPage = 0;
@@ -129,10 +129,10 @@ export class Contact extends Component {
                             : ''}
                     </div>
 
-                    <ContactPanel contact={this.state.contact} />
-                    <HistoryPanel contact={this.props.contact}/>
-                    <EditPanel contact={this.props.contact}/>
-                    <ContactContactPanel contact={this.props.contact}/>
+                    <ContactPanel contact={this.state.contact} dispatch={this.props.dispatch} />
+                    <HistoryPanel contact={this.props.contact} dispatch={this.props.dispatch}/>
+                    <EditPanel contact={this.props.contact} dispatch={this.props.dispatch}/>
+                    <ContactContactPanel contact={this.props.contact} dispatch={this.props.dispatch}/>
                 </td>
 
                 <td>
@@ -160,7 +160,8 @@ export class Contact extends Component {
 }
 
 Contact.propTypes = {
-    contact: PropTypes.object.isRequired
+    contact: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
 }
 
 export default connect((store) => {

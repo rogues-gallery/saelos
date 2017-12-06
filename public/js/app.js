@@ -230,6 +230,8 @@ Object.defineProperty(exports, "__esModule", {
 var FETCHING_CONTACTS = exports.FETCHING_CONTACTS = 'FETCHING_CONTACTS';
 var FETCHING_CONTACTS_SUCCESS = exports.FETCHING_CONTACTS_SUCCESS = 'FETCHING_CONTACTS_SUCCESS';
 var FETCHING_CONTACTS_FAILURE = exports.FETCHING_CONTACTS_FAILURE = 'FETCHING_CONTACTS_FAILURE';
+var POSTING_CONTACT = exports.POSTING_CONTACT = 'POSTING_CONTACT';
+var POSTING_CONTACT_SUCCESS = exports.POSTING_CONTACT_SUCCESS = 'POSTING_CONTACT_SUCCESS';
 
 var FETCHING_TASKS = exports.FETCHING_TASKS = 'FETCHING_TASKS';
 var FETCHING_TASKS_SUCCESS = exports.FETCHING_TASKS_SUCCESS = 'FETCHING_TASKS_SUCCESS';
@@ -1236,13 +1238,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (url) {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-    if ('undefined' === typeof options.headers) options.headers = new Headers();
-    if (null === options.headers.get('Accept')) options.headers.set('Accept', jsonLdMimeType);
-
-    if ('undefined' !== options.body && !(options.body instanceof FormData) && null === options.headers.get('Content-Type')) {
-        options.headers.set('Content-Type', jsonLdMimeType);
-    }
-
     var forAuth = options.hasOwnProperty('forAuth') && options.forAuth;
     var cookies = new _universalCookie2.default();
     var bearerToken = cookies.get('token');
@@ -1265,19 +1260,9 @@ exports.default = function (url) {
 
             // We likely have an expired JWT, so redirect to login
             window.location.href = '/login';
-            if (!json.violations) throw Error(error);
-
-            var errors = { _error: error };
-            json.violations.map(function (violation) {
-                return errors[violation.propertyPath] = violation.message;
-            });
-
-            throw new _reduxForm.SubmissionError(errors);
         });
     });
 };
-
-var _reduxForm = __webpack_require__(54);
 
 var _entrypoint = __webpack_require__(130);
 
@@ -1290,8 +1275,6 @@ var _axios = __webpack_require__(131);
 var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var jsonLdMimeType = 'application/ld+json';
 
 /***/ }),
 /* 20 */
@@ -44265,8 +44248,10 @@ var Contacts = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var results = this.props.contacts.map(function (contact) {
-                return _react2.default.createElement(Contact, { key: contact.id, contact: contact });
+                return _react2.default.createElement(Contact, { key: contact.id, contact: contact, dispatch: _this2.props.dispatch });
             });
 
             var initialPage = 0;
@@ -44354,12 +44339,12 @@ var Contact = exports.Contact = function (_Component2) {
     function Contact(props) {
         _classCallCheck(this, Contact);
 
-        var _this2 = _possibleConstructorReturn(this, (Contact.__proto__ || Object.getPrototypeOf(Contact)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (Contact.__proto__ || Object.getPrototypeOf(Contact)).call(this, props));
 
-        _this2.state = {
+        _this3.state = {
             contact: props.contact
         };
-        return _this2;
+        return _this3;
     }
 
     _createClass(Contact, [{
@@ -44405,10 +44390,10 @@ var Contact = exports.Contact = function (_Component2) {
                             this.state.contact.company.name
                         ) : ''
                     ),
-                    _react2.default.createElement(_ContactPanel2.default, { contact: this.state.contact }),
-                    _react2.default.createElement(_HistoryPanel2.default, { contact: this.props.contact }),
-                    _react2.default.createElement(_EditPanel2.default, { contact: this.props.contact }),
-                    _react2.default.createElement(_ContactContactPanel2.default, { contact: this.props.contact })
+                    _react2.default.createElement(_ContactPanel2.default, { contact: this.state.contact, dispatch: this.props.dispatch }),
+                    _react2.default.createElement(_HistoryPanel2.default, { contact: this.props.contact, dispatch: this.props.dispatch }),
+                    _react2.default.createElement(_EditPanel2.default, { contact: this.props.contact, dispatch: this.props.dispatch }),
+                    _react2.default.createElement(_ContactContactPanel2.default, { contact: this.props.contact, dispatch: this.props.dispatch })
                 ),
                 _react2.default.createElement(
                     'td',
@@ -44463,7 +44448,8 @@ var Contact = exports.Contact = function (_Component2) {
 }(_react.Component);
 
 Contact.propTypes = {
-    contact: _propTypes2.default.object.isRequired
+    contact: _propTypes2.default.object.isRequired,
+    dispatch: _propTypes2.default.func.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(function (store) {
@@ -46882,6 +46868,8 @@ var _Progress = __webpack_require__(44);
 
 var _Progress2 = _interopRequireDefault(_Progress);
 
+var _actions = __webpack_require__(18);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -46890,47 +46878,80 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var _ = __webpack_require__(469);
+
 var ContactPanel = function (_Component) {
     _inherits(ContactPanel, _Component);
 
-    function ContactPanel() {
+    function ContactPanel(props) {
         _classCallCheck(this, ContactPanel);
 
-        return _possibleConstructorReturn(this, (ContactPanel.__proto__ || Object.getPrototypeOf(ContactPanel)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (ContactPanel.__proto__ || Object.getPrototypeOf(ContactPanel)).call(this, props));
+
+        _this._toggleBodyClass = _this._toggleBodyClass.bind(_this);
+        _this._toggleContactClass = _this._toggleContactClass.bind(_this);
+        _this._toggleEditClass = _this._toggleEditClass.bind(_this);
+        _this._toggleHistoryClass = _this._toggleHistoryClass.bind(_this);
+        _this._handleFormSubmit = _this._handleFormSubmit.bind(_this);
+        _this._handleInputChange = _this._handleInputChange.bind(_this);
+
+        _this.state = {
+            contact: props.contact
+        };
+        return _this;
     }
 
     _createClass(ContactPanel, [{
         key: '_toggleBodyClass',
         value: function _toggleBodyClass() {
             var rowClass = 'tr.contact-row-' + this.props.contact.id;
-            var row = document.querySelector(rowClass);
 
-            if (row.classList.contains('action-panel-open')) {
-                row.classList.toggle('action-panel-open');
-            } else {
-                row.classList.toggle('contact-panel-open');
-            }
-        }
-    }, {
-        key: '_toggleHistoryClass',
-        value: function _toggleHistoryClass() {
-            var rowClass = 'contact-row-' + this.props.contact.id;
+            document.querySelector(rowClass).classList.toggle('contact-panel-open');
 
-            document.querySelector('tr.' + rowClass).classList.toggle('contact-history-panel-open');
-        }
-    }, {
-        key: '_toggleEditClass',
-        value: function _toggleEditClass() {
-            var rowClass = 'contact-row-' + this.props.contact.id;
-
-            document.querySelector('tr.' + rowClass).classList.toggle('contact-edit-panel-open');
+            this.props.dispatch(_actions.actionCreators.postContact(this.state.contact));
         }
     }, {
         key: '_toggleContactClass',
         value: function _toggleContactClass() {
-            var rowClass = 'contact-row-' + this.props.contact.id;
+            var rowClass = 'tr.contact-row-' + this.props.contact.id;
 
-            document.querySelector('tr.' + rowClass).classList.toggle('contact-contact-panel-open');
+            document.querySelector(rowClass).classList.toggle('contact-contact-panel-open');
+        }
+    }, {
+        key: '_toggleEditClass',
+        value: function _toggleEditClass() {
+            var rowClass = 'tr.contact-row-' + this.props.contact.id;
+
+            document.querySelector(rowClass).classList.toggle('contact-edit-panel-open');
+        }
+    }, {
+        key: '_toggleHistoryClass',
+        value: function _toggleHistoryClass() {
+            var rowClass = 'tr.contact-row-' + this.props.contact.id;
+
+            document.querySelector(rowClass).classList.toggle('contact-history-panel-open');
+        }
+    }, {
+        key: '_handleFormSubmit',
+        value: function _handleFormSubmit(event) {
+            event.preventDefault();
+
+            this.props.dispatch(_actions.actionCreators.postContact(this.state.contact));
+        }
+    }, {
+        key: '_handleInputChange',
+        value: function _handleInputChange(event) {
+            var target = event.target;
+            var value = target.type === 'checkbox' ? target.checked : target.value;
+            var name = target.name;
+
+            var contactState = this.state.contact;
+
+            _.set(contactState, name, value);
+
+            this.setState({
+                contact: contactState
+            });
         }
     }, {
         key: 'render',
@@ -46938,7 +46959,7 @@ var ContactPanel = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content-side-wrapper' },
-                _react2.default.createElement('div', { className: 'contact-side-overlay side-overlay', onClick: this._toggleBodyClass.bind(this) }),
+                _react2.default.createElement('div', { className: 'contact-side-overlay side-overlay', onClick: this._toggleBodyClass }),
                 _react2.default.createElement(
                     'div',
                     { className: 'contact-side side-panel' },
@@ -46965,7 +46986,7 @@ var ContactPanel = function (_Component) {
                                 ) : '',
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'panel-user-action', onClick: this._toggleBodyClass.bind(this) },
+                                    { className: 'panel-user-action', onClick: this._toggleBodyClass },
                                     _react2.default.createElement(
                                         'i',
                                         { className: 'md-icon' },
@@ -46983,7 +47004,7 @@ var ContactPanel = function (_Component) {
                                 { className: 'panel-user-available-actions' },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box', onClick: this._toggleHistoryClass.bind(this) },
+                                    { className: 'user-action-box', onClick: this._toggleHistoryClass },
                                     _react2.default.createElement(
                                         'i',
                                         { className: 'md-icon' },
@@ -46994,7 +47015,7 @@ var ContactPanel = function (_Component) {
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box', onClick: this._toggleEditClass.bind(this) },
+                                    { className: 'user-action-box', onClick: this._toggleEditClass },
                                     _react2.default.createElement(
                                         'i',
                                         { className: 'md-icon' },
@@ -47005,7 +47026,7 @@ var ContactPanel = function (_Component) {
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box', onClick: this._toggleContactClass.bind(this) },
+                                    { className: 'user-action-box', onClick: this._toggleContactClass },
                                     _react2.default.createElement(
                                         'i',
                                         { className: 'md-icon' },
@@ -47021,7 +47042,7 @@ var ContactPanel = function (_Component) {
                             { className: 'panel-contact-details' },
                             _react2.default.createElement(
                                 'form',
-                                { id: 'contact-details-form' },
+                                { id: 'contact-details-form', onSubmit: this._handleFormSubmit },
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'panel-contact-details-column' },
@@ -47030,33 +47051,37 @@ var ContactPanel = function (_Component) {
                                         null,
                                         'Phone'
                                     ),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.phone }),
+                                    _react2.default.createElement('input', { type: 'text', name: 'phone', defaultValue: this.props.contact.phone, onChange: this._handleInputChange }),
                                     _react2.default.createElement(
                                         'label',
                                         null,
                                         'Email'
                                     ),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.email }),
+                                    _react2.default.createElement('input', { type: 'text', name: 'email', defaultValue: this.props.contact.email }),
                                     _react2.default.createElement(
                                         'label',
                                         null,
                                         'Address'
                                     ),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.homeAddress1 }),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.homeAddress2 }),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.homeCity }),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.homeState }),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.homeZip }),
-                                    _react2.default.createElement(
-                                        'label',
-                                        null,
-                                        'Company'
-                                    ),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.workAddress1 }),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.workdAddress2 }),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.workCity }),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.workState }),
-                                    _react2.default.createElement('input', { type: 'text', defaultValue: this.props.contact.workZip })
+                                    _react2.default.createElement('input', { type: 'text', name: 'address1', defaultValue: this.props.contact.address1, onChange: this._handleInputChange }),
+                                    _react2.default.createElement('input', { type: 'text', name: 'address2', defaultValue: this.props.contact.adress2, onChange: this._handleInputChange }),
+                                    _react2.default.createElement('input', { type: 'text', name: 'city', defaultValue: this.props.contact.city, onChange: this._handleInputChange }),
+                                    _react2.default.createElement('input', { type: 'text', name: 'state', defaultValue: this.props.contact.state, onChange: this._handleInputChange }),
+                                    _react2.default.createElement('input', { type: 'text', name: 'zip', defaultValue: this.props.contact.zip, onChange: this._handleInputChange }),
+                                    this.props.contact.company ? _react2.default.createElement(
+                                        'div',
+                                        { className: 'company' },
+                                        _react2.default.createElement(
+                                            'label',
+                                            null,
+                                            'Company'
+                                        ),
+                                        _react2.default.createElement('input', { type: 'text', name: 'company.address1', defaultValue: this.props.contact.company.address1, onChange: this._handleInputChange }),
+                                        _react2.default.createElement('input', { type: 'text', name: 'company.address2', defaultValue: this.props.contact.company.address2, onChange: this._handleInputChange }),
+                                        _react2.default.createElement('input', { type: 'text', name: 'company.city', defaultValue: this.props.contact.company.city, onChange: this._handleInputChange }),
+                                        _react2.default.createElement('input', { type: 'text', name: 'company.state', defaultValue: this.props.contact.company.state, onChange: this._handleInputChange }),
+                                        _react2.default.createElement('input', { type: 'text', name: 'company.zip', defaultValue: this.props.contact.company.zip, onChange: this._handleInputChange })
+                                    ) : ''
                                 ),
                                 _react2.default.createElement(
                                     'div',
@@ -47435,6 +47460,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.fetchContacts = fetchContacts;
+exports.postContact = postContact;
 
 var _types = __webpack_require__(4);
 
@@ -47464,6 +47490,35 @@ function fetchContacts() {
         data: response.data.data,
         dataFetched: true,
         pagination: response.data.meta
+      });
+    });
+  };
+}
+
+function postContact(data) {
+  return function (dispatch) {
+    dispatch({
+      type: types.POSTING_CONTACT
+    });
+
+    var METHOD = 'POST';
+    var URL = '/people';
+
+    if (data.hasOwnProperty('id')) {
+      URL = URL + '/' + data.id;
+      METHOD = 'PATCH';
+    }
+
+    var options = {
+      body: data,
+      method: METHOD
+    };
+
+    (0, _fetch2.default)(URL, options).then(function (response) {
+      dispatch({
+        type: types.POSTING_CONTACT_SUCCESS,
+        data: response.data.data,
+        dataFetched: true
       });
     });
   };
@@ -49154,7 +49209,7 @@ var StagesChart = function (_Component) {
                 plugins: [_chartist2.default.plugins.tooltip()]
             };
 
-            return this.props.isFetching ? '' : _react2.default.createElement(_reactChartist2.default, { className: 'graph-stage', data: data, options: options, type: 'Bar' });
+            return this.props.isFetching && this.props.stages.length === 0 ? '' : _react2.default.createElement(_reactChartist2.default, { className: 'graph-stage', data: data, options: options, type: 'Bar' });
         }
     }]);
 

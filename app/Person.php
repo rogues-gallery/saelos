@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
+    protected $guarded = [
+        'id',
+        'company',
+        'deals',
+        'user',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -69,7 +69,7 @@ class StagesChart extends Component {
         };
 
         return (
-            this.props.isFetching ? '' :
+            this.props.isFetching && this.props.stages.length === 0 ? '' :
             <ChartistGraph className="graph-stage" data={data} options={options} type="Bar" />
         )
     }
