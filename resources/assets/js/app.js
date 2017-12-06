@@ -12,3 +12,19 @@ ReactDOM.render(
     </CookiesProvider>
     , document.getElementById('root'));
 registerServiceWorker();
+
+document.addEventListener('focusin', function (e) {
+    let parentNode = e.target.parentNode;
+
+    if (parentNode.classList.contains('input-container')) {
+        parentNode.classList.toggle('focused');
+    }
+});
+
+document.addEventListener('focusout', function (e) {
+    let parentNode = e.target.parentNode;
+
+    if (parentNode.classList.contains('input-container')) {
+        parentNode.classList.toggle('focused');
+    }
+});

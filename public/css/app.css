@@ -1029,6 +1029,34 @@ form:after {
   clear: both;
 }
 
+form input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  outline: none;
+  display: block;
+}
+
+form label {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+form .input-container {
+  margin: 10px 0;
+  padding: 4px;
+}
+
+form .input-container.focused {
+  border: 1px solid rgba(79, 98, 119, 0.7);
+  padding: 3px;
+}
+
+form .input-container.focused input:placeholder-shown {
+  content: "...";
+  color: rgba(174, 190, 197, 0.9);
+}
+
 .form-control {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.08);
@@ -2274,16 +2302,6 @@ table tr:last-child td {
 
 .panel-contact-details #contact-details-form .panel-contact-details-column:nth-child(1) {
   border-right: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.panel-contact-details #contact-details-form label {
-  text-transform: uppercase;
-  font-weight: bold;
-  padding-top: 20px;
-}
-
-.panel-contact-details #contact-details-form input {
-  display: block;
 }
 
 /**

@@ -2,6 +2,34 @@ form {
 	@include susy-clearfix();
 
 	margin: 0 0 30px 0;
+
+	input {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		border:none;
+		outline:none;
+		display:block;
+	}
+
+	label {
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+
+	.input-container {
+		margin: 10px 0;
+		padding: 4px;
+
+		&.focused {
+			border: 1px solid rgba($color-active-dark, 0.7);
+			padding: 3px;
+
+			input:placeholder-shown {
+				content: "...";
+				color: rgba($color-active-light, 0.9);
+			}
+		}
+	}
 }
 
 .form-control {

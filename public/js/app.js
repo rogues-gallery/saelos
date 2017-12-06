@@ -12741,6 +12741,22 @@ _reactDom2.default.render(_react2.default.createElement(
 ), document.getElementById('root'));
 (0, _registerServiceWorker2.default)();
 
+document.addEventListener('focusin', function (e) {
+    var parentNode = e.target.parentNode;
+
+    if (parentNode.classList.contains('input-container')) {
+        parentNode.classList.toggle('focused');
+    }
+});
+
+document.addEventListener('focusout', function (e) {
+    var parentNode = e.target.parentNode;
+
+    if (parentNode.classList.contains('input-container')) {
+        parentNode.classList.toggle('focused');
+    }
+});
+
 /***/ }),
 /* 143 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -47047,30 +47063,42 @@ var ContactPanel = function (_Component) {
                                     'div',
                                     { className: 'panel-contact-details-column' },
                                     _react2.default.createElement(
-                                        'label',
-                                        null,
-                                        'Phone'
+                                        'div',
+                                        { className: 'input-container' },
+                                        _react2.default.createElement(
+                                            'label',
+                                            null,
+                                            'Phone'
+                                        ),
+                                        _react2.default.createElement('input', { type: 'text', name: 'phone', defaultValue: this.props.contact.phone, onChange: this._handleInputChange })
                                     ),
-                                    _react2.default.createElement('input', { type: 'text', name: 'phone', defaultValue: this.props.contact.phone, onChange: this._handleInputChange }),
                                     _react2.default.createElement(
-                                        'label',
-                                        null,
-                                        'Email'
+                                        'div',
+                                        { className: 'input-container' },
+                                        _react2.default.createElement(
+                                            'label',
+                                            null,
+                                            'Email'
+                                        ),
+                                        _react2.default.createElement('input', { type: 'text', name: 'email', defaultValue: this.props.contact.email })
                                     ),
-                                    _react2.default.createElement('input', { type: 'text', name: 'email', defaultValue: this.props.contact.email }),
                                     _react2.default.createElement(
-                                        'label',
-                                        null,
-                                        'Address'
+                                        'div',
+                                        { className: 'input-container' },
+                                        _react2.default.createElement(
+                                            'label',
+                                            null,
+                                            'Address'
+                                        ),
+                                        _react2.default.createElement('input', { type: 'text', name: 'address1', defaultValue: this.props.contact.address1, onChange: this._handleInputChange }),
+                                        _react2.default.createElement('input', { type: 'text', name: 'address2', defaultValue: this.props.contact.adress2, onChange: this._handleInputChange }),
+                                        _react2.default.createElement('input', { type: 'text', name: 'city', defaultValue: this.props.contact.city, onChange: this._handleInputChange }),
+                                        _react2.default.createElement('input', { type: 'text', name: 'state', defaultValue: this.props.contact.state, onChange: this._handleInputChange }),
+                                        _react2.default.createElement('input', { type: 'text', name: 'zip', defaultValue: this.props.contact.zip, onChange: this._handleInputChange })
                                     ),
-                                    _react2.default.createElement('input', { type: 'text', name: 'address1', defaultValue: this.props.contact.address1, onChange: this._handleInputChange }),
-                                    _react2.default.createElement('input', { type: 'text', name: 'address2', defaultValue: this.props.contact.adress2, onChange: this._handleInputChange }),
-                                    _react2.default.createElement('input', { type: 'text', name: 'city', defaultValue: this.props.contact.city, onChange: this._handleInputChange }),
-                                    _react2.default.createElement('input', { type: 'text', name: 'state', defaultValue: this.props.contact.state, onChange: this._handleInputChange }),
-                                    _react2.default.createElement('input', { type: 'text', name: 'zip', defaultValue: this.props.contact.zip, onChange: this._handleInputChange }),
                                     this.props.contact.company ? _react2.default.createElement(
                                         'div',
-                                        { className: 'company' },
+                                        { className: 'input-container' },
                                         _react2.default.createElement(
                                             'label',
                                             null,

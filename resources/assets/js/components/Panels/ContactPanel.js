@@ -105,21 +105,27 @@ export default class ContactPanel extends Component {
                         <div className="panel-contact-details">
                             <form id="contact-details-form" onSubmit={this._handleFormSubmit}>
                                 <div className="panel-contact-details-column">
-                                    <label>Phone</label>
-                                    <input type="text" name="phone" defaultValue={this.props.contact.phone} onChange={this._handleInputChange} />
+                                    <div className="input-container">
+                                        <label>Phone</label>
+                                        <input type="text" name="phone" defaultValue={this.props.contact.phone} onChange={this._handleInputChange} />
+                                    </div>
 
-                                    <label>Email</label>
-                                    <input type="text" name="email" defaultValue={this.props.contact.email} />
+                                    <div className="input-container">
+                                        <label>Email</label>
+                                        <input type="text" name="email" defaultValue={this.props.contact.email} />
+                                    </div>
 
-                                    <label>Address</label>
-                                    <input type="text" name="address1" defaultValue={this.props.contact.address1} onChange={this._handleInputChange} />
-                                    <input type="text" name="address2" defaultValue={this.props.contact.adress2} onChange={this._handleInputChange}/>
-                                    <input type="text" name="city" defaultValue={this.props.contact.city} onChange={this._handleInputChange} />
-                                    <input type="text" name="state" defaultValue={this.props.contact.state} onChange={this._handleInputChange} />
-                                    <input type="text" name="zip" defaultValue={this.props.contact.zip} onChange={this._handleInputChange} />
+                                    <div className="input-container">
+                                        <label>Address</label>
+                                        <input type="text" name="address1" defaultValue={this.props.contact.address1} onChange={this._handleInputChange} />
+                                        <input type="text" name="address2" defaultValue={this.props.contact.adress2} onChange={this._handleInputChange}/>
+                                        <input type="text" name="city" defaultValue={this.props.contact.city} onChange={this._handleInputChange} />
+                                        <input type="text" name="state" defaultValue={this.props.contact.state} onChange={this._handleInputChange} />
+                                        <input type="text" name="zip" defaultValue={this.props.contact.zip} onChange={this._handleInputChange} />
+                                    </div>
 
                                     {this.props.contact.company ?
-                                        <div className="company">
+                                        <div className="input-container">
                                             <label>Company</label>
                                             <input type="text" name="company.address1" defaultValue={this.props.contact.company.address1} onChange={this._handleInputChange} />
                                             <input type="text" name="company.address2" defaultValue={this.props.contact.company.address2} onChange={this._handleInputChange} />
