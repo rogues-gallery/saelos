@@ -1,12 +1,33 @@
 import React, { Component } from 'react';
-
 import { Panel } from '../UI/Panel';
+import fetch from '../../utils/fetch';
 
 export default class ContactContactPanel extends Component {
+    constructor(props) {
+        super(props);
+
+        this._initPhoneCall = this._initPhoneCall.bind(this);
+    }
+
     _togglePanelClass() {
         let rowClass = 'tr.contact-row-' + this.props.contact.id;
 
         document.querySelector(rowClass).classList.toggle('contact-contact-panel-open');
+    }
+
+    _initPhoneCall() {
+        let URL = '/plivo/send/call/' + this.props.contact.id;
+
+        let options = {
+            method: 'POST',
+            body: {
+                recipient: '18159970741',
+                sender: '14133549678'
+            },
+            forAuth: true
+        };
+
+        fetch(URL, options);
     }
 
     render() {
@@ -25,10 +46,21 @@ export default class ContactContactPanel extends Component {
                                     <i className="md-icon">close</i>
                                 </div>
                             </div>
+                            <div className="panel-user-available-actions">
+                                <div className="user-action-box">
+                                    <i className="md-icon">email</i><br />
+                                    Email
+                                </div>
+                                <div className="user-action-box">
+                                    <i className="md-icon">sms</i><br />
+                                    SMS
+                                </div>
+                                <div className="user-action-box" onClick={this._initPhoneCall}>
+                                    <i className="md-icon">phone</i><br />
+                                    Phone
+                                </div>
+                            </div>
                         </div>
-
-                        Contact the contact
-
                     </Panel>
                 </div>
             </div>

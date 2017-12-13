@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
+    use HasActivitiesTrait;
+
     protected $guarded = [
         'id',
         'deals',

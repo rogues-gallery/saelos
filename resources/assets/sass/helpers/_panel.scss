@@ -160,3 +160,45 @@
 		}
 	}
 }
+
+.entity-history {
+	list-style:none;
+
+	li {
+		display:flex;
+		flex-flow:row;
+		position:relative;
+		padding-bottom:20px;
+
+		span.line-number {
+			margin-right:20px;
+			text-align:center;
+			width:3em;
+			height:3em;
+			line-height:3em;
+			border-radius: 50%;
+			background-color:$color-active-light;
+			z-index:3003;
+		}
+
+		span.line {
+			position:absolute;
+			height:100%;
+			border: 0.01em solid rgba($color-active-light, 0.8);
+			top: 1em;
+			left: 1.4em;
+			background:rgba($color-active-light, 0.8);
+			z-index:3002;
+		}
+
+		.line-content {
+			h4 {
+				margin:0;
+			}
+
+			p {
+				margin:0;
+			}
+		}
+	}
+}

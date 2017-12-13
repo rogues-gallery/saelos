@@ -15,4 +15,9 @@ class Team extends Model
     {
         return $this->hasManyThrough(Deal::class, User::class);
     }
+
+    public function activities()
+    {
+        return $this->hasManyThrough(Activity::class, User::class);
+    }
 }

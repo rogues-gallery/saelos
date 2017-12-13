@@ -13,12 +13,12 @@ class PersonController extends Controller
 {
     public function index()
     {
-        return new PersonCollection(Person::with(['user', 'company', 'deals'])->paginate());
+        return new PersonCollection(Person::with(['user', 'company', 'deals', 'activities'])->paginate());
     }
 
     public function show($id)
     {
-        return Person::findOrFail($id);
+        return new PersonResource(Person::with(['user', 'company', 'deals', 'activities', 'activityScore'])->find($id));
     }
 
     public function update(Request $request, $id)
@@ -54,8 +54,7 @@ class PersonController extends Controller
 
     public function destroy($id)
     {
-        $company = Person::findOrFail($id);
-        $company->delete();
+        Person::findOrFail($id)->delete();
 
         return '';
     }

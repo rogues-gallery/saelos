@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
+    use HasActivitiesTrait;
+
     protected $guarded = [
         'id',
         'company',
         'deals',
         'user',
+        'activities',
     ];
 
     public function user()

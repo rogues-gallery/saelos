@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "dongilbert/plivo-php": "dev-master",
         "fideloper/proxy": "~3.3",
         "laracasts/generators": "^1.1",
         "laravel/framework": "5.5.*",
@@ -54,5 +55,12 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
-    }
+    },
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/dongilbert/plivo-php"
+        }
+    ]
 }

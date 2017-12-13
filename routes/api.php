@@ -17,25 +17,10 @@ Route::group([
     'as' => 'api.',
     'middleware' => 'auth:api',
 ], function () {
-    # People
     Route::resource('people', 'PersonController');
-
-    # Deals
-    Route::get('/deals', function() {
-        return new App\Http\Resources\DealCollection(App\Deal::with(['user', 'company', 'people'])->paginate());
-    });
-    Route::get('/deals/{id}', 'DealController@show');
-
-    # Companies
-    Route::get('/companies', function() {
-        return new App\Http\Resources\CompanyCollection(App\Company::with(['user', 'people', 'deals'])->paginate());
-    });
-    Route::get('/companies/{id}', 'CompanyController@show');
-
-    # Stages
-    Route::get('/stages', function() {
-        return new App\Http\Resources\StageCollection(App\Stage::with(['deals', 'userDeals', 'teamDeals'])->paginate());
-    });
-    Route::get('/stages/{id}', 'StageController@show');
-
+    Route::resource('deals', 'DealController');
+    Route::resource('companies', 'CompanyController');
+    Route::resource('stages', 'StageController');
+    Route::resource('teams', 'TeamController');
+    Route::resource('activities', 'ActivityController');
 });

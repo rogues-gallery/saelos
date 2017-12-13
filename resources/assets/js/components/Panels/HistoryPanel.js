@@ -3,6 +3,12 @@ import React, { Component } from 'react';
 import { Panel } from '../UI/Panel';
 
 export default class HistoryPanel extends Component {
+    constructor(props) {
+        super(props);
+
+        this._togglePanelClass = this._togglePanelClass.bind(this);
+    }
+
     _togglePanelClass() {
         let rowClass = 'tr.contact-row-' + this.props.contact.id;
 
@@ -10,25 +16,36 @@ export default class HistoryPanel extends Component {
     }
 
     render() {
+        let history = this.props.contact.activities.map((activity, index) => {
+            return <li key={index}>
+                <span className="line">&nbsp;</span>
+                <span className="line-number">{index + 1}</span>
+                <div className="line-content">
+                    <h4>{activity.title}</h4>
+                    <p>{activity.description}</p>
+                </div>
+            </li>
+        });
+
         return (
             <div className="content-side-wrapper">
-                <div className="contact-history-overlay side-overlay" onClick={this._togglePanelClass.bind(this)} />
+                <div className="contact-history-overlay side-overlay" onClick={this._togglePanelClass} />
                 <div className="contact-history-side side-panel">
                     <Panel>
                         <div className="panel-user">
                             <div className="panel-user-content">
-                                {this.props.contact.first_name ? <div className="panel-user-name">{this.props.contact.first_name} {this.props.contact.last_name}</div> : ''}
+                                <div className="panel-user-name">History</div>
+                                <div className="panel-user-subtitle">All the interactions</div>
 
-                                {this.props.contact.company ? <div className="panel-user-subtitle">{this.props.contact.company.name}</div> : ''}
-
-                                <div className="panel-user-action" onClick={this._togglePanelClass.bind(this)}>
+                                <div className="panel-user-action" onClick={this._togglePanelClass}>
                                     <i className="md-icon">close</i>
                                 </div>
                             </div>
                         </div>
 
-                        User History
-
+                        <ul className="entity-history">
+                            {history}
+                        </ul>
                     </Panel>
                 </div>
             </div>

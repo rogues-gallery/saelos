@@ -1047,6 +1047,10 @@ form .input-container {
   padding: 4px;
 }
 
+form .input-container input {
+  width: 100%;
+}
+
 form .input-container.focused {
   border: 1px solid rgba(79, 98, 119, 0.7);
   padding: 3px;
@@ -2302,6 +2306,51 @@ table tr:last-child td {
 
 .panel-contact-details #contact-details-form .panel-contact-details-column:nth-child(1) {
   border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.entity-history {
+  list-style: none;
+}
+
+.entity-history li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.entity-history li span.line-number {
+  margin-right: 20px;
+  text-align: center;
+  width: 3em;
+  height: 3em;
+  line-height: 3em;
+  border-radius: 50%;
+  background-color: #AEBEC5;
+  z-index: 3003;
+}
+
+.entity-history li span.line {
+  position: absolute;
+  height: 100%;
+  border: 0.01em solid rgba(174, 190, 197, 0.8);
+  top: 1em;
+  left: 1.4em;
+  background: rgba(174, 190, 197, 0.8);
+  z-index: 3002;
+}
+
+.entity-history li .line-content h4 {
+  margin: 0;
+}
+
+.entity-history li .line-content p {
+  margin: 0;
 }
 
 /**
