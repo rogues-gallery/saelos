@@ -69393,7 +69393,7 @@ exports.unregister = unregister;
 function register() {
   if (false) {
     window.addEventListener('load', function () {
-      var swUrl = process.env.PUBLIC_URL + '/service-worker.js';
+      var swUrl = process.env.APP_URL + '/service-worker.js';
       navigator.serviceWorker.register(swUrl).then(function (registration) {
         registration.onupdatefound = function () {
           var installingWorker = registration.installing;
