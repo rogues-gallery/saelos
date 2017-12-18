@@ -17,6 +17,7 @@ class CreateActivitiesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->morphs('entity');
+            $table->nullableMorphs('details');
             $table->string('title');
             $table->text('description');
             $table->boolean('completed')->default(0);
@@ -24,18 +25,6 @@ class CreateActivitiesTable extends Migration
             $table->dateTime('fulfillment_date')->nullable();
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-        });
-
-        Schema::create('activity_details', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-            $table->integer('activity_id')->unsigned()->index()->nullable();
-            $table->foreign('activity_id')->references('id')->on('activities');
-            $table->text('type');
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
-            $table->text('call_uuid')->nullable();
-            $table->longText('details');
         });
     }
 
@@ -46,7 +35,6 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activity_details');
         Schema::dropIfExists('activities');
     }
 }

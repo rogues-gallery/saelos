@@ -14,6 +14,6 @@ class Person extends Resource
      */
     public function toArray($request)
     {
-        return (array) $this;
+        return $this->resource;
     }
 }

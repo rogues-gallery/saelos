@@ -13,12 +13,12 @@ class PersonController extends Controller
 {
     public function index()
     {
-        return new PersonCollection(Person::with(['user', 'company', 'deals', 'activities'])->paginate());
+        return new PersonCollection(Person::with(['user', 'company', 'deals', 'activities', 'activities.details'])->paginate());
     }
 
     public function show($id)
     {
-        return new PersonResource(Person::with(['user', 'company', 'deals', 'activities', 'activityScore'])->find($id));
+        return new PersonResource(Person::with(['user', 'company', 'deals', 'activities'])->find($id));
     }
 
     public function update(Request $request, $id)

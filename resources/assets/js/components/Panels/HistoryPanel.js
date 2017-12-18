@@ -23,6 +23,7 @@ export default class HistoryPanel extends Component {
                 <div className="line-content">
                     <h4>{activity.title}</h4>
                     <p>{activity.description}</p>
+                    <p>{activity.details.details.recordUrl ? <a href={activity.details.details.recordUrl} target="_blank">Listen to the call</a> : 'No recording available'}</p>
                 </div>
             </li>
         });

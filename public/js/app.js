@@ -65750,6 +65750,15 @@ var HistoryPanel = function (_Component) {
                             'p',
                             null,
                             activity.description
+                        ),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            activity.details.details.recordUrl ? _react2.default.createElement(
+                                'a',
+                                { href: activity.details.details.recordUrl, target: '_blank' },
+                                'Listen to the call'
+                            ) : 'No recording available'
                         )
                     )
                 );
@@ -65963,8 +65972,7 @@ var ContactContactPanel = function (_Component) {
             var options = {
                 method: 'POST',
                 body: {
-                    recipient: '18159970741',
-                    sender: '14133549678'
+                    recipient: '18159970741'
                 },
                 forAuth: true
             };

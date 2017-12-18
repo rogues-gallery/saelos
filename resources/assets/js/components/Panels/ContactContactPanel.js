@@ -21,8 +21,7 @@ export default class ContactContactPanel extends Component {
         let options = {
             method: 'POST',
             body: {
-                recipient: '18159970741',
-                sender: '14133549678'
+                recipient: '18159970741'
             },
             forAuth: true
         };
