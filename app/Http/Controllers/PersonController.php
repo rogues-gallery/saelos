@@ -47,6 +47,7 @@ class PersonController extends Controller
         $data = $request->all();
         $personCompany = $data['company'] ?? [];
         $personUser = $data['user'] ?? [];
+        $personCustomFields = $data['custom_fields'] ?? [];
 
         if ($personCompany) {
             $company = Company::findOrFail($personCompany['id']);
@@ -60,6 +61,10 @@ class PersonController extends Controller
             $user->update($personUser);
 
             $person->user()->associate($user);
+        }
+
+        if ($personCustomFields) {
+            // @ToDo = fetch and update custom field values
         }
 
         $person->update($data);
