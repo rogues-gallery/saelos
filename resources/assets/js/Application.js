@@ -3,7 +3,7 @@ import {  BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose} from 'redux'
 import thunkMiddleware from 'redux-thunk';
-import { instanceOf } from 'prop-types';
+import PropTypes from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import * as types from './actions/types';
 
@@ -18,10 +18,6 @@ function configureStore(initialState) {
 const store = configureStore({});
 
 class App extends Component {
-    static propTypes = {
-        cookies: instanceOf(Cookies).isRequired
-    };
-
     componentWillMount() {
         const { cookies } = this.props;
 
@@ -56,6 +52,10 @@ class App extends Component {
             </Provider>
         );
     }
+}
+
+App.propTypes = {
+    cookies: PropTypes.instanceOf(Cookies).isRequired
 }
 
 export default withCookies(App);

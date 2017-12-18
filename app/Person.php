@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Person extends Model
 {
     use HasActivitiesTrait;
+    use HasCustomFieldsTrait;
 
     protected $guarded = [
         'id',

@@ -1,18 +1,19 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "mautic/saelos",
+    "description": "Saelos, the Mautic CRM",
+    "keywords": ["mautic", "crm"],
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.0.0",
-        "dongilbert/plivo-php": "dev-master",
+        "php": "^7.1",
         "fideloper/proxy": "~3.3",
         "laracasts/generators": "^1.1",
         "laravel/dusk": "^2.0@dev",
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "pusher/pusher-php-server": "^3.0@dev",
+        "treblig/plivo-php": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

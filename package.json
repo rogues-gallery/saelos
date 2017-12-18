@@ -37,6 +37,8 @@
     "dependencies": {
         "babel-preset-es2015": "^6.24.1",
         "babel-preset-stage-2": "^6.24.1",
-        "chartist-plugin-tooltips": "0.0.17"
+        "chartist-plugin-tooltips": "0.0.17",
+        "laravel-echo": "^1.3.2",
+        "pusher-js": "^4.2.1"
     }
 }

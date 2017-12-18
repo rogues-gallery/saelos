@@ -12,6 +12,12 @@ const form = reduxForm({
 
 
 class Login extends Component {
+    constructor(props) {
+        super(props);
+
+        this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    }
+
     _handleFormSubmit(formProps) {
         this.props.loginUser(formProps);
     }
@@ -33,7 +39,7 @@ class Login extends Component {
             <Empty>
                 <h1>Welcome Back</h1>
 
-                <form onSubmit={handleSubmit(this._handleFormSubmit.bind(this))}>
+                <form onSubmit={handleSubmit(this._handleFormSubmit)}>
                     {this._renderAlert()}
                     <div className="form-group">
                         <label>Username</label>
@@ -58,11 +64,9 @@ class Login extends Component {
     }
 }
 
-function mapStateToProps(state) {
+export default connect((state) => {
     return {
         errorMessage: state.authState.error,
         message: state.authState.message
     }
-}
-
-export default connect(mapStateToProps, { loginUser })(form(Login));
+}, { loginUser })(form(Login));

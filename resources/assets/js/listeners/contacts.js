@@ -1,0 +1,1 @@
+let Echo = window.Echo;

@@ -60,7 +60,20 @@ export default class ContactPanel extends Component {
 
         let contactState = this.state.contact;
 
-        _.set(contactState, name, value);
+        // Special handling for custom field state
+        if (contactState.hasOwnProperty('customFields') && /customFields/.test(name)) {
+            contactState.customFields.map((field) => {
+                let fieldName = name.split('.')[1];
+
+                if (fieldName === field.alias) {
+                    field.value = value;
+                }
+
+                return field;
+            });
+        } else {
+            _.set(contactState, name, value);
+        }
 
         this.setState({
             contact: contactState
@@ -68,6 +81,14 @@ export default class ContactPanel extends Component {
     }
 
     render() {
+        let stageSelect = <select name="stage">
+            <option value="">Please Select</option>
+            <option value="1">Stage 1</option>
+            <option value="2">Stage 2</option>
+            <option value="3">Stage 3</option>
+            <option value="4">Stage 4</option>
+        </select>
+
         return (
             <div className="content-side-wrapper">
                 <div className="contact-side-overlay side-overlay" onClick={this._toggleBodyClass} />
@@ -137,7 +158,7 @@ export default class ContactPanel extends Component {
                                 </div>
                                 <div className="panel-contact-details-column">
                                     <label>Stage</label>
-                                    Contact Stage
+                                    {stageSelect}
 
                                     <label>Next Step</label>
                                     Send updated sales information

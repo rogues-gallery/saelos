@@ -5,28 +5,48 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Http\Resources\PersonCollection;
 use App\Person;
+use App\Stage;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Person as PersonResource;
 
 class PersonController extends Controller
 {
+    private $indexWith = [
+        'user',
+        'company',
+        'deals',
+        'activities',
+        'activities.details',
+        'customFields',
+    ];
+
+    private $showWith = [
+        'user',
+        'company',
+        'deals',
+        'activities',
+        'activities.details',
+        'customFields',
+    ];
+
     public function index()
     {
-        return new PersonCollection(Person::with(['user', 'company', 'deals', 'activities', 'activities.details'])->paginate());
+        return new PersonCollection(Person::with($this->indexWith)->paginate());
     }
 
     public function show($id)
     {
-        return new PersonResource(Person::with(['user', 'company', 'deals', 'activities'])->find($id));
+        return new PersonResource(Person::with($this->showWith)->find($id));
     }
 
     public function update(Request $request, $id)
     {
+        /** @var Person $person */
         $person = Person::findOrFail($id);
         $data = $request->all();
-        $personCompany = isset($data['company']) ? $data['company'] : [];
-        $personUser = isset($data['user']) ? $data['user'] : [];
+        $personCompany = $data['company'] ?? [];
+        $personUser = $data['user'] ?? [];
 
         if ($personCompany) {
             $company = Company::findOrFail($personCompany['id']);
