@@ -13,7 +13,7 @@
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
         "pusher/pusher-php-server": "^3.0@dev",
-        "treblig/plivo-php": "dev-master"
+        "treblig/plivo-php": "^1.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
@@ -58,7 +58,6 @@
         "sort-packages": true,
         "optimize-autoloader": true
     },
-    "minimum-stability": "dev",
     "repositories": [
         {
             "type": "vcs",
