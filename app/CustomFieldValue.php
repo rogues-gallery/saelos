@@ -10,4 +10,9 @@ class CustomFieldValue extends Model
     {
         return $this->belongsTo(CustomField::class);
     }
+
+    public function model()
+    {
+        return $this->morphTo();
+    }
 }

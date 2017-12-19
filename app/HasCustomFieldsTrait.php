@@ -19,6 +19,8 @@ trait HasCustomFieldsTrait
 
         foreach ($customFields as $i => $field) {
             $array = [
+                'type'  => $field->type,
+                'label' => $field->label,
                 'alias' => $field->alias,
                 'value' => null,
             ];
@@ -33,7 +35,7 @@ trait HasCustomFieldsTrait
                 $array['options'] = $field->values;
             }
 
-            $attribute[] = $array;
+            $attribute[$field->alias] = $array;
         }
 
         return $attribute;

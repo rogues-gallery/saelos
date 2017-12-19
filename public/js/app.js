@@ -64055,23 +64055,14 @@ var ContactPanel = function (_Component) {
             var target = event.target;
             var value = target.type === 'checkbox' ? target.checked : target.value;
             var name = target.name;
-
             var contactState = this.state.contact;
 
             // Special handling for custom field state
-            if (contactState.hasOwnProperty('customFields') && /customFields/.test(name)) {
-                contactState.customFields.map(function (field) {
-                    var fieldName = name.split('.')[1];
-
-                    if (fieldName === field.alias) {
-                        field.value = value;
-                    }
-
-                    return field;
-                });
-            } else {
-                _.set(contactState, name, value);
+            if (contactState.hasOwnProperty('custom_fields') && /custom_fields/.test(name)) {
+                name = name + '.value';
             }
+
+            _.set(contactState, name, value);
 
             this.setState({
                 contact: contactState
@@ -64080,6 +64071,8 @@ var ContactPanel = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var stageSelect = _react2.default.createElement(
                 'select',
                 { name: 'stage' },
@@ -64109,6 +64102,43 @@ var ContactPanel = function (_Component) {
                     'Stage 4'
                 )
             );
+
+            var customFields = Object.keys(this.state.contact.custom_fields).map(function (key, index) {
+                var thisField = _this2.state.contact.custom_fields[key];
+                var input = '';
+
+                switch (thisField.type) {
+                    case 'text':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange,
+                            defaultValue: thisField.value });
+                        break;
+                    case 'select':
+                        var options = Object.keys(thisField.options).map(function (option, i) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: i, value: option },
+                                thisField.options[option]
+                            );
+                        });
+
+                        input = _react2.default.createElement(
+                            'select',
+                            { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
+                            options
+                        );
+                }
+
+                return _react2.default.createElement(
+                    'div',
+                    { key: index, className: 'input-container' },
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        thisField.label
+                    ),
+                    input
+                );
+            });
 
             return _react2.default.createElement(
                 'div',
@@ -64289,7 +64319,8 @@ var ContactPanel = function (_Component) {
                                         'p',
                                         null,
                                         '$12,500 which contributes 4% to total pipeline.'
-                                    )
+                                    ),
+                                    customFields
                                 )
                             )
                         ),

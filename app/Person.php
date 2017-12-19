@@ -15,7 +15,7 @@ class Person extends Model
         'deals',
         'user',
         'activities',
-        'customFields',
+        'custom_fields',
     ];
 
     public function user()

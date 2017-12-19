@@ -56,24 +56,15 @@ export default class ContactPanel extends Component {
     _handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
+        let name = target.name;
         let contactState = this.state.contact;
 
         // Special handling for custom field state
-        if (contactState.hasOwnProperty('customFields') && /customFields/.test(name)) {
-            contactState.customFields.map((field) => {
-                let fieldName = name.split('.')[1];
-
-                if (fieldName === field.alias) {
-                    field.value = value;
-                }
-
-                return field;
-            });
-        } else {
-            _.set(contactState, name, value);
+        if (contactState.hasOwnProperty('custom_fields') && /custom_fields/.test(name)) {
+            name = name + '.value';
         }
+
+        _.set(contactState, name, value);
 
         this.setState({
             contact: contactState
@@ -88,6 +79,32 @@ export default class ContactPanel extends Component {
             <option value="3">Stage 3</option>
             <option value="4">Stage 4</option>
         </select>
+
+        let customFields = Object.keys(this.state.contact.custom_fields).map((key, index) => {
+            let thisField = this.state.contact.custom_fields[key];
+            let input = '';
+
+            switch (thisField.type) {
+                case 'text':
+                    input = <input type="text" name={"custom_fields." + thisField.alias} onChange={this._handleInputChange}
+                                   defaultValue={thisField.value}/>
+                    break;
+                case 'select':
+                    let options = Object.keys(thisField.options).map((option, i) => {
+                        return <option key={i} value={option}>{thisField.options[option]}</option>
+                    });
+
+                    input = <select name={"custom_fields." + thisField.alias} defaultValue={thisField.value} onChange={this._handleInputChange}>
+                        {options}
+                    </select>
+            }
+
+
+            return <div key={index} className="input-container">
+                <label>{thisField.label}</label>
+                {input}
+            </div>
+        });
 
         return (
             <div className="content-side-wrapper">
@@ -171,6 +188,8 @@ export default class ContactPanel extends Component {
 
                                     <label>Value</label>
                                     <p>$12,500 which contributes 4% to total pipeline.</p>
+
+                                    {customFields}
                                 </div>
                             </form>
                         </div>

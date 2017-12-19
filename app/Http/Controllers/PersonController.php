@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\CustomField;
+use App\CustomFieldValue;
 use App\Http\Resources\PersonCollection;
 use App\Person;
 use App\Stage;
@@ -40,6 +42,15 @@ class PersonController extends Controller
         return new PersonResource(Person::with($this->showWith)->find($id));
     }
 
+    /**
+     * @param Request $request
+     * @param         $id
+     *
+     * @TODO: Move user, company, and custom field association update to Model mutators
+     *
+     * @return Person
+     * @throws \Exception
+     */
     public function update(Request $request, $id)
     {
         /** @var Person $person */
@@ -64,7 +75,40 @@ class PersonController extends Controller
         }
 
         if ($personCustomFields) {
-            // @ToDo = fetch and update custom field values
+            foreach ($personCustomFields as $field) {
+                $customField = CustomField::where('alias', $field['alias'])->first();
+
+                // If we don't have a matching custom field, bail
+                if (!$customField) {
+                    continue;
+                }
+
+                $customFieldValue = CustomFieldValue::where('model_id', $person->id)
+                    ->where('model_type', Person::class)
+                    ->where('custom_field_id', $customField->id)
+                    ->first();
+
+                if (!$customFieldValue) {
+                    $customFieldValue = new CustomFieldValue();
+                    $customFieldValue->customField()->associate($customField);
+                }
+
+                // If the value is empty, delete the entry and continue
+                if (empty($field['value'])) {
+                    if ($customFieldValue->id) {
+                        $customFieldValue->delete();
+                    }
+
+                    unset($customFieldValue);
+
+                    continue;
+                }
+
+                $customFieldValue->value = $field['value'];
+                $customFieldValue->model()->associate($person);
+
+                $customFieldValue->save();
+            }
         }
 
         $person->update($data);
