@@ -6,6 +6,7 @@ import Footer from '../Helpers/Footer';
 import PageTitle from '../Helpers/PageTitle';
 import Sidebar from '../Helpers/Sidebar';
 import Toolbar from '../Helpers/Toolbar';
+import { NotificationContainer } from 'react-notifications';
 
 export default class Backend extends Component {
     render() {
@@ -24,6 +25,7 @@ export default class Backend extends Component {
                     <Footer />
                 </div>
                 <ExamplePanel/>
+                <NotificationContainer />
             </div>
         );
     }

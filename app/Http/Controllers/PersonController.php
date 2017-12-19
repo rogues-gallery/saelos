@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\CustomField;
 use App\CustomFieldValue;
+use App\Events\ContactUpdated;
 use App\Http\Resources\PersonCollection;
 use App\Person;
 use App\Stage;
@@ -112,6 +113,8 @@ class PersonController extends Controller
         }
 
         $person->update($data);
+
+        ContactUpdated::broadcast($person);
 
         return $person;
     }
