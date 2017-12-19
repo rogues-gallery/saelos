@@ -87197,7 +87197,7 @@ Echo.channel('saelos').listen('AppRefresh', function (e) {
     if (e.shouldReload) {
         _reactNotifications.NotificationManager.warning('Saelos has been updated. Click this now to load the latest version. Otherwise, wrap up what you\'re doing and reload the app at your convenience.', 'Update available!', 10000, function () {
             location.reload();
-        });
+        }, true);
     }
 });
 
