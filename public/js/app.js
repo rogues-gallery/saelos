@@ -87189,15 +87189,15 @@ Echo.channel('contacts').listen('ContactUpdated', function (e) {
 "use strict";
 
 
+var _reactNotifications = __webpack_require__(489);
+
 var Echo = window.Echo;
 
 Echo.channel('saelos').listen('AppRefresh', function (e) {
     if (e.shouldReload) {
-        if (confirm('Saelos has been updated. Would you like to reload now to get the latest version?')) {
+        _reactNotifications.NotificationManager.warning('Saelos has been updated. Click this now to load the latest version. Otherwise, wrap up what you\'re doing and reload the app at your convenience.', 'Update available!', 10000, function () {
             location.reload();
-        } else {
-            alert('Please wrap up what you\'re doing and reload the app at your convenience.');
-        }
+        });
     }
 });
 

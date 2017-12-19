@@ -1,13 +1,16 @@
+import { NotificationManager } from 'react-notifications';
+
 let Echo = window.Echo;
 
 Echo.channel('saelos')
     .listen('AppRefresh', (e) => {
         if (e.shouldReload) {
-            if (confirm('Saelos has been updated. Would you like to reload now to get the latest version?')) {
-                location.reload();
-            } else {
-                alert('Please wrap up what you\'re doing and reload the app at your convenience.');
-            }
+            NotificationManager.warning(
+                'Saelos has been updated. Click this now to load the latest version. Otherwise, wrap up what you\'re doing and reload the app at your convenience.',
+                'Update available!',
+                10000,
+                () => { location.reload() }
+            );
         }
     })
 ;
