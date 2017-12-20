@@ -1041,8 +1041,7 @@ exports.default = function (url) {
         });
     }).catch(function (error) {
         // We likely have an expired JWT, so redirect to login
-        //window.location.href = '/login';
-        console.error(error);
+        window.location.href = '/login';
     });
 };
 
