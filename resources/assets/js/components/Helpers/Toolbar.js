@@ -38,9 +38,9 @@ export default class Toolbar extends Component {
 
                     <ul className="bottom">
                         <li>
-                            <NavLink to="/login">
+                            <a href="/login">
                                 <i className="md-icon">perm_identity</i>
-                            </NavLink>
+                            </a>
                         </li>
 
                         <li>

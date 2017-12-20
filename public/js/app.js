@@ -63616,8 +63616,8 @@ var Toolbar = function (_Component) {
                             'li',
                             null,
                             _react2.default.createElement(
-                                _reactRouterDom.NavLink,
-                                { to: '/login' },
+                                'a',
+                                { href: '/login' },
                                 _react2.default.createElement(
                                     'i',
                                     { className: 'md-icon' },
