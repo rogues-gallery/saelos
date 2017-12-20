@@ -26,7 +26,7 @@ export default class ContactPanel extends Component {
 
         document.querySelector(rowClass).classList.toggle('contact-panel-open');
 
-        this.props.dispatch(actionCreators.postContact(this.state.contact));
+        actionCreators.postContact(this.state.contact, this.props.dispatch);
     }
 
     _toggleContactClass() {
@@ -50,7 +50,7 @@ export default class ContactPanel extends Component {
     _handleFormSubmit(event) {
         event.preventDefault();
 
-        this.props.dispatch(actionCreators.postContact(this.state.contact));
+        actionCreators.postContact(this.state.contact, this.props.dispatch);
     }
 
     _handleInputChange(event) {

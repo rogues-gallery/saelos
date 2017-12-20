@@ -12,6 +12,7 @@ import HistoryPanel from '../Panels/HistoryPanel';
 import EditPanel from '../Panels/EditPanel';
 import ContactContactPanel from '../Panels/ContactContactPanel';
 import diff from 'recursive-diff';
+import { NavLink } from 'react-router-dom';
 
 import { actionCreators } from '../../actions';
 
@@ -51,7 +52,9 @@ class Contacts extends Component {
             <Backend>
                 <div className="content-inner">
                     <Filter />
-
+                    <NavLink className="button button-primary" to="/contacts/new">
+                        <i className="md-icon">person_add</i> <span>Create Contact</span>
+                    </NavLink>
                     <div className="table-responsive">
                         <table>
                             <thead>

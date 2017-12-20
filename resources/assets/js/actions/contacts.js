@@ -21,8 +21,7 @@ export function fetchContacts(page = 1) {
   }
 }
 
-export function postContact(data) {
-  return (dispatch) => {
+export function postContact(data, dispatch) {
     dispatch({
         type: types.POSTING_CONTACT
     });
@@ -48,5 +47,4 @@ export function postContact(data) {
               dataFetched: true
           })
         });
-  }
 }

@@ -116,14 +116,27 @@ class PersonController extends Controller
 
         ContactUpdated::broadcast($person);
 
-        return $person;
+        return $this->show($person->id);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return Person
+     * @throws \Exception
+     */
     public function store(Request $request)
     {
-        return Person::create($request->all());
+        $person = Person::create($request->all());
+
+        return $this->update($request, $person->id);
     }
 
+    /**
+     * @param $id
+     *
+     * @return string
+     */
     public function destroy($id)
     {
         Person::findOrFail($id)->delete();

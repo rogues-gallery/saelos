@@ -1036,9 +1036,10 @@ exports.default = function (url) {
 
             console.error(error);
         });
-    }).catch(function () {
+    }).catch(function (error) {
         // We likely have an expired JWT, so redirect to login
-        window.location.href = '/login';
+        //window.location.href = '/login';
+        console.error(error);
     });
 };
 
@@ -8345,6 +8346,10 @@ var _Opportunities = __webpack_require__(463);
 
 var _Opportunities2 = _interopRequireDefault(_Opportunities);
 
+var _ContactForm = __webpack_require__(504);
+
+var _ContactForm2 = _interopRequireDefault(_ContactForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var routes = exports.routes = [{
@@ -8368,6 +8373,13 @@ var routes = exports.routes = [{
     breadcrumb_link: true,
     exact: true,
     component: (0, _RequireAuth2.default)(_Contacts2.default)
+}, {
+    path: '/contacts/new',
+    title: 'Create Contact',
+    breadcrumb: 'Create',
+    breadcrumb_link: false,
+    exact: true,
+    component: (0, _RequireAuth2.default)(_ContactForm2.default)
 }, {
     path: '/accounts',
     title: 'Accounts',
@@ -61197,6 +61209,8 @@ var _recursiveDiff = __webpack_require__(74);
 
 var _recursiveDiff2 = _interopRequireDefault(_recursiveDiff);
 
+var _reactRouterDom = __webpack_require__(18);
+
 var _actions = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -61264,6 +61278,21 @@ var Contacts = function (_Component) {
                     'div',
                     { className: 'content-inner' },
                     _react2.default.createElement(_Filter2.default, null),
+                    _react2.default.createElement(
+                        _reactRouterDom.NavLink,
+                        { className: 'button button-primary', to: '/contacts/new' },
+                        _react2.default.createElement(
+                            'i',
+                            { className: 'md-icon' },
+                            'person_add'
+                        ),
+                        ' ',
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            'Create Contact'
+                        )
+                    ),
                     _react2.default.createElement(
                         'div',
                         { className: 'table-responsive' },
@@ -63896,7 +63925,7 @@ var ContactPanel = function (_Component) {
 
             document.querySelector(rowClass).classList.toggle('contact-panel-open');
 
-            this.props.dispatch(_actions.actionCreators.postContact(this.state.contact));
+            _actions.actionCreators.postContact(this.state.contact, this.props.dispatch);
         }
     }, {
         key: '_toggleContactClass',
@@ -63924,7 +63953,7 @@ var ContactPanel = function (_Component) {
         value: function _handleFormSubmit(event) {
             event.preventDefault();
 
-            this.props.dispatch(_actions.actionCreators.postContact(this.state.contact));
+            _actions.actionCreators.postContact(this.state.contact, this.props.dispatch);
         }
     }, {
         key: '_handleInputChange',
@@ -64278,33 +64307,31 @@ function fetchContacts() {
   };
 }
 
-function postContact(data) {
-  return function (dispatch) {
-    dispatch({
-      type: types.POSTING_CONTACT
-    });
+function postContact(data, dispatch) {
+  dispatch({
+    type: types.POSTING_CONTACT
+  });
 
-    var METHOD = 'POST';
-    var URL = '/people';
+  var METHOD = 'POST';
+  var URL = '/people';
 
-    if (data.hasOwnProperty('id')) {
-      URL = URL + '/' + data.id;
-      METHOD = 'PATCH';
-    }
+  if (data.hasOwnProperty('id')) {
+    URL = URL + '/' + data.id;
+    METHOD = 'PATCH';
+  }
 
-    var options = {
-      body: data,
-      method: METHOD
-    };
-
-    (0, _fetch2.default)(URL, options).then(function (response) {
-      dispatch({
-        type: types.POSTING_CONTACT_SUCCESS,
-        data: response.data.data,
-        dataFetched: true
-      });
-    });
+  var options = {
+    body: data,
+    method: METHOD
   };
+
+  (0, _fetch2.default)(URL, options).then(function (response) {
+    dispatch({
+      type: types.POSTING_CONTACT_SUCCESS,
+      data: response.data.data,
+      dataFetched: true
+    });
+  });
 }
 
 /***/ }),
@@ -88788,6 +88815,155 @@ function isUserAuthenticated() {
         });
     };
 }
+
+/***/ }),
+/* 504 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Backend = __webpack_require__(14);
+
+var _Backend2 = _interopRequireDefault(_Backend);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRedux = __webpack_require__(6);
+
+var _reduxForm = __webpack_require__(97);
+
+var _actions = __webpack_require__(11);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var form = (0, _reduxForm.reduxForm)({
+    form: 'create_contact',
+    onSubmit: _actions.actionCreators.postContact
+});
+
+var ContactFormPage = function (_Component) {
+    _inherits(ContactFormPage, _Component);
+
+    function ContactFormPage() {
+        _classCallCheck(this, ContactFormPage);
+
+        return _possibleConstructorReturn(this, (ContactFormPage.__proto__ || Object.getPrototypeOf(ContactFormPage)).apply(this, arguments));
+    }
+
+    _createClass(ContactFormPage, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _Backend2.default,
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content-inner' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'form-container' },
+                        _react2.default.createElement(ContactForm, { dispatch: this.props.dispatch })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return ContactFormPage;
+}(_react.Component);
+
+ContactFormPage.propTypes = {
+    dispatch: _propTypes2.default.func.isRequired
+};
+
+var ContactForm = function (_Component2) {
+    _inherits(ContactForm, _Component2);
+
+    function ContactForm() {
+        _classCallCheck(this, ContactForm);
+
+        return _possibleConstructorReturn(this, (ContactForm.__proto__ || Object.getPrototypeOf(ContactForm)).apply(this, arguments));
+    }
+
+    _createClass(ContactForm, [{
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var renderField = function renderField(_ref) {
+                var input = _ref.input,
+                    label = _ref.label,
+                    type = _ref.type,
+                    _ref$meta = _ref.meta,
+                    touched = _ref$meta.touched,
+                    error = _ref$meta.error;
+                return _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        label
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement('input', _extends({}, input, { placeholder: label, type: type })),
+                        touched && error && _react2.default.createElement(
+                            'span',
+                            null,
+                            error
+                        )
+                    )
+                );
+            };
+
+            return _react2.default.createElement(
+                'form',
+                { onSubmit: this.props.handleSubmit },
+                _react2.default.createElement(_reduxForm.Field, { name: 'first_name', type: 'text', label: 'First Name', component: renderField }),
+                _react2.default.createElement(_reduxForm.Field, { name: 'last_name', type: 'text', label: 'Last Name', component: renderField }),
+                _react2.default.createElement(_reduxForm.Field, { name: 'email', type: 'email', label: 'Email Address', component: renderField }),
+                _react2.default.createElement(
+                    'button',
+                    { className: 'button button-primary', type: 'button', onClick: function onClick() {
+                            return _this3.props.dispatch((0, _reduxForm.submit)('create_contact'));
+                        } },
+                    'Submit'
+                )
+            );
+        }
+    }]);
+
+    return ContactForm;
+}(_react.Component);
+
+exports.default = (0, _reactRedux.connect)(function (store) {
+    return {
+        //
+    };
+})(form(ContactFormPage));
 
 /***/ })
 /******/ ]);

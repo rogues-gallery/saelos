@@ -6,6 +6,7 @@ import Forms from './components/Pages/Forms';
 import RequireAuth from './components/Auth/RequireAuth';
 import Accounts from "./components/Pages/Accounts";
 import Opportunities from "./components/Pages/Opportunities";
+import ContactFormPage from "./components/Pages/Forms/ContactForm";
 
 export const routes = [
     {
@@ -31,6 +32,14 @@ export const routes = [
         breadcrumb_link: true,
         exact: true,
         component: RequireAuth(Contacts)
+    },
+    {
+        path: '/contacts/new',
+        title: 'Create Contact',
+        breadcrumb: 'Create',
+        breadcrumb_link: false,
+        exact: true,
+        component: RequireAuth(ContactFormPage)
     },
     {
         path: '/accounts',

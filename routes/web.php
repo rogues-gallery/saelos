@@ -28,3 +28,4 @@ Auth::routes();
 
 Route::get('/', 'ReactController@index')->name('react-home');
 Route::get('/{slug}', 'ReactController@index')->name('react');
+Route::get('/{slug}/{sub}', 'ReactController@index')->name('react-sub');

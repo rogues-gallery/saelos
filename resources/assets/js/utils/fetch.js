@@ -21,8 +21,9 @@ export default function (url, options = {}) {
                   console.error(error);
           });
       })
-      .catch(() => {
+      .catch((error) => {
           // We likely have an expired JWT, so redirect to login
-          window.location.href = '/login';
+          //window.location.href = '/login';
+          console.error(error);
       });
 }
