@@ -5,40 +5,21 @@ import { createStore, applyMiddleware, compose} from 'redux'
 import thunkMiddleware from 'redux-thunk';
 import PropTypes from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
-import * as types from './actions/types';
 
 import reducers from './reducers';
 import { routes } from './routes';
+import { actionCreators } from "./actions";
 
 function configureStore(initialState) {
       const enhancer = compose(applyMiddleware(thunkMiddleware));
       return createStore(reducers, initialState, enhancer);
 }
 
-const store = configureStore({});
+const store = configureStore({authState: {authenticated: true}});
+
+store.dispatch(actionCreators.isUserAuthenticated());
 
 class App extends Component {
-    componentWillMount() {
-        const { cookies } = this.props;
-
-        let token = cookies.get('token');
-
-        if (token) {
-            store.dispatch({type: types.AUTH_USER});
-        }
-
-        let cookieTimeout = setInterval(function() {
-            let tmpCookies = new Cookies();
-
-            token = tmpCookies.get('token');
-
-            if (!token && /\/login/.test(window.location.href) === false) {
-                clearInterval(cookieTimeout);
-                window.location.href = '/login';
-            }
-        }, 1000);
-    }
-
     render() {
         return (
             <Provider store={store}>

@@ -17,6 +17,10 @@ Route::group([
     'as' => 'api.',
     'middleware' => 'auth:api',
 ], function () {
+    Route::get('/me', function () {
+        return \Illuminate\Http\JsonResponse::create(Auth::user());
+    });
+
     Route::resource('people', 'PersonController');
     Route::resource('deals', 'DealController');
     Route::resource('companies', 'CompanyController');

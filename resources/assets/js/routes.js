@@ -2,7 +2,6 @@ import Contacts from './components/Pages/Contacts';
 import Dashboard from './components/Pages/Dashboard';
 import Headquarters from './components/Pages/Headquarters';
 import Icons from './components/Pages/Icons';
-import Login from './components/Pages/Login';
 import Forms from './components/Pages/Forms';
 import RequireAuth from './components/Auth/RequireAuth';
 import Accounts from "./components/Pages/Accounts";
@@ -64,13 +63,5 @@ export const routes = [
         breadcrumb_link: false,
         exact: true,
         component: Icons
-    },
-    {
-        path: '/login',
-        title: 'Login',
-        breadcrumb: 'Login',
-        breadcrumb_link: false,
-        exact: true,
-        component: Login
     }
 ];
