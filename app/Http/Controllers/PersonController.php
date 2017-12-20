@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Company;
 use App\CustomField;
 use App\CustomFieldValue;
 use App\Events\ContactUpdated;
 use App\Http\Resources\PersonCollection;
 use App\Person;
-use App\Stage;
-use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Person as PersonResource;
 
@@ -58,22 +57,19 @@ class PersonController extends Controller
         $person = Person::findOrFail($id);
         $data = $request->all();
         $personCompany = $data['company'] ?? [];
-        $personUser = $data['user'] ?? [];
         $personCustomFields = $data['custom_fields'] ?? [];
 
         if ($personCompany) {
-            $company = Company::findOrFail($personCompany['id']);
+            $company = array_key_exists('id', $personCompany)
+                ? Company::findOrFail($personCompany['id'])
+                : new Company;
+
             $company->update($personCompany);
 
             $person->company()->associate($company);
         }
 
-        if ($personUser) {
-            $user = User::findOrFail($personUser['id']);
-            $user->update($personUser);
-
-            $person->user()->associate($user);
-        }
+        $person->user()->associate(Auth::user());
 
         if ($personCustomFields) {
             foreach ($personCustomFields as $field) {

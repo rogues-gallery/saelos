@@ -12,11 +12,18 @@ import HistoryPanel from '../Panels/HistoryPanel';
 import EditPanel from '../Panels/EditPanel';
 import ContactContactPanel from '../Panels/ContactContactPanel';
 import diff from 'recursive-diff';
-import { NavLink } from 'react-router-dom';
 
 import { actionCreators } from '../../actions';
+import * as types from "../../actions/types";
 
 class Contacts extends Component {
+    constructor(props) {
+        super(props);
+
+        this._getNewContact = this._getNewContact.bind(this);
+        this._toggleNewPanel = this._toggleNewPanel.bind(this);
+    }
+
     componentWillMount() {
         this.props.dispatch(actionCreators.fetchContacts());
     }
@@ -29,6 +36,31 @@ class Contacts extends Component {
 
     _navToPage(page) {
         this.props.dispatch(actionCreators.fetchContacts(page.selected + 1));
+    }
+
+    _toggleNewPanel() {
+        document.querySelector('.contact-row-new').classList.toggle('contact-panel-open');
+
+        // Set the form state for a new contact
+        this.props.dispatch({type: types.FETCHING_SINGLE_CONTACT_SUCCESS, data: this._getNewContact()});
+    }
+
+    _getNewContact() {
+        let customFieldDefinitions = {};
+
+        this.props.contacts.length !== 0 ? Object.keys(this.props.contacts[0].custom_fields).map((key, index) => {
+            let thisField = this.props.contacts[0].custom_fields[key];
+
+            thisField.value = null;
+
+            customFieldDefinitions[thisField.alias] = thisField;
+        }) : {};
+
+        return {
+            id: 'new',
+            custom_fields: customFieldDefinitions,
+            company: {}
+        }
     }
 
     render() {
@@ -52,9 +84,12 @@ class Contacts extends Component {
             <Backend>
                 <div className="content-inner">
                     <Filter />
-                    <NavLink className="button button-primary" to="/contacts/new">
+                    <div className="button button-primary" onClick={this._toggleNewPanel}>
                         <i className="md-icon">person_add</i> <span>Create Contact</span>
-                    </NavLink>
+                    </div>
+                    <div className="contact-row-new">
+                        <ContactPanel contact={this._getNewContact()} dispatch={this.props.dispatch} />
+                    </div>
                     <div className="table-responsive">
                         <table>
                             <thead>
@@ -96,6 +131,9 @@ export class Contact extends Component {
         let rowClass = 'tr.contact-row-' + this.state.contact.id;
 
         document.querySelector(rowClass).classList.toggle('contact-panel-open');
+
+        // Set the form state
+        this.props.dispatch({type: types.FETCHING_SINGLE_CONTACT_SUCCESS, data: this.state.contact});
     }
 
     render() {

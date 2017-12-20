@@ -2289,6 +2289,10 @@ table tr:last-child td {
   padding: 30px;
 }
 
+.panel-contact-details {
+  overflow: scroll;
+}
+
 .panel-contact-details #contact-details-form {
   display: -webkit-box;
   display: -ms-flexbox;

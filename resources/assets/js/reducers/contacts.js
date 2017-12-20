@@ -1,21 +1,22 @@
-import { FETCHING_CONTACTS, FETCHING_CONTACTS_SUCCESS, FETCHING_CONTACTS_FAILURE } from '../actions/types';
+import * as types from '../actions/types';
 
 const initialState = {
     data: [],
     pagination: {},
     dataFetched: false,
     isFetching: false,
+    singleContact: {},
     error: false
 }
 
 export default function contactReducer(state = initialState, action) {
     switch (action.type) {
-        case FETCHING_CONTACTS:
+        case types.FETCHING_CONTACTS:
             return {
                 ...state,
                 isFetching: true
             }
-        case FETCHING_CONTACTS_SUCCESS:
+        case types.FETCHING_CONTACTS_SUCCESS:
             return {
                 ...state,
                 isFetching: false,
@@ -23,7 +24,20 @@ export default function contactReducer(state = initialState, action) {
                 data: action.data,
                 pagination: action.pagination
             }
-        case FETCHING_CONTACTS_FAILURE:
+        case types.FETCHING_CONTACTS_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                error: true
+            }
+        case types.FETCHING_SINGLE_CONTACT_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                dataFetched: true,
+                singleContact: action.data,
+            }
+        case types.FETCHING_SINGLE_CONTACT_FAILURE:
             return {
                 ...state,
                 isFetching: false,
