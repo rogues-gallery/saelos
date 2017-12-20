@@ -171,7 +171,7 @@ class ContactForm extends Component {
                         return <option key={i} value={option}>{thisField.options[option]}</option>
                     });
 
-                    input = <select name={"custom_fields." + thisField.alias} onChange={this._handleInputChange}>
+                    input = <select name={"custom_fields." + thisField.alias} defaultValue={thisField.value} onChange={this._handleInputChange}>
                         {options}
                     </select>
             }

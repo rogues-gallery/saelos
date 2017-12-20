@@ -64247,7 +64247,7 @@ var ContactForm = function (_Component2) {
 
                         input = _react2.default.createElement(
                             'select',
-                            { name: "custom_fields." + thisField.alias, onChange: _this3._handleInputChange },
+                            { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this3._handleInputChange },
                             options
                         );
                 }
