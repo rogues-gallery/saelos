@@ -32,9 +32,26 @@ class PersonController extends Controller
         'customFields',
     ];
 
-    public function index()
+    public function index(Request $request)
     {
-        return new PersonCollection(Person::with($this->indexWith)->paginate());
+        $people = Person::with($this->indexWith);
+
+        $people->where('published', 1);
+        $people->where(function($q) use ($request) {
+            if ($firstName = $request->get('first_name')) {
+                $q->orWhere('first_name', 'like', '%'.$firstName.'%');
+            }
+
+            if ($lastName = $request->get('last_name')) {
+                $q->orWhere('last_name', 'like', '%'.$lastName.'%');
+            }
+
+            if ($email = $request->get('email')) {
+                $q->orWhere('email', 'like', '%'.$email.'%');
+            }
+        });
+
+        return new PersonCollection($people->paginate());
     }
 
     public function show($id)
@@ -57,7 +74,7 @@ class PersonController extends Controller
         $person = Person::findOrFail($id);
         $data = $request->all();
         $personCompany = $data['company'] ?? [];
-        $personCustomFields = $data['custom_fields'] ?? [];
+        $customFields = $data['custom_fields'] ?? [];
 
         if ($personCompany) {
             $company = array_key_exists('id', $personCompany)
@@ -70,45 +87,8 @@ class PersonController extends Controller
         }
 
         $person->user()->associate(Auth::user());
-
-        if ($personCustomFields) {
-            foreach ($personCustomFields as $field) {
-                $customField = CustomField::where('alias', $field['alias'])->first();
-
-                // If we don't have a matching custom field, bail
-                if (!$customField) {
-                    continue;
-                }
-
-                $customFieldValue = CustomFieldValue::where('model_id', $person->id)
-                    ->where('model_type', Person::class)
-                    ->where('custom_field_id', $customField->id)
-                    ->first();
-
-                if (!$customFieldValue) {
-                    $customFieldValue = new CustomFieldValue();
-                    $customFieldValue->customField()->associate($customField);
-                }
-
-                // If the value is empty, delete the entry and continue
-                if (empty($field['value'])) {
-                    if ($customFieldValue->id) {
-                        $customFieldValue->delete();
-                    }
-
-                    unset($customFieldValue);
-
-                    continue;
-                }
-
-                $customFieldValue->value = $field['value'];
-                $customFieldValue->model()->associate($person);
-
-                $customFieldValue->save();
-            }
-        }
-
         $person->update($data);
+        $person->assignCustomFields($customFields);
 
         ContactUpdated::broadcast($person);
 

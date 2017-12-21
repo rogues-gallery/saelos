@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     use HasActivitiesTrait;
+    use HasCustomFieldsTrait;
 
     protected $guarded = [
         'id',
         'deals',
         'people',
         'user',
+        'custom_fields',
     ];
 
     public function user()

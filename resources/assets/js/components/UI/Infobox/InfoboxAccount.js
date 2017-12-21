@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Money } from 'react-format';
 import AccountPanel from "../../Panels/AccountPanel";
+import ReactTooltip from 'react-tooltip';
 
 export default class InfoboxAccount extends Component {
     _togglePanelClass() {
@@ -12,6 +13,30 @@ export default class InfoboxAccount extends Component {
 
     render() {
         let itemClass = 'infobox account-item-' + this.props.account.id;
+        let avatars = [
+            '/img/tmp/user-1.jpg',
+            '/img/tmp/user-2.jpg',
+            '/img/tmp/user-3.jpg',
+            '/img/tmp/user-4.jpg',
+            '/img/tmp/user-5.jpg',
+            '/img/tmp/user-6.jpg',
+            '/img/tmp/user-7.jpg',
+            '/img/tmp/user-8.jpg',
+            '/img/tmp/user-9.jpg',
+            '/img/tmp/user-10.jpg',
+        ];
+
+        let accountContacts = this.props.account.people.slice(0, 10).map((contact, index) => {
+            let avatarUrl = avatars[Math.floor(Math.random() * avatars.length)]
+            let tooltipId = "account-"+this.props.account.id+"-contact-"+contact.id;
+
+            return <li key={index}>
+                <span data-tip data-for={tooltipId} style={{backgroundImage: 'url('+avatarUrl+')'}} />
+                <ReactTooltip id={tooltipId}>
+                    {contact.first_name + " " + contact.last_name}
+                </ReactTooltip>
+            </li>
+        });
 
         return (
             <div className={itemClass}>
@@ -35,34 +60,17 @@ export default class InfoboxAccount extends Component {
                             <strong>Do something</strong>
                         </div>
                     </div>
+                    {accountContacts.length ?
+                        <div className="infobox-content">
+                            <div className="infobox-content-avatars">
+                                <strong>Contacts:</strong>
 
-                    <div className="infobox-content">
-                        <div className="infobox-content-avatars">
-                            <strong>Contacts:</strong>
-
-                            <ul>
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-1.jpg)'}}></span>
-                                </li>
-
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-2.jpg)'}}></span>
-                                </li>
-
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-3.jpg)'}}></span>
-                                </li>
-
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-4.jpg)'}}></span>
-                                </li>
-
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-5.jpg)'}}></span>
-                                </li>
-                            </ul>
+                                <ul>
+                                    {accountContacts}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                        : ''}
                 </div>
                 <AccountPanel account={this.props.account} />
             </div>

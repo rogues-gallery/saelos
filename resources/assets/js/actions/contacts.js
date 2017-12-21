@@ -1,13 +1,20 @@
 import * as types from './types';
 import fetch from '../utils/fetch';
 
-export function fetchContacts(page = 1) {
+export function fetchContacts(page = 1, query = {}) {
     return (dispatch) => {
         dispatch({
-            type: types.FETCHING_CONTACTS
+            type: types.FETCHING_CONTACTS,
+            search: query
         });
 
         let URL = '/people?page=' + page;
+
+        if (Object.keys(query).length) {
+            Object.keys(query).map((key) => {
+                URL = URL + '&' + key + '=' + query[key];
+            });
+        }
 
         fetch(URL)
             .then((response) => {

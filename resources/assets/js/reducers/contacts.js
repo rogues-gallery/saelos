@@ -6,15 +6,19 @@ const initialState = {
     dataFetched: false,
     isFetching: false,
     singleContact: {},
-    error: false
+    error: false,
+    search: {}
 }
 
 export default function contactReducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCHING_CONTACTS:
+            let query = action.hasOwnProperty('search') ? action.search : '';
+
             return {
                 ...state,
-                isFetching: true
+                isFetching: true,
+                search: query
             }
         case types.FETCHING_CONTACTS_SUCCESS:
             return {
