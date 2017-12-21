@@ -3,7 +3,6 @@ import { Panel } from '../UI/Panel';
 import Progress from "../UI/Progress";
 import {connect} from "react-redux";
 import { actionCreators } from "../../actions";
-import PropTypes from 'prop-types';
 import EditContactForm from '../Forms/EditContactForm';
 import NewContactForm from '../Forms/NewContactForm';
 

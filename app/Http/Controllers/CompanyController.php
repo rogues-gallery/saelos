@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CompanyUpdated;
 use Auth;
 use App\Company;
 use App\Http\Resources\CompanyCollection;
@@ -11,8 +12,19 @@ use App\Http\Resources\Company as CompanyResource;
 
 class CompanyController extends Controller
 {
-    private $indexWith = ['user','people', 'deals', 'customFields'];
-    private $showWith = ['user','people', 'deals', 'customFields'];
+    private $indexWith = [
+        'user',
+        'people',
+        'deals',
+        'customFields',
+    ];
+
+    private $showWith = [
+        'user',
+        'people',
+        'deals',
+        'customFields',
+    ];
 
     public function index()
     {
@@ -35,12 +47,16 @@ class CompanyController extends Controller
         $company->update($data);
         $company->assignCustomFields($customFields);
 
-        return $company;
+        CompanyUpdated::broadcast($company);
+
+        return $this->show($company->id);
     }
 
     public function store(Request $request)
     {
-        return Company::create($request->all());
+        $company = Company::create($request->all());
+
+        return $this->update($request, $company->id);
     }
 
     public function destroy($id)

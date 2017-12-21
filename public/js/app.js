@@ -243,6 +243,8 @@ var FETCHING_TASKS_FAILURE = exports.FETCHING_TASKS_FAILURE = 'FETCHING_TASKS_FA
 var FETCHING_ACCOUNTS = exports.FETCHING_ACCOUNTS = 'FETCHING_ACCOUNTS';
 var FETCHING_ACCOUNTS_SUCCESS = exports.FETCHING_ACCOUNTS_SUCCESS = 'FETCHING_ACCOUNTS_SUCCESS';
 var FETCHING_ACCOUNTS_FAILURE = exports.FETCHING_ACCOUNTS_FAILURE = 'FETCHING_ACCOUNTS_FAILURE';
+var POSTING_ACCOUNT = exports.POSTING_ACCOUNT = 'POSTING_ACCOUNT';
+var POSTING_ACCOUNT_SUCCESS = exports.POSTING_ACCOUNT_SUCCESS = 'POSTING_ACCOUNT_SUCCESS';
 
 var FETCHING_OPPORTUNITIES = exports.FETCHING_OPPORTUNITIES = 'FETCHING_OPPORTUNITIES';
 var FETCHING_OPPORTUNITIES_SUCCESS = exports.FETCHING_OPPORTUNITIES_SUCCESS = 'FETCHING_OPPORTUNITIES_SUCCESS';
@@ -29493,6 +29495,14 @@ var _Progress = __webpack_require__(44);
 
 var _Progress2 = _interopRequireDefault(_Progress);
 
+var _EditAccountForm = __webpack_require__(522);
+
+var _EditAccountForm2 = _interopRequireDefault(_EditAccountForm);
+
+var _actions = __webpack_require__(11);
+
+var _reactRedux = __webpack_require__(6);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29504,39 +29514,67 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AccountPanel = function (_Component) {
     _inherits(AccountPanel, _Component);
 
-    function AccountPanel() {
+    function AccountPanel(props) {
         _classCallCheck(this, AccountPanel);
 
-        return _possibleConstructorReturn(this, (AccountPanel.__proto__ || Object.getPrototypeOf(AccountPanel)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (AccountPanel.__proto__ || Object.getPrototypeOf(AccountPanel)).call(this, props));
+
+        _this._getContainerClass = _this._getContainerClass.bind(_this);
+        _this._handleFormSubmit = _this._handleFormSubmit.bind(_this);
+        _this._setFormState = _this._setFormState.bind(_this);
+        _this._togglePanelClass = _this._togglePanelClass.bind(_this);
+        _this._toggleNoteClass = _this._toggleNoteClass.bind(_this);
+        _this._toggleHistoryClass = _this._toggleHistoryClass.bind(_this);
+        _this._toggleDocumentsClass = _this._toggleDocumentsClass.bind(_this);
+
+        _this.state = {
+            account: props.account
+        };
+        return _this;
     }
 
     _createClass(AccountPanel, [{
+        key: '_handleFormSubmit',
+        value: function _handleFormSubmit() {
+            _actions.actionCreators.postAccount(this.state.formState, this.props.dispatch);
+
+            this.setState({
+                formState: {}
+            });
+        }
+    }, {
+        key: '_setFormState',
+        value: function _setFormState(data) {
+            this.setState({
+                formState: data
+            });
+        }
+    }, {
+        key: '_getContainerClass',
+        value: function _getContainerClass() {
+            return 'div.account-item-' + this.props.account.id;
+        }
+    }, {
         key: '_togglePanelClass',
         value: function _togglePanelClass() {
-            var itemClass = 'div.account-item-' + this.props.account.id;
+            document.querySelector(this._getContainerClass()).classList.toggle('account-panel-open');
 
-            document.querySelector(itemClass).classList.toggle('account-panel-open');
+            this._handleFormSubmit();
         }
     }, {
         key: '_toggleHistoryClass',
         value: function _toggleHistoryClass() {
-            var itemClass = 'div.account-item-' + this.props.account.id;
-
-            document.querySelector(itemClass).classList.toggle('account-history-panel-open');
+            document.querySelector(this._getContainerClass()).classList.toggle('account-history-panel-open');
         }
     }, {
-        key: '_toggleEditClass',
-        value: function _toggleEditClass() {
-            var itemClass = 'div.account-item-' + this.props.account.id;
-
-            document.querySelector(itemClass).classList.toggle('account-edit-panel-open');
+        key: '_toggleNoteClass',
+        value: function _toggleNoteClass() {
+            document.querySelector(this._getContainerClass()).classList.toggle('account-edit-panel-open');
         }
     }, {
-        key: '_toggleContactClass',
-        value: function _toggleContactClass() {
-            var itemClass = 'div.account-item-' + this.props.account.id;
-
-            document.querySelector(itemClass).classList.toggle('account-contact-panel-open');
+        key: '_toggleDocumentsClass',
+        value: function _toggleDocumentsClass() {
+            document.querySelector(this._getContainerClass()).classList.toggle('account-contact-panel-open');
         }
     }, {
         key: 'render',
@@ -29544,7 +29582,7 @@ var AccountPanel = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content-side-wrapper' },
-                _react2.default.createElement('div', { className: 'account-side-overlay side-overlay', onClick: this._togglePanelClass.bind(this) }),
+                _react2.default.createElement('div', { className: 'account-side-overlay side-overlay', onClick: this._togglePanelClass }),
                 _react2.default.createElement(
                     'div',
                     { className: 'account-panel-side side-panel' },
@@ -29569,7 +29607,7 @@ var AccountPanel = function (_Component) {
                                 ) : '',
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'panel-user-action', onClick: this._togglePanelClass.bind(this) },
+                                    { className: 'panel-user-action', onClick: this._togglePanelClass },
                                     _react2.default.createElement(
                                         'i',
                                         { className: 'md-icon' },
@@ -29587,7 +29625,7 @@ var AccountPanel = function (_Component) {
                                 { className: 'panel-user-available-actions' },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box', onClick: this._toggleHistoryClass.bind(this) },
+                                    { className: 'user-action-box', onClick: this._toggleHistoryClass },
                                     _react2.default.createElement(
                                         'i',
                                         { className: 'md-icon' },
@@ -29598,18 +29636,18 @@ var AccountPanel = function (_Component) {
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box', onClick: this._toggleEditClass.bind(this) },
+                                    { className: 'user-action-box', onClick: this._toggleNoteClass },
                                     _react2.default.createElement(
                                         'i',
                                         { className: 'md-icon' },
-                                        'edit'
+                                        'note'
                                     ),
                                     _react2.default.createElement('br', null),
-                                    'Edit'
+                                    'Notes'
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box', onClick: this._toggleContactClass.bind(this) },
+                                    { className: 'user-action-box', onClick: this._toggleDocumentsClass },
                                     _react2.default.createElement(
                                         'i',
                                         { className: 'md-icon' },
@@ -29622,57 +29660,8 @@ var AccountPanel = function (_Component) {
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: 'panel-contact-details' },
-                            _react2.default.createElement(
-                                'form',
-                                { id: 'contact-details-form' },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'panel-contact-details-column' },
-                                    _react2.default.createElement(
-                                        'label',
-                                        null,
-                                        'Amount'
-                                    ),
-                                    _react2.default.createElement('input', { type: 'text', value: this.props.account.amount })
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'panel-contact-details-column' },
-                                    this.props.account.status ? _react2.default.createElement(
-                                        'div',
-                                        null,
-                                        _react2.default.createElement(
-                                            'label',
-                                            null,
-                                            'Status'
-                                        ),
-                                        this.props.account.status.name
-                                    ) : '',
-                                    _react2.default.createElement(
-                                        'label',
-                                        null,
-                                        'Next Step'
-                                    ),
-                                    this.props.account.next_step,
-                                    _react2.default.createElement(
-                                        'label',
-                                        null,
-                                        'Interests'
-                                    ),
-                                    'Maven, Maestro, Mautic Cloud',
-                                    _react2.default.createElement(
-                                        'label',
-                                        null,
-                                        'Last Interaction'
-                                    ),
-                                    _react2.default.createElement(
-                                        'p',
-                                        null,
-                                        'Output phone call with Alex W. on Nov 18 with a rep score of 6.'
-                                    )
-                                )
-                            )
+                            { className: 'panel-account-details' },
+                            _react2.default.createElement(_EditAccountForm2.default, { account: this.props.account, setFormState: this._setFormState })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -29703,7 +29692,7 @@ var AccountPanel = function (_Component) {
     return AccountPanel;
 }(_react.Component);
 
-exports.default = AccountPanel;
+exports.default = (0, _reactRedux.connect)()(AccountPanel);
 
 /***/ }),
 /* 141 */
@@ -63618,8 +63607,6 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(18);
-
 var _Navigation = __webpack_require__(129);
 
 var _Navigation2 = _interopRequireDefault(_Navigation);
@@ -63642,14 +63629,9 @@ var Toolbar = function (_Component) {
     }
 
     _createClass(Toolbar, [{
-        key: 'toggleActionsBodyClass',
-        value: function toggleActionsBodyClass() {
+        key: '_toggleActionsBodyClass',
+        value: function _toggleActionsBodyClass() {
             document.body.classList.toggle('toolbar-actions-open');
-        }
-    }, {
-        key: 'toggleSearchBodyClass',
-        value: function toggleSearchBodyClass() {
-            document.body.classList.toggle('toolbar-search-open');
         }
     }, {
         key: 'render',
@@ -63673,24 +63655,11 @@ var Toolbar = function (_Component) {
                             null,
                             _react2.default.createElement(
                                 'a',
-                                { onClick: this.toggleActionsBodyClass.bind(this) },
+                                { onClick: this._toggleActionsBodyClass.bind(this) },
                                 _react2.default.createElement(
                                     'i',
                                     { className: 'md-icon' },
                                     'add'
-                                )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                'a',
-                                { onClick: this.toggleSearchBodyClass.bind(this) },
-                                _react2.default.createElement(
-                                    'i',
-                                    { className: 'md-icon' },
-                                    'search'
                                 )
                             )
                         )
@@ -63704,111 +63673,11 @@ var Toolbar = function (_Component) {
                             null,
                             _react2.default.createElement(
                                 'a',
-                                { href: '/login' },
-                                _react2.default.createElement(
-                                    'i',
-                                    { className: 'md-icon' },
-                                    'perm_identity'
-                                )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            _react2.default.createElement(
-                                'a',
-                                null,
+                                { href: '/logout' },
                                 _react2.default.createElement(
                                     'i',
                                     { className: 'md-icon' },
                                     'power_settings_new'
-                                )
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'toolbar-search' },
-                        _react2.default.createElement('div', { className: 'toolbar-slide-overlay' }),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'toolbar-slide-inner' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'toolbar-slide-close', onClick: this.toggleSearchBodyClass.bind(this) },
-                                _react2.default.createElement(
-                                    'i',
-                                    { className: 'md-icon' },
-                                    'close'
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'toolbar-slide-content' },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'form-group' },
-                                    _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Type to search site' })
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'toolbar-slide-results' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'toolbar-slide-result' },
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Project'
-                                        ),
-                                        _react2.default.createElement(
-                                            'strong',
-                                            null,
-                                            'Knowledge Base'
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'toolbar-slide-result' },
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Member'
-                                        ),
-                                        _react2.default.createElement(
-                                            'strong',
-                                            null,
-                                            'David H. Cherry'
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'toolbar-slide-result' },
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Member'
-                                        ),
-                                        _react2.default.createElement(
-                                            'strong',
-                                            null,
-                                            'Nathanael J. Barrett'
-                                        )
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'toolbar-slide-result' },
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'Project'
-                                        ),
-                                        _react2.default.createElement(
-                                            'strong',
-                                            null,
-                                            'Internal Tools'
-                                        )
-                                    )
                                 )
                             )
                         )
@@ -63822,7 +63691,7 @@ var Toolbar = function (_Component) {
                             { className: 'toolbar-slide-inner' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'toolbar-slide-close', onClick: this.toggleActionsBodyClass.bind(this) },
+                                { className: 'toolbar-slide-close', onClick: this._toggleActionsBodyClass.bind(this) },
                                 _react2.default.createElement(
                                     'i',
                                     { className: 'md-icon' },
@@ -63868,7 +63737,7 @@ var Toolbar = function (_Component) {
                                             _react2.default.createElement(
                                                 'i',
                                                 { className: 'md-icon' },
-                                                'contact'
+                                                'people'
                                             ),
                                             ' ',
                                             _react2.default.createElement(
@@ -63975,10 +63844,6 @@ var _Progress2 = _interopRequireDefault(_Progress);
 var _reactRedux = __webpack_require__(6);
 
 var _actions = __webpack_require__(11);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _EditContactForm = __webpack_require__(519);
 
@@ -65562,6 +65427,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchAccounts = fetchAccounts;
+exports.postAccount = postAccount;
 
 var _types = __webpack_require__(4);
 
@@ -65594,6 +65460,39 @@ function fetchAccounts() {
             });
         });
     };
+}
+
+function postAccount(data, dispatch) {
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
+
+    dispatch({
+        type: types.POSTING_ACCOUNT
+    });
+
+    var METHOD = 'POST';
+    var URL = '/companies';
+
+    if (data.hasOwnProperty('id') && data.id !== 'new') {
+        URL = URL + '/' + data.id;
+        METHOD = 'PATCH';
+    } else {
+        delete data.id;
+    }
+
+    var options = {
+        body: data,
+        method: METHOD
+    };
+
+    (0, _fetch2.default)(URL, options).then(function (response) {
+        dispatch({
+            type: types.POSTING_ACCOUNT_SUCCESS,
+            data: response.data.data,
+            dataFetched: true
+        });
+    });
 }
 
 /***/ }),
@@ -86831,6 +86730,7 @@ window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
 
 __webpack_require__(483);
 __webpack_require__(482);
+__webpack_require__(523);
 
 /***/ }),
 /* 482 */
@@ -90231,6 +90131,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var _ = __webpack_require__(138);
+
 var EditContactForm = function (_Component) {
     _inherits(EditContactForm, _Component);
 
@@ -90240,6 +90142,7 @@ var EditContactForm = function (_Component) {
         var _this = _possibleConstructorReturn(this, (EditContactForm.__proto__ || Object.getPrototypeOf(EditContactForm)).call(this, props));
 
         _this._handleInputChange = _this._handleInputChange.bind(_this);
+        _this._getCustomFields = _this._getCustomFields.bind(_this);
         return _this;
     }
 
@@ -90635,6 +90538,216 @@ NewContactForm.propTypes = {
 };
 
 exports.default = NewContactForm;
+
+/***/ }),
+/* 521 */,
+/* 522 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactFormat = __webpack_require__(139);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _ = __webpack_require__(138);
+
+var EditAccountForm = function (_Component) {
+    _inherits(EditAccountForm, _Component);
+
+    function EditAccountForm(props) {
+        _classCallCheck(this, EditAccountForm);
+
+        var _this = _possibleConstructorReturn(this, (EditAccountForm.__proto__ || Object.getPrototypeOf(EditAccountForm)).call(this, props));
+
+        _this._handleInputChange = _this._handleInputChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(EditAccountForm, [{
+        key: '_handleInputChange',
+        value: function _handleInputChange(event) {
+            var target = event.target;
+            var value = target.type === 'checkbox' ? target.checked : target.value;
+            var name = target.name;
+            var accountState = this.props.account;
+
+            // Special handling for custom field state
+            if (/custom_fields/.test(name)) {
+                name = name + '.value';
+            }
+
+            _.set(accountState, name, value);
+
+            this.props.setFormState(accountState);
+        }
+    }, {
+        key: '_getCustomFields',
+        value: function _getCustomFields() {
+            var _this2 = this;
+
+            return Object.keys(this.props.account.custom_fields).map(function (key, index) {
+                var thisField = _this2.props.account.custom_fields[key];
+                var input = '';
+
+                switch (thisField.type) {
+                    case 'text':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
+                    case 'select':
+                        var options = Object.keys(thisField.options).map(function (option, i) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: i, value: option },
+                                thisField.options[option]
+                            );
+                        });
+
+                        input = _react2.default.createElement(
+                            'select',
+                            { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
+                            options
+                        );
+                }
+
+                return _react2.default.createElement(
+                    'div',
+                    { key: index, className: 'input-container' },
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        thisField.label
+                    ),
+                    input
+                );
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var customFields = this._getCustomFields();
+
+            return _react2.default.createElement(
+                'form',
+                { id: 'account-details-form' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-account-details-column' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Amount'
+                        ),
+                        _react2.default.createElement(
+                            _reactFormat.Money,
+                            null,
+                            '12000'
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-account-details-column' },
+                    this.props.account.status ? _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Status'
+                        ),
+                        this.props.account.status.name
+                    ) : '',
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Next Step'
+                        ),
+                        this.props.account.next_step
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Interests'
+                        ),
+                        'Maven, Maestro, Mautic Cloud'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Last Interaction'
+                        ),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            'Output phone call with Alex W. on Nov 18 with a rep score of 6.'
+                        )
+                    ),
+                    customFields
+                )
+            );
+        }
+    }]);
+
+    return EditAccountForm;
+}(_react.Component);
+
+EditAccountForm.propTypes = {
+    account: _propTypes2.default.object.isRequired,
+    setFormState: _propTypes2.default.func.isRequired
+};
+
+exports.default = EditAccountForm;
+
+/***/ }),
+/* 523 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _reactNotifications = __webpack_require__(489);
+
+var Echo = window.Echo;
+
+Echo.channel('companies').listen('CompanyUpdated', function (e) {
+    var message = e.name + ' has been updated!';
+
+    _reactNotifications.NotificationManager.success(message, null, 2000);
+});
 
 /***/ })
 /******/ ]);

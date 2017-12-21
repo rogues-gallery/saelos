@@ -1,37 +1,67 @@
 import React, { Component } from 'react';
-
 import { Panel } from '../UI/Panel';
 import Progress from "../UI/Progress";
+import EditAccountForm from "../Forms/EditAccountForm";
+import {actionCreators} from "../../actions";
+import {connect} from "react-redux";
 
-export default class AccountPanel extends Component {
+class AccountPanel extends Component {
+    constructor(props) {
+        super(props);
+
+        this._getContainerClass = this._getContainerClass.bind(this);
+        this._handleFormSubmit = this._handleFormSubmit.bind(this);
+        this._setFormState = this._setFormState.bind(this);
+        this._togglePanelClass = this._togglePanelClass.bind(this);
+        this._toggleNoteClass = this._toggleNoteClass.bind(this);
+        this._toggleHistoryClass = this._toggleHistoryClass.bind(this);
+        this._toggleDocumentsClass = this._toggleDocumentsClass.bind(this);
+
+        this.state = {
+            account: props.account
+        }
+    }
+
+    _handleFormSubmit() {
+        actionCreators.postAccount(this.state.formState, this.props.dispatch);
+
+        this.setState({
+            formState: {}
+        })
+    }
+
+    _setFormState(data) {
+        this.setState({
+            formState: data
+        })
+    }
+
+    _getContainerClass() {
+        return 'div.account-item-' + this.props.account.id;
+    }
+
     _togglePanelClass() {
-        let itemClass = 'div.account-item-' + this.props.account.id;
+        document.querySelector(this._getContainerClass()).classList.toggle('account-panel-open');
 
-        document.querySelector(itemClass).classList.toggle('account-panel-open');
+        this._handleFormSubmit();
     }
 
     _toggleHistoryClass() {
-        let itemClass = 'div.account-item-' + this.props.account.id;
-
-        document.querySelector(itemClass).classList.toggle('account-history-panel-open');
+        document.querySelector(this._getContainerClass()).classList.toggle('account-history-panel-open');
     }
 
-    _toggleEditClass() {
-        let itemClass = 'div.account-item-' + this.props.account.id;
-
-        document.querySelector(itemClass).classList.toggle('account-edit-panel-open');
+    _toggleNoteClass() {
+        document.querySelector(this._getContainerClass()).classList.toggle('account-edit-panel-open');
     }
 
-    _toggleContactClass() {
-        let itemClass = 'div.account-item-' + this.props.account.id;
-
-        document.querySelector(itemClass).classList.toggle('account-contact-panel-open');
+    _toggleDocumentsClass() {
+        document.querySelector(this._getContainerClass()).classList.toggle('account-contact-panel-open');
     }
 
     render() {
         return (
             <div className="content-side-wrapper">
-                <div className="account-side-overlay side-overlay" onClick={this._togglePanelClass.bind(this)} />
+                <div className="account-side-overlay side-overlay" onClick={this._togglePanelClass} />
                 <div className="account-panel-side side-panel">
                     <Panel>
                         <div className="panel-user">
@@ -39,7 +69,7 @@ export default class AccountPanel extends Component {
                                 {this.props.account.name ? <div className="panel-user-name">{this.props.account.name}</div> : ''}
                                 {this.props.account.client_name ? <div className="panel-user-subtitle">{this.props.account.client_name}</div> : ''}
 
-                                <div className="panel-user-action" onClick={this._togglePanelClass.bind(this)}>
+                                <div className="panel-user-action" onClick={this._togglePanelClass}>
                                     <i className="md-icon">close</i>
                                 </div>
                             </div>
@@ -47,45 +77,23 @@ export default class AccountPanel extends Component {
                                 <Progress size={80} />
                             </div>
                             <div className="panel-user-available-actions">
-                                <div className="user-action-box" onClick={this._toggleHistoryClass.bind(this)}>
+                                <div className="user-action-box" onClick={this._toggleHistoryClass}>
                                     <i className="md-icon">search</i><br />
                                     History
                                 </div>
-                                <div className="user-action-box" onClick={this._toggleEditClass.bind(this)}>
-                                    <i className="md-icon">edit</i><br />
-                                    Edit
+                                <div className="user-action-box" onClick={this._toggleNoteClass}>
+                                    <i className="md-icon">note</i><br />
+                                    Notes
                                 </div>
-                                <div className="user-action-box" onClick={this._toggleContactClass.bind(this)}>
+                                <div className="user-action-box" onClick={this._toggleDocumentsClass}>
                                     <i className="md-icon">chat_bubble_outline</i><br />
                                     Documents
                                 </div>
                             </div>
                         </div>
 
-                        <div className="panel-contact-details">
-                            <form id="contact-details-form">
-                                <div className="panel-contact-details-column">
-                                    <label>Amount</label>
-                                    <input type="text" value={this.props.account.amount} />
-                                </div>
-                                <div className="panel-contact-details-column">
-                                    {this.props.account.status ?
-                                        <div>
-                                            <label>Status</label>
-                                            {this.props.account.status.name}
-                                        </div>
-                                        : ''}
-
-                                    <label>Next Step</label>
-                                    {this.props.account.next_step}
-
-                                    <label>Interests</label>
-                                    Maven, Maestro, Mautic Cloud
-
-                                    <label>Last Interaction</label>
-                                    <p>Output phone call with Alex W. on Nov 18 with a rep score of 6.</p>
-                                </div>
-                            </form>
+                        <div className="panel-account-details">
+                            <EditAccountForm account={this.props.account} setFormState={this._setFormState}/>
                         </div>
                         <div className="panel-actions">
                             <strong>Recommended Action</strong>
@@ -97,3 +105,5 @@ export default class AccountPanel extends Component {
         );
     }
 }
+
+export default connect()(AccountPanel);

@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { Money } from 'react-format';
 
+let _ = require('lodash');
+
 class EditContactForm extends Component {
     constructor(props) {
         super(props);
 
         this._handleInputChange = this._handleInputChange.bind(this);
+        this._getCustomFields = this._getCustomFields.bind(this);
     }
 
     _handleInputChange(event) {
