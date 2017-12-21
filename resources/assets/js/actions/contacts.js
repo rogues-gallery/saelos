@@ -48,7 +48,9 @@ export function fetchContact(id) {
 }
 
 export function postContact(data, dispatch) {
-    console.log(data);
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
 
     dispatch({
         type: types.POSTING_CONTACT

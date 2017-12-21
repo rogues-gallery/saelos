@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
+import { Money } from 'react-format';
 
-class ContactForm extends Component {
+class EditContactForm extends Component {
     constructor(props) {
         super(props);
 
@@ -24,22 +25,14 @@ class ContactForm extends Component {
         this.props.setFormState(contactState)
     }
 
-    render() {
-        let stageSelect = <select name="stage">
-            <option value="">Please Select</option>
-            <option value="1">Stage 1</option>
-            <option value="2">Stage 2</option>
-            <option value="3">Stage 3</option>
-            <option value="4">Stage 4</option>
-        </select>;
-
-        let customFields = Object.keys(this.props.contact.custom_fields).map((key, index) => {
+    _getCustomFields() {
+        return Object.keys(this.props.contact.custom_fields).map((key, index) => {
             let thisField = this.props.contact.custom_fields[key];
             let input = '';
 
             switch (thisField.type) {
                 case 'text':
-                    input = <input type="text" name={"custom_fields." + thisField.alias} onChange={this._handleInputChange} defaultValue={thisField.value} />
+                    input = <input type="text" name={"custom_fields." + thisField.alias} onChange={this._handleInputChange} defaultValue={thisField.value} placeholder={thisField.label} />
                     break;
                 case 'select':
                     let options = Object.keys(thisField.options).map((option, i) => {
@@ -59,17 +52,16 @@ class ContactForm extends Component {
                 </div>
             )
         });
+    }
+
+    render() {
+        let customFields = this._getCustomFields();
+        let lastInteraction = this.props.contact.activities.slice(-1)[0];
+        let totalValue = _.sum(_.map(this.props.contact.deals, 'amount'));
 
         return (
             <form id="contact-details-form">
                 <div className="panel-contact-details-column">
-                    {this.props.contact.id === 'new' ?
-                        <div className="input-container">
-                            <label>Name</label>
-                            <input type="text" name="first_name" placeholder="First Name" onChange={this._handleInputChange} />
-                            <input type="text" name="last_name" placeholder="Last Name" onChange={this._handleInputChange} />
-                        </div>
-                        : ''}
                     <div className="input-container">
                         <label>Phone</label>
                         <input type="text" name="phone" placeholder="Phone" defaultValue={this.props.contact.phone} onChange={this._handleInputChange} />
@@ -92,7 +84,6 @@ class ContactForm extends Component {
                     {this.props.contact.company ?
                         <div className="input-container">
                             <label>Company</label>
-                            {this.props.contact.id === 'new' ? <input type="text" name="company.name" placeholder="Company Name" onChange={this._handleInputChange} /> : ''}
                             <input type="text" name="company.address1" placeholder="Address 1" defaultValue={this.props.contact.company.address1} onChange={this._handleInputChange} />
                             <input type="text" name="company.address2" placeholder="Address 2" defaultValue={this.props.contact.company.address2} onChange={this._handleInputChange} />
                             <input type="text" name="company.city" placeholder="City" defaultValue={this.props.contact.company.city} onChange={this._handleInputChange} />
@@ -102,20 +93,15 @@ class ContactForm extends Component {
                         : ''}
                 </div>
                 <div className="panel-contact-details-column">
-                    <label>Stage</label>
-                    {stageSelect}
+                    <div className="input-container">
+                        <label>Last Interaction</label>
+                        <p>{typeof lastInteraction === 'object' ? lastInteraction.description : 'None'}</p>
+                    </div>
 
-                    <label>Next Step</label>
-                    Send updated sales information
-
-                    <label>Interests</label>
-                    Maven, Maestro, Mautic Cloud
-
-                    <label>Last Interaction</label>
-                    <p>Output phone call with Alex W. on Nov 18 with a rep score of 6.</p>
-
-                    <label>Value</label>
-                    <p>$12,500 which contributes 4% to total pipeline.</p>
+                    <div className="input-container">
+                        <label>Value</label>
+                        <p><Money>{totalValue}</Money></p>
+                    </div>
 
                     {customFields}
                 </div>
@@ -124,9 +110,9 @@ class ContactForm extends Component {
     }
 }
 
-ContactForm.propTypes = {
+EditContactForm.propTypes = {
     contact: PropTypes.object.isRequired,
     setFormState: PropTypes.func.isRequired
 }
 
-export default ContactForm;
+export default EditContactForm;

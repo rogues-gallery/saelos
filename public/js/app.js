@@ -63980,9 +63980,13 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _ContactForm = __webpack_require__(505);
+var _EditContactForm = __webpack_require__(519);
 
-var _ContactForm2 = _interopRequireDefault(_ContactForm);
+var _EditContactForm2 = _interopRequireDefault(_EditContactForm);
+
+var _NewContactForm = __webpack_require__(520);
+
+var _NewContactForm2 = _interopRequireDefault(_NewContactForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64172,7 +64176,7 @@ var ContactPanel = function (_Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'panel-contact-details' },
-                            _react2.default.createElement(_ContactForm2.default, { contact: this.props.contact, setFormState: this._setFormState })
+                            this.props.contact.id === 'new' ? _react2.default.createElement(_NewContactForm2.default, { contact: this.props.contact, setFormState: this._setFormState }) : _react2.default.createElement(_EditContactForm2.default, { contact: this.props.contact, setFormState: this._setFormState })
                         ),
                         this.props.contact.id !== 'new' ? _react2.default.createElement(
                             'div',
@@ -64279,7 +64283,9 @@ function fetchContact(id) {
 }
 
 function postContact(data, dispatch) {
-    console.log(data);
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
 
     dispatch({
         type: types.POSTING_CONTACT
@@ -88792,259 +88798,7 @@ function isUserAuthenticated() {
 
 /***/ }),
 /* 504 */,
-/* 505 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ContactForm = function (_Component) {
-    _inherits(ContactForm, _Component);
-
-    function ContactForm(props) {
-        _classCallCheck(this, ContactForm);
-
-        var _this = _possibleConstructorReturn(this, (ContactForm.__proto__ || Object.getPrototypeOf(ContactForm)).call(this, props));
-
-        _this._handleInputChange = _this._handleInputChange.bind(_this);
-        return _this;
-    }
-
-    _createClass(ContactForm, [{
-        key: '_handleInputChange',
-        value: function _handleInputChange(event) {
-            var target = event.target;
-            var value = target.type === 'checkbox' ? target.checked : target.value;
-            var name = target.name;
-            var contactState = this.props.contact;
-
-            // Special handling for custom field state
-            if (/custom_fields/.test(name)) {
-                name = name + '.value';
-            }
-
-            _.set(contactState, name, value);
-
-            this.props.setFormState(contactState);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            var stageSelect = _react2.default.createElement(
-                'select',
-                { name: 'stage' },
-                _react2.default.createElement(
-                    'option',
-                    { value: '' },
-                    'Please Select'
-                ),
-                _react2.default.createElement(
-                    'option',
-                    { value: '1' },
-                    'Stage 1'
-                ),
-                _react2.default.createElement(
-                    'option',
-                    { value: '2' },
-                    'Stage 2'
-                ),
-                _react2.default.createElement(
-                    'option',
-                    { value: '3' },
-                    'Stage 3'
-                ),
-                _react2.default.createElement(
-                    'option',
-                    { value: '4' },
-                    'Stage 4'
-                )
-            );
-
-            var customFields = Object.keys(this.props.contact.custom_fields).map(function (key, index) {
-                var thisField = _this2.props.contact.custom_fields[key];
-                var input = '';
-
-                switch (thisField.type) {
-                    case 'text':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value });
-                        break;
-                    case 'select':
-                        var options = Object.keys(thisField.options).map(function (option, i) {
-                            return _react2.default.createElement(
-                                'option',
-                                { key: i, value: option },
-                                thisField.options[option]
-                            );
-                        });
-
-                        input = _react2.default.createElement(
-                            'select',
-                            { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
-                            options
-                        );
-                }
-
-                return _react2.default.createElement(
-                    'div',
-                    { key: index, className: 'input-container' },
-                    _react2.default.createElement(
-                        'label',
-                        null,
-                        thisField.label
-                    ),
-                    input
-                );
-            });
-
-            return _react2.default.createElement(
-                'form',
-                { id: 'contact-details-form' },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'panel-contact-details-column' },
-                    this.props.contact.id === 'new' ? _react2.default.createElement(
-                        'div',
-                        { className: 'input-container' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            'Name'
-                        ),
-                        _react2.default.createElement('input', { type: 'text', name: 'first_name', placeholder: 'First Name', onChange: this._handleInputChange }),
-                        _react2.default.createElement('input', { type: 'text', name: 'last_name', placeholder: 'Last Name', onChange: this._handleInputChange })
-                    ) : '',
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'input-container' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            'Phone'
-                        ),
-                        _react2.default.createElement('input', { type: 'text', name: 'phone', placeholder: 'Phone', defaultValue: this.props.contact.phone, onChange: this._handleInputChange })
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'input-container' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            'Email'
-                        ),
-                        _react2.default.createElement('input', { type: 'text', name: 'email', placeholder: 'Email', defaultValue: this.props.contact.email, onChange: this._handleInputChange })
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'input-container' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            'Address'
-                        ),
-                        _react2.default.createElement('input', { type: 'text', name: 'address1', placeholder: 'Address 1', defaultValue: this.props.contact.address1, onChange: this._handleInputChange }),
-                        _react2.default.createElement('input', { type: 'text', name: 'address2', placeholder: 'Address 2', defaultValue: this.props.contact.address2, onChange: this._handleInputChange }),
-                        _react2.default.createElement('input', { type: 'text', name: 'city', placeholder: 'City', defaultValue: this.props.contact.city, onChange: this._handleInputChange }),
-                        _react2.default.createElement('input', { type: 'text', name: 'state', placeholder: 'State', defaultValue: this.props.contact.state, onChange: this._handleInputChange }),
-                        _react2.default.createElement('input', { type: 'text', name: 'zip', placeholder: 'Zip', defaultValue: this.props.contact.zip, onChange: this._handleInputChange })
-                    ),
-                    this.props.contact.company ? _react2.default.createElement(
-                        'div',
-                        { className: 'input-container' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            'Company'
-                        ),
-                        this.props.contact.id === 'new' ? _react2.default.createElement('input', { type: 'text', name: 'company.name', placeholder: 'Company Name', onChange: this._handleInputChange }) : '',
-                        _react2.default.createElement('input', { type: 'text', name: 'company.address1', placeholder: 'Address 1', defaultValue: this.props.contact.company.address1, onChange: this._handleInputChange }),
-                        _react2.default.createElement('input', { type: 'text', name: 'company.address2', placeholder: 'Address 2', defaultValue: this.props.contact.company.address2, onChange: this._handleInputChange }),
-                        _react2.default.createElement('input', { type: 'text', name: 'company.city', placeholder: 'City', defaultValue: this.props.contact.company.city, onChange: this._handleInputChange }),
-                        _react2.default.createElement('input', { type: 'text', name: 'company.state', placeholder: 'State', defaultValue: this.props.contact.company.state, onChange: this._handleInputChange }),
-                        _react2.default.createElement('input', { type: 'text', name: 'company.zip', placeholder: 'Zip', defaultValue: this.props.contact.company.zip, onChange: this._handleInputChange })
-                    ) : ''
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'panel-contact-details-column' },
-                    _react2.default.createElement(
-                        'label',
-                        null,
-                        'Stage'
-                    ),
-                    stageSelect,
-                    _react2.default.createElement(
-                        'label',
-                        null,
-                        'Next Step'
-                    ),
-                    'Send updated sales information',
-                    _react2.default.createElement(
-                        'label',
-                        null,
-                        'Interests'
-                    ),
-                    'Maven, Maestro, Mautic Cloud',
-                    _react2.default.createElement(
-                        'label',
-                        null,
-                        'Last Interaction'
-                    ),
-                    _react2.default.createElement(
-                        'p',
-                        null,
-                        'Output phone call with Alex W. on Nov 18 with a rep score of 6.'
-                    ),
-                    _react2.default.createElement(
-                        'label',
-                        null,
-                        'Value'
-                    ),
-                    _react2.default.createElement(
-                        'p',
-                        null,
-                        '$12,500 which contributes 4% to total pipeline.'
-                    ),
-                    customFields
-                )
-            );
-        }
-    }]);
-
-    return ContactForm;
-}(_react.Component);
-
-ContactForm.propTypes = {
-    contact: _propTypes2.default.object.isRequired,
-    setFormState: _propTypes2.default.func.isRequired
-};
-
-exports.default = ContactForm;
-
-/***/ }),
+/* 505 */,
 /* 506 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -90443,6 +90197,444 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = '.__react_component_tooltip{border-radius:3px;display:inline-block;font-size:13px;left:-999em;opacity:0;padding:8px 21px;position:fixed;pointer-events:none;transition:opacity 0.3s ease-out;top:-999em;visibility:hidden;z-index:999}.__react_component_tooltip:before,.__react_component_tooltip:after{content:"";width:0;height:0;position:absolute}.__react_component_tooltip.show{opacity:0.9;margin-top:0px;margin-left:0px;visibility:visible}.__react_component_tooltip.type-dark{color:#fff;background-color:#222}.__react_component_tooltip.type-dark.place-top:after{border-top-color:#222;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-dark.place-bottom:after{border-bottom-color:#222;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-dark.place-left:after{border-left-color:#222;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-dark.place-right:after{border-right-color:#222;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-dark.border{border:1px solid #fff}.__react_component_tooltip.type-dark.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-dark.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-dark.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-dark.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-success{color:#fff;background-color:#8DC572}.__react_component_tooltip.type-success.place-top:after{border-top-color:#8DC572;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-success.place-bottom:after{border-bottom-color:#8DC572;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-success.place-left:after{border-left-color:#8DC572;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-success.place-right:after{border-right-color:#8DC572;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-success.border{border:1px solid #fff}.__react_component_tooltip.type-success.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-success.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-success.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-success.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-warning{color:#fff;background-color:#F0AD4E}.__react_component_tooltip.type-warning.place-top:after{border-top-color:#F0AD4E;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-warning.place-bottom:after{border-bottom-color:#F0AD4E;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-warning.place-left:after{border-left-color:#F0AD4E;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-warning.place-right:after{border-right-color:#F0AD4E;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-warning.border{border:1px solid #fff}.__react_component_tooltip.type-warning.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-warning.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-warning.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-warning.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-error{color:#fff;background-color:#BE6464}.__react_component_tooltip.type-error.place-top:after{border-top-color:#BE6464;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-error.place-bottom:after{border-bottom-color:#BE6464;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-error.place-left:after{border-left-color:#BE6464;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-error.place-right:after{border-right-color:#BE6464;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-error.border{border:1px solid #fff}.__react_component_tooltip.type-error.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-error.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-error.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-error.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-info{color:#fff;background-color:#337AB7}.__react_component_tooltip.type-info.place-top:after{border-top-color:#337AB7;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-info.place-bottom:after{border-bottom-color:#337AB7;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-info.place-left:after{border-left-color:#337AB7;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-info.place-right:after{border-right-color:#337AB7;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-info.border{border:1px solid #fff}.__react_component_tooltip.type-info.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-info.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-info.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-info.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-light{color:#222;background-color:#fff}.__react_component_tooltip.type-light.place-top:after{border-top-color:#fff;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-light.place-bottom:after{border-bottom-color:#fff;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-light.place-left:after{border-left-color:#fff;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-light.place-right:after{border-right-color:#fff;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-light.border{border:1px solid #222}.__react_component_tooltip.type-light.border.place-top:before{border-top:8px solid #222}.__react_component_tooltip.type-light.border.place-bottom:before{border-bottom:8px solid #222}.__react_component_tooltip.type-light.border.place-left:before{border-left:8px solid #222}.__react_component_tooltip.type-light.border.place-right:before{border-right:8px solid #222}.__react_component_tooltip.place-top{margin-top:-10px}.__react_component_tooltip.place-top:before{border-left:10px solid transparent;border-right:10px solid transparent;bottom:-8px;left:50%;margin-left:-10px}.__react_component_tooltip.place-top:after{border-left:8px solid transparent;border-right:8px solid transparent;bottom:-6px;left:50%;margin-left:-8px}.__react_component_tooltip.place-bottom{margin-top:10px}.__react_component_tooltip.place-bottom:before{border-left:10px solid transparent;border-right:10px solid transparent;top:-8px;left:50%;margin-left:-10px}.__react_component_tooltip.place-bottom:after{border-left:8px solid transparent;border-right:8px solid transparent;top:-6px;left:50%;margin-left:-8px}.__react_component_tooltip.place-left{margin-left:-10px}.__react_component_tooltip.place-left:before{border-top:6px solid transparent;border-bottom:6px solid transparent;right:-8px;top:50%;margin-top:-5px}.__react_component_tooltip.place-left:after{border-top:5px solid transparent;border-bottom:5px solid transparent;right:-6px;top:50%;margin-top:-4px}.__react_component_tooltip.place-right{margin-left:10px}.__react_component_tooltip.place-right:before{border-top:6px solid transparent;border-bottom:6px solid transparent;left:-8px;top:50%;margin-top:-5px}.__react_component_tooltip.place-right:after{border-top:5px solid transparent;border-bottom:5px solid transparent;left:-6px;top:50%;margin-top:-4px}.__react_component_tooltip .multi-line{display:block;padding:2px 0px;text-align:center}';
+
+/***/ }),
+/* 519 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactFormat = __webpack_require__(139);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EditContactForm = function (_Component) {
+    _inherits(EditContactForm, _Component);
+
+    function EditContactForm(props) {
+        _classCallCheck(this, EditContactForm);
+
+        var _this = _possibleConstructorReturn(this, (EditContactForm.__proto__ || Object.getPrototypeOf(EditContactForm)).call(this, props));
+
+        _this._handleInputChange = _this._handleInputChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(EditContactForm, [{
+        key: '_handleInputChange',
+        value: function _handleInputChange(event) {
+            var target = event.target;
+            var value = target.type === 'checkbox' ? target.checked : target.value;
+            var name = target.name;
+            var contactState = this.props.contact;
+
+            // Special handling for custom field state
+            if (/custom_fields/.test(name)) {
+                name = name + '.value';
+            }
+
+            _.set(contactState, name, value);
+
+            this.props.setFormState(contactState);
+        }
+    }, {
+        key: '_getCustomFields',
+        value: function _getCustomFields() {
+            var _this2 = this;
+
+            return Object.keys(this.props.contact.custom_fields).map(function (key, index) {
+                var thisField = _this2.props.contact.custom_fields[key];
+                var input = '';
+
+                switch (thisField.type) {
+                    case 'text':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
+                    case 'select':
+                        var options = Object.keys(thisField.options).map(function (option, i) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: i, value: option },
+                                thisField.options[option]
+                            );
+                        });
+
+                        input = _react2.default.createElement(
+                            'select',
+                            { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
+                            options
+                        );
+                }
+
+                return _react2.default.createElement(
+                    'div',
+                    { key: index, className: 'input-container' },
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        thisField.label
+                    ),
+                    input
+                );
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var customFields = this._getCustomFields();
+            var lastInteraction = this.props.contact.activities.slice(-1)[0];
+            var totalValue = _.sum(_.map(this.props.contact.deals, 'amount'));
+
+            return _react2.default.createElement(
+                'form',
+                { id: 'contact-details-form' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-contact-details-column' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Phone'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'phone', placeholder: 'Phone', defaultValue: this.props.contact.phone, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Email'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'email', placeholder: 'Email', defaultValue: this.props.contact.email, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Address'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'address1', placeholder: 'Address 1', defaultValue: this.props.contact.address1, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'address2', placeholder: 'Address 2', defaultValue: this.props.contact.address2, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'city', placeholder: 'City', defaultValue: this.props.contact.city, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'state', placeholder: 'State', defaultValue: this.props.contact.state, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'zip', placeholder: 'Zip', defaultValue: this.props.contact.zip, onChange: this._handleInputChange })
+                    ),
+                    this.props.contact.company ? _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Company'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'company.address1', placeholder: 'Address 1', defaultValue: this.props.contact.company.address1, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'company.address2', placeholder: 'Address 2', defaultValue: this.props.contact.company.address2, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'company.city', placeholder: 'City', defaultValue: this.props.contact.company.city, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'company.state', placeholder: 'State', defaultValue: this.props.contact.company.state, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'company.zip', placeholder: 'Zip', defaultValue: this.props.contact.company.zip, onChange: this._handleInputChange })
+                    ) : ''
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-contact-details-column' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Last Interaction'
+                        ),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            (typeof lastInteraction === 'undefined' ? 'undefined' : _typeof(lastInteraction)) === 'object' ? lastInteraction.description : 'None'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Value'
+                        ),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            _react2.default.createElement(
+                                _reactFormat.Money,
+                                null,
+                                totalValue
+                            )
+                        )
+                    ),
+                    customFields
+                )
+            );
+        }
+    }]);
+
+    return EditContactForm;
+}(_react.Component);
+
+EditContactForm.propTypes = {
+    contact: _propTypes2.default.object.isRequired,
+    setFormState: _propTypes2.default.func.isRequired
+};
+
+exports.default = EditContactForm;
+
+/***/ }),
+/* 520 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NewContactForm = function (_Component) {
+    _inherits(NewContactForm, _Component);
+
+    function NewContactForm(props) {
+        _classCallCheck(this, NewContactForm);
+
+        var _this = _possibleConstructorReturn(this, (NewContactForm.__proto__ || Object.getPrototypeOf(NewContactForm)).call(this, props));
+
+        _this._handleInputChange = _this._handleInputChange.bind(_this);
+
+        _this.props.setFormState({});
+        return _this;
+    }
+
+    _createClass(NewContactForm, [{
+        key: '_handleInputChange',
+        value: function _handleInputChange(event) {
+            var target = event.target;
+            var value = target.type === 'checkbox' ? target.checked : target.value;
+            var name = target.name;
+            var contactState = this.props.contact;
+
+            // Special handling for custom field state
+            if (/custom_fields/.test(name)) {
+                name = name + '.value';
+            }
+
+            _.set(contactState, name, value);
+
+            this.props.setFormState(contactState);
+        }
+    }, {
+        key: '_getCustomFields',
+        value: function _getCustomFields() {
+            var _this2 = this;
+
+            return Object.keys(this.props.contact.custom_fields).map(function (key, index) {
+                var thisField = _this2.props.contact.custom_fields[key];
+                var input = '';
+
+                switch (thisField.type) {
+                    case 'text':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, placeholder: thisField.label });
+                        break;
+                    case 'select':
+                        var options = Object.keys(thisField.options).map(function (option, i) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: i, value: option },
+                                thisField.options[option]
+                            );
+                        });
+
+                        input = _react2.default.createElement(
+                            'select',
+                            { name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange },
+                            options
+                        );
+                }
+
+                return _react2.default.createElement(
+                    'div',
+                    { key: index, className: 'input-container' },
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        thisField.label
+                    ),
+                    input
+                );
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var stageSelect = _react2.default.createElement(
+                'select',
+                { name: 'stage' },
+                _react2.default.createElement(
+                    'option',
+                    { value: '' },
+                    'Please Select'
+                ),
+                _react2.default.createElement(
+                    'option',
+                    { value: '1' },
+                    'Stage 1'
+                ),
+                _react2.default.createElement(
+                    'option',
+                    { value: '2' },
+                    'Stage 2'
+                ),
+                _react2.default.createElement(
+                    'option',
+                    { value: '3' },
+                    'Stage 3'
+                ),
+                _react2.default.createElement(
+                    'option',
+                    { value: '4' },
+                    'Stage 4'
+                )
+            );
+
+            var customFields = this._getCustomFields();
+
+            return _react2.default.createElement(
+                'form',
+                { id: 'contact-details-form' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-contact-details-column' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Name'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'first_name', placeholder: 'First Name', onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'last_name', placeholder: 'Last Name', onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Phone'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'phone', placeholder: 'Phone', onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Email'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'email', placeholder: 'Email', onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Address'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'address1', placeholder: 'Address 1', onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'address2', placeholder: 'Address 2', onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'city', placeholder: 'City', onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'state', placeholder: 'State', onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'zip', placeholder: 'Zip', onChange: this._handleInputChange })
+                    ),
+                    this.props.contact.company ? _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Company'
+                        ),
+                        this.props.contact.id === 'new' ? _react2.default.createElement('input', { type: 'text', name: 'company.name', placeholder: 'Company Name', onChange: this._handleInputChange }) : '',
+                        _react2.default.createElement('input', { type: 'text', name: 'company.address1', placeholder: 'Address 1', onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'company.address2', placeholder: 'Address 2', onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'company.city', placeholder: 'City', onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'company.state', placeholder: 'State', onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'company.zip', placeholder: 'Zip', onChange: this._handleInputChange })
+                    ) : ''
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-contact-details-column' },
+                    customFields
+                )
+            );
+        }
+    }]);
+
+    return NewContactForm;
+}(_react.Component);
+
+NewContactForm.propTypes = {
+    contact: _propTypes2.default.object.isRequired,
+    setFormState: _propTypes2.default.func.isRequired
+};
+
+exports.default = NewContactForm;
 
 /***/ })
 /******/ ]);

@@ -4,7 +4,8 @@ import Progress from "../UI/Progress";
 import {connect} from "react-redux";
 import { actionCreators } from "../../actions";
 import PropTypes from 'prop-types';
-import ContactForm from '../Forms/ContactForm';
+import EditContactForm from '../Forms/EditContactForm';
+import NewContactForm from '../Forms/NewContactForm';
 
 let _ = require('lodash');
 
@@ -111,7 +112,12 @@ class ContactPanel extends Component {
                         }
 
                         <div className="panel-contact-details">
-                            <ContactForm contact={this.props.contact} setFormState={this._setFormState}/>
+                            {this.props.contact.id === 'new' ?
+                                <NewContactForm contact={this.props.contact} setFormState={this._setFormState}/>
+                            :
+                                <EditContactForm contact={this.props.contact} setFormState={this._setFormState}/>
+                            }
+
                         </div>
 
                         {this.props.contact.id !== 'new' ?
