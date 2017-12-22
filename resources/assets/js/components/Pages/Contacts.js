@@ -11,7 +11,6 @@ import ContactPanel from '../Panels/ContactPanel';
 import HistoryPanel from '../Panels/HistoryPanel';
 import EditPanel from '../Panels/EditPanel';
 import ContactContactPanel from '../Panels/ContactContactPanel';
-import diff from 'recursive-diff';
 
 import { actionCreators } from '../../actions';
 import * as types from "../../actions/types";
@@ -27,12 +26,6 @@ class Contacts extends Component {
 
     componentWillMount() {
         this.props.dispatch(actionCreators.fetchContacts());
-    }
-
-    shouldComponentUpdate(nextProps) {
-        let changed = diff.getDiff(this.props.contacts, nextProps.contacts);
-
-        return JSON.stringify(changed) !== '{}';
     }
 
     _navToPage(page) {

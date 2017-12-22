@@ -26,9 +26,26 @@ class CompanyController extends Controller
         'customFields',
     ];
 
-    public function index()
+    public function index(Request $request)
     {
-        return new CompanyCollection(Company::with($this->indexWith)->paginate());
+        $companies = Company::with($this->indexWith);
+
+        $companies->where('published', 1);
+        $companies->where(function($q) use ($request) {
+            if ($name = $request->get('name')) {
+                $q->orWhere('name', 'like', '%'.$name.'%');
+            }
+
+            if ($city = $request->get('city')) {
+                $q->orWhere('city', 'like', '%'.$city.'%');
+            }
+
+            if ($state = $request->get('state')) {
+                $q->orWhere('state', 'like', '%'.$state.'%');
+            }
+        });
+
+        return new CompanyCollection($companies->paginate());
     }
 
     public function show($id)

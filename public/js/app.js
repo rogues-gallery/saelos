@@ -61311,10 +61311,6 @@ var _ContactContactPanel = __webpack_require__(441);
 
 var _ContactContactPanel2 = _interopRequireDefault(_ContactContactPanel);
 
-var _recursiveDiff = __webpack_require__(74);
-
-var _recursiveDiff2 = _interopRequireDefault(_recursiveDiff);
-
 var _actions = __webpack_require__(11);
 
 var _types = __webpack_require__(4);
@@ -61349,13 +61345,6 @@ var Contacts = function (_Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             this.props.dispatch(_actions.actionCreators.fetchContacts());
-        }
-    }, {
-        key: 'shouldComponentUpdate',
-        value: function shouldComponentUpdate(nextProps) {
-            var changed = _recursiveDiff2.default.getDiff(this.props.contacts, nextProps.contacts);
-
-            return JSON.stringify(changed) !== '{}';
         }
     }, {
         key: '_navToPage',
@@ -65517,13 +65506,21 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function fetchAccounts() {
     var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     return function (dispatch) {
         dispatch({
-            type: types.FETCHING_ACCOUNTS
+            type: types.FETCHING_ACCOUNTS,
+            search: query
         });
 
         var URL = '/companies?page=' + page;
+
+        if (Object.keys(query).length) {
+            Object.keys(query).map(function (key) {
+                URL = URL + '&' + key + '=' + query[key];
+            });
+        }
 
         (0, _fetch2.default)(URL).then(function (response) {
             dispatch({
@@ -68009,19 +68006,19 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _reactRedux = __webpack_require__(6);
 
 var _reactPaginate = __webpack_require__(389);
 
 var _reactPaginate2 = _interopRequireDefault(_reactPaginate);
 
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _Backend = __webpack_require__(14);
 
 var _Backend2 = _interopRequireDefault(_Backend);
-
-var _reactRedux = __webpack_require__(6);
 
 var _actions = __webpack_require__(11);
 
@@ -68131,7 +68128,7 @@ var Accounts = function (_Component) {
                 state: null
             };
 
-            return this.props.isFetching ? _react2.default.createElement(
+            return this.props.isFetching && this.props.accounts.length === 0 ? _react2.default.createElement(
                 _Backend2.default,
                 null,
                 _react2.default.createElement(_Loading2.default, null)

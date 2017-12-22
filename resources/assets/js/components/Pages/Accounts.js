@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
+import PropTypes from 'prop-types';
 
 import Backend from '../Layouts/Backend';
-import { connect } from 'react-redux';
 import { actionCreators } from '../../actions';
 import Loading from '../Helpers/Loading';
 import InfoboxAccount from "../UI/Infobox/InfoboxAccount";
@@ -75,7 +75,7 @@ class Accounts extends Component {
         }
 
         return (
-            this.props.isFetching ? <Backend><Loading /></Backend> :
+            this.props.isFetching && this.props.accounts.length === 0 ? <Backend><Loading /></Backend> :
             <Backend>
                 <div className="content-inner">
                     <Filter onInputChange={actionCreators.fetchAccounts} filterFields={filterFields} />
