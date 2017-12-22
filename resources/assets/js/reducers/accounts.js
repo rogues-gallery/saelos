@@ -7,8 +7,8 @@ const initialState = {
     pagination: {},
     dataFetched: false,
     isFetching: false,
-    singleAccount: {},
     error: false,
+    singleAccount: {},
     search: {},
     accountUpdated: false
 }

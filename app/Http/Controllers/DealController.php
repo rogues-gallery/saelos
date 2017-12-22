@@ -2,22 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DealUpdated;
 use Auth;
 use App\Company;
 use App\Deal;
 use App\Http\Resources\DealCollection;
-use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Deal as DealResource;
 
 class DealController extends Controller
 {
-    private $indexWith = ['user', 'team', 'company', 'people', 'stage', 'customFields'];
-    private $showWith = ['user', 'team', 'company', 'people', 'stage', 'customFields'];
+    private $indexWith = [
+        'user',
+        'team',
+        'company',
+        'people',
+        'stage',
+        'customFields'
+    ];
 
-    public function index()
+    private $showWith = [
+        'user',
+        'team',
+        'company',
+        'people',
+        'stage',
+        'customFields'
+    ];
+
+    public function index(Request $request)
     {
-        return new DealCollection(Deal::with($this->indexWith)->paginate());
+        $deals = Deal::with($this->indexWith);
+
+        $deals->where('published', 1);
+        $deals->where(function($q) use ($request) {
+            if ($name = $request->get('name')) {
+                $q->orWhere('name', 'like', '%'.$name.'%');
+            }
+        });
+
+        return new DealCollection($deals->paginate());
     }
 
     public function show($id)
@@ -44,12 +68,16 @@ class DealController extends Controller
         $deal->update($data);
         $deal->assignCustomFields($customFields);
 
-        return $deal;
+        DealUpdated::broadcast($deal);
+
+        return $this->show($deal->id);
     }
 
     public function store(Request $request)
     {
-        return Deal::create($request->all());
+        $deal = Deal::create($request->all());
+
+        return $this->update($request, $deal->id);
     }
 
     public function destroy($id)

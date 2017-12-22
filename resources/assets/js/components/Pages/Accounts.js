@@ -38,7 +38,7 @@ class Accounts extends Component {
     _getNewAccount() {
         let customFieldDefinitions = {};
 
-        this.props.accounts.length !== 0 ? Object.keys(this.props.accounts[0].custom_fields).map((key, index) => {
+        this.props.accounts.length !== 0 ? Object.keys(this.props.accounts[0].custom_fields).map((key) => {
             let thisField = this.props.accounts[0].custom_fields[key];
 
             thisField.value = null;
@@ -78,7 +78,7 @@ class Accounts extends Component {
             this.props.isFetching && this.props.accounts.length === 0 ? <Backend><Loading /></Backend> :
             <Backend>
                 <div className="content-inner">
-                    <Filter onInputChange={actionCreators.fetchAccounts} filterFields={filterFields} />
+                    <Filter onInputChange={actionCreators.fetchAccounts} filterFields={filterFields} type="accounts" />
                     <div className="button button-primary" onClick={this._toggleNewPanel}>
                         <i className="md-icon">add</i> <span>Create Account</span>
                     </div>

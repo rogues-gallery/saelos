@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Money } from 'react-format';
-import AccountPanel from "../../Panels/AccountPanel";
+import OpportunityPanel from "../../Panels/OpportunityPanel";
 
 export default class InfoboxOpportunity extends Component {
     _togglePanelClass() {
-        let itemClass = 'div.account-item-' + this.props.opportunity.id;
+        let itemClass = 'div.opportunity-item-' + this.props.opportunity.id;
 
-        document.querySelector(itemClass).classList.toggle('account-panel-open');
+        document.querySelector(itemClass).classList.toggle('opportunity-panel-open');
     }
 
     render() {
-        let itemClass = 'infobox account-item-' + this.props.opportunity.id;
+        let itemClass = 'infobox opportunity-item-' + this.props.opportunity.id;
 
         return (
             <div className={itemClass}>
@@ -66,7 +66,7 @@ export default class InfoboxOpportunity extends Component {
                         </div>
                     </div>
                 </div>
-                <AccountPanel account={this.props.opportunity} />
+                <OpportunityPanel opportunity={this.props.opportunity} />
             </div>
         );
     }

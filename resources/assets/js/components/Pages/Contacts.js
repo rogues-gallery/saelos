@@ -83,7 +83,7 @@ class Contacts extends Component {
             this.props.isFetching && this.props.contacts.length === 0 ? <Backend><Loading type="contacts" /></Backend> :
             <Backend>
                 <div className="content-inner">
-                    <Filter onInputChange={actionCreators.fetchContacts} filterFields={filterFields} />
+                    <Filter onInputChange={actionCreators.fetchContacts} filterFields={filterFields} type="contacts" />
                     <div className="button button-primary" onClick={this._toggleNewPanel}>
                         <i className="md-icon">person_add</i> <span>Create Contact</span>
                     </div>

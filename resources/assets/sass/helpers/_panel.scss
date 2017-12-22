@@ -199,6 +199,23 @@
 	}
 }
 
+.panel-opportunity-details {
+
+	#opportunity-details-form {
+		display:flex;
+		flex-direction: row;
+
+		& .panel-opportunity-details-column {
+			padding: 0 20px;
+			width: 48%;
+
+			&:nth-child(1) {
+				border-right: 1px solid rgba(#000, .06);
+			}
+		}
+	}
+}
+
 .entity-history {
 	list-style:none;
 

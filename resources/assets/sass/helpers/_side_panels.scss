@@ -157,6 +157,27 @@
 }
 
 /**
+ * Account Flyouts
+ */
+.opportunity-side-overlay {
+  z-index: 2000;
+
+  .opportunity-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.opportunity-panel-side {
+  z-index: 3001;
+
+  .opportunity-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+/**
  * VECTOR Flyouts
  */
 .call-panel-overlay {

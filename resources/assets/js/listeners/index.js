@@ -20,3 +20,4 @@ window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
 require('./app');
 require('./contacts');
 require('./accounts');
+require('./deals');

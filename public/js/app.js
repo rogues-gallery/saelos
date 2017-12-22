@@ -253,6 +253,12 @@ var RECEIVED_ACCOUNT_UPDATE = exports.RECEIVED_ACCOUNT_UPDATE = 'RECEIVED_ACCOUN
 var FETCHING_OPPORTUNITIES = exports.FETCHING_OPPORTUNITIES = 'FETCHING_OPPORTUNITIES';
 var FETCHING_OPPORTUNITIES_SUCCESS = exports.FETCHING_OPPORTUNITIES_SUCCESS = 'FETCHING_OPPORTUNITIES_SUCCESS';
 var FETCHING_OPPORTUNITIES_FAILURE = exports.FETCHING_OPPORTUNITIES_FAILURE = 'FETCHING_OPPORTUNITIES_FAILURE';
+var POSTING_OPPORTUNITY = exports.POSTING_OPPORTUNITY = 'POSTING_OPPORTUNITY';
+var POSTING_OPPORTUNITY_SUCCESS = exports.POSTING_OPPORTUNITY_SUCCESS = 'POSTING_OPPORTUNITY_SUCCESS';
+var FETCHING_SINGLE_OPPORTUNITY = exports.FETCHING_SINGLE_OPPORTUNITY = 'FETCHING_SINGLE_OPPORTUNITY';
+var FETCHING_SINGLE_OPPORTUNITY_SUCCESS = exports.FETCHING_SINGLE_OPPORTUNITY_SUCCESS = 'FETCHING_SINGLE_OPPORTUNITY_SUCCESS';
+var FETCHING_SINGLE_OPPORTUNITY_FAILURE = exports.FETCHING_SINGLE_OPPORTUNITY_FAILURE = 'FETCHING_SINGLE_OPPORTUNITY_FAILURE';
+var RECEIVED_OPPORTUNITY_UPDATE = exports.RECEIVED_OPPORTUNITY_UPDATE = 'RECEIVED_OPPORTUNITY_UPDATE';
 
 var FETCHING_PROJECTS = exports.FETCHING_PROJECTS = 'FETCHING_PROJECTS';
 var FETCHING_PROJECTS_SUCCESS = exports.FETCHING_PROJECTS_SUCCESS = 'FETCHING_PROJECTS_SUCCESS';
@@ -8507,215 +8513,7 @@ module.exports = defaults;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(417)))
 
 /***/ }),
-/* 74 */
-/***/ (function(module, exports) {
-
-/*
- * recursive-diff 
- *
- * Copyright (C) 2015 Anant Shukla <anant.shukla.rkgit@gmail.com>
- *
- * Licensed under The MIT License (MIT) 
- */
-;(function(){
-    var diff = (function(){
-        var getType = function( x ){
-            var type = typeof x ;
-            if(type === 'object' && Object.prototype.toString.call(x).match(/array/i) ){
-                type = 'array';
-            }
-            return type ;
-        };
-        
-        var findDiff =  function( ob1, ob2 , path , result){
-            var val1, val2, newpath, key  ;
-            var type1 = getType(ob1) ;
-            var type2 = getType(ob2) ;
-            //initialize some defaults 
-            if( path == null || typeof path !== 'string'){
-                path = '/' ; //initialize to root path
-            }
-            if (result == null || typeof result !== 'object'){
-                result = {} ;
-            }
-            //diff algo
-            if(ob1 == null || ob2 == null ){
-                if(ob1 !== ob2){
-                    if(type1 === 'undefined'){
-                        result[path] = {operation: 'add', value : ob2};
-                    }
-                    else if(type2 === 'undefined'){
-                        result[path] = {operation: 'delete'};
-                    }
-                    else{
-                        result[path] = {operation: 'update', value: ob2};
-                    } 
-                }
-            }
-            else if( type1 !== type2  || (type1 !== 'object' && type1 !== 'array') || (type2 !== 'object' && type2 !== 'array') ){
-                if(ob1 !== ob2){
-                    result[path] = {operation: 'update', value : ob2};
-                }
-            }
-            else{
-                for(key in ob1){
-                    newpath = path === '/' ? path + key : path + '/' + key;
-                    val1 = ob1[key];
-                    val2 = ob2[key];
-            
-                    if(val1 == null || val2 == null){
-                        if(val1 !== val2){
-                            if(typeof val1 === 'undefined'){
-                                result[newpath] = {operation: 'add', value : val2};
-                            }
-                            else if(typeof val2 === 'undefined'){
-                                result[newpath] = {operation: 'delete'};
-                            }
-                            else{
-                                result[newpath] = {operation: 'update', value: val2};
-                            }    
-                        }
-                    }
-                    else {
-                        if(getType(val1) !== getType( val2) ){
-                                result[newpath] = {operation : 'update', value: val2} ;
-                        }
-                        else {
-                            if(typeof val1 === 'object'){
-                                findDiff(val1, val2, newpath, result); 
-                            }
-                            else{
-                                if(val1 !== val2){
-                                    result[newpath] = {operation : 'update', value: val2} ;
-                                }
-                            }
-                        }
-                    }
-                }
-                for(key in ob2){
-                    newpath = path === '/' ? path + key : path + '/' + key;
-                    val1 = ob1[key];
-                    val2 = ob2[key];
-                    if(val1 !== val2){
-                        if(typeof val1 === 'undefined'){
-                            result[newpath] = {operation: 'add', value : val2} ;
-                        }
-                    }
-                }
-            }
-            return result ; 
-        };
-        var setValueByPath = function(ob, path, value, visitorCallback){
-            if(! path.match(/^\//)){
-                throw 'diff path is not valid';
-            }
-            var keys = path.split('/');
-            keys.shift();
-            var val = ob ;
-            var length = keys.length ;
-            for(var i=0; i < length; i++){
-                if(val == null || keys[i].length < 1){
-                    throw 'Invalid data';
-                }
-                if( i !== length -1 ){
-                    val = val[keys[i]];
-                    if(visitorCallback){
-                        visitorCallback(val);
-                    }
-                }
-                else{
-                    val[keys[i]] = value;
-                }
-            }
-            return ob;
-        };
-        
-        var deleteValueByPath = function(ob, path ){
-            var keys = path.split('/');
-            keys.shift(); //removing initial blank element ''
-            var val = ob ;
-            var length = keys.length ;
-            for(var i=0; i < length; i++){
-                if( i !== length -1){
-                    if(val[keys[i]] == null){
-                        throw 'invalid data';
-                    }
-                    val = val[keys[i]];
-                }
-                else{
-                    if(getType(val) === 'object'){
-                        delete val[keys[i]] ;
-                    }
-                    else{
-                        var index = parseInt(keys[i]);
-                        while(val.length > index){
-                            val.pop();
-                        }
-                    }
-                }
-            }
-            return ob;
-        };
-        
-        var applyDiff = function( ob1, diff, visitorCallback){
-            var path, diffOb, op ;
-            if(diff == null){
-               throw 'No diff object is provided, Nothing to apply'; 
-            }
-            for(var key in diff ){
-                path =  key;
-                diffOb = diff[key];
-                op = diffOb.operation ;
-                if(op.match(/add|update|delete/)){
-                    if(op === 'add'){
-                        if(path === '/'){
-                            ob1 = diffOb.value ;
-                            break ;
-                        }
-                        setValueByPath(ob1, path, diffOb.value, visitorCallback); 
-                    }
-                    else if(op === 'update'){
-                        if(path === '/'){
-                            ob1 = diffOb.value ;
-                            break ;
-                        }
-                        setValueByPath(ob1, path, diffOb.value, visitorCallback); 
-                    }
-                    else{
-                        if(path === '/'){
-                            ob1 = null ;
-                            break ;
-                        }
-                        deleteValueByPath(ob1, path); 
-                    }
-                }
-                else{
-                    throw 'malformed diff object';
-                }
-            }
-            return ob1 ;
-        };
-        
-        return {
-            getDiff : function( ob1, ob2){
-               var result = findDiff(ob1, ob2) ;
-               return result;
-            },
-            applyDiff : function(ob, diff, visitorCallback){
-                var result = applyDiff(ob, diff, visitorCallback);
-                return result ;     
-            }
-        };
-    })();
-    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
-        module.exports = diff;
-    }
-    else{
-        window.diff = diff ;
-    }    
-})();
-
-/***/ }),
+/* 74 */,
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12048,7 +11846,21 @@ var Filter = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var searchValue = this.props.searchState[Object.keys(this.props.filterFields)[0]];
+            var searchState = null;
+
+            switch (this.props.type) {
+                case 'contacts':
+                    searchState = this.props.contactSearch;
+                    break;
+                case 'accounts':
+                    searchState = this.props.accountSearch;
+                    break;
+                case 'opportunities':
+                    searchState = this.props.opportunitySearch;
+                    break;
+            }
+
+            var searchValue = searchState ? searchState[Object.keys(this.props.filterFields)[0]] : '';
 
             return _react2.default.createElement(
                 'div',
@@ -12072,13 +11884,18 @@ var Filter = function (_Component) {
 Filter.propTypes = {
     dispatch: _propTypes2.default.func.isRequired,
     onInputChange: _propTypes2.default.func.isRequired,
-    searchState: _propTypes2.default.object.isRequired,
-    filterFields: _propTypes2.default.object.isRequired
+    accountSearch: _propTypes2.default.object.isRequired,
+    contactSearch: _propTypes2.default.object.isRequired,
+    opportunitySearch: _propTypes2.default.object.isRequired,
+    filterFields: _propTypes2.default.object.isRequired,
+    type: _propTypes2.default.string.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(function (store) {
     return {
-        searchState: store.accountState.search
+        accountSearch: store.accountState.search,
+        contactSearch: store.contactState.search,
+        opportunitySearch: store.opportunityState.search
     };
 })(Filter);
 
@@ -52850,8 +52667,8 @@ var initialState = {
     pagination: {},
     dataFetched: false,
     isFetching: false,
-    singleAccount: {},
     error: false,
+    singleAccount: {},
     search: {},
     accountUpdated: false
 };
@@ -61163,12 +60980,17 @@ var types = _interopRequireWildcard(_types);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var _ = __webpack_require__(138);
+
 var initialState = {
     data: [],
     pagination: {},
     dataFetched: false,
     isFetching: false,
-    error: false
+    error: false,
+    singleAccount: {},
+    search: {},
+    opportunityUpdated: false
 };
 
 function opportunityReducer() {
@@ -61177,8 +60999,11 @@ function opportunityReducer() {
 
     switch (action.type) {
         case types.FETCHING_OPPORTUNITIES:
+            var query = action.hasOwnProperty('search') ? action.search : {};
+
             return _extends({}, state, {
-                isFetching: true
+                isFetching: true,
+                search: query
             });
         case types.FETCHING_OPPORTUNITIES_SUCCESS:
             return _extends({}, state, {
@@ -61191,6 +61016,33 @@ function opportunityReducer() {
             return _extends({}, state, {
                 isFetching: false,
                 error: true
+            });
+        case types.FETCHING_SINGLE_OPPORTUNITY_SUCCESS:
+            return _extends({}, state, {
+                isFetching: false,
+                dataFetched: true,
+                singleAccount: action.data
+            });
+        case types.FETCHING_SINGLE_OPPORTUNITY_FAILURE:
+            return _extends({}, state, {
+                isFetching: false,
+                error: true
+            });
+        case types.RECEIVED_OPPORTUNITY_UPDATE:
+            var account = action.data;
+            var alteredData = state.data;
+            var accountIndex = _.findIndex(alteredData, { id: account.id });
+
+            if (accountIndex >= 0) {
+                alteredData.splice(accountIndex, 1, account);
+            } else {
+                alteredData.push(account);
+            }
+
+            return _extends({}, state, {
+                data: alteredData,
+                opportunityUpdated: true,
+                error: false
             });
         default:
             return state;
@@ -61416,7 +61268,7 @@ var Contacts = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content-inner' },
-                    _react2.default.createElement(_Filter2.default, { onInputChange: _actions.actionCreators.fetchContacts, filterFields: filterFields }),
+                    _react2.default.createElement(_Filter2.default, { onInputChange: _actions.actionCreators.fetchContacts, filterFields: filterFields, type: 'contacts' }),
                     _react2.default.createElement(
                         'div',
                         { className: 'button button-primary', onClick: this._toggleNewPanel },
@@ -65407,6 +65259,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchOpportunities = fetchOpportunities;
+exports.fetchOpportunity = fetchOpportunity;
+exports.postOpportunity = postOpportunity;
 
 var _types = __webpack_require__(4);
 
@@ -65422,13 +65276,21 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function fetchOpportunities() {
     var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     return function (dispatch) {
         dispatch({
-            type: types.FETCHING_OPPORTUNITIES
+            type: types.FETCHING_OPPORTUNITIES,
+            search: query
         });
 
         var URL = '/deals?page=' + page;
+
+        if (Object.keys(query).length) {
+            Object.keys(query).map(function (key) {
+                URL = URL + '&' + key + '=' + query[key];
+            });
+        }
 
         (0, _fetch2.default)(URL).then(function (response) {
             dispatch({
@@ -65439,6 +65301,57 @@ function fetchOpportunities() {
             });
         });
     };
+}
+
+function fetchOpportunity(id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.FETCHING_SINGLE_ACCOUNT
+        });
+
+        var URL = '/deals/' + id;
+
+        (0, _fetch2.default)(URL).then(function (response) {
+            dispatch({
+                type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS,
+                data: response.data.data,
+                dataFetched: true
+            });
+        });
+    };
+}
+
+function postOpportunity(data, dispatch) {
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
+
+    dispatch({
+        type: types.POSTING_OPPORTUNITY
+    });
+
+    var METHOD = 'POST';
+    var URL = '/deals';
+
+    if (data.hasOwnProperty('id') && data.id !== 'new') {
+        URL = URL + '/' + data.id;
+        METHOD = 'PATCH';
+    } else {
+        delete data.id;
+    }
+
+    var options = {
+        body: data,
+        method: METHOD
+    };
+
+    (0, _fetch2.default)(URL, options).then(function (response) {
+        dispatch({
+            type: types.POSTING_OPPORTUNITY_SUCCESS,
+            data: response.data.data,
+            dataFetched: true
+        });
+    });
 }
 
 /***/ }),
@@ -68091,7 +68004,7 @@ var Accounts = function (_Component) {
 
             var customFieldDefinitions = {};
 
-            this.props.accounts.length !== 0 ? Object.keys(this.props.accounts[0].custom_fields).map(function (key, index) {
+            this.props.accounts.length !== 0 ? Object.keys(this.props.accounts[0].custom_fields).map(function (key) {
                 var thisField = _this2.props.accounts[0].custom_fields[key];
 
                 thisField.value = null;
@@ -68138,7 +68051,7 @@ var Accounts = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content-inner' },
-                    _react2.default.createElement(_Filter2.default, { onInputChange: _actions.actionCreators.fetchAccounts, filterFields: filterFields }),
+                    _react2.default.createElement(_Filter2.default, { onInputChange: _actions.actionCreators.fetchAccounts, filterFields: filterFields, type: 'accounts' }),
                     _react2.default.createElement(
                         'div',
                         { className: 'button button-primary', onClick: this._toggleNewPanel },
@@ -68434,6 +68347,12 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(6);
+
+var _reactPaginate = __webpack_require__(389);
+
+var _reactPaginate2 = _interopRequireDefault(_reactPaginate);
+
 var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -68441,8 +68360,6 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 var _Backend = __webpack_require__(14);
 
 var _Backend2 = _interopRequireDefault(_Backend);
-
-var _reactRedux = __webpack_require__(6);
 
 var _actions = __webpack_require__(11);
 
@@ -68452,9 +68369,19 @@ var _Loading2 = _interopRequireDefault(_Loading);
 
 var _Infobox = __webpack_require__(464);
 
-var _recursiveDiff = __webpack_require__(74);
+var _types = __webpack_require__(4);
 
-var _recursiveDiff2 = _interopRequireDefault(_recursiveDiff);
+var types = _interopRequireWildcard(_types);
+
+var _OpportunityPanel = __webpack_require__(526);
+
+var _OpportunityPanel2 = _interopRequireDefault(_OpportunityPanel);
+
+var _Filter = __webpack_require__(130);
+
+var _Filter2 = _interopRequireDefault(_Filter);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -68467,10 +68394,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Opportunities = function (_Component) {
     _inherits(Opportunities, _Component);
 
-    function Opportunities() {
+    function Opportunities(props) {
         _classCallCheck(this, Opportunities);
 
-        return _possibleConstructorReturn(this, (Opportunities.__proto__ || Object.getPrototypeOf(Opportunities)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Opportunities.__proto__ || Object.getPrototypeOf(Opportunities)).call(this, props));
+
+        _this._navToPage = _this._navToPage.bind(_this);
+        _this._getNewOpportunity = _this._getNewOpportunity.bind(_this);
+        _this._toggleNewPanel = _this._toggleNewPanel.bind(_this);
+        return _this;
     }
 
     _createClass(Opportunities, [{
@@ -68479,16 +68411,37 @@ var Opportunities = function (_Component) {
             this.props.dispatch(_actions.actionCreators.fetchOpportunities());
         }
     }, {
-        key: 'shouldComponentUpdate',
-        value: function shouldComponentUpdate(nextProps) {
-            var changed = _recursiveDiff2.default.getDiff(this.props.opportunities, nextProps.opportunities);
+        key: '_toggleNewPanel',
+        value: function _toggleNewPanel() {
+            document.querySelector('.opportunity-item-new').classList.toggle('opportunity-panel-open');
 
-            return JSON.stringify(changed) !== '{}';
+            // Set the form state for a new contact
+            this.props.dispatch({ type: types.FETCHING_SINGLE_OPPORTUNITY_SUCCESS, data: this._getNewOpportunity() });
         }
     }, {
         key: '_navToPage',
         value: function _navToPage(page) {
             this.props.dispatch(_actions.actionCreators.fetchOpportunities(page.selected + 1));
+        }
+    }, {
+        key: '_getNewOpportunity',
+        value: function _getNewOpportunity() {
+            var _this2 = this;
+
+            var customFieldDefinitions = {};
+
+            this.props.opportunities.length !== 0 ? Object.keys(this.props.opportunities[0].custom_fields).map(function (key, index) {
+                var thisField = _this2.props.opportunities[0].custom_fields[key];
+
+                thisField.value = null;
+
+                customFieldDefinitions[thisField.alias] = thisField;
+            }) : {};
+
+            return {
+                id: 'new',
+                custom_fields: customFieldDefinitions
+            };
         }
     }, {
         key: 'render',
@@ -68497,7 +68450,23 @@ var Opportunities = function (_Component) {
                 return _react2.default.createElement(_Infobox.InfoboxOpportunity, { key: opportunity.id, opportunity: opportunity });
             });
 
-            return this.props.isFetching ? _react2.default.createElement(
+            var initialPage = 0;
+            var pageCount = 10;
+
+            if (this.props.pagination.hasOwnProperty('current_page')) {
+                initialPage = this.props.pagination.current_page - 1;
+            }
+
+            if (this.props.pagination.hasOwnProperty('last_page')) {
+                pageCount = this.props.pagination.last_page;
+            }
+
+            var filterFields = {
+                name: null,
+                amount: null
+            };
+
+            return this.props.isFetching && this.props.opportunities.length === 0 ? _react2.default.createElement(
                 _Backend2.default,
                 null,
                 _react2.default.createElement(_Loading2.default, null)
@@ -68507,11 +68476,33 @@ var Opportunities = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content-inner' },
+                    _react2.default.createElement(_Filter2.default, { onInputChange: _actions.actionCreators.fetchOpportunities, filterFields: filterFields, type: 'opportunities' }),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'button button-primary', onClick: this._toggleNewPanel },
+                        _react2.default.createElement(
+                            'i',
+                            { className: 'md-icon' },
+                            'add'
+                        ),
+                        ' ',
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            'Create Account'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'opportunity-item-new' },
+                        _react2.default.createElement(_OpportunityPanel2.default, { opportunity: this._getNewOpportunity() })
+                    ),
                     _react2.default.createElement(
                         'div',
                         { className: 'opportunities flex-row-even' },
                         results
-                    )
+                    ),
+                    _react2.default.createElement(_reactPaginate2.default, { onPageChange: this._navToPage, initialPage: initialPage, disableInitialCallback: true, pageCount: pageCount, containerClassName: 'pagination' })
                 )
             );
         }
@@ -68531,7 +68522,8 @@ exports.default = (0, _reactRedux.connect)(function (store) {
     return {
         opportunities: store.opportunityState.data,
         pagination: store.opportunityState.pagination,
-        isFetching: store.opportunityState.isFetching
+        isFetching: store.opportunityState.isFetching,
+        opportunityUpdated: store.accountState.opportunityUpdated
     };
 })(Opportunities);
 
@@ -68988,9 +68980,9 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactFormat = __webpack_require__(139);
 
-var _AccountPanel = __webpack_require__(140);
+var _OpportunityPanel = __webpack_require__(526);
 
-var _AccountPanel2 = _interopRequireDefault(_AccountPanel);
+var _OpportunityPanel2 = _interopRequireDefault(_OpportunityPanel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -69012,14 +69004,14 @@ var InfoboxOpportunity = function (_Component) {
     _createClass(InfoboxOpportunity, [{
         key: '_togglePanelClass',
         value: function _togglePanelClass() {
-            var itemClass = 'div.account-item-' + this.props.opportunity.id;
+            var itemClass = 'div.opportunity-item-' + this.props.opportunity.id;
 
-            document.querySelector(itemClass).classList.toggle('account-panel-open');
+            document.querySelector(itemClass).classList.toggle('opportunity-panel-open');
         }
     }, {
         key: 'render',
         value: function render() {
-            var itemClass = 'infobox account-item-' + this.props.opportunity.id;
+            var itemClass = 'infobox opportunity-item-' + this.props.opportunity.id;
 
             return _react2.default.createElement(
                 'div',
@@ -69132,7 +69124,7 @@ var InfoboxOpportunity = function (_Component) {
                         )
                     )
                 ),
-                _react2.default.createElement(_AccountPanel2.default, { account: this.props.opportunity })
+                _react2.default.createElement(_OpportunityPanel2.default, { opportunity: this.props.opportunity })
             );
         }
     }]);
@@ -86910,6 +86902,7 @@ window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
 __webpack_require__(483);
 __webpack_require__(482);
 __webpack_require__(523);
+__webpack_require__(525);
 
 /***/ }),
 /* 482 */
@@ -91130,6 +91123,612 @@ NewAccountForm.propTypes = {
 };
 
 exports.default = NewAccountForm;
+
+/***/ }),
+/* 525 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _reactNotifications = __webpack_require__(489);
+
+var Echo = window.Echo;
+
+Echo.channel('deals').listen('DealUpdated', function (e) {
+    var message = e.name + ' has been updated!';
+
+    _reactNotifications.NotificationManager.success(message, null, 2000);
+});
+
+/***/ }),
+/* 526 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Panel = __webpack_require__(15);
+
+var _Progress = __webpack_require__(44);
+
+var _Progress2 = _interopRequireDefault(_Progress);
+
+var _EditOpportunityForm = __webpack_require__(527);
+
+var _EditOpportunityForm2 = _interopRequireDefault(_EditOpportunityForm);
+
+var _actions = __webpack_require__(11);
+
+var _reactRedux = __webpack_require__(6);
+
+var _NewOpportunityForm = __webpack_require__(528);
+
+var _NewOpportunityForm2 = _interopRequireDefault(_NewOpportunityForm);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var OpportunityPanel = function (_Component) {
+    _inherits(OpportunityPanel, _Component);
+
+    function OpportunityPanel(props) {
+        _classCallCheck(this, OpportunityPanel);
+
+        var _this = _possibleConstructorReturn(this, (OpportunityPanel.__proto__ || Object.getPrototypeOf(OpportunityPanel)).call(this, props));
+
+        _this._getContainerClass = _this._getContainerClass.bind(_this);
+        _this._handleFormSubmit = _this._handleFormSubmit.bind(_this);
+        _this._setFormState = _this._setFormState.bind(_this);
+        _this._togglePanelClass = _this._togglePanelClass.bind(_this);
+        _this._toggleNoteClass = _this._toggleNoteClass.bind(_this);
+        _this._toggleHistoryClass = _this._toggleHistoryClass.bind(_this);
+        _this._toggleDocumentsClass = _this._toggleDocumentsClass.bind(_this);
+
+        _this.state = {
+            opportunity: props.opportunity
+        };
+        return _this;
+    }
+
+    _createClass(OpportunityPanel, [{
+        key: '_handleFormSubmit',
+        value: function _handleFormSubmit() {
+            _actions.actionCreators.postOpportunity(this.state.formState, this.props.dispatch);
+
+            this.setState({
+                formState: {}
+            });
+        }
+    }, {
+        key: '_setFormState',
+        value: function _setFormState(data) {
+            this.setState({
+                formState: data
+            });
+        }
+    }, {
+        key: '_getContainerClass',
+        value: function _getContainerClass() {
+            return 'div.opportunity-item-' + this.props.opportunity.id;
+        }
+    }, {
+        key: '_togglePanelClass',
+        value: function _togglePanelClass() {
+            document.querySelector(this._getContainerClass()).classList.toggle('opportunity-panel-open');
+
+            this._handleFormSubmit();
+        }
+    }, {
+        key: '_toggleHistoryClass',
+        value: function _toggleHistoryClass() {
+            document.querySelector(this._getContainerClass()).classList.toggle('opportunity-history-panel-open');
+        }
+    }, {
+        key: '_toggleNoteClass',
+        value: function _toggleNoteClass() {
+            document.querySelector(this._getContainerClass()).classList.toggle('opportunity-edit-panel-open');
+        }
+    }, {
+        key: '_toggleDocumentsClass',
+        value: function _toggleDocumentsClass() {
+            document.querySelector(this._getContainerClass()).classList.toggle('opportunity-contact-panel-open');
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'content-side-wrapper' },
+                _react2.default.createElement('div', { className: 'opportunity-side-overlay side-overlay', onClick: this._togglePanelClass }),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'opportunity-panel-side side-panel' },
+                    _react2.default.createElement(
+                        _Panel.Panel,
+                        null,
+                        this.props.opportunity.id !== 'new' ? _react2.default.createElement(
+                            'div',
+                            { className: 'panel-user' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-user-content' },
+                                this.props.opportunity.name ? _react2.default.createElement(
+                                    'div',
+                                    { className: 'panel-user-name' },
+                                    this.props.opportunity.name
+                                ) : '',
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'panel-user-action', onClick: this._togglePanelClass },
+                                    _react2.default.createElement(
+                                        'i',
+                                        { className: 'md-icon' },
+                                        'close'
+                                    )
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-user-score' },
+                                _react2.default.createElement(_Progress2.default, { size: 80 })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-user-available-actions' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'user-action-box', onClick: this._toggleHistoryClass },
+                                    _react2.default.createElement(
+                                        'i',
+                                        { className: 'md-icon' },
+                                        'search'
+                                    ),
+                                    _react2.default.createElement('br', null),
+                                    'History'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'user-action-box', onClick: this._toggleNoteClass },
+                                    _react2.default.createElement(
+                                        'i',
+                                        { className: 'md-icon' },
+                                        'note'
+                                    ),
+                                    _react2.default.createElement('br', null),
+                                    'Notes'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'user-action-box', onClick: this._toggleDocumentsClass },
+                                    _react2.default.createElement(
+                                        'i',
+                                        { className: 'md-icon' },
+                                        'chat_bubble_outline'
+                                    ),
+                                    _react2.default.createElement('br', null),
+                                    'Documents'
+                                )
+                            )
+                        ) : _react2.default.createElement(
+                            'div',
+                            { className: 'panel-user' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-user-content' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'panel-user-name' },
+                                    'Create Opportunity'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'panel-user-action', onClick: this._togglePanelClass },
+                                    _react2.default.createElement(
+                                        'i',
+                                        { className: 'md-icon' },
+                                        'close'
+                                    )
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-user-score' },
+                                _react2.default.createElement(_Progress2.default, { size: 0 })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel-opportunity-details' },
+                            this.props.opportunity.id === 'new' ? _react2.default.createElement(_NewOpportunityForm2.default, { opportunity: this.props.opportunity, setFormState: this._setFormState }) : _react2.default.createElement(_EditOpportunityForm2.default, { opportunity: this.props.opportunity, setFormState: this._setFormState })
+                        ),
+                        this.props.opportunity.id !== 'new' ? _react2.default.createElement(
+                            'div',
+                            { className: 'panel-actions' },
+                            _react2.default.createElement(
+                                'strong',
+                                null,
+                                'Recommended Action'
+                            ),
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'Wait ',
+                                _react2.default.createElement(
+                                    'strong',
+                                    null,
+                                    '2 days'
+                                ),
+                                ' before taking next step.'
+                            )
+                        ) : ''
+                    )
+                )
+            );
+        }
+    }]);
+
+    return OpportunityPanel;
+}(_react.Component);
+
+exports.default = (0, _reactRedux.connect)()(OpportunityPanel);
+
+/***/ }),
+/* 527 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactFormat = __webpack_require__(139);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _ = __webpack_require__(138);
+
+var EditOpportunityForm = function (_Component) {
+    _inherits(EditOpportunityForm, _Component);
+
+    function EditOpportunityForm(props) {
+        _classCallCheck(this, EditOpportunityForm);
+
+        var _this = _possibleConstructorReturn(this, (EditOpportunityForm.__proto__ || Object.getPrototypeOf(EditOpportunityForm)).call(this, props));
+
+        _this._handleInputChange = _this._handleInputChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(EditOpportunityForm, [{
+        key: '_handleInputChange',
+        value: function _handleInputChange(event) {
+            var target = event.target;
+            var value = target.type === 'checkbox' ? target.checked : target.value;
+            var name = target.name;
+            var opportunityState = this.props.opportunity;
+
+            // Special handling for custom field state
+            if (/custom_fields/.test(name)) {
+                name = name + '.value';
+            }
+
+            _.set(opportunityState, name, value);
+
+            this.props.setFormState(opportunityState);
+        }
+    }, {
+        key: '_getCustomFields',
+        value: function _getCustomFields() {
+            var _this2 = this;
+
+            return Object.keys(this.props.opportunity.custom_fields).map(function (key, index) {
+                var thisField = _this2.props.opportunity.custom_fields[key];
+                var input = '';
+
+                switch (thisField.type) {
+                    case 'text':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
+                    case 'money':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
+                    case 'select':
+                        var options = Object.keys(thisField.options).map(function (option, i) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: i, value: option },
+                                thisField.options[option]
+                            );
+                        });
+
+                        input = _react2.default.createElement(
+                            'select',
+                            { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
+                            options
+                        );
+                }
+
+                return _react2.default.createElement(
+                    'div',
+                    { key: index, className: 'input-container' },
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        thisField.label
+                    ),
+                    input
+                );
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var customFields = this._getCustomFields();
+
+            return _react2.default.createElement(
+                'form',
+                { id: 'opportunity-details-form' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-opportunity-details-column' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Amount'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'amount', placeholder: 'Amount', defaultValue: this.props.opportunity.amount, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Probability'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'probability', placeholder: 'Probability', defaultValue: this.props.opportunity.probability, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Expected Close'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'expected_close', placeholder: 'Expected Close', defaultValue: this.props.opportunity.expected_close, onChange: this._handleInputChange })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-opportunity-details-column' },
+                    customFields
+                )
+            );
+        }
+    }]);
+
+    return EditOpportunityForm;
+}(_react.Component);
+
+EditOpportunityForm.propTypes = {
+    opportunity: _propTypes2.default.object.isRequired,
+    setFormState: _propTypes2.default.func.isRequired
+};
+
+exports.default = EditOpportunityForm;
+
+/***/ }),
+/* 528 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _ = __webpack_require__(138);
+
+var NewOpportunityForm = function (_Component) {
+    _inherits(NewOpportunityForm, _Component);
+
+    function NewOpportunityForm(props) {
+        _classCallCheck(this, NewOpportunityForm);
+
+        var _this = _possibleConstructorReturn(this, (NewOpportunityForm.__proto__ || Object.getPrototypeOf(NewOpportunityForm)).call(this, props));
+
+        _this._handleInputChange = _this._handleInputChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(NewOpportunityForm, [{
+        key: '_handleInputChange',
+        value: function _handleInputChange(event) {
+            var target = event.target;
+            var value = target.type === 'checkbox' ? target.checked : target.value;
+            var name = target.name;
+            var dealState = this.props.opportunity;
+
+            // Special handling for custom field state
+            if (/custom_fields/.test(name)) {
+                name = name + '.value';
+            }
+
+            _.set(dealState, name, value);
+
+            this.props.setFormState(dealState);
+        }
+    }, {
+        key: '_getCustomFields',
+        value: function _getCustomFields() {
+            var _this2 = this;
+
+            return Object.keys(this.props.opportunity.custom_fields).map(function (key, index) {
+                var thisField = _this2.props.opportunity.custom_fields[key];
+                var input = '';
+
+                switch (thisField.type) {
+                    case 'text':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
+                    case 'money':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
+                    case 'select':
+                        var options = Object.keys(thisField.options).map(function (option, i) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: i, value: option },
+                                thisField.options[option]
+                            );
+                        });
+
+                        input = _react2.default.createElement(
+                            'select',
+                            { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
+                            options
+                        );
+                }
+
+                return _react2.default.createElement(
+                    'div',
+                    { key: index, className: 'input-container' },
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        thisField.label
+                    ),
+                    input
+                );
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var customFields = this._getCustomFields();
+
+            return _react2.default.createElement(
+                'form',
+                { id: 'opportunity-details-form' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-opportunity-details-column' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Deal name'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'name', placeholder: 'Name', onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Amount'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'amount', placeholder: 'Amount', defaultValue: this.props.opportunity.amount, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Probability'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'probability', placeholder: 'Probability', defaultValue: this.props.opportunity.fax, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Expected Close'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'expected_close', placeholder: 'Expected Close', defaultValue: this.props.opportunity.website, onChange: this._handleInputChange })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-opportunity-details-column' },
+                    customFields
+                )
+            );
+        }
+    }]);
+
+    return NewOpportunityForm;
+}(_react.Component);
+
+NewOpportunityForm.propTypes = {
+    opportunity: _propTypes2.default.object.isRequired,
+    setFormState: _propTypes2.default.func.isRequired
+};
+
+exports.default = NewOpportunityForm;
 
 /***/ })
 /******/ ]);

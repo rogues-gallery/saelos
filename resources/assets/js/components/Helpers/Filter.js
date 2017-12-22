@@ -27,7 +27,21 @@ class Filter extends Component {
     }
 
     render() {
-        let searchValue = this.props.searchState[Object.keys(this.props.filterFields)[0]];
+        let searchState = null;
+
+        switch (this.props.type) {
+            case 'contacts':
+                searchState = this.props.contactSearch;
+                break;
+            case 'accounts':
+                searchState = this.props.accountSearch;
+                break;
+            case 'opportunities':
+                searchState = this.props.opportunitySearch;
+                break;
+        }
+
+        let searchValue = searchState ? searchState[Object.keys(this.props.filterFields)[0]] : '';
 
         return (
             <div className="filter form-inline">
@@ -44,12 +58,17 @@ class Filter extends Component {
 Filter.propTypes = {
     dispatch: PropTypes.func.isRequired,
     onInputChange: PropTypes.func.isRequired,
-    searchState: PropTypes.object.isRequired,
-    filterFields: PropTypes.object.isRequired
+    accountSearch: PropTypes.object.isRequired,
+    contactSearch: PropTypes.object.isRequired,
+    opportunitySearch: PropTypes.object.isRequired,
+    filterFields: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired
 }
 
 export default connect((store) => {
     return {
-        searchState: store.accountState.search
+        accountSearch: store.accountState.search,
+        contactSearch: store.contactState.search,
+        opportunitySearch: store.opportunityState.search
     }
 })(Filter);

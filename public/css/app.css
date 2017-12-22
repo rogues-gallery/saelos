@@ -2354,6 +2354,25 @@ table tr:last-child td {
   border-right: 1px solid rgba(0, 0, 0, 0.06);
 }
 
+.panel-opportunity-details #opportunity-details-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.panel-opportunity-details #opportunity-details-form .panel-opportunity-details-column {
+  padding: 0 20px;
+  width: 48%;
+}
+
+.panel-opportunity-details #opportunity-details-form .panel-opportunity-details-column:nth-child(1) {
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 .entity-history {
   list-style: none;
 }
@@ -2639,7 +2658,8 @@ table tr:last-child td {
   top: -3px;
 }
 
-.accounts .infobox {
+.accounts .infobox,
+.opportunities .infobox {
   max-width: 50%;
   min-width: 33.33%;
 }
@@ -4010,6 +4030,31 @@ table tr:last-child td {
 }
 
 .account-panel-open .account-panel-side {
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+
+/**
+ * Account Flyouts
+ */
+
+.opportunity-side-overlay {
+  z-index: 2000;
+}
+
+.opportunity-panel-open .opportunity-side-overlay {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+
+.opportunity-panel-side {
+  z-index: 3001;
+}
+
+.opportunity-panel-open .opportunity-panel-side {
   -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
           box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   -webkit-transform: translateX(0);
