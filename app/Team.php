@@ -20,4 +20,9 @@ class Team extends Model
     {
         return $this->hasManyThrough(Activity::class, User::class);
     }
+
+    public function leader()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

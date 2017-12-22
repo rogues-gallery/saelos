@@ -1,7 +1,7 @@
 import * as types from './types';
 import fetch from '../utils/fetch';
 
-export function loginUser() {
+export function loginUser(data) {
     return (dispatch) => {
         dispatch({type: types.AUTH_USER});
     }
@@ -20,7 +20,7 @@ export function isUserAuthenticated() {
                 if (response.data.status) {
                     return loginUser(dispatch);
                 } else {
-                    return logoutUser(dispatch);
+                    return logoutUser();
                 }
             });
     }

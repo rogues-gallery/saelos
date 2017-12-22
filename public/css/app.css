@@ -3894,6 +3894,15 @@ table tr:last-child td {
 
 .side-panel .panel {
   width: 100%;
+  height: 100%;
+}
+
+.side-panel .panel div:nth-child(2) {
+  max-height: 100%;
+  overflow: scroll;
+  -webkit-box-flex: 2;
+      -ms-flex-positive: 2;
+          flex-grow: 2;
 }
 
 /**

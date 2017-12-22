@@ -20,9 +20,10 @@ class CreateCustomFieldsTable extends Migration
             $table->string('alias');
             $table->string('model');
             $table->string('group')->default('core');
-            $table->enum('type', ['text', 'textarea', 'radio', 'checkbox', 'select', 'lookup']);
-            $table->string('default');
-            $table->json('values');
+            $table->enum('type', ['text', 'textarea', 'radio', 'checkbox', 'select', 'lookup', 'picklist', 'number', 'date', 'email', 'url', 'entity']);
+            $table->string('entity_class')->nullable();
+            $table->string('default')->nullable();
+            $table->json('values')->nullable();
             $table->boolean('required')->default(0);
         });
 

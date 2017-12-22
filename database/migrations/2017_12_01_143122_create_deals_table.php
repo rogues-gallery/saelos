@@ -17,12 +17,12 @@ class CreateDealsTable extends Migration
             $table->increments('id');
             $table->boolean('published')->default(1);
             $table->string('name');
-            $table->text('summary');
-            $table->integer('amount');
-            $table->integer('probability');
-            $table->dateTime('expected_close');
-            $table->dateTime('actual_close');
-            $table->dateTime('last_viewed');
+            $table->text('summary')->nullable();
+            $table->integer('amount')->nullable();
+            $table->integer('probability')->nullable();
+            $table->dateTime('expected_close')->nullable();
+            $table->dateTime('actual_close')->nullable();
+            $table->dateTime('last_viewed')->nullable();
             $table->integer('company_id')->unsigned()->nullable();
             $table->foreign('company_id')->references('id')->on('companies');
             $table->integer('user_id')->unsigned()->nullable();

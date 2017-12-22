@@ -17,7 +17,9 @@ class CreateTeamsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
+            $table->integer('leader_id')->unsigned()->index()->nullable();
+            $table->foreign('leader_id')->references('id')->on('users');
         });
 
         Schema::table('users', function (Blueprint $table) {
