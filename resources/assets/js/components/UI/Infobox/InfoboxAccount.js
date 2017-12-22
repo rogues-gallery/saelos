@@ -26,7 +26,15 @@ export default class InfoboxAccount extends Component {
             '/img/tmp/user-10.jpg',
         ];
 
-        let accountContacts = this.props.account.people.slice(0, 10).map((contact, index) => {
+        if (typeof this.props.account.people === 'undefined') {
+            this.props.account.people = [];
+        }
+
+        if (typeof this.props.account.deals === 'undefined') {
+            this.props.account.deals = [];
+        }
+
+        let accountContacts = Object.keys(this.props.account.people).length ? this.props.account.people.slice(0, 10).map((contact, index) => {
             let avatarUrl = avatars[Math.floor(Math.random() * avatars.length)]
             let tooltipId = "account-"+this.props.account.id+"-contact-"+contact.id;
 
@@ -36,7 +44,9 @@ export default class InfoboxAccount extends Component {
                     {contact.first_name + " " + contact.last_name}
                 </ReactTooltip>
             </li>
-        });
+        }) : [];
+
+        let totalValue = _.sum(_.map(this.props.account.deals, 'amount'));
 
         return (
             <div className={itemClass}>
@@ -52,7 +62,7 @@ export default class InfoboxAccount extends Component {
                         <div className="flex-row-nospace">
                             <div>
                                 <span>Amount</span>
-                                <strong><Money>{this.props.account.amount}</Money></strong>
+                                <strong><Money>{totalValue}</Money></strong>
                             </div>
                         </div>
                         <div>

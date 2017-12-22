@@ -21,6 +21,25 @@ export function fetchAccounts(page = 1) {
     }
 }
 
+export function fetchAccount(id) {
+    return (dispatch) => {
+        dispatch({
+            type: types.FETCHING_SINGLE_ACCOUNT
+        });
+
+        let URL = '/companies/' + id;
+
+        fetch(URL)
+            .then((response) => {
+                dispatch({
+                    type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS,
+                    data: response.data.data,
+                    dataFetched: true
+                });
+            });
+    }
+}
+
 export function postAccount(data, dispatch) {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;

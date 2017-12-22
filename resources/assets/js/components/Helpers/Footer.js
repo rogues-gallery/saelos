@@ -15,7 +15,6 @@ export default class Footer extends Component {
                         <li><a>FAQ</a></li>
                         <li><a>Support</a></li>
                         <li><a>Knowledge Base</a></li>
-                        <li><a>Contact</a></li>
                     </ul>
                 </div>
             </div>

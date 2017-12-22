@@ -19,10 +19,12 @@ const store = configureStore({authState: {authenticated: true}});
 
 store.dispatch(actionCreators.isUserAuthenticated());
 
+window.reduxStore = store;
+
 class App extends Component {
     render() {
         return (
-            <Provider store={store}>
+            <Provider store={window.reduxStore}>
                 <Router>
                     <Switch>
                         {routes.map((route, index) => {

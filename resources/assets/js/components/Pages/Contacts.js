@@ -20,6 +20,7 @@ class Contacts extends Component {
     constructor(props) {
         super(props);
 
+        this._navToPage = this._navToPage.bind(this);
         this._getNewContact = this._getNewContact.bind(this);
         this._toggleNewPanel = this._toggleNewPanel.bind(this);
     }
@@ -79,16 +80,22 @@ class Contacts extends Component {
             pageCount = this.props.pagination.last_page;
         }
 
+        let filterFields = {
+            first_name: null,
+            last_name: null,
+            email: null
+        }
+
         return (
             this.props.isFetching && this.props.contacts.length === 0 ? <Backend><Loading type="contacts" /></Backend> :
             <Backend>
                 <div className="content-inner">
-                    <Filter onInputChange={actionCreators.fetchContacts} />
+                    <Filter onInputChange={actionCreators.fetchContacts} filterFields={filterFields} />
                     <div className="button button-primary" onClick={this._toggleNewPanel}>
                         <i className="md-icon">person_add</i> <span>Create Contact</span>
                     </div>
                     <div className="contact-row-new">
-                        <ContactPanel contact={this._getNewContact()} dispatch={this.props.dispatch} />
+                        <ContactPanel contact={this._getNewContact()} />
                     </div>
                     <div className="table-responsive">
                         <table>
@@ -104,7 +111,7 @@ class Contacts extends Component {
                         </table>
                     </div>
 
-                    <ReactPaginate onPageChange={this._navToPage.bind(this)} initalPage={initialPage} disableInitialCallback={true} pageCount={pageCount} containerClassName="pagination" />
+                    <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} disableInitialCallback={true} pageCount={pageCount} containerClassName="pagination" />
                 </div>
             </Backend>
         );

@@ -13,7 +13,7 @@ const initialState = {
 export default function contactReducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCHING_CONTACTS:
-            let query = action.hasOwnProperty('search') ? action.search : '';
+            let query = action.hasOwnProperty('search') ? action.search : {};
 
             return {
                 ...state,

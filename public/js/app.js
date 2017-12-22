@@ -245,6 +245,10 @@ var FETCHING_ACCOUNTS_SUCCESS = exports.FETCHING_ACCOUNTS_SUCCESS = 'FETCHING_AC
 var FETCHING_ACCOUNTS_FAILURE = exports.FETCHING_ACCOUNTS_FAILURE = 'FETCHING_ACCOUNTS_FAILURE';
 var POSTING_ACCOUNT = exports.POSTING_ACCOUNT = 'POSTING_ACCOUNT';
 var POSTING_ACCOUNT_SUCCESS = exports.POSTING_ACCOUNT_SUCCESS = 'POSTING_ACCOUNT_SUCCESS';
+var FETCHING_SINGLE_ACCOUNT = exports.FETCHING_SINGLE_ACCOUNT = 'FETCHING_SINGLE_CONTACT';
+var FETCHING_SINGLE_ACCOUNT_SUCCESS = exports.FETCHING_SINGLE_ACCOUNT_SUCCESS = 'FETCHING_SINGLE_CONTACT_SUCCESS';
+var FETCHING_SINGLE_ACCOUNT_FAILURE = exports.FETCHING_SINGLE_ACCOUNT_FAILURE = 'FETCHING_SINGLE_CONTACT_FAILURE';
+var RECEIVED_ACCOUNT_UPDATE = exports.RECEIVED_ACCOUNT_UPDATE = 'RECEIVED_ACCOUNT_UPDATE';
 
 var FETCHING_OPPORTUNITIES = exports.FETCHING_OPPORTUNITIES = 'FETCHING_OPPORTUNITIES';
 var FETCHING_OPPORTUNITIES_SUCCESS = exports.FETCHING_OPPORTUNITIES_SUCCESS = 'FETCHING_OPPORTUNITIES_SUCCESS';
@@ -2427,7 +2431,6 @@ var Loading = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content-inner' },
-                _react2.default.createElement(_Filter2.default, null),
                 loadingContent
             );
         }
@@ -12029,11 +12032,13 @@ var Filter = function (_Component) {
         key: '_handleSubmit',
         value: function _handleSubmit(event) {
             if (event.target.value.length > 3) {
-                this.props.dispatch(this.props.onInputChange(1, {
-                    first_name: event.target.value,
-                    last_name: event.target.value,
-                    email: event.target.value
-                }));
+                var filterFields = this.props.filterFields;
+
+                Object.keys(filterFields).map(function (key) {
+                    filterFields[key] = event.target.value;
+                });
+
+                this.props.dispatch(this.props.onInputChange(1, filterFields));
             }
 
             if (event.target.value.length === 0) {
@@ -12043,6 +12048,8 @@ var Filter = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var searchValue = this.props.searchState[Object.keys(this.props.filterFields)[0]];
+
             return _react2.default.createElement(
                 'div',
                 { className: 'filter form-inline' },
@@ -12052,7 +12059,7 @@ var Filter = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'form-group' },
-                        _react2.default.createElement('input', { type: 'text', className: 'form-control', defaultValue: this.props.searchState.first_name, placeholder: 'Search', onChange: this._handleSubmit })
+                        _react2.default.createElement('input', { type: 'text', className: 'form-control', defaultValue: searchValue, placeholder: 'Search', onChange: this._handleSubmit })
                     )
                 )
             );
@@ -12065,12 +12072,13 @@ var Filter = function (_Component) {
 Filter.propTypes = {
     dispatch: _propTypes2.default.func.isRequired,
     onInputChange: _propTypes2.default.func.isRequired,
-    searchState: _propTypes2.default.object.isRequired
+    searchState: _propTypes2.default.object.isRequired,
+    filterFields: _propTypes2.default.object.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(function (store) {
     return {
-        searchState: store.contactState.search
+        searchState: store.accountState.search
     };
 })(Filter);
 
@@ -29503,6 +29511,10 @@ var _actions = __webpack_require__(11);
 
 var _reactRedux = __webpack_require__(6);
 
+var _NewAccountForm = __webpack_require__(524);
+
+var _NewAccountForm2 = _interopRequireDefault(_NewAccountForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29589,7 +29601,7 @@ var AccountPanel = function (_Component) {
                     _react2.default.createElement(
                         _Panel.Panel,
                         null,
-                        _react2.default.createElement(
+                        this.props.account.id !== 'new' ? _react2.default.createElement(
                             'div',
                             { className: 'panel-user' },
                             _react2.default.createElement(
@@ -29657,13 +29669,39 @@ var AccountPanel = function (_Component) {
                                     'Documents'
                                 )
                             )
+                        ) : _react2.default.createElement(
+                            'div',
+                            { className: 'panel-user' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-user-content' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'panel-user-name' },
+                                    'Create Account'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'panel-user-action', onClick: this._togglePanelClass },
+                                    _react2.default.createElement(
+                                        'i',
+                                        { className: 'md-icon' },
+                                        'close'
+                                    )
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-user-score' },
+                                _react2.default.createElement(_Progress2.default, { size: 0 })
+                            )
                         ),
                         _react2.default.createElement(
                             'div',
                             { className: 'panel-account-details' },
-                            _react2.default.createElement(_EditAccountForm2.default, { account: this.props.account, setFormState: this._setFormState })
+                            this.props.account.id === 'new' ? _react2.default.createElement(_NewAccountForm2.default, { account: this.props.account, setFormState: this._setFormState }) : _react2.default.createElement(_EditAccountForm2.default, { account: this.props.account, setFormState: this._setFormState })
                         ),
-                        _react2.default.createElement(
+                        this.props.account.id !== 'new' ? _react2.default.createElement(
                             'div',
                             { className: 'panel-actions' },
                             _react2.default.createElement(
@@ -29682,7 +29720,7 @@ var AccountPanel = function (_Component) {
                                 ),
                                 ' before taking next step.'
                             )
-                        )
+                        ) : ''
                     )
                 )
             );
@@ -47159,6 +47197,8 @@ var store = configureStore({ authState: { authenticated: true } });
 
 store.dispatch(_actions.actionCreators.isUserAuthenticated());
 
+window.reduxStore = store;
+
 var App = function (_Component) {
     _inherits(App, _Component);
 
@@ -47173,7 +47213,7 @@ var App = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 _reactRedux.Provider,
-                { store: store },
+                { store: window.reduxStore },
                 _react2.default.createElement(
                     _reactRouterDom.BrowserRouter,
                     null,
@@ -52553,7 +52593,7 @@ function contactReducer() {
 
     switch (action.type) {
         case types.FETCHING_CONTACTS:
-            var query = action.hasOwnProperty('search') ? action.search : '';
+            var query = action.hasOwnProperty('search') ? action.search : {};
 
             return _extends({}, state, {
                 isFetching: true,
@@ -52803,12 +52843,17 @@ var types = _interopRequireWildcard(_types);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var _ = __webpack_require__(138);
+
 var initialState = {
     data: [],
     pagination: {},
     dataFetched: false,
     isFetching: false,
-    error: false
+    singleAccount: {},
+    error: false,
+    search: {},
+    accountUpdated: false
 };
 
 function accountReducer() {
@@ -52817,8 +52862,11 @@ function accountReducer() {
 
     switch (action.type) {
         case types.FETCHING_ACCOUNTS:
+            var query = action.hasOwnProperty('search') ? action.search : {};
+
             return _extends({}, state, {
-                isFetching: true
+                isFetching: true,
+                search: query
             });
         case types.FETCHING_ACCOUNTS_SUCCESS:
             return _extends({}, state, {
@@ -52831,6 +52879,33 @@ function accountReducer() {
             return _extends({}, state, {
                 isFetching: false,
                 error: true
+            });
+        case types.FETCHING_SINGLE_ACCOUNT_SUCCESS:
+            return _extends({}, state, {
+                isFetching: false,
+                dataFetched: true,
+                singleAccount: action.data
+            });
+        case types.FETCHING_SINGLE_ACCOUNT_FAILURE:
+            return _extends({}, state, {
+                isFetching: false,
+                error: true
+            });
+        case types.RECEIVED_ACCOUNT_UPDATE:
+            var account = action.data;
+            var alteredData = state.data;
+            var accountIndex = _.findIndex(alteredData, { id: account.id });
+
+            if (accountIndex >= 0) {
+                alteredData.splice(accountIndex, 1, account);
+            } else {
+                alteredData.push(account);
+            }
+
+            return _extends({}, state, {
+                data: alteredData,
+                accountUpdated: true,
+                error: false
             });
         default:
             return state;
@@ -61264,6 +61339,7 @@ var Contacts = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (Contacts.__proto__ || Object.getPrototypeOf(Contacts)).call(this, props));
 
+        _this._navToPage = _this._navToPage.bind(_this);
         _this._getNewContact = _this._getNewContact.bind(_this);
         _this._toggleNewPanel = _this._toggleNewPanel.bind(_this);
         return _this;
@@ -61335,6 +61411,12 @@ var Contacts = function (_Component) {
                 pageCount = this.props.pagination.last_page;
             }
 
+            var filterFields = {
+                first_name: null,
+                last_name: null,
+                email: null
+            };
+
             return this.props.isFetching && this.props.contacts.length === 0 ? _react2.default.createElement(
                 _Backend2.default,
                 null,
@@ -61345,7 +61427,7 @@ var Contacts = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content-inner' },
-                    _react2.default.createElement(_Filter2.default, { onInputChange: _actions.actionCreators.fetchContacts }),
+                    _react2.default.createElement(_Filter2.default, { onInputChange: _actions.actionCreators.fetchContacts, filterFields: filterFields }),
                     _react2.default.createElement(
                         'div',
                         { className: 'button button-primary', onClick: this._toggleNewPanel },
@@ -61364,7 +61446,7 @@ var Contacts = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'contact-row-new' },
-                        _react2.default.createElement(_ContactPanel2.default, { contact: this._getNewContact(), dispatch: this.props.dispatch })
+                        _react2.default.createElement(_ContactPanel2.default, { contact: this._getNewContact() })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -61407,7 +61489,7 @@ var Contacts = function (_Component) {
                             )
                         )
                     ),
-                    _react2.default.createElement(_reactPaginate2.default, { onPageChange: this._navToPage.bind(this), initalPage: initialPage, disableInitialCallback: true, pageCount: pageCount, containerClassName: 'pagination' })
+                    _react2.default.createElement(_reactPaginate2.default, { onPageChange: this._navToPage, initialPage: initialPage, disableInitialCallback: true, pageCount: pageCount, containerClassName: 'pagination' })
                 )
             );
         }
@@ -63133,15 +63215,6 @@ var Footer = function (_Component) {
                                 "a",
                                 null,
                                 "Knowledge Base"
-                            )
-                        ),
-                        _react2.default.createElement(
-                            "li",
-                            null,
-                            _react2.default.createElement(
-                                "a",
-                                null,
-                                "Contact"
                             )
                         )
                     )
@@ -65427,6 +65500,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.fetchAccounts = fetchAccounts;
+exports.fetchAccount = fetchAccount;
 exports.postAccount = postAccount;
 
 var _types = __webpack_require__(4);
@@ -65457,6 +65531,24 @@ function fetchAccounts() {
                 data: response.data.data,
                 dataFetched: true,
                 pagination: response.data.meta
+            });
+        });
+    };
+}
+
+function fetchAccount(id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.FETCHING_SINGLE_ACCOUNT
+        });
+
+        var URL = '/companies/' + id;
+
+        (0, _fetch2.default)(URL).then(function (response) {
+            dispatch({
+                type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS,
+                data: response.data.data,
+                dataFetched: true
             });
         });
     };
@@ -67921,6 +68013,10 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _reactPaginate = __webpack_require__(389);
+
+var _reactPaginate2 = _interopRequireDefault(_reactPaginate);
+
 var _Backend = __webpack_require__(14);
 
 var _Backend2 = _interopRequireDefault(_Backend);
@@ -67937,9 +68033,19 @@ var _InfoboxAccount = __webpack_require__(460);
 
 var _InfoboxAccount2 = _interopRequireDefault(_InfoboxAccount);
 
-var _recursiveDiff = __webpack_require__(74);
+var _AccountPanel = __webpack_require__(140);
 
-var _recursiveDiff2 = _interopRequireDefault(_recursiveDiff);
+var _AccountPanel2 = _interopRequireDefault(_AccountPanel);
+
+var _Filter = __webpack_require__(130);
+
+var _Filter2 = _interopRequireDefault(_Filter);
+
+var _types = __webpack_require__(4);
+
+var types = _interopRequireWildcard(_types);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67952,10 +68058,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Accounts = function (_Component) {
     _inherits(Accounts, _Component);
 
-    function Accounts() {
+    function Accounts(props) {
         _classCallCheck(this, Accounts);
 
-        return _possibleConstructorReturn(this, (Accounts.__proto__ || Object.getPrototypeOf(Accounts)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Accounts.__proto__ || Object.getPrototypeOf(Accounts)).call(this, props));
+
+        _this._navToPage = _this._navToPage.bind(_this);
+        _this._getNewAccount = _this._getNewAccount.bind(_this);
+        _this._toggleNewPanel = _this._toggleNewPanel.bind(_this);
+        return _this;
     }
 
     _createClass(Accounts, [{
@@ -67964,11 +68075,12 @@ var Accounts = function (_Component) {
             this.props.dispatch(_actions.actionCreators.fetchAccounts());
         }
     }, {
-        key: 'shouldComponentUpdate',
-        value: function shouldComponentUpdate(nextProps) {
-            var changed = _recursiveDiff2.default.getDiff(this.props.accounts, nextProps.accounts);
+        key: '_toggleNewPanel',
+        value: function _toggleNewPanel() {
+            document.querySelector('.account-item-new').classList.toggle('account-panel-open');
 
-            return JSON.stringify(changed) !== '{}';
+            // Set the form state for a new contact
+            this.props.dispatch({ type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS, data: this._getNewAccount() });
         }
     }, {
         key: '_navToPage',
@@ -67976,11 +68088,48 @@ var Accounts = function (_Component) {
             this.props.dispatch(_actions.actionCreators.fetchAccounts(page.selected + 1));
         }
     }, {
+        key: '_getNewAccount',
+        value: function _getNewAccount() {
+            var _this2 = this;
+
+            var customFieldDefinitions = {};
+
+            this.props.accounts.length !== 0 ? Object.keys(this.props.accounts[0].custom_fields).map(function (key, index) {
+                var thisField = _this2.props.accounts[0].custom_fields[key];
+
+                thisField.value = null;
+
+                customFieldDefinitions[thisField.alias] = thisField;
+            }) : {};
+
+            return {
+                id: 'new',
+                custom_fields: customFieldDefinitions
+            };
+        }
+    }, {
         key: 'render',
         value: function render() {
             var results = this.props.accounts.map(function (account) {
                 return _react2.default.createElement(_InfoboxAccount2.default, { key: account.id, account: account });
             });
+
+            var initialPage = 0;
+            var pageCount = 10;
+
+            if (this.props.pagination.hasOwnProperty('current_page')) {
+                initialPage = this.props.pagination.current_page - 1;
+            }
+
+            if (this.props.pagination.hasOwnProperty('last_page')) {
+                pageCount = this.props.pagination.last_page;
+            }
+
+            var filterFields = {
+                name: null,
+                city: null,
+                state: null
+            };
 
             return this.props.isFetching ? _react2.default.createElement(
                 _Backend2.default,
@@ -67992,11 +68141,33 @@ var Accounts = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'content-inner' },
+                    _react2.default.createElement(_Filter2.default, { onInputChange: _actions.actionCreators.fetchAccounts, filterFields: filterFields }),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'button button-primary', onClick: this._toggleNewPanel },
+                        _react2.default.createElement(
+                            'i',
+                            { className: 'md-icon' },
+                            'add'
+                        ),
+                        ' ',
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            'Create Account'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'account-item-new' },
+                        _react2.default.createElement(_AccountPanel2.default, { account: this._getNewAccount() })
+                    ),
                     _react2.default.createElement(
                         'div',
                         { className: 'accounts flex-row-even' },
                         results
-                    )
+                    ),
+                    _react2.default.createElement(_reactPaginate2.default, { onPageChange: this._navToPage, initialPage: initialPage, disableInitialCallback: true, pageCount: pageCount, containerClassName: 'pagination' })
                 )
             );
         }
@@ -68016,7 +68187,8 @@ exports.default = (0, _reactRedux.connect)(function (store) {
     return {
         accounts: store.accountState.data,
         pagination: store.accountState.pagination,
-        isFetching: store.accountState.isFetching
+        isFetching: store.accountState.isFetching,
+        accountUpdated: store.accountState.accountUpdated
     };
 })(Accounts);
 
@@ -68083,7 +68255,15 @@ var InfoboxAccount = function (_Component) {
             var itemClass = 'infobox account-item-' + this.props.account.id;
             var avatars = ['/img/tmp/user-1.jpg', '/img/tmp/user-2.jpg', '/img/tmp/user-3.jpg', '/img/tmp/user-4.jpg', '/img/tmp/user-5.jpg', '/img/tmp/user-6.jpg', '/img/tmp/user-7.jpg', '/img/tmp/user-8.jpg', '/img/tmp/user-9.jpg', '/img/tmp/user-10.jpg'];
 
-            var accountContacts = this.props.account.people.slice(0, 10).map(function (contact, index) {
+            if (typeof this.props.account.people === 'undefined') {
+                this.props.account.people = [];
+            }
+
+            if (typeof this.props.account.deals === 'undefined') {
+                this.props.account.deals = [];
+            }
+
+            var accountContacts = Object.keys(this.props.account.people).length ? this.props.account.people.slice(0, 10).map(function (contact, index) {
                 var avatarUrl = avatars[Math.floor(Math.random() * avatars.length)];
                 var tooltipId = "account-" + _this2.props.account.id + "-contact-" + contact.id;
 
@@ -68097,7 +68277,9 @@ var InfoboxAccount = function (_Component) {
                         contact.first_name + " " + contact.last_name
                     )
                 );
-            });
+            }) : [];
+
+            var totalValue = _.sum(_.map(this.props.account.deals, 'amount'));
 
             return _react2.default.createElement(
                 'div',
@@ -68143,7 +68325,7 @@ var InfoboxAccount = function (_Component) {
                                     _react2.default.createElement(
                                         _reactFormat.Money,
                                         null,
-                                        this.props.account.amount
+                                        totalValue
                                     )
                                 )
                             )
@@ -90615,6 +90797,229 @@ var EditAccountForm = function (_Component) {
                     case 'text':
                         input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
                         break;
+                    case 'money':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
+                    case 'select':
+                        var options = Object.keys(thisField.options).map(function (option, i) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: i, value: option },
+                                thisField.options[option]
+                            );
+                        });
+
+                        input = _react2.default.createElement(
+                            'select',
+                            { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
+                            options
+                        );
+                }
+
+                return _react2.default.createElement(
+                    'div',
+                    { key: index, className: 'input-container' },
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        thisField.label
+                    ),
+                    input
+                );
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var customFields = this._getCustomFields();
+            var totalValue = _.sum(_.map(this.props.account.deals, 'amount'));
+
+            return _react2.default.createElement(
+                'form',
+                { id: 'account-details-form' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-account-details-column' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Amount'
+                        ),
+                        _react2.default.createElement(
+                            _reactFormat.Money,
+                            null,
+                            totalValue
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Phone'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'phone', placeholder: 'Phone', defaultValue: this.props.account.phone, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Fax'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'fax', placeholder: 'Fax', defaultValue: this.props.account.fax, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Website'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'website', placeholder: 'Website', defaultValue: this.props.account.website, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Address'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'address1', placeholder: 'Address 1', defaultValue: this.props.account.address1, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'address2', placeholder: 'Address 2', defaultValue: this.props.account.address2, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'city', placeholder: 'City', defaultValue: this.props.account.city, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'state', placeholder: 'State', defaultValue: this.props.account.state, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'zip', placeholder: 'Zip', defaultValue: this.props.account.zip, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'country', placeholder: 'Country', defaultValue: this.props.account.country, onChange: this._handleInputChange })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-account-details-column' },
+                    customFields
+                )
+            );
+        }
+    }]);
+
+    return EditAccountForm;
+}(_react.Component);
+
+EditAccountForm.propTypes = {
+    account: _propTypes2.default.object.isRequired,
+    setFormState: _propTypes2.default.func.isRequired
+};
+
+exports.default = EditAccountForm;
+
+/***/ }),
+/* 523 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _reactNotifications = __webpack_require__(489);
+
+var _types = __webpack_require__(4);
+
+var types = _interopRequireWildcard(_types);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var Echo = window.Echo;
+
+Echo.channel('companies').listen('CompanyUpdated', function (e) {
+    var message = e.name + ' has been updated!';
+
+    _reactNotifications.NotificationManager.success(message, null, 2000);
+
+    window.reduxStore.dispatch({ type: types.RECEIVED_ACCOUNT_UPDATE, data: e });
+});
+
+/***/ }),
+/* 524 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _ = __webpack_require__(138);
+
+var NewAccountForm = function (_Component) {
+    _inherits(NewAccountForm, _Component);
+
+    function NewAccountForm(props) {
+        _classCallCheck(this, NewAccountForm);
+
+        var _this = _possibleConstructorReturn(this, (NewAccountForm.__proto__ || Object.getPrototypeOf(NewAccountForm)).call(this, props));
+
+        _this._handleInputChange = _this._handleInputChange.bind(_this);
+        return _this;
+    }
+
+    _createClass(NewAccountForm, [{
+        key: '_handleInputChange',
+        value: function _handleInputChange(event) {
+            var target = event.target;
+            var value = target.type === 'checkbox' ? target.checked : target.value;
+            var name = target.name;
+            var accountState = this.props.account;
+
+            // Special handling for custom field state
+            if (/custom_fields/.test(name)) {
+                name = name + '.value';
+            }
+
+            _.set(accountState, name, value);
+
+            this.props.setFormState(accountState);
+        }
+    }, {
+        key: '_getCustomFields',
+        value: function _getCustomFields() {
+            var _this2 = this;
+
+            return Object.keys(this.props.account.custom_fields).map(function (key, index) {
+                var thisField = _this2.props.account.custom_fields[key];
+                var input = '';
+
+                switch (thisField.type) {
+                    case 'text':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
+                    case 'money':
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
                     case 'select':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
@@ -90660,94 +91065,74 @@ var EditAccountForm = function (_Component) {
                         _react2.default.createElement(
                             'label',
                             null,
-                            'Amount'
+                            'Account name'
                         ),
+                        _react2.default.createElement('input', { type: 'text', name: 'name', placeholder: 'Name', onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
                         _react2.default.createElement(
-                            _reactFormat.Money,
+                            'label',
                             null,
-                            '12000'
-                        )
+                            'Phone'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'phone', placeholder: 'Phone', defaultValue: this.props.account.phone, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Fax'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'fax', placeholder: 'Fax', defaultValue: this.props.account.fax, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Website'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'website', placeholder: 'Website', defaultValue: this.props.account.website, onChange: this._handleInputChange })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'input-container' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Address'
+                        ),
+                        _react2.default.createElement('input', { type: 'text', name: 'address1', placeholder: 'Address 1', defaultValue: this.props.account.address1, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'address2', placeholder: 'Address 2', defaultValue: this.props.account.address2, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'city', placeholder: 'City', defaultValue: this.props.account.city, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'state', placeholder: 'State', defaultValue: this.props.account.state, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'zip', placeholder: 'Zip', defaultValue: this.props.account.zip, onChange: this._handleInputChange }),
+                        _react2.default.createElement('input', { type: 'text', name: 'country', placeholder: 'Country', defaultValue: this.props.account.country, onChange: this._handleInputChange })
                     )
                 ),
                 _react2.default.createElement(
                     'div',
                     { className: 'panel-account-details-column' },
-                    this.props.account.status ? _react2.default.createElement(
-                        'div',
-                        { className: 'input-container' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            'Status'
-                        ),
-                        this.props.account.status.name
-                    ) : '',
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'input-container' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            'Next Step'
-                        ),
-                        this.props.account.next_step
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'input-container' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            'Interests'
-                        ),
-                        'Maven, Maestro, Mautic Cloud'
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'input-container' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            'Last Interaction'
-                        ),
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Output phone call with Alex W. on Nov 18 with a rep score of 6.'
-                        )
-                    ),
                     customFields
                 )
             );
         }
     }]);
 
-    return EditAccountForm;
+    return NewAccountForm;
 }(_react.Component);
 
-EditAccountForm.propTypes = {
+NewAccountForm.propTypes = {
     account: _propTypes2.default.object.isRequired,
     setFormState: _propTypes2.default.func.isRequired
 };
 
-exports.default = EditAccountForm;
-
-/***/ }),
-/* 523 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _reactNotifications = __webpack_require__(489);
-
-var Echo = window.Echo;
-
-Echo.channel('companies').listen('CompanyUpdated', function (e) {
-    var message = e.name + ' has been updated!';
-
-    _reactNotifications.NotificationManager.success(message, null, 2000);
-});
+exports.default = NewAccountForm;
 
 /***/ })
 /******/ ]);

@@ -163,6 +163,42 @@
 	overflow:scroll;
 }
 
+.panel-contact-details {
+
+	#contact-details-form {
+		display: flex;
+		flex-direction: row;
+
+		& .panel-contact-details-column {
+			padding: 0 20px;
+			width: 48%;
+
+			&:nth-child(1) {
+				border-right: 1px solid rgba(#000, .06);
+			}
+		}
+	}
+
+	overflow:scroll;
+}
+
+.panel-account-details {
+
+	#account-details-form {
+		display:flex;
+		flex-direction: row;
+
+		& .panel-account-details-column {
+			padding: 0 20px;
+			width: 48%;
+
+			&:nth-child(1) {
+				border-right: 1px solid rgba(#000, .06);
+			}
+		}
+	}
+}
+
 .entity-history {
 	list-style:none;
 

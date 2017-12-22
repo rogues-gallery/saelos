@@ -74,8 +74,6 @@ export default class Loading extends Component {
 
         return (
             <div className="content-inner">
-                <Filter />
-
                 {loadingContent}
             </div>
         );

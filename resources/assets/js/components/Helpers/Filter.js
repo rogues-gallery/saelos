@@ -12,11 +12,13 @@ class Filter extends Component {
 
     _handleSubmit(event) {
         if (event.target.value.length > 3) {
-            this.props.dispatch(this.props.onInputChange(1, {
-                first_name: event.target.value,
-                last_name: event.target.value,
-                email: event.target.value
-            }));
+            let filterFields = this.props.filterFields;
+
+            Object.keys(filterFields).map((key) => {
+                filterFields[key] = event.target.value;
+            });
+
+            this.props.dispatch(this.props.onInputChange(1, filterFields));
         }
 
         if (event.target.value.length === 0) {
@@ -25,11 +27,13 @@ class Filter extends Component {
     }
 
     render() {
+        let searchValue = this.props.searchState[Object.keys(this.props.filterFields)[0]];
+
         return (
             <div className="filter form-inline">
                 <form>
                     <div className="form-group">
-                        <input type="text" className="form-control" defaultValue={this.props.searchState.first_name} placeholder="Search" onChange={this._handleSubmit} />
+                        <input type="text" className="form-control" defaultValue={searchValue} placeholder="Search" onChange={this._handleSubmit} />
                     </div>
                 </form>
             </div>
@@ -40,11 +44,12 @@ class Filter extends Component {
 Filter.propTypes = {
     dispatch: PropTypes.func.isRequired,
     onInputChange: PropTypes.func.isRequired,
-    searchState: PropTypes.object.isRequired
+    searchState: PropTypes.object.isRequired,
+    filterFields: PropTypes.object.isRequired
 }
 
 export default connect((store) => {
     return {
-        searchState: store.contactState.search
+        searchState: store.accountState.search
     }
 })(Filter);

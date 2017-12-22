@@ -4,6 +4,7 @@ import Progress from "../UI/Progress";
 import EditAccountForm from "../Forms/EditAccountForm";
 import {actionCreators} from "../../actions";
 import {connect} from "react-redux";
+import NewAccountForm from "../Forms/NewAccountForm";
 
 class AccountPanel extends Component {
     constructor(props) {
@@ -64,41 +65,61 @@ class AccountPanel extends Component {
                 <div className="account-side-overlay side-overlay" onClick={this._togglePanelClass} />
                 <div className="account-panel-side side-panel">
                     <Panel>
-                        <div className="panel-user">
-                            <div className="panel-user-content">
-                                {this.props.account.name ? <div className="panel-user-name">{this.props.account.name}</div> : ''}
-                                {this.props.account.client_name ? <div className="panel-user-subtitle">{this.props.account.client_name}</div> : ''}
+                        {this.props.account.id !== 'new' ?
+                            <div className="panel-user">
+                                <div className="panel-user-content">
+                                    {this.props.account.name ? <div className="panel-user-name">{this.props.account.name}</div> : ''}
+                                    {this.props.account.client_name ? <div className="panel-user-subtitle">{this.props.account.client_name}</div> : ''}
 
-                                <div className="panel-user-action" onClick={this._togglePanelClass}>
-                                    <i className="md-icon">close</i>
+                                    <div className="panel-user-action" onClick={this._togglePanelClass}>
+                                        <i className="md-icon">close</i>
+                                    </div>
+                                </div>
+                                <div className="panel-user-score">
+                                    <Progress size={80} />
+                                </div>
+                                <div className="panel-user-available-actions">
+                                    <div className="user-action-box" onClick={this._toggleHistoryClass}>
+                                        <i className="md-icon">search</i><br />
+                                        History
+                                    </div>
+                                    <div className="user-action-box" onClick={this._toggleNoteClass}>
+                                        <i className="md-icon">note</i><br />
+                                        Notes
+                                    </div>
+                                    <div className="user-action-box" onClick={this._toggleDocumentsClass}>
+                                        <i className="md-icon">chat_bubble_outline</i><br />
+                                        Documents
+                                    </div>
                                 </div>
                             </div>
-                            <div className="panel-user-score">
-                                <Progress size={80} />
-                            </div>
-                            <div className="panel-user-available-actions">
-                                <div className="user-action-box" onClick={this._toggleHistoryClass}>
-                                    <i className="md-icon">search</i><br />
-                                    History
+                        :
+                            <div className="panel-user">
+                                <div className="panel-user-content">
+                                    <div className="panel-user-name">Create Account</div>
+                                    <div className="panel-user-action" onClick={this._togglePanelClass}>
+                                        <i className="md-icon">close</i>
+                                    </div>
                                 </div>
-                                <div className="user-action-box" onClick={this._toggleNoteClass}>
-                                    <i className="md-icon">note</i><br />
-                                    Notes
-                                </div>
-                                <div className="user-action-box" onClick={this._toggleDocumentsClass}>
-                                    <i className="md-icon">chat_bubble_outline</i><br />
-                                    Documents
+                                <div className="panel-user-score">
+                                    <Progress size={0}/>
                                 </div>
                             </div>
-                        </div>
+                        }
 
                         <div className="panel-account-details">
-                            <EditAccountForm account={this.props.account} setFormState={this._setFormState}/>
+                            {this.props.account.id === 'new' ?
+                                <NewAccountForm account={this.props.account} setFormState={this._setFormState} />
+                            :
+                                <EditAccountForm account={this.props.account} setFormState={this._setFormState} />
+                            }
                         </div>
-                        <div className="panel-actions">
-                            <strong>Recommended Action</strong>
-                            <p>Wait <strong>2 days</strong> before taking next step.</p>
-                        </div>
+                        {this.props.account.id !== 'new' ?
+                            <div className="panel-actions">
+                                <strong>Recommended Action</strong>
+                                <p>Wait <strong>2 days</strong> before taking next step.</p>
+                            </div>
+                        : ''}
                     </Panel>
                 </div>
             </div>

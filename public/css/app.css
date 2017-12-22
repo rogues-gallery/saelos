@@ -2312,6 +2312,48 @@ table tr:last-child td {
   border-right: 1px solid rgba(0, 0, 0, 0.06);
 }
 
+.panel-contact-details {
+  overflow: scroll;
+}
+
+.panel-contact-details #contact-details-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.panel-contact-details #contact-details-form .panel-contact-details-column {
+  padding: 0 20px;
+  width: 48%;
+}
+
+.panel-contact-details #contact-details-form .panel-contact-details-column:nth-child(1) {
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.panel-account-details #account-details-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.panel-account-details #account-details-form .panel-account-details-column {
+  padding: 0 20px;
+  width: 48%;
+}
+
+.panel-account-details #account-details-form .panel-account-details-column:nth-child(1) {
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 .entity-history {
   list-style: none;
 }
@@ -2595,6 +2637,10 @@ table tr:last-child td {
   -webkit-box-shadow: 0 0 12px rgba(62, 62, 62, 0.08);
           box-shadow: 0 0 12px rgba(62, 62, 62, 0.08);
   top: -3px;
+}
+
+.accounts .infobox {
+  max-width: 50%;
 }
 
 .infobox-header {

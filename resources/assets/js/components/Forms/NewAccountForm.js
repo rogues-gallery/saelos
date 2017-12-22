@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { Money } from 'react-format';
 
 let _ = require('lodash');
 
-class EditAccountForm extends Component {
+class NewAccountForm extends Component {
     constructor(props) {
         super(props);
 
@@ -61,14 +60,13 @@ class EditAccountForm extends Component {
 
     render() {
         let customFields = this._getCustomFields();
-        let totalValue = _.sum(_.map(this.props.account.deals, 'amount'));
 
         return (
             <form id="account-details-form">
                 <div className="panel-account-details-column">
                     <div className="input-container">
-                        <label>Amount</label>
-                        <Money>{totalValue}</Money>
+                        <label>Account name</label>
+                        <input type="text" name="name" placeholder="Name" onChange={this._handleInputChange} />
                     </div>
                     <div className="input-container">
                         <label>Phone</label>
@@ -102,9 +100,9 @@ class EditAccountForm extends Component {
     }
 }
 
-EditAccountForm.propTypes = {
+NewAccountForm.propTypes = {
     account: PropTypes.object.isRequired,
     setFormState: PropTypes.func.isRequired
 }
 
-export default EditAccountForm;
+export default NewAccountForm;
