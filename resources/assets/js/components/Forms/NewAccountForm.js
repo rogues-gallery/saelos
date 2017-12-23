@@ -34,7 +34,6 @@ class NewAccountForm extends Component {
             switch (thisField.type) {
                 case 'select':
                 case 'picklist':
-                case 'lookup':
                     let options = Object.keys(thisField.options).map((option, i) => {
                         return <option key={i} value={option}>{thisField.options[option]}</option>
                     });
@@ -43,6 +42,7 @@ class NewAccountForm extends Component {
                         {options}
                     </select>
                     break;
+                case 'lookup':
                 case 'text':
                 default:
                     input = <input type="text" name={"custom_fields." + thisField.alias} onChange={this._handleInputChange} defaultValue={thisField.value} placeholder={thisField.label} />

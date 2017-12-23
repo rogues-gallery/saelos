@@ -90347,7 +90347,6 @@ var EditContactForm = function (_Component) {
                 switch (thisField.type) {
                     case 'select':
                     case 'picklist':
-                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -90362,6 +90361,7 @@ var EditContactForm = function (_Component) {
                             options
                         );
                         break;
+                    case 'lookup':
                     case 'text':
                     default:
                         input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
@@ -90565,7 +90565,6 @@ var NewContactForm = function (_Component) {
                 switch (thisField.type) {
                     case 'select':
                     case 'picklist':
-                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -90580,6 +90579,7 @@ var NewContactForm = function (_Component) {
                             options
                         );
                         break;
+                    case 'lookup':
                     case 'text':
                     default:
                         input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
@@ -90794,7 +90794,6 @@ var EditAccountForm = function (_Component) {
                 switch (thisField.type) {
                     case 'select':
                     case 'picklist':
-                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -90809,6 +90808,7 @@ var EditAccountForm = function (_Component) {
                             options
                         );
                         break;
+                    case 'lookup':
                     case 'text':
                     default:
                         input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
@@ -91015,7 +91015,6 @@ var NewAccountForm = function (_Component) {
                 switch (thisField.type) {
                     case 'select':
                     case 'picklist':
-                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -91030,6 +91029,7 @@ var NewAccountForm = function (_Component) {
                             options
                         );
                         break;
+                    case 'lookup':
                     case 'text':
                     default:
                         input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
@@ -91472,7 +91472,6 @@ var EditOpportunityForm = function (_Component) {
                 switch (thisField.type) {
                     case 'select':
                     case 'picklist':
-                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -91487,6 +91486,7 @@ var EditOpportunityForm = function (_Component) {
                             options
                         );
                         break;
+                    case 'lookup':
                     case 'text':
                     default:
                         input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
@@ -91638,7 +91638,6 @@ var NewOpportunityForm = function (_Component) {
                 switch (thisField.type) {
                     case 'select':
                     case 'picklist':
-                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -91653,6 +91652,7 @@ var NewOpportunityForm = function (_Component) {
                             options
                         );
                         break;
+                    case 'lookup':
                     case 'text':
                     default:
                         input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
