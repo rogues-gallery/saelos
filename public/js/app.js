@@ -90345,10 +90345,9 @@ var EditContactForm = function (_Component) {
                 var input = '';
 
                 switch (thisField.type) {
-                    case 'text':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
-                        break;
                     case 'select':
+                    case 'picklist':
+                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -90362,6 +90361,11 @@ var EditContactForm = function (_Component) {
                             { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
                             options
                         );
+                        break;
+                    case 'text':
+                    default:
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
                 }
 
                 return _react2.default.createElement(
@@ -90559,10 +90563,9 @@ var NewContactForm = function (_Component) {
                 var input = '';
 
                 switch (thisField.type) {
-                    case 'text':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, placeholder: thisField.label });
-                        break;
                     case 'select':
+                    case 'picklist':
+                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -90576,6 +90579,11 @@ var NewContactForm = function (_Component) {
                             { name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange },
                             options
                         );
+                        break;
+                    case 'text':
+                    default:
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
                 }
 
                 return _react2.default.createElement(
@@ -90784,13 +90792,9 @@ var EditAccountForm = function (_Component) {
                 var input = '';
 
                 switch (thisField.type) {
-                    case 'text':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
-                        break;
-                    case 'money':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
-                        break;
                     case 'select':
+                    case 'picklist':
+                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -90804,6 +90808,11 @@ var EditAccountForm = function (_Component) {
                             { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
                             options
                         );
+                        break;
+                    case 'text':
+                    default:
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
                 }
 
                 return _react2.default.createElement(
@@ -91004,13 +91013,9 @@ var NewAccountForm = function (_Component) {
                 var input = '';
 
                 switch (thisField.type) {
-                    case 'text':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
-                        break;
-                    case 'money':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
-                        break;
                     case 'select':
+                    case 'picklist':
+                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -91024,6 +91029,11 @@ var NewAccountForm = function (_Component) {
                             { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
                             options
                         );
+                        break;
+                    case 'text':
+                    default:
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
                 }
 
                 return _react2.default.createElement(
@@ -91460,13 +91470,9 @@ var EditOpportunityForm = function (_Component) {
                 var input = '';
 
                 switch (thisField.type) {
-                    case 'text':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
-                        break;
-                    case 'money':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
-                        break;
                     case 'select':
+                    case 'picklist':
+                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -91480,6 +91486,11 @@ var EditOpportunityForm = function (_Component) {
                             { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
                             options
                         );
+                        break;
+                    case 'text':
+                    default:
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
                 }
 
                 return _react2.default.createElement(
@@ -91625,13 +91636,9 @@ var NewOpportunityForm = function (_Component) {
                 var input = '';
 
                 switch (thisField.type) {
-                    case 'text':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
-                        break;
-                    case 'money':
-                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
-                        break;
                     case 'select':
+                    case 'picklist':
+                    case 'lookup':
                         var options = Object.keys(thisField.options).map(function (option, i) {
                             return _react2.default.createElement(
                                 'option',
@@ -91645,6 +91652,11 @@ var NewOpportunityForm = function (_Component) {
                             { name: "custom_fields." + thisField.alias, defaultValue: thisField.value, onChange: _this2._handleInputChange },
                             options
                         );
+                        break;
+                    case 'text':
+                    default:
+                        input = _react2.default.createElement('input', { type: 'text', name: "custom_fields." + thisField.alias, onChange: _this2._handleInputChange, defaultValue: thisField.value, placeholder: thisField.label });
+                        break;
                 }
 
                 return _react2.default.createElement(

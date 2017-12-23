@@ -32,10 +32,9 @@ class NewContactForm extends Component {
             let input = '';
 
             switch (thisField.type) {
-                case 'text':
-                    input = <input type="text" name={"custom_fields." + thisField.alias} onChange={this._handleInputChange} placeholder={thisField.label} />
-                    break;
                 case 'select':
+                case 'picklist':
+                case 'lookup':
                     let options = Object.keys(thisField.options).map((option, i) => {
                         return <option key={i} value={option}>{thisField.options[option]}</option>
                     });
@@ -43,6 +42,11 @@ class NewContactForm extends Component {
                     input = <select name={"custom_fields." + thisField.alias} onChange={this._handleInputChange}>
                         {options}
                     </select>
+                    break;
+                case 'text':
+                default:
+                    input = <input type="text" name={"custom_fields." + thisField.alias} onChange={this._handleInputChange} defaultValue={thisField.value} placeholder={thisField.label} />
+                    break;
             }
 
 
