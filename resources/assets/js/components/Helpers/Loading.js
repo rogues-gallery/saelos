@@ -58,12 +58,10 @@ export default class Loading extends Component {
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
-                            <tbody> 
-                                <div className="loading-wrapper">
-                                    {results}
-                                </div>;
-                            </tbody>
                         </table>
+                        <div className="loading-wrapper">
+                            {results}
+                        </div>
                     </div>
 
                 break;

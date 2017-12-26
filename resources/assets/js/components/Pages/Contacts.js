@@ -88,7 +88,7 @@ class Contacts extends Component {
                         <i className="md-icon">person_add</i> <span>Create Contact</span>
                     </div>
                     <div className="contact-row-new">
-                        <ContactPanel contact={this._getNewContact()} />
+                        <ContactPanel key="new" contact={this._getNewContact()} />
                     </div>
                     <div className="table-responsive">
                         <table>

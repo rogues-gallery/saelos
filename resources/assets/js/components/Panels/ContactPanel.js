@@ -21,7 +21,7 @@ class ContactPanel extends Component {
         this._getContainerClass = this._getContainerClass.bind(this);
 
         this.state = {
-            contact: props.contact
+            contact: Object.assign({}, props.contact)
         }
     }
 
@@ -29,7 +29,7 @@ class ContactPanel extends Component {
         actionCreators.postContact(this.state.formState, this.props.dispatch);
 
         this.setState({
-            formState: {}
+            formState: this.state.contact
         })
     }
 

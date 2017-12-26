@@ -6,15 +6,18 @@ class NewContactForm extends Component {
         super(props);
 
         this._handleInputChange = this._handleInputChange.bind(this);
+        this._getCustomFields = this._getCustomFields.bind(this);
 
-        this.props.setFormState({});
+        this.state = {
+            formState: Object.assign({}, props.contact)
+        }
     }
 
     _handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         let name = target.name;
-        let contactState = this.props.contact;
+        let contactState = this.state.formState;
 
         // Special handling for custom field state
         if (/custom_fields/.test(name)) {

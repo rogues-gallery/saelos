@@ -10,13 +10,17 @@ class EditContactForm extends Component {
 
         this._handleInputChange = this._handleInputChange.bind(this);
         this._getCustomFields = this._getCustomFields.bind(this);
+
+        this.state = {
+            formState: Object.assign({}, props.contact)
+        }
     }
 
     _handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         let name = target.name;
-        let contactState = this.props.contact;
+        let contactState = this.state.formState;
 
         // Special handling for custom field state
         if (/custom_fields/.test(name)) {
@@ -63,7 +67,7 @@ class EditContactForm extends Component {
 
     render() {
         let customFields = this._getCustomFields();
-        let lastInteraction = this.props.contact.activities.slice(-1)[0];
+        let lastInteraction = this.props.contact.activities && this.props.contact.activities.length ? this.props.contact.activities.slice(-1)[0].description : 'None';
         let totalValue = _.sum(_.map(this.props.contact.deals, 'amount'));
 
         return (
@@ -102,7 +106,7 @@ class EditContactForm extends Component {
                 <div className="panel-contact-details-column">
                     <div className="input-container">
                         <label>Last Interaction</label>
-                        <p>{typeof lastInteraction === 'object' ? lastInteraction.description : 'None'}</p>
+                        <p>{lastInteraction}</p>
                     </div>
 
                     <div className="input-container">

@@ -2410,17 +2410,12 @@ var Loading = function (_Component) {
                                         '\xA0'
                                     )
                                 )
-                            ),
-                            _react2.default.createElement(
-                                'tbody',
-                                null,
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'loading-wrapper' },
-                                    results
-                                ),
-                                ';'
                             )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'loading-wrapper' },
+                            results
                         )
                     );
 
@@ -61287,7 +61282,7 @@ var Contacts = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'contact-row-new' },
-                        _react2.default.createElement(_ContactPanel2.default, { contact: this._getNewContact() })
+                        _react2.default.createElement(_ContactPanel2.default, { key: 'new', contact: this._getNewContact() })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -63794,7 +63789,7 @@ var ContactPanel = function (_Component) {
         _this._getContainerClass = _this._getContainerClass.bind(_this);
 
         _this.state = {
-            contact: props.contact
+            contact: Object.assign({}, props.contact)
         };
         return _this;
     }
@@ -63805,7 +63800,7 @@ var ContactPanel = function (_Component) {
             _actions.actionCreators.postContact(this.state.formState, this.props.dispatch);
 
             this.setState({
-                formState: {}
+                formState: this.state.contact
             });
         }
     }, {
@@ -90281,8 +90276,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(0);
@@ -90315,6 +90308,10 @@ var EditContactForm = function (_Component) {
 
         _this._handleInputChange = _this._handleInputChange.bind(_this);
         _this._getCustomFields = _this._getCustomFields.bind(_this);
+
+        _this.state = {
+            formState: Object.assign({}, props.contact)
+        };
         return _this;
     }
 
@@ -90324,7 +90321,7 @@ var EditContactForm = function (_Component) {
             var target = event.target;
             var value = target.type === 'checkbox' ? target.checked : target.value;
             var name = target.name;
-            var contactState = this.props.contact;
+            var contactState = this.state.formState;
 
             // Special handling for custom field state
             if (/custom_fields/.test(name)) {
@@ -90384,7 +90381,7 @@ var EditContactForm = function (_Component) {
         key: 'render',
         value: function render() {
             var customFields = this._getCustomFields();
-            var lastInteraction = this.props.contact.activities.slice(-1)[0];
+            var lastInteraction = this.props.contact.activities && this.props.contact.activities.length ? this.props.contact.activities.slice(-1)[0].description : 'None';
             var totalValue = _.sum(_.map(this.props.contact.deals, 'amount'));
 
             return _react2.default.createElement(
@@ -90456,7 +90453,7 @@ var EditContactForm = function (_Component) {
                         _react2.default.createElement(
                             'p',
                             null,
-                            (typeof lastInteraction === 'undefined' ? 'undefined' : _typeof(lastInteraction)) === 'object' ? lastInteraction.description : 'None'
+                            lastInteraction
                         )
                     ),
                     _react2.default.createElement(
@@ -90531,8 +90528,11 @@ var NewContactForm = function (_Component) {
         var _this = _possibleConstructorReturn(this, (NewContactForm.__proto__ || Object.getPrototypeOf(NewContactForm)).call(this, props));
 
         _this._handleInputChange = _this._handleInputChange.bind(_this);
+        _this._getCustomFields = _this._getCustomFields.bind(_this);
 
-        _this.props.setFormState({});
+        _this.state = {
+            formState: Object.assign({}, props.contact)
+        };
         return _this;
     }
 
@@ -90542,7 +90542,7 @@ var NewContactForm = function (_Component) {
             var target = event.target;
             var value = target.type === 'checkbox' ? target.checked : target.value;
             var name = target.name;
-            var contactState = this.props.contact;
+            var contactState = this.state.formState;
 
             // Special handling for custom field state
             if (/custom_fields/.test(name)) {

@@ -51,6 +51,10 @@ class PersonController extends Controller
             }
         });
 
+        if ($modifiedSince = $request->get('modified_since')) {
+            $people->where('updated_at', '>=', $modifiedSince);
+        }
+
         return new PersonCollection($people->paginate());
     }
 
