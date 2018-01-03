@@ -1,6 +1,7 @@
 import Contacts from './components/Pages/Contacts';
 import Dashboard from './components/Pages/Dashboard';
 import Headquarters from './components/Pages/Headquarters';
+import Manager from './components/Pages/Manager';
 import Icons from './components/Pages/Icons';
 import Forms from './components/Pages/Forms';
 import RequireAuth from './components/Auth/RequireAuth';
@@ -23,6 +24,14 @@ export const routes = [
         breadcrumb_link: true,
         exact: true,
         component: RequireAuth(Headquarters),
+    },
+    {
+        path: '/my-team',
+        title: 'My Team',
+        breadcrumb: 'My Team',
+        breadcrumb_link: true,
+        exact: true,
+        component: RequireAuth(Manager),
     },
     {
         path: '/contacts',

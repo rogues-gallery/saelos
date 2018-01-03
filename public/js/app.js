@@ -8334,6 +8334,10 @@ var _Headquarters = __webpack_require__(450);
 
 var _Headquarters2 = _interopRequireDefault(_Headquarters);
 
+var _Manager = __webpack_require__(532);
+
+var _Manager2 = _interopRequireDefault(_Manager);
+
 var _Icons = __webpack_require__(454);
 
 var _Icons2 = _interopRequireDefault(_Icons);
@@ -8370,6 +8374,13 @@ var routes = exports.routes = [{
     breadcrumb_link: true,
     exact: true,
     component: (0, _RequireAuth2.default)(_Headquarters2.default)
+}, {
+    path: '/my-team',
+    title: 'My Team',
+    breadcrumb: 'My Team',
+    breadcrumb_link: true,
+    exact: true,
+    component: (0, _RequireAuth2.default)(_Manager2.default)
 }, {
     path: '/contacts',
     title: 'Contacts Management',
@@ -11577,6 +11588,12 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRedux = __webpack_require__(6);
+
 var _reactRouterDom = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -11643,6 +11660,25 @@ var Navigation = function (_Component) {
                             )
                         )
                     ),
+                    this.props.user.team_leader ? _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            _reactRouterDom.NavLink,
+                            { to: '/my-team', activeClassName: 'active' },
+                            _react2.default.createElement(
+                                'i',
+                                { className: 'md-icon' },
+                                'contacts'
+                            ),
+                            ' ',
+                            _react2.default.createElement(
+                                'span',
+                                null,
+                                'My Team'
+                            )
+                        )
+                    ) : '',
                     _react2.default.createElement(
                         'li',
                         null,
@@ -11774,7 +11810,15 @@ var Navigation = function (_Component) {
     return Navigation;
 }(_react.Component);
 
-exports.default = Navigation;
+Navigation.propTypes = {
+    user: _propTypes2.default.object.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(function (store) {
+    return {
+        user: store.authState.user
+    };
+})(Navigation);
 
 /***/ }),
 /* 130 */
@@ -47005,7 +47049,7 @@ function configureStore(initialState) {
     return (0, _redux.createStore)(_reducers2.default, initialState, enhancer);
 }
 
-var store = configureStore({ authState: { authenticated: true } });
+var store = configureStore({ authState: { authenticated: true, user: {} } });
 
 store.dispatch(_actions.actionCreators.isUserAuthenticated());
 
@@ -52611,7 +52655,8 @@ exports.default = function () {
             return _extends({}, state, {
                 error: '',
                 message: '',
-                authenticated: true
+                authenticated: true,
+                user: action.data
             });
         case types.UNAUTH_USER:
             return _extends({}, state, {
@@ -52632,7 +52677,13 @@ var types = _interopRequireWildcard(_types);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var INITIAL_STATE = { error: '', message: '', content: '', authenticated: false };
+var INITIAL_STATE = {
+    error: '',
+    message: '',
+    content: '',
+    authenticated: false,
+    user: {}
+};
 
 /***/ }),
 /* 219 */
@@ -61150,10 +61201,6 @@ var _HistoryPanel = __webpack_require__(439);
 
 var _HistoryPanel2 = _interopRequireDefault(_HistoryPanel);
 
-var _EditPanel = __webpack_require__(440);
-
-var _EditPanel2 = _interopRequireDefault(_EditPanel);
-
 var _ContactContactPanel = __webpack_require__(441);
 
 var _ContactContactPanel2 = _interopRequireDefault(_ContactContactPanel);
@@ -61163,6 +61210,10 @@ var _actions = __webpack_require__(11);
 var _types = __webpack_require__(4);
 
 var types = _interopRequireWildcard(_types);
+
+var _NotePanel = __webpack_require__(533);
+
+var _NotePanel2 = _interopRequireDefault(_NotePanel);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -61403,7 +61454,7 @@ var Contact = exports.Contact = function (_Component2) {
                     ),
                     _react2.default.createElement(_ContactPanel2.default, { contact: this.state.contact, dispatch: this.props.dispatch }),
                     _react2.default.createElement(_HistoryPanel2.default, { contact: this.props.contact, dispatch: this.props.dispatch }),
-                    _react2.default.createElement(_EditPanel2.default, { contact: this.props.contact, dispatch: this.props.dispatch }),
+                    _react2.default.createElement(_NotePanel2.default, { contact: this.props.contact, dispatch: this.props.dispatch }),
                     _react2.default.createElement(_ContactContactPanel2.default, { contact: this.props.contact, dispatch: this.props.dispatch })
                 ),
                 _react2.default.createElement(
@@ -63784,7 +63835,7 @@ var ContactPanel = function (_Component) {
         _this._setFormState = _this._setFormState.bind(_this);
         _this._toggleBodyClass = _this._toggleBodyClass.bind(_this);
         _this._toggleContactClass = _this._toggleContactClass.bind(_this);
-        _this._toggleEditClass = _this._toggleEditClass.bind(_this);
+        _this._toggleNoteClass = _this._toggleNoteClass.bind(_this);
         _this._toggleHistoryClass = _this._toggleHistoryClass.bind(_this);
         _this._getContainerClass = _this._getContainerClass.bind(_this);
 
@@ -63828,9 +63879,9 @@ var ContactPanel = function (_Component) {
             document.querySelector(this._getContainerClass()).classList.toggle('contact-contact-panel-open');
         }
     }, {
-        key: '_toggleEditClass',
-        value: function _toggleEditClass() {
-            document.querySelector(this._getContainerClass()).classList.toggle('contact-edit-panel-open');
+        key: '_toggleNoteClass',
+        value: function _toggleNoteClass() {
+            document.querySelector(this._getContainerClass()).classList.toggle('contact-note-panel-open');
         }
     }, {
         key: '_toggleHistoryClass',
@@ -63899,14 +63950,14 @@ var ContactPanel = function (_Component) {
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box', onClick: this._toggleEditClass },
+                                    { className: 'user-action-box', onClick: this._toggleNoteClass },
                                     _react2.default.createElement(
                                         'i',
                                         { className: 'md-icon' },
-                                        'edit'
+                                        'event_note'
                                     ),
                                     _react2.default.createElement('br', null),
-                                    'Edit'
+                                    'Notes'
                                 ),
                                 _react2.default.createElement(
                                     'div',
@@ -63996,6 +64047,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.fetchContacts = fetchContacts;
 exports.fetchContact = fetchContact;
 exports.postContact = postContact;
+exports.emailContact = emailContact;
+exports.callContact = callContact;
 
 var _types = __webpack_require__(4);
 
@@ -64086,6 +64139,43 @@ function postContact(data, dispatch) {
             data: response.data.data,
             dataFetched: true
         });
+    });
+}
+
+function emailContact(data) {
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
+
+    var METHOD = 'POST';
+    var URL = '/people/' + data.id + '/email';
+
+    var options = {
+        body: data,
+        method: METHOD
+    };
+
+    (0, _fetch2.default)(URL, options).then(function (response) {
+        // noop
+    });
+}
+
+function callContact(data) {
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
+
+    var METHOD = 'POST';
+    var URL = '/plivo/send/call/' + data.id;
+
+    var options = {
+        body: data,
+        method: METHOD,
+        forAuth: true
+    };
+
+    (0, _fetch2.default)(URL, options).then(function (response) {
+        // noop
     });
 }
 
@@ -65583,6 +65673,12 @@ var HistoryPanel = function (_Component) {
         key: 'render',
         value: function render() {
             var history = this.props.contact.activities.map(function (activity, index) {
+                var recordUrl = activity.details.details.recordUrl ? _react2.default.createElement(
+                    'a',
+                    { href: activity.details.details.recordUrl, target: '_blank' },
+                    'Listen to the call'
+                ) : 'No recording available';
+
                 return _react2.default.createElement(
                     'li',
                     { key: index },
@@ -65609,15 +65705,11 @@ var HistoryPanel = function (_Component) {
                             null,
                             activity.description
                         ),
-                        _react2.default.createElement(
+                        activity.details_type === "App\\CallActivity" ? _react2.default.createElement(
                             'p',
                             null,
-                            activity.details.details.recordUrl ? _react2.default.createElement(
-                                'a',
-                                { href: activity.details.details.recordUrl, target: '_blank' },
-                                'Listen to the call'
-                            ) : 'No recording available'
-                        )
+                            recordUrl
+                        ) : ''
                     )
                 );
             });
@@ -65676,103 +65768,7 @@ var HistoryPanel = function (_Component) {
 exports.default = HistoryPanel;
 
 /***/ }),
-/* 440 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Panel = __webpack_require__(15);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var EditPanel = function (_Component) {
-    _inherits(EditPanel, _Component);
-
-    function EditPanel() {
-        _classCallCheck(this, EditPanel);
-
-        return _possibleConstructorReturn(this, (EditPanel.__proto__ || Object.getPrototypeOf(EditPanel)).apply(this, arguments));
-    }
-
-    _createClass(EditPanel, [{
-        key: '_togglePanelClass',
-        value: function _togglePanelClass() {
-            var rowClass = 'tr.contact-row-' + this.props.contact.id;
-
-            document.querySelector(rowClass).classList.toggle('contact-edit-panel-open');
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                { className: 'content-side-wrapper' },
-                _react2.default.createElement('div', { className: 'contact-edit-overlay side-overlay', onClick: this._togglePanelClass.bind(this) }),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'contact-edit-side side-panel' },
-                    _react2.default.createElement(
-                        _Panel.Panel,
-                        null,
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'panel-user' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'panel-user-content' },
-                                this.props.contact.first_name ? _react2.default.createElement(
-                                    'div',
-                                    { className: 'panel-user-name' },
-                                    this.props.contact.first_name,
-                                    ' ',
-                                    this.props.contact.last_name
-                                ) : '',
-                                this.props.contact.company ? _react2.default.createElement(
-                                    'div',
-                                    { className: 'panel-user-subtitle' },
-                                    this.props.contact.company.name
-                                ) : '',
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'panel-user-action', onClick: this._togglePanelClass.bind(this) },
-                                    _react2.default.createElement(
-                                        'i',
-                                        { className: 'md-icon' },
-                                        'close'
-                                    )
-                                )
-                            )
-                        ),
-                        'Edit the contact'
-                    )
-                )
-            );
-        }
-    }]);
-
-    return EditPanel;
-}(_react.Component);
-
-exports.default = EditPanel;
-
-/***/ }),
+/* 440 */,
 /* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -65791,9 +65787,23 @@ var _react2 = _interopRequireDefault(_react);
 
 var _Panel = __webpack_require__(15);
 
+var _Progress = __webpack_require__(44);
+
+var _Progress2 = _interopRequireDefault(_Progress);
+
+var _actions = __webpack_require__(11);
+
+var _Tab = __webpack_require__(529);
+
 var _fetch = __webpack_require__(16);
 
 var _fetch2 = _interopRequireDefault(_fetch);
+
+var _reactRedux = __webpack_require__(6);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -65812,6 +65822,7 @@ var ContactContactPanel = function (_Component) {
         var _this = _possibleConstructorReturn(this, (ContactContactPanel.__proto__ || Object.getPrototypeOf(ContactContactPanel)).call(this, props));
 
         _this._initPhoneCall = _this._initPhoneCall.bind(_this);
+        _this._sendEmail = _this._sendEmail.bind(_this);
         return _this;
     }
 
@@ -65825,17 +65836,24 @@ var ContactContactPanel = function (_Component) {
     }, {
         key: '_initPhoneCall',
         value: function _initPhoneCall() {
-            var URL = '/plivo/send/call/' + this.props.contact.id;
+            _actions.actionCreators.callContact({
+                id: this.props.contact.id,
+                recipient: this.props.user.phone
+            });
 
-            var options = {
-                method: 'POST',
-                body: {
-                    recipient: '18159970741'
-                },
-                forAuth: true
-            };
+            this._togglePanelClass();
+        }
+    }, {
+        key: '_sendEmail',
+        value: function _sendEmail(e) {
+            e.preventDefault();
 
-            (0, _fetch2.default)(URL, options);
+            _actions.actionCreators.emailContact({
+                id: this.props.contact.id,
+                emailContent: document.getElementById('email-content').value
+            });
+
+            this._togglePanelClass();
         }
     }, {
         key: 'render',
@@ -65880,39 +65898,49 @@ var ContactContactPanel = function (_Component) {
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'panel-user-available-actions' },
+                                { className: 'panel-user-score' },
+                                _react2.default.createElement(_Progress2.default, { size: 0 })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _Tab.TabbedArea,
+                            null,
+                            _react2.default.createElement(
+                                _Tab.TabPane,
+                                { title: 'Email', icon: 'email' },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box' },
+                                    null,
                                     _react2.default.createElement(
-                                        'i',
-                                        { className: 'md-icon' },
-                                        'email'
-                                    ),
-                                    _react2.default.createElement('br', null),
-                                    'Email'
-                                ),
+                                        'form',
+                                        null,
+                                        _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'subject', placeholder: 'Subject' }),
+                                        _react2.default.createElement('textarea', { placeholder: 'Email content', className: 'form-control', name: 'content', id: 'email-content', style: { width: "100%", height: "300px" } }),
+                                        _react2.default.createElement('br', null),
+                                        _react2.default.createElement(
+                                            'button',
+                                            { className: 'button button-primary', onClick: this._sendEmail },
+                                            'Send'
+                                        )
+                                    )
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _Tab.TabPane,
+                                { title: 'SMS', icon: 'sms' },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box' },
-                                    _react2.default.createElement(
-                                        'i',
-                                        { className: 'md-icon' },
-                                        'sms'
-                                    ),
-                                    _react2.default.createElement('br', null),
-                                    'SMS'
-                                ),
+                                    null,
+                                    'Coming Soon'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _Tab.TabPane,
+                                { title: 'Phone', icon: 'phone', onClick: this._initPhoneCall },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'user-action-box', onClick: this._initPhoneCall },
-                                    _react2.default.createElement(
-                                        'i',
-                                        { className: 'md-icon' },
-                                        'phone'
-                                    ),
-                                    _react2.default.createElement('br', null),
-                                    'Phone'
+                                    null,
+                                    'Place a call to this user.'
                                 )
                             )
                         )
@@ -65925,7 +65953,15 @@ var ContactContactPanel = function (_Component) {
     return ContactContactPanel;
 }(_react.Component);
 
-exports.default = ContactContactPanel;
+ContactContactPanel.propTypes = {
+    user: _propTypes2.default.object.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(function (store) {
+    return {
+        user: store.authState.user
+    };
+})(ContactContactPanel);
 
 /***/ }),
 /* 442 */
@@ -66078,6 +66114,12 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(6);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66096,45 +66138,47 @@ var PageHeader = function (_Component) {
     }
 
     _createClass(PageHeader, [{
-        key: "render",
+        key: 'render',
         value: function render() {
             return _react2.default.createElement(
-                "div",
-                { className: "page-header" },
+                'div',
+                { className: 'page-header' },
                 _react2.default.createElement(
-                    "div",
-                    { className: "page-header-inner" },
+                    'div',
+                    { className: 'page-header-inner' },
                     _react2.default.createElement(
-                        "div",
-                        { className: "page-header-content" },
+                        'div',
+                        { className: 'page-header-content' },
                         _react2.default.createElement(
-                            "h1",
+                            'h1',
                             null,
-                            "Good morning Adam!"
+                            'Good morning ',
+                            this.props.user.name,
+                            '!'
                         ),
                         _react2.default.createElement(
-                            "p",
+                            'p',
                             null,
-                            "Today you have ",
+                            'Today you have ',
                             _react2.default.createElement(
-                                "a",
-                                { href: "#" },
-                                "10 calls to make"
+                                'a',
+                                { href: '#' },
+                                '10 calls to make'
                             ),
-                            ". You should create 2 opportunities to stay on track for the quarter."
+                            '. You should create 2 opportunities to stay on track for the quarter.'
                         ),
                         _react2.default.createElement(
-                            "div",
-                            { className: "page-header-info" },
+                            'div',
+                            { className: 'page-header-info' },
                             _react2.default.createElement(
-                                "span",
+                                'span',
                                 null,
-                                "Your VECTOR is",
-                                _react2.default.createElement("br", null),
+                                'Your VECTOR is',
+                                _react2.default.createElement('br', null),
                                 _react2.default.createElement(
-                                    "h2",
+                                    'h2',
                                     null,
-                                    "89"
+                                    this.props.user.vector
                                 )
                             )
                         )
@@ -66147,7 +66191,11 @@ var PageHeader = function (_Component) {
     return PageHeader;
 }(_react.Component);
 
-exports.default = PageHeader;
+exports.default = (0, _reactRedux.connect)(function (store) {
+    return {
+        user: store.authState.user
+    };
+})(PageHeader);
 
 /***/ }),
 /* 444 */
@@ -67076,6 +67124,12 @@ var _reactChartist = __webpack_require__(20);
 
 var _reactChartist2 = _interopRequireDefault(_reactChartist);
 
+var _reactRedux = __webpack_require__(6);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -67097,7 +67151,7 @@ var ScoreChart = function (_Component) {
         key: 'render',
         value: function render() {
             var data = {
-                series: [79]
+                series: [this.props.user.vector]
             };
 
             var options = {
@@ -67115,7 +67169,15 @@ var ScoreChart = function (_Component) {
     return ScoreChart;
 }(_react.Component);
 
-exports.default = ScoreChart;
+ScoreChart.propTypes = {
+    user: _propTypes2.default.object.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(function (store) {
+    return {
+        user: store.authState.user
+    };
+})(ScoreChart);
 
 /***/ }),
 /* 452 */
@@ -67360,10 +67422,10 @@ var Icons = function (_Component) {
     _createClass(Icons, [{
         key: 'render',
         value: function render() {
-            var result = icons.map(function (icon) {
+            var result = icons.map(function (icon, index) {
                 return _react2.default.createElement(
                     'div',
-                    { className: 'icon' },
+                    { key: index, className: 'icon' },
                     _react2.default.createElement(
                         'div',
                         { className: 'md-icon' },
@@ -86914,6 +86976,10 @@ Echo.channel('contacts').listen('ContactUpdated', function (e) {
     var message = e.first_name + ' ' + e.last_name + ' has been updated!';
 
     _reactNotifications.NotificationManager.success(message, null, 2000);
+}).listen('ContactEmailed', function (e) {
+    var message = 'Email sent to ' + e.first_name + ' ' + e.last_name + '!';
+
+    _reactNotifications.NotificationManager.success(message, null, 2000);
 });
 
 /***/ }),
@@ -88855,7 +88921,10 @@ function isUserAuthenticated() {
     return function (dispatch) {
         (0, _fetch2.default)('/authenticated', { forAuth: true }).then(function (response) {
             if (response.data.status) {
-                return loginUser(dispatch);
+                return dispatch({
+                    type: types.AUTH_USER,
+                    data: response.data.status
+                });
             } else {
                 return logoutUser();
             }
@@ -90601,36 +90670,6 @@ var NewContactForm = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var stageSelect = _react2.default.createElement(
-                'select',
-                { name: 'stage' },
-                _react2.default.createElement(
-                    'option',
-                    { value: '' },
-                    'Please Select'
-                ),
-                _react2.default.createElement(
-                    'option',
-                    { value: '1' },
-                    'Stage 1'
-                ),
-                _react2.default.createElement(
-                    'option',
-                    { value: '2' },
-                    'Stage 2'
-                ),
-                _react2.default.createElement(
-                    'option',
-                    { value: '3' },
-                    'Stage 3'
-                ),
-                _react2.default.createElement(
-                    'option',
-                    { value: '4' },
-                    'Stage 4'
-                )
-            );
-
             var customFields = this._getCustomFields();
 
             return _react2.default.createElement(
@@ -91741,6 +91780,382 @@ NewOpportunityForm.propTypes = {
 };
 
 exports.default = NewOpportunityForm;
+
+/***/ }),
+/* 529 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.TabbedArea = exports.TabPane = undefined;
+
+var _TabPane = __webpack_require__(530);
+
+var _TabPane2 = _interopRequireDefault(_TabPane);
+
+var _TabbedArea = __webpack_require__(531);
+
+var _TabbedArea2 = _interopRequireDefault(_TabbedArea);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.TabPane = _TabPane2.default;
+exports.TabbedArea = _TabbedArea2.default;
+
+/***/ }),
+/* 530 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TabPane = function (_Component) {
+    _inherits(TabPane, _Component);
+
+    function TabPane() {
+        _classCallCheck(this, TabPane);
+
+        return _possibleConstructorReturn(this, (TabPane.__proto__ || Object.getPrototypeOf(TabPane)).apply(this, arguments));
+    }
+
+    _createClass(TabPane, [{
+        key: 'render',
+        value: function render() {
+            var active = this.props.active || false;
+
+            if (active) {
+                return this.props.children;
+            } else {
+                return null;
+            }
+        }
+    }]);
+
+    return TabPane;
+}(_react.Component);
+
+exports.default = TabPane;
+
+
+TabPane.propTypes = {
+    title: _propTypes2.default.string.isRequired,
+    icon: _propTypes2.default.string.isRequired
+};
+
+/***/ }),
+/* 531 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TabbedArea = function (_Component) {
+    _inherits(TabbedArea, _Component);
+
+    function TabbedArea(props) {
+        _classCallCheck(this, TabbedArea);
+
+        var _this = _possibleConstructorReturn(this, (TabbedArea.__proto__ || Object.getPrototypeOf(TabbedArea)).call(this, props));
+
+        _this.state = {
+            activeIndex: _this.props.activeIndex || 0
+        };
+        return _this;
+    }
+
+    _createClass(TabbedArea, [{
+        key: 'render',
+        value: function render() {
+            var self = this;
+            var tabNodes = _.map(this.props.children, function (child, index) {
+                var className = self.state.activeIndex === index ? 'active' : '';
+                var onClick = child.props.onClick || self._handleClick.bind(self, index);
+
+                return _react2.default.createElement(
+                    'div',
+                    { key: index, className: 'user-action-box', onClick: onClick },
+                    _react2.default.createElement(
+                        'i',
+                        { className: 'md-icon' },
+                        child.props.icon
+                    ),
+                    _react2.default.createElement('br', null),
+                    child.props.title
+                );
+            });
+
+            var contentNodes = _.map(this.props.children, function (child, index) {
+                if (self.state.activeIndex === index) {
+                    return _react2.default.createElement(
+                        'div',
+                        { key: index, className: 'tab-pane' },
+                        child.props.children
+                    );
+                }
+            });
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'tabbed-area' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-user-available-actions' },
+                    tabNodes
+                ),
+                _react2.default.createElement(
+                    'section',
+                    null,
+                    contentNodes
+                )
+            );
+        }
+    }, {
+        key: '_handleClick',
+        value: function _handleClick(index) {
+            this.setState({
+                activeIndex: index
+            });
+        }
+    }]);
+
+    return TabbedArea;
+}(_react.Component);
+
+exports.default = TabbedArea;
+
+
+TabbedArea.propTypes = {
+    children: _propTypes2.default.node.isRequired
+};
+
+/***/ }),
+/* 532 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(6);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _Backend = __webpack_require__(14);
+
+var _Backend2 = _interopRequireDefault(_Backend);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Manager = function (_Component) {
+    _inherits(Manager, _Component);
+
+    function Manager() {
+        _classCallCheck(this, Manager);
+
+        return _possibleConstructorReturn(this, (Manager.__proto__ || Object.getPrototypeOf(Manager)).apply(this, arguments));
+    }
+
+    _createClass(Manager, [{
+        key: 'render',
+        value: function render() {
+            var results = this.props.user.team.users.map(function (team_member, index) {
+                return _react2.default.createElement(
+                    'div',
+                    { key: index },
+                    team_member.name
+                );
+            });
+
+            return _react2.default.createElement(
+                _Backend2.default,
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'content-inner' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'accounts flex-row-even' },
+                        results
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Manager;
+}(_react.Component);
+
+Manager.propTypes = {
+    user: _propTypes2.default.object.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(function (store) {
+    return {
+        user: store.authState.user
+    };
+})(Manager);
+
+/***/ }),
+/* 533 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Panel = __webpack_require__(15);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NotePanel = function (_Component) {
+    _inherits(NotePanel, _Component);
+
+    function NotePanel() {
+        _classCallCheck(this, NotePanel);
+
+        return _possibleConstructorReturn(this, (NotePanel.__proto__ || Object.getPrototypeOf(NotePanel)).apply(this, arguments));
+    }
+
+    _createClass(NotePanel, [{
+        key: '_togglePanelClass',
+        value: function _togglePanelClass() {
+            var rowClass = 'tr.contact-row-' + this.props.contact.id;
+
+            document.querySelector(rowClass).classList.toggle('contact-note-panel-open');
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'content-side-wrapper' },
+                _react2.default.createElement('div', { className: 'contact-note-overlay side-overlay', onClick: this._togglePanelClass.bind(this) }),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'contact-note-side side-panel' },
+                    _react2.default.createElement(
+                        _Panel.Panel,
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel-user' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-user-content' },
+                                this.props.contact.first_name ? _react2.default.createElement(
+                                    'div',
+                                    { className: 'panel-user-name' },
+                                    this.props.contact.first_name,
+                                    ' ',
+                                    this.props.contact.last_name
+                                ) : '',
+                                this.props.contact.company ? _react2.default.createElement(
+                                    'div',
+                                    { className: 'panel-user-subtitle' },
+                                    this.props.contact.company.name
+                                ) : '',
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'panel-user-action', onClick: this._togglePanelClass.bind(this) },
+                                    _react2.default.createElement(
+                                        'i',
+                                        { className: 'md-icon' },
+                                        'close'
+                                    )
+                                )
+                            )
+                        ),
+                        'User Notes'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return NotePanel;
+}(_react.Component);
+
+exports.default = NotePanel;
 
 /***/ })
 /******/ ]);

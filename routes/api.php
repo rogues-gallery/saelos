@@ -21,6 +21,8 @@ Route::group([
         return \Illuminate\Http\JsonResponse::create(Auth::user());
     });
 
+    Route::post('/people/{id}/email', 'PersonController@email');
+
     Route::resource('people', 'PersonController');
     Route::resource('deals', 'DealController');
     Route::resource('companies', 'CompanyController');

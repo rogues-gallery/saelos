@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Panel } from '../UI/Panel';
 
-export default class HistoryPanel extends Component {
+export default class NotePanel extends Component {
     _togglePanelClass() {
         let rowClass = 'tr.contact-row-' + this.props.contact.id;
 
@@ -27,7 +27,7 @@ export default class HistoryPanel extends Component {
                             </div>
                         </div>
 
-                        User History
+                        User Notes
 
                     </Panel>
                 </div>

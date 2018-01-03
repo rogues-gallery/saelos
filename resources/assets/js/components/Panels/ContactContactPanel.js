@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { Panel } from '../UI/Panel';
+import Progress from "../UI/Progress";
+import { actionCreators } from "../../actions";
+import { TabbedArea, TabPane } from '../UI/Tab';
 import fetch from '../../utils/fetch';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default class ContactContactPanel extends Component {
+
+class ContactContactPanel extends Component {
     constructor(props) {
         super(props);
 
         this._initPhoneCall = this._initPhoneCall.bind(this);
+        this._sendEmail = this._sendEmail.bind(this);
     }
 
     _togglePanelClass() {
@@ -16,17 +23,23 @@ export default class ContactContactPanel extends Component {
     }
 
     _initPhoneCall() {
-        let URL = '/plivo/send/call/' + this.props.contact.id;
+        actionCreators.callContact({
+            id: this.props.contact.id,
+            recipient: this.props.user.phone
+        });
 
-        let options = {
-            method: 'POST',
-            body: {
-                recipient: '18159970741'
-            },
-            forAuth: true
-        };
+        this._togglePanelClass();
+    }
 
-        fetch(URL, options);
+    _sendEmail(e) {
+        e.preventDefault();
+
+        actionCreators.emailContact({
+            id: this.props.contact.id,
+            emailContent: document.getElementById('email-content').value
+        });
+
+        this._togglePanelClass();
     }
 
     render() {
@@ -45,24 +58,42 @@ export default class ContactContactPanel extends Component {
                                     <i className="md-icon">close</i>
                                 </div>
                             </div>
-                            <div className="panel-user-available-actions">
-                                <div className="user-action-box">
-                                    <i className="md-icon">email</i><br />
-                                    Email
-                                </div>
-                                <div className="user-action-box">
-                                    <i className="md-icon">sms</i><br />
-                                    SMS
-                                </div>
-                                <div className="user-action-box" onClick={this._initPhoneCall}>
-                                    <i className="md-icon">phone</i><br />
-                                    Phone
-                                </div>
+                            <div className="panel-user-score">
+                                <Progress size={0}/>
                             </div>
                         </div>
+
+                        <TabbedArea>
+                            <TabPane title="Email" icon="email">
+                                <div>
+                                    <form>
+                                        <input className="form-control" type="text" name="subject" placeholder="Subject" />
+                                        <textarea placeholder="Email content" className="form-control" name="content" id="email-content" style={{width:"100%", height: "300px"}}/>
+                                        <br />
+                                        <button className="button button-primary" onClick={this._sendEmail}>Send</button>
+                                    </form>
+                                </div>
+                            </TabPane>
+                            <TabPane title="SMS" icon="sms">
+                                <div>Coming Soon</div>
+                            </TabPane>
+                            <TabPane title="Phone" icon="phone" onClick={this._initPhoneCall}>
+                                <div>Place a call to this user.</div>
+                            </TabPane>
+                        </TabbedArea>
                     </Panel>
                 </div>
             </div>
         );
     }
 }
+
+ContactContactPanel.propTypes = {
+    user: PropTypes.object.isRequired
+}
+
+export default connect((store) => {
+    return {
+        user: store.authState.user
+    }
+})(ContactContactPanel);

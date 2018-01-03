@@ -80,3 +80,42 @@ export function postContact(data, dispatch) {
             })
         });
 }
+
+export function emailContact(data) {
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
+
+    let METHOD = 'POST';
+    let URL = '/people/' + data.id + '/email';
+
+    let options = {
+        body: data,
+        method: METHOD
+    }
+
+    fetch(URL, options)
+        .then((response) => {
+            // noop
+        });
+}
+
+export function callContact(data) {
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
+
+    let METHOD = 'POST';
+    let URL = '/plivo/send/call/' + data.id;
+
+    let options = {
+        body: data,
+        method: METHOD,
+        forAuth: true
+    }
+
+    fetch(URL, options)
+        .then((response) => {
+            // noop
+        });
+}

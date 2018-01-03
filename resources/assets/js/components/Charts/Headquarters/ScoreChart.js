@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import ChartistGraph from 'react-chartist';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default class ScoreChart extends Component {
+class ScoreChart extends Component {
     render() {
         let data = {
-            series: [79]
+            series: [this.props.user.vector]
         };
 
         let options = {
@@ -20,3 +22,13 @@ export default class ScoreChart extends Component {
         )
     }
 }
+
+ScoreChart.propTypes = {
+    user: PropTypes.object.isRequired
+}
+
+export default connect((store) => {
+    return {
+        user: store.authState.user,
+    }
+})(ScoreChart)

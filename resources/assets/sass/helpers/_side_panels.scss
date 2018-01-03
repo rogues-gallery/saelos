@@ -89,6 +89,15 @@
   }
 }
 
+.contact-note-overlay {
+  z-index: 3000;
+
+  .contact-note-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .contact-contact-overlay {
   z-index: 3000;
 
@@ -109,6 +118,7 @@
   .action-panel-open &,
   .contact-history-panel-open &,
   .contact-edit-panel-open &,
+  .contact-note-panel-open &,
   .contact-contact-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);
     transform: translateX(-300px);
@@ -128,6 +138,15 @@
   z-index: 3001;
 
   .contact-edit-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+.contact-note-side {
+  z-index: 3001;
+
+  .contact-note-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);
     transform: translateX(0);
   }

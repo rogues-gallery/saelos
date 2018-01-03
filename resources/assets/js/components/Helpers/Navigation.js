@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-export default class Navigation extends Component {
+class Navigation extends Component {
     render() {
         return(
             <div className="navigation">
@@ -18,6 +19,14 @@ export default class Navigation extends Component {
                             <i className="md-icon">looks</i> <span>My Vector</span>
                         </NavLink>
                     </li>
+
+                    {this.props.user.team_leader ?
+                        <li>
+                            <NavLink to="/my-team" activeClassName="active">
+                                <i className="md-icon">contacts</i> <span>My Team</span>
+                            </NavLink>
+                        </li>
+                        : ''}
 
                     <li>
                         <NavLink to="/contacts" activeClassName="active">
@@ -64,3 +73,13 @@ export default class Navigation extends Component {
         );
     }
 }
+
+Navigation.propTypes = {
+    user: PropTypes.object.isRequired
+}
+
+export default connect((store) => {
+    return {
+        user: store.authState.user
+    }
+})(Navigation)

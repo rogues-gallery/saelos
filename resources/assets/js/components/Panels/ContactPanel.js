@@ -16,7 +16,7 @@ class ContactPanel extends Component {
         this._setFormState = this._setFormState.bind(this);
         this._toggleBodyClass = this._toggleBodyClass.bind(this);
         this._toggleContactClass = this._toggleContactClass.bind(this);
-        this._toggleEditClass = this._toggleEditClass.bind(this);
+        this._toggleNoteClass = this._toggleNoteClass.bind(this);
         this._toggleHistoryClass = this._toggleHistoryClass.bind(this);
         this._getContainerClass = this._getContainerClass.bind(this);
 
@@ -53,8 +53,8 @@ class ContactPanel extends Component {
         document.querySelector(this._getContainerClass()).classList.toggle('contact-contact-panel-open');
     }
 
-    _toggleEditClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('contact-edit-panel-open');
+    _toggleNoteClass() {
+        document.querySelector(this._getContainerClass()).classList.toggle('contact-note-panel-open');
     }
 
     _toggleHistoryClass() {
@@ -86,9 +86,9 @@ class ContactPanel extends Component {
                                         <i className="md-icon">search</i><br />
                                         History
                                     </div>
-                                    <div className="user-action-box" onClick={this._toggleEditClass}>
-                                        <i className="md-icon">edit</i><br />
-                                        Edit
+                                    <div className="user-action-box" onClick={this._toggleNoteClass}>
+                                        <i className="md-icon">event_note</i><br />
+                                        Notes
                                     </div>
                                     <div className="user-action-box" onClick={this._toggleContactClass}>
                                         <i className="md-icon">chat_bubble_outline</i><br />

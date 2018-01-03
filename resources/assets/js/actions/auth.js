@@ -18,7 +18,10 @@ export function isUserAuthenticated() {
         fetch('/authenticated', {forAuth: true})
             .then((response) => {
                 if (response.data.status) {
-                    return loginUser(dispatch);
+                    return dispatch({
+                        type: types.AUTH_USER,
+                        data: response.data.status
+                    });
                 } else {
                     return logoutUser();
                 }

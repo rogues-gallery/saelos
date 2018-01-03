@@ -1,6 +1,12 @@
 import * as types from '../actions/types';
 
-const INITIAL_STATE = {error: '', message: '', content: '', authenticated: false}
+const INITIAL_STATE = {
+    error: '',
+    message: '',
+    content: '',
+    authenticated: false,
+    user: {}
+}
 
 export default function (state = INITIAL_STATE, action) {
     switch(action.type) {
@@ -9,7 +15,8 @@ export default function (state = INITIAL_STATE, action) {
                 ...state,
                 error: '',
                 message: '',
-                authenticated: true
+                authenticated: true,
+                user: action.data
             }
         case types.UNAUTH_USER:
             return {

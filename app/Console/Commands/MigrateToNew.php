@@ -65,6 +65,7 @@ class MigrateToNew extends Command
         $this->importDeals();
         $this->importPeople();
         $this->importActivities();
+        $this->importNotes();
     }
 
     /**
@@ -235,7 +236,7 @@ class MigrateToNew extends Command
                 $newField = new CustomField();
 
                 $newField->label = $field->name;
-                $newField->alias = strtolower(str_replace(' ', '_', $field->alias));
+                $newField->alias = $field->alias ?? strtolower(str_replace(' ', '_', $field->name));
                 $newField->model = Deal::class;
                 $newField->group = 'core';
                 $newField->type = $field->type;
@@ -467,10 +468,6 @@ class MigrateToNew extends Command
             }
 
             $page++;
-
-            if ($deals->lastPage()) {
-                break;
-            }
         } while ($page <= $deals->lastPage());
 
         $bar->finish();
@@ -538,6 +535,18 @@ class MigrateToNew extends Command
      * @throws \Throwable
      */
     private function importActivities()
+    {
+        $this->info('Starting import of Activities');
+
+        $page = 1;
+
+        $this->line('');
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    private function importNotes()
     {
         $this->info('Starting import of Activities');
 

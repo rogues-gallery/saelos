@@ -3956,6 +3956,16 @@ table tr:last-child td {
           transform: translateX(0);
 }
 
+.contact-note-overlay {
+  z-index: 3000;
+}
+
+.contact-note-panel-open .contact-note-overlay {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+
 .contact-contact-overlay {
   z-index: 3000;
 }
@@ -3980,6 +3990,7 @@ table tr:last-child td {
 .action-panel-open .contact-side,
 .contact-history-panel-open .contact-side,
 .contact-edit-panel-open .contact-side,
+.contact-note-panel-open .contact-side,
 .contact-contact-panel-open .contact-side {
   -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
           box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
@@ -4003,6 +4014,17 @@ table tr:last-child td {
 }
 
 .contact-edit-panel-open .contact-edit-side {
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+
+.contact-note-side {
+  z-index: 3001;
+}
+
+.contact-note-panel-open .contact-note-side {
   -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
           box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   -webkit-transform: translateX(0);
@@ -4093,6 +4115,39 @@ table tr:last-child td {
           box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   -webkit-transform: translateX(0);
           transform: translateX(0);
+}
+
+/**
+ * 29. Tabs
+ */
+
+.tabbed-area section {
+  margin: auto;
+}
+
+.tabbed-area .tab li {
+  float: left;
+  width: 20%;
+}
+
+.tabbed-area .tab a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #888;
+  padding: 10px 0;
+  border-bottom: 2px solid #888;
+  background: #f7f7f7;
+}
+
+.tabbed-area .tab a:hover,
+.tabbed-area .tab a:active {
+  background: #ddd;
+}
+
+.tabbed-area .tab-pane {
+  padding: 30px;
 }
 
 .ct-chart {

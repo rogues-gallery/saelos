@@ -6,8 +6,8 @@ const icons = ["3d_rotation", "ac_unit", "access_alarm", "access_alarms", "acces
 
 export default class Icons extends Component {
     render() {
-        const result = icons.map((icon) => {
-            return (<div className="icon"><div className="md-icon">{icon}</div></div>);
+        const result = icons.map((icon, index) => {
+            return (<div key={index} className="icon"><div className="md-icon">{icon}</div></div>);
         });
 
         return (

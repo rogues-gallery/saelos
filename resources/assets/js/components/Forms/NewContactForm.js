@@ -63,14 +63,6 @@ class NewContactForm extends Component {
     }
 
     render() {
-        let stageSelect = <select name="stage">
-            <option value="">Please Select</option>
-            <option value="1">Stage 1</option>
-            <option value="2">Stage 2</option>
-            <option value="3">Stage 3</option>
-            <option value="4">Stage 4</option>
-        </select>;
-
         let customFields = this._getCustomFields();
 
         return (

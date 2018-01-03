@@ -58,4 +58,15 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = Hash::make($value);
     }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+
+        $array['team_leader'] = (isset($array['team']) && $array['team']['leader_id'] === $array['id']);
+
+        $array['vector'] = rand(45, 100);
+
+        return $array;
+    }
 }

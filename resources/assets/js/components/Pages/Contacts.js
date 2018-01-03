@@ -9,11 +9,11 @@ import Progress from '../UI/Progress';
 import Filter from '../Helpers/Filter';
 import ContactPanel from '../Panels/ContactPanel';
 import HistoryPanel from '../Panels/HistoryPanel';
-import EditPanel from '../Panels/EditPanel';
 import ContactContactPanel from '../Panels/ContactContactPanel';
 
 import { actionCreators } from '../../actions';
 import * as types from "../../actions/types";
+import NotePanel from "../Panels/NotePanel";
 
 class Contacts extends Component {
     constructor(props) {
@@ -172,7 +172,7 @@ export class Contact extends Component {
 
                     <ContactPanel contact={this.state.contact} dispatch={this.props.dispatch} />
                     <HistoryPanel contact={this.props.contact} dispatch={this.props.dispatch}/>
-                    <EditPanel contact={this.props.contact} dispatch={this.props.dispatch}/>
+                    <NotePanel contact={this.props.contact} dispatch={this.props.dispatch}/>
                     <ContactContactPanel contact={this.props.contact} dispatch={this.props.dispatch}/>
                 </td>
 

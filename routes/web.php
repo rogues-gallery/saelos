@@ -21,10 +21,14 @@ Route::get('/me', function () {
 });
 
 Route::get('/authenticated', function () {
-    return response(['status' => (bool) Auth::user()]);
+return response(['status' => Auth::user()->load(['team', 'team.users'])->toArray()]);
 });
 
 Auth::routes();
+
+Route::get('/home', function () {
+    return \Illuminate\Support\Facades\Redirect::to('/');
+});
 
 Route::get('/', 'ReactController@index')->name('react-home');
 Route::get('/{slug}', 'ReactController@index')->name('react');

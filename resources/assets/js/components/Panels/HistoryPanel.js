@@ -17,13 +17,17 @@ export default class HistoryPanel extends Component {
 
     render() {
         let history = this.props.contact.activities.map((activity, index) => {
+            let recordUrl = activity.details.details.recordUrl ? <a href={activity.details.details.recordUrl} target="_blank">Listen to the call</a> : 'No recording available';
+
             return <li key={index}>
                 <span className="line">&nbsp;</span>
                 <span className="line-number">{index + 1}</span>
                 <div className="line-content">
                     <h4>{activity.title}</h4>
                     <p>{activity.description}</p>
-                    <p>{activity.details.details.recordUrl ? <a href={activity.details.details.recordUrl} target="_blank">Listen to the call</a> : 'No recording available'}</p>
+                    {activity.details_type === "App\\CallActivity" ?
+                        <p>{recordUrl}</p>
+                        : ''}
                 </div>
             </li>
         });

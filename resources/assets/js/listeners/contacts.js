@@ -8,4 +8,9 @@ Echo.channel('contacts')
 
         NotificationManager.success(message, null, 2000);
     })
+    .listen('ContactEmailed', (e) => {
+        let message = 'Email sent to ' + e.first_name + ' ' + e.last_name + '!';
+
+        NotificationManager.success(message, null, 2000);
+    })
 ;

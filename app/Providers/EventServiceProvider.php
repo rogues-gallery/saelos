@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Subscribers\ContactSubscriber;
 use App\Subscribers\PlivoSubscriber;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -20,6 +21,7 @@ class EventServiceProvider extends ServiceProvider
 
     protected $subscribe = [
         PlivoSubscriber::class,
+        ContactSubscriber::class,
     ];
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ContactEmailed;
+use App\Mail\Contact;
 use Auth;
 use App\Company;
 use App\CustomField;
@@ -11,6 +13,7 @@ use App\Http\Resources\PersonCollection;
 use App\Person;
 use Illuminate\Http\Request;
 use App\Http\Resources\Person as PersonResource;
+use Illuminate\Support\Facades\Mail;
 
 class PersonController extends Controller
 {
@@ -116,11 +119,25 @@ class PersonController extends Controller
      * @param $id
      *
      * @return string
+     * @throws \Exception
      */
     public function destroy($id)
     {
         Person::findOrFail($id)->delete();
 
         return '';
+    }
+
+    public function email(Request $request, int $id)
+    {
+        $person = Person::findOrFail($id);
+        $user = Auth::user();
+
+        Mail::to($person->email)
+            ->send(new Contact($request->get('emailContent')));
+
+        ContactEmailed::dispatch($person, $user);
+
+        return 1;
     }
 }
