@@ -91921,7 +91921,7 @@ var TabbedArea = function (_Component) {
 
                 return _react2.default.createElement(
                     'div',
-                    { key: index, className: 'user-action-box', onClick: onClick },
+                    { key: index, className: className + " tab user-action-box", onClick: onClick },
                     _react2.default.createElement(
                         'i',
                         { className: 'md-icon' },

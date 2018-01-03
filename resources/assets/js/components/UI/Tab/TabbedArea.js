@@ -18,7 +18,7 @@ export default class TabbedArea extends Component {
             let onClick = child.props.onClick || self._handleClick.bind(self, index);
 
             return (
-                <div key={index} className="user-action-box" onClick={onClick}>
+                <div key={index} className={className + " tab user-action-box"} onClick={onClick}>
                     <i className="md-icon">{child.props.icon}</i><br />
                     {child.props.title}
                 </div>

@@ -4125,24 +4125,9 @@ table tr:last-child td {
   margin: auto;
 }
 
-.tabbed-area .tab li {
-  float: left;
-  width: 20%;
-}
-
-.tabbed-area .tab a {
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  text-transform: uppercase;
-  color: #888;
-  padding: 10px 0;
-  border-bottom: 2px solid #888;
-  background: #f7f7f7;
-}
-
-.tabbed-area .tab a:hover,
-.tabbed-area .tab a:active {
+.tabbed-area .tab:hover,
+.tabbed-area .tab:active,
+.tabbed-area .tab.active {
   background: #ddd;
 }
 
