@@ -148,7 +148,7 @@ class MigrateToNew extends Command
 
                 $newUser->name = $user->first_name.' '.$user->last_name;
                 $newUser->email = $user->email;
-                $newUser->password = 'Mautic12';
+                $newUser->password = \Hash::make('Mautic12');
                 $newUser->team_id = $this->teams[$user->team_id];
 
                 $newUser->saveOrFail();

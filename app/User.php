@@ -54,11 +54,6 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class);
     }
 
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = Hash::make($value);
-    }
-
     public function toArray()
     {
         $array = parent::toArray();
