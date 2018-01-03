@@ -18,7 +18,7 @@ class CreateNotesTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->longText('note');
-            $table->morphs('entity');
+            $table->nullableMorphs('entity');
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });

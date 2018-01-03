@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import fetch from '../../utils/fetch';
 
 export default function(ComposedComponent) {
     class Authentication extends Component {

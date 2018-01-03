@@ -23,6 +23,8 @@ Route::group([
 
     Route::post('/people/{id}/email', 'PersonController@email');
 
+    Route::resource('people.notes', 'PersonCommentController');
+
     Route::resource('people', 'PersonController');
     Route::resource('deals', 'DealController');
     Route::resource('companies', 'CompanyController');

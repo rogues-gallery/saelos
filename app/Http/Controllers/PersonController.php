@@ -72,7 +72,7 @@ class PersonController extends Controller
      * @param Request $request
      * @param         $id
      *
-     * @TODO: Move user, company, and custom field association update to Model mutators
+     * @TODO: Move company update to Model mutators
      *
      * @return Person
      * @throws \Exception

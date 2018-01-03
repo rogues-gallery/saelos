@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Stage
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Deal[] $deals
+ * @mixin \Eloquent
+ */
 class Stage extends Model
 {
     public function deals()

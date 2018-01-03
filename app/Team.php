@@ -4,6 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Team
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Deal[] $deals
+ * @property-read \App\User $leader
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @mixin \Eloquent
+ */
 class Team extends Model
 {
     public function users()

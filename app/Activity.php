@@ -4,6 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Activity
+ *
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $details
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $entity
+ * @property-read \App\User $user
+ * @mixin \Eloquent
+ */
 class Activity extends Model
 {
     public function user()

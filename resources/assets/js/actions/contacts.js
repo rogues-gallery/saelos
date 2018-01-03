@@ -97,7 +97,8 @@ export function emailContact(data) {
     fetch(URL, options)
         .then((response) => {
             // noop
-        });
+        })
+    ;
 }
 
 export function callContact(data) {
@@ -118,4 +119,24 @@ export function callContact(data) {
         .then((response) => {
             // noop
         });
+}
+
+export function addContactNote(data) {
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
+
+    let METHOD = 'POST';
+    let URL = '/people/' + data.id + '/notes';
+
+    let options = {
+        body: data,
+        method: METHOD
+    }
+
+    fetch(URL, options)
+        .then((response) => {
+            console.log(response);
+        })
+    ;
 }

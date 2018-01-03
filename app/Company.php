@@ -4,6 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Company
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\CustomFieldValue[] $customFields
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Deal[] $deals
+ * @property-read mixed $custom_fields
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[] $notes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Person[] $people
+ * @property-read \App\User $user
+ * @mixin \Eloquent
+ */
 class Company extends Model
 {
     use HasActivitiesTrait;
