@@ -92106,6 +92106,14 @@ var NotePanel = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var notes = _.map(this.props.contact.notes, function (note, index) {
+                return _react2.default.createElement(
+                    'div',
+                    { key: index, className: 'note' },
+                    note.note
+                );
+            });
+
             return _react2.default.createElement(
                 'div',
                 { className: 'content-side-wrapper' },
@@ -92145,7 +92153,11 @@ var NotePanel = function (_Component) {
                                 )
                             )
                         ),
-                        'User Notes'
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'note-container' },
+                            notes
+                        )
                     )
                 )
             );

@@ -8,6 +8,7 @@ class Company extends Model
 {
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
+    use HasNotesTrait;
 
     protected $guarded = [
         'id',

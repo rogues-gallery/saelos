@@ -10,6 +10,12 @@ export default class NotePanel extends Component {
     }
 
     render() {
+        let notes = _.map(this.props.contact.notes, (note, index) => {
+            return <div key={index} className="note">
+                {note.note}
+            </div>
+        });
+
         return (
             <div className="content-side-wrapper">
                 <div className="contact-note-overlay side-overlay" onClick={this._togglePanelClass.bind(this)} />
@@ -27,7 +33,9 @@ export default class NotePanel extends Component {
                             </div>
                         </div>
 
-                        User Notes
+                        <div className="note-container">
+                            {notes}
+                        </div>
 
                     </Panel>
                 </div>

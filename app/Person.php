@@ -8,6 +8,7 @@ class Person extends Model
 {
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
+    use HasNotesTrait;
 
     protected $guarded = [
         'id',
