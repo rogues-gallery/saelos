@@ -6,6 +6,7 @@ use App\Company;
 use App\CustomField;
 use App\CustomFieldValue;
 use App\Deal;
+use App\Note;
 use App\Person;
 use App\Stage;
 use App\Team;
@@ -13,6 +14,7 @@ use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class MigrateToNew extends Command
 {
@@ -69,6 +71,20 @@ class MigrateToNew extends Command
     }
 
     /**
+     * @param $total
+     *
+     * @return ProgressBar
+     */
+    private function createProgressBar($total): ProgressBar
+    {
+        $bar = $this->output->createProgressBar($total);
+
+        $bar->setFormat(' [%bar%] %percent:3s%% %current%/%max%');
+
+        return $bar;
+    }
+
+    /**
      * @throws \Throwable
      */
     private function importTeams()
@@ -84,7 +100,7 @@ class MigrateToNew extends Command
             $teams = $query->paginate(15, ['*'], 'page', $page);
 
             if (!isset($bar)) {
-                $bar = $this->output->createProgressBar($teams->total());
+                $bar = $this->createProgressBar($teams->total());
             }
 
             foreach ($teams as $team) {
@@ -124,7 +140,7 @@ class MigrateToNew extends Command
             $users = $query->paginate(15, ['*'], 'page', $page);
 
             if (!isset($bar)) {
-                $bar = $this->output->createProgressBar($users->total());
+                $bar = $this->createProgressBar($users->total());
             }
 
             foreach ($users as $user) {
@@ -171,7 +187,7 @@ class MigrateToNew extends Command
             $fields = $query->paginate(15, ['*'], 'page', $page);
 
             if (!isset($bar)) {
-                $bar = $this->output->createProgressBar($fields->total());
+                $bar = $this->createProgressBar($fields->total());
             }
 
             foreach ($fields as $field) {
@@ -229,7 +245,7 @@ class MigrateToNew extends Command
             $fields = $query->paginate(15, ['*'], 'page', $page);
 
             if (!isset($bar)) {
-                $bar = $this->output->createProgressBar($fields->total());
+                $bar = $this->createProgressBar($fields->total());
             }
 
             foreach ($fields as $field) {
@@ -287,7 +303,7 @@ class MigrateToNew extends Command
             $fields = $query->paginate(15, ['*'], 'page', $page);
 
             if (!isset($bar)) {
-                $bar = $this->output->createProgressBar($fields->total());
+                $bar = $this->createProgressBar($fields->total());
             }
 
             foreach ($fields as $field) {
@@ -345,7 +361,7 @@ class MigrateToNew extends Command
             $stages = $query->paginate(15, ['*'], 'page', $page);
 
             if (!isset($bar)) {
-                $bar = $this->output->createProgressBar($stages->total());
+                $bar = $this->createProgressBar($stages->total());
             }
 
             foreach ($stages as $stage) {
@@ -386,7 +402,7 @@ class MigrateToNew extends Command
             $companies = $query->paginate(15, ['*'], 'page', $page);
 
             if (!isset($bar)) {
-                $bar = $this->output->createProgressBar($companies->total());
+                $bar = $this->createProgressBar($companies->total());
             }
 
             foreach ($companies as $company) {
@@ -438,7 +454,7 @@ class MigrateToNew extends Command
             $deals = $query->paginate(15, ['*'], 'page', $page);
 
             if (!isset($bar)) {
-                $bar = $this->output->createProgressBar($deals->total());
+                $bar = $this->createProgressBar($deals->total());
             }
 
             foreach ($deals as $deal) {
@@ -490,7 +506,7 @@ class MigrateToNew extends Command
             $people = $query->paginate(15, ['*'], 'page', $page);
 
             if (!isset($bar)) {
-                $bar = $this->output->createProgressBar($people->total());
+                $bar = $this->createProgressBar($people->total());
             }
 
             foreach ($people as $person) {
@@ -548,10 +564,51 @@ class MigrateToNew extends Command
      */
     private function importNotes()
     {
-        $this->info('Starting import of Activities');
+        $this->info('Starting import of Notes');
 
         $page = 1;
 
+        $query = $this->connection->table('saelos_notes')
+            ->select();
+
+        do {
+            $notes = $query->paginate(15, ['*'], 'page', $page);
+
+            if (!isset($bar)) {
+                $bar = $this->createProgressBar($notes->total());
+            }
+
+            foreach ($notes as $note) {
+                $newNote = new Note();
+
+                $newNote->name = $note->name;
+                $newNote->note = $note->note;
+                $newNote->user_id = $this->users[$note->owner_id] ?? null;
+
+                if ($note->deal_id) {
+                    $newNote->entity_type = Deal::class;
+                    $newNote->entity_id = $this->deals[$note->deal_id];
+                } elseif ($note->company_id) {
+                    $newNote->entity_type = Company::class;
+                    $newNote->entity_id = $this->companies[$note->company_id];
+                } elseif ($note->person_id) {
+                    $newNote->entity_type = Person::class;
+                    $newNote->entity_id = $this->people[$note->person_id];
+                } else {
+                    // If we don't have an entity, don't save this note
+                    continue;
+                }
+
+                $newNote->saveOrFail();
+
+                $bar->advance();
+            }
+
+            $page++;
+
+        } while ($page <= $notes->lastPage());
+
+        $bar->finish();
         $this->line('');
     }
 

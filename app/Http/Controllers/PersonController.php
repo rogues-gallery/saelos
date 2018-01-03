@@ -24,6 +24,7 @@ class PersonController extends Controller
         'activities',
         'activities.details',
         'customFields',
+        'notes',
     ];
 
     private $showWith = [
@@ -33,6 +34,7 @@ class PersonController extends Controller
         'activities',
         'activities.details',
         'customFields',
+        'notes',
     ];
 
     public function index(Request $request)

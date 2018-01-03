@@ -18,7 +18,8 @@ class DealController extends Controller
         'company',
         'people',
         'stage',
-        'customFields'
+        'customFields',
+        'notes',
     ];
 
     private $showWith = [
@@ -27,7 +28,8 @@ class DealController extends Controller
         'company',
         'people',
         'stage',
-        'customFields'
+        'customFields',
+        'notes',
     ];
 
     public function index(Request $request)
