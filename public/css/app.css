@@ -562,14 +562,14 @@ html {
 
 body {
   -webkit-font-smoothing: antialiased;
-  color: #455A64;
+  color: #5e5f64;
   font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   height: 100%;
 }
 
 a {
-  color: #455A64;
+  color: #5e5f64;
   text-decoration: none;
 }
 
@@ -637,6 +637,12 @@ a {
 
 .text-right {
   text-align: right;
+}
+
+label {
+  cursor: pointer;
+  display: block;
+  margin: 0;
 }
 
 /**
@@ -936,7 +942,7 @@ a {
 
 .sidebar ul ul:before {
   bottom: 7px;
-  border-left: 1px dashed #455A64;
+  border-left: 1px dashed #5e5f64;
   content: '';
   display: block;
   left: 22px;
@@ -972,15 +978,15 @@ a {
 
 .sidebar a.active {
   background-color: rgba(0, 0, 0, 0.04);
-  color: #455A64;
+  color: #5e5f64;
 }
 
 .sidebar a:hover {
-  color: #455A64;
+  color: #5e5f64;
 }
 
 .sidebar a i {
-  color: #455A64;
+  color: #5e5f64;
   margin: 0 10px 0 0;
   vertical-align: middle;
 }
@@ -1035,11 +1041,15 @@ form input {
   border: none;
   outline: none;
   display: block;
+  color: #5e5f64;
+  letter-spacing: 0.02em;
 }
 
 form label {
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 600;
+  color: #5e5f64;
+  font-size: 12px;
 }
 
 form .input-container {
@@ -1052,7 +1062,7 @@ form .input-container input {
 }
 
 form .input-container.focused {
-  border: 1px solid rgba(79, 98, 119, 0.7);
+  border: 1px solid rgba(174, 190, 197, 0.4);
   padding: 3px;
 }
 
@@ -1069,7 +1079,6 @@ form .input-container.focused input:placeholder-shown {
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
           box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
-  color: #455A64;
   height: 36px;
   line-height: 36px;
   padding: 0 16px;
@@ -1140,7 +1149,7 @@ form .input-container.focused input:placeholder-shown {
 
 .form-group small {
   background-color: rgba(0, 0, 0, 0.03);
-  color: rgba(69, 90, 100, 0.6);
+  color: rgba(94, 95, 100, 0.6);
   display: block;
   font-size: 13px;
   line-height: 1.5;
@@ -1188,12 +1197,6 @@ fieldset legend {
  * 06. Buttons
  */
 
-label {
-  cursor: pointer;
-  display: block;
-  margin: 0 0 7px 0;
-}
-
 button {
   cursor: pointer;
 }
@@ -1234,7 +1237,7 @@ button {
 
 .button-default {
   border: 1px solid rgba(0, 0, 0, 0.06);
-  color: rgba(69, 90, 100, 0.7);
+  color: rgba(94, 95, 100, 0.7);
 }
 
 .button-primary {
@@ -1305,7 +1308,7 @@ button {
 }
 
 .button-dropdown .md-icon {
-  color: rgba(69, 90, 100, 0.5);
+  color: rgba(94, 95, 100, 0.5);
   cursor: pointer;
   padding: 10px;
   -webkit-transition: all .2s ease;
@@ -1513,7 +1516,7 @@ table td .key-value strong {
 }
 
 table td .key-value span {
-  color: rgba(69, 90, 100, 0.5);
+  color: rgba(94, 95, 100, 0.5);
   font-size: 13px;
   margin: 0 0 3px 0;
 }
@@ -1754,7 +1757,7 @@ table tr:last-child td {
 }
 
 .toolbar-actions ul li a {
-  color: #455A64;
+  color: #5e5f64;
   display: block;
   text-align: left;
   white-space: nowrap;
@@ -1762,13 +1765,13 @@ table tr:last-child td {
 }
 
 .toolbar-actions ul li a .md-icon {
-  color: #455A64;
+  color: #5e5f64;
   margin: 0 8px 0 0;
   vertical-align: middle;
 }
 
 .toolbar-actions ul li a span {
-  color: #455A64;
+  color: #5e5f64;
   display: inline-block;
   vertical-align: middle;
 }
@@ -1815,7 +1818,7 @@ table tr:last-child td {
 
 .toolbar-slide-inner {
   bottom: 0;
-  color: #455A64;
+  color: #5e5f64;
   left: 0;
   position: absolute;
   top: 0;
@@ -1894,7 +1897,7 @@ table tr:last-child td {
 }
 
 .toolbar-slide-content strong {
-  color: rgba(69, 90, 100, 0.6);
+  color: rgba(94, 95, 100, 0.6);
   display: block;
   font-size: 12px;
   font-weight: 500;
@@ -1935,12 +1938,12 @@ table tr:last-child td {
 }
 
 .toolbar-slide-results span {
-  color: rgba(69, 90, 100, 0.6);
+  color: rgba(94, 95, 100, 0.6);
   margin: 0 0 3px 0;
 }
 
 .toolbar-slide-results strong {
-  color: #455A64;
+  color: #5e5f64;
   display: block;
   font-size: 14px;
   font-weight: 400;
@@ -2114,7 +2117,9 @@ table tr:last-child td {
 
 /**
  * 13. Filter
- */
+ *
+ * @import 'helpers/filter';
+*/
 
 /**
  * 14. Panel
@@ -2687,7 +2692,7 @@ table tr:last-child td {
 }
 
 .infobox-header h4 {
-  color: rgba(69, 90, 100, 0.7);
+  color: rgba(94, 95, 100, 0.7);
   font-size: 14px;
   font-weight: 400;
   margin: 0;
@@ -2713,7 +2718,7 @@ table tr:last-child td {
 }
 
 .infobox-content p {
-  color: rgba(69, 90, 100, 0.7);
+  color: rgba(94, 95, 100, 0.7);
   line-height: 24px;
   margin: 0;
 }
@@ -2729,7 +2734,7 @@ table tr:last-child td {
 }
 
 .infobox-content-properties li span {
-  color: rgba(69, 90, 100, 0.7);
+  color: rgba(94, 95, 100, 0.7);
 }
 
 .infobox-content-properties li strong {
@@ -2761,7 +2766,7 @@ table tr:last-child td {
 }
 
 .infobox-meta span {
-  color: rgba(69, 90, 100, 0.7);
+  color: rgba(94, 95, 100, 0.7);
   margin: 0 0 5px 0;
 }
 
@@ -3080,175 +3085,45 @@ table tr:last-child td {
 }
 
 .ct-label.ct-vertical.ct-start {
-  color: #455A64;
+  color: #5e5f64;
 }
 
 .ct-chart-bar .ct-label.ct-horizontal.ct-end {
-  color: #455A64;
+  color: #5e5f64;
   font-size: 11px;
   font-weight: 400;
   text-transform: uppercase;
 }
 
+.ct-chart {
+  position: relative;
+}
+
+.ct-chart .chartist-tooltip {
+  border-radius: 3px;
+  background: rgba(79, 98, 119, 0.7);
+  color: #F0F0F0;
+}
+
+.ct-chart .chartist-tooltip:before {
+  border-top-color: rgba(79, 98, 119, 0.7);
+}
+
+.ct-chart .chartist-tooltip .chartist-tooltip-value {
+  display: none;
+}
+
 /**
  * 20. Invoice
- */
-
-.invoice-wrapper {
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  margin: 0 auto;
-  padding: 60px;
-  width: 794px;
-}
-
-.invoice-header {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  margin: -60px -60px 60px -60px;
-  padding: 60px 60px 60px 60px;
-}
-
-.invoice-logo {
-  font-size: 22px;
-  font-weight: 400;
-}
-
-.invoice-logo img {
-  max-height: 50px;
-}
-
-.invoice-description {
-  margin-left: auto;
-  text-align: right;
-}
-
-.invoice-description span,
-.invoice-description strong {
-  display: block;
-}
-
-.invoice-description span {
-  color: rgba(69, 90, 100, 0.6);
-  margin: 10px 0 0 0;
-}
-
-.invoice-info {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  margin: -60px -60px 0 -60px;
-  padding: 60px;
-}
-
-.invoice-info address {
-  line-height: 22px;
-}
-
-.invoice-info h4 {
-  margin-top: 0;
-}
-
-.invoice-info p {
-  line-height: 22px;
-}
-
-.invoice-info ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.invoice-info li {
-  line-height: 28px;
-}
-
-.invoice-info li strong {
-  color: rgba(69, 90, 100, 0.6);
-  font-weight: 400;
-}
-
-.invoice-info-client {
-  border-right: 1px solid rgba(0, 0, 0, 0.04);
-  padding: 30px;
-  width: 50%;
-}
-
-.invoice-info-payment {
-  padding: 30px;
-  text-align: right;
-  width: 50%;
-}
-
-.invoice-table {
-  background-color: rgba(0, 0, 0, 0.02);
-  margin: 0 -60px;
-  padding: 60px;
-}
-
-.invoice-table table {
-  margin: 0;
-}
-
-.invoice-summary {
-  background-color: #3E3E3E;
-  -webkit-box-align: right;
-      -ms-flex-align: right;
-          align-items: right;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  margin: 0 -61px -60px -61px;
-  padding: 40px 61px;
-  text-align: right;
-}
-
-.invoice-summary > div {
-  margin: 0 0 0 60px;
-}
-
-.invoice-summary > div:first-child {
-  margin-left: auto;
-}
-
-.invoice-summary span,
-.invoice-summary strong {
-  display: block;
-}
-
-.invoice-summary span {
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0 0 5px 0;
-  text-align: right;
-}
-
-.invoice-summary strong {
-  color: #fff;
-  font-size: 28px;
-  font-weight: 300;
-  text-align: right;
-}
+ *
+ * @import 'helpers/invoice';
+*/
 
 /**
  * 21. Headquarters
- */
+ *
+ * @import 'helpers/headquarters';
+*/
 
 /**
  * 22. Stacks
@@ -3428,7 +3303,7 @@ table tr:last-child td {
 }
 
 .stack-actions ul li a strong {
-  color: #455A64;
+  color: #5e5f64;
   font-weight: 400;
 }
 
@@ -3545,7 +3420,7 @@ table tr:last-child td {
 }
 
 .page-header p {
-  color: rgba(69, 90, 100, 0.5);
+  color: rgba(94, 95, 100, 0.5);
   font-size: 16px;
   line-height: 1.5;
   margin: 10px 0 0 0;
@@ -4133,23 +4008,5 @@ table tr:last-child td {
 
 .tabbed-area .tab-pane {
   padding: 30px;
-}
-
-.ct-chart {
-  position: relative;
-}
-
-.ct-chart .chartist-tooltip {
-  border-radius: 3px;
-  background: rgba(79, 98, 119, 0.7);
-  color: #F0F0F0;
-}
-
-.ct-chart .chartist-tooltip:before {
-  border-top-color: rgba(79, 98, 119, 0.7);
-}
-
-.ct-chart .chartist-tooltip .chartist-tooltip-value {
-  display: none;
 }
 
