@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ContactEmailed;
 use App\Mail\Contact;
+use App\Notifications\PersonUpdated;
 use Auth;
 use App\Company;
 use App\CustomField;
@@ -99,7 +100,7 @@ class PersonController extends Controller
         $person->update($data);
         $person->assignCustomFields($customFields);
 
-        ContactUpdated::broadcast($person);
+        Auth::user()->notify(new PersonUpdated($person));
 
         return $this->show($person->id);
     }

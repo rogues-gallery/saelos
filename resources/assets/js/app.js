@@ -13,6 +13,8 @@ ReactDOM.render(
     , document.getElementById('root'));
 registerServiceWorker();
 
+require('./listeners');
+
 document.addEventListener('focusin', function (e) {
     let parentNode = e.target.parentNode;
 

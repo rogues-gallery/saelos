@@ -25,6 +25,7 @@ return response(['status' => Auth::user()->load(['team', 'team.users'])->toArray
 });
 
 Auth::routes();
+Broadcast::routes();
 
 Route::get('/home', function () {
     return \Illuminate\Support\Facades\Redirect::to('/');
