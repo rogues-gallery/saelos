@@ -1,12 +1,16 @@
 import { NotificationManager } from 'react-notifications';
+import fetch from '../utils/fetch';
 
 let Echo = window.Echo;
-let authState = window.reduxStore.getState().authState;
 
-
-
-Echo.private(`App.User.${authState.user.id}`)
-    .notification((notification) => {
-        console.log(notification);
+fetch('/authenticated', {forAuth: true})
+    .then((response) => {
+        Echo.private(`App.User.${response.data.status.id}`)
+            .notification((notification) => {
+                if (notification.message) {
+                    NotificationManager.success(notification.message, null, 2000);
+                }
+            })
+        ;
     })
 ;

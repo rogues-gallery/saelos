@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\CompanyUpdated;
+use App\Notifications\CompanyUpdated;
 use Auth;
 use App\Company;
 use App\Http\Resources\CompanyCollection;
@@ -64,7 +64,7 @@ class CompanyController extends Controller
         $company->update($data);
         $company->assignCustomFields($customFields);
 
-        CompanyUpdated::broadcast($company);
+        Auth::user()->notify(new CompanyUpdated($company));
 
         return $this->show($company->id);
     }

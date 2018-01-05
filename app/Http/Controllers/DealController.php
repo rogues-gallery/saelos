@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\DealUpdated;
+use App\Notifications\DealUpdated;
 use Auth;
 use App\Company;
 use App\Deal;
@@ -70,7 +70,7 @@ class DealController extends Controller
         $deal->update($data);
         $deal->assignCustomFields($customFields);
 
-        DealUpdated::broadcast($deal);
+        Auth::user()->notify(new DealUpdated($deal));
 
         return $this->show($deal->id);
     }

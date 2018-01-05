@@ -29,6 +29,7 @@ class Person extends Model
         'user',
         'activities',
         'custom_fields',
+        'notes',
     ];
 
     public function user()

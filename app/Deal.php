@@ -31,6 +31,7 @@ class Deal extends Model
         'people',
         'stage',
         'custom_fields',
+        'notes',
     ];
 
     public function user()
