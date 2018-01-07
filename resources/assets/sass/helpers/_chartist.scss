@@ -98,3 +98,21 @@
 	font-weight: 400;
 	text-transform: uppercase;
 }
+
+.ct-chart {
+  position:relative;
+
+  .chartist-tooltip {
+    border-radius: 3px;
+    background: rgba($color-active-dark, 0.7);
+    color: $color-light;
+
+    &:before {
+      border-top-color: rgba($color-active-dark, 0.7);
+    }
+
+    .chartist-tooltip-value {
+      display:none;
+    }
+  }
+}
