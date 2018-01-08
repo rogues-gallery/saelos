@@ -60,7 +60,7 @@ class Contacts extends Component {
 
     render() {
         let results = this.props.contacts.map((contact) => {
-            return <Contact key={contact.id} contact={contact} dispatch={this.props.dispatch} />
+            return <Contact key={contact.id} contact={contact} dispatch={this.props.dispatch} user={this.props.user} />
         });
 
         let initialPage = 0;
@@ -98,6 +98,9 @@ class Contacts extends Component {
                                     <th>Name</th>
                                     <th>Status</th>
                                     <th>Stage</th>
+                                    {this.props.user.team_leader ?
+                                        <th>Assignee</th>
+                                    : null}
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
@@ -117,11 +120,14 @@ Contacts.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     contacts: PropTypes.array.isRequired,
     pagination: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
 }
 
 export class Contact extends Component {
     constructor(props) {
         super(props);
+
+        this._assignContact = this._assignContact.bind(this);
 
         this.state = {
             contact: props.contact
@@ -137,8 +143,18 @@ export class Contact extends Component {
         this.props.dispatch({type: types.FETCHING_SINGLE_CONTACT_SUCCESS, data: this.state.contact});
     }
 
+    _assignContact(e) {
+        this.state.contact.user_id = e.target.value;
+
+        actionCreators.postContact(this.state.contact, this.props.dispatch);
+    }
+
     render() {
         let rowClass = 'contact-row-' + this.state.contact.id;
+
+        let teamMembers = _.map(this.props.user.team.users, (member, index) => {
+            return <option key={index} value={member.id}>{member.name}</option>
+        });
 
         return (
             <tr className={rowClass}>
@@ -173,6 +189,15 @@ export class Contact extends Component {
                         <Progress size={this.state.contact.stage.percent} description={this.state.contact.stage.name} /> : 'Unknown'}
                 </td>
 
+                {this.props.user.team_leader ?
+                    <td>
+                        <select onChange={this._assignContact} defaultValue={this.state.contact.user_id}>
+                            <option>Select Assignee</option>
+                            {teamMembers}
+                        </select>
+                    </td>
+                    : ''}
+
                 <td className="actions min-width">
                     <div className="button-dropdown">
                         <i className="md-icon">more_horiz</i>
@@ -190,13 +215,15 @@ export class Contact extends Component {
 
 Contact.propTypes = {
     contact: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
 }
 
 export default connect((store) => {
     return {
         contacts: store.contactState.data,
         pagination: store.contactState.pagination,
-        isFetching: store.contactState.isFetching
+        isFetching: store.contactState.isFetching,
+        user: store.authState.user
     };
 })(Contacts)

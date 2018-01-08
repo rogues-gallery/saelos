@@ -20,14 +20,6 @@ class Navigation extends Component {
                         </NavLink>
                     </li>
 
-                    {this.props.user.team_leader ?
-                        <li>
-                            <NavLink to="/my-team" activeClassName="active">
-                                <i className="md-icon">contacts</i> <span>My Team</span>
-                            </NavLink>
-                        </li>
-                        : ''}
-
                     <li>
                         <NavLink to="/contacts" activeClassName="active">
                             <i className="md-icon">people</i> <span>Contacts</span>
@@ -59,16 +51,19 @@ class Navigation extends Component {
                     </li>
                 </ul>
 
-                <strong>Additional Links</strong>
+                {this.props.user.team_leader ?
+                    <div>
+                        <strong>Additional Links</strong>
 
-                <ul>
-                    <li>
-                        <NavLink to="/icons" activeClassName="active">
-                            <i className="md-icon">portrait</i> <span>Reps</span>
-                        </NavLink>
-                    </li>
-
-                </ul>
+                        <ul>
+                            <li>
+                                <NavLink to="/my-team" activeClassName="active">
+                                    <i className="md-icon">portrait</i> <span>Reps</span>
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </div>
+                    : ''}
             </div>
         );
     }

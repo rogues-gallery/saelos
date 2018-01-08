@@ -37,8 +37,6 @@ class EditContactForm extends Component {
             let thisField = this.props.contact.custom_fields[key];
             let input = '';
 
-            console.log(thisField);
-
             switch (thisField.type) {
                 case 'select':
                 case 'picklist':
