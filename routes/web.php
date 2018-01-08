@@ -21,7 +21,7 @@ Route::get('/me', function () {
 });
 
 Route::get('/authenticated', function () {
-return response(['status' => Auth::user()->load(['team', 'team.users'])->toArray()]);
+    return response(['status' => Auth::user()->load(['team', 'team.users'])->toArray()]);
 });
 
 Auth::routes();

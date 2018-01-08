@@ -36,10 +36,11 @@
 	background-size: cover;
 	border-radius: 50%;
 	display: inline-block;
-	height: 42px;
-	margin: 0 12px 0 0;
+	height: 50px;
+	margin: 0 0 0 12px;
 	vertical-align: middle;
-	width: 42px;
+	width: 50px;
+	overflow:hidden;
 }
 
 .panel-user-action {

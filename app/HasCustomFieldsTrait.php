@@ -55,10 +55,10 @@ trait HasCustomFieldsTrait
         }
     }
 
-    public function getCustomFieldsAttribute()
+    public function getCustomFields()
     {
         $customFields = CustomField::where('model', get_class($this))->get();
-        $fieldValues = $this->customFields()->get();
+        $fieldValues = $this->customFields();
         $attribute = [];
 
         foreach ($customFields as $i => $field) {
@@ -69,7 +69,8 @@ trait HasCustomFieldsTrait
                 'value' => null,
             ];
 
-            $filtered = $fieldValues->where('custom_field_id', $field->id);
+            $thisField = clone $fieldValues;
+            $filtered = $thisField->where('custom_field_id', $field->id);
 
             if ($value = $filtered->first()) {
                 $array['value'] = $value->value;
@@ -89,7 +90,7 @@ trait HasCustomFieldsTrait
     {
         $array = parent::toArray();
 
-        $array['custom_fields'] = $this->getCustomFieldsAttribute();
+        $array['custom_fields'] = $this->getCustomFields();
 
         return $array;
     }

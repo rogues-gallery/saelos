@@ -27,8 +27,6 @@ class ContactContactPanel extends Component {
             id: this.props.contact.id,
             recipient: this.props.user.phone
         });
-
-        this._togglePanelClass();
     }
 
     _sendEmail(e) {
@@ -40,6 +38,14 @@ class ContactContactPanel extends Component {
         });
 
         this._togglePanelClass();
+    }
+
+    _submitScore(e) {
+        e.preventDefault();
+        //
+        // actionCreators.submitScore({
+        //
+        // });
     }
 
     render() {
@@ -77,8 +83,15 @@ class ContactContactPanel extends Component {
                             <TabPane title="SMS" icon="sms">
                                 <div>Coming Soon</div>
                             </TabPane>
-                            <TabPane title="Phone" icon="phone" onClick={this._initPhoneCall}>
-                                <div>Place a call to this user.</div>
+                            <TabPane title="Phone" icon="phone">
+                                <div>
+                                    <p>Click the button below to initiate a call to this user. After the call
+                                    is completed, please give your Rep Sentiment score and submit.</p>
+
+                                    <button onClick={this._initPhoneCall} className="button button-primary">Init Phone Call</button>
+                                    <button onClick={this._submitScore} className="button button-primary">Submit Sentiment Score</button>
+
+                                </div>
                             </TabPane>
                         </TabbedArea>
                     </Panel>

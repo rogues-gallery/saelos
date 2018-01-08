@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import Navigation from './Navigation';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default class Toolbar extends Component {
+class Toolbar extends Component {
+    constructor(props) {
+        super(props);
+
+        this._toggleActionsBodyClass = this._toggleActionsBodyClass.bind(this);
+    }
+
     _toggleActionsBodyClass() {
         document.body.classList.toggle('toolbar-actions-open');
     }
@@ -16,7 +24,7 @@ export default class Toolbar extends Component {
 
                     <ul className="top">
                         <li>
-                            <a onClick={this._toggleActionsBodyClass.bind(this)}>
+                            <a onClick={this._toggleActionsBodyClass}>
                                 <i className="md-icon">add</i>
                             </a>
                         </li>
@@ -36,7 +44,7 @@ export default class Toolbar extends Component {
                         <div className="toolbar-slide-overlay" />
 
                         <div className="toolbar-slide-inner">
-                            <div className="toolbar-slide-close" onClick={this._toggleActionsBodyClass.bind(this)}>
+                            <div className="toolbar-slide-close" onClick={this._toggleActionsBodyClass}>
                                 <i className="md-icon">close</i>
                             </div>
 
@@ -82,3 +90,13 @@ export default class Toolbar extends Component {
         );
     }
 }
+
+Toolbar.propTypes = {
+    user: PropTypes.object.isRequired
+}
+
+export default connect((store) => {
+    return {
+        user: store.authState.user
+    }
+})(Toolbar);

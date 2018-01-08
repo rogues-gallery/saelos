@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import { actionCreators } from "../../actions";
 import EditContactForm from '../Forms/EditContactForm';
 import NewContactForm from '../Forms/NewContactForm';
+import Gravatar from 'react-gravatar';
 
 let _ = require('lodash');
 
@@ -69,6 +70,10 @@ class ContactPanel extends Component {
                     <Panel>
                         {this.props.contact.id !== 'new' ?
                             <div className="panel-user">
+                                <div className="panel-user-avatar">
+                                    <Gravatar email={this.props.contact.email} />
+                                </div>
+
                                 <div className="panel-user-content">
                                     {this.props.contact.first_name ? <div className="panel-user-name">{this.props.contact.first_name} {this.props.contact.last_name}</div> : ''}
 

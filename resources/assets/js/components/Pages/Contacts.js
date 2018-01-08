@@ -14,6 +14,7 @@ import ContactContactPanel from '../Panels/ContactContactPanel';
 import { actionCreators } from '../../actions';
 import * as types from "../../actions/types";
 import NotePanel from "../Panels/NotePanel";
+import Gravatar from 'react-gravatar';
 
 class Contacts extends Component {
     constructor(props) {
@@ -43,7 +44,7 @@ class Contacts extends Component {
         let customFieldDefinitions = {};
 
         this.props.contacts.length !== 0 ? Object.keys(this.props.contacts[0].custom_fields).map((key, index) => {
-            let thisField = this.props.contacts[0].custom_fields[key];
+            let thisField = Object.assign({}, this.props.contacts[0].custom_fields[key]);
 
             thisField.value = null;
 
@@ -139,25 +140,12 @@ export class Contact extends Component {
     render() {
         let rowClass = 'contact-row-' + this.state.contact.id;
 
-        let avatars = [
-            '/img/tmp/user-1.jpg',
-            '/img/tmp/user-2.jpg',
-            '/img/tmp/user-3.jpg',
-            '/img/tmp/user-4.jpg',
-            '/img/tmp/user-5.jpg',
-            '/img/tmp/user-6.jpg',
-            '/img/tmp/user-7.jpg',
-            '/img/tmp/user-8.jpg',
-            '/img/tmp/user-9.jpg',
-            '/img/tmp/user-10.jpg',
-        ];
-
-        let avatarUrl = this.state.contact.avatarUrl || avatars[Math.floor(Math.random() * avatars.length)];
-
         return (
             <tr className={rowClass}>
                 <td className="min-width">
-                    <div className="avatar" style={{backgroundImage: 'url('+avatarUrl+')'}}/>
+                    <div className="avatar">
+                        <Gravatar email={this.state.contact.email} size={44} />
+                    </div>
 
                     <div className="title-wrapper">
                         <div className="title">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ContactEmailed;
 use App\Mail\Contact;
 use App\Notifications\PersonUpdated;
+use App\User;
 use Auth;
 use App\Company;
 use App\CustomField;
@@ -84,6 +85,7 @@ class PersonController extends Controller
         $person = Person::findOrFail($id);
         $data = $request->all();
         $personCompany = $data['company'] ?? [];
+        $personUser = $data['user'] ?? [];
         $customFields = $data['custom_fields'] ?? [];
 
         if ($personCompany) {
@@ -96,7 +98,9 @@ class PersonController extends Controller
             $person->company()->associate($company);
         }
 
-        $person->user()->associate(Auth::user());
+        $user = User::find($personUser) ?? Auth::user();
+
+        $person->user()->associate($user);
         $person->update($data);
         $person->assignCustomFields($customFields);
 
