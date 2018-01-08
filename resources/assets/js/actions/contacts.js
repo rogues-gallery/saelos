@@ -140,3 +140,18 @@ export function addContactNote(data) {
         })
     ;
 }
+
+export function removeContact(id) {
+    let METHOD = 'DELETE';
+    let URL = '/people/' + id;
+
+    let options = {
+        body: {},
+        method: METHOD
+    }
+
+    fetch(URL, options)
+        .then((response) => {
+            console.log(response);
+        })
+}

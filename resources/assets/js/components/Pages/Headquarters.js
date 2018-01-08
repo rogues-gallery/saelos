@@ -8,6 +8,7 @@ import Loading from "../Helpers/Loading";
 import Box from "../UI/Box";
 import ScoreChart from "../Charts/Headquarters/ScoreChart";
 import CallPanel from "../Panels/CallPanel";
+import Gravatar from 'react-gravatar';
 
 class Headquarters extends Component {
     componentWillMount() {
@@ -19,15 +20,10 @@ class Headquarters extends Component {
     }
 
     render() {
-        let results = this.props.tasks.map((group) => {
-            let result = [];
+        console.log(this.props.tasks);
 
-            result.push(<TaskHeader key={group.header.type} header={group.header} />);
-            result.push(group.data.map((task) => {
-                return <Task key={task.id} task={task} />
-            }));
-
-            return result;
+        let results = this.props.tasks.map((task) => {
+            return <Task key={task.id} task={task} />
         });
 
         return (
@@ -36,6 +32,7 @@ class Headquarters extends Component {
                     <div className="content-inner">
                         <div className="headquarters flex-row-even">
                             <div style={{flexGrow: 2}}>
+                                <h1>Contact Today</h1>
                                 <table>
                                     <tbody>
                                     {results}
@@ -80,7 +77,7 @@ class Headquarters extends Component {
 Headquarters.propTypes = {
     dispatch: PropTypes.func,
     isFetching: PropTypes.bool.isRequired,
-    tasks: PropTypes.array.isRequired
+    user: PropTypes.object.isRequired
 };
 
 class TaskHeader extends Component {
@@ -102,20 +99,22 @@ class Task extends Component {
         return (
             <tr>
                 <td className="min-width">
-                    <div className={'status ' + this.props.task.type}>
+                    <div className={'status '}>
                         <i className="md-icon">check</i>
                     </div>
 
                     <div className="title-wrapper">
-                        <div className="title">{this.props.task.title}</div>
-                        <div className="subtitle">{this.props.task.project_title}</div>
+                        <div className="title">{this.props.task.first_name} {this.props.task.last_name}</div>
+                        <div className="subtitle">{this.props.task.company.name}</div>
                     </div>
                 </td>
 
                 <td>
-                    <div className="avatar" style={{backgroundImage: 'url(' + this.props.task.user_avatar  + ')'}}/>
+                    <div className="avatar">
+                        <Gravatar email={this.props.task.email} size={44} />
+                    </div>
                     <div className="title-wrapper">
-                        <div className="title">{this.props.task.user_name}</div>
+                        <div className="title">{this.props.task.first_name} {this.props.task.last_name}</div>
                     </div>
                 </td>
             </tr>
@@ -130,7 +129,8 @@ Task.propTypes = {
 export default connect((store) => {
     return {
         tasks: store.taskState.data,
-        pagination: store.taskState.pagination,
-        isFetching: store.taskState.isFetching
+        user: store.authState.user,
+        isFetching: store.taskState.isFetching,
+        pagination: store.taskState.pagination
     };
 })(Headquarters)

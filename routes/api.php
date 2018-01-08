@@ -23,6 +23,15 @@ Route::group([
 
     Route::post('/people/{id}/email', 'PersonController@email');
 
+    Route::get('/tasks', function () {
+        $people = \App\Person::where('user_id', Auth::user()->id)
+            ->with(['company'])
+            ->orderBy('updated_at')
+            ->get();
+
+        return \Illuminate\Http\JsonResponse::create($people);
+    });
+
     Route::resource('people.notes', 'PersonCommentController');
 
     Route::resource('people', 'PersonController');

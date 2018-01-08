@@ -128,6 +128,7 @@ export class Contact extends Component {
         super(props);
 
         this._assignContact = this._assignContact.bind(this);
+        this._removeContact = this._removeContact.bind(this);
 
         this.state = {
             contact: props.contact
@@ -147,6 +148,10 @@ export class Contact extends Component {
         this.state.contact.user_id = e.target.value;
 
         actionCreators.postContact(this.state.contact, this.props.dispatch);
+    }
+
+    _removeContact(e) {
+        actionCreators.removeContact(this.state.contact.id);
     }
 
     render() {
@@ -171,7 +176,7 @@ export class Contact extends Component {
                         </div>
                         {this.state.contact.company ?
                         <div className="subtitle">{this.state.contact.company.name}</div>
-                            : ''}
+                            : null}
                     </div>
 
                     <ContactPanel contact={this.state.contact} dispatch={this.props.dispatch} />
@@ -196,7 +201,7 @@ export class Contact extends Component {
                             {teamMembers}
                         </select>
                     </td>
-                    : ''}
+                    : null}
 
                 <td className="actions min-width">
                     <div className="button-dropdown">
@@ -204,7 +209,7 @@ export class Contact extends Component {
 
                         <ul>
                             <li><a>Update</a></li>
-                            <li><a>Remove</a></li>
+                            <li><a onClick={this._removeContact}>Remove</a></li>
                         </ul>
                     </div>
                 </td>
