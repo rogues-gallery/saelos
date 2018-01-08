@@ -20,8 +20,6 @@ class Headquarters extends Component {
     }
 
     render() {
-        console.log(this.props.tasks);
-
         let results = this.props.tasks.map((task) => {
             return <Task key={task.id} task={task} />
         });

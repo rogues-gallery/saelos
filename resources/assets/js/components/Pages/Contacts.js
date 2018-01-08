@@ -208,7 +208,6 @@ export class Contact extends Component {
                         <i className="md-icon">more_horiz</i>
 
                         <ul>
-                            <li><a>Update</a></li>
                             <li><a onClick={this._removeContact}>Remove</a></li>
                         </ul>
                     </div>
