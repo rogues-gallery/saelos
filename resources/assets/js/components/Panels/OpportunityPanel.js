@@ -43,6 +43,7 @@ class OpportunityPanel extends Component {
 
     _togglePanelClass() {
         document.querySelector(this._getContainerClass()).classList.toggle('opportunity-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
 
         this._handleFormSubmit();
     }

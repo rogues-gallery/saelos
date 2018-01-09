@@ -19,7 +19,7 @@ class Toolbar extends Component {
             <div className="toolbar toolbar-slide">
                 <div className="toolbar-inner">
                     <div className="logo">
-                        S
+                        <img src="/img/logo_light.svg" width={30} height={30} alt="Saelos" />
                     </div>
 
                     <ul className="top">

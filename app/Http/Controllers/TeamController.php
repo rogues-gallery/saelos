@@ -9,14 +9,24 @@ use App\Http\Resources\Team as TeamResource;
 
 class TeamController extends Controller
 {
+    private $indexWith = [
+        'users',
+        'deals',
+    ];
+
+    private $showWith = [
+        'users',
+        'users.deals',
+    ];
+
     public function index()
     {
-        return new TeamCollection(Team::with(['users', 'deals'])->paginate());
+        return new TeamCollection(Team::with($this->indexWith)->paginate());
     }
 
     public function show($id)
     {
-        return new TeamResource(Team::with(['users', 'deals'])->find($id));
+        return new TeamResource(Team::with($this->showWith)->find($id));
     }
 
     public function update(Request $request, $id)

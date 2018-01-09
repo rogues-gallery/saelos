@@ -43,6 +43,7 @@ class AccountPanel extends Component {
 
     _togglePanelClass() {
         document.querySelector(this._getContainerClass()).classList.toggle('account-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
 
         this._handleFormSubmit();
     }

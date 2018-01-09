@@ -46,6 +46,7 @@ class ContactPanel extends Component {
 
     _toggleBodyClass() {
         document.querySelector(this._getContainerClass()).classList.toggle('contact-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
 
         this._handleFormSubmit();
     }

@@ -8,6 +8,11 @@ body {
 	font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 	font-size: 13px;
 	height: 100%;
+
+    &.panel-open {
+      // disable scrolling on the body when panels are open
+      overflow:hidden;
+    }
 }
 
 a {

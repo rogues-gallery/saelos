@@ -8,6 +8,7 @@ import authReducer from './auth';
 import accountReducer from './accounts';
 import opportunityReducer from "./opportunities";
 import stageReducer from './stages';
+import teamReducer from "./teams";
 
 export default combineReducers({
     form: formReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
     authState: authReducer,
     accountState: accountReducer,
     opportunityState: opportunityReducer,
-    stageState: stageReducer
+    stageState: stageReducer,
+    teamState: teamReducer
 });

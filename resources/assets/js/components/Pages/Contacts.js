@@ -35,6 +35,7 @@ class Contacts extends Component {
 
     _toggleNewPanel() {
         document.querySelector('.contact-row-new').classList.toggle('contact-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
 
         // Set the form state for a new contact
         this.props.dispatch({type: types.FETCHING_SINGLE_CONTACT_SUCCESS, data: this._getNewContact()});
@@ -129,6 +130,7 @@ export class Contact extends Component {
 
         this._assignContact = this._assignContact.bind(this);
         this._removeContact = this._removeContact.bind(this);
+        this._toggleBodyClass = this._toggleBodyClass.bind(this);
 
         this.state = {
             contact: props.contact
@@ -139,6 +141,7 @@ export class Contact extends Component {
         let rowClass = 'tr.contact-row-' + this.state.contact.id;
 
         document.querySelector(rowClass).classList.toggle('contact-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
 
         // Set the form state
         this.props.dispatch({type: types.FETCHING_SINGLE_CONTACT_SUCCESS, data: this.state.contact});
@@ -164,13 +167,13 @@ export class Contact extends Component {
         return (
             <tr className={rowClass}>
                 <td className="min-width">
-                    <div className="avatar">
+                    <div className="avatar" onClick={this._toggleBodyClass}>
                         <Gravatar email={this.state.contact.email} size={44} />
                     </div>
 
                     <div className="title-wrapper">
                         <div className="title">
-                            <a onClick={this._toggleBodyClass.bind(this)}>
+                            <a onClick={this._toggleBodyClass}>
                                 {this.state.contact.first_name} {this.state.contact.last_name}
                             </a>
                         </div>
