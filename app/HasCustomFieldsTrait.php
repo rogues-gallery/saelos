@@ -55,7 +55,7 @@ trait HasCustomFieldsTrait
         }
     }
 
-    public function getCustomFields()
+    public function getCustomFieldsAttribute()
     {
         $customFields = CustomField::where('model', get_class($this))->get();
         $fieldValues = $this->customFields();
@@ -90,7 +90,7 @@ trait HasCustomFieldsTrait
     {
         $array = parent::toArray();
 
-        $array['custom_fields'] = $this->getCustomFields();
+        $array['custom_fields'] = $this->getCustomFieldsAttribute();
 
         return $array;
     }

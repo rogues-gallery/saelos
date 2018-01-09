@@ -223,3 +223,24 @@
     transform: translateX(0);
   }
 }
+
+/**
+ * Rep Flyouts
+ */
+.rep-panel-overlay {
+  z-index: 2000;
+
+  .rep-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.rep-panel-side {
+  z-index: 2001;
+
+  .rep-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}

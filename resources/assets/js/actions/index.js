@@ -7,6 +7,7 @@ import * as AccountActions from './accounts';
 import * as StageActions from './stages';
 import * as AuthActions from './auth';
 import * as TeamActions from './teams';
+import * as UserActions from './users';
 
 export const actionCreators = Object.assign({},
     AuthActions,
@@ -17,6 +18,7 @@ export const actionCreators = Object.assign({},
     OpportunityActions,
     TaskActions,
     StageActions,
-    TeamActions
+    TeamActions,
+    UserActions
 );
 

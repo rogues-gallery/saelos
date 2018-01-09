@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Money } from 'react-format';
-import AccountPanel from "../../Panels/AccountPanel";
+import RepPanel from "../../Panels/RepPanel";
 import Gravatar from 'react-gravatar';
 
 export default class InfoboxRep extends Component {
@@ -40,6 +40,8 @@ export default class InfoboxRep extends Component {
                             </div>
                         </div>
                     </div>
+
+                    <RepPanel rep={this.props.rep} />
                 </div>
             </div>
         );

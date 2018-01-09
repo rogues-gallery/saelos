@@ -40,4 +40,5 @@ Route::group([
     Route::resource('stages', 'StageController');
     Route::resource('teams', 'TeamController');
     Route::resource('activities', 'ActivityController');
+    Route::resource('users', 'UserController');
 });

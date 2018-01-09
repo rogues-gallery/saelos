@@ -12,11 +12,13 @@ class TeamController extends Controller
     private $indexWith = [
         'users',
         'deals',
+        'users.customFields',
     ];
 
     private $showWith = [
         'users',
         'users.deals',
+        'users.customFields',
     ];
 
     public function index()

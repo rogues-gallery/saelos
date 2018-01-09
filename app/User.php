@@ -23,6 +23,7 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
+    use HasCustomFieldsTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -30,7 +31,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'phone',
     ];
 
     /**
@@ -74,6 +75,8 @@ class User extends Authenticatable
         $array['team_leader'] = (isset($array['team']) && $array['team']['leader_id'] === $array['id']);
 
         $array['vector'] = rand(45, 100);
+
+        $array['custom_fields'] = $this->getCustomFieldsAttribute();
 
         return $array;
     }
