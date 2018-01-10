@@ -82,7 +82,13 @@ Report.propTypes = {
 class ReportItem extends Component {
     render() {
         let cells = this.props.columns.map((column, index) => {
-            return <td key={index}>{this.props.item[column]}</td>
+            if (/custom_fields/.test(column)) {
+                column = column + '.value';
+            }
+
+            let cellValue = _.get(this.props.item, column);
+
+            return <td key={index}>{cellValue}</td>
         });
 
         return (

@@ -24,7 +24,7 @@ class PageTitle extends Component {
 
                 <h1>{this.findTitle()}</h1>
 
-                <Shortcuts/>
+                {/** <Shortcuts/> **/}
             </div>
         );
     }

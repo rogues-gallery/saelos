@@ -17,16 +17,65 @@ class Report extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function data($start = 0, $limit = 30)
+    public function data()
     {
         $model = $this->data_source;
 
         /** @var Builder $items */
         $items = $model::where('published', 1);
 
-        $items->where(function(Builder $q) {
-            foreach ($this->filters as $filter => $value) {
-                $q->where($filter, 'like', '%'.$value.'%');
+        $items->where(function($q) {
+            foreach ($this->filters as $field => $details) {
+                if (strpos($field, '.') !== false) {
+                    list($relation, $col) = explode('.', $field);
+
+                    // Special handling for custom fields
+                    if ($relation === 'custom_fields') {
+                        $q->whereIn('people.id', function ($builder) use ($col, $details) {
+                            $builder->select('custom_field_values.model_id')
+                                ->from('custom_field_values')
+                                ->leftJoin('custom_fields', 'custom_field_values.custom_field_id', '=', 'custom_fields.id')
+                                ->where('custom_field_values.model_type', '=', $this->data_source)
+                                ->where('custom_field_values.model_id', '=', \DB::raw('`people`.`id`'))
+                                ->where('custom_field_values.value', '=', $details['filter'])
+                                ->where('custom_fields.alias', '=', $col);
+                        });
+
+                        continue;
+                    }
+                }
+
+                switch ($this->data_source) {
+                    case 'App\\Person':
+                        $field = 'people.'.$field;
+                        break;
+                }
+
+                switch ($details['operator']) {
+                    case 'like':
+                        $q->where($field, 'like', '%'.$details['filter'].'%');
+                        break;
+                    case '!like':
+                        $q->where($field, 'not like', '%'.$details['filter'].'%');
+                        break;
+                    case 'startsWith':
+                        $q->where($field, 'like', $details['filter'].'%');
+                        break;
+                    case 'endsWith':
+                        $q->where($field, 'like', '%'.$details['filter']);
+                        break;
+                    case 'empty':
+                        $q->whereNull($field);
+                        break;
+                    case '!empty':
+                        $q->whereNotNull($field);
+                        break;
+                    case 'between':
+                        $q->whereBetween($field, $details['filter']);
+                        break;
+                    default:
+                        $q->where($field, $details['operator'], $details['filter']);
+                }
             }
         });
 
