@@ -11,6 +11,7 @@ export default class Dashboard extends Component {
         this.props.dispatch(actionCreators.fetchContacts());
         this.props.dispatch(actionCreators.fetchAccounts());
         this.props.dispatch(actionCreators.fetchOpportunities());
+        this.props.dispatch(actionCreators.fetchReports());
     }
 
     render() {

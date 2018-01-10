@@ -9,6 +9,7 @@ export default class InfoboxRep extends Component {
         let itemClass = 'div.rep-item-' + this.props.rep.id;
 
         document.querySelector(itemClass).classList.toggle('rep-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
     }
 
     render() {

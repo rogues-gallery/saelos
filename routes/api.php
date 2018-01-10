@@ -41,4 +41,5 @@ Route::group([
     Route::resource('teams', 'TeamController');
     Route::resource('activities', 'ActivityController');
     Route::resource('users', 'UserController');
+    Route::resource('reports', 'ReportController');
 });
