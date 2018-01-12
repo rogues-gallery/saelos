@@ -14,6 +14,7 @@ use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class MigrateToNew extends Command
@@ -194,7 +195,7 @@ class MigrateToNew extends Command
                 $newField = new CustomField();
 
                 $newField->label = $field->name;
-                $newField->alias = strtolower(str_replace(' ', '_', $field->alias));
+                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name));
                 $newField->model = Company::class;
                 $newField->group = 'core';
                 $newField->type = $field->type;
@@ -252,7 +253,7 @@ class MigrateToNew extends Command
                 $newField = new CustomField();
 
                 $newField->label = $field->name;
-                $newField->alias = $field->alias ?? strtolower(str_replace(' ', '_', $field->name));
+                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name));
                 $newField->model = Deal::class;
                 $newField->group = 'core';
                 $newField->type = $field->type;
@@ -310,7 +311,7 @@ class MigrateToNew extends Command
                 $newField = new CustomField();
 
                 $newField->label = $field->name;
-                $newField->alias = strtolower(str_replace(' ', '_', $field->alias));
+                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name));
                 $newField->model = Person::class;
                 $newField->group = 'core';
                 $newField->type = $field->type;

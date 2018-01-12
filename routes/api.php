@@ -34,6 +34,9 @@ Route::group([
 
     Route::get('/reports/{id}/export', 'ReportExportController@export');
 
+    Route::get('/contexts/{model}', 'ContextController@show')
+        ->where('model', '[a-zA-Z/]+');
+
     Route::resource('people.notes', 'PersonCommentController');
     Route::resource('people', 'PersonController');
     Route::resource('deals', 'DealController');
