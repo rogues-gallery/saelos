@@ -4,16 +4,19 @@ import Progress from "../UI/Progress";
 import EditOpportunityForm from "../Forms/EditOpportunityForm";
 import {actionCreators} from "../../actions";
 import {connect} from "react-redux";
+import PropTypes from 'prop-types';
 import NewOpportunityForm from "../Forms/NewOpportunityForm";
+import * as types from "../../actions/types";
+import HistoryPanel from './HistoryPanel';
+import NotePanel from './NotePanel';
 
 class OpportunityPanel extends Component {
     constructor(props) {
         super(props);
 
-        this._getContainerClass = this._getContainerClass.bind(this);
         this._handleFormSubmit = this._handleFormSubmit.bind(this);
         this._setFormState = this._setFormState.bind(this);
-        this._togglePanelClass = this._togglePanelClass.bind(this);
+        this._toggleBodyClass = this._toggleBodyClass.bind(this);
         this._toggleNoteClass = this._toggleNoteClass.bind(this);
         this._toggleHistoryClass = this._toggleHistoryClass.bind(this);
         this._toggleDocumentsClass = this._toggleDocumentsClass.bind(this);
@@ -37,41 +40,44 @@ class OpportunityPanel extends Component {
         })
     }
 
-    _getContainerClass() {
-        return 'div.opportunity-item-' + this.props.opportunity.id;
-    }
+    _toggleBodyClass() {
+        let exists = document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
 
-    _togglePanelClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('opportunity-panel-open');
+        if (!exists) {
+            this.props.dispatch({
+                type: types.CLEAR_OPPORTUNITY_FOR_FLYOUT
+            })
+        }
+
         document.querySelector('body').classList.toggle('panel-open');
 
         this._handleFormSubmit();
     }
 
     _toggleHistoryClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('opportunity-history-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-history-panel-open');
     }
 
     _toggleNoteClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('opportunity-edit-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-edit-panel-open');
     }
 
     _toggleDocumentsClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('opportunity-contact-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-contact-panel-open');
     }
 
     render() {
         return (
-            <div className="content-side-wrapper">
-                <div className="opportunity-side-overlay side-overlay" onClick={this._togglePanelClass} />
+            <div id="opportunity-panel-wrapper">
+                <div className="opportunity-side-overlay side-overlay" onClick={this._toggleBodyClass} />
                 <div className="opportunity-panel-side side-panel">
                     <Panel>
-                        {this.props.opportunity.id !== 'new' ?
+                        {this.props.opportunity.id ?
                             <div className="panel-user">
                                 <div className="panel-user-content">
                                     {this.props.opportunity.name ? <div className="panel-user-name">{this.props.opportunity.name}</div> : ''}
 
-                                    <div className="panel-user-action" onClick={this._togglePanelClass}>
+                                    <div className="panel-user-action" onClick={this._toggleBodyClass}>
                                         <i className="md-icon">close</i>
                                     </div>
                                 </div>
@@ -97,7 +103,7 @@ class OpportunityPanel extends Component {
                             <div className="panel-user">
                                 <div className="panel-user-content">
                                     <div className="panel-user-name">Create Opportunity</div>
-                                    <div className="panel-user-action" onClick={this._togglePanelClass}>
+                                    <div className="panel-user-action" onClick={this._toggleBodyClass}>
                                         <i className="md-icon">close</i>
                                     </div>
                                 </div>
@@ -108,13 +114,13 @@ class OpportunityPanel extends Component {
                         }
 
                         <div className="panel-opportunity-details">
-                            {this.props.opportunity.id === 'new' ?
-                                <NewOpportunityForm opportunity={this.props.opportunity} setFormState={this._setFormState} />
-                            :
+                            {this.props.opportunity.id ?
                                 <EditOpportunityForm opportunity={this.props.opportunity} setFormState={this._setFormState} />
+                            :
+                                <NewOpportunityForm opportunity={this.props.opportunity} setFormState={this._setFormState} />
                             }
                         </div>
-                        {this.props.opportunity.id !== 'new' ?
+                        {this.props.opportunity.id ?
                             <div className="panel-actions">
                                 <strong>Recommended Action</strong>
                                 <p>Wait <strong>2 days</strong> before taking next step.</p>
@@ -122,9 +128,20 @@ class OpportunityPanel extends Component {
                         : ''}
                     </Panel>
                 </div>
+                <HistoryPanel contact={this.props.opportunity} dispatch={this.props.dispatch} />
+                <NotePanel contact={this.props.opportunity} dispatch={this.props.dispatch} />
             </div>
         );
     }
 }
 
-export default connect()(OpportunityPanel);
+OpportunityPanel.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    opportunity: PropTypes.object.isRequired
+}
+
+export default connect((store) => {
+    return {
+        opportunity: store.opportunityFlyoutState.data
+    }
+})(OpportunityPanel);

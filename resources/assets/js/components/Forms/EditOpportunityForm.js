@@ -61,7 +61,7 @@ class EditOpportunityForm extends Component {
     }
 
     render() {
-        let customFields = this._getCustomFields();
+        let customFields = '';//this._getCustomFields();
 
         return (
             <form id="opportunity-details-form">

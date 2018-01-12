@@ -8,6 +8,7 @@ import Sidebar from '../Helpers/Sidebar';
 import Toolbar from '../Helpers/Toolbar';
 import { NotificationContainer } from 'react-notifications';
 import ContactPanel from '../Panels/ContactPanel';
+import OpportunityPanel from '../Panels/OpportunityPanel';
 
 export default class Backend extends Component {
     render() {
@@ -28,6 +29,7 @@ export default class Backend extends Component {
                 <ExamplePanel/>
                 <NotificationContainer />
                 <ContactPanel />
+                <OpportunityPanel />
             </div>
         );
     }

@@ -11,6 +11,7 @@ import stageReducer from './stages';
 import teamReducer from "./teams";
 import reportReducer from "./reports";
 import contactFlyoutReducer from "./contact-flyout";
+import opportunityFlyoutReducer from "./opportunity-flyout";
 
 export default combineReducers({
     form: formReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
     stageState: stageReducer,
     teamState: teamReducer,
     reportState: reportReducer,
-    contactFlyoutState: contactFlyoutReducer
+    contactFlyoutState: contactFlyoutReducer,
+    opportunityFlyoutState: opportunityFlyoutReducer
 });

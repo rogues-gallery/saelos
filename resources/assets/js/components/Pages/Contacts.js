@@ -31,11 +31,14 @@ class Contacts extends Component {
     }
 
     _toggleNewPanel() {
-        document.querySelector('.contact-row-new').classList.toggle('contact-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
         document.querySelector('body').classList.toggle('panel-open');
 
         // Set the form state for a new contact
-        this.props.dispatch({type: types.FETCHING_SINGLE_CONTACT_SUCCESS, data: this._getNewContact()});
+        this.props.dispatch({
+            type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
+            data: {}
+        });
     }
 
     _getNewContact() {
@@ -85,9 +88,6 @@ class Contacts extends Component {
                     <Filter onInputChange={actionCreators.fetchContacts} filterFields={filterFields} type="contacts" />
                     <div className="button button-primary" onClick={this._toggleNewPanel}>
                         <i className="md-icon">person_add</i> <span>Create Contact</span>
-                    </div>
-                    <div className="contact-row-new">
-                        <ContactPanel key="new" contact={this._getNewContact()} />
                     </div>
                     <div className="table-responsive">
                         <table>

@@ -8,7 +8,6 @@ import { actionCreators } from '../../actions';
 import Loading from '../Helpers/Loading';
 import { InfoboxOpportunity } from "../UI/Infobox";
 import * as types from "../../actions/types";
-import OpportunityPanel from '../Panels/OpportunityPanel'
 import Filter from '../Helpers/Filter';
 
 class Opportunities extends Component {
@@ -25,7 +24,8 @@ class Opportunities extends Component {
     }
 
     _toggleNewPanel() {
-        document.querySelector('.opportunity-item-new').classList.toggle('opportunity-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
 
         // Set the form state for a new contact
         this.props.dispatch({type: types.FETCHING_SINGLE_OPPORTUNITY_SUCCESS, data: this._getNewOpportunity()});
@@ -80,9 +80,6 @@ class Opportunities extends Component {
                     <Filter onInputChange={actionCreators.fetchOpportunities} filterFields={filterFields} type="opportunities" />
                     <div className="button button-primary" onClick={this._toggleNewPanel}>
                         <i className="md-icon">add</i> <span>Create Account</span>
-                    </div>
-                    <div className="opportunity-item-new">
-                        <OpportunityPanel opportunity={this._getNewOpportunity()} />
                     </div>
                     <div className="opportunities flex-row-even">
                         {results}

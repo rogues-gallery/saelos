@@ -5,6 +5,7 @@ import AccountPanel from "../../Panels/AccountPanel";
 import ReactTooltip from 'react-tooltip';
 import * as types from "../../../actions/types";
 import { connect } from 'react-redux';
+import Gravatar from 'react-gravatar';
 
 class InfoboxAccount extends Component {
     _togglePanelClass() {
@@ -25,18 +26,6 @@ class InfoboxAccount extends Component {
 
     render() {
         let itemClass = 'infobox account-item-' + this.props.account.id;
-        let avatars = [
-            '/img/tmp/user-1.jpg',
-            '/img/tmp/user-2.jpg',
-            '/img/tmp/user-3.jpg',
-            '/img/tmp/user-4.jpg',
-            '/img/tmp/user-5.jpg',
-            '/img/tmp/user-6.jpg',
-            '/img/tmp/user-7.jpg',
-            '/img/tmp/user-8.jpg',
-            '/img/tmp/user-9.jpg',
-            '/img/tmp/user-10.jpg',
-        ];
 
         if (typeof this.props.account.people === 'undefined') {
             this.props.account.people = [];
@@ -47,13 +36,19 @@ class InfoboxAccount extends Component {
         }
 
         let accountContacts = Object.keys(this.props.account.people).length ? this.props.account.people.slice(0, 10).map((contact, index) => {
-            let avatarUrl = avatars[Math.floor(Math.random() * avatars.length)]
             let tooltipId = "account-"+this.props.account.id+"-contact-"+contact.id;
+            let tooltipContent = contact.first_name + " " + contact.last_name;
 
-            return <li key={index} onClick={this._toggleContactPanel.bind(this, contact)}>
-                <span data-tip data-for={tooltipId} style={{backgroundImage: 'url('+avatarUrl+')'}} />
+            if (contact.position) {
+                tooltipContent = tooltipContent + ", " + contact.position;
+            }
+
+            return <li key={index} onClick={this._toggleContactPanel.bind(this, contact)} className="avatar">
+                <span data-tip data-for={tooltipId}>
+                    <Gravatar email={contact.email} size={44} />
+                </span>
                 <ReactTooltip id={tooltipId}>
-                    {contact.first_name + " " + contact.last_name}
+                    {tooltipContent}
                 </ReactTooltip>
             </li>
         }) : [];

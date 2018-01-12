@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Money } from 'react-format';
-import OpportunityPanel from "../../Panels/OpportunityPanel";
+import { connect } from 'react-redux';
+import * as types from "../../../actions/types";
 
-export default class InfoboxOpportunity extends Component {
-    _togglePanelClass() {
-        let itemClass = 'div.opportunity-item-' + this.props.opportunity.id;
+class InfoboxOpportunity extends Component {
+    _togglePanelClass(data) {
+        this.props.dispatch({
+            type: types.FETCHING_OPPORTUNITY_FOR_FLYOUT_SUCCESS,
+            data: data
+        });
 
-        document.querySelector(itemClass).classList.toggle('opportunity-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
     }
 
     render() {
@@ -16,8 +21,8 @@ export default class InfoboxOpportunity extends Component {
         return (
             <div className={itemClass}>
                 <div className="infobox-inner">
-                    <div className="infobox-header">
-                        <div className="infobox-header-content" onClick={this._togglePanelClass.bind(this)}>
+                    <div className="infobox-header" onClick={this._togglePanelClass.bind(this, this.props.opportunity)}>
+                        <div className="infobox-header-content">
                             <h3>{this.props.opportunity.name}</h3>
                         </div>
                     </div>
@@ -66,7 +71,6 @@ export default class InfoboxOpportunity extends Component {
                         </div>
                     </div>
                 </div>
-                <OpportunityPanel opportunity={this.props.opportunity} />
             </div>
         );
     }
@@ -75,3 +79,5 @@ export default class InfoboxOpportunity extends Component {
 InfoboxOpportunity.propTypes = {
     opportunity: PropTypes.object.isRequired
 };
+
+export default connect()(InfoboxOpportunity)
