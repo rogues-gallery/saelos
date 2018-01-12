@@ -195,7 +195,7 @@ class MigrateToNew extends Command
                 $newField = new CustomField();
 
                 $newField->label = $field->name;
-                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name));
+                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name);
                 $newField->model = Company::class;
                 $newField->group = 'core';
                 $newField->type = $field->type;
@@ -253,7 +253,7 @@ class MigrateToNew extends Command
                 $newField = new CustomField();
 
                 $newField->label = $field->name;
-                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name));
+                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name);
                 $newField->model = Deal::class;
                 $newField->group = 'core';
                 $newField->type = $field->type;
@@ -311,7 +311,7 @@ class MigrateToNew extends Command
                 $newField = new CustomField();
 
                 $newField->label = $field->name;
-                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name));
+                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name);
                 $newField->model = Person::class;
                 $newField->group = 'core';
                 $newField->type = $field->type;
