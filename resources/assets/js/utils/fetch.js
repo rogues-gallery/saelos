@@ -1,6 +1,8 @@
 import { API_HOST, API_PATH } from '../config/_entrypoint';
 import axios from 'axios';
 
+let FileDownload = require('react-file-download');
+
 export default function (url, options = {}) {
   let forAuth = (options.hasOwnProperty('forAuth') && options.forAuth);
 
@@ -11,7 +13,11 @@ export default function (url, options = {}) {
   let data = options.hasOwnProperty('body') ? options.body : {};
 
   return axios[method.toLowerCase()](link, data)
-      .then(function (response) {
+      .then((response) => {
+          if (response.headers['x-suggested-filename']) {
+              return FileDownload(response.data, response.headers['x-suggested-filename']);
+          }
+
           if (response.statusText === 'OK') return response;
 
           return response

@@ -12,6 +12,7 @@ class Report extends Component {
         super(props);
 
         this._navToPage = this._navToPage.bind(this);
+        this._initReportDownload = this._initReportDownload.bind(this);
     }
 
     componentWillMount() {
@@ -24,6 +25,10 @@ class Report extends Component {
         let id = this.props.match.params.id;
 
         this.props.dispatch(actionCreators.fetchReport(id, page.selected + 1));
+    }
+
+    _initReportDownload() {
+        actionCreators.downloadReport(this.props.report.id);
     }
 
     render() {
@@ -56,6 +61,9 @@ class Report extends Component {
                     <div className="table-responsive">
                         <h1>{this.props.report.name}</h1>
                         <p>{this.props.report.description}</p>
+                        <button className="button button-primary" onClick={this._initReportDownload}>
+                            <i className="md-icon">download</i> Download
+                        </button>
                         <table>
                             <thead>
                             <tr>

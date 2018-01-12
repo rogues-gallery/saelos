@@ -32,8 +32,9 @@ Route::group([
         return \Illuminate\Http\JsonResponse::create($people);
     });
 
-    Route::resource('people.notes', 'PersonCommentController');
+    Route::get('/reports/{id}/export', 'ReportExportController@export');
 
+    Route::resource('people.notes', 'PersonCommentController');
     Route::resource('people', 'PersonController');
     Route::resource('deals', 'DealController');
     Route::resource('companies', 'CompanyController');

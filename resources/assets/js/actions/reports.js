@@ -47,6 +47,12 @@ export function fetchReport(id, page = 1) {
     }
 }
 
+export function downloadReport(id) {
+    let URL = '/reports/' + id + '/export';
+
+    fetch(URL);
+}
+
 export function postReport(data, dispatch) {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
