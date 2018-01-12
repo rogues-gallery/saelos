@@ -74,3 +74,8 @@ export const AUTH_ERROR = 'auth_error';
 export const FORGOT_PASSWORD_REQUEST = 'forgot_password_request';
 export const RESET_PASSWORD_REQUEST = 'reset_password_request';
 export const PROTECTED_TEST = 'protected_test';
+
+export const FETCHING_CONTACT_FOR_FLYOUT = 'FETCHING_CONTACT_FOR_FLYOUT';
+export const FETCHING_CONTACT_FOR_FLYOUT_SUCCESS = 'FETCHING_CONTACT_FOR_FLYOUT_SUCCESS';
+export const FETCHING_CONTACT_FOR_FLYOUT_FAILURE = 'FETCHING_CONTACT_FOR_FLYOUT_FAILURE';
+export const CLEAR_CONTACT_FOR_FLYOUT = 'CLEAR_CONTACT_FOR_FLYOUT';

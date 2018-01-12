@@ -10,13 +10,11 @@ export default class HistoryPanel extends Component {
     }
 
     _togglePanelClass() {
-        let rowClass = 'tr.contact-row-' + this.props.contact.id;
-
-        document.querySelector(rowClass).classList.toggle('contact-history-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-history-panel-open');
     }
 
     render() {
-        let history = this.props.contact.activities.map((activity, index) => {
+        let history = this.props.contact.activities ? this.props.contact.activities.map((activity, index) => {
             let recordUrl = activity.details.details.recordUrl ? <a href={activity.details.details.recordUrl} target="_blank">Listen to the call</a> : 'No recording available';
 
             return <li key={index}>
@@ -30,10 +28,10 @@ export default class HistoryPanel extends Component {
                         : ''}
                 </div>
             </li>
-        });
+        }) : null;
 
         return (
-            <div className="content-side-wrapper">
+            <div>
                 <div className="contact-history-overlay side-overlay" onClick={this._togglePanelClass} />
                 <div className="contact-history-side side-panel">
                     <Panel>

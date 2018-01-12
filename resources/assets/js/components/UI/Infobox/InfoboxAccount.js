@@ -3,12 +3,24 @@ import PropTypes from 'prop-types';
 import { Money } from 'react-format';
 import AccountPanel from "../../Panels/AccountPanel";
 import ReactTooltip from 'react-tooltip';
+import * as types from "../../../actions/types";
+import { connect } from 'react-redux';
 
-export default class InfoboxAccount extends Component {
+class InfoboxAccount extends Component {
     _togglePanelClass() {
         let itemClass = 'div.account-item-' + this.props.account.id;
 
         document.querySelector(itemClass).classList.toggle('account-panel-open');
+    }
+
+    _toggleContactPanel(data) {
+        this.props.dispatch({
+            type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
+            data: data
+        });
+
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
     }
 
     render() {
@@ -38,7 +50,7 @@ export default class InfoboxAccount extends Component {
             let avatarUrl = avatars[Math.floor(Math.random() * avatars.length)]
             let tooltipId = "account-"+this.props.account.id+"-contact-"+contact.id;
 
-            return <li key={index}>
+            return <li key={index} onClick={this._toggleContactPanel.bind(this, contact)}>
                 <span data-tip data-for={tooltipId} style={{backgroundImage: 'url('+avatarUrl+')'}} />
                 <ReactTooltip id={tooltipId}>
                     {contact.first_name + " " + contact.last_name}
@@ -91,3 +103,5 @@ export default class InfoboxAccount extends Component {
 InfoboxAccount.propTypes = {
     account: PropTypes.object.isRequired
 };
+
+export default connect()(InfoboxAccount)

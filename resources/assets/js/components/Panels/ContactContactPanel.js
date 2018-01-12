@@ -17,9 +17,7 @@ class ContactContactPanel extends Component {
     }
 
     _togglePanelClass() {
-        let rowClass = 'tr.contact-row-' + this.props.contact.id;
-
-        document.querySelector(rowClass).classList.toggle('contact-contact-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-contact-panel-open');
     }
 
     _initPhoneCall() {
@@ -50,7 +48,7 @@ class ContactContactPanel extends Component {
 
     render() {
         return (
-            <div className="content-side-wrapper">
+            <div>
                 <div className="contact-contact-overlay side-overlay" onClick={this._togglePanelClass.bind(this)} />
                 <div className="contact-contact-side side-panel">
                     <Panel>

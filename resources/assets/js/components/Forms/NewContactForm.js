@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
+import { connect } from 'react-redux';
 
 class NewContactForm extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class NewContactForm extends Component {
     }
 
     render() {
-        let customFields = this._getCustomFields();
+        let customFields = '';//this._getCustomFields();
 
         return (
             <form id="contact-details-form">
@@ -114,7 +115,13 @@ class NewContactForm extends Component {
 
 NewContactForm.propTypes = {
     contact: PropTypes.object.isRequired,
-    setFormState: PropTypes.func.isRequired
+    setFormState: PropTypes.func.isRequired,
+    dataUpdated: PropTypes.bool.isRequired
 }
 
-export default NewContactForm;
+export default connect((store) => {
+    return {
+        contact: store.contactFlyoutState.data,
+        dataUpdated: store.contactFlyoutState.dataUpdated
+    }
+})(NewContactForm);

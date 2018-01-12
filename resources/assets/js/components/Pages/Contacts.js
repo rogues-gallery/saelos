@@ -8,13 +8,10 @@ import Loading from '../Helpers/Loading';
 import Progress from '../UI/Progress';
 import Filter from '../Helpers/Filter';
 import ContactPanel from '../Panels/ContactPanel';
-import HistoryPanel from '../Panels/HistoryPanel';
-import ContactContactPanel from '../Panels/ContactContactPanel';
+import Gravatar from 'react-gravatar';
 
 import { actionCreators } from '../../actions';
 import * as types from "../../actions/types";
-import NotePanel from "../Panels/NotePanel";
-import Gravatar from 'react-gravatar';
 
 class Contacts extends Component {
     constructor(props) {
@@ -130,21 +127,20 @@ export class Contact extends Component {
 
         this._assignContact = this._assignContact.bind(this);
         this._removeContact = this._removeContact.bind(this);
-        this._toggleBodyClass = this._toggleBodyClass.bind(this);
 
         this.state = {
             contact: props.contact
         }
     }
 
-    _toggleBodyClass() {
-        let rowClass = 'tr.contact-row-' + this.state.contact.id;
+    _toggleBodyClass(data) {
+        this.props.dispatch({
+            type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
+            data: data
+        });
 
-        document.querySelector(rowClass).classList.toggle('contact-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
         document.querySelector('body').classList.toggle('panel-open');
-
-        // Set the form state
-        this.props.dispatch({type: types.FETCHING_SINGLE_CONTACT_SUCCESS, data: this.state.contact});
     }
 
     _assignContact(e) {
@@ -167,13 +163,13 @@ export class Contact extends Component {
         return (
             <tr className={rowClass}>
                 <td className="min-width">
-                    <div className="avatar" onClick={this._toggleBodyClass}>
+                    <div className="avatar" onClick={this._toggleBodyClass.bind(this, this.state.contact)}>
                         <Gravatar email={this.state.contact.email} size={44} />
                     </div>
 
                     <div className="title-wrapper">
                         <div className="title">
-                            <a onClick={this._toggleBodyClass}>
+                            <a onClick={this._toggleBodyClass.bind(this, this.state.contact)}>
                                 {this.state.contact.first_name} {this.state.contact.last_name}
                             </a>
                         </div>
@@ -181,11 +177,6 @@ export class Contact extends Component {
                         <div className="subtitle">{this.state.contact.company.name}</div>
                             : null}
                     </div>
-
-                    <ContactPanel contact={this.state.contact} dispatch={this.props.dispatch} />
-                    <HistoryPanel contact={this.props.contact} dispatch={this.props.dispatch}/>
-                    <NotePanel contact={this.props.contact} dispatch={this.props.dispatch}/>
-                    <ContactContactPanel contact={this.props.contact} dispatch={this.props.dispatch}/>
                 </td>
 
                 <td>

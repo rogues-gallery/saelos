@@ -17,9 +17,7 @@ export default class NotePanel extends Component {
     }
 
     _togglePanelClass() {
-        let rowClass = 'tr.contact-row-' + this.props.contact.id;
-
-        document.querySelector(rowClass).classList.toggle('contact-note-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-note-panel-open');
     }
 
     _handleNoteSubmit(e) {
@@ -41,7 +39,7 @@ export default class NotePanel extends Component {
         });
 
         return (
-            <div className="content-side-wrapper">
+            <div>
                 <div className="contact-note-overlay side-overlay" onClick={this._togglePanelClass} />
                 <div className="contact-note-side side-panel">
                     <Panel>

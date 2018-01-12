@@ -7,6 +7,7 @@ import PageTitle from '../Helpers/PageTitle';
 import Sidebar from '../Helpers/Sidebar';
 import Toolbar from '../Helpers/Toolbar';
 import { NotificationContainer } from 'react-notifications';
+import ContactPanel from '../Panels/ContactPanel';
 
 export default class Backend extends Component {
     render() {
@@ -26,6 +27,7 @@ export default class Backend extends Component {
                 </div>
                 <ExamplePanel/>
                 <NotificationContainer />
+                <ContactPanel />
             </div>
         );
     }

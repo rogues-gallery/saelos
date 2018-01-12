@@ -6,6 +6,7 @@ import Loading from '../Helpers/Loading';
 import {actionCreators} from "../../actions";
 import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
+import * as types from '../../actions/types';
 
 class Report extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class Report extends Component {
 
         this._navToPage = this._navToPage.bind(this);
         this._initReportDownload = this._initReportDownload.bind(this);
+        this._openReportFlyout = this._openReportFlyout.bind(this);
     }
 
     componentWillMount() {
@@ -31,13 +33,23 @@ class Report extends Component {
         actionCreators.downloadReport(this.props.report.id);
     }
 
+    _openReportFlyout(data) {
+        this.props.dispatch({
+            type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
+            data: data
+        });
+
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
+    }
+
     render() {
         if (Object.keys(this.props.report).length === 0) {
             return <Backend><Loading/></Backend>;
         }
 
         let results = this.props.report.data.data.map((row) => {
-            return <ReportItem key={row.id} item={row} columns={this.props.report.columns} />
+            return <ReportItem key={row.id} item={row} columns={this.props.report.columns} openFlyout={this._openReportFlyout} dataSource={this.props.report.data_source} />
         });
 
         let initialPage = 0;
@@ -55,6 +67,16 @@ class Report extends Component {
             return <th key={index}>{header}</th>
         });
 
+        let showDetails = ((report) => {
+            switch (report.data_source) {
+                case 'App\\Person':
+                    return true;
+                default:
+                    return false;
+            }
+
+        })(this.props.report);
+
         return (
             <Backend>
                 <div className="content-inner">
@@ -67,6 +89,7 @@ class Report extends Component {
                         <table>
                             <thead>
                             <tr>
+                                {showDetails ? <th>Details</th> : null}
                                 {headerRow}
                             </tr>
                             </thead>
@@ -88,6 +111,10 @@ Report.propTypes = {
 }
 
 class ReportItem extends Component {
+    _openReportFlyout(data) {
+        this.props.openFlyout(data);
+    }
+
     render() {
         let cells = this.props.columns.map((column, index) => {
             if (/custom_fields/.test(column)) {
@@ -99,8 +126,20 @@ class ReportItem extends Component {
             return <td key={index}>{cellValue}</td>
         });
 
+
+        let firstColumn = ((dataSource) => {
+            switch (dataSource) {
+                case 'App\\Person':
+                    return <td onClick={this._openReportFlyout.bind(this, this.props.item)}>Details</td>
+                default:
+                    return false;
+            }
+
+        })(this.props.dataSource);
+
         return (
             <tr>
+                {firstColumn ? firstColumn : null}
                 {cells}
             </tr>
         )
@@ -109,7 +148,9 @@ class ReportItem extends Component {
 
 ReportItem.propTypes = {
     item: PropTypes.object.isRequired,
-    columns: PropTypes.array.isRequired
+    columns: PropTypes.array.isRequired,
+    openFlyout: PropTypes.func.isRequired,
+    dataSource: PropTypes.string.isRequired
 }
 
 export default connect((store) => {

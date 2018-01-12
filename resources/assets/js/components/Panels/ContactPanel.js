@@ -5,7 +5,12 @@ import {connect} from "react-redux";
 import { actionCreators } from "../../actions";
 import EditContactForm from '../Forms/EditContactForm';
 import NewContactForm from '../Forms/NewContactForm';
+import ContactContactPanel from './ContactContactPanel';
+import NotePanel from './NotePanel';
+import HistoryPanel from './HistoryPanel';
 import Gravatar from 'react-gravatar';
+import PropTypes from 'prop-types';
+import * as types from '../../actions/types';
 
 let _ = require('lodash');
 
@@ -19,7 +24,6 @@ class ContactPanel extends Component {
         this._toggleContactClass = this._toggleContactClass.bind(this);
         this._toggleNoteClass = this._toggleNoteClass.bind(this);
         this._toggleHistoryClass = this._toggleHistoryClass.bind(this);
-        this._getContainerClass = this._getContainerClass.bind(this);
 
         this.state = {
             contact: Object.assign({}, props.contact)
@@ -40,36 +44,39 @@ class ContactPanel extends Component {
         })
     }
 
-    _getContainerClass() {
-        return '.contact-row-' + this.props.contact.id;
-    }
-
     _toggleBodyClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('contact-panel-open');
+        let exists = document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
+
+        if (!exists) {
+            this.props.dispatch({
+                type: types.CLEAR_CONTACT_FOR_FLYOUT
+            })
+        }
+
         document.querySelector('body').classList.toggle('panel-open');
 
         this._handleFormSubmit();
     }
 
     _toggleContactClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('contact-contact-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-contact-panel-open');
     }
 
     _toggleNoteClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('contact-note-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-note-panel-open');
     }
 
     _toggleHistoryClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('contact-history-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-history-panel-open');
     }
 
     render() {
         return (
-            <div className="content-side-wrapper">
+            <div id="contact-panel-wrapper">
                 <div className="contact-side-overlay side-overlay" onClick={this._toggleBodyClass} />
                 <div className="contact-side side-panel">
                     <Panel>
-                        {this.props.contact.id !== 'new' ?
+                        {this.props.contact.id ?
                             <div className="panel-user">
                                 <div className="panel-user-avatar">
                                     <Gravatar email={this.props.contact.email} />
@@ -117,10 +124,10 @@ class ContactPanel extends Component {
                         }
 
                         <div className="panel-contact-details">
-                            {this.props.contact.id === 'new' ?
-                                <NewContactForm contact={this.props.contact} setFormState={this._setFormState}/>
-                            :
+                            {this.props.contact.id ?
                                 <EditContactForm contact={this.props.contact} setFormState={this._setFormState}/>
+                            :
+                                <NewContactForm contact={this.props.contact} setFormState={this._setFormState}/>
                             }
 
                         </div>
@@ -133,9 +140,21 @@ class ContactPanel extends Component {
                         : ''}
                     </Panel>
                 </div>
+                <HistoryPanel contact={this.props.contact} dispatch={this.props.dispatch} />
+                <NotePanel contact={this.props.contact} dispatch={this.props.dispatch} />
+                <ContactContactPanel contact={this.props.contact} dispatch={this.props.dispatch} />
             </div>
         );
     }
 }
 
-export default connect()(ContactPanel)
+ContactPanel.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    contact: PropTypes.object.isRequired
+}
+
+export default connect((store) => {
+    return {
+        contact: store.contactFlyoutState.data
+    }
+})(ContactPanel)

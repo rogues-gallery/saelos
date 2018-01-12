@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { Money } from 'react-format';
+import { connect } from 'react-redux';
 
 let _ = require('lodash');
 
@@ -66,7 +67,7 @@ class EditContactForm extends Component {
     }
 
     render() {
-        let customFields = this._getCustomFields();
+        let customFields = '';//this._getCustomFields();
         let lastInteraction = this.props.contact.activities && this.props.contact.activities.length ? this.props.contact.activities.slice(-1)[0].description : 'None';
         let totalValue = _.sum(_.map(this.props.contact.deals, 'amount'));
 
@@ -123,7 +124,13 @@ class EditContactForm extends Component {
 
 EditContactForm.propTypes = {
     contact: PropTypes.object.isRequired,
-    setFormState: PropTypes.func.isRequired
+    setFormState: PropTypes.func.isRequired,
+    dataUpdated: PropTypes.bool.isRequired
 }
 
-export default EditContactForm;
+export default connect((store) => {
+    return {
+        contact: store.contactFlyoutState.data,
+        dataUpdated: store.contactFlyoutState.dataUpdated
+    }
+})(EditContactForm);
