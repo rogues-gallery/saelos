@@ -47,6 +47,25 @@ export function fetchContact(id) {
     }
 }
 
+export function fetchContactCustomFields() {
+    return (dispatch) => {
+        dispatch({
+            type: types.FETCHING_CONTACT_CUSTOM_FIELDS
+        })
+
+        let URL = '/contexts/Person?customOnly=true';
+
+        fetch(URL)
+            .then((response) => {
+                dispatch({
+                    type: types.FETCHING_CONTACT_CUSTOM_FIELDS_SUCCESS,
+                    data: response.data,
+                    dataFetched: true
+                })
+            })
+    }
+}
+
 export function postContact(data, dispatch) {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;

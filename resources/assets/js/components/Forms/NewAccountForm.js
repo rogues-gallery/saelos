@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
+import {customFieldsHelper} from "../../utils/helpers";
+import {connect} from "react-redux";
 
 let _ = require('lodash');
 
@@ -8,59 +10,40 @@ class NewAccountForm extends Component {
         super(props);
 
         this._handleInputChange = this._handleInputChange.bind(this);
+
+        this.state = {
+            formState: Object.assign({}, props.account)
+        }
     }
 
     _handleInputChange(event) {
         const target = event.target;
-        let value = target.type === 'checkbox' ? target.checked : target.value;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
         let name = target.name;
-        let accountState = this.props.account;
+        let accountState = this.state.formState;
 
         // Special handling for custom field state
-        if (/custom_fields/.test(name)) {
-            name = name + '.value';
-        }
+        if (/custom_fields\./.test(name)) {
+            let customField = this.props.customFields[_.split(name, '.')[1]];
+            let accountCustomFieldIndex = _.findIndex(accountState.custom_fields, (o) => o.custom_field_id === customField.field_id);
 
-        _.set(accountState, name, value);
+            if (accountCustomFieldIndex >= 0) {
+                accountState.custom_fields[accountCustomFieldIndex].value = value;
+            } else {
+                accountState.custom_fields.push({
+                    custom_field_id: customField.field_id,
+                    value: value
+                });
+            }
+        } else {
+            _.set(accountState, name, value);
+        }
 
         this.props.setFormState(accountState)
     }
 
-    _getCustomFields() {
-        return Object.keys(this.props.account.custom_fields).map((key, index) => {
-            let thisField = this.props.account.custom_fields[key];
-            let input = '';
-
-            switch (thisField.type) {
-                case 'select':
-                case 'picklist':
-                    let options = Object.keys(thisField.options).map((option, i) => {
-                        return <option key={i} value={option}>{thisField.options[option]}</option>
-                    });
-
-                    input = <select name={"custom_fields." + thisField.alias} defaultValue={thisField.value} onChange={this._handleInputChange}>
-                        {options}
-                    </select>
-                    break;
-                case 'lookup':
-                case 'text':
-                default:
-                    input = <input type="text" name={"custom_fields." + thisField.alias} onChange={this._handleInputChange} defaultValue={thisField.value} placeholder={thisField.label} />
-                    break;
-            }
-
-
-            return (
-                <div key={index} className="input-container">
-                    <label>{thisField.label}</label>
-                    {input}
-                </div>
-            )
-        });
-    }
-
     render() {
-        let customFields = this._getCustomFields();
+        let customFields = customFieldsHelper({}, this.props.customFields, this._handleInputChange);
 
         return (
             <form id="account-details-form">
@@ -103,7 +86,15 @@ class NewAccountForm extends Component {
 
 NewAccountForm.propTypes = {
     account: PropTypes.object.isRequired,
-    setFormState: PropTypes.func.isRequired
+    setFormState: PropTypes.func.isRequired,
+    dataUpdated: PropTypes.bool.isRequired,
+    customFields: PropTypes.object.isRequired
 }
 
-export default NewAccountForm;
+export default connect((store) => {
+    return {
+        account: store.contactFlyoutState.data,
+        dataUpdated: store.contactFlyoutState.dataUpdated,
+        customFields: store.customFieldsState.accountFields
+    }
+})(NewAccountForm);

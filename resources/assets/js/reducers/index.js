@@ -12,6 +12,8 @@ import teamReducer from "./teams";
 import reportReducer from "./reports";
 import contactFlyoutReducer from "./contact-flyout";
 import opportunityFlyoutReducer from "./opportunity-flyout";
+import accountFlyoutReducer from "./account-flyout";
+import customFieldsReducer from "./custom-fields";
 
 export default combineReducers({
     form: formReducer,
@@ -26,5 +28,7 @@ export default combineReducers({
     teamState: teamReducer,
     reportState: reportReducer,
     contactFlyoutState: contactFlyoutReducer,
-    opportunityFlyoutState: opportunityFlyoutReducer
+    opportunityFlyoutState: opportunityFlyoutReducer,
+    accountFlyoutState: accountFlyoutReducer,
+    customFieldsState: customFieldsReducer
 });

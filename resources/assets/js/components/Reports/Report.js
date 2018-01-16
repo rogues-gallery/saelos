@@ -33,13 +33,34 @@ class Report extends Component {
         actionCreators.downloadReport(this.props.report.id);
     }
 
-    _openReportFlyout(data) {
-        this.props.dispatch({
-            type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
-            data: data
-        });
+    _openReportFlyout(data, dataSource) {
+        switch(dataSource) {
+            case 'App\\Person':
+                this.props.dispatch({
+                    type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
+                    data: data
+                });
 
-        document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
+                document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
+                break;
+            case 'App\\Deal':
+                this.props.dispatch({
+                    type: types.FETCHING_OPPORTUNITY_FOR_FLYOUT_SUCCESS,
+                    data: data
+                });
+
+                document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
+                break;
+            case 'App\\Company':
+                this.props.dispatch({
+                    type: types.FETCHING_ACCOUNT_FOR_FLYOUT_SUCCESS,
+                    data: data
+                });
+
+                document.getElementById('account-panel-wrapper').classList.toggle('account-panel-open');
+                break;
+        }
+
         document.querySelector('body').classList.toggle('panel-open');
     }
 
@@ -70,6 +91,8 @@ class Report extends Component {
         let showDetails = ((report) => {
             switch (report.data_source) {
                 case 'App\\Person':
+                case 'App\\Deal':
+                case 'App\\Company':
                     return true;
                 default:
                     return false;
@@ -111,8 +134,8 @@ Report.propTypes = {
 }
 
 class ReportItem extends Component {
-    _openReportFlyout(data) {
-        this.props.openFlyout(data);
+    _openReportFlyout(data, dataSource) {
+        this.props.openFlyout(data, dataSource);
     }
 
     render() {
@@ -130,7 +153,9 @@ class ReportItem extends Component {
         let firstColumn = ((dataSource) => {
             switch (dataSource) {
                 case 'App\\Person':
-                    return <td onClick={this._openReportFlyout.bind(this, this.props.item)}>Details</td>
+                case 'App\\Deal':
+                case 'App\\Company':
+                    return <td onClick={this._openReportFlyout.bind(this, this.props.item, this.props.dataSource)}>Details</td>
                 default:
                     return false;
             }

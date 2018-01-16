@@ -50,10 +50,13 @@ class ContextController extends Controller
                 $alias = $customField->alias ?: Str::snake($customField->label);
 
                 $attributes[$alias] = [
+                    'field_id' => $customField->id,
                     'label' => $customField->label,
                     'alias' => $alias,
                     'required' => $customField->required,
                     'is_custom' => true,
+                    'type' => $customField->type,
+                    'options' => $customField->values,
                 ];
             }
 

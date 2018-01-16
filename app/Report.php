@@ -29,6 +29,14 @@ class Report extends Model
         /** @var Builder $items */
         $items = $model::where('published', 1);
 
+        switch ($this->data_source) {
+            case 'App\\Person':
+                break;
+            case 'App\\Deal':
+                $items->with('people');
+                break;
+        }
+
         foreach ($this->columns as $column) {
             if (strpos($column, '.')) {
                 list($relation, $col) = explode('.', $column);

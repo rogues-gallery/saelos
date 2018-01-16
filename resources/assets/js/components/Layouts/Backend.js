@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 
 import ExamplePanel from '../Panels/ExamplePanel';
 import Footer from '../Helpers/Footer';
@@ -9,8 +11,16 @@ import Toolbar from '../Helpers/Toolbar';
 import { NotificationContainer } from 'react-notifications';
 import ContactPanel from '../Panels/ContactPanel';
 import OpportunityPanel from '../Panels/OpportunityPanel';
+import AccountPanel from '../Panels/AccountPanel';
+import {actionCreators} from "../../actions";
 
-export default class Backend extends Component {
+class Backend extends Component {
+    componentWillMount() {
+        this.props.dispatch(actionCreators.fetchContactCustomFields());
+        this.props.dispatch(actionCreators.fetchOpportunityCustomFields());
+        this.props.dispatch(actionCreators.fetchAccountCustomFields());
+    }
+
     render() {
         return(
             <div className="page-inner">
@@ -30,6 +40,7 @@ export default class Backend extends Component {
                 <NotificationContainer />
                 <ContactPanel />
                 <OpportunityPanel />
+                <AccountPanel />
             </div>
         );
     }
@@ -39,3 +50,4 @@ Backend.propTypes = {
   children: PropTypes.node.isRequired
 }
 
+export default connect()(Backend);

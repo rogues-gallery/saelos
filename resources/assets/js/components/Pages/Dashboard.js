@@ -8,6 +8,7 @@ import {actionCreators} from "../../actions";
 
 export default class Dashboard extends Component {
     componentWillMount() {
+        // preload
         this.props.dispatch(actionCreators.fetchContacts());
         this.props.dispatch(actionCreators.fetchAccounts());
         this.props.dispatch(actionCreators.fetchOpportunities());

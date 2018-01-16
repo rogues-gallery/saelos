@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { Money } from 'react-format';
 import { connect } from 'react-redux';
+import { customFieldsHelper } from '../../utils/helpers';
 
 let _ = require('lodash');
 
@@ -10,7 +11,6 @@ class EditContactForm extends Component {
         super(props);
 
         this._handleInputChange = this._handleInputChange.bind(this);
-        this._getCustomFields = this._getCustomFields.bind(this);
 
         this.state = {
             formState: Object.assign({}, props.contact)
@@ -24,50 +24,27 @@ class EditContactForm extends Component {
         let contactState = this.state.formState;
 
         // Special handling for custom field state
-        if (/custom_fields/.test(name)) {
-            name = name + '.value';
-        }
+        if (/custom_fields\./.test(name)) {
+            let customField = this.props.customFields[_.split(name, '.')[1]];
+            let contactCustomFieldIndex = _.findIndex(contactState.custom_fields, (o) => o.custom_field_id === customField.field_id);
 
-        _.set(contactState, name, value);
+            if (contactCustomFieldIndex >= 0) {
+                contactState.custom_fields[contactCustomFieldIndex].value = value;
+            } else {
+                contactState.custom_fields.push({
+                    custom_field_id: customField.field_id,
+                    value: value
+                });
+            }
+        } else {
+            _.set(contactState, name, value);
+        }
 
         this.props.setFormState(contactState)
     }
 
-    _getCustomFields() {
-        return Object.keys(this.props.contact.custom_fields).map((key, index) => {
-            let thisField = this.props.contact.custom_fields[key];
-            let input = '';
-
-            switch (thisField.type) {
-                case 'select':
-                case 'picklist':
-                    let options = Object.keys(thisField.options).map((option, i) => {
-                        return <option key={i} value={option}>{thisField.options[option]}</option>
-                    });
-
-                    input = <select name={"custom_fields." + thisField.alias} defaultValue={thisField.value} onChange={this._handleInputChange}>
-                        {options}
-                    </select>
-                    break;
-                case 'lookup':
-                case 'text':
-                default:
-                    input = <input type="text" name={"custom_fields." + thisField.alias} onChange={this._handleInputChange} defaultValue={thisField.value} placeholder={thisField.label} />
-                    break;
-            }
-
-
-            return (
-                <div key={index} className="input-container">
-                    <label>{thisField.label}</label>
-                    {input}
-                </div>
-            )
-        });
-    }
-
     render() {
-        let customFields = '';//this._getCustomFields();
+        let customFields = customFieldsHelper(this.props.contact, this.props.customFields, this._handleInputChange);
         let lastInteraction = this.props.contact.activities && this.props.contact.activities.length ? this.props.contact.activities.slice(-1)[0].description : 'None';
         let totalValue = _.sum(_.map(this.props.contact.deals, 'amount'));
 
@@ -125,12 +102,14 @@ class EditContactForm extends Component {
 EditContactForm.propTypes = {
     contact: PropTypes.object.isRequired,
     setFormState: PropTypes.func.isRequired,
-    dataUpdated: PropTypes.bool.isRequired
+    dataUpdated: PropTypes.bool.isRequired,
+    customFields: PropTypes.object.isRequired
 }
 
 export default connect((store) => {
     return {
         contact: store.contactFlyoutState.data,
-        dataUpdated: store.contactFlyoutState.dataUpdated
+        dataUpdated: store.contactFlyoutState.dataUpdated,
+        customFields: store.customFieldsState.contactFields
     }
 })(EditContactForm);

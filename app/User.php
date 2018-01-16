@@ -76,8 +76,6 @@ class User extends Authenticatable
 
         $array['vector'] = rand(45, 100);
 
-        $array['custom_fields'] = $this->getCustomFieldsAttribute();
-
         return $array;
     }
 }

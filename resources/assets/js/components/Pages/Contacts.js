@@ -18,12 +18,7 @@ class Contacts extends Component {
         super(props);
 
         this._navToPage = this._navToPage.bind(this);
-        this._getNewContact = this._getNewContact.bind(this);
         this._toggleNewPanel = this._toggleNewPanel.bind(this);
-    }
-
-    componentWillMount() {
-        this.props.dispatch(actionCreators.fetchContacts());
     }
 
     _navToPage(page) {
@@ -39,24 +34,6 @@ class Contacts extends Component {
             type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
             data: {}
         });
-    }
-
-    _getNewContact() {
-        let customFieldDefinitions = {};
-
-        this.props.contacts.length !== 0 ? Object.keys(this.props.contacts[0].custom_fields).map((key, index) => {
-            let thisField = Object.assign({}, this.props.contacts[0].custom_fields[key]);
-
-            thisField.value = null;
-
-            customFieldDefinitions[thisField.alias] = thisField;
-        }) : {};
-
-        return {
-            id: 'new',
-            custom_fields: customFieldDefinitions,
-            company: {}
-        }
     }
 
     render() {
@@ -85,9 +62,13 @@ class Contacts extends Component {
             this.props.isFetching && this.props.contacts.length === 0 ? <Backend><Loading type="contacts" /></Backend> :
             <Backend>
                 <div className="content-inner">
-                    <Filter onInputChange={actionCreators.fetchContacts} filterFields={filterFields} type="contacts" />
-                    <div className="button button-primary" onClick={this._toggleNewPanel}>
-                        <i className="md-icon">person_add</i> <span>Create Contact</span>
+                    <div className="content-top flex-row-even">
+                        <Filter onInputChange={actionCreators.fetchContacts} filterFields={filterFields} type="contacts" />
+                        <div className="content-top-buttons">
+                            <span className="create-button button button-primary" onClick={this._toggleNewPanel}>
+                                <i className="md-icon">add</i> <span>Create Contact</span>
+                            </span>
+                        </div>
                     </div>
                     <div className="table-responsive">
                         <table>
@@ -106,7 +87,7 @@ class Contacts extends Component {
                         </table>
                     </div>
 
-                    <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} disableInitialCallback={true} pageCount={pageCount} containerClassName="pagination" />
+                    <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
                 </div>
             </Backend>
         );
@@ -214,7 +195,7 @@ export class Contact extends Component {
 Contact.propTypes = {
     contact: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
 }
 
 export default connect((store) => {

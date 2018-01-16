@@ -18,9 +18,7 @@ trait HasCustomFieldsTrait
         }
 
         foreach ($value as $field) {
-            $customField = CustomField::where('alias', $field['alias'])
-                ->where('model', get_class($this))
-                ->first();
+            $customField = CustomField::find($field['custom_field_id']);
 
             // If we don't have a matching custom field, bail
             if (!$customField) {
@@ -53,45 +51,5 @@ trait HasCustomFieldsTrait
 
             $customFieldValue->save();
         }
-    }
-
-    public function getCustomFieldsAttribute()
-    {
-        $customFields = CustomField::where('model', get_class($this))->get();
-        $fieldValues = $this->customFields();
-        $attribute = [];
-
-        foreach ($customFields as $i => $field) {
-            $array = [
-                'type'  => $field->type,
-                'label' => $field->label,
-                'alias' => $field->alias,
-                'value' => null,
-            ];
-
-            $thisField = clone $fieldValues;
-            $filtered = $thisField->where('custom_field_id', $field->id);
-
-            if ($value = $filtered->first()) {
-                $array['value'] = $value->value;
-            }
-
-            if (is_array($field->values) && !empty($field->values)) {
-                $array['options'] = $field->values;
-            }
-
-            $attribute[$field->alias] = $array;
-        }
-
-        return $attribute;
-    }
-
-    public function toArray()
-    {
-        $array = parent::toArray();
-
-        $array['custom_fields'] = $this->getCustomFieldsAttribute();
-
-        return $array;
     }
 }

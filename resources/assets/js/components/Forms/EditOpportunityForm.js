@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { Money } from 'react-format';
+import Gravatar from 'react-gravatar';
+import {customFieldsHelper} from "../../utils/helpers";
+import {connect} from "react-redux";
 
 let _ = require('lodash');
 
@@ -9,59 +12,49 @@ class EditOpportunityForm extends Component {
         super(props);
 
         this._handleInputChange = this._handleInputChange.bind(this);
+
+        this.state = {
+            formState: Object.assign({}, props.opportunity)
+        }
     }
 
     _handleInputChange(event) {
         const target = event.target;
-        let value = target.type === 'checkbox' ? target.checked : target.value;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
         let name = target.name;
-        let opportunityState = this.props.opportunity;
+        let oppState = this.state.formState;
 
         // Special handling for custom field state
-        if (/custom_fields/.test(name)) {
-            name = name + '.value';
+        if (/custom_fields\./.test(name)) {
+            let customField = this.props.customFields[_.split(name, '.')[1]];
+            let oppCustomFieldIndex = _.findIndex(oppState.custom_fields, (o) => o.custom_field_id === customField.field_id);
+
+            if (oppCustomFieldIndex >= 0) {
+                oppState.custom_fields[oppCustomFieldIndex].value = value;
+            } else {
+                oppState.custom_fields.push({
+                    custom_field_id: customField.field_id,
+                    value: value
+                });
+            }
+        } else {
+            _.set(oppState, name, value);
         }
 
-        _.set(opportunityState, name, value);
-
-        this.props.setFormState(opportunityState)
-    }
-
-    _getCustomFields() {
-        return Object.keys(this.props.opportunity.custom_fields).map((key, index) => {
-            let thisField = this.props.opportunity.custom_fields[key];
-            let input = '';
-
-            switch (thisField.type) {
-                case 'select':
-                case 'picklist':
-                    let options = Object.keys(thisField.options).map((option, i) => {
-                        return <option key={i} value={option}>{thisField.options[option]}</option>
-                    });
-
-                    input = <select name={"custom_fields." + thisField.alias} defaultValue={thisField.value} onChange={this._handleInputChange}>
-                        {options}
-                    </select>
-                    break;
-                case 'lookup':
-                case 'text':
-                default:
-                    input = <input type="text" name={"custom_fields." + thisField.alias} onChange={this._handleInputChange} defaultValue={thisField.value} placeholder={thisField.label} />
-                    break;
-            }
-
-
-            return (
-                <div key={index} className="input-container">
-                    <label>{thisField.label}</label>
-                    {input}
-                </div>
-            )
-        });
+        this.props.setFormState(oppState)
     }
 
     render() {
-        let customFields = '';//this._getCustomFields();
+        let customFields = customFieldsHelper(this.props.opportunity, this.props.customFields, this._handleInputChange);
+
+        let contacts = this.props.opportunity.people.map((person) => {
+            return <div key={person.id}>
+                <span className="avatar">
+                    <Gravatar email={person.email} />
+                </span>
+                <span>{person.first_name + ' ' + person.last_name}</span>
+            </div>
+        });
 
         return (
             <form id="opportunity-details-form">
@@ -79,6 +72,15 @@ class EditOpportunityForm extends Component {
                         <input type="text" name="expected_close" placeholder="Expected Close" defaultValue={this.props.opportunity.expected_close} onChange={this._handleInputChange} />
                     </div>
 
+                    <div className="input-container">
+                        <label>Contacts</label>
+                        <input placeholder="Start typing a contact name or email address to add..." />
+                        <hr />
+                        <div id="contact-typeahead-container">
+                        </div>
+                        {contacts}
+                    </div>
+
                 </div>
                 <div className="panel-opportunity-details-column">
                     {customFields}
@@ -90,7 +92,15 @@ class EditOpportunityForm extends Component {
 
 EditOpportunityForm.propTypes = {
     opportunity: PropTypes.object.isRequired,
-    setFormState: PropTypes.func.isRequired
+    setFormState: PropTypes.func.isRequired,
+    dataUpdated: PropTypes.bool.isRequired,
+    customFields: PropTypes.object.isRequired
 }
 
-export default EditOpportunityForm;
+export default connect((store) => {
+    return {
+        opportunity: store.opportunityFlyoutState.data,
+        dataUpdated: store.opportunityFlyoutState.dataUpdated,
+        customFields: store.customFieldsState.opportunityFields
+    }
+})(EditOpportunityForm);

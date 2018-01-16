@@ -5,12 +5,13 @@ import EditAccountForm from "../Forms/EditAccountForm";
 import {actionCreators} from "../../actions";
 import {connect} from "react-redux";
 import NewAccountForm from "../Forms/NewAccountForm";
+import PropTypes from 'prop-types';
+import * as types from "../../actions/types";
 
 class AccountPanel extends Component {
     constructor(props) {
         super(props);
 
-        this._getContainerClass = this._getContainerClass.bind(this);
         this._handleFormSubmit = this._handleFormSubmit.bind(this);
         this._setFormState = this._setFormState.bind(this);
         this._togglePanelClass = this._togglePanelClass.bind(this);
@@ -37,36 +38,39 @@ class AccountPanel extends Component {
         })
     }
 
-    _getContainerClass() {
-        return 'div.account-item-' + this.props.account.id;
-    }
-
     _togglePanelClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('account-panel-open');
+        let exists =document.getElementById('account-panel-wrapper').classList.toggle('account-panel-open');
+
+        if (!exists) {
+            this.props.dispatch({
+                type: types.CLEAR_ACCOUNT_FOR_FLYOUT
+            })
+        }
+
         document.querySelector('body').classList.toggle('panel-open');
 
         this._handleFormSubmit();
     }
 
     _toggleHistoryClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('account-history-panel-open');
+        document.getElementById('account-panel-wrapper').classList.toggle('account-history-panel-open');
     }
 
     _toggleNoteClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('account-edit-panel-open');
+        document.getElementById('account-panel-wrapper').classList.toggle('account-edit-panel-open');
     }
 
     _toggleDocumentsClass() {
-        document.querySelector(this._getContainerClass()).classList.toggle('account-contact-panel-open');
+        document.getElementById('account-panel-wrapper').classList.toggle('account-contact-panel-open');
     }
 
     render() {
         return (
-            <div className="content-side-wrapper">
+            <div id="account-panel-wrapper">
                 <div className="account-side-overlay side-overlay" onClick={this._togglePanelClass} />
                 <div className="account-panel-side side-panel">
                     <Panel>
-                        {this.props.account.id !== 'new' ?
+                        {this.props.account.id ?
                             <div className="panel-user">
                                 <div className="panel-user-content">
                                     {this.props.account.name ? <div className="panel-user-name">{this.props.account.name}</div> : ''}
@@ -109,13 +113,13 @@ class AccountPanel extends Component {
                         }
 
                         <div className="panel-account-details">
-                            {this.props.account.id === 'new' ?
-                                <NewAccountForm account={this.props.account} setFormState={this._setFormState} />
-                            :
+                            {this.props.account.id ?
                                 <EditAccountForm account={this.props.account} setFormState={this._setFormState} />
+                            :
+                                <NewAccountForm account={this.props.account} setFormState={this._setFormState} />
                             }
                         </div>
-                        {this.props.account.id !== 'new' ?
+                        {this.props.account.id ?
                             <div className="panel-actions">
                                 <strong>Recommended Action</strong>
                                 <p>Wait <strong>2 days</strong> before taking next step.</p>
@@ -128,4 +132,12 @@ class AccountPanel extends Component {
     }
 }
 
-export default connect()(AccountPanel);
+AccountPanel.propTypes = {
+    account: PropTypes.object.isRequired
+}
+
+export default connect((store) => {
+    return {
+        account: store.accountFlyoutState.data
+    }
+})(AccountPanel);

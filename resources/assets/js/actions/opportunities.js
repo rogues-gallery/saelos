@@ -47,6 +47,25 @@ export function fetchOpportunity(id) {
     }
 }
 
+export function fetchOpportunityCustomFields() {
+    return (dispatch) => {
+        dispatch({
+            type: types.FETCHING_OPPORTUNITY_CUSTOM_FIELDS
+        })
+
+        let URL = '/contexts/Deal?customOnly=true';
+
+        fetch(URL)
+            .then((response) => {
+                dispatch({
+                    type: types.FETCHING_OPPORTUNITY_CUSTOM_FIELDS_SUCCESS,
+                    data: response.data,
+                    dataFetched: true
+                })
+            })
+    }
+}
+
 export function postOpportunity(data, dispatch) {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;

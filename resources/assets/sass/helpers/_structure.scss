@@ -81,6 +81,7 @@
 	vertical-align: middle;
 	width: 44px;
 	overflow:hidden;
+	cursor: pointer;
 }
 
 .accounts,
@@ -95,4 +96,8 @@
 		margin: 10px 0;
 		cursor: pointer;
 	}
+}
+
+.content-top-buttons {
+	text-align:right;
 }

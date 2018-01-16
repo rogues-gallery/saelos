@@ -47,6 +47,25 @@ export function fetchAccount(id) {
     }
 }
 
+export function fetchAccountCustomFields() {
+    return (dispatch) => {
+        dispatch({
+            type: types.FETCHING_ACCOUNT_CUSTOM_FIELDS
+        })
+
+        let URL = '/contexts/Company?customOnly=true';
+
+        fetch(URL)
+            .then((response) => {
+                dispatch({
+                    type: types.FETCHING_ACCOUNT_CUSTOM_FIELDS_SUCCESS,
+                    data: response.data,
+                    dataFetched: true
+                })
+            })
+    }
+}
+
 export function postAccount(data, dispatch) {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;

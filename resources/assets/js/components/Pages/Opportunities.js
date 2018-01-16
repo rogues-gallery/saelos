@@ -15,41 +15,22 @@ class Opportunities extends Component {
         super(props);
 
         this._navToPage = this._navToPage.bind(this);
-        this._getNewOpportunity = this._getNewOpportunity.bind(this);
         this._toggleNewPanel = this._toggleNewPanel.bind(this);
     }
 
-    componentWillMount() {
-        this.props.dispatch(actionCreators.fetchOpportunities());
-    }
-
     _toggleNewPanel() {
-        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('account-panel-open');
         document.querySelector('body').classList.toggle('panel-open');
 
         // Set the form state for a new contact
-        this.props.dispatch({type: types.FETCHING_SINGLE_OPPORTUNITY_SUCCESS, data: this._getNewOpportunity()});
+        this.props.dispatch({
+            type: types.FETCHING_OPPORTUNITY_FOR_FLYOUT_SUCCESS,
+            data: {}
+        });
     }
 
     _navToPage(page) {
         this.props.dispatch(actionCreators.fetchOpportunities(page.selected + 1));
-    }
-
-    _getNewOpportunity() {
-        let customFieldDefinitions = {};
-
-        this.props.opportunities.length !== 0 ? Object.keys(this.props.opportunities[0].custom_fields).map((key, index) => {
-            let thisField = this.props.opportunities[0].custom_fields[key];
-
-            thisField.value = null;
-
-            customFieldDefinitions[thisField.alias] = thisField;
-        }) : {};
-
-        return {
-            id: 'new',
-            custom_fields: customFieldDefinitions
-        }
     }
 
     render() {
@@ -77,14 +58,18 @@ class Opportunities extends Component {
             this.props.isFetching && this.props.opportunities.length === 0 ? <Backend><Loading /></Backend> :
             <Backend>
                 <div className="content-inner">
-                    <Filter onInputChange={actionCreators.fetchOpportunities} filterFields={filterFields} type="opportunities" />
-                    <div className="button button-primary" onClick={this._toggleNewPanel}>
-                        <i className="md-icon">add</i> <span>Create Account</span>
+                    <div className="content-top flex-row-even">
+                        <Filter onInputChange={actionCreators.fetchOpportunities} filterFields={filterFields} type="opportunities" />
+                        <div className="content-top-buttons">
+                            <span className="create-button button button-primary" onClick={this._toggleNewPanel}>
+                                <i className="md-icon">add</i> <span>Create Opportunity</span>
+                            </span>
+                        </div>
                     </div>
                     <div className="opportunities flex-row-even">
                         {results}
                     </div>
-                    <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} disableInitialCallback={true} pageCount={pageCount} containerClassName="pagination" />
+                    <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
                 </div>
             </Backend>
         );

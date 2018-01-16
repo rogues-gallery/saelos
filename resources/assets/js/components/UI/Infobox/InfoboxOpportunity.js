@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Money } from 'react-format';
 import { connect } from 'react-redux';
 import * as types from "../../../actions/types";
+import Gravatar from 'react-gravatar';
+import ReactTooltip from 'react-tooltip';
 
 class InfoboxOpportunity extends Component {
     _togglePanelClass(data) {
@@ -15,8 +17,36 @@ class InfoboxOpportunity extends Component {
         document.querySelector('body').classList.toggle('panel-open');
     }
 
+    _toggleContactPanel(data) {
+        this.props.dispatch({
+            type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
+            data: data
+        });
+
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
+    }
+
     render() {
         let itemClass = 'infobox opportunity-item-' + this.props.opportunity.id;
+
+        let contacts = Object.keys(this.props.opportunity.people).length ? this.props.opportunity.people.slice(0, 10).map((contact, index) => {
+            let tooltipId = "opportunity-"+this.props.opportunity.id+"-contact-"+contact.id;
+            let tooltipContent = contact.first_name + " " + contact.last_name;
+
+            if (contact.position) {
+                tooltipContent = tooltipContent + ", " + contact.position;
+            }
+
+            return <li key={index} onClick={this._toggleContactPanel.bind(this, contact)} className="avatar">
+                <span data-tip data-for={tooltipId}>
+                    <Gravatar email={contact.email} size={44} />
+                </span>
+                <ReactTooltip id={tooltipId}>
+                    {tooltipContent}
+                </ReactTooltip>
+            </li>
+        }) : [];
 
         return (
             <div className={itemClass}>
@@ -48,25 +78,7 @@ class InfoboxOpportunity extends Component {
                             <strong>Contacts:</strong>
 
                             <ul>
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-1.jpg)'}}></span>
-                                </li>
-
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-2.jpg)'}}></span>
-                                </li>
-
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-3.jpg)'}}></span>
-                                </li>
-
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-4.jpg)'}}></span>
-                                </li>
-
-                                <li>
-                                    <span style={{backgroundImage: 'url(/img/tmp/user-5.jpg)'}}></span>
-                                </li>
+                                {contacts}
                             </ul>
                         </div>
                     </div>

@@ -38,7 +38,7 @@ class StagesChart extends Component {
             };
 
             let teamInfo = {
-                meta: 'Your team has ' + stage.team_deals.length + ' in this stage.',
+                meta: 'Your team has ' + stage.team_deals.length + ' opportunities in this stage.',
                 value: stage.team_deals.length - stage.user_deals.length
             };
 

@@ -20,15 +20,15 @@ class Accounts extends Component {
         this._toggleNewPanel = this._toggleNewPanel.bind(this);
     }
 
-    componentWillMount() {
-        this.props.dispatch(actionCreators.fetchAccounts());
-    }
-
     _toggleNewPanel() {
-        document.querySelector('.account-item-new').classList.toggle('account-panel-open');
+        document.getElementById('account-panel-wrapper').classList.toggle('account-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
 
         // Set the form state for a new contact
-        this.props.dispatch({type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS, data: this._getNewAccount()});
+        this.props.dispatch({
+            type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
+            data: {}
+        });
     }
 
     _navToPage(page) {
@@ -78,18 +78,19 @@ class Accounts extends Component {
             this.props.isFetching && this.props.accounts.length === 0 ? <Backend><Loading /></Backend> :
             <Backend>
                 <div className="content-inner">
-                    <Filter onInputChange={actionCreators.fetchAccounts} filterFields={filterFields} type="accounts" />
-                    <div className="button button-primary" onClick={this._toggleNewPanel}>
-                        <i className="md-icon">add</i> <span>Create Account</span>
-                    </div>
-                    <div className="account-item-new">
-                        <AccountPanel account={this._getNewAccount()} />
+                    <div className="content-top flex-row-even">
+                        <Filter onInputChange={actionCreators.fetchAccounts} filterFields={filterFields} type="accounts" />
+                        <div className="content-top-buttons">
+                            <span className="create-button button button-primary" onClick={this._toggleNewPanel}>
+                                <i className="md-icon">add</i> <span>Create Account</span>
+                            </span>
+                        </div>
                     </div>
 
                     <div className="accounts flex-row-even">
                         {results}
                     </div>
-                    <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} disableInitialCallback={true} pageCount={pageCount} containerClassName="pagination" />
+                    <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
                 </div>
             </Backend>
         );

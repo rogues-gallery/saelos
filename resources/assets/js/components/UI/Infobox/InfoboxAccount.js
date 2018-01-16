@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Money } from 'react-format';
-import AccountPanel from "../../Panels/AccountPanel";
 import ReactTooltip from 'react-tooltip';
 import * as types from "../../../actions/types";
 import { connect } from 'react-redux';
 import Gravatar from 'react-gravatar';
 
 class InfoboxAccount extends Component {
-    _togglePanelClass() {
-        let itemClass = 'div.account-item-' + this.props.account.id;
+    _togglePanelClass(data) {
+        this.props.dispatch({
+            type: types.FETCHING_ACCOUNT_FOR_FLYOUT_SUCCESS,
+            data: data
+        });
 
-        document.querySelector(itemClass).classList.toggle('account-panel-open');
+        document.getElementById('account-panel-wrapper').classList.toggle('account-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
     }
 
     _toggleContactPanel(data) {
@@ -59,7 +62,7 @@ class InfoboxAccount extends Component {
             <div className={itemClass}>
                 <div className="infobox-inner">
                     <div className="infobox-header">
-                        <div className="infobox-header-content" onClick={this._togglePanelClass.bind(this)}>
+                        <div className="infobox-header-content" onClick={this._togglePanelClass.bind(this, this.props.account)}>
                             <h3>{this.props.account.name}</h3>
                             <h4>{this.props.account.description}</h4>
                         </div>
@@ -89,7 +92,6 @@ class InfoboxAccount extends Component {
                         </div>
                         : ''}
                 </div>
-                <AccountPanel account={this.props.account} />
             </div>
         );
     }

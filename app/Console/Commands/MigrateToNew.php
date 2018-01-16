@@ -45,6 +45,7 @@ class MigrateToNew extends Command
     private $people = [];
     private $deals = [];
     private $customFields = [];
+    private $dealContacts = [];
 
     /**
      * Execute the console command
@@ -111,7 +112,7 @@ class MigrateToNew extends Command
 
                 $newTeam->saveOrFail();
 
-                $this->teams[$team->id] = $newTeam->id;
+                $this->teams[$team->id]       = $newTeam->id;
                 $this->teamLeaders[$team->id] = $team->leader_id;
 
                 $bar->advance();
@@ -119,7 +120,7 @@ class MigrateToNew extends Command
 
             $page++;
 
-        } while($page <= $teams->lastPage());
+        } while ($page <= $teams->lastPage());
 
         $bar->finish();
         $this->line('');
@@ -147,10 +148,10 @@ class MigrateToNew extends Command
             foreach ($users as $user) {
                 $newUser = new User();
 
-                $newUser->name = $user->first_name.' '.$user->last_name;
-                $newUser->email = $user->email;
+                $newUser->name     = $user->first_name.' '.$user->last_name;
+                $newUser->email    = $user->email;
                 $newUser->password = \Hash::make('Mautic12');
-                $newUser->team_id = $this->teams[$user->team_id];
+                $newUser->team_id  = $this->teams[$user->team_id];
 
                 $newUser->saveOrFail();
 
@@ -194,14 +195,14 @@ class MigrateToNew extends Command
             foreach ($fields as $field) {
                 $newField = new CustomField();
 
-                $newField->label = $field->name;
-                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name);
-                $newField->model = Company::class;
-                $newField->group = 'core';
-                $newField->type = $field->type;
+                $newField->label    = $field->name;
+                $newField->alias    = $field->alias ? Str::snake($field->alias) : Str::snake($field->name);
+                $newField->model    = Company::class;
+                $newField->group    = 'core';
+                $newField->type     = $field->type;
                 $newField->required = $field->required;
-                $newField->values = (function($values) {
-                    $values = json_decode($values);
+                $newField->values   = (function ($values) {
+                    $values    = json_decode($values);
                     $newValues = [];
 
                     if (empty($values)) {
@@ -213,7 +214,9 @@ class MigrateToNew extends Command
                     }
 
                     return $newValues;
-                })($field->values);
+                })(
+                    $field->values
+                );
 
                 $newField->saveOrFail();
 
@@ -252,14 +255,14 @@ class MigrateToNew extends Command
             foreach ($fields as $field) {
                 $newField = new CustomField();
 
-                $newField->label = $field->name;
-                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name);
-                $newField->model = Deal::class;
-                $newField->group = 'core';
-                $newField->type = $field->type;
+                $newField->label    = $field->name;
+                $newField->alias    = $field->alias ? Str::snake($field->alias) : Str::snake($field->name);
+                $newField->model    = Deal::class;
+                $newField->group    = 'core';
+                $newField->type     = $field->type;
                 $newField->required = $field->required;
-                $newField->values = (function($values) {
-                    $values = json_decode($values);
+                $newField->values   = (function ($values) {
+                    $values    = json_decode($values);
                     $newValues = [];
 
                     if (empty($values)) {
@@ -271,7 +274,9 @@ class MigrateToNew extends Command
                     }
 
                     return $newValues;
-                })($field->values);
+                })(
+                    $field->values
+                );
 
                 $newField->saveOrFail();
 
@@ -310,14 +315,14 @@ class MigrateToNew extends Command
             foreach ($fields as $field) {
                 $newField = new CustomField();
 
-                $newField->label = $field->name;
-                $newField->alias = $field->alias ? Str::snake($field->alias) : Str::snake($field->name);
-                $newField->model = Person::class;
-                $newField->group = 'core';
-                $newField->type = $field->type;
+                $newField->label    = $field->name;
+                $newField->alias    = $field->alias ? Str::snake($field->alias) : Str::snake($field->name);
+                $newField->model    = Person::class;
+                $newField->group    = 'core';
+                $newField->type     = $field->type;
                 $newField->required = $field->required;
-                $newField->values = (function($values) {
-                    $values = json_decode($values);
+                $newField->values   = (function ($values) {
+                    $values    = json_decode($values);
                     $newValues = [];
 
                     if (empty($values)) {
@@ -329,7 +334,9 @@ class MigrateToNew extends Command
                     }
 
                     return $newValues;
-                })($field->values);
+                })(
+                    $field->values
+                );
 
                 $newField->saveOrFail();
 
@@ -368,9 +375,9 @@ class MigrateToNew extends Command
             foreach ($stages as $stage) {
                 $newStage = new Stage();
 
-                $newStage->title = $stage->name;
+                $newStage->title       = $stage->name;
                 $newStage->probability = $stage->percent;
-                $newStage->active = (int) !$stage->won;
+                $newStage->active      = (int)!$stage->won;
 
                 $newStage->saveOrFail();
 
@@ -381,7 +388,7 @@ class MigrateToNew extends Command
 
             $page++;
 
-        } while($page <= $stages->lastPage());
+        } while ($page <= $stages->lastPage());
 
         $bar->finish();
         $this->line('');
@@ -409,18 +416,18 @@ class MigrateToNew extends Command
             foreach ($companies as $company) {
                 $newCompany = new Company();
 
-                $newCompany->name = $company->name;
+                $newCompany->name      = $company->name;
                 $newCompany->published = $company->published;
-                $newCompany->address1 = $company->address_1;
-                $newCompany->address2 = $company->address_2;
-                $newCompany->city = $company->address_city;
-                $newCompany->state = $company->address_state;
-                $newCompany->zip = $company->address_zip;
-                $newCompany->country = $company->address_country;
-                $newCompany->phone = $company->phone;
-                $newCompany->fax = $company->fax;
-                $newCompany->website = $company->website;
-                $newCompany->user_id = $this->users[$company->owner_id] ?? null;
+                $newCompany->address1  = $company->address_1;
+                $newCompany->address2  = $company->address_2;
+                $newCompany->city      = $company->address_city;
+                $newCompany->state     = $company->address_state;
+                $newCompany->zip       = $company->address_zip;
+                $newCompany->country   = $company->address_country;
+                $newCompany->phone     = $company->phone;
+                $newCompany->fax       = $company->fax;
+                $newCompany->website   = $company->website;
+                $newCompany->user_id   = $this->users[$company->owner_id] ?? null;
 
                 $newCompany->saveOrFail();
 
@@ -461,23 +468,24 @@ class MigrateToNew extends Command
             foreach ($deals as $deal) {
                 $newDeal = new Deal();
 
-                $newDeal->published = $deal->published;
-                $newDeal->name = $deal->name;
-                $newDeal->summary = $deal->summary;
-                $newDeal->amount = $deal->amount;
-                $newDeal->probability = $deal->probability;
+                $newDeal->published      = $deal->published;
+                $newDeal->name           = $deal->name;
+                $newDeal->summary        = $deal->summary;
+                $newDeal->amount         = $deal->amount;
+                $newDeal->probability    = $deal->probability;
                 $newDeal->expected_close = $deal->expected_close;
-                $newDeal->actual_close = $deal->actual_close;
-                $newDeal->last_viewed = $deal->last_viewed;
-                $newDeal->user_id = $this->users[$deal->owner_id] ?? null;
-                $newDeal->company_id = $this->companies[$deal->company_id] ?? null;
+                $newDeal->actual_close   = $deal->actual_close;
+                $newDeal->last_viewed    = $deal->last_viewed;
+                $newDeal->user_id        = $this->users[$deal->owner_id] ?? null;
+                $newDeal->company_id     = $this->companies[$deal->company_id] ?? null;
                 $newDeal->setCreatedAt($deal->created);
                 $newDeal->setUpdatedAt($deal->modified);
                 $newDeal->stage_id = $this->stages[$deal->stage_id] ?? null;
 
                 $newDeal->saveOrFail();
 
-                $this->deals[$deal->id] = $newDeal->id;
+                $this->deals[$deal->id]                        = $newDeal->id;
+                $this->dealContacts[$deal->primary_contact_id] = $newDeal->id;
 
                 $this->importCustomFieldValues($deal->custom_fields, Deal::class, $newDeal->id);
 
@@ -513,27 +521,31 @@ class MigrateToNew extends Command
             foreach ($people as $person) {
                 $newPerson = new Person();
 
-                $newPerson->published = $person->published;
+                $newPerson->published  = $person->published;
                 $newPerson->first_name = $person->first_name;
-                $newPerson->last_name = $person->last_name;
-                $newPerson->position = $person->position;
-                $newPerson->email = $person->email;
-                $newPerson->address1 = $person->home_address_1;
-                $newPerson->address2 = $person->home_address_2;
-                $newPerson->city = $person->home_city;
-                $newPerson->state = $person->home_state;
-                $newPerson->zip = $person->home_zip;
-                $newPerson->country = $person->home_country;
-                $newPerson->phone = $person->phone;
-                $newPerson->fax = $person->fax;
-                $newPerson->website = $person->website;
-                $newPerson->info = $person->info;
-                $newPerson->user_id = $this->users[$person->assignee_id] ?? null;
+                $newPerson->last_name  = $person->last_name;
+                $newPerson->position   = $person->position;
+                $newPerson->email      = $person->email;
+                $newPerson->address1   = $person->home_address_1;
+                $newPerson->address2   = $person->home_address_2;
+                $newPerson->city       = $person->home_city;
+                $newPerson->state      = $person->home_state;
+                $newPerson->zip        = $person->home_zip;
+                $newPerson->country    = $person->home_country;
+                $newPerson->phone      = $person->phone;
+                $newPerson->fax        = $person->fax;
+                $newPerson->website    = $person->website;
+                $newPerson->info       = $person->info;
+                $newPerson->user_id    = $this->users[$person->assignee_id] ?? null;
                 $newPerson->company_id = $this->companies[$person->company_id] ?? null;
 
                 $newPerson->saveOrFail();
 
                 $this->people[$person->id] = $newPerson->id;
+
+                if (isset($this->dealContacts[$person->id])) {
+                    $this->associatePersonWithDeal($newPerson->id, $this->dealContacts[$person->id]);
+                }
 
                 $this->importCustomFieldValues($person->custom_fields, Person::class, $newPerson->id);
 
@@ -546,6 +558,17 @@ class MigrateToNew extends Command
 
         $bar->finish();
         $this->line('');
+    }
+
+    private function associatePersonWithDeal($personID, $dealID)
+    {
+        \DB::insert(
+            'INSERT INTO deal_person (deal_id, person_id, `primary`) VALUES (?, ?, 1)',
+            [
+                $dealID,
+                $personID
+            ]
+        );
     }
 
     /**

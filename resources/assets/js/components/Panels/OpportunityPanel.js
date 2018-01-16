@@ -40,6 +40,8 @@ class OpportunityPanel extends Component {
         })
     }
 
+
+
     _toggleBodyClass() {
         let exists = document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
 

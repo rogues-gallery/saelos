@@ -46,6 +46,7 @@
         "react-gravatar": "^2.6.3",
         "react-nl2br": "^0.4.0",
         "react-notifications": "^1.4.3",
-        "react-tooltip": "^3.4.0"
+        "react-tooltip": "^3.4.0",
+        "react-twitter-typeahead": "^1.1.12"
     }
 }
