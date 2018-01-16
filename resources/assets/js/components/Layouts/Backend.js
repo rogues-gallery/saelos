@@ -19,6 +19,7 @@ class Backend extends Component {
         this.props.dispatch(actionCreators.fetchContactCustomFields());
         this.props.dispatch(actionCreators.fetchOpportunityCustomFields());
         this.props.dispatch(actionCreators.fetchAccountCustomFields());
+        this.props.dispatch(actionCreators.fetchStages());
     }
 
     render() {

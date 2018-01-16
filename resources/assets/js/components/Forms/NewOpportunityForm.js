@@ -44,6 +44,9 @@ class NewOpportunityForm extends Component {
 
     render() {
         let customFields = customFieldsHelper({}, this.props.customFields, this._handleInputChange);
+        let stageOptions = this.props.stages.map((stage) => {
+            return <option key={stage.id} value={stage.id}>{stage.title}</option>
+        });
 
         return (
             <form id="opportunity-details-form">
@@ -64,6 +67,13 @@ class NewOpportunityForm extends Component {
                         <label>Expected Close</label>
                         <input type="text" name="expected_close" placeholder="Expected Close" defaultValue={this.props.opportunity.website} onChange={this._handleInputChange} />
                     </div>
+                    <div className="input-container">
+                        <label>Stage</label>
+                        <select name="stage_id">
+                            <option value={null}>Please select...</option>
+                            {stageOptions}
+                        </select>
+                    </div>
 
                 </div>
                 <div className="panel-opportunity-details-column">
@@ -78,13 +88,15 @@ NewOpportunityForm.propTypes = {
     opportunity: PropTypes.object.isRequired,
     setFormState: PropTypes.func.isRequired,
     dataUpdated: PropTypes.bool.isRequired,
-    customFields: PropTypes.object.isRequired
+    customFields: PropTypes.object.isRequired,
+    stages: PropTypes.array.isRequired
 }
 
 export default connect((store) => {
     return {
         opportunity: store.opportunityFlyoutState.data,
         dataUpdated: store.opportunityFlyoutState.dataUpdated,
-        customFields: store.customFieldsState.opportunityFields
+        customFields: store.customFieldsState.opportunityFields,
+        stages: store.stageState.data
     }
 })(NewOpportunityForm);
