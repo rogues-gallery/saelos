@@ -4,6 +4,7 @@ const initialState = {
     contactFields: {},
     accountFields: {},
     opportunityFields: {},
+    repFields: {},
     isFetching: false,
     dataUpdated: false,
     error: false
@@ -14,6 +15,7 @@ export default function customFieldsReducer(state = initialState, action) {
         case types.FETCHING_CONTACT_CUSTOM_FIELDS:
         case types.FETCHING_OPPORTUNITY_CUSTOM_FIELDS:
         case types.FETCHING_ACCOUNT_CUSTOM_FIELDS:
+        case types.FETCHING_REP_CUSTOM_FIELDS:
             return {
                 ...state,
                 isFetching: true,
@@ -39,6 +41,13 @@ export default function customFieldsReducer(state = initialState, action) {
                 isFetching: false,
                 dataUpdated: true,
                 accountFields: action.data
+            }
+        case types.FETCHING_REP_CUSTOM_FIELDS_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                dataUpdated: true,
+                repFields: action.data
             }
         case types.FETCHING_CONTACT_CUSTOM_FIELDS_FAILURE:
             return {

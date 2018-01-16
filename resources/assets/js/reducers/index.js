@@ -14,6 +14,7 @@ import contactFlyoutReducer from "./contact-flyout";
 import opportunityFlyoutReducer from "./opportunity-flyout";
 import accountFlyoutReducer from "./account-flyout";
 import customFieldsReducer from "./custom-fields";
+import repFlyoutReducer from "./rep-flyout";
 
 export default combineReducers({
     form: formReducer,
@@ -30,5 +31,6 @@ export default combineReducers({
     contactFlyoutState: contactFlyoutReducer,
     opportunityFlyoutState: opportunityFlyoutReducer,
     accountFlyoutState: accountFlyoutReducer,
-    customFieldsState: customFieldsReducer
+    customFieldsState: customFieldsReducer,
+    repFlyoutState: repFlyoutReducer
 });

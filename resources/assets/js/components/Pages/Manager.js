@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Backend from '../Layouts/Backend';
 import InfoboxRep from "../UI/Infobox/InfoboxRep";
-import {actionCreators} from "../../actions";
 import Loading from "../Helpers/Loading";
 
 class Manager extends Component {
     render() {
-        if (this.props.authenticated === false) {
+        if (this.props.authenticated === false || typeof this.props.user.team === 'undefined') {
             return <Backend><Loading/></Backend>
         }
 

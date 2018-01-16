@@ -34,3 +34,22 @@ export function postUser(data, dispatch) {
             })
         });
 }
+
+export function fetchRepCustomFields() {
+    return (dispatch) => {
+        dispatch({
+            type: types.FETCHING_REP_CUSTOM_FIELDS
+        })
+
+        let URL = '/contexts/User?customOnly=true';
+
+        fetch(URL)
+            .then((response) => {
+                dispatch({
+                    type: types.FETCHING_REP_CUSTOM_FIELDS_SUCCESS,
+                    data: response.data,
+                    dataFetched: true
+                })
+            })
+    }
+}

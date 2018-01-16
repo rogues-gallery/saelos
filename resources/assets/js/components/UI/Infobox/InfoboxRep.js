@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import { Money } from 'react-format';
 import RepPanel from "../../Panels/RepPanel";
 import Gravatar from 'react-gravatar';
+import { connect } from 'react-redux';
+import * as types from "../../../actions/types";
 
-export default class InfoboxRep extends Component {
-    _togglePanelClass() {
-        let itemClass = 'div.rep-item-' + this.props.rep.id;
+class InfoboxRep extends Component {
+    _togglePanelClass(data) {
+        this.props.dispatch({
+            type: types.FETCHING_REP_FOR_FLYOUT_SUCCESS,
+            data: data
+        });
 
-        document.querySelector(itemClass).classList.toggle('rep-panel-open');
+        document.getElementById('rep-panel-wrapper').classList.toggle('rep-panel-open');
         document.querySelector('body').classList.toggle('panel-open');
     }
 
@@ -25,7 +30,7 @@ export default class InfoboxRep extends Component {
             <div className={itemClass}>
                 <div className="infobox-inner">
                     <div className="infobox-header">
-                        <div className="infobox-header-content" onClick={this._togglePanelClass.bind(this)}>
+                        <div className="infobox-header-content" onClick={this._togglePanelClass.bind(this, this.props.rep)}>
                             <div className="avatar">
                                 <Gravatar email={this.props.rep.email} size={44} />
                             </div>
@@ -41,8 +46,6 @@ export default class InfoboxRep extends Component {
                             </div>
                         </div>
                     </div>
-
-                    <RepPanel rep={this.props.rep} />
                 </div>
             </div>
         );
@@ -52,3 +55,5 @@ export default class InfoboxRep extends Component {
 InfoboxRep.propTypes = {
     rep: PropTypes.object.isRequired
 };
+
+export default connect()(InfoboxRep);

@@ -39,7 +39,7 @@ class AccountPanel extends Component {
     }
 
     _togglePanelClass() {
-        let exists =document.getElementById('account-panel-wrapper').classList.toggle('account-panel-open');
+        let exists = document.getElementById('account-panel-wrapper').classList.toggle('account-panel-open');
 
         if (!exists) {
             this.props.dispatch({
