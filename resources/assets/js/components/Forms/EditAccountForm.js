@@ -13,7 +13,7 @@ class EditAccountForm extends Component {
         this._handleInputChange = this._handleInputChange.bind(this);
 
         this.state = {
-            formState: Object.assign({}, props.account)
+            formState: props.account
         }
     }
 

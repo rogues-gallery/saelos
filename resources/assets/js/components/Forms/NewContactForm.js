@@ -10,7 +10,7 @@ class NewContactForm extends Component {
         this._handleInputChange = this._handleInputChange.bind(this);
 
         this.state = {
-            formState: Object.assign({}, props.contact)
+            formState: props.contact
         }
     }
 

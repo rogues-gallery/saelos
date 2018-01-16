@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Notifications\DealUpdated;
+use App\Stage;
 use Auth;
 use App\Company;
 use App\Deal;
@@ -58,12 +59,19 @@ class DealController extends Controller
         $data = $request->all();
         $dealCompany = $data['company'] ?? [];
         $customFields = $data['custom_fields'] ?? [];
+        $dealStage = $data['stage_id'] ?? null;
 
         if ($dealCompany) {
             $company = Company::findOrFail($dealCompany['id']);
             $company->update($dealCompany);
 
             $deal->company()->associate($company);
+        }
+
+        if ($dealStage) {
+            $stage = Stage::findOrFail($dealStage);
+
+            $deal->stage()->associate($stage);
         }
 
         $deal->user()->associate(Auth::user());

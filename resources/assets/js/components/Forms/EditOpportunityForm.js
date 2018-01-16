@@ -14,7 +14,7 @@ class EditOpportunityForm extends Component {
         this._handleInputChange = this._handleInputChange.bind(this);
 
         this.state = {
-            formState: Object.assign({}, props.opportunity)
+            formState: props.opportunity
         }
     }
 
@@ -77,7 +77,7 @@ class EditOpportunityForm extends Component {
                     </div>
                     <div className="input-container">
                         <label>Stage</label>
-                        <select name="stage_id" defaultValue={this.props.opportunity.stage_id}>
+                        <select name="stage_id" defaultValue={this.props.opportunity.stage_id} onChange={this._handleInputChange}>
                             <option value={null}>Please select...</option>
                             {stageOptions}
                         </select>
