@@ -34,6 +34,14 @@ class Deal extends Model
         'notes',
     ];
 
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'expected_close',
+        'actual_close',
+        'last_viewed',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

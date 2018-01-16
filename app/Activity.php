@@ -14,6 +14,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Activity extends Model
 {
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'due_date',
+        'fulfillment_date',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

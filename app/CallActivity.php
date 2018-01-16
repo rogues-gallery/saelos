@@ -16,6 +16,13 @@ class CallActivity extends Model
         'details' => 'array',
     ];
 
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'start_date',
+        'end_date',
+    ];
+
     public function activity()
     {
         return $this->morphMany(Activity::class, 'details');

@@ -19,13 +19,15 @@ class Opportunities extends Component {
     }
 
     _toggleNewPanel() {
-        document.getElementById('opportunity-panel-wrapper').classList.toggle('account-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
         document.querySelector('body').classList.toggle('panel-open');
 
         // Set the form state for a new contact
         this.props.dispatch({
             type: types.FETCHING_OPPORTUNITY_FOR_FLYOUT_SUCCESS,
-            data: {}
+            data: {
+                custom_fields: []
+            }
         });
     }
 
