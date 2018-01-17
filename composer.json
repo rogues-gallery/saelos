@@ -7,6 +7,7 @@
     "require": {
         "php": "^7.1",
         "fideloper/proxy": "~3.3",
+        "giggsey/libphonenumber-for-php": "^8.8",
         "laracasts/generators": "^1.1",
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",

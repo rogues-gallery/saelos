@@ -39,6 +39,8 @@ class ReportExportController extends Controller
 
                             if ($relation === 'custom_fields') {
                                 $row[$column] = $datum->custom_fields[$col]['value'];
+                            } else {
+                                $row[$column] = $datum->{$relation}[$col];
                             }
                         } else {
                             $row[$column] = $datum->{$column};
