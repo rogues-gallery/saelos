@@ -9,6 +9,7 @@ import Box from "../UI/Box";
 import ScoreChart from "../Charts/Headquarters/ScoreChart";
 import CallPanel from "../Panels/CallPanel";
 import Gravatar from 'react-gravatar';
+import * as types from "../../actions/types";
 
 class Headquarters extends Component {
     componentWillMount() {
@@ -21,7 +22,7 @@ class Headquarters extends Component {
 
     render() {
         let results = this.props.tasks.map((task) => {
-            return <Task key={task.id} task={task} />
+            return <Task key={task.id} task={task} dispatch={this.props.dispatch} />
         });
 
         return (
@@ -93,26 +94,29 @@ TaskHeader.propTypes = {
 }
 
 class Task extends Component {
+    _toggleContactPanel(data) {
+        this.props.dispatch({
+            type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
+            data: data
+        });
+
+        document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
+    }
+
     render() {
         return (
             <tr>
-                <td className="min-width">
+                <td>
                     <div className={'status '}>
                         <i className="md-icon">check</i>
                     </div>
-
-                    <div className="title-wrapper">
-                        <div className="title">{this.props.task.first_name} {this.props.task.last_name}</div>
-                        <div className="subtitle">{this.props.task.company.name}</div>
-                    </div>
-                </td>
-
-                <td>
-                    <div className="avatar">
+                    <div className="avatar" onClick={this._toggleContactPanel.bind(this, this.props.task)}>
                         <Gravatar email={this.props.task.email} size={44} />
                     </div>
-                    <div className="title-wrapper">
+                    <div className="title-wrapper" onClick={this._toggleContactPanel.bind(this, this.props.task)}>
                         <div className="title">{this.props.task.first_name} {this.props.task.last_name}</div>
+                        <div className="subtitle">{this.props.task.company.name}</div>
                     </div>
                 </td>
             </tr>
@@ -121,7 +125,8 @@ class Task extends Component {
 }
 
 Task.propTypes = {
-    task: PropTypes.object.isRequired
+    task: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
 }
 
 export default connect((store) => {

@@ -25,7 +25,7 @@ Route::group([
 
     Route::get('/tasks', function () {
         $people = \App\Person::where('user_id', Auth::user()->id)
-            ->with(['company'])
+            ->with(['company', 'customFields', 'notes'])
             ->orderBy('updated_at')
             ->get();
 
