@@ -50,7 +50,7 @@ export function customFieldsHelper(object, fields, handleInputChange) {
 
           return (
               <div key={index} className="input-container">
-                  <label>{thisField.label} ({thisValue})</label>
+                  <label>{thisField.label}</label>
                   {input}
               </div>
           )

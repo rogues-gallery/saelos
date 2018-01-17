@@ -50,7 +50,7 @@ class EditOpportunityForm extends Component {
         let contacts = this.props.opportunity.people.map((person) => {
             return <div key={person.id}>
                 <span className="avatar">
-                    <Gravatar email={person.email} />
+                    <Gravatar email={person.email} size={44} />
                 </span>
                 <span>{person.first_name + ' ' + person.last_name}</span>
             </div>
@@ -63,6 +63,11 @@ class EditOpportunityForm extends Component {
         return (
             <form id="opportunity-details-form">
                 <div className="panel-opportunity-details-column">
+                    <div className="input-container">
+                        <label>Created At</label>
+                        {this.props.opportunity.created_at}
+                    </div>
+
                     <div className="input-container">
                         <label>Amount</label>
                         <input type="text" name="amount" placeholder="Amount" defaultValue={this.props.opportunity.amount} onChange={this._handleInputChange} />
