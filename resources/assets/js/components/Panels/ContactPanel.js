@@ -53,6 +53,10 @@ class ContactPanel extends Component {
             })
         }
 
+        // Clear all inputs after submit
+        document.getElementById('contact-panel-wrapper')
+            .querySelectorAll('input').forEach((child) => { child.value = null; });
+
         document.querySelector('body').classList.toggle('panel-open');
 
         this._handleFormSubmit();

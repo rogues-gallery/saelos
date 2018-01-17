@@ -119,7 +119,8 @@
   .contact-history-panel-open &,
   .contact-edit-panel-open &,
   .contact-note-panel-open &,
-  .contact-contact-panel-open & {
+  .contact-contact-panel-open &,
+  .opportunity-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);
     transform: translateX(-300px);
   }
@@ -186,7 +187,7 @@
  * Account Flyouts
  */
 .opportunity-side-overlay {
-  z-index: 2000;
+  z-index: 4000;
 
   .opportunity-panel-open & {
     opacity: 1;
@@ -195,7 +196,7 @@
 }
 
 .opportunity-panel-side {
-  z-index: 3001;
+  z-index: 4001;
 
   .opportunity-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);

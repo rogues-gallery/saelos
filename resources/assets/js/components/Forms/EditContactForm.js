@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Money } from 'react-format';
 import { connect } from 'react-redux';
 import { customFieldsHelper } from '../../utils/helpers';
+import * as types from "../../actions/types";
 
 let _ = require('lodash');
 
@@ -11,6 +12,7 @@ class EditContactForm extends Component {
         super(props);
 
         this._handleInputChange = this._handleInputChange.bind(this);
+        this._openOpportunityPanel = this._openOpportunityPanel.bind(this);
 
         this.state = {
             formState: props.contact
@@ -43,6 +45,24 @@ class EditContactForm extends Component {
         this.props.setFormState(contactState)
     }
 
+    _openOpportunityPanel() {
+        this.props.dispatch({
+            type: types.FETCHING_OPPORTUNITY_FOR_FLYOUT_SUCCESS,
+            data: {
+                people: [
+                    {
+                        id: this.props.contact.id,
+                        is_primary: true
+                    }
+                ]
+            }
+        });
+
+        document.getElementById('contact-panel-wrapper').classList.toggle('opportunity-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
+        document.querySelector('body').classList.toggle('panel-open');
+    }
+
     render() {
         let customFields = customFieldsHelper(this.props.contact, this.props.customFields, this._handleInputChange);
         let lastInteraction = this.props.contact.activities && this.props.contact.activities.length ? this.props.contact.activities.slice(-1)[0].description : 'None';
@@ -51,6 +71,10 @@ class EditContactForm extends Component {
         return (
             <form id="contact-details-form">
                 <div className="panel-contact-details-column">
+                    <span className="button button-primary" onClick={this._openOpportunityPanel}>
+                        Create Opportunity
+                    </span>
+
                     <div className="input-container">
                         <label>Phone</label>
                         <input type="text" name="phone" placeholder="Phone" defaultValue={this.props.contact.phone} onChange={this._handleInputChange} />

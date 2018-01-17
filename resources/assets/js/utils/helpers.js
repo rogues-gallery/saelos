@@ -47,7 +47,6 @@ export function customFieldsHelper(object, fields, handleInputChange) {
                   break;
           }
 
-
           return (
               <div key={index} className="input-container">
                   <label>{thisField.label}</label>

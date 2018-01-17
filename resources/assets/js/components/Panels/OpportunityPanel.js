@@ -22,7 +22,8 @@ class OpportunityPanel extends Component {
         this._toggleDocumentsClass = this._toggleDocumentsClass.bind(this);
 
         this.state = {
-            opportunity: props.opportunity
+            opportunity: props.opportunity,
+            formState: props.opportunity
         }
     }
 
@@ -40,8 +41,6 @@ class OpportunityPanel extends Component {
         })
     }
 
-
-
     _toggleBodyClass() {
         let exists = document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
 
@@ -49,6 +48,15 @@ class OpportunityPanel extends Component {
             this.props.dispatch({
                 type: types.CLEAR_OPPORTUNITY_FOR_FLYOUT
             })
+        }
+
+        // Clear all inputs after submit
+        document.getElementById('opportunity-panel-wrapper')
+            .querySelectorAll('input').forEach((child) => { child.value = null; });
+
+        // If this was opened from the contact panel, remove the class when closing it
+        if (document.getElementById('contact-panel-wrapper').classList.contains('opportunity-panel-open')) {
+            document.getElementById('contact-panel-wrapper').classList.remove('opportunity-panel-open')
         }
 
         document.querySelector('body').classList.toggle('panel-open');
@@ -117,9 +125,9 @@ class OpportunityPanel extends Component {
 
                         <div className="panel-opportunity-details">
                             {this.props.opportunity.id ?
-                                <EditOpportunityForm opportunity={this.props.opportunity} setFormState={this._setFormState} />
+                                <EditOpportunityForm setFormState={this._setFormState} />
                             :
-                                <NewOpportunityForm opportunity={this.props.opportunity} setFormState={this._setFormState} />
+                                <NewOpportunityForm setFormState={this._setFormState} />
                             }
                         </div>
                         {this.props.opportunity.id ?
@@ -144,6 +152,7 @@ OpportunityPanel.propTypes = {
 
 export default connect((store) => {
     return {
-        opportunity: store.opportunityFlyoutState.data
+        opportunity: store.opportunityFlyoutState.data,
+        dataUpdated: store.opportunityFlyoutState.dataUpdated
     }
 })(OpportunityPanel);

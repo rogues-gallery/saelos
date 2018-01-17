@@ -20,7 +20,7 @@ class NewOpportunityForm extends Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         let name = target.name;
-        let oppState = this.state.formState;
+        let oppState = this.props.opportunity;
 
         // Special handling for custom field state
         if (/custom_fields\./.test(name)) {
@@ -57,15 +57,15 @@ class NewOpportunityForm extends Component {
                     </div>
                     <div className="input-container">
                         <label>Amount</label>
-                        <input type="text" name="amount" placeholder="Amount" defaultValue={this.props.opportunity.amount} onChange={this._handleInputChange} />
+                        <input type="text" name="amount" placeholder="Amount" onChange={this._handleInputChange} />
                     </div>
                     <div className="input-container">
                         <label>Probability</label>
-                        <input type="text" name="probability" placeholder="Probability" defaultValue={this.props.opportunity.fax} onChange={this._handleInputChange} />
+                        <input type="text" name="probability" placeholder="Probability" onChange={this._handleInputChange} />
                     </div>
                     <div className="input-container">
                         <label>Expected Close</label>
-                        <input type="text" name="expected_close" placeholder="Expected Close" defaultValue={this.props.opportunity.website} onChange={this._handleInputChange} />
+                        <input type="text" name="expected_close" placeholder="Expected Close" onChange={this._handleInputChange} />
                     </div>
                     <div className="input-container">
                         <label>Stage</label>

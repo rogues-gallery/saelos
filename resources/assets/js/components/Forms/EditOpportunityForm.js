@@ -22,7 +22,7 @@ class EditOpportunityForm extends Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         let name = target.name;
-        let oppState = this.state.formState;
+        let oppState = this.props.opportunity;
 
         // Special handling for custom field state
         if (/custom_fields\./.test(name)) {
