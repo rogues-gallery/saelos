@@ -141,7 +141,7 @@ class PersonController extends Controller
         $user = Auth::user();
 
         Mail::to($person->email)
-            ->send(new Contact($request->get('emailContent')));
+            ->send(new Contact($request->get('emailContent'), $request->get('emailSubject')));
 
         ContactEmailed::dispatch($person, $user);
 

@@ -23,11 +23,17 @@ export default class NotePanel extends Component {
     _handleNoteSubmit(e) {
         e.preventDefault();
 
+        let title = document.getElementById('note_title_' + this.props.contact.id);
+        let content = document.getElementById('note_content_' + this.props.contact.id);
+
         actionCreators.addContactNote({
             id: this.props.contact.id,
-            name: document.getElementById('note_title_' + this.props.contact.id).value,
-            note: document.getElementById('note_content_' + this.props.contact.id).value
+            name: title.value,
+            note: content.value
         });
+
+        title.value = null;
+        content.value = null;
     }
 
     render() {

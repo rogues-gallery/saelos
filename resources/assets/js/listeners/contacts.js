@@ -19,7 +19,9 @@ Echo.channel('contacts')
         let contactIndex = _.findIndex(contactState, {id: e.entity_id});
         let contact = contactState[contactIndex];
 
-        contact.notes.push(e);
+        if (contact) {
+            contact.notes.push(e);
+        }
 
         NotificationManager.success(message, null, 2000);
     })

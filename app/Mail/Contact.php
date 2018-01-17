@@ -13,15 +13,17 @@ class Contact extends Mailable
     use Queueable, SerializesModels;
 
     private $content;
+    private $subject;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($content)
+    public function __construct($content, $subject)
     {
         $this->content = $content;
+        $this->subject = $subject;
     }
 
     /**
@@ -35,8 +37,9 @@ class Contact extends Mailable
 
         return $this->from($user->email, $user->name)
             ->view('emails.contact.default')
+            ->subject($this->subject)
             ->with([
-                'content' => $this->content,
+                'content' => nl2br($this->content),
             ]);
     }
 }

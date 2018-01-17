@@ -30,10 +30,17 @@ class ContactContactPanel extends Component {
     _sendEmail(e) {
         e.preventDefault();
 
+        let content = document.getElementById('email-content');
+        let subject = document.getElementById('email-subject');
+
         actionCreators.emailContact({
             id: this.props.contact.id,
-            emailContent: document.getElementById('email-content').value
+            emailContent: content.value,
+            emailSubject: subject.value
         });
+
+        content.value = null;
+        subject.value = null;
 
         this._togglePanelClass();
     }
@@ -71,7 +78,7 @@ class ContactContactPanel extends Component {
                             <TabPane title="Email" icon="email">
                                 <div>
                                     <form>
-                                        <input className="form-control" type="text" name="subject" placeholder="Subject" />
+                                        <input className="form-control" type="text" name="subject" id="email-subject" placeholder="Subject" />
                                         <textarea placeholder="Email content" className="form-control" name="content" id="email-content" style={{width:"100%", height: "300px"}}/>
                                         <br />
                                         <button className="button button-primary" onClick={this._sendEmail}>Send</button>
