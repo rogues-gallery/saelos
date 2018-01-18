@@ -7,6 +7,8 @@ import {connect} from "react-redux";
 import NewAccountForm from "../Forms/NewAccountForm";
 import PropTypes from 'prop-types';
 import * as types from "../../actions/types";
+import NotePanel from './NotePanel';
+import HistoryPanel from './HistoryPanel';
 
 class AccountPanel extends Component {
     constructor(props) {
@@ -57,11 +59,11 @@ class AccountPanel extends Component {
     }
 
     _toggleHistoryClass() {
-        document.getElementById('account-panel-wrapper').classList.toggle('account-history-panel-open');
+        document.getElementById('account-panel-wrapper').classList.toggle('history-panel-open');
     }
 
     _toggleNoteClass() {
-        document.getElementById('account-panel-wrapper').classList.toggle('account-edit-panel-open');
+        document.getElementById('account-panel-wrapper').classList.toggle('note-panel-open');
     }
 
     _toggleDocumentsClass() {
@@ -72,7 +74,7 @@ class AccountPanel extends Component {
         return (
             <div id="account-panel-wrapper">
                 <div className="account-side-overlay side-overlay" onClick={this._togglePanelClass} />
-                <div className="account-panel-side side-panel">
+                <div className="account-side side-panel">
                     <Panel>
                         {this.props.account.id ?
                             <div className="panel-user">
@@ -93,7 +95,7 @@ class AccountPanel extends Component {
                                         History
                                     </div>
                                     <div className="user-action-box" onClick={this._toggleNoteClass}>
-                                        <i className="md-icon">note</i><br />
+                                        <i className="md-icon">event_note</i><br />
                                         Notes
                                     </div>
                                     <div className="user-action-box" onClick={this._toggleDocumentsClass}>
@@ -131,6 +133,8 @@ class AccountPanel extends Component {
                         : ''}
                     </Panel>
                 </div>
+                <HistoryPanel activities={this.props.account.activities ? this.props.account.activities : []} targetParentPanel="account-panel-wrapper" />
+                <NotePanel itemId={this.props.account.id ? this.props.account.id : 0} addNoteFunc={actionCreators.addAccountNote} notes={this.props.account.notes ? this.props.account.notes : []} targetParentPanel="account-panel-wrapper" />
             </div>
         );
     }

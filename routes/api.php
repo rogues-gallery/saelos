@@ -38,6 +38,9 @@ Route::group([
         ->where('model', '[a-zA-Z/]+');
 
     Route::resource('people.notes', 'PersonCommentController');
+    Route::resource('companies.notes', 'CompanyCommentController');
+    Route::resource('deals.notes', 'DealCommentController');
+
     Route::resource('people', 'PersonController');
     Route::resource('deals', 'DealController');
     Route::resource('companies', 'CompanyController');

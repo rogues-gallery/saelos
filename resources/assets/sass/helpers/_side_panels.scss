@@ -59,49 +59,54 @@
 }
 
 /**
+ * History Flyout
+ */
+.history-side {
+  z-index: 3001;
+
+  .history-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+.history-overlay {
+  z-index: 3000;
+
+  .history-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/**
+ * Notes Flyout
+ */
+.note-side {
+  z-index: 3001;
+
+  .note-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+.note-overlay {
+  z-index: 3000;
+
+  .note-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/**
  * Contact Flyouts
  */
-
 .contact-side-overlay {
   z-index: 2000;
 
   .contact-panel-open & {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.contact-history-overlay {
-  z-index: 3000;
-
-  .contact-history-panel-open & {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.contact-edit-overlay {
-  z-index: 3000;
-
-  .contact-edit-panel-open & {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.contact-note-overlay {
-  z-index: 3000;
-
-  .contact-note-panel-open & {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.contact-contact-overlay {
-  z-index: 3000;
-
-  .contact-contact-panel-open & {
     opacity: 1;
     transform: translateX(0);
   }
@@ -116,9 +121,8 @@
   }
 
   .action-panel-open &,
-  .contact-history-panel-open &,
-  .contact-edit-panel-open &,
-  .contact-note-panel-open &,
+  .history-panel-open &,
+  .note-panel-open &,
   .contact-contact-panel-open &,
   .opportunity-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);
@@ -126,29 +130,12 @@
   }
 }
 
-.contact-history-side {
-  z-index: 3001;
 
-  .contact-history-panel-open & {
-    box-shadow: 0 0 20px rgba(#000, .08);
-    transform: translateX(0);
-  }
-}
+.contact-contact-overlay {
+  z-index: 3000;
 
-.contact-edit-side {
-  z-index: 3001;
-
-  .contact-edit-panel-open & {
-    box-shadow: 0 0 20px rgba(#000, .08);
-    transform: translateX(0);
-  }
-}
-
-.contact-note-side {
-  z-index: 3001;
-
-  .contact-note-panel-open & {
-    box-shadow: 0 0 20px rgba(#000, .08);
+  .contact-contact-panel-open & {
+    opacity: 1;
     transform: translateX(0);
   }
 }
@@ -174,20 +161,27 @@
   }
 }
 
-.account-panel-side {
-  z-index: 3001;
+.account-side {
+  z-index: 2001;
 
   .account-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);
     transform: translateX(0);
   }
+
+  .history-panel-open &,
+  .note-panel-open &,
+  .documents-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(-300px);
+  }
 }
 
 /**
- * Account Flyouts
+ * Opportunity Flyouts
  */
 .opportunity-side-overlay {
-  z-index: 4000;
+  z-index: 2000;
 
   .opportunity-panel-open & {
     opacity: 1;
@@ -195,12 +189,19 @@
   }
 }
 
-.opportunity-panel-side {
-  z-index: 4001;
+.opportunity-side {
+  z-index: 2001;
 
   .opportunity-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);
     transform: translateX(0);
+  }
+
+  .history-panel-open &,
+  .note-panel-open &,
+  .documents-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(-300px);
   }
 }
 
@@ -217,7 +218,7 @@
 }
 
 .call-panel-side {
-  z-index: 3001;
+  z-index: 2001;
 
   .call-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);

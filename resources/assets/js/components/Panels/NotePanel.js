@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 
 import { Panel } from '../UI/Panel';
-import {actionCreators} from "../../actions";
 import Progress from "../UI/Progress";
-import TabbedArea from "../UI/Tab/TabbedArea";
-import TabPane from "../UI/Tab/TabPane";
+import PropTypes from 'prop-types';
 
 let nl2br = require('react-nl2br');
 
-export default class NotePanel extends Component {
+class NotePanel extends Component {
     constructor(props) {
         super(props);
 
@@ -17,17 +15,17 @@ export default class NotePanel extends Component {
     }
 
     _togglePanelClass() {
-        document.getElementById('contact-panel-wrapper').classList.toggle('contact-note-panel-open');
+        document.getElementById(this.props.targetParentPanel).classList.toggle('note-panel-open');
     }
 
     _handleNoteSubmit(e) {
         e.preventDefault();
 
-        let title = document.getElementById('note_title_' + this.props.contact.id);
-        let content = document.getElementById('note_content_' + this.props.contact.id);
+        let title = document.getElementById("note_title-" + this.props.targetParentPanel);
+        let content = document.getElementById("note_content-" + this.props.targetParentPanel);
 
-        actionCreators.addContactNote({
-            id: this.props.contact.id,
+        this.props.addNoteFunc({
+            id: this.props.itemId,
             name: title.value,
             note: content.value
         });
@@ -37,7 +35,7 @@ export default class NotePanel extends Component {
     }
 
     render() {
-        let notes = _.map(this.props.contact.notes, (note, index) => {
+        let notes = _.map(this.props.notes, (note, index) => {
             let after = note.user.name + ' on ' + note.created_at;
 
             return <div key={index} className="note">
@@ -49,14 +47,12 @@ export default class NotePanel extends Component {
 
         return (
             <div>
-                <div className="contact-note-overlay side-overlay" onClick={this._togglePanelClass} />
-                <div className="contact-note-side side-panel">
+                <div className="note-overlay side-overlay" onClick={this._togglePanelClass} />
+                <div className="note-side side-panel">
                     <Panel>
                         <div className="panel-user">
                             <div className="panel-user-content">
-                                {this.props.contact.first_name ? <div className="panel-user-name">{this.props.contact.first_name} {this.props.contact.last_name}</div> : ''}
-
-                                {this.props.contact.company ? <div className="panel-user-subtitle">{this.props.contact.company.name}</div> : ''}
+                                <div className="panel-user-name">Notes</div>
 
                                 <div className="panel-user-action" onClick={this._togglePanelClass}>
                                     <i className="md-icon">close</i>
@@ -70,8 +66,8 @@ export default class NotePanel extends Component {
                             <div className="note-form">
                                 <h2>Add Note</h2>
                                 <form>
-                                    <input type="text" className="form-control" name="note_title" id={"note_title_" + this.props.contact.id} placeholder="Note Title" />
-                                    <textarea placeholder="Note" className="form-control" style={{width:"100%", height:"200px"}} name="note_content" id={"note_content_" + this.props.contact.id} />
+                                    <input type="text" className="form-control" name="note_title" id={"note_title-" + this.props.targetParentPanel} placeholder="Note Title" />
+                                    <textarea placeholder="Note" className="form-control" style={{width:"100%", height:"200px"}} name="note_content" id={"note_content-" + this.props.targetParentPanel} />
                                     <br />
                                     <button className="button button-primary" type="submit" onClick={this._handleNoteSubmit}>Add Note</button>
                                 </form>
@@ -87,3 +83,12 @@ export default class NotePanel extends Component {
         );
     }
 }
+
+NotePanel.propTypes = {
+    targetParentPanel: PropTypes.string.isRequired,
+    addNoteFunc: PropTypes.func.isRequired,
+    notes: PropTypes.array.isRequired,
+    itemId: PropTypes.number.isRequired
+}
+
+export default NotePanel;

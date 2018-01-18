@@ -65,22 +65,22 @@ class OpportunityPanel extends Component {
     }
 
     _toggleHistoryClass() {
-        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-history-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('history-panel-open');
     }
 
     _toggleNoteClass() {
-        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-edit-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('note-panel-open');
     }
 
     _toggleDocumentsClass() {
-        document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-contact-panel-open');
+        document.getElementById('opportunity-panel-wrapper').classList.toggle('document-panel-open');
     }
 
     render() {
         return (
             <div id="opportunity-panel-wrapper">
                 <div className="opportunity-side-overlay side-overlay" onClick={this._toggleBodyClass} />
-                <div className="opportunity-panel-side side-panel">
+                <div className="opportunity-side side-panel">
                     <Panel>
                         {this.props.opportunity.id ?
                             <div className="panel-user">
@@ -100,7 +100,7 @@ class OpportunityPanel extends Component {
                                         History
                                     </div>
                                     <div className="user-action-box" onClick={this._toggleNoteClass}>
-                                        <i className="md-icon">note</i><br />
+                                        <i className="md-icon">event_note</i><br />
                                         Notes
                                     </div>
                                     <div className="user-action-box" onClick={this._toggleDocumentsClass}>
@@ -138,8 +138,8 @@ class OpportunityPanel extends Component {
                         : ''}
                     </Panel>
                 </div>
-                <HistoryPanel contact={this.props.opportunity} dispatch={this.props.dispatch} />
-                <NotePanel contact={this.props.opportunity} dispatch={this.props.dispatch} />
+                <HistoryPanel activities={this.props.opportunity.activities ? this.props.opportunity.activities : []} targetParentPanel="opportunity-panel-wrapper" />
+                <NotePanel itemId={this.props.opportunity.id ? this.props.opportunity.id : 0} addNoteFunc={actionCreators.addOpportunityNote} notes={this.props.opportunity.notes ? this.props.opportunity.notes : []} targetParentPanel="opportunity-panel-wrapper" />
             </div>
         );
     }

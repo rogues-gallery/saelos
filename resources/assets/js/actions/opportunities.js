@@ -99,3 +99,23 @@ export function postOpportunity(data, dispatch) {
             })
         });
 }
+
+export function addOpportunityNote(data) {
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
+
+    let METHOD = 'POST';
+    let URL = '/deals/' + data.id + '/notes';
+
+    let options = {
+        body: data,
+        method: METHOD
+    }
+
+    fetch(URL, options)
+        .then((response) => {
+            console.log(response);
+        })
+    ;
+}

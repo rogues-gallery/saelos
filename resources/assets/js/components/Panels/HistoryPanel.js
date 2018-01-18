@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 import { Panel } from '../UI/Panel';
+import PropTypes from "prop-types";
 
-export default class HistoryPanel extends Component {
+class HistoryPanel extends Component {
     constructor(props) {
         super(props);
 
@@ -10,11 +11,11 @@ export default class HistoryPanel extends Component {
     }
 
     _togglePanelClass() {
-        document.getElementById('contact-panel-wrapper').classList.toggle('contact-history-panel-open');
+        document.getElementById(this.props.targetParentPanel).classList.toggle('history-panel-open');
     }
 
     render() {
-        let history = this.props.contact.activities ? this.props.contact.activities.map((activity, index) => {
+        let history = this.props.activities ? this.props.activities.map((activity, index) => {
             let recordUrl = activity.details.details.recordUrl ? <a href={activity.details.details.recordUrl} target="_blank">Listen to the call</a> : 'No recording available';
 
             return <li key={index}>
@@ -32,8 +33,8 @@ export default class HistoryPanel extends Component {
 
         return (
             <div>
-                <div className="contact-history-overlay side-overlay" onClick={this._togglePanelClass} />
-                <div className="contact-history-side side-panel">
+                <div className="history-overlay side-overlay" onClick={this._togglePanelClass} />
+                <div className="history-side side-panel">
                     <Panel>
                         <div className="panel-user">
                             <div className="panel-user-content">
@@ -55,3 +56,10 @@ export default class HistoryPanel extends Component {
         );
     }
 }
+
+HistoryPanel.propTypes = {
+    targetParentPanel: PropTypes.string.isRequired,
+    activities: PropTypes.array.isRequired
+}
+
+export default HistoryPanel;

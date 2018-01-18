@@ -67,11 +67,11 @@ class ContactPanel extends Component {
     }
 
     _toggleNoteClass() {
-        document.getElementById('contact-panel-wrapper').classList.toggle('contact-note-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('note-panel-open');
     }
 
     _toggleHistoryClass() {
-        document.getElementById('contact-panel-wrapper').classList.toggle('contact-history-panel-open');
+        document.getElementById('contact-panel-wrapper').classList.toggle('history-panel-open');
     }
 
     render() {
@@ -144,8 +144,8 @@ class ContactPanel extends Component {
                         : ''}
                     </Panel>
                 </div>
-                <HistoryPanel contact={this.props.contact} dispatch={this.props.dispatch} />
-                <NotePanel contact={this.props.contact} dispatch={this.props.dispatch} />
+                <HistoryPanel activities={this.props.contact.activities ? this.props.contact.activities : []} targetParentPanel="contact-panel-wrapper" />
+                <NotePanel itemId={this.props.contact.id ? this.props.contact.id : 0} addNoteFunc={actionCreators.addContactNote} notes={this.props.contact.notes ? this.props.contact.notes : []} targetParentPanel="contact-panel-wrapper" />
                 <ContactContactPanel contact={this.props.contact} dispatch={this.props.dispatch} />
             </div>
         );

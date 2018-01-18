@@ -99,3 +99,23 @@ export function postAccount(data, dispatch) {
             })
         });
 }
+
+export function addAccountNote(data) {
+    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
+        return;
+    }
+
+    let METHOD = 'POST';
+    let URL = '/companies/' + data.id + '/notes';
+
+    let options = {
+        body: data,
+        method: METHOD
+    }
+
+    fetch(URL, options)
+        .then((response) => {
+            console.log(response);
+        })
+    ;
+}
