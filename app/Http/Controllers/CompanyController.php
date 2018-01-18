@@ -17,6 +17,8 @@ class CompanyController extends Controller
         'people',
         'deals',
         'customFields',
+        'notes',
+        'notes.user',
     ];
 
     private $showWith = [
@@ -24,6 +26,8 @@ class CompanyController extends Controller
         'people',
         'deals',
         'customFields',
+        'notes',
+        'notes.user',
     ];
 
     public function index(Request $request)

@@ -22,6 +22,7 @@ class DealController extends Controller
         'stage',
         'customFields',
         'notes',
+        'notes.user',
     ];
 
     private $showWith = [
@@ -32,6 +33,7 @@ class DealController extends Controller
         'stage',
         'customFields',
         'notes',
+        'notes.user',
     ];
 
     public function index(Request $request)

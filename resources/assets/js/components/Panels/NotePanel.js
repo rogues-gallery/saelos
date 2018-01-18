@@ -38,8 +38,11 @@ export default class NotePanel extends Component {
 
     render() {
         let notes = _.map(this.props.contact.notes, (note, index) => {
+            let after = note.user.name + ' on ' + note.created_at;
+
             return <div key={index} className="note">
                 <h4 className="note-title">{note.name}</h4>
+                <small>{after}</small>
                 <p>{nl2br(note.note)}</p>
             </div>
         });
@@ -63,23 +66,21 @@ export default class NotePanel extends Component {
                                 <Progress size={0}/>
                             </div>
                         </div>
-                        <TabbedArea>
-                            <TabPane title="Add Note" icon="event_note">
-                                <div className="note-form">
-                                    <form>
-                                        <input type="text" className="form-control" name="note_title" id={"note_title_" + this.props.contact.id} placeholder="Note Title" />
-                                        <textarea placeholder="Note" className="form-control" style={{width:"100%", height:"300px"}} name="note_content" id={"note_content_" + this.props.contact.id} />
-                                        <br />
-                                        <button className="button button-primary" type="submit" onClick={this._handleNoteSubmit}>Add Note</button>
-                                    </form>
-                                </div>
-                            </TabPane>
-                            <TabPane title="View Notes" icon="event_note">
-                                <div className="note-container">
-                                    {notes}
-                                </div>
-                            </TabPane>
-                        </TabbedArea>
+                        <div className="panel-contact-details">
+                            <div className="note-form">
+                                <h2>Add Note</h2>
+                                <form>
+                                    <input type="text" className="form-control" name="note_title" id={"note_title_" + this.props.contact.id} placeholder="Note Title" />
+                                    <textarea placeholder="Note" className="form-control" style={{width:"100%", height:"200px"}} name="note_content" id={"note_content_" + this.props.contact.id} />
+                                    <br />
+                                    <button className="button button-primary" type="submit" onClick={this._handleNoteSubmit}>Add Note</button>
+                                </form>
+                            </div>
+                            <div className="note-container">
+                                <h2>Notes</h2>
+                                {notes}
+                            </div>
+                        </div>
                     </Panel>
                 </div>
             </div>

@@ -12,10 +12,18 @@ class EditOpportunityForm extends Component {
         super(props);
 
         this._handleInputChange = this._handleInputChange.bind(this);
+        this._handleContactLookup = this._handleContactLookup.bind(this);
 
         this.state = {
             formState: props.opportunity
         }
+    }
+
+    _handleContactLookup(event) {
+        const target = event.target;
+        const value = target.value;
+
+
     }
 
     _handleInputChange(event) {
@@ -90,7 +98,7 @@ class EditOpportunityForm extends Component {
 
                     <div className="input-container">
                         <label>Contacts</label>
-                        <input placeholder="Start typing a contact name or email address to add..." />
+                        <input placeholder="Start typing a contact name or email to add..." onChange={this._handleContactLookup} />
                         <hr />
                         <div id="contact-typeahead-container">
                         </div>
