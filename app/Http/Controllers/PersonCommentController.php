@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\Mentioned;
+use App\User;
 use Auth;
 use App\Events\NoteAdded;
 use App\Note;
@@ -26,6 +28,27 @@ class PersonCommentController extends Controller
         $note->entity()->associate($person)->save();
         $note->user()->associate(Auth::user())->save();
         $note->load(['entity', 'user']);
+
+        $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
+
+        if ($mentions > 0) {
+            $person->load([
+                'user',
+                'company',
+                'deals',
+                'activities',
+                'activities.details',
+                'customFields',
+                'notes',
+                'notes.user',
+            ]);
+
+            foreach ($matches[1] as $username) {
+                $user = User::where('username', '=', $username)->first();
+
+                $user->notify(new Mentioned($user, $person));
+            }
+        }
 
         NoteAdded::broadcast($note);
 

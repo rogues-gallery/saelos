@@ -37,13 +37,16 @@
         "universal-cookie": "^2.1.0"
     },
     "dependencies": {
+        "babel-polyfill": "^6.26.0",
         "babel-preset-es2015": "^6.24.1",
+        "babel-preset-latest": "^6.24.1",
         "babel-preset-stage-2": "^6.24.1",
         "chartist-plugin-tooltips": "0.0.17",
         "laravel-echo": "^1.3.2",
         "moment": "^2.20.1",
         "pusher-js": "^4.2.1",
         "react-file-download": "^0.3.5",
+        "react-githubish-mentions": "^1.2.0",
         "react-gravatar": "^2.6.3",
         "react-nl2br": "^0.4.0",
         "react-notifications": "^1.4.3",

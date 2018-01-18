@@ -4,6 +4,7 @@ import { Panel } from '../UI/Panel';
 import Progress from "../UI/Progress";
 import PropTypes from 'prop-types';
 import * as types from '../../actions/types';
+import { MentionWrapper, MentionMenu } from 'react-githubish-mentions';
 
 let nl2br = require('react-nl2br');
 
@@ -50,6 +51,29 @@ class NotePanel extends Component {
             </div>
         });
 
+        const atQuery = async (query) => {
+            const us = this.props.user.team.users.map((user) => ({value: user.username}));
+
+            return us.filter((member) => member.value.startsWith(query));
+        }
+
+        const MenuItem = (props) => {
+            const {active, value} = props;
+            const customStyle = {
+                backgroundColor: active ? 'blue' : 'white'
+            };
+
+            if (active) {
+                customStyle.color = 'white';
+            }
+
+            return (
+                <div style={customStyle}>
+                    {value}
+                </div>
+            )
+        }
+
         return (
             <div>
                 <div className="note-overlay side-overlay" onClick={this._togglePanelClass} />
@@ -72,7 +96,9 @@ class NotePanel extends Component {
                                 <h2>Add Note</h2>
                                 <form>
                                     <input type="text" className="form-control" name="note_title" id={"note_title-" + this.props.targetParentPanel} placeholder="Note Title" />
-                                    <textarea placeholder="Note" className="form-control" style={{width:"100%", height:"200px"}} name="note_content" id={"note_content-" + this.props.targetParentPanel} />
+                                    <MentionWrapper placeholder="Note" className="form-control" style={{width:"100%", height:"200px"}} name="note_content" id={"note_content-" + this.props.targetParentPanel}>
+                                        <MentionMenu className="mention-menu" trigger="@" item={MenuItem} resolve={atQuery} />
+                                    </MentionWrapper>
                                     <br />
                                     <button className="button button-primary" type="submit" onClick={this._handleNoteSubmit}>Add Note</button>
                                 </form>
@@ -100,6 +126,7 @@ export default connect((store) => {
     return {
         notes: store.notesState.data,
         dataAppended: store.notesState.dataAppended,
-        dataUpdated: store.notesState.dataUpdated
+        dataUpdated: store.notesState.dataUpdated,
+        user: store.authState.user
     }
 })(NotePanel);

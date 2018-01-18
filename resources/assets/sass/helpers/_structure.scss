@@ -113,3 +113,19 @@
 		}
 	}
 }
+
+div#portal[react-portal] {
+  .mention-menu {
+	  z-index: 9999;
+	  border: 1px solid #F0F0F0;
+	  box-shadow: 0 0 20px rgba(#000, .08);
+
+	  > div {
+		  border-bottom: 1px solid #F0F0F0;
+
+		  > div {
+			  padding: 5px 8px;
+		  }
+	  }
+  }
+}
