@@ -45,6 +45,6 @@ class NoteAdded implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return $this->note->toArray();
+        return $this->note->load('user')->toArray();
     }
 }

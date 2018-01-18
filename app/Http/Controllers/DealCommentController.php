@@ -25,7 +25,7 @@ class DealCommentController extends Controller
 
         $note->entity()->associate($deal)->save();
         $note->user()->associate(Auth::user())->save();
-        $note->load('entity');
+        $note->load(['entity', 'user']);
 
         NoteAdded::broadcast($note);
 

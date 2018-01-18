@@ -41,7 +41,7 @@ class NotePanel extends Component {
 
     render() {
         let notes = _.map(this.props.notes, (note, index) => {
-            let after = 'Created on ' + note.created_at;
+            let after = note.user.name + ' on ' + note.created_at;
 
             return <div key={index} className="note">
                 <h4 className="note-title">{note.name}</h4>
