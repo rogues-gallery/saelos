@@ -23,6 +23,7 @@ fetch('/authenticated', {forAuth: true})
                                         });
 
                                         document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
+                                        document.getElementById('contact-panel-wrapper').classList.toggle('note-panel-open');
                                         document.querySelector('body').classList.toggle('panel-open');
                                         break;
                                     case 'App\\Company':
@@ -32,6 +33,7 @@ fetch('/authenticated', {forAuth: true})
                                         });
 
                                         document.getElementById('account-panel-wrapper').classList.toggle('account-panel-open');
+                                        document.getElementById('account-panel-wrapper').classList.toggle('note-panel-open');
                                         document.querySelector('body').classList.toggle('panel-open');
                                         break;
                                     case 'App\\Deal':
@@ -41,6 +43,7 @@ fetch('/authenticated', {forAuth: true})
                                         });
 
                                         document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
+                                        document.getElementById('opportunity-panel-wrapper').classList.toggle('note-panel-open');
                                         document.querySelector('body').classList.toggle('panel-open');
                                         break;
                                 }
