@@ -63,6 +63,13 @@ class AccountPanel extends Component {
     }
 
     _toggleNoteClass() {
+        this.props.dispatch({
+            type: types.SET_NOTES_FOR_FLYOUT,
+            data: this.props.account.notes,
+            entityId: this.props.account.id,
+            entityType: 'App\\Company'
+        });
+
         document.getElementById('account-panel-wrapper').classList.toggle('note-panel-open');
     }
 
@@ -134,7 +141,7 @@ class AccountPanel extends Component {
                     </Panel>
                 </div>
                 <HistoryPanel activities={this.props.account.activities ? this.props.account.activities : []} targetParentPanel="account-panel-wrapper" />
-                <NotePanel itemId={this.props.account.id ? this.props.account.id : 0} addNoteFunc={actionCreators.addAccountNote} notes={this.props.account.notes ? this.props.account.notes : []} targetParentPanel="account-panel-wrapper" />
+                <NotePanel itemId={this.props.account.id ? this.props.account.id : 0} addNoteFunc={actionCreators.addAccountNote} targetParentPanel="account-panel-wrapper" />
             </div>
         );
     }

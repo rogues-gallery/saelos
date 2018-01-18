@@ -37,7 +37,7 @@ class NoteAdded implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('contacts');
+        return new Channel('notes');
     }
 
     /**

@@ -25,6 +25,7 @@ class PersonCommentController extends Controller
 
         $note->entity()->associate($person)->save();
         $note->user()->associate(Auth::user())->save();
+        $note->load('entity');
 
         NoteAdded::broadcast($note);
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import { Panel } from '../UI/Panel';
 import Progress from "../UI/Progress";
 import PropTypes from 'prop-types';
+import * as types from '../../actions/types';
 
 let nl2br = require('react-nl2br');
 
@@ -16,6 +17,10 @@ class NotePanel extends Component {
 
     _togglePanelClass() {
         document.getElementById(this.props.targetParentPanel).classList.toggle('note-panel-open');
+
+        this.props.dispatch({
+            type: types.CLEAR_NOTES_FOR_FLYOUT
+        });
     }
 
     _handleNoteSubmit(e) {
@@ -36,7 +41,7 @@ class NotePanel extends Component {
 
     render() {
         let notes = _.map(this.props.notes, (note, index) => {
-            let after = note.user.name + ' on ' + note.created_at;
+            let after = 'Created on ' + note.created_at;
 
             return <div key={index} className="note">
                 <h4 className="note-title">{note.name}</h4>
@@ -91,4 +96,10 @@ NotePanel.propTypes = {
     itemId: PropTypes.number.isRequired
 }
 
-export default NotePanel;
+export default connect((store) => {
+    return {
+        notes: store.notesState.data,
+        dataAppended: store.notesState.dataAppended,
+        dataUpdated: store.notesState.dataUpdated
+    }
+})(NotePanel);

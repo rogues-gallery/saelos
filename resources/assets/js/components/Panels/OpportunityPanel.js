@@ -69,6 +69,13 @@ class OpportunityPanel extends Component {
     }
 
     _toggleNoteClass() {
+        this.props.dispatch({
+            type: types.SET_NOTES_FOR_FLYOUT,
+            data: this.props.opportunity.notes,
+            entityId: this.props.opportunity.id,
+            entityType: 'App\\Deal'
+        });
+
         document.getElementById('opportunity-panel-wrapper').classList.toggle('note-panel-open');
     }
 

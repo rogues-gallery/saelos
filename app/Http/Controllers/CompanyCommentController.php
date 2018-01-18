@@ -25,6 +25,7 @@ class CompanyCommentController extends Controller
 
         $note->entity()->associate($company)->save();
         $note->user()->associate(Auth::user())->save();
+        $note->load('entity');
 
         NoteAdded::broadcast($note);
 

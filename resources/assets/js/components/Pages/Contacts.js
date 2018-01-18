@@ -110,16 +110,13 @@ export class Contact extends Component {
 
         this._assignContact = this._assignContact.bind(this);
         this._removeContact = this._removeContact.bind(this);
-
-        this.state = {
-            contact: props.contact
-        }
+        this._toggleBodyClass = this._toggleBodyClass.bind(this);
     }
 
-    _toggleBodyClass(data) {
+    _toggleBodyClass() {
         this.props.dispatch({
             type: types.FETCHING_CONTACT_FOR_FLYOUT_SUCCESS,
-            data: data
+            data: this.props.contact
         });
 
         document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
@@ -127,17 +124,17 @@ export class Contact extends Component {
     }
 
     _assignContact(e) {
-        this.state.contact.user_id = e.target.value;
+        this.props.contact.user_id = e.target.value;
 
-        actionCreators.postContact(this.state.contact, this.props.dispatch);
+        actionCreators.postContact(this.props.contact, this.props.dispatch);
     }
 
     _removeContact(e) {
-        actionCreators.removeContact(this.state.contact.id);
+        actionCreators.removeContact(this.props.contact.id);
     }
 
     render() {
-        let rowClass = 'contact-row-' + this.state.contact.id;
+        let rowClass = 'contact-row-' + this.props.contact.id;
 
         let teamMembers = _.map(this.props.user.team.users, (member, index) => {
             return <option key={index} value={member.id}>{member.name}</option>
@@ -146,34 +143,34 @@ export class Contact extends Component {
         return (
             <tr className={rowClass}>
                 <td className="min-width">
-                    <div className="avatar" onClick={this._toggleBodyClass.bind(this, this.state.contact)}>
-                        <Gravatar email={this.state.contact.email} size={44} />
+                    <div className="avatar" onClick={this._toggleBodyClass}>
+                        <Gravatar email={this.props.contact.email} size={44} />
                     </div>
 
                     <div className="title-wrapper">
                         <div className="title">
-                            <a onClick={this._toggleBodyClass.bind(this, this.state.contact)}>
-                                {this.state.contact.first_name} {this.state.contact.last_name}
+                            <a onClick={this._toggleBodyClass}>
+                                {this.props.contact.first_name} {this.props.contact.last_name}
                             </a>
                         </div>
-                        {this.state.contact.company ?
-                        <div className="subtitle">{this.state.contact.company.name}</div>
+                        {this.props.contact.company ?
+                        <div className="subtitle">{this.props.contact.company.name}</div>
                             : null}
                     </div>
                 </td>
 
                 <td>
-                    {this.state.contact.status ? this.state.contact.status.name : 'Unknown'}
+                    {this.props.contact.status ? this.props.contact.status.name : 'Unknown'}
                 </td>
 
                 <td>
-                    {this.state.contact.stage ?
-                        <Progress size={this.state.contact.stage.percent} description={this.state.contact.stage.name} /> : 'Unknown'}
+                    {this.props.contact.stage ?
+                        <Progress size={this.props.contact.stage.percent} description={this.props.contact.stage.name} /> : 'Unknown'}
                 </td>
 
                 {this.props.user.team_leader ?
                     <td>
-                        <select onChange={this._assignContact} defaultValue={this.state.contact.user_id}>
+                        <select onChange={this._assignContact} defaultValue={this.props.contact.user_id}>
                             <option>Select Assignee</option>
                             {teamMembers}
                         </select>

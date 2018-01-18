@@ -13,16 +13,4 @@ Echo.channel('contacts')
 
         NotificationManager.success(message, null, 2000);
     })
-    .listen('NoteAdded', (e) => {
-        let message = 'Note added to ' + e.first_name + ' ' + e.last_name + '!';
-        let contactState = window.reduxStore.getState().contactState.data;
-        let contactIndex = _.findIndex(contactState, {id: e.entity_id});
-        let contact = contactState[contactIndex];
-
-        if (contact) {
-            contact.notes.push(e);
-        }
-
-        NotificationManager.success(message, null, 2000);
-    })
 ;

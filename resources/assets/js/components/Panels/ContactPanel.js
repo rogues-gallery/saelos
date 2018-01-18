@@ -67,6 +67,13 @@ class ContactPanel extends Component {
     }
 
     _toggleNoteClass() {
+        this.props.dispatch({
+            type: types.SET_NOTES_FOR_FLYOUT,
+            data: this.props.contact.notes,
+            entityId: this.props.contact.id,
+            entityType: 'App\\Person'
+        });
+
         document.getElementById('contact-panel-wrapper').classList.toggle('note-panel-open');
     }
 

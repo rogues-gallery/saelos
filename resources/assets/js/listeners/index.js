@@ -22,3 +22,4 @@ require('./contacts');
 require('./accounts');
 require('./deals');
 require('./users');
+require('./notes');
