@@ -32,7 +32,7 @@ class CreateCustomFieldsTable extends Migration
             $table->timestamps();
             $table->morphs('model');
             $table->integer('custom_field_id')->unsigned()->index();
-            $table->foreign('custom_field_id')->references('id')->on('custom_fields');
+            $table->foreign('custom_field_id')->references('id')->on('custom_fields')->onDelete('cascade');
             $table->text('value');
         });
     }

@@ -23,6 +23,7 @@ class DealController extends Controller
         'people.deals.people',
         'stage',
         'customFields',
+        'customFields.customField',
         'notes',
         'notes.user',
     ];
@@ -36,6 +37,7 @@ class DealController extends Controller
         'people.deals.people',
         'stage',
         'customFields',
+        'customFields.customField',
         'notes',
         'notes.user',
     ];

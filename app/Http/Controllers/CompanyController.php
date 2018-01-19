@@ -19,6 +19,7 @@ class CompanyController extends Controller
         'people.deals.people',
         'deals',
         'customFields',
+        'customFields.customField',
         'notes',
         'notes.user',
     ];
@@ -30,6 +31,7 @@ class CompanyController extends Controller
         'people.deals.people',
         'deals',
         'customFields',
+        'customFields.customField',
         'notes',
         'notes.user',
     ];

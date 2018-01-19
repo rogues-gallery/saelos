@@ -91,7 +91,7 @@ class PersonController extends Controller
         $person = Person::findOrFail($id);
         $data = $request->all();
         $personCompany = $data['company'] ?? [];
-        $personUser = $data['user'] ?? [];
+        $personUser = $data['user'] ?? null;
         $customFields = $data['custom_fields'] ?? [];
 
         if ($personCompany) {
@@ -104,7 +104,11 @@ class PersonController extends Controller
             $person->company()->associate($company);
         }
 
-        $user = User::find($personUser) ?? Auth::user();
+        if ($personUser) {
+            $user = User::find($personUser);
+        } else {
+            $user = Auth::user();
+        }
 
         $person->user()->associate($user);
         $person->update($data);
@@ -123,7 +127,15 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        $person = Person::create($request->all());
+        $email = $request->get('email');
+
+        if ($email) {
+            $person = Person::where('email', '=', $email)->first();
+        }
+
+        if (!$person) {
+            $person = Person::create($request->all());
+        }
 
         return $this->update($request, $person->id);
     }
