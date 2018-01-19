@@ -27,6 +27,7 @@ class PersonController extends Controller
         'activities',
         'activities.details',
         'customFields',
+        'customFields.customField',
         'notes',
         'notes.user',
     ];
@@ -39,6 +40,7 @@ class PersonController extends Controller
         'activities',
         'activities.details',
         'customFields',
+        'customFields.customField',
         'notes',
         'notes.user',
     ];
