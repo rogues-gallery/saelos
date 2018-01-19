@@ -438,6 +438,8 @@ class MigrateToNew extends Command
                 $newCompany->fax       = $company->fax;
                 $newCompany->website   = $company->website;
                 $newCompany->user_id   = $this->users[$company->owner_id] ?? null;
+                $newCompany->setCreatedAt($company->created);
+                $newCompany->setUpdatedAt($company->modified);
 
                 $newCompany->saveOrFail();
 
@@ -548,6 +550,8 @@ class MigrateToNew extends Command
                 $newPerson->info       = $person->info;
                 $newPerson->user_id    = $this->users[$person->assignee_id] ?? null;
                 $newPerson->company_id = $this->companies[$person->company_id] ?? null;
+                $newPerson->setCreatedAt($person->created);
+                $newPerson->setUpdatedAt($person->modified);
 
                 $newPerson->saveOrFail();
 
@@ -619,19 +623,22 @@ class MigrateToNew extends Command
                 $newNote->note = $note->note;
                 $newNote->user_id = $this->users[$note->owner_id] ?? null;
 
-                if ($note->deal_id) {
-                    $newNote->entity_type = Deal::class;
-                    $newNote->entity_id = $this->deals[$note->deal_id];
+                if ($note->person_id) {
+                    $newNote->entity_type = Person::class;
+                    $newNote->entity_id = $this->people[$note->person_id];
                 } elseif ($note->company_id) {
                     $newNote->entity_type = Company::class;
                     $newNote->entity_id = $this->companies[$note->company_id];
-                } elseif ($note->person_id) {
-                    $newNote->entity_type = Person::class;
-                    $newNote->entity_id = $this->people[$note->person_id];
+                } elseif ($note->deal_id) {
+                    $newNote->entity_type = Deal::class;
+                    $newNote->entity_id = $this->deals[$note->deal_id];
                 } else {
                     // If we don't have an entity, don't save this note
                     continue;
                 }
+
+                $newNote->setCreatedAt($note->created);
+                $newNote->setUpdatedAt($note->modified);
 
                 $newNote->saveOrFail();
 
