@@ -59,7 +59,7 @@ class Deal extends Model
 
     public function people()
     {
-        return $this->belongsToMany(Person::class, 'deal_person')->withPivot('primary');
+        return $this->belongsToMany(Person::class, 'deal_person');
     }
 
     public function stage()
