@@ -45,17 +45,21 @@ class EditContactForm extends Component {
         this.props.setFormState(contactState)
     }
 
-    _openOpportunityPanel() {
-        this.props.dispatch({
-            type: types.FETCHING_OPPORTUNITY_FOR_FLYOUT_SUCCESS,
-            data: {
+    _openOpportunityPanel(data) {
+        if (JSON.stringify(data) === '{}') {
+            data = {
                 people: [
                     {
                         id: this.props.contact.id,
                         is_primary: true
                     }
                 ]
-            }
+            };
+        }
+
+        this.props.dispatch({
+            type: types.FETCHING_OPPORTUNITY_FOR_FLYOUT_SUCCESS,
+            data: data
         });
 
         document.getElementById('contact-panel-wrapper').classList.toggle('opportunity-panel-open');
@@ -67,6 +71,15 @@ class EditContactForm extends Component {
         let customFields = customFieldsHelper(this.props.contact, this.props.customFields, this._handleInputChange);
         let lastInteraction = this.props.contact.activities && this.props.contact.activities.length ? this.props.contact.activities.slice(-1)[0].description : 'None';
         let totalValue = _.sum(_.map(this.props.contact.deals, 'amount'));
+        let opportunities = this.props.contact.deals.map((deal) => {
+            return (
+                <div className="contact-opportunity">
+                    <div className="contact-opportunity-title" onClick={this._openOpportunityPanel.bind(this, deal)}>
+                        {deal.name}
+                    </div>
+                </div>
+            )
+        });
 
         return (
             <form id="contact-details-form">
@@ -104,6 +117,11 @@ class EditContactForm extends Component {
                             <input type="text" name="company.zip" placeholder="Zip" defaultValue={this.props.contact.company.zip} onChange={this._handleInputChange} />
                         </div>
                         : ''}
+
+                    <div className="input-container opportunities">
+                        <label>Opportunities</label>
+                        {opportunities}
+                    </div>
                 </div>
                 <div className="panel-contact-details-column">
                     <div className="input-container">
