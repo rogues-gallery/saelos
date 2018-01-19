@@ -46,7 +46,9 @@ class DealCommentController extends Controller
             foreach ($matches[1] as $username) {
                 $user = User::where('username', '=', $username)->first();
 
-                $user->notify(new Mentioned($user, $deal));
+                if ($user) {
+                    $user->notify(new Mentioned($user, $deal));
+                }
             }
         }
 
