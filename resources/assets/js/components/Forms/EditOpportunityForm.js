@@ -98,8 +98,10 @@ class EditOpportunityForm extends Component {
 
                     <div className="input-container">
                         <label>Contacts</label>
+                        {/*
                         <input placeholder="Start typing a contact name or email to add..." onChange={this._handleContactLookup} />
                         <hr />
+                        */}
                         <div id="contact-typeahead-container">
                         </div>
                         {contacts}
