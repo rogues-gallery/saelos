@@ -110,6 +110,11 @@ class PersonController extends Controller
             $user = Auth::user();
         }
 
+        if (isset($data['user_id']) && is_string($data['user_id']) && !is_numeric($data['user_id'])) {
+            $user = User::where('name', $data['user_id'])->first();
+            unset($data['user_id']);
+        }
+
         $person->user()->associate($user);
         $person->update($data);
         $person->assignCustomFields($customFields);
@@ -127,14 +132,15 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        $email = $request->get('email');
+        $data = $request->all();
 
-        if ($email) {
-            $person = Person::where('email', '=', $email)->first();
+        if (isset($data['email'])) {
+            $person = Person::where('email', '=', $data['email'])->first();
         }
 
-        if (!$person) {
-            $person = Person::create($request->all());
+        if (!isset($person)) {
+            unset($data['user_id']);
+            $person = Person::create($data);
         }
 
         return $this->update($request, $person->id);
