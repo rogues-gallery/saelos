@@ -11,13 +11,13 @@ use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
 {
-    private $indexWith = [
+    const INDEX_WITH = [
         'team',
         'deals',
         'customFields',
     ];
 
-    private $showWith = [
+    const SHOW_WITH = [
         'team',
         'deals',
         'customFields',
@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return new UserCollection(User::with($this->indexWith)->paginate());
+        return new UserCollection(User::with(static::INDEX_WITH)->paginate());
     }
 
     /**
@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return new UserResource(User::with($this->showWith)->find($id));
+        return new UserResource(User::with(static::SHOW_WITH)->find($id));
     }
 
     /**
@@ -44,7 +44,7 @@ class UserController extends Controller
      *
      * @TODO: Move company update to Model mutators
      *
-     * @return User
+     * @return UserResource
      * @throws \Exception
      */
     public function update(Request $request, $id)

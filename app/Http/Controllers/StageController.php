@@ -9,13 +9,13 @@ use App\Http\Resources\Stage as StageResource;
 
 class StageController extends Controller
 {
-    private $indexWith = [
+    const INDEX_WITH = [
         'deals',
         'userDeals',
         'teamDeals',
     ];
 
-    private $showWith = [
+    const SHOW_WITH = [
         'deals',
         'userDeals',
         'teamDeals',
@@ -23,12 +23,12 @@ class StageController extends Controller
 
     public function index()
     {
-        return new StageCollection(Stage::with($this->indexWith)->paginate());
+        return new StageCollection(Stage::with(static::INDEX_WITH)->paginate());
     }
 
     public function show($id)
     {
-        return new StageResource(Stage::with($this->showWith)->find($id));
+        return new StageResource(Stage::with(static::SHOW_WITH)->find($id));
     }
 
     public function update(Request $request, $id)

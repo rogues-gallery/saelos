@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Mail;
 
 class PersonController extends Controller
 {
-    private $indexWith = [
+    const INDEX_WITH = [
         'user',
         'company',
         'deals',
@@ -31,7 +31,7 @@ class PersonController extends Controller
         'notes.user',
     ];
 
-    private $showWith = [
+    const SHOW_WITH = [
         'user',
         'company',
         'deals',
@@ -45,7 +45,7 @@ class PersonController extends Controller
 
     public function index(Request $request)
     {
-        $people = Person::with($this->indexWith);
+        $people = Person::with(static::INDEX_WITH);
 
         $people->where('published', 1);
         $people->where(function($q) use ($request) {
@@ -71,7 +71,7 @@ class PersonController extends Controller
 
     public function show($id)
     {
-        return new PersonResource(Person::with($this->showWith)->find($id));
+        return new PersonResource(Person::with(static::SHOW_WITH)->find($id));
     }
 
     /**

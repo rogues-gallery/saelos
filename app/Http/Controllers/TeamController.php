@@ -9,13 +9,13 @@ use App\Http\Resources\Team as TeamResource;
 
 class TeamController extends Controller
 {
-    private $indexWith = [
+    const INDEX_WITH = [
         'users',
         'deals',
         'users.customFields',
     ];
 
-    private $showWith = [
+    const SHOW_WITH = [
         'users',
         'users.deals',
         'users.customFields',
@@ -23,12 +23,12 @@ class TeamController extends Controller
 
     public function index()
     {
-        return new TeamCollection(Team::with($this->indexWith)->paginate());
+        return new TeamCollection(Team::with(static::INDEX_WITH)->paginate());
     }
 
     public function show($id)
     {
-        return new TeamResource(Team::with($this->showWith)->find($id));
+        return new TeamResource(Team::with(static::SHOW_WITH)->find($id));
     }
 
     public function update(Request $request, $id)

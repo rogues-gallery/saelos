@@ -14,7 +14,7 @@ use App\Http\Resources\Deal as DealResource;
 
 class DealController extends Controller
 {
-    private $indexWith = [
+    const INDEX_WITH = [
         'user',
         'team',
         'company',
@@ -25,7 +25,7 @@ class DealController extends Controller
         'notes.user',
     ];
 
-    private $showWith = [
+    const SHOW_WITH = [
         'user',
         'team',
         'company',
@@ -38,7 +38,7 @@ class DealController extends Controller
 
     public function index(Request $request)
     {
-        $deals = Deal::with($this->indexWith);
+        $deals = Deal::with(static::INDEX_WITH);
 
         $deals->where('published', 1);
         $deals->where(function($q) use ($request) {
@@ -52,7 +52,7 @@ class DealController extends Controller
 
     public function show($id)
     {
-        return new DealResource(Deal::with($this->showWith)->find($id));
+        return new DealResource(Deal::with(static::SHOW_WITH)->find($id));
     }
 
     public function update(Request $request, $id)

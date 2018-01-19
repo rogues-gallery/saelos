@@ -12,7 +12,7 @@ use App\Http\Resources\Company as CompanyResource;
 
 class CompanyController extends Controller
 {
-    private $indexWith = [
+    const INDEX_WITH = [
         'user',
         'people',
         'deals',
@@ -21,7 +21,7 @@ class CompanyController extends Controller
         'notes.user',
     ];
 
-    private $showWith = [
+    const SHOW_WITH = [
         'user',
         'people',
         'deals',
@@ -32,7 +32,7 @@ class CompanyController extends Controller
 
     public function index(Request $request)
     {
-        $companies = Company::with($this->indexWith);
+        $companies = Company::with(static::INDEX_WITH);
 
         $companies->where('published', 1);
         $companies->where(function($q) use ($request) {
@@ -54,7 +54,7 @@ class CompanyController extends Controller
 
     public function show($id)
     {
-        return new CompanyResource(Company::with($this->showWith)->find($id));
+        return new CompanyResource(Company::with(static::SHOW_WITH)->find($id));
     }
 
     public function update(Request $request, $id)

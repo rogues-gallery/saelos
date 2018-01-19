@@ -160,7 +160,7 @@ export class Contact extends Component {
                 </td>
 
                 <td>
-                    {this.props.contact.status ? this.props.contact.status.name : 'Unknown'}
+                    {this.props.contact.custom_fields.status ? this.props.contact.status.name : 'Unknown'}
                 </td>
 
                 <td>

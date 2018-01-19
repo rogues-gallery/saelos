@@ -9,20 +9,20 @@ use App\Http\Resources\Report as ReportResource;
 
 class ReportController extends Controller
 {
-    private $indexWith = [
+    const INDEX_WITH = [
     ];
 
-    private $showWith = [
+    const SHOW_WITH = [
     ];
 
     public function index()
     {
-        return new ReportCollection(Report::with($this->indexWith)->paginate());
+        return new ReportCollection(Report::with(static::INDEX_WITH)->paginate());
     }
 
     public function show($id)
     {
-        return new ReportResource(Report::with($this->showWith)->find($id));
+        return new ReportResource(Report::with(static::SHOW_WITH)->find($id));
     }
 
     public function update(Request $request, $id)

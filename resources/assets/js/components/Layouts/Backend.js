@@ -13,16 +13,8 @@ import ContactPanel from '../Panels/ContactPanel';
 import OpportunityPanel from '../Panels/OpportunityPanel';
 import AccountPanel from '../Panels/AccountPanel';
 import RepPanel from '../Panels/RepPanel';
-import {actionCreators} from "../../actions";
 
 class Backend extends Component {
-    componentWillMount() {
-        this.props.dispatch(actionCreators.fetchContactCustomFields());
-        this.props.dispatch(actionCreators.fetchOpportunityCustomFields());
-        this.props.dispatch(actionCreators.fetchAccountCustomFields());
-        this.props.dispatch(actionCreators.fetchRepCustomFields());
-        this.props.dispatch(actionCreators.fetchStages());
-    }
 
     render() {
         return(

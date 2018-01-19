@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DealController;
+use App\Http\Controllers\PersonController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -28,40 +31,29 @@ class Report extends Model
 
         /** @var Builder $items */
         $items = $model::where('published', 1);
+        $customInId = null;
+        $customInRaw = null;
 
         switch ($this->data_source) {
             case 'App\\Person':
+                $items->with(PersonController::INDEX_WITH);
+                $customInId = 'people.id';
+                $customInRaw = '`people`.`id`';
                 break;
             case 'App\\Deal':
-                $items->with('people');
+                $items->with(DealController::INDEX_WITH);
+                $customInId = 'deals.id';
+                $customInRaw = '`deals`.`id`';
+                break;
+            case 'App\\Companies':
+                $items->with(CompanyController::INDEX_WITH);
+                $customInId = 'companies.id';
+                $customInRaw = '`companies`.`id`';
                 break;
         }
 
-        foreach ($this->columns as $column) {
-            if (strpos($column, '.')) {
-                list($relation, $col) = explode('.', $column);
-
-                if ($relation === 'custom_fields') {
-                    $relation = 'customFields';
-                }
-
-                $items->with($relation);
-            }
-        }
-
-        $items->where(function($q) {
+        $items->where(function($q) use ($customInId, $customInRaw) {
             foreach ($this->filters as $field => $details) {
-                switch ($this->data_source) {
-                    case 'App\\Person':
-                        $customInId = 'people.id';
-                        $customInRaw = '`people`.`id`';
-                        break;
-                    case 'App\\Deal':
-                        $customInId = 'deals.id';
-                        $customInRaw = '`deals`.`id`';
-                        break;
-                }
-
                 if (strpos($field, '.') !== false) {
                     list($relation, $col) = explode('.', $field);
 
@@ -87,6 +79,9 @@ class Report extends Model
                         break;
                     case 'App\\Deal':
                         $field = 'deals.'.$field;
+                        break;
+                    case 'App\\Company':
+                        $field = 'companies.'.$field;
                         break;
                 }
 
