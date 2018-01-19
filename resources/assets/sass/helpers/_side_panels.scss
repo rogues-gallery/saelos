@@ -153,7 +153,7 @@
  * Account Flyouts
  */
 .account-side-overlay {
-  z-index: 2000;
+  z-index: 2100;
 
   .account-panel-open & {
     opacity: 1;
@@ -162,7 +162,7 @@
 }
 
 .account-side {
-  z-index: 2001;
+  z-index: 2101;
 
   .account-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);
@@ -181,7 +181,7 @@
  * Opportunity Flyouts
  */
 .opportunity-side-overlay {
-  z-index: 2000;
+  z-index: 2200;
 
   .opportunity-panel-open & {
     opacity: 1;
@@ -190,7 +190,7 @@
 }
 
 .opportunity-side {
-  z-index: 2001;
+  z-index: 2201;
 
   .opportunity-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);

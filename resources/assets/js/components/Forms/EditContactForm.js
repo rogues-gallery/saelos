@@ -73,7 +73,7 @@ class EditContactForm extends Component {
         let totalValue = _.sum(_.map(this.props.contact.deals, 'amount'));
         let opportunities = this.props.contact.deals.map((deal) => {
             return (
-                <div className="contact-opportunity">
+                <div key={deal.id} className="contact-opportunity">
                     <div className="contact-opportunity-title" onClick={this._openOpportunityPanel.bind(this, deal)}>
                         {deal.name}
                     </div>
