@@ -84,7 +84,7 @@ class EditContactForm extends Component {
         return (
             <form id="contact-details-form">
                 <div className="panel-contact-details-column">
-                    <span className="button button-primary" onClick={this._openOpportunityPanel}>
+                    <span className="button button-primary" onClick={this._openOpportunityPanel.bind(this, {})}>
                         Create Opportunity
                     </span>
 
