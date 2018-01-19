@@ -116,7 +116,9 @@ class Task extends Component {
                     </div>
                     <div className="title-wrapper" onClick={this._toggleContactPanel.bind(this, this.props.task)}>
                         <div className="title">{this.props.task.first_name} {this.props.task.last_name}</div>
-                        <div className="subtitle">{this.props.task.company.name}</div>
+                        {this.props.task.company ?
+                            <div className="subtitle">{this.props.task.company.name}</div>
+                        : ''}
                     </div>
                 </td>
             </tr>
