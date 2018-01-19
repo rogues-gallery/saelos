@@ -6,16 +6,38 @@ import Backend from '../Layouts/Backend';
 import Loading from '../Helpers/Loading';
 import {actionCreators} from "../../actions";
 import { NavLink } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 
 class Reports extends Component {
+    constructor(props) {
+        super(props);
+
+        this._navToPage = this._navToPage.bind(this);
+    }
+
     componentWillMount() {
         this.props.dispatch(actionCreators.fetchReports());
+    }
+
+    _navToPage(page) {
+        this.props.dispatch(actionCreators.fetchReports(page.selected + 1));
     }
 
     render() {
         let results = this.props.data.map((report) => {
             return <ReportRow key={report.id} report={report} />
         });
+
+        let initialPage = 0;
+        let pageCount = 10;
+
+        if (this.props.pagination.hasOwnProperty('current_page')) {
+            initialPage = this.props.pagination.current_page - 1;
+        }
+
+        if (this.props.pagination.hasOwnProperty('last_page')) {
+            pageCount = this.props.pagination.last_page;
+        }
 
         return (
             this.props.isFetching && this.props.data.length === 0 ? <Backend><Loading /></Backend> :
@@ -32,6 +54,8 @@ class Reports extends Component {
                             <tbody>{results}</tbody>
                         </table>
                     </div>
+
+                    <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
                 </div>
             </Backend>
         );
