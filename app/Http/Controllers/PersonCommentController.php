@@ -32,16 +32,7 @@ class PersonCommentController extends Controller
         $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
 
         if ($mentions > 0) {
-            $person->load([
-                'user',
-                'company',
-                'deals',
-                'activities',
-                'activities.details',
-                'customFields',
-                'notes',
-                'notes.user',
-            ]);
+            $person->load(PersonController::SHOW_WITH);
 
             foreach ($matches[1] as $username) {
                 $user = User::where('username', '=', $username)->first();

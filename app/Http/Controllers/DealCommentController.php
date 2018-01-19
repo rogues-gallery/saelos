@@ -32,16 +32,7 @@ class DealCommentController extends Controller
         $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
 
         if ($mentions > 0) {
-            $deal->load([
-                'user',
-                'team',
-                'company',
-                'people',
-                'stage',
-                'customFields',
-                'notes',
-                'notes.user',
-            ]);
+            $deal->load(DealController::SHOW_WITH);
 
             foreach ($matches[1] as $username) {
                 $user = User::where('username', '=', $username)->first();

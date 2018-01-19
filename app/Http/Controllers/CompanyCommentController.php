@@ -32,14 +32,7 @@ class CompanyCommentController extends Controller
         $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
 
         if ($mentions > 0) {
-            $company->load([
-                'user',
-                'people',
-                'deals',
-                'customFields',
-                'notes',
-                'notes.user',
-            ]);
+            $company->load(CompanyController::SHOW_WITH);
 
             foreach ($matches[1] as $username) {
                 $user = User::where('username', '=', $username)->first();
