@@ -23,10 +23,12 @@
 	margin: -5px 0 0 0;
 	padding: 0;
 	position: relative;
+	border-bottom: 1px solid rgba(#000, .06);
 
 	@media (max-width: $media-xs) {
 		margin-top: 0;
 	}
+
 }
 
 .panel-user-avatar {
@@ -57,10 +59,10 @@
 		transition: all .2s ease;
 	}
 }
+
 .panel-user-available-actions {
 	display: flex;
 	flex-direction: row;
-	border-bottom: 1px solid rgba(#000, .06);
 
 	& .user-action-box {
 		padding:20px;

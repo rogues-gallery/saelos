@@ -13,11 +13,25 @@ form {
 		letter-spacing: 0.02em;
 	}
 
+	::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	  color: $color-inactive-light;
+	}
+	::-moz-placeholder { /* Firefox 19+ */
+	  color: $color-inactive-light;
+	}
+	:-ms-input-placeholder { /* IE 10+ */
+	  color: $color-inactive-light;
+	}
+	:-moz-placeholder { /* Firefox 18- */
+	  color: $color-inactive-light;
+	}
+
 	label {
 		text-transform: uppercase;
 		font-weight: 600;
 		color: $color-font;
 		font-size: 12px;
+		padding: 0px 0px 5px 0px;
 	}
 
 	.input-container {

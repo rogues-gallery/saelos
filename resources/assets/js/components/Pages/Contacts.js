@@ -149,7 +149,7 @@ export class Contact extends Component {
 
                     <div className="title-wrapper">
                         <div className="title">
-                            <a onClick={this._toggleBodyClass}>
+                            <a href="javascript:void(0)" onClick={this._toggleBodyClass}>
                                 {this.props.contact.first_name} {this.props.contact.last_name}
                             </a>
                         </div>

@@ -147,6 +147,7 @@ class ContactPanel extends Component {
                             <div className="panel-actions">
                                 <strong>Recommended Action</strong>
                                 <p>Wait <strong>2 days</strong> before taking next step.</p>
+                                
                             </div>
                         : ''}
                     </Panel>
