@@ -21,7 +21,13 @@ Route::get('/me', function () {
 });
 
 Route::get('/authenticated', function () {
-    return response(['status' => Auth::user()->load(['team', 'team.users', 'team.users.deals', 'team.users.customFields'])->toArray()]);
+    $user = \Auth::user();
+
+    if ($user instanceof \App\User) {
+        return response(['status' => $user->load(['team', 'team.users', 'team.users.deals', 'team.users.customFields'])->toArray()]);
+    }
+
+    return response(['status' => 'Not Authenticated']);
 });
 
 Auth::routes();
