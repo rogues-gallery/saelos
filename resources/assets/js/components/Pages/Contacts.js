@@ -68,7 +68,7 @@ class Contacts extends Component {
                         <Filter onInputChange={actionCreators.fetchContacts} filterFields={filterFields} type="contacts" />
                         <div className="content-top-buttons">
                             <span className="create-button button button-primary" onClick={this._toggleNewPanel}>
-                                <i className="md-icon">add</i> <span>Create Contact</span>
+                                <span>Create Contact</span>
                             </span>
                         </div>
                     </div>
@@ -170,7 +170,7 @@ export class Contact extends Component {
 
                 {this.props.user.team_leader ?
                     <td>
-                        <select onChange={this._assignContact} defaultValue={this.props.contact.user_id}>
+                        <select class="form-control" onChange={this._assignContact} defaultValue={this.props.contact.user_id}>
                             <option>Select Assignee</option>
                             {teamMembers}
                         </select>

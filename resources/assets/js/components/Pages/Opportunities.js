@@ -64,7 +64,7 @@ class Opportunities extends Component {
                         <Filter onInputChange={actionCreators.fetchOpportunities} filterFields={filterFields} type="opportunities" />
                         <div className="content-top-buttons">
                             <span className="create-button button button-primary" onClick={this._toggleNewPanel}>
-                                <i className="md-icon">add</i> <span>Create Opportunity</span>
+                               <span>Create Opportunity</span>
                             </span>
                         </div>
                     </div>

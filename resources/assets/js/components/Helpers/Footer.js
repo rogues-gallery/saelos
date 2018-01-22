@@ -7,7 +7,7 @@ export default class Footer extends Component {
         return (
             <div className="footer">
                 <div className="footer-left">
-                    &copy; {date.getFullYear()} Mautic, Inc.
+                    &copy; {date.getFullYear()} dbhurley.
                 </div>
 
                 <div className="footer-right">
