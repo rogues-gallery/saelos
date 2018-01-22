@@ -5,13 +5,13 @@ export default function(ComposedComponent) {
     class Authentication extends Component {
         componentWillMount() {
             if (!this.props.authenticated) {
-                window.location.href = '/login';
+                //window.location.href = '/login';
             }
         }
 
         componentWillUpdate(nextProps) {
             if (!nextProps.authenticated) {
-                window.location.href = '/login';
+                //window.location.href = '/login';
             }
         }
 
