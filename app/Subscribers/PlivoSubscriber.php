@@ -82,7 +82,7 @@ XML;
         /** @var CallActivity $details */
         $details = CallActivity::where('uuid', '=', $call->getCallUuid())->with('activity')->first();
 
-        $details->details = array_merge($details->details ?? [], $call->toArray());
+        $details->details = array_merge(json_decode($details->details, true) ?? [], $call->toArray());
         $details->status = $call->getCallStatus();
         $details->end_date = new \DateTime();
 
