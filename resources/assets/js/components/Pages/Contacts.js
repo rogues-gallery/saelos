@@ -79,9 +79,7 @@ class Contacts extends Component {
                                     <th>Name</th>
                                     <th>Status</th>
                                     <th>Stage</th>
-                                    {this.props.user.team_leader ?
-                                        <th>Assignee</th>
-                                    : null}
+                                    <th>Assignee</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
@@ -168,14 +166,12 @@ export class Contact extends Component {
                         <Progress size={this.props.contact.stage.percent} description={this.props.contact.stage.name} /> : 'Unknown'}
                 </td>
 
-                {this.props.user.team_leader ?
-                    <td>
-                        <select onChange={this._assignContact} defaultValue={this.props.contact.user_id}>
-                            <option>Select Assignee</option>
-                            {teamMembers}
-                        </select>
-                    </td>
-                    : null}
+                <td>
+                    <select onChange={this._assignContact} defaultValue={this.props.contact.user_id}>
+                        <option>Select Assignee</option>
+                        {teamMembers}
+                    </select>
+                </td>
 
                 <td className="actions min-width">
                     <div className="button-dropdown">
