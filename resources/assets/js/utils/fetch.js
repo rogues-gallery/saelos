@@ -14,20 +14,11 @@ export default function (url, options = {}) {
 
   return axios[method.toLowerCase()](link, data)
       .then((response) => {
-          console.log(response);
-          
           if (response.headers['x-suggested-filename']) {
               return FileDownload(response.data, response.headers['x-suggested-filename']);
           }
 
-          if (response.statusText === 'OK') return response;
-
-          return response
-              .then(json => {
-                  const error = json['description'] ? json['description'] : response.statusText;
-
-                  console.error(error);
-          });
+          return response;
       })
       .catch((error) => {
           // We likely have an expired JWT, so redirect to login
