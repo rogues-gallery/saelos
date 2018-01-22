@@ -14,6 +14,8 @@ export default function (url, options = {}) {
 
   return axios[method.toLowerCase()](link, data)
       .then((response) => {
+          console.log(response);
+          
           if (response.headers['x-suggested-filename']) {
               return FileDownload(response.data, response.headers['x-suggested-filename']);
           }
@@ -29,6 +31,6 @@ export default function (url, options = {}) {
       })
       .catch((error) => {
           // We likely have an expired JWT, so redirect to login
-          window.location.href = '/login';
+          console.log(error);
       });
 }
