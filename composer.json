@@ -1,7 +1,7 @@
 {
-    "name": "mautic/saelos",
-    "description": "Saelos, the Mautic CRM",
-    "keywords": ["mautic", "crm"],
+    "name": "dbhurley/saelos",
+    "description": "Saelos",
+    "keywords": ["crm"],
     "license": "MIT",
     "type": "project",
     "require": {
