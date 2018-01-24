@@ -14,3 +14,4 @@ yarn-error.log
 /_ide_helper*
 /public/js/app.js
 /public/css/app.css
+/public/uploads/*

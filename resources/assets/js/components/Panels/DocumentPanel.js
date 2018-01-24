@@ -48,10 +48,27 @@ class DocumentPanel extends Component {
         let docs = _.map(this.props.documents, (doc, index) => {
             let after = doc.user.name + ' on ' + doc.created_at;
 
-            return <div key={index} className="note">
-                <h4 className="note-title">{doc.name}</h4>
-                <small>{after}</small>
-                <a href={"/uploads/" + doc.filename}>View file</a>
+            let icon = '';
+
+            switch (doc.mimetype) {
+                case 'application/pdf':
+                    icon = 'picture_as_pdf';
+                    break;
+                case 'image/png':
+                    icon = 'image';
+                    break;
+                default:
+                    icon = 'file';
+                    break;
+            }
+
+            return <div key={index} className="document">
+                <i className="md-icon">{icon}</i>
+                <div className="doc-entry">
+                    <h4 className="note-title">{doc.name}</h4>
+                    <small>{after}</small>
+                    <a href={"/uploads/" + doc.filename}>View file</a>
+                </div>
             </div>
         });
 
@@ -77,7 +94,14 @@ class DocumentPanel extends Component {
                         <div className="panel-contact-details">
                             <div className="document-form">
                                 <h2>Add Document</h2>
-                                <Dropzone onDrop={this._onDrop}>
+                                <Dropzone
+                                    onDrop={this._onDrop}
+                                    className="document-dropzone"
+                                    activeClassName="active"
+                                    acceptClassName="accept"
+                                    rejectClassName="reject"
+                                    accept="image/jpeg, image/jpg, text/csv, application/json, application/pdf, application/zip"
+                                >
                                     <p>Drag and drop a file here, or click to select files to upload.</p>
                                 </Dropzone>
                             </div>

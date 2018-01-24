@@ -258,3 +258,22 @@
 		}
 	}
 }
+
+.document-side {
+	.panel-contact-details {
+		padding: 0 15px;
+
+		.document-dropzone {
+			padding:5px;
+			border: 2px dashed $color-active-dark;
+
+			&.accept {
+				border-color:palegreen;
+			}
+
+			&.reject {
+				border-color:red;
+			}
+		}
+	}
+}
