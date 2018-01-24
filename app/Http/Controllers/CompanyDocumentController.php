@@ -34,7 +34,7 @@ class CompanyDocumentController extends Controller
         }
 
         $path = public_path('/uploads/');
-        $name = md5(time().$file->getClientOriginalName()).$file->getClientOriginalExtension();
+        $name = md5(time().$file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
         $size = $file->getSize();
         $mime = $file->getMimeType();
 
