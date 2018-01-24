@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import * as types from "../../actions/types";
 import NotePanel from './NotePanel';
 import HistoryPanel from './HistoryPanel';
+import DocumentPanel from './DocumentPanel';
 
 class AccountPanel extends Component {
     constructor(props) {
@@ -74,7 +75,14 @@ class AccountPanel extends Component {
     }
 
     _toggleDocumentsClass() {
-        document.getElementById('account-panel-wrapper').classList.toggle('account-contact-panel-open');
+        this.props.dispatch({
+            type: types.SET_DOCUMENTS_FOR_FLYOUT,
+            data: this.props.account.documents,
+            entityId: this.props.account.id,
+            entityType: 'App\\Company'
+        });
+
+        document.getElementById('account-panel-wrapper').classList.toggle('document-panel-open');
     }
 
     render() {
@@ -142,6 +150,7 @@ class AccountPanel extends Component {
                 </div>
                 <HistoryPanel activities={this.props.account.activities ? this.props.account.activities : []} targetParentPanel="account-panel-wrapper" />
                 <NotePanel itemId={this.props.account.id ? this.props.account.id : 0} addNoteFunc={actionCreators.addAccountNote} targetParentPanel="account-panel-wrapper" />
+                <DocumentPanel itemId={this.props.account.id ? this.props.account.id : 0} documents={this.props.account.documents ? this.props.account.documents : []} targetParentPanel="account-panel-wrapper" />
             </div>
         );
     }

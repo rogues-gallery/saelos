@@ -34,18 +34,17 @@ class DealDocumentController extends Controller
         }
 
         $path = public_path('/uploads/');
-        $name = md5(time().$file->getClientOriginalName()).$file->getExtension();
-        $originalName = $file->getClientOriginalName();
+        $name = md5(time().$file->getClientOriginalName()).$file->getClientOriginalExtension();
         $size = $file->getSize();
-        $mimetype = $file->getMimeType();
+        $mime = $file->getMimeType();
 
         $file->move($path, $name);
 
         $document = Document::create([
-            'name' => $originalName,
+            'name' => $file->getClientOriginalName(),
             'filename' => $name,
             'size' => $size,
-            'mimetype' => $mimetype,
+            'mimetype' => $mime,
             'entity_type' => Deal::class,
             'entity_id' => $deal->id,
             'user_id' => \Auth::user()->id,

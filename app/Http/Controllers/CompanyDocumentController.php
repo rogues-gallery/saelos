@@ -35,13 +35,16 @@ class CompanyDocumentController extends Controller
 
         $path = public_path('/uploads/');
         $name = md5(time().$file->getClientOriginalName()).$file->getClientOriginalExtension();
-        $file = $file->move($path, $name);
+        $size = $file->getSize();
+        $mime = $file->getMimeType();
+
+        $file->move($path, $name);
 
         $document = Document::create([
             'name' => $file->getClientOriginalName(),
             'filename' => $name,
-            'size' => $file->getSize(),
-            'mimetype' => $file->getMimeType(),
+            'size' => $size,
+            'mimetype' => $mime,
             'entity_type' => Company::class,
             'entity_id' => $company->id,
             'user_id' => \Auth::user()->id,

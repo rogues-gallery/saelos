@@ -44,7 +44,6 @@ class DocumentPanel extends Component {
     }
 
     render() {
-
         let docs = _.map(this.props.documents, (doc, index) => {
             let after = doc.user.name + ' on ' + doc.created_at;
 
