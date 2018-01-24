@@ -102,6 +102,27 @@
 }
 
 /**
+ * Documents Flyout
+ */
+.document-side {
+  z-index: 3001;
+
+  .document-panel-open & {
+    box-shadow: 0 0 20px rgba(#000, .08);
+    transform: translateX(0);
+  }
+}
+
+.document-overlay {
+  z-index: 3000;
+
+  .document-panel-open & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/**
  * Contact Flyouts
  */
 .contact-side-overlay {
@@ -172,7 +193,7 @@
 
   .history-panel-open &,
   .note-panel-open &,
-  .documents-panel-open & {
+  .document-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);
     transform: translateX(-300px);
   }
@@ -200,7 +221,7 @@
 
   .history-panel-open &,
   .note-panel-open &,
-  .documents-panel-open & {
+  .document-panel-open & {
     box-shadow: 0 0 20px rgba(#000, .08);
     transform: translateX(-300px);
   }

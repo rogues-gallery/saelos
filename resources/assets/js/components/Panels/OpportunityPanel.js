@@ -9,6 +9,7 @@ import NewOpportunityForm from "../Forms/NewOpportunityForm";
 import * as types from "../../actions/types";
 import HistoryPanel from './HistoryPanel';
 import NotePanel from './NotePanel';
+import DocumentPanel from './DocumentPanel';
 
 class OpportunityPanel extends Component {
     constructor(props) {
@@ -80,6 +81,13 @@ class OpportunityPanel extends Component {
     }
 
     _toggleDocumentsClass() {
+        this.props.dispatch({
+            type: types.SET_DOCUMENTS_FOR_FLYOUT,
+            data: this.props.opportunity.documents,
+            entityId: this.props.opportunity.id,
+            entityType: 'App\\Deal'
+        });
+
         document.getElementById('opportunity-panel-wrapper').classList.toggle('document-panel-open');
     }
 
@@ -147,6 +155,7 @@ class OpportunityPanel extends Component {
                 </div>
                 <HistoryPanel activities={this.props.opportunity.activities ? this.props.opportunity.activities : []} targetParentPanel="opportunity-panel-wrapper" />
                 <NotePanel itemId={this.props.opportunity.id ? this.props.opportunity.id : 0} addNoteFunc={actionCreators.addOpportunityNote} notes={this.props.opportunity.notes ? this.props.opportunity.notes : []} targetParentPanel="opportunity-panel-wrapper" />
+                <DocumentPanel itemId={this.props.opportunity.id ? this.props.opportunity.id : 0} documents={this.props.opportunity.documents ? this.props.opportunity.documents : []} targetParentPanel="opportunity-panel-wrapper" />
             </div>
         );
     }

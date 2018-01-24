@@ -26,6 +26,8 @@ class DealController extends Controller
         'customFields.customField',
         'notes',
         'notes.user',
+        'documents',
+        'documents.user',
     ];
 
     const SHOW_WITH = [
@@ -40,6 +42,8 @@ class DealController extends Controller
         'customFields.customField',
         'notes',
         'notes.user',
+        'documents',
+        'documents.user',
     ];
 
     public function index(Request $request)

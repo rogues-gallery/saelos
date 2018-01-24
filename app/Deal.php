@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Deal extends Model
 {
+    use HasDocumentsTrait;
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
     use HasNotesTrait;

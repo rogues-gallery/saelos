@@ -16,6 +16,7 @@ import accountFlyoutReducer from "./account-flyout";
 import customFieldsReducer from "./custom-fields";
 import repFlyoutReducer from "./rep-flyout";
 import noteReducer from "./notes";
+import documentReducer from "./documents";
 
 export default combineReducers({
     form: formReducer,
@@ -34,5 +35,6 @@ export default combineReducers({
     accountFlyoutState: accountFlyoutReducer,
     customFieldsState: customFieldsReducer,
     repFlyoutState: repFlyoutReducer,
-    notesState: noteReducer
+    notesState: noteReducer,
+    documentsState: documentReducer
 });
