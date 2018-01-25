@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ContactEmailed;
 use App\Mail\Contact;
+use App\Notifications\PersonEmailed;
 use App\Notifications\PersonUpdated;
 use App\User;
 use Auth;
@@ -167,7 +168,7 @@ class PersonController extends Controller
         Mail::to($person->email)
             ->send(new Contact($request->get('emailContent'), $request->get('emailSubject')));
 
-        ContactEmailed::dispatch($person, $user);
+        \Auth::user()->notify(new PersonEmailed($person));
 
         return 1;
     }
