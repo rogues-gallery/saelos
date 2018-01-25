@@ -49,12 +49,13 @@ export default class Loading extends Component {
                 loadingContent = 
 
                     <div className="table-responsive">
-                        <table>
+                        <table style={{marginBottom:0}}>
                             <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Status</th>
                                     <th>Stage</th>
+                                    <th>Assignee</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
@@ -66,15 +67,11 @@ export default class Loading extends Component {
 
                 break;
             default:
-                loadingContent = <div>Loading</div>;
+                loadingContent = <div className="content-inner"><div>Loading</div></div>;
                 break;
         }
 
-        return (
-            <div className="content-inner">
-                {loadingContent}
-            </div>
-        );
+        return loadingContent
     }
 }
 

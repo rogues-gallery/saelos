@@ -74,4 +74,24 @@ class DealDocumentController extends Controller
             'file' => $document->toArray(),
         ]);
     }
+
+    /**
+     * @param Request  $request
+     * @param Deal     $deal
+     * @param Document $document
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(Request $request, Deal $deal, Document $document)
+    {
+        try {
+            $success = $document->delete();
+        } catch (\Exception $e) {
+            $success = false;
+        }
+
+        return response()->json([
+            'success' => $success
+        ]);
+    }
 }

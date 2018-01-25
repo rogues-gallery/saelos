@@ -44,7 +44,7 @@ class Filter extends Component {
         let searchValue = searchState ? searchState[Object.keys(this.props.filterFields)[0]] : '';
 
         return (
-            <div className="filter form-inline">
+            <div className="filter">
                 <form>
                     <div className="form-group">
                         <input type="text" className="form-control" defaultValue={searchValue} placeholder="Search" onChange={this._handleSubmit} />
