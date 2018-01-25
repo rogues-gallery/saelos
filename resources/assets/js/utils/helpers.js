@@ -37,6 +37,7 @@ export function customFieldsHelper(object, fields, handleInputChange) {
                   });
 
                   input = <select name={"custom_fields." + thisField.alias} defaultValue={thisValue} onChange={handleInputChange}>
+                      <option value="">Please Select...</option>
                       {options}
                   </select>
                   break;
