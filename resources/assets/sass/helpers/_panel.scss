@@ -275,5 +275,17 @@
 				border-color:red;
 			}
 		}
+
+		.document-container {
+			.document {
+				h4 {
+					margin-top:0;
+
+					small {
+						font-weight:normal;
+					}
+				}
+			}
+		}
 	}
 }

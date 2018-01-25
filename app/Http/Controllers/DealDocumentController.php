@@ -10,6 +10,22 @@ use Illuminate\Http\Request;
 class DealDocumentController extends Controller
 {
     /**
+     * @param Request  $request
+     * @param Deal     $deal
+     * @param Document $document
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function show(Request $request, Deal $deal, Document $document)
+    {
+        $path = public_path('/uploads/'.$document->filename);
+
+        return response()->download($path, $document->name, [
+            'X-Suggested-Filename' => $document->name
+        ]);
+    }
+
+    /**
      * @param Request $request
      * @param Deal  $deal
      *

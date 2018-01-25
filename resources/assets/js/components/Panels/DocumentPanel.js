@@ -4,7 +4,7 @@ import { Panel } from '../UI/Panel';
 import PropTypes from "prop-types";
 import Dropzone from 'react-dropzone';
 import Progress from "../UI/Progress";
-import { uploadFile } from "../../utils/fetch";
+import fetch, { uploadFile } from "../../utils/fetch";
 import {connect} from "react-redux";
 
 class DocumentPanel extends Component {
@@ -43,10 +43,24 @@ class DocumentPanel extends Component {
             });
     }
 
+    _downloadDocument(doc) {
+        let downloadUrl = '';
+
+        switch (this.props.targetParentPanel) {
+            case 'opportunity-panel-wrapper':
+                downloadUrl = '/deals/' + this.props.itemId + '/documents/' + doc.id;
+                break;
+            case 'account-panel-wrapper':
+                downloadUrl = '/companies/' + this.props.itemId + '/documents/' + doc.id;
+                break;
+        }
+
+        fetch(downloadUrl);
+    }
+
     render() {
         let docs = _.map(this.props.documents, (doc, index) => {
             let after = doc.user.name + ' on ' + doc.created_at;
-
             let icon = '';
 
             switch (doc.mimetype) {
@@ -54,20 +68,26 @@ class DocumentPanel extends Component {
                     icon = 'picture_as_pdf';
                     break;
                 case 'image/png':
+                case 'image/jpg':
+                case 'image/jpeg':
                     icon = 'image';
                     break;
                 default:
-                    icon = 'file';
+                    icon = 'insert_drive_file';
                     break;
             }
 
             return <div key={index} className="document">
-                <i className="md-icon">{icon}</i>
-                <div className="doc-entry">
-                    <h4 className="note-title">{doc.name}</h4>
-                    <small>{after}</small>
-                    <a href={"/uploads/" + doc.filename}>View file</a>
-                </div>
+                <h4 className="note-title">
+                    <i className="md-icon">{icon}</i>{doc.name}
+                    <br /><small>{after}</small>
+                </h4>
+                <p>
+                    <span className="button button-primary" onClick={this._downloadDocument.bind(this, doc)}>
+                        <i className="md-icon">cloud_download</i>
+                        Download
+                    </span>
+                </p>
             </div>
         });
 
