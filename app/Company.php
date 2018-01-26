@@ -30,6 +30,7 @@ class Company extends Model
         'user',
         'custom_fields',
         'notes',
+        'documents',
     ];
 
     public function user()

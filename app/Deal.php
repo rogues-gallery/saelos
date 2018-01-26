@@ -33,6 +33,7 @@ class Deal extends Model
         'stage',
         'custom_fields',
         'notes',
+        'documents',
     ];
 
     protected $dates = [
