@@ -46,6 +46,13 @@ class CompanyController extends Controller
 
         $companies->where('published', 1);
         $companies->where(function($q) use ($request) {
+            if ($id = $request->get('id')) {
+                $q->where('id', (int) $id);
+
+                // If we're getting an ID, just search that
+                return;
+            }
+
             if ($name = $request->get('name')) {
                 $q->orWhere('name', 'like', '%'.$name.'%');
             }

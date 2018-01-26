@@ -4,6 +4,8 @@ import { Money } from 'react-format';
 import { connect } from 'react-redux';
 import { customFieldsHelper } from '../../utils/helpers';
 import * as types from "../../actions/types";
+import Select from 'react-select';
+import {actionCreators} from "../../actions";
 
 let _ = require('lodash');
 
@@ -13,6 +15,7 @@ class EditContactForm extends Component {
 
         this._handleInputChange = this._handleInputChange.bind(this);
         this._openOpportunityPanel = this._openOpportunityPanel.bind(this);
+        this._setCompanyForContact = this._setCompanyForContact.bind(this);
 
         this.state = {
             formState: props.contact
@@ -42,6 +45,8 @@ class EditContactForm extends Component {
             _.set(contactState, name, value);
         }
 
+        this.setState({formState: contactState});
+
         this.props.setFormState(contactState)
     }
 
@@ -65,6 +70,48 @@ class EditContactForm extends Component {
         document.getElementById('contact-panel-wrapper').classList.toggle('opportunity-panel-open');
         document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
         document.querySelector('body').classList.toggle('panel-open');
+    }
+
+    _searchCompanies(input, callback) {
+        let search = '';
+
+        if (input && input.length > 0) {
+            search = {
+                name: input
+            }
+        }
+
+        return actionCreators.searchAccounts(search)
+            .then((companies) => {
+                let options = companies.map((company) => {
+                    return {
+                        value: company.id,
+                        label: company.name
+                    }
+                });
+
+                callback(null, {options: options})
+
+                return {options: options};
+            });
+    }
+
+    _setCompanyForContact(value) {
+        let selectedId = value ? value.value : null;
+        let selectedName = value ? value.label : null;
+
+        let event = {
+            target: {
+                type: 'select',
+                name: 'company',
+                value: {
+                    id: selectedId,
+                    name: selectedName
+                }
+            }
+        };
+
+        this._handleInputChange(event);
     }
 
     render() {
@@ -107,16 +154,18 @@ class EditContactForm extends Component {
                         <input type="text" name="zip" placeholder="Zip" defaultValue={this.props.contact.zip} onChange={this._handleInputChange} />
                     </div>
 
-                    {this.props.contact.company ?
-                        <div className="input-container">
-                            <label>Company</label>
-                            <input type="text" name="company.address1" placeholder="Address 1" defaultValue={this.props.contact.company.address1} onChange={this._handleInputChange} />
-                            <input type="text" name="company.address2" placeholder="Address 2" defaultValue={this.props.contact.company.address2} onChange={this._handleInputChange} />
-                            <input type="text" name="company.city" placeholder="City" defaultValue={this.props.contact.company.city} onChange={this._handleInputChange} />
-                            <input type="text" name="company.state" placeholder="State" defaultValue={this.props.contact.company.state} onChange={this._handleInputChange} />
-                            <input type="text" name="company.zip" placeholder="Zip" defaultValue={this.props.contact.company.zip} onChange={this._handleInputChange} />
-                        </div>
-                        : ''}
+                    <div className="input-container">
+                        <label>Company</label>
+                        <Select.Async
+                            multi={false}
+                            value={this.state.formState.company ? {value: this.state.formState.company.id, label: this.state.formState.company.name} : null}
+                            onChange={this._setCompanyForContact}
+                            filterOptions={(options) => options}
+                            onInputChange={(inputValue) => {
+                                console.log(inputValue);
+                            }}
+                            loadOptions={this._searchCompanies} />
+                    </div>
 
                     <div className="input-container opportunities">
                         <label>Opportunities</label>
@@ -145,13 +194,15 @@ EditContactForm.propTypes = {
     contact: PropTypes.object.isRequired,
     setFormState: PropTypes.func.isRequired,
     dataUpdated: PropTypes.bool.isRequired,
-    customFields: PropTypes.object.isRequired
+    customFields: PropTypes.object.isRequired,
+    companies: PropTypes.array.isRequired
 }
 
 export default connect((store) => {
     return {
         contact: store.contactFlyoutState.data,
         dataUpdated: store.contactFlyoutState.dataUpdated,
-        customFields: store.customFieldsState.contactFields
+        customFields: store.customFieldsState.contactFields,
+        companies: store.accountState.data
     }
 })(EditContactForm);

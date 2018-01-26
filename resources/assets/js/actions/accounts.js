@@ -16,7 +16,7 @@ export function fetchAccounts(page = 1, query = {}) {
             });
         }
 
-        fetch(URL)
+        return fetch(URL)
             .then((response) => {
                 dispatch({
                     type: types.FETCHING_ACCOUNTS_SUCCESS,
@@ -26,6 +26,21 @@ export function fetchAccounts(page = 1, query = {}) {
                 });
             });
     }
+}
+
+export function searchAccounts(query = {}) {
+    let URL = '/companies?published=1';
+
+    if (Object.keys(query).length) {
+        Object.keys(query).map((key) => {
+            URL = URL + '&' + key + '=' + query[key];
+        });
+    }
+
+    return fetch(URL)
+        .then((response) => {
+            return response.data.data;
+        });
 }
 
 export function fetchAccount(id) {

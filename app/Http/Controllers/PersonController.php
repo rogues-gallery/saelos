@@ -102,7 +102,7 @@ class PersonController extends Controller
 
             $company->update($personCompany);
 
-            $person->company()->associate($company);
+            $data['company_id'] = $company->id;
         }
 
         if ($personUser) {
@@ -121,6 +121,7 @@ class PersonController extends Controller
         $person->assignCustomFields($customFields);
 
         Auth::user()->notify(new PersonUpdated($person));
+        ContactUpdated::broadcast($person);
 
         return $this->show($person->id);
     }

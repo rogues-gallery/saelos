@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Controllers\PersonController;
 use App\Person;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -10,6 +11,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Http\Resources\Person as PersonResource;
 
 class ContactUpdated implements ShouldBroadcast
 {
@@ -42,6 +44,6 @@ class ContactUpdated implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return $this->person->toArray();
+        return (new PersonResource($this->person->load(PersonController::SHOW_WITH)))->toArray(null);
     }
 }
