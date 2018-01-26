@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Company;
+use App\Http\Controllers\CompanyController;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -10,6 +11,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Http\Resources\Company as CompanyResource;
 
 class CompanyUpdated implements ShouldBroadcast
 {
@@ -42,6 +44,6 @@ class CompanyUpdated implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return $this->company->toArray();
+        return (new CompanyResource($this->company->load(CompanyController::SHOW_WITH)))->toArray(null);
     }
 }

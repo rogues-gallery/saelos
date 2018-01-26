@@ -8,6 +8,7 @@ class Filter extends Component {
         super(props);
 
         this._handleSubmit = this._handleSubmit.bind(this);
+        this._onKeyPress = this._onKeyPress.bind(this);
     }
 
     _handleSubmit(event) {
@@ -23,6 +24,14 @@ class Filter extends Component {
 
         if (event.target.value.length === 0) {
             this.props.dispatch(this.props.onInputChange());
+        }
+    }
+
+    _onKeyPress(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+
+            this._handleSubmit(event);
         }
     }
 
@@ -47,7 +56,7 @@ class Filter extends Component {
             <div className="filter">
                 <form>
                     <div className="form-group">
-                        <input type="text" className="form-control" defaultValue={searchValue} placeholder="Search" onChange={this._handleSubmit} />
+                        <input type="text" className="form-control" defaultValue={searchValue} onKeyDown={this._onKeyPress} placeholder="Search" onChange={this._handleSubmit} />
                     </div>
                 </form>
             </div>
