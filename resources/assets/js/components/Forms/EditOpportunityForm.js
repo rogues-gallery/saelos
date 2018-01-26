@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { Money } from 'react-format';
 import Gravatar from 'react-gravatar';
 import {customFieldsHelper} from "../../utils/helpers";
 import {connect} from "react-redux";
+import Select from 'react-select';
 
 let _ = require('lodash');
 
@@ -12,18 +12,10 @@ class EditOpportunityForm extends Component {
         super(props);
 
         this._handleInputChange = this._handleInputChange.bind(this);
-        this._handleContactLookup = this._handleContactLookup.bind(this);
 
         this.state = {
             formState: props.opportunity
         }
-    }
-
-    _handleContactLookup(event) {
-        const target = event.target;
-        const value = target.value;
-
-
     }
 
     _handleInputChange(event) {
@@ -49,6 +41,10 @@ class EditOpportunityForm extends Component {
             _.set(oppState, name, value);
         }
 
+        this.setState({
+            formState: oppState
+        });
+
         this.props.setFormState(oppState)
     }
 
@@ -65,12 +61,22 @@ class EditOpportunityForm extends Component {
         });
 
         let stageOptions = this.props.stages.map((stage) => {
-            return <option key={stage.id} value={stage.id}>{stage.title}</option>
+            return {
+                value: stage.id,
+                label: stage.title
+            }
         });
+
+        stageOptions.unshift({value:null, label: "Please select..."});
 
         return (
             <form id="opportunity-details-form">
                 <div className="panel-opportunity-details-column">
+                    <div className="input-container">
+                        <label>Opportunity name</label>
+                        <input type="text" name="name" placeholder="Name" defaultValue={this.props.opportunity.name} onChange={this._handleInputChange} />
+                    </div>
+
                     <div className="input-container">
                         <label>Created At</label>
                         {this.props.opportunity.created_at}
@@ -90,18 +96,32 @@ class EditOpportunityForm extends Component {
                     </div>
                     <div className="input-container">
                         <label>Stage</label>
-                        <select name="stage_id" defaultValue={this.props.opportunity.stage_id} onChange={this._handleInputChange}>
-                            <option value={null}>Please select...</option>
-                            {stageOptions}
-                        </select>
+                        <Select
+                            name="stage_id"
+                            value={this.props.opportunity.stage_id}
+                            onChange={(input) => {
+                                let selectedId = input ? input.value : null;
+                                let selectedName = input ? input.label : null;
+
+                                let event = {
+                                    target: {
+                                        type: 'select',
+                                        name: "stage_id",
+                                        value: {
+                                            value: selectedId,
+                                            label: selectedName
+                                        }
+                                    }
+                                };
+
+                                return this._handleInputChange(event);
+                            }}
+                            options={stageOptions}
+                        />
                     </div>
 
                     <div className="input-container">
                         <label>Contacts</label>
-                        {/*
-                        <input placeholder="Start typing a contact name or email to add..." onChange={this._handleContactLookup} />
-                        <hr />
-                        */}
                         <div id="contact-typeahead-container">
                         </div>
                         {contacts}

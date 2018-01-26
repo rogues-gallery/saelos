@@ -40,6 +40,10 @@ class NewRepForm extends Component {
             _.set(repState, name, value);
         }
 
+        this.setState({
+            formState: repState
+        });
+
         this.props.setFormState(repState)
     }
 

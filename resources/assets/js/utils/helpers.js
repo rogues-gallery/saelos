@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_PATH } from '../config/_entrypoint';
+import Select from 'react-select';
 
 export function itemToLinks(items) {
   return Array.isArray(items) ? items.map(item => createLink(item)) : createLink(items);
@@ -19,40 +20,63 @@ function createLink(item) {
 }
 
 export function customFieldsHelper(object, fields, handleInputChange) {
-      return Object.keys(fields).map((key, index) => {
-          let thisField = fields[key];
-          let input = '';
-          let thisValue = null;
-          let customField = _.find(object.custom_fields, (o) => o.custom_field_id === thisField.field_id);
+    return Object.keys(fields).map((key, index) => {
+        let thisField = fields[key];
+        let input = '';
+        let thisValue = null;
+        let customField = _.find(object.custom_fields, (o) => o.custom_field_id === thisField.field_id);
 
-          if (customField) {
-              thisValue = customField.value;
-          }
+        if (customField) {
+            thisValue = customField.value;
+        }
 
-          switch (thisField.type) {
-              case 'select':
-              case 'picklist':
-                  let options = Object.keys(thisField.options).map((option, i) => {
-                      return <option key={i} value={option}>{thisField.options[option]}</option>
-                  });
+        switch (thisField.type) {
+            case 'select':
+            case 'picklist':
+                let options = Object.keys(thisField.options).map((option, i) => {
+                    return {
+                        value: option,
+                        label: thisField.options[option]
+                    }
+                });
 
-                  input = <select name={"custom_fields." + thisField.alias} defaultValue={thisValue} onChange={handleInputChange}>
-                      <option value="">Please Select...</option>
-                      {options}
-                  </select>
-                  break;
-              case 'lookup':
-              case 'text':
-              default:
-                  input = <input type="text" name={"custom_fields." + thisField.alias} onChange={handleInputChange} defaultValue={thisValue} placeholder={thisField.label} />
-                  break;
-          }
+                options.unshift({value: null, label: "Please select..."});
 
-          return (
-              <div key={index} className="input-container">
-                  <label>{thisField.label}</label>
-                  {input}
-              </div>
-          )
-      });
+                input = <Select
+                    name={"custom_fields." + thisField.alias}
+                    value={thisValue}
+                    onChange={(input) => {
+                        let selectedId = input ? input.value : null;
+                        let selectedName = input ? input.label : null;
+
+                        let event = {
+                            target: {
+                                type: 'select',
+                                name: "custom_fields." + thisField.alias,
+                                value: {
+                                    value: selectedId,
+                                    label: selectedName
+                                }
+                            }
+                        };
+
+                        return handleInputChange(event);
+                    }}
+                    options={options}
+                />
+                break;
+            case 'lookup':
+            case 'text':
+            default:
+                input = <input type="text" name={"custom_fields." + thisField.alias} onChange={handleInputChange} defaultValue={thisValue} placeholder={thisField.label} />
+                break;
+        }
+
+        return (
+            <div key={index} className="input-container">
+                <label>{thisField.label}</label>
+                {input}
+            </div>
+        )
+    });
 }

@@ -39,6 +39,10 @@ class NewAccountForm extends Component {
             _.set(accountState, name, value);
         }
 
+        this.setState({
+            formState: accountState
+        });
+
         this.props.setFormState(accountState)
     }
 

@@ -37,6 +37,10 @@ class NewContactForm extends Component {
             _.set(contactState, name, value);
         }
 
+        this.setState({
+            formState: contactState
+        });
+
         this.props.setFormState(contactState)
     }
 

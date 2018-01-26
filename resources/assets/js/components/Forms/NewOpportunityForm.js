@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import {customFieldsHelper} from "../../utils/helpers";
 import {connect} from "react-redux";
+import Select from 'react-select';
 
 let _ = require('lodash');
 
@@ -39,6 +40,10 @@ class NewOpportunityForm extends Component {
             _.set(oppState, name, value);
         }
 
+        this.setState({
+            formState: oppState
+        });
+
         this.props.setFormState(oppState)
     }
 
@@ -69,10 +74,28 @@ class NewOpportunityForm extends Component {
                     </div>
                     <div className="input-container">
                         <label>Stage</label>
-                        <select name="stage_id" onChange={this._handleInputChange}>
-                            <option value={null}>Please select...</option>
-                            {stageOptions}
-                        </select>
+                        <Select
+                            name="stage_id"
+                            value={this.props.opportunity.stage_id}
+                            onChange={(input) => {
+                                let selectedId = input ? input.value : null;
+                                let selectedName = input ? input.label : null;
+
+                                let event = {
+                                    target: {
+                                        type: 'select',
+                                        name: "stage_id",
+                                        value: {
+                                            value: selectedId,
+                                            label: selectedName
+                                        }
+                                    }
+                                };
+
+                                return this._handleInputChange(event);
+                            }}
+                            options={stageOptions}
+                        />
                     </div>
 
                 </div>

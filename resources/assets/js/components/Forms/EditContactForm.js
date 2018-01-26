@@ -161,9 +161,6 @@ class EditContactForm extends Component {
                             value={this.state.formState.company ? {value: this.state.formState.company.id, label: this.state.formState.company.name} : null}
                             onChange={this._setCompanyForContact}
                             filterOptions={(options) => options}
-                            onInputChange={(inputValue) => {
-                                console.log(inputValue);
-                            }}
                             loadOptions={this._searchCompanies} />
                     </div>
 
