@@ -46,17 +46,13 @@ export function customFieldsHelper(object, fields, handleInputChange) {
                     name={"custom_fields." + thisField.alias}
                     value={thisValue}
                     onChange={(input) => {
-                        let selectedId = input ? input.value : null;
-                        let selectedName = input ? input.label : null;
+                        let selected = input ? input.value : null;
 
                         let event = {
                             target: {
                                 type: 'select',
                                 name: "custom_fields." + thisField.alias,
-                                value: {
-                                    value: selectedId,
-                                    label: selectedName
-                                }
+                                value: selected
                             }
                         };
 

@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Deal;
+use App\Http\Controllers\DealController;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -10,6 +11,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Http\Resources\Deal as DealResource;
 
 class DealUpdated implements ShouldBroadcast
 {
@@ -42,6 +44,6 @@ class DealUpdated implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return $this->deal->toArray();
+        return (new DealResource($this->deal->load(DealController::SHOW_WITH)))->toArray(null);
     }
 }

@@ -100,17 +100,13 @@ class EditOpportunityForm extends Component {
                             name="stage_id"
                             value={this.props.opportunity.stage_id}
                             onChange={(input) => {
-                                let selectedId = input ? input.value : null;
-                                let selectedName = input ? input.label : null;
+                                let selected = input ? input.value : null;
 
                                 let event = {
                                     target: {
                                         type: 'select',
                                         name: "stage_id",
-                                        value: {
-                                            value: selectedId,
-                                            label: selectedName
-                                        }
+                                        value: selected
                                     }
                                 };
 
