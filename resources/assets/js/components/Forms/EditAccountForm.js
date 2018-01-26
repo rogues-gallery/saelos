@@ -51,6 +51,10 @@ class EditAccountForm extends Component {
             <form id="account-details-form">
                 <div className="panel-account-details-column">
                     <div className="input-container">
+                        <label>Account name</label>
+                        <input type="text" name="name" placeholder="Name" defaultValue={this.props.account.name} onChange={this._handleInputChange} />
+                    </div>
+                    <div className="input-container">
                         <label>Amount</label>
                         <Money>{totalValue}</Money>
                     </div>
