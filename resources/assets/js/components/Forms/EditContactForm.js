@@ -131,27 +131,24 @@ class EditContactForm extends Component {
         return (
             <form id="contact-details-form">
                 <div className="panel-contact-details-column">
-                    <span className="button button-primary" onClick={this._openOpportunityPanel.bind(this, {})}>
-                        Create Opportunity
-                    </span>
 
                     <div className="input-container">
                         <label>Phone</label>
-                        <input type="text" name="phone" placeholder="Phone" defaultValue={this.props.contact.phone} onChange={this._handleInputChange} />
+                        <input type="text" name="phone" placeholder="333.555.1212" defaultValue={this.props.contact.phone} onChange={this._handleInputChange} />
                     </div>
 
                     <div className="input-container">
                         <label>Email</label>
-                        <input type="text" name="email" placeholder="Email" defaultValue={this.props.contact.email} onChange={this._handleInputChange} />
+                        <input type="text" name="email" placeholder="someone@somewhere.com" defaultValue={this.props.contact.email} onChange={this._handleInputChange} />
                     </div>
 
                     <div className="input-container">
                         <label>Address</label>
-                        <input type="text" name="address1" placeholder="Address 1" defaultValue={this.props.contact.address1} onChange={this._handleInputChange} />
-                        <input type="text" name="address2" placeholder="Address 2" defaultValue={this.props.contact.address2} onChange={this._handleInputChange} />
+                        <input type="text" name="address1" placeholder="123 Some Street" defaultValue={this.props.contact.address1} onChange={this._handleInputChange} />
+                        <input type="text" name="address2" placeholder="Apt 515" defaultValue={this.props.contact.address2} onChange={this._handleInputChange} />
                         <input type="text" name="city" placeholder="City" defaultValue={this.props.contact.city} onChange={this._handleInputChange} />
-                        <input type="text" name="state" placeholder="State" defaultValue={this.props.contact.state} onChange={this._handleInputChange} />
-                        <input type="text" name="zip" placeholder="Zip" defaultValue={this.props.contact.zip} onChange={this._handleInputChange} />
+                        <input type="text" name="state" placeholder="ST" defaultValue={this.props.contact.state} onChange={this._handleInputChange} />
+                        <input type="text" name="zip" placeholder="012345" defaultValue={this.props.contact.zip} onChange={this._handleInputChange} />
                     </div>
 
                     <div className="input-container">
@@ -166,6 +163,9 @@ class EditContactForm extends Component {
 
                     <div className="input-container opportunities">
                         <label>Opportunities</label>
+                        <a href="javascript:void(0)" onClick={this._openOpportunityPanel.bind(this, {})}>
+                            Create Opportunity
+                        </a>
                         {opportunities}
                     </div>
                 </div>

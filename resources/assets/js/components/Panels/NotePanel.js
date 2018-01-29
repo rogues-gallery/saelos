@@ -81,14 +81,13 @@ class NotePanel extends Component {
                     <Panel>
                         <div className="panel-user">
                             <div className="panel-user-content">
-                                <div className="panel-user-name">Notes</div>
+                                <div class="header">
+                                    <div className="panel-user-name">Notes</div>
 
-                                <div className="panel-user-action" onClick={this._togglePanelClass}>
-                                    <i className="md-icon">close</i>
+                                    <div className="panel-user-action" onClick={this._togglePanelClass}>
+                                        <i className="md-icon">close</i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="panel-user-score">
-                                <Progress size={0}/>
                             </div>
                         </div>
                         <div className="panel-contact-details">

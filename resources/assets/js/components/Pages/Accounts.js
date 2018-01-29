@@ -84,7 +84,7 @@ class Accounts extends Component {
                         <Filter onInputChange={actionCreators.fetchAccounts} filterFields={filterFields} type="accounts" />
                         <div className="content-top-buttons">
                             <span className="create-button button button-primary" onClick={this._toggleNewPanel}>
-                                <i className="md-icon">add</i> <span>Create Account</span>
+                                <span>Create Account</span>
                             </span>
                         </div>
                     </div>

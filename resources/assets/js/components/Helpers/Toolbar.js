@@ -3,6 +3,8 @@ import Navigation from './Navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Accounts from '../Pages/Accounts';
+
 class Toolbar extends Component {
     constructor(props) {
         super(props);
@@ -55,6 +57,12 @@ class Toolbar extends Component {
                                     <li>
                                         <a>
                                             <i className="md-icon">contacts</i> <span>Communication</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="javascript:void(0);" onClick={Accounts._toggleNewPanel}>
+                                            <i className="md-icon">domain</i> <span>Account</span>
                                         </a>
                                     </li>
 

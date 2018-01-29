@@ -42,7 +42,7 @@ class Contacts extends Component {
                         <Filter onInputChange={actionCreators.fetchContacts} filterFields={filterFields} type="contacts" />
                         <div className="content-top-buttons">
                             <span className="create-button button button-primary" onClick={this._toggleNewPanel}>
-                                <i className="md-icon">add</i> <span>Create Contact</span>
+                                <span>Create Contact</span>
                             </span>
                         </div>
                     </div>

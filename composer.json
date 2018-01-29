@@ -1,7 +1,7 @@
 {
     "name": "dbhurley/saelos",
-    "description": "Saelos",
-    "keywords": ["crm"],
+    "description": "Saelos, the Sales CRM",
+    "keywords": ["saelos", "crm"],
     "license": "MIT",
     "type": "project",
     "require": {
