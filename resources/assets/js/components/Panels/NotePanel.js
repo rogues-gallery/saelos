@@ -81,7 +81,7 @@ class NotePanel extends Component {
                     <Panel>
                         <div className="panel-user">
                             <div className="panel-user-content">
-                                <div class="header">
+                                <div className="header">
                                     <div className="panel-user-name">Notes</div>
 
                                     <div className="panel-user-action" onClick={this._togglePanelClass}>
