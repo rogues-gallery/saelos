@@ -13,7 +13,6 @@ class Accounts extends Component {
     constructor(props) {
         super(props);
 
-        this._getNewAccount = this._getNewAccount.bind(this);
         this._toggleNewPanel = this._toggleNewPanel.bind(this);
     }
 
@@ -28,23 +27,6 @@ class Accounts extends Component {
                 custom_fields: []
             }
         });
-    }
-
-    _getNewAccount() {
-        let customFieldDefinitions = {};
-
-        this.props.accounts.length !== 0 ? Object.keys(this.props.accounts[0].custom_fields).map((key) => {
-            let thisField = this.props.accounts[0].custom_fields[key];
-
-            thisField.value = null;
-
-            customFieldDefinitions[thisField.alias] = thisField;
-        }) : {};
-
-        return {
-            id: 'new',
-            custom_fields: customFieldDefinitions
-        }
     }
 
     render() {
@@ -74,15 +56,7 @@ class Accounts extends Component {
 }
 
 Accounts.propTypes = {
-    dispatch: PropTypes.func,
-    isFetching: PropTypes.bool.isRequired,
-    accounts: PropTypes.array.isRequired
+    dispatch: PropTypes.func.isRequired
 };
 
-export default connect((store) => {
-    return {
-        accounts: store.accountState.data,
-        isFetching: store.accountState.isFetching,
-        accountUpdated: store.accountState.accountUpdated
-    };
-})(Accounts)
+export default connect()(Accounts)
