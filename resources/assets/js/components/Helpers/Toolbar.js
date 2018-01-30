@@ -3,8 +3,6 @@ import Navigation from './Navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Accounts from '../Pages/Accounts';
-
 class Toolbar extends Component {
     constructor(props) {
         super(props);
@@ -43,7 +41,7 @@ class Toolbar extends Component {
                     </ul>
 
                     <div className="toolbar-actions">
-                        <div className="toolbar-slide-overlay" />
+                        <div className="toolbar-slide-overlay" onClick={this._toggleActionsBodyClass} />
 
                         <div className="toolbar-slide-inner">
                             <div className="toolbar-slide-close" onClick={this._toggleActionsBodyClass}>
@@ -52,16 +50,9 @@ class Toolbar extends Component {
 
                             <div className="toolbar-slide-content">
                                 <strong>Create New</strong>
-
                                 <ul>
                                     <li>
                                         <a>
-                                            <i className="md-icon">contacts</i> <span>Communication</span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="javascript:void(0);" onClick={Accounts._toggleNewPanel}>
                                             <i className="md-icon">domain</i> <span>Account</span>
                                         </a>
                                     </li>
@@ -75,18 +66,6 @@ class Toolbar extends Component {
                                     <li>
                                         <a>
                                             <i className="md-icon">library_books</i> <span>Opportunity</span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a>
-                                            <i className="md-icon">note_add</i> <span>Note</span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a>
-                                            <i className="md-icon">class</i> <span>Report</span>
                                         </a>
                                     </li>
                                 </ul>
