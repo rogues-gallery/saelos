@@ -7,6 +7,7 @@ import Gravatar from 'react-gravatar';
 import {actionCreators} from "../../actions";
 import * as types from "../../actions/types";
 import Loading from '../Helpers/Loading';
+import Select from 'react-select';
 
 class ContactsList extends Component {
     constructor(props) {
@@ -97,8 +98,13 @@ class Contact extends Component {
         let rowClass = 'contact-row-' + this.props.contact.id;
 
         let teamMembers = _.map(this.props.user.team.users, (member, index) => {
-            return <option key={index} value={member.id}>{member.name}</option>
+            return {
+                value: member.id,
+                label: member.name
+            }
         });
+
+        teamMembers.unshift({value:null, label: "Please select..."});
 
         return (
             <tr className={rowClass}>
@@ -129,10 +135,21 @@ class Contact extends Component {
                 </td>
 
                 <td>
-                    <select onChange={this._assignContact} defaultValue={this.props.contact.user_id}>
-                        <option>Select Assignee</option>
-                        {teamMembers}
-                    </select>
+                    <Select
+                        value={this.props.contact.user_id}
+                        onChange={(input) => {
+                            let selected = input ? input.value : null;
+
+                            let event = {
+                                target: {
+                                    value: selected
+                                }
+                            };
+
+                            return this._assignContact(event);
+                        }}
+                        options={teamMembers}
+                    />
                 </td>
 
                 <td className="actions min-width">
