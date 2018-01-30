@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
-import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux';
-import PropTypes from "prop-types";
+import ReactPaginate from 'react-paginate';
+import PropTypes from 'prop-types';
 
 import { actionCreators } from '../../actions';
-import InfoboxAccount from "../UI/Infobox/InfoboxAccount";
+import { InfoboxOpportunity } from "../UI/Infobox";
 import Loading from '../Helpers/Loading';
 
-class AccountsList extends Component {
+class OpportunitiesList extends Component {
+
     constructor(props) {
         super(props);
 
-        this._navToPage = this._navToPage.bind(this);
+        this._navToPage = this._navToPage.bind(this)
     }
 
     _navToPage(page) {
-        this.props.dispatch(actionCreators.fetchAccounts(page.selected + 1));
+        this.props.dispatch(actionCreators.fetchOpportunities(page.selected + 1));
     }
 
     render() {
-        let results = this.props.accounts.map((account) => {
-            return <InfoboxAccount key={account.id} account={account} />
+        let results = this.props.opportunities.map((opportunity) => {
+            return <InfoboxOpportunity key={opportunity.id} opportunity={opportunity} />
         });
 
         let initialPage = 0;
@@ -35,30 +36,29 @@ class AccountsList extends Component {
         }
 
         return (
-            this.props.isFetching && this.props.accounts.length === 0 ? <Loading /> :
+            this.props.isFetching && this.props.opportunities.length === 0 ? <Loading /> :
             <div>
-                <div className="accounts flex-row-even">
+                <div className="opportunities flex-row-even">
                     {results}
                 </div>
-
                 <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
             </div>
-        )
+        );
     }
 }
 
-AccountsList.propTypes = {
+OpportunitiesList.propTypes = {
     dispatch: PropTypes.func,
     isFetching: PropTypes.bool.isRequired,
-    accounts: PropTypes.array.isRequired,
+    opportunities: PropTypes.array.isRequired,
     pagination: PropTypes.object.isRequired
 };
 
 export default connect((store) => {
     return {
-        accounts: store.accountState.data,
-        pagination: store.accountState.pagination,
-        isFetching: store.accountState.isFetching,
-        accountUpdated: store.accountState.accountUpdated
+        opportunities: store.opportunityState.data,
+        pagination: store.opportunityState.pagination,
+        isFetching: store.opportunityState.isFetching,
+        opportunityUpdated: store.accountState.opportunityUpdated
     }
-})(AccountsList);
+})(OpportunitiesList);
