@@ -149,6 +149,11 @@ class EditContactForm extends Component {
                     </div>
 
                     <div className="input-container">
+                        <label>Position</label>
+                        <input type="text" name="position" placeholder="Position" defaultValue={this.props.contact.position} onChange={this._handleInputChange} />
+                    </div>
+
+                    <div className="input-container">
                         <label>Address</label>
                         <input type="text" name="address1" placeholder="123 Some Street" defaultValue={this.props.contact.address1} onChange={this._handleInputChange} />
                         <input type="text" name="address2" placeholder="Apt 515" defaultValue={this.props.contact.address2} onChange={this._handleInputChange} />

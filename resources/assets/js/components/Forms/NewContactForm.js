@@ -66,6 +66,11 @@ class NewContactForm extends Component {
                     </div>
 
                     <div className="input-container">
+                        <label>Position</label>
+                        <input type="text" name="position" placeholder="Position" onChange={this._handleInputChange} />
+                    </div>
+
+                    <div className="input-container">
                         <label>Address</label>
                         <input type="text" name="address1" placeholder="Address 1" onChange={this._handleInputChange} />
                         <input type="text" name="address2" placeholder="Address 2" onChange={this._handleInputChange} />
