@@ -41,7 +41,7 @@ class OpportunitiesList extends Component {
                 <div className="opportunities flex-row-even">
                     {results}
                 </div>
-                <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
+                <ReactPaginate onPageChange={this._navToPage} forcePage={initialPage} pageCount={pageCount} containerClassName="pagination" />
             </div>
         );
     }

@@ -52,7 +52,7 @@ class ContactsList extends Component {
                     <tbody>{results}</tbody>
                 </table>
 
-                <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
+                <ReactPaginate onPageChange={this._navToPage} forcePage={initialPage} pageCount={pageCount} containerClassName="pagination" />
             </div>
         )
     }
