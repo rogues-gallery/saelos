@@ -22,7 +22,7 @@ class HistoryPanel extends Component {
                 <span className="line">&nbsp;</span>
                 <span className="line-number">{index + 1}</span>
                 <div className="line-content">
-                    <h4>{activity.title}</h4>
+                    <h4>{activity.title} on {activity.created_at}</h4>
                     <p>{activity.description}</p>
                     {activity.details_type === "App\\CallActivity" ?
                         <p>{recordUrl}</p>

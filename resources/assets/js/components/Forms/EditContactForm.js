@@ -45,7 +45,9 @@ class EditContactForm extends Component {
             _.set(contactState, name, value);
         }
 
-        this.setState({formState: contactState});
+        this.setState({
+            formState: contactState
+        });
 
         this.props.setFormState(contactState)
     }
@@ -131,7 +133,11 @@ class EditContactForm extends Component {
         return (
             <form id="contact-details-form">
                 <div className="panel-contact-details-column">
-
+                    <div className="input-container">
+                        <label>Name</label>
+                        <input type="text" name="first_name" placeholder="First Name" defaultValue={this.props.contact.first_name} onChange={this._handleInputChange} />
+                        <input type="text" name="last_name" placeholder="Last Name" defaultValue={this.props.contact.last_name} onChange={this._handleInputChange} />
+                    </div>
                     <div className="input-container">
                         <label>Phone</label>
                         <input type="text" name="phone" placeholder="333.555.1212" defaultValue={this.props.contact.phone} onChange={this._handleInputChange} />
@@ -140,6 +146,11 @@ class EditContactForm extends Component {
                     <div className="input-container">
                         <label>Email</label>
                         <input type="text" name="email" placeholder="someone@somewhere.com" defaultValue={this.props.contact.email} onChange={this._handleInputChange} />
+                    </div>
+
+                    <div className="input-container">
+                        <label>Position</label>
+                        <input type="text" name="position" placeholder="Position" defaultValue={this.props.contact.position} onChange={this._handleInputChange} />
                     </div>
 
                     <div className="input-container">

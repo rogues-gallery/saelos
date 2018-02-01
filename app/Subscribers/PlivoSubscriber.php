@@ -131,7 +131,7 @@ XML;
         $call = $event->getCall();
         $details = CallActivity::where('uuid', '=', $call->getCallUuid())->first();
 
-        $details->details = array_merge($details->details, $call->toArray());
+        $details->details = array_merge(json_decode($details->details, true), $call->toArray());
         $details->status = $call->getCallStatus();
 
         $details->save();

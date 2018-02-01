@@ -119,7 +119,7 @@ class DocumentPanel extends Component {
                                     activeClassName="active"
                                     acceptClassName="accept"
                                     rejectClassName="reject"
-                                    accept="image/jpeg, image/jpg, text/csv, application/json, application/pdf, application/zip"
+                                    accept="image/jpeg, image/jpg, text/csv, application/json, application/pdf, application/zip, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/msword"
                                 >
                                     <p>Drag and drop a file here, or click to select files to upload.</p>
                                 </Dropzone>

@@ -24,6 +24,10 @@ class Deal extends Model
     use HasCustomFieldsTrait;
     use HasNotesTrait;
 
+    protected $hidden = [
+        'pivot',
+    ];
+
     protected $guarded = [
         'id',
         'user',

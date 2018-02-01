@@ -55,7 +55,7 @@ class Reports extends Component {
                         </table>
                     </div>
 
-                    <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
+                    <ReactPaginate onPageChange={this._navToPage} forcePage={initialPage} pageCount={pageCount} containerClassName="pagination" />
                 </div>
             </Backend>
         );
