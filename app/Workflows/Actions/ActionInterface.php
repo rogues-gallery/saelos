@@ -2,6 +2,7 @@
 
 namespace App\Workflows\Actions;
 
+use App\WorkflowAction;
 use Illuminate\Database\Eloquent\Model;
 
 interface ActionInterface
@@ -15,4 +16,13 @@ interface ActionInterface
      * @return bool
      */
     public function execute(Model $model, array $details = []): bool;
+
+    /**
+     * Update the action details based on the execution of the action.
+     *
+     * @param WorkflowAction $action
+     *
+     * @return bool
+     */
+    public function updateActionDetails(WorkflowAction $action): bool;
 }

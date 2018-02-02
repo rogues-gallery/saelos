@@ -2,11 +2,12 @@
 
 namespace App\Workflows\Actions;
 
+use App\Notifications\WorkflowNotification;
 use App\User;
 use App\WorkflowAction;
 use Illuminate\Database\Eloquent\Model;
 
-class Assign implements ActionInterface
+class Notify implements ActionInterface
 {
     /**
      * @param Model $model
@@ -18,7 +19,7 @@ class Assign implements ActionInterface
     {
         $user = User::find($details['user_id']);
 
-        $model->user()->associate($user);
+        $user->notify(new WorkflowNotification($details['message']));
 
         return true;
     }

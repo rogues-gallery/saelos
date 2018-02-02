@@ -37,6 +37,7 @@ class Workflow extends Model
                 $actionInstance = new $actionClass;
 
                 $actionInstance->execute($model, $action->details);
+                $actionInstance->updateActionDetails($action);
             }
         }
     }
