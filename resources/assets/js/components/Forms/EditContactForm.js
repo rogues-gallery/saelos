@@ -149,6 +149,11 @@ class EditContactForm extends Component {
                     </div>
 
                     <div className="input-container">
+                        <label>Date Created</label>
+                        <input type="text" name="created_at" placeholder="Date Created" defaultValue={this.props.contact.created_at} onChange={this._handleInputChange} />
+                    </div>
+
+                    <div className="input-container">
                         <label>Position</label>
                         <input type="text" name="position" placeholder="Position" defaultValue={this.props.contact.position} onChange={this._handleInputChange} />
                     </div>
