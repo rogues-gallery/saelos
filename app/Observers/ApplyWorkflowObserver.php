@@ -8,7 +8,7 @@ use App\Person;
 
 class ApplyWorkflowObserver
 {
-    public function creating(Person $model)
+    public function creating(HasWorkflowsInterface $model)
     {
         $workflows = $model->workflows(Workflow::PROCESS_ON_CREATE);
 

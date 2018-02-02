@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\HasCustomFieldsInterface;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +21,7 @@ use Laravel\Passport\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements HasCustomFieldsInterface
 {
     use Notifiable, HasApiTokens;
     use HasCustomFieldsTrait;
