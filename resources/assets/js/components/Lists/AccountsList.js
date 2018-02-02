@@ -15,7 +15,7 @@ class AccountsList extends Component {
     }
 
     _navToPage(page) {
-        this.props.dispatch(actionCreators.fetchAccounts(page.selected + 1));
+        this.props.dispatch(actionCreators.fetchAccounts(page.selected + 1, this.props.search));
     }
 
     render() {
@@ -51,7 +51,8 @@ AccountsList.propTypes = {
     dispatch: PropTypes.func,
     isFetching: PropTypes.bool.isRequired,
     accounts: PropTypes.array.isRequired,
-    pagination: PropTypes.object.isRequired
+    pagination: PropTypes.object.isRequired,
+    search: PropTypes.object.isRequired
 };
 
 export default connect((store) => {
@@ -59,6 +60,7 @@ export default connect((store) => {
         accounts: store.accountState.data,
         pagination: store.accountState.pagination,
         isFetching: store.accountState.isFetching,
-        accountUpdated: store.accountState.accountUpdated
+        accountUpdated: store.accountState.accountUpdated,
+        search: store.accountState.search
     }
 })(AccountsList);

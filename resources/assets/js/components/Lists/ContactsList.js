@@ -17,7 +17,7 @@ class ContactsList extends Component {
     }
 
     _navToPage(page) {
-        this.props.dispatch(actionCreators.fetchContacts(page.selected + 1));
+        this.props.dispatch(actionCreators.fetchContacts(page.selected + 1, this.props.search));
     }
 
     render() {
@@ -62,7 +62,8 @@ ContactsList.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     contacts: PropTypes.array.isRequired,
     pagination: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    search: PropTypes.object.isRequired
 }
 
 class Contact extends Component {
@@ -177,6 +178,7 @@ export default connect((store) => {
         contacts: store.contactState.data,
         pagination: store.contactState.pagination,
         isFetching: store.contactState.isFetching,
-        user: store.authState.user
+        user: store.authState.user,
+        search: store.contactState.search
     };
 })(ContactsList);

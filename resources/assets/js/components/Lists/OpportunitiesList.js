@@ -16,7 +16,7 @@ class OpportunitiesList extends Component {
     }
 
     _navToPage(page) {
-        this.props.dispatch(actionCreators.fetchOpportunities(page.selected + 1));
+        this.props.dispatch(actionCreators.fetchOpportunities(page.selected + 1, this.props.search));
     }
 
     render() {
@@ -51,7 +51,8 @@ OpportunitiesList.propTypes = {
     dispatch: PropTypes.func,
     isFetching: PropTypes.bool.isRequired,
     opportunities: PropTypes.array.isRequired,
-    pagination: PropTypes.object.isRequired
+    pagination: PropTypes.object.isRequired,
+    search: PropTypes.object.isRequired
 };
 
 export default connect((store) => {
@@ -59,6 +60,7 @@ export default connect((store) => {
         opportunities: store.opportunityState.data,
         pagination: store.opportunityState.pagination,
         isFetching: store.opportunityState.isFetching,
-        opportunityUpdated: store.accountState.opportunityUpdated
+        opportunityUpdated: store.accountState.opportunityUpdated,
+        search: store.opportunityState.search
     }
 })(OpportunitiesList);
