@@ -169,6 +169,7 @@ class PersonController extends Controller
         Mail::to($person->email)
             ->send(new Contact($request->get('emailContent'), $request->get('emailSubject')));
 
+        ContactEmailed::dispatch($person, $user);
         \Auth::user()->notify(new PersonEmailed($person));
 
         return 1;
