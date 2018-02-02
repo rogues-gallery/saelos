@@ -17,6 +17,7 @@ import customFieldsReducer from "./custom-fields";
 import repFlyoutReducer from "./rep-flyout";
 import noteReducer from "./notes";
 import documentReducer from "./documents";
+import workflowReducer from "./workflows";
 
 export default combineReducers({
     form: formReducer,
@@ -36,5 +37,6 @@ export default combineReducers({
     customFieldsState: customFieldsReducer,
     repFlyoutState: repFlyoutReducer,
     notesState: noteReducer,
-    documentsState: documentReducer
+    documentsState: documentReducer,
+    workflowState: workflowReducer
 });

@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasCustomFieldsTrait
 {
-    public function customFields()
+    public function customFields(): MorphMany
     {
         return $this->morphMany(CustomFieldValue::class, 'model');
     }

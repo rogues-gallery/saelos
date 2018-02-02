@@ -9,6 +9,7 @@ import * as AuthActions from './auth';
 import * as TeamActions from './teams';
 import * as UserActions from './users';
 import * as ReportActions from './reports';
+import * as WorkflowActions from './workflows';
 
 export const actionCreators = Object.assign({},
     AuthActions,
@@ -21,6 +22,7 @@ export const actionCreators = Object.assign({},
     StageActions,
     TeamActions,
     UserActions,
-    ReportActions
+    ReportActions,
+    WorkflowActions
 );
 

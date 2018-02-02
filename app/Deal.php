@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Contracts\HasCustomFieldsInterface;
+use App\Contracts\HasWorkflowsInterface;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,12 +19,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Deal extends Model
+class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface
 {
     use HasDocumentsTrait;
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
     use HasNotesTrait;
+    use HasWorkflowsTrait;
 
     protected $hidden = [
         'pivot',
