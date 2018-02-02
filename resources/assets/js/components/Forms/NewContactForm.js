@@ -28,6 +28,10 @@ class NewContactForm extends Component {
             if (contactCustomFieldIndex >= 0) {
                 contactState.custom_fields[contactCustomFieldIndex].value = value;
             } else {
+                if (typeof contactState.custom_fields !== 'object') {
+                    contactState.custom_fields = [];
+                }
+
                 contactState.custom_fields.push({
                     custom_field_id: customField.field_id,
                     value: value
@@ -45,7 +49,7 @@ class NewContactForm extends Component {
     }
 
     render() {
-        let customFields = customFieldsHelper({}, this.props.customFields, this._handleInputChange);
+        let customFields = customFieldsHelper(this.state.formState, this.props.customFields, this._handleInputChange);
 
         return (
             <form id="contact-details-form">

@@ -30,6 +30,10 @@ class NewAccountForm extends Component {
             if (accountCustomFieldIndex >= 0) {
                 accountState.custom_fields[accountCustomFieldIndex].value = value;
             } else {
+                if (typeof accountState.custom_fields !== 'object') {
+                    accountState.custom_fields = [];
+                }
+
                 accountState.custom_fields.push({
                     custom_field_id: customField.field_id,
                     value: value
@@ -47,7 +51,7 @@ class NewAccountForm extends Component {
     }
 
     render() {
-        let customFields = customFieldsHelper({}, this.props.customFields, this._handleInputChange);
+        let customFields = customFieldsHelper(this.state.formState, this.props.customFields, this._handleInputChange);
 
         return (
             <form id="account-details-form">

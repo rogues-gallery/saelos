@@ -31,6 +31,10 @@ class NewOpportunityForm extends Component {
             if (oppCustomFieldIndex >= 0) {
                 oppState.custom_fields[oppCustomFieldIndex].value = value;
             } else {
+                if (typeof oppState.custom_fields !== 'object') {
+                    oppState.custom_fields = [];
+                }
+
                 oppState.custom_fields.push({
                     custom_field_id: customField.field_id,
                     value: value

@@ -31,6 +31,10 @@ class NewRepForm extends Component {
             if (repCustomFieldIndex >= 0) {
                 repState.custom_fields[repCustomFieldIndex].value = value;
             } else {
+                if (typeof repState.custom_fields !== 'object') {
+                    repState.custom_fields = [];
+                }
+
                 repState.custom_fields.push({
                     custom_field_id: customField.field_id,
                     value: value
