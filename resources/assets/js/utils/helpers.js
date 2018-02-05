@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_PATH } from '../config/_entrypoint';
 import Select from 'react-select';
+import _ from 'lodash';
 
 export function itemToLinks(items) {
   return Array.isArray(items) ? items.map(item => createLink(item)) : createLink(items);
@@ -23,7 +24,7 @@ export function customFieldsHelper(object, fields, handleInputChange) {
     return Object.keys(fields).map((key, index) => {
         let thisField = fields[key];
         let input = '';
-        let thisValue = null;
+        let thisValue = thisField.default;
         let customField = _.find(object.custom_fields, (o) => o.custom_field_id === thisField.field_id);
 
         if (customField) {

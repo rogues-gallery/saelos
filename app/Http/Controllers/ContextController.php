@@ -57,6 +57,7 @@ class ContextController extends Controller
                     'is_custom' => true,
                     'type' => $customField->type,
                     'options' => $customField->values,
+                    'default' => $customField->default,
                 ];
             }
 
