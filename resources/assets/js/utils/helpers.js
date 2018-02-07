@@ -65,19 +65,9 @@ export function customFieldsHelper(object, fields, handleInputChange) {
                 break;
             case 'date':
                 input = <DatePicker
-                    dateValue={thisValue != null ? new Date(thisValue) : null}
-                    onChange={(day) => {
-                    let event = {
-                        target: {
-                            type: 'input',
-                            name: "custom_fields." + thisField.alias,
-                            value: day
-                        }
-                    };
-
-                    return handleInputChange(event);
-                }
-                } />;
+                    name={"custom_fields." + thisField.alias}
+                    value={thisValue != null ? new Date(thisValue) : null}
+                    onChange={handleInputChange} />;
                 break;
 
             case 'lookup':
