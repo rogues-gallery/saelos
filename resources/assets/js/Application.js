@@ -15,7 +15,7 @@ function configureStore(initialState) {
       return createStore(reducers, initialState, enhancer);
 }
 
-const store = configureStore({authState: {authenticated: true, user: {}}});
+const store = configureStore();
 
 store.dispatch(actionCreators.isUserAuthenticated());
 

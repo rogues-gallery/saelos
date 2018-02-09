@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import {customFieldsHelper} from "../../utils/helpers";
+import Select from 'react-select';
 
 class NewContactForm extends Component {
     constructor(props) {
@@ -51,9 +52,38 @@ class NewContactForm extends Component {
     render() {
         let customFields = customFieldsHelper(this.state.formState, this.props.customFields, this._handleInputChange);
 
+        let teamMembers = _.map(this.props.user.team.users, (member, index) => {
+            return {
+                value: member.id,
+                label: member.name
+            }
+        });
+
+        teamMembers.unshift({value:null, label: "Please select..."});
+
         return (
             <form id="contact-details-form">
                 <div className="panel-contact-details-column">
+                    <div className="input-container">
+                        <label>Assignee</label>
+                        <Select
+                            onChange={(input) => {
+                                let selected = input ? input.value : null;
+
+                                let event = {
+                                    target: {
+                                        type: 'select',
+                                        name: 'user_id',
+                                        value: selected
+                                    }
+                                };
+
+                                return this._handleInputChange(event);
+                            }}
+                            options={teamMembers}
+                        />
+                    </div>
+
                     <div className="input-container">
                         <label>Name</label>
                         <input type="text" name="first_name" placeholder="First Name" onChange={this._handleInputChange} />
@@ -107,13 +137,15 @@ NewContactForm.propTypes = {
     contact: PropTypes.object.isRequired,
     setFormState: PropTypes.func.isRequired,
     dataUpdated: PropTypes.bool.isRequired,
-    customFields: PropTypes.object.isRequired
+    customFields: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
 }
 
 export default connect((store) => {
     return {
         contact: store.contactFlyoutState.data,
         dataUpdated: store.contactFlyoutState.dataUpdated,
-        customFields: store.customFieldsState.contactFields
+        customFields: store.customFieldsState.contactFields,
+        user: store.authState.user
     }
 })(NewContactForm);

@@ -131,9 +131,39 @@ class EditContactForm extends Component {
             )
         });
 
+        let teamMembers = _.map(this.props.user.team.users, (member, index) => {
+            return {
+                value: member.id,
+                label: member.name
+            }
+        });
+
+        teamMembers.unshift({value:null, label: "Please select..."});
+
         return (
             <form id="contact-details-form">
                 <div className="panel-contact-details-column">
+                    <div className="input-container">
+                        <label>Assignee</label>
+                        <Select
+                            value={this.props.contact.user_id}
+                            onChange={(input) => {
+                                let selected = input ? input.value : null;
+
+                                let event = {
+                                    target: {
+                                        type: 'select',
+                                        name: 'user_id',
+                                        value: selected
+                                    }
+                                };
+
+                                return this._handleInputChange(event);
+                            }}
+                            options={teamMembers}
+                        />
+                    </div>
+
                     <div className="input-container">
                         <label>Name</label>
                         <input type="text" name="first_name" placeholder="First Name" defaultValue={this.props.contact.first_name} onChange={this._handleInputChange} />
@@ -209,7 +239,8 @@ EditContactForm.propTypes = {
     setFormState: PropTypes.func.isRequired,
     dataUpdated: PropTypes.bool.isRequired,
     customFields: PropTypes.object.isRequired,
-    companies: PropTypes.array.isRequired
+    companies: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired
 }
 
 export default connect((store) => {
@@ -217,6 +248,7 @@ export default connect((store) => {
         contact: store.contactFlyoutState.data,
         dataUpdated: store.contactFlyoutState.dataUpdated,
         customFields: store.customFieldsState.contactFields,
-        companies: store.accountState.data
+        companies: store.accountState.data,
+        user: store.authState.user
     }
 })(EditContactForm);

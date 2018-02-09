@@ -4,8 +4,10 @@ const INITIAL_STATE = {
     error: '',
     message: '',
     content: '',
-    authenticated: false,
-    user: {}
+    authenticated: true,
+    user: {
+        team: {}
+    }
 }
 
 export default function (state = INITIAL_STATE, action) {

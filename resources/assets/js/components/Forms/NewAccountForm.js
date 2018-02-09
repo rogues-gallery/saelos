@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import {customFieldsHelper} from "../../utils/helpers";
 import {connect} from "react-redux";
+import Select from 'react-select';
 
 let _ = require('lodash');
 
@@ -53,9 +54,39 @@ class NewAccountForm extends Component {
     render() {
         let customFields = customFieldsHelper(this.state.formState, this.props.customFields, this._handleInputChange);
 
+
+        let teamMembers = _.map(this.props.user.team.users, (member, index) => {
+            return {
+                value: member.id,
+                label: member.name
+            }
+        });
+
+        teamMembers.unshift({value:null, label: "Please select..."});
+
         return (
             <form id="account-details-form">
                 <div className="panel-account-details-column">
+                    <div className="input-container">
+                        <label>Assignee</label>
+                        <Select
+                            value={this.props.account.user_id}
+                            onChange={(input) => {
+                                let selected = input ? input.value : null;
+
+                                let event = {
+                                    target: {
+                                        type: 'select',
+                                        name: 'user_id',
+                                        value: selected
+                                    }
+                                };
+
+                                return this._handleInputChange(event);
+                            }}
+                            options={teamMembers}
+                        />
+                    </div>
                     <div className="input-container">
                         <label>Account name</label>
                         <input type="text" name="name" placeholder="Name" onChange={this._handleInputChange} />
@@ -96,13 +127,15 @@ NewAccountForm.propTypes = {
     account: PropTypes.object.isRequired,
     setFormState: PropTypes.func.isRequired,
     dataUpdated: PropTypes.bool.isRequired,
-    customFields: PropTypes.object.isRequired
+    customFields: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
 }
 
 export default connect((store) => {
     return {
         account: store.contactFlyoutState.data,
         dataUpdated: store.contactFlyoutState.dataUpdated,
-        customFields: store.customFieldsState.accountFields
+        customFields: store.customFieldsState.accountFields,
+        user: store.authState.user
     }
 })(NewAccountForm);
