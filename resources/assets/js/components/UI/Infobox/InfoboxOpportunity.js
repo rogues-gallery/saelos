@@ -38,7 +38,6 @@ class InfoboxOpportunity extends Component {
         let nextStep = 'Unknown';
 
         _.map(this.props.opportunity.custom_fields, (field) => {
-            console.log(field);
             if (field.custom_field_alias === 'next_step') {
                 nextStep = field.value;
             }
