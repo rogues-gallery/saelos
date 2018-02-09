@@ -9,7 +9,7 @@ import { withCookies, Cookies } from 'react-cookie';
 import reducers from './reducers';
 import { routes } from './routes';
 import { actionCreators } from "./actions";
-
+import throttle from 'lodash/throttle';
 import { loadState, saveState } from './localStorage';
 
 function configureStore(initialState) {
@@ -20,9 +20,9 @@ function configureStore(initialState) {
 const persistedState = loadState();
 const store = configureStore(persistedState);
 
-store.subscribe(() => {
+store.subscribe(throttle(() => {
     saveState(store.getState());
-});
+}, 1000));
 
 store.dispatch(actionCreators.isUserAuthenticated());
 
