@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { API_PATH } from '../config/_entrypoint';
 import Select from 'react-select';
+import 'react-day-picker/lib/style.css';
+import DatePicker from '../components/UI/DatePicker';
 import _ from 'lodash';
 
 export function itemToLinks(items) {
@@ -62,6 +64,13 @@ export function customFieldsHelper(object, fields, handleInputChange) {
                     options={options}
                 />
                 break;
+            case 'date':
+                input = <DatePicker
+                    name={"custom_fields." + thisField.alias}
+                    value={thisValue != null ? new Date(thisValue) : null}
+                    onChange={handleInputChange} />;
+                break;
+
             case 'lookup':
             case 'text':
             default:

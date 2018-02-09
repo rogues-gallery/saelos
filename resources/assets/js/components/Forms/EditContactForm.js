@@ -6,6 +6,7 @@ import { customFieldsHelper } from '../../utils/helpers';
 import * as types from "../../actions/types";
 import Select from 'react-select';
 import {actionCreators} from "../../actions";
+import DatePicker from "../UI/DatePicker";
 
 let _ = require('lodash');
 
@@ -150,7 +151,7 @@ class EditContactForm extends Component {
 
                     <div className="input-container">
                         <label>Date Created</label>
-                        <input type="text" name="created_at" placeholder="Date Created" defaultValue={this.props.contact.created_at} onChange={this._handleInputChange} />
+                        <DatePicker name="created_at" value={new Date(this.props.contact.created_at)} onChange={this._handleInputChange} />
                     </div>
 
                     <div className="input-container">

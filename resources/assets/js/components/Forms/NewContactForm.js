@@ -70,11 +70,6 @@ class NewContactForm extends Component {
                     </div>
 
                     <div className="input-container">
-                        <label>Date Created</label>
-                        <input type="text" name="created_at" placeholder="Date Created" onChange={this._handleInputChange} />
-                    </div>
-
-                    <div className="input-container">
                         <label>Position</label>
                         <input type="text" name="position" placeholder="Position" onChange={this._handleInputChange} />
                     </div>

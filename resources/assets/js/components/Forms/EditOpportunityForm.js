@@ -4,6 +4,7 @@ import Gravatar from 'react-gravatar';
 import {customFieldsHelper} from "../../utils/helpers";
 import {connect} from "react-redux";
 import Select from 'react-select';
+import DatePicker from '../../components/UI/DatePicker';
 
 let _ = require('lodash');
 
@@ -92,7 +93,7 @@ class EditOpportunityForm extends Component {
                     </div>
                     <div className="input-container">
                         <label>Expected Close</label>
-                        <input type="text" name="expected_close" placeholder="Expected Close" defaultValue={this.props.opportunity.expected_close} onChange={this._handleInputChange} />
+                        <DatePicker name="expected_close" value={new Date(this.props.opportunity.expected_close)} onChange={this._handleInputChange} />
                     </div>
                     <div className="input-container">
                         <label>Stage</label>

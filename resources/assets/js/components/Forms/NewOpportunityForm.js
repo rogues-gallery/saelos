@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {customFieldsHelper} from "../../utils/helpers";
 import {connect} from "react-redux";
 import Select from 'react-select';
+import DatePicker from '../../components/UI/DatePicker';
 
 let _ = require('lodash');
 
@@ -74,7 +75,7 @@ class NewOpportunityForm extends Component {
                     </div>
                     <div className="input-container">
                         <label>Expected Close</label>
-                        <input type="text" name="expected_close" placeholder="Expected Close" onChange={this._handleInputChange} />
+                        <DatePicker name="expected_close" onChange={this._handleInputChange} />
                     </div>
                     <div className="input-container">
                         <label>Stage</label>
