@@ -57,6 +57,7 @@
         "react-notifications": "^1.4.3",
         "react-select": "^1.2.1",
         "react-tooltip": "^3.4.0",
-        "react-twitter-typeahead": "^1.1.12"
+        "react-twitter-typeahead": "^1.1.12",
+        "redux-logger": "^3.0.6"
     }
 }

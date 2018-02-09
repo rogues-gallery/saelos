@@ -1,72 +1,66 @@
 import * as types from './types';
 import fetch from '../utils/fetch';
 
-export function fetchContacts(page = 1, query = {}) {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_CONTACTS,
-            search: query
+export const fetchContacts = (page = 1, query = {}) => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_CONTACTS,
+        search: query
+    });
+
+    let URL = '/people?page=' + page;
+
+    if (Object.keys(query).length) {
+        Object.keys(query).map((key) => {
+            URL = URL + '&' + key + '=' + query[key];
         });
-
-        let URL = '/people?page=' + page;
-
-        if (Object.keys(query).length) {
-            Object.keys(query).map((key) => {
-                URL = URL + '&' + key + '=' + query[key];
-            });
-        }
-
-        fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_CONTACTS_SUCCESS,
-                    data: response.data.data,
-                    dataFetched: true,
-                    pagination: response.data.meta
-                });
-            });
     }
-}
 
-export function fetchContact(id) {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_SINGLE_CONTACT
+    fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_CONTACTS_SUCCESS,
+                data: response.data.data,
+                dataFetched: true,
+                pagination: response.data.meta
+            });
         });
+};
 
-        let URL = '/people/' + id;
+export const fetchContact = (id) => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_SINGLE_CONTACT
+    });
 
-        fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_SINGLE_CONTACT_SUCCESS,
-                    data: response.data.data,
-                    dataFetched: true
-                });
+    let URL = '/people/' + id;
+
+    fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_SINGLE_CONTACT_SUCCESS,
+                data: response.data.data,
+                dataFetched: true
             });
-    }
-}
+        });
+};
 
-export function fetchContactCustomFields() {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_CONTACT_CUSTOM_FIELDS
-        })
+export const fetchContactCustomFields = () => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_CONTACT_CUSTOM_FIELDS
+    })
 
-        let URL = '/contexts/Person?customOnly=true';
+    let URL = '/contexts/Person?customOnly=true';
 
-        fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_CONTACT_CUSTOM_FIELDS_SUCCESS,
-                    data: response.data,
-                    dataFetched: true
-                })
+    fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_CONTACT_CUSTOM_FIELDS_SUCCESS,
+                data: response.data,
+                dataFetched: true
             })
-    }
+        });
 }
 
-export function postContact(data, dispatch) {
+export const postContact = (data) => (dispatch) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -98,9 +92,9 @@ export function postContact(data, dispatch) {
                 dataFetched: true
             })
         });
-}
+};
 
-export function emailContact(data) {
+export const emailContact = (data) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -116,11 +110,10 @@ export function emailContact(data) {
     fetch(URL, options)
         .then((response) => {
             // noop
-        })
-    ;
-}
+        });
+};
 
-export function callContact(data) {
+export const callContact = (data) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -138,9 +131,9 @@ export function callContact(data) {
         .then((response) => {
             // noop
         });
-}
+};
 
-export function addContactNote(data) {
+export const addContactNote = (data) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -156,11 +149,10 @@ export function addContactNote(data) {
     fetch(URL, options)
         .then((response) => {
             console.log(response);
-        })
-    ;
-}
+        });
+};
 
-export function removeContact(id) {
+export const removeContact = (id) => {
     let METHOD = 'DELETE';
     let URL = '/people/' + id;
 
@@ -172,5 +164,5 @@ export function removeContact(id) {
     fetch(URL, options)
         .then((response) => {
             console.log(response);
-        })
+        });
 }

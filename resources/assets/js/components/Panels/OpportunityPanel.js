@@ -29,7 +29,7 @@ class OpportunityPanel extends Component {
     }
 
     _handleFormSubmit() {
-        actionCreators.postOpportunity(this.state.formState, this.props.dispatch);
+        this.props.dispatch(actionCreators.postOpportunity(this.state.formState));
 
         this.setState({
             formState: {}

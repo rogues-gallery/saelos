@@ -28,7 +28,7 @@ class AccountPanel extends Component {
     }
 
     _handleFormSubmit() {
-        actionCreators.postAccount(this.state.formState, this.props.dispatch);
+        this.props.dispatch(actionCreators.postAccount(this.state.formState));
 
         this.setState({
             formState: {}

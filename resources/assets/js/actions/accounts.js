@@ -1,34 +1,32 @@
 import * as types from './types';
 import fetch from '../utils/fetch';
 
-export function fetchAccounts(page = 1, query = {}) {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_ACCOUNTS,
-            search: query
+export const fetchAccounts = (page = 1, query = {}) => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_ACCOUNTS,
+        search: query
+    });
+
+    let URL = '/companies?page=' + page;
+
+    if (Object.keys(query).length) {
+        Object.keys(query).map((key) => {
+            URL = URL + '&' + key + '=' + query[key];
         });
-
-        let URL = '/companies?page=' + page;
-
-        if (Object.keys(query).length) {
-            Object.keys(query).map((key) => {
-                URL = URL + '&' + key + '=' + query[key];
-            });
-        }
-
-        return fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_ACCOUNTS_SUCCESS,
-                    data: response.data.data,
-                    dataFetched: true,
-                    pagination: response.data.meta
-                });
-            });
     }
-}
 
-export function searchAccounts(query = {}) {
+    return fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_ACCOUNTS_SUCCESS,
+                data: response.data.data,
+                dataFetched: true,
+                pagination: response.data.meta
+            });
+        });
+};
+
+export const searchAccounts = (query = {}) => {
     let URL = '/companies?published=1';
 
     if (Object.keys(query).length) {
@@ -41,47 +39,43 @@ export function searchAccounts(query = {}) {
         .then((response) => {
             return response.data.data;
         });
-}
+};
 
-export function fetchAccount(id) {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_SINGLE_ACCOUNT
-        });
+export const fetchAccount = (id) => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_SINGLE_ACCOUNT
+    });
 
-        let URL = '/companies/' + id;
+    let URL = '/companies/' + id;
 
-        fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS,
-                    data: response.data.data,
-                    dataFetched: true
-                });
+    fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS,
+                data: response.data.data,
+                dataFetched: true
             });
-    }
-}
+        });
+};
 
-export function fetchAccountCustomFields() {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_ACCOUNT_CUSTOM_FIELDS
-        })
+export const fetchAccountCustomFields = () => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_ACCOUNT_CUSTOM_FIELDS
+    })
 
-        let URL = '/contexts/Company?customOnly=true';
+    let URL = '/contexts/Company?customOnly=true';
 
-        fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_ACCOUNT_CUSTOM_FIELDS_SUCCESS,
-                    data: response.data,
-                    dataFetched: true
-                })
+    fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_ACCOUNT_CUSTOM_FIELDS_SUCCESS,
+                data: response.data,
+                dataFetched: true
             })
-    }
-}
+        })
+};
 
-export function postAccount(data, dispatch) {
+export const postAccount = (data) => (dispatch) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -115,7 +109,7 @@ export function postAccount(data, dispatch) {
         });
 }
 
-export function addAccountNote(data) {
+export const addAccountNote = (data) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -131,6 +125,5 @@ export function addAccountNote(data) {
     fetch(URL, options)
         .then((response) => {
             console.log(response);
-        })
-    ;
+        });
 }

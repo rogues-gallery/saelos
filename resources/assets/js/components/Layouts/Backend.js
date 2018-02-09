@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-
-import ExamplePanel from '../Panels/ExamplePanel';
 import Footer from '../Helpers/Footer';
 import PageTitle from '../Helpers/PageTitle';
 import Sidebar from '../Helpers/Sidebar';
@@ -39,7 +37,6 @@ class Backend extends Component {
 
                     <Footer />
                 </div>
-                <ExamplePanel/>
                 <NotificationContainer />
                 <ContactPanel />
                 <OpportunityPanel />

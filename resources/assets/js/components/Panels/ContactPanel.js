@@ -31,7 +31,7 @@ class ContactPanel extends Component {
     }
 
     _handleFormSubmit() {
-        actionCreators.postContact(this.state.formState, this.props.dispatch);
+        this.props.dispatch(actionCreators.postContact(this.state.formState));
 
         this.setState({
             formState: this.state.contact

@@ -1,7 +1,7 @@
 import * as types from './types';
 import fetch from '../utils/fetch';
 
-export function postUser(data, dispatch) {
+export const postUser = (data) => (dispatch) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -33,23 +33,21 @@ export function postUser(data, dispatch) {
                 dataFetched: true
             })
         });
-}
+};
 
-export function fetchRepCustomFields() {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_REP_CUSTOM_FIELDS
-        })
+export const fetchRepCustomFields = () => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_REP_CUSTOM_FIELDS
+    })
 
-        let URL = '/contexts/User?customOnly=true';
+    let URL = '/contexts/User?customOnly=true';
 
-        fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_REP_CUSTOM_FIELDS_SUCCESS,
-                    data: response.data,
-                    dataFetched: true
-                })
+    fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_REP_CUSTOM_FIELDS_SUCCESS,
+                data: response.data,
+                dataFetched: true
             })
-    }
+        });
 }

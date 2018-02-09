@@ -1,72 +1,66 @@
 import * as types from './types';
 import fetch from '../utils/fetch';
 
-export function fetchOpportunities(page = 1, query = {}) {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_OPPORTUNITIES,
-            search: query
+export const fetchOpportunities = (page = 1, query = {}) => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_OPPORTUNITIES,
+        search: query
+    });
+
+    let URL = '/deals?page=' + page;
+
+    if (Object.keys(query).length) {
+        Object.keys(query).map((key) => {
+            URL = URL + '&' + key + '=' + query[key];
         });
-
-        let URL = '/deals?page=' + page;
-
-        if (Object.keys(query).length) {
-            Object.keys(query).map((key) => {
-                URL = URL + '&' + key + '=' + query[key];
-            });
-        }
-
-        fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_OPPORTUNITIES_SUCCESS,
-                    data: response.data.data,
-                    dataFetched: true,
-                    pagination: response.data.meta
-                });
-            });
     }
-}
 
-export function fetchOpportunity(id) {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_SINGLE_ACCOUNT
+    fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_OPPORTUNITIES_SUCCESS,
+                data: response.data.data,
+                dataFetched: true,
+                pagination: response.data.meta
+            });
         });
+};
 
-        let URL = '/deals/' + id;
+export const fetchOpportunity = (id) => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_SINGLE_ACCOUNT
+    });
 
-        fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS,
-                    data: response.data.data,
-                    dataFetched: true
-                });
+    let URL = '/deals/' + id;
+
+    fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS,
+                data: response.data.data,
+                dataFetched: true
             });
-    }
-}
+        });
+};
 
-export function fetchOpportunityCustomFields() {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_OPPORTUNITY_CUSTOM_FIELDS
-        })
+export const fetchOpportunityCustomFields = () => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_OPPORTUNITY_CUSTOM_FIELDS
+    })
 
-        let URL = '/contexts/Deal?customOnly=true';
+    let URL = '/contexts/Deal?customOnly=true';
 
-        fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_OPPORTUNITY_CUSTOM_FIELDS_SUCCESS,
-                    data: response.data,
-                    dataFetched: true
-                })
+    fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_OPPORTUNITY_CUSTOM_FIELDS_SUCCESS,
+                data: response.data,
+                dataFetched: true
             })
-    }
-}
+        })
+};
 
-export function postOpportunity(data, dispatch) {
+export const postOpportunity = (data) => (dispatch) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -98,9 +92,9 @@ export function postOpportunity(data, dispatch) {
                 dataFetched: true
             })
         });
-}
+};
 
-export function addOpportunityNote(data) {
+export const addOpportunityNote = (data) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -116,6 +110,5 @@ export function addOpportunityNote(data) {
     fetch(URL, options)
         .then((response) => {
             console.log(response);
-        })
-    ;
-}
+        });
+};

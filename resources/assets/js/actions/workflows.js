@@ -1,34 +1,32 @@
 import * as types from './types';
 import fetch from '../utils/fetch';
 
-export function fetchWorkflows(page = 1, query = {}) {
-    return (dispatch) => {
-        dispatch({
-            type: types.FETCHING_WORKFLOWS,
-            search: query
+export const fetchWorkflows = (page = 1, query = {}) => (dispatch) => {
+    dispatch({
+        type: types.FETCHING_WORKFLOWS,
+        search: query
+    });
+
+    let URL = '/workflows?page=' + page;
+
+    if (Object.keys(query).length) {
+        Object.keys(query).map((key) => {
+            URL = URL + '&' + key + '=' + query[key];
         });
-
-        let URL = '/workflows?page=' + page;
-
-        if (Object.keys(query).length) {
-            Object.keys(query).map((key) => {
-                URL = URL + '&' + key + '=' + query[key];
-            });
-        }
-
-        return fetch(URL)
-            .then((response) => {
-                dispatch({
-                    type: types.FETCHING_WORKFLOWS_SUCCESS,
-                    data: response.data.data,
-                    dataFetched: true,
-                    pagination: response.data.meta
-                });
-            });
     }
-}
 
-export function searchWorkflows(query = {}) {
+    return fetch(URL)
+        .then((response) => {
+            dispatch({
+                type: types.FETCHING_WORKFLOWS_SUCCESS,
+                data: response.data.data,
+                dataFetched: true,
+                pagination: response.data.meta
+            });
+        });
+};
+
+export const searchWorkflows = (query = {}) => {
     let URL = '/workflows?published=1';
 
     if (Object.keys(query).length) {
@@ -41,9 +39,9 @@ export function searchWorkflows(query = {}) {
         .then((response) => {
             return response.data.data;
         });
-}
+};
 
-export function postWorkflow(data, dispatch) {
+export const postWorkflow = (data) => (dispatch) => {
     if (typeof data === 'undefined' || Object.keys(data).length === 0) {
         return;
     }
@@ -75,4 +73,4 @@ export function postWorkflow(data, dispatch) {
                 dataFetched: true
             })
         });
-}
+};

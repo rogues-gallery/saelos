@@ -16,7 +16,9 @@ class HistoryPanel extends Component {
 
     render() {
         let history = this.props.activities ? this.props.activities.map((activity, index) => {
-            let recordUrl = activity.details.details.recordUrl ? <a href={activity.details.details.recordUrl} target="_blank">Listen to the call</a> : 'No recording available';
+            let recordUrl = activity.details ?
+                activity.details.details.recordUrl ? <a href={activity.details.details.recordUrl} target="_blank">Listen to the call</a> : 'No recording available' :
+                '';
 
             return <li key={index}>
                 <span className="line">&nbsp;</span>
