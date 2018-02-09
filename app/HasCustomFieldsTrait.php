@@ -46,6 +46,7 @@ trait HasCustomFieldsTrait
                 continue;
             }
 
+            $customFieldValue->custom_field_alias = $customField->alias;
             $customFieldValue->value = $field['value'];
             $customFieldValue->model()->associate($this);
 

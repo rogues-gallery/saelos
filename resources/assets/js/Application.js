@@ -10,12 +10,19 @@ import reducers from './reducers';
 import { routes } from './routes';
 import { actionCreators } from "./actions";
 
+import { loadState, saveState } from './localStorage';
+
 function configureStore(initialState) {
       const enhancer = compose(applyMiddleware(thunkMiddleware));
       return createStore(reducers, initialState, enhancer);
 }
 
-const store = configureStore();
+const persistedState = loadState();
+const store = configureStore(persistedState);
+
+store.subscribe(() => {
+    saveState(store.getState());
+});
 
 store.dispatch(actionCreators.isUserAuthenticated());
 

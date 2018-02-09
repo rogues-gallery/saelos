@@ -5,8 +5,15 @@ import { connect } from 'react-redux';
 import * as types from "../../../actions/types";
 import Gravatar from 'react-gravatar';
 import ReactTooltip from 'react-tooltip';
+import _ from 'lodash';
 
 class InfoboxOpportunity extends Component {
+    constructor(props) {
+        super(props);
+
+        this._getNextStep = this._getNextStep.bind(this);
+    }
+
     _togglePanelClass(data) {
         this.props.dispatch({
             type: types.FETCHING_OPPORTUNITY_FOR_FLYOUT_SUCCESS,
@@ -25,6 +32,19 @@ class InfoboxOpportunity extends Component {
 
         document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
         document.querySelector('body').classList.toggle('panel-open');
+    }
+
+    _getNextStep() {
+        let nextStep = 'Unknown';
+
+        _.map(this.props.opportunity.custom_fields, (field) => {
+            console.log(field);
+            if (field.custom_field_alias === 'next_step') {
+                nextStep = field.value;
+            }
+        });
+
+        return nextStep;
     }
 
     render() {
@@ -48,6 +68,8 @@ class InfoboxOpportunity extends Component {
             </li>
         }) : [];
 
+        let nextStep = this._getNextStep();
+
         return (
             <div className={itemClass}>
                 <div className="infobox-inner">
@@ -70,6 +92,7 @@ class InfoboxOpportunity extends Component {
                         </div>
                         <div>
                             <span>Next Step</span>
+                            <p>{nextStep}</p>
                         </div>
                     </div>
 
