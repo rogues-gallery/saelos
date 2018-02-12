@@ -1,51 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import PropTypes from 'prop-types';
-
 import { actionCreators } from '../../actions';
 import { InfoboxOpportunity } from "../UI/Infobox";
 import Loading from '../Helpers/Loading';
+import { getInitialPage, getPageCount } from "../../utils/helpers";
 
-class OpportunitiesList extends Component {
+const getResults = (opportunities) => {
+    return opportunities.map((opportunity) => {
+        return <InfoboxOpportunity key={opportunity.id} opportunity={opportunity} />
+    });
+};
 
-    constructor(props) {
-        super(props);
+const OpportunitiesList = ({dispatch, search, opportunities, pagination, isFetching}) => {
+    const navToPage = (page) => {
+        dispatch(actionCreators.fetchOpportunities(page.selected + 1, search));
+    };
 
-        this._navToPage = this._navToPage.bind(this)
-    }
-
-    _navToPage(page) {
-        this.props.dispatch(actionCreators.fetchOpportunities(page.selected + 1, this.props.search));
-    }
-
-    render() {
-        let results = this.props.opportunities.map((opportunity) => {
-            return <InfoboxOpportunity key={opportunity.id} opportunity={opportunity} />
-        });
-
-        let initialPage = 0;
-        let pageCount = 10;
-
-        if (this.props.pagination.hasOwnProperty('current_page')) {
-            initialPage = this.props.pagination.current_page - 1;
-        }
-
-        if (this.props.pagination.hasOwnProperty('last_page')) {
-            pageCount = this.props.pagination.last_page;
-        }
-
-        return (
-            this.props.isFetching && this.props.opportunities.length === 0 ? <Loading /> :
-            <div>
-                <div className="opportunities flex-row-even">
-                    {results}
-                </div>
-                <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
+    return (
+        isFetching && opportunities.length === 0 ? <Loading /> :
+        <div>
+            <div className="opportunities flex-row-even">
+                {getResults(opportunities)}
             </div>
-        );
-    }
-}
+            <ReactPaginate onPageChange={navToPage} initialPage={getInitialPage(pagination)} pageCount={getPageCount(pagination)} containerClassName="pagination" />
+        </div>
+    );
+};
 
 OpportunitiesList.propTypes = {
     dispatch: PropTypes.func,

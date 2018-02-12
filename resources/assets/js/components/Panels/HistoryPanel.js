@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { Panel } from '../UI/Panel';
 import PropTypes from "prop-types";
+import {togglePanel} from "../../utils/helpers";
 
 class HistoryPanel extends Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class HistoryPanel extends Component {
     }
 
     _togglePanelClass() {
-        document.getElementById(this.props.targetParentPanel).classList.toggle('history-panel-open');
+        togglePanel(this.props.targetParentPanel, 'history-panel-open');
     }
 
     render() {

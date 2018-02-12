@@ -10,6 +10,7 @@ import * as types from "../../actions/types";
 import NotePanel from './NotePanel';
 import HistoryPanel from './HistoryPanel';
 import DocumentPanel from './DocumentPanel';
+import { togglePanel, togglePreventContentScroll } from "../../utils/helpers";
 
 class AccountPanel extends Component {
     constructor(props) {
@@ -42,7 +43,7 @@ class AccountPanel extends Component {
     }
 
     _togglePanelClass() {
-        let exists = document.getElementById('account-panel-wrapper').classList.toggle('account-panel-open');
+        let exists = togglePanel('account-panel-wrapper', 'account-panel-open');
 
         if (!exists) {
             this.props.dispatch({
@@ -54,13 +55,13 @@ class AccountPanel extends Component {
         document.getElementById('account-panel-wrapper')
             .querySelectorAll('input').forEach((child) => { child.value = null; });
 
-        document.querySelector('body').classList.toggle('panel-open');
+        togglePreventContentScroll();
 
         this._handleFormSubmit();
     }
 
     _toggleHistoryClass() {
-        document.getElementById('account-panel-wrapper').classList.toggle('history-panel-open');
+        togglePanel('account-panel-wrapper', 'history-panel-open');
     }
 
     _toggleNoteClass() {
@@ -71,7 +72,7 @@ class AccountPanel extends Component {
             entityType: 'App\\Company'
         });
 
-        document.getElementById('account-panel-wrapper').classList.toggle('note-panel-open');
+        togglePanel('account-panel-wrapper', 'note-panel-open');
     }
 
     _toggleDocumentsClass() {
@@ -82,7 +83,7 @@ class AccountPanel extends Component {
             entityType: 'App\\Company'
         });
 
-        document.getElementById('account-panel-wrapper').classList.toggle('document-panel-open');
+        togglePanel('account-panel-wrapper', 'document-panel-open');
     }
 
     render() {

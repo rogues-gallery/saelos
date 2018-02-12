@@ -1,51 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-
 import { actionCreators } from '../../actions';
 import InfoboxAccount from "../UI/Infobox/InfoboxAccount";
 import Loading from '../Helpers/Loading';
+import {getInitialPage, getPageCount} from "../../utils/helpers";
 
-class AccountsList extends Component {
-    constructor(props) {
-        super(props);
+const getResults = (accounts) => {
+    return accounts.map((account) => {
+        return <InfoboxAccount key={account.id} account={account} />
+    });
+};
 
-        this._navToPage = this._navToPage.bind(this);
-    }
+const AccountsList = ({dispatch, search, accounts, isFetching, pagination}) => {
+    const navToPage = (page) => {
+        dispatch(actionCreators.fetchAccounts(page.selected + 1, search));
+    };
 
-    _navToPage(page) {
-        this.props.dispatch(actionCreators.fetchAccounts(page.selected + 1, this.props.search));
-    }
-
-    render() {
-        let results = this.props.accounts.map((account) => {
-            return <InfoboxAccount key={account.id} account={account} />
-        });
-
-        let initialPage = 0;
-        let pageCount = 10;
-
-        if (this.props.pagination.hasOwnProperty('current_page')) {
-            initialPage = this.props.pagination.current_page - 1;
-        }
-
-        if (this.props.pagination.hasOwnProperty('last_page')) {
-            pageCount = this.props.pagination.last_page;
-        }
-
-        return (
-            this.props.isFetching && this.props.accounts.length === 0 ? <Loading /> :
-            <div>
-                <div className="accounts flex-row-even">
-                    {results}
-                </div>
-
-                <ReactPaginate onPageChange={this._navToPage} initialPage={initialPage} pageCount={pageCount} containerClassName="pagination" />
+    return (
+        isFetching && accounts.length === 0 ? <Loading /> :
+        <div>
+            <div className="accounts flex-row-even">
+                {getResults(accounts)}
             </div>
-        )
-    }
-}
+
+            <ReactPaginate onPageChange={navToPage} initialPage={getInitialPage(pagination)} pageCount={getPageCount(pagination)} containerClassName="pagination" />
+        </div>
+    )
+};
 
 AccountsList.propTypes = {
     dispatch: PropTypes.func,
