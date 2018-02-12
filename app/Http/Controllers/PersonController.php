@@ -169,11 +169,12 @@ class PersonController extends Controller
     {
         $person = Person::findOrFail($id);
         $user = Auth::user();
+        $email = new Contact($request->get('emailContent'), $request->get('emailSubject'));
 
         Mail::to($person->email)
-            ->send(new Contact($request->get('emailContent'), $request->get('emailSubject')));
+            ->send($email);
 
-        ContactEmailed::dispatch($person, $user);
+        ContactEmailed::dispatch($person, $user, $email);
         \Auth::user()->notify(new PersonEmailed($person));
 
         return 1;
