@@ -6,6 +6,11 @@ let Echo = window.Echo;
 
 fetch('/authenticated', {forAuth: true})
     .then((response) => {
+        window.reduxStore.dispatch({
+            type: types.AUTH_USER,
+            data: response.data.status
+        });
+
         Echo.private(`App.User.${response.data.status.id}`)
             .notification((notification) => {
                 if (notification.manualDismiss) {
