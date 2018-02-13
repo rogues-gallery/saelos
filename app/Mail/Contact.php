@@ -16,14 +16,31 @@ class Contact extends Mailable
     private $emailSubject;
 
     /**
-     * Create a new message instance.
+     * Contact constructor.
      *
-     * @return void
+     * @param string $content
+     * @param string $subject
      */
-    public function __construct($content, $subject)
+    public function __construct(string $content, string $subject)
     {
         $this->emailContent = $content;
         $this->emailSubject = $subject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailSubject(): string
+    {
+        return $this->emailSubject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailContent(): string
+    {
+        return $this->emailContent;
     }
 
     /**
@@ -37,9 +54,9 @@ class Contact extends Mailable
 
         return $this->from($user->email, $user->name)
             ->view('emails.contact.default')
-            ->subject($this->emailSubject)
+            ->subject($this->getEmailSubject())
             ->with([
-                'content' => nl2br($this->emailContent),
+                'content' => nl2br($this->getEmailContent()),
             ]);
     }
 }

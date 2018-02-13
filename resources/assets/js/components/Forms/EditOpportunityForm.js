@@ -4,6 +4,7 @@ import Gravatar from 'react-gravatar';
 import {customFieldsHelper} from "../../utils/helpers";
 import {connect} from "react-redux";
 import Select from 'react-select';
+import DatePicker from '../../components/UI/DatePicker';
 
 let _ = require('lodash');
 
@@ -69,9 +70,38 @@ class EditOpportunityForm extends Component {
 
         stageOptions.unshift({value:null, label: "Please select..."});
 
+        let teamMembers = _.map(this.props.user.team.users, (member, index) => {
+            return {
+                value: member.id,
+                label: member.name
+            }
+        });
+
+        teamMembers.unshift({value:null, label: "Please select..."});
+
         return (
             <form id="opportunity-details-form">
                 <div className="panel-opportunity-details-column">
+                    <div className="input-container">
+                        <label>Assignee</label>
+                        <Select
+                            value={this.props.opportunity.user_id}
+                            onChange={(input) => {
+                                let selected = input ? input.value : null;
+
+                                let event = {
+                                    target: {
+                                        type: 'select',
+                                        name: 'user_id',
+                                        value: selected
+                                    }
+                                };
+
+                                return this._handleInputChange(event);
+                            }}
+                            options={teamMembers}
+                        />
+                    </div>
                     <div className="input-container">
                         <label>Opportunity name</label>
                         <input type="text" name="name" placeholder="Name" defaultValue={this.props.opportunity.name} onChange={this._handleInputChange} />
@@ -92,7 +122,7 @@ class EditOpportunityForm extends Component {
                     </div>
                     <div className="input-container">
                         <label>Expected Close</label>
-                        <input type="text" name="expected_close" placeholder="Expected Close" defaultValue={this.props.opportunity.expected_close} onChange={this._handleInputChange} />
+                        <DatePicker name="expected_close" value={new Date(this.props.opportunity.expected_close)} onChange={this._handleInputChange} />
                     </div>
                     <div className="input-container">
                         <label>Stage</label>
@@ -138,6 +168,7 @@ EditOpportunityForm.propTypes = {
     dataUpdated: PropTypes.bool.isRequired,
     customFields: PropTypes.object.isRequired,
     stages: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired
 }
 
 export default connect((store) => {
@@ -145,6 +176,7 @@ export default connect((store) => {
         opportunity: store.opportunityFlyoutState.data,
         dataUpdated: store.opportunityFlyoutState.dataUpdated,
         customFields: store.customFieldsState.opportunityFields,
-        stages: store.stageState.data
+        stages: store.stageState.data,
+        user: store.authState.user
     }
 })(EditOpportunityForm);

@@ -32,6 +32,7 @@ class ContactSubscriber
     {
         $person = $event->getPerson();
         $user = $event->getUser();
+        $email = $event->getEmail();
 
         $activity = new Activity();
         $activity->title = 'Email sent.';
@@ -43,7 +44,7 @@ class ContactSubscriber
         );
 
         $details = new EmailActivity();
-        $details->content = '';
+        $details->content = $email->getEmailContent();
         $details->details = json_encode([]);
 
         $details->save();

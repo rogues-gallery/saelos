@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import * as types from '../../actions/types';
 
+import _ from 'lodash';
+
 class Report extends Component {
     constructor(props) {
         super(props);
@@ -141,7 +143,8 @@ class ReportItem extends Component {
     render() {
         let cells = this.props.columns.map((column, index) => {
             if (/custom_fields/.test(column)) {
-                column = column + '.value';
+                let customFieldIndex = _.findIndex(this.props.item.custom_fields, (f) => 'custom_fields.' + f.custom_field_alias === column);
+                column = 'custom_fields.' + customFieldIndex + '.value';
             }
 
             let cellValue = _.get(this.props.item, column);

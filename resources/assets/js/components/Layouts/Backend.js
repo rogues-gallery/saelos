@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-
-import ExamplePanel from '../Panels/ExamplePanel';
 import Footer from '../Helpers/Footer';
 import PageTitle from '../Helpers/PageTitle';
 import Sidebar from '../Helpers/Sidebar';
@@ -21,7 +19,6 @@ class Backend extends Component {
         this.props.dispatch(actionCreators.fetchOpportunityCustomFields());
         this.props.dispatch(actionCreators.fetchAccountCustomFields());
         this.props.dispatch(actionCreators.fetchRepCustomFields());
-        this.props.dispatch(actionCreators.fetchStages());
     }
 
     render() {
@@ -39,7 +36,6 @@ class Backend extends Component {
 
                     <Footer />
                 </div>
-                <ExamplePanel/>
                 <NotificationContainer />
                 <ContactPanel />
                 <OpportunityPanel />

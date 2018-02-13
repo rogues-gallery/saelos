@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Mail\Contact;
 use App\Person;
 use App\User;
 use Illuminate\Broadcasting\Channel;
@@ -27,15 +28,22 @@ class ContactEmailed implements ShouldBroadcast
     private $user;
 
     /**
+     * @var Contact
+     */
+    private $email;
+
+    /**
      * ContactEmailed constructor.
      *
      * @param Person $person
      * @param User   $user
+     * @param Contact $email
      */
-    public function __construct(Person $person, User $user)
+    public function __construct(Person $person, User $user, Contact $email)
     {
         $this->person = $person;
         $this->user = $user;
+        $this->email = $email;
     }
 
     /**
@@ -52,6 +60,14 @@ class ContactEmailed implements ShouldBroadcast
     public function getUser(): User
     {
         return $this->user;
+    }
+
+    /**
+     * @return Contact
+     */
+    public function getEmail(): Contact
+    {
+        return $this->email;
     }
 
     /**

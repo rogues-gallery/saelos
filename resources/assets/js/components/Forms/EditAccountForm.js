@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Money } from 'react-format';
 import {customFieldsHelper} from "../../utils/helpers";
 import { connect } from 'react-redux';
+import Select from 'react-select';
 
 let _ = require('lodash');
 
@@ -51,9 +52,39 @@ class EditAccountForm extends Component {
         let customFields = customFieldsHelper(this.props.account, this.props.customFields, this._handleInputChange);
         let totalValue = _.sum(_.map(this.props.account.deals, 'amount'));
 
+        let teamMembers = _.map(this.props.user.team.users, (member, index) => {
+            return {
+                value: member.id,
+                label: member.name
+            }
+        });
+
+        teamMembers.unshift({value:null, label: "Please select..."});
+
         return (
             <form id="account-details-form">
                 <div className="panel-account-details-column">
+                    <div className="input-container">
+                        <label>Assignee</label>
+                        <Select
+                            value={this.props.account.user_id}
+                            onChange={(input) => {
+                                let selected = input ? input.value : null;
+
+                                let event = {
+                                    target: {
+                                        type: 'select',
+                                        name: 'user_id',
+                                        value: selected
+                                    }
+                                };
+
+                                return this._handleInputChange(event);
+                            }}
+                            options={teamMembers}
+                        />
+                    </div>
+
                     <div className="input-container">
                         <label>Account name</label>
                         <input type="text" name="name" placeholder="Name" defaultValue={this.props.account.name} onChange={this._handleInputChange} />
@@ -97,13 +128,15 @@ class EditAccountForm extends Component {
 EditAccountForm.propTypes = {
     account: PropTypes.object.isRequired,
     setFormState: PropTypes.func.isRequired,
-    customFields: PropTypes.object.isRequired
+    customFields: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
 }
 
 export default connect((store) => {
     return {
         account: store.accountFlyoutState.data,
         dataUpdated: store.accountFlyoutState.dataUpdated,
-        customFields: store.customFieldsState.accountFields
+        customFields: store.customFieldsState.accountFields,
+        user: store.authState.user
     }
 })(EditAccountForm);

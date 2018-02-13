@@ -52,7 +52,7 @@ class Report extends Model
                 break;
         }
 
-        $items->where(function($q) use ($customInId, $customInRaw) {
+        $items->where(function(Builder $q) use ($customInId, $customInRaw) {
             foreach ($this->filters as $field => $details) {
                 if (strpos($field, '.') !== false) {
                     list($relation, $col) = explode('.', $field);
@@ -106,6 +106,12 @@ class Report extends Model
                         break;
                     case 'between':
                         $q->whereBetween($field, $details['filter']);
+                        break;
+                    case 'in':
+                        $q->whereIn($field, $details['filter']);
+                        break;
+                    case '!in':
+                        $q->whereNotIn($field, $details['filter']);
                         break;
                     default:
                         $q->where($field, $details['operator'], $details['filter']);

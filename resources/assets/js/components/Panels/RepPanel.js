@@ -29,7 +29,7 @@ class RepPanel extends Component {
     }
 
     _handleFormSubmit() {
-        actionCreators.postUser(this.state.formState, this.props.dispatch);
+        this.props.dispatch(actionCreators.postUser(this.state.formState));
 
         this.setState({
             formState: {}
