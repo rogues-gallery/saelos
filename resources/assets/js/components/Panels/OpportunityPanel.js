@@ -10,7 +10,7 @@ import * as types from "../../actions/types";
 import HistoryPanel from './HistoryPanel';
 import NotePanel from './NotePanel';
 import DocumentPanel from './DocumentPanel';
-import {togglePanel, togglePreventContentScroll} from "../../utils/helpers";
+import {togglePanelById, togglePreventContentScroll} from "../../utils/helpers";
 
 class OpportunityPanel extends Component {
     constructor(props) {
@@ -44,7 +44,7 @@ class OpportunityPanel extends Component {
     }
 
     _toggleBodyClass() {
-        let exists = togglePanel('opportunity-panel-wrapper', 'opportunity-panel-open');
+        let exists = togglePanelById('opportunity-panel-wrapper', 'opportunity-panel-open');
 
         if (!exists) {
             this.props.dispatch({
@@ -67,7 +67,7 @@ class OpportunityPanel extends Component {
     }
 
     _toggleHistoryClass() {
-        togglePanel('opportunity-panel-wrapper', 'history-panel-open');
+        togglePanelById('opportunity-panel-wrapper', 'history-panel-open');
     }
 
     _toggleNoteClass() {
@@ -78,7 +78,7 @@ class OpportunityPanel extends Component {
             entityType: 'App\\Deal'
         });
 
-        togglePanel('opportunity-panel-wrapper', 'note-panel-open');
+        togglePanelById('opportunity-panel-wrapper', 'note-panel-open');
     }
 
     _toggleDocumentsClass() {
@@ -89,7 +89,7 @@ class OpportunityPanel extends Component {
             entityType: 'App\\Deal'
         });
 
-        togglePanel('opportunity-panel-wrapper', 'document-panel-open');
+        togglePanelById('opportunity-panel-wrapper', 'document-panel-open');
     }
 
     render() {

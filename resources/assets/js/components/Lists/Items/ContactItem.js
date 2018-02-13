@@ -1,5 +1,5 @@
 import React from 'react';
-import {togglePanel, togglePreventContentScroll} from "../../../utils/helpers";
+import {togglePanelById, togglePreventContentScroll} from "../../../utils/helpers";
 import PropTypes from "prop-types";
 import * as types from "../../../actions/types";
 import Progress from '../../UI/Progress';
@@ -14,7 +14,7 @@ export const ContactItem = ({dispatch, user, contact}) => {
             data: contact
         });
 
-        togglePanel('contact-panel-wrapper', 'contact-panel-open');
+        togglePanelById('contact-panel-wrapper', 'contact-panel-open');
         togglePreventContentScroll();
     };
 

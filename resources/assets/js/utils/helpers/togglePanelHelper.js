@@ -1,12 +1,23 @@
 /**
- * Toggle panel visibility.
+ * Toggle panel visibility by ID.
  *
- * @param wrapperClass
+ * @param identificator
  * @param panelClass
  * @returns {boolean}
  */
-export const togglePanel = (wrapperClass, panelClass) => {
-    return document.getElementById(wrapperClass).classList.toggle(panelClass);
+export const togglePanelById = (identificator, panelClass) => {
+    return document.getElementById(identificator).classList.toggle(panelClass);
+};
+
+/**
+ * Toggle panel visibility by classname.
+ *
+ * @param classname
+ * @param panelClass
+ * @returns {boolean}
+ */
+export const togglePanelByClass = (classname, panelClass) => {
+    return document.querySelector(classname).classList.toggle(panelClass);
 };
 
 /**

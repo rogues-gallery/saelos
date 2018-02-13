@@ -11,7 +11,7 @@ import HistoryPanel from './HistoryPanel';
 import Gravatar from 'react-gravatar';
 import PropTypes from 'prop-types';
 import * as types from '../../actions/types';
-import { togglePanel, togglePreventContentScroll } from "../../utils/helpers";
+import { togglePanelById, togglePreventContentScroll } from "../../utils/helpers";
 
 let _ = require('lodash');
 
@@ -46,7 +46,7 @@ class ContactPanel extends Component {
     }
 
     _toggleBodyClass() {
-        let exists = togglePanel('contact-panel-wrapper', 'contact-panel-open');
+        let exists = togglePanelById('contact-panel-wrapper', 'contact-panel-open');
 
         if (!exists) {
             this.props.dispatch({
@@ -64,7 +64,7 @@ class ContactPanel extends Component {
     }
 
     _toggleContactClass() {
-        togglePanel('contact-panel-wrapper', 'contact-contact-panel-open');
+        togglePanelById('contact-panel-wrapper', 'contact-contact-panel-open');
     }
 
     _toggleNoteClass() {
@@ -75,11 +75,11 @@ class ContactPanel extends Component {
             entityType: 'App\\Person'
         });
 
-        togglePanel('contact-panel-wrapper', 'note-panel-open');
+        togglePanelById('contact-panel-wrapper', 'note-panel-open');
     }
 
     _toggleHistoryClass() {
-        togglePanel('contact-panel-wrapper', 'history-panel-open');
+        togglePanelById('contact-panel-wrapper', 'history-panel-open');
     }
 
     render() {

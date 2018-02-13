@@ -10,7 +10,7 @@ import * as types from "../../actions/types";
 import NotePanel from './NotePanel';
 import HistoryPanel from './HistoryPanel';
 import DocumentPanel from './DocumentPanel';
-import { togglePanel, togglePreventContentScroll } from "../../utils/helpers";
+import { togglePanelById, togglePreventContentScroll } from "../../utils/helpers";
 
 class AccountPanel extends Component {
     constructor(props) {
@@ -43,7 +43,7 @@ class AccountPanel extends Component {
     }
 
     _togglePanelClass() {
-        let exists = togglePanel('account-panel-wrapper', 'account-panel-open');
+        let exists = togglePanelById('account-panel-wrapper', 'account-panel-open');
 
         if (!exists) {
             this.props.dispatch({
@@ -61,7 +61,7 @@ class AccountPanel extends Component {
     }
 
     _toggleHistoryClass() {
-        togglePanel('account-panel-wrapper', 'history-panel-open');
+        togglePanelById('account-panel-wrapper', 'history-panel-open');
     }
 
     _toggleNoteClass() {
@@ -72,7 +72,7 @@ class AccountPanel extends Component {
             entityType: 'App\\Company'
         });
 
-        togglePanel('account-panel-wrapper', 'note-panel-open');
+        togglePanelById('account-panel-wrapper', 'note-panel-open');
     }
 
     _toggleDocumentsClass() {
@@ -83,7 +83,7 @@ class AccountPanel extends Component {
             entityType: 'App\\Company'
         });
 
-        togglePanel('account-panel-wrapper', 'document-panel-open');
+        togglePanelById('account-panel-wrapper', 'document-panel-open');
     }
 
     render() {

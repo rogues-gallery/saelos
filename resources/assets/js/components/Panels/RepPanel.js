@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import { actionCreators } from "../../actions";
 import Gravatar from 'react-gravatar';
 import PropTypes from "prop-types";
-import {customFieldsHelper, togglePanel, togglePreventContentScroll} from "../../utils/helpers";
+import {customFieldsHelper, togglePanelById, togglePreventContentScroll} from "../../utils/helpers";
 import * as types from "../../actions/types";
 import EditRepForm from '../Forms/EditRepForm';
 import NewRepForm from '../Forms/NewRepForm';
@@ -43,7 +43,7 @@ class RepPanel extends Component {
     }
 
     _togglePanelClass() {
-        let exists = togglePanel('rep-panel-wrapper', 'rep-panel-open');
+        let exists = togglePanelById('rep-panel-wrapper', 'rep-panel-open');
 
         if (!exists) {
             this.props.dispatch({
@@ -57,15 +57,15 @@ class RepPanel extends Component {
     }
 
     _toggleContactClass() {
-        togglePanel('rep-panel-wrapper', 'rep-contact-panel-open');
+        togglePanelById('rep-panel-wrapper', 'rep-contact-panel-open');
     }
 
     _toggleNoteClass() {
-        togglePanel('rep-panel-wrapper', 'rep-note-panel-open');
+        togglePanelById('rep-panel-wrapper', 'rep-note-panel-open');
     }
 
     _toggleHistoryClass() {
-        togglePanel('rep-panel-wrapper', 'rep-history-panel-open');
+        togglePanelById('rep-panel-wrapper', 'rep-history-panel-open');
     }
 
     render() {

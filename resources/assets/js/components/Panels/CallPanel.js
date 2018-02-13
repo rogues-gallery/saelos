@@ -2,11 +2,11 @@ import React from 'react';
 import { Panel } from '../UI/Panel';
 import Box from "../UI/Box";
 import CallChart from "../Charts/Headquarters/CallChart";
-import { togglePanel } from '../../utils/helpers';
+import { togglePanelByClass } from '../../utils/helpers';
 
 const CallPanel = () => {
     const togglePanelClass = () => {
-        togglePanel('div.my-vector', 'call-panel-open');
+        togglePanelByClass('div.my-vector', 'call-panel-open');
     };
 
     return (

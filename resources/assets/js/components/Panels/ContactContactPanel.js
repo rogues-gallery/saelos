@@ -6,7 +6,7 @@ import { TabbedArea, TabPane } from '../UI/Tab';
 import fetch from '../../utils/fetch';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { togglePanel } from "../../utils/helpers";
+import { togglePanelById } from "../../utils/helpers";
 
 
 class ContactContactPanel extends Component {
@@ -18,7 +18,7 @@ class ContactContactPanel extends Component {
     }
 
     _togglePanelClass() {
-        togglePanel('contact-panel-wrapper', 'contact-contact-panel-open');
+        togglePanelById('contact-panel-wrapper', 'contact-contact-panel-open');
     }
 
     _initPhoneCall() {

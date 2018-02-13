@@ -7,7 +7,7 @@ import { actionCreators } from '../../actions';
 import Filter from '../Helpers/Filter';
 import * as types from "../../actions/types";
 import AccountsList from '../Lists/AccountsList';
-import { togglePanel, togglePreventContentScroll } from '../../utils/helpers';
+import { togglePanelById, togglePreventContentScroll } from '../../utils/helpers';
 
 class Accounts extends Component {
 
@@ -18,7 +18,7 @@ class Accounts extends Component {
     }
 
     _toggleNewPanel() {
-        togglePanel('account-panel-wrapper', 'account-panel-open');
+        togglePanelById('account-panel-wrapper', 'account-panel-open');
         togglePreventContentScroll();
 
         // Set the form state for a new contact
