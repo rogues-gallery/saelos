@@ -11,6 +11,7 @@ import HistoryPanel from './HistoryPanel';
 import Gravatar from 'react-gravatar';
 import PropTypes from 'prop-types';
 import * as types from '../../actions/types';
+import { togglePanelById, togglePreventContentScroll } from "../../utils/helpers";
 
 let _ = require('lodash');
 
@@ -45,7 +46,7 @@ class ContactPanel extends Component {
     }
 
     _toggleBodyClass() {
-        let exists = document.getElementById('contact-panel-wrapper').classList.toggle('contact-panel-open');
+        let exists = togglePanelById('contact-panel-wrapper', 'contact-panel-open');
 
         if (!exists) {
             this.props.dispatch({
@@ -57,13 +58,13 @@ class ContactPanel extends Component {
         document.getElementById('contact-panel-wrapper')
             .querySelectorAll('input').forEach((child) => { child.value = null; });
 
-        document.querySelector('body').classList.toggle('panel-open');
+        togglePreventContentScroll();
 
         this._handleFormSubmit();
     }
 
     _toggleContactClass() {
-        document.getElementById('contact-panel-wrapper').classList.toggle('contact-contact-panel-open');
+        togglePanelById('contact-panel-wrapper', 'contact-contact-panel-open');
     }
 
     _toggleNoteClass() {
@@ -74,11 +75,11 @@ class ContactPanel extends Component {
             entityType: 'App\\Person'
         });
 
-        document.getElementById('contact-panel-wrapper').classList.toggle('note-panel-open');
+        togglePanelById('contact-panel-wrapper', 'note-panel-open');
     }
 
     _toggleHistoryClass() {
-        document.getElementById('contact-panel-wrapper').classList.toggle('history-panel-open');
+        togglePanelById('contact-panel-wrapper', 'history-panel-open');
     }
 
     render() {
