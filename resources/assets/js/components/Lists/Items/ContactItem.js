@@ -40,7 +40,7 @@ export const ContactItem = ({dispatch, user, contact}) => {
     };
 
     return (
-        <tr className={'contact-row-' + this.props.contact.id}>
+        <tr className={'contact-row-' + contact.id}>
             <td className="min-width">
                 <div className="avatar" onClick={toggleBodyClass}>
                     <Gravatar email={contact.email} size={44} />

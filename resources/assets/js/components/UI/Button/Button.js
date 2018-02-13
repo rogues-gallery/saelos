@@ -1,19 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-export default class Button extends Component {
-    render() {
-        return(
-            <NavLink to={this.props.to ? this.props.to : ''} className={this.props.classes ? this.props.classes + ' button' : 'button'}>
-                {this.props.children}
-            </NavLink>
-        )
-    }
-}
+const Button = ({to, classes, children}) => (
+    <NavLink to={to ? to : ''} className={classes ? classes + ' button' : 'button'}>
+        {children}
+    </NavLink>
+);
 
 Button.propTypes = {
     to: PropTypes.string,
     classes: PropTypes.string,
     children: PropTypes.node.isRequired
 };
+
+export default Button;

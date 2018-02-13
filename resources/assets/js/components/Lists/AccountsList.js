@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { actionCreators } from '../../actions';
 import InfoboxAccount from "../UI/Infobox/InfoboxAccount";
 import Loading from '../Helpers/Loading';
-import {getInitialPage, getPageCount} from "../../utils/helpers";
+import { getPageNumber, getPageCount } from "../../utils/helpers";
 
 const getResults = (accounts) => {
     return accounts.map((account) => {
@@ -25,7 +25,7 @@ const AccountsList = ({dispatch, search, accounts, isFetching, pagination}) => {
                 {getResults(accounts)}
             </div>
 
-            <ReactPaginate onPageChange={navToPage} initialPage={getInitialPage(pagination)} pageCount={getPageCount(pagination)} containerClassName="pagination" />
+            <ReactPaginate onPageChange={navToPage} initialPage={getPageNumber(pagination)} pageCount={getPageCount(pagination)} containerClassName="pagination" />
         </div>
     )
 };

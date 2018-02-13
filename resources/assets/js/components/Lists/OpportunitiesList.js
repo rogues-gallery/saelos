@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { actionCreators } from '../../actions';
 import { InfoboxOpportunity } from "../UI/Infobox";
 import Loading from '../Helpers/Loading';
-import { getInitialPage, getPageCount } from "../../utils/helpers";
+import { getPageNumber, getPageCount } from "../../utils/helpers";
 
 const getResults = (opportunities) => {
     return opportunities.map((opportunity) => {
@@ -24,7 +24,7 @@ const OpportunitiesList = ({dispatch, search, opportunities, pagination, isFetch
             <div className="opportunities flex-row-even">
                 {getResults(opportunities)}
             </div>
-            <ReactPaginate onPageChange={navToPage} initialPage={getInitialPage(pagination)} pageCount={getPageCount(pagination)} containerClassName="pagination" />
+            <ReactPaginate onPageChange={navToPage} initialPage={getPageNumber(pagination)} pageCount={getPageCount(pagination)} containerClassName="pagination" />
         </div>
     );
 };

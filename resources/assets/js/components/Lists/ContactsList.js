@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 import { actionCreators } from "../../actions";
 import Loading from '../Helpers/Loading';
-import { getInitialPage, getPageCount } from "../../utils/helpers";
+import { getPageNumber, getPageCount } from "../../utils/helpers";
 import { ContactItem } from './Items/ContactItem';
 
 const ContactsList = ({dispatch, search, contacts, user, isFetching, pagination}) => {
@@ -34,7 +34,7 @@ const ContactsList = ({dispatch, search, contacts, user, isFetching, pagination}
                 <tbody>{getResults()}</tbody>
             </table>
 
-            <ReactPaginate onPageChange={navToPage} initialPage={getInitialPage(pagination)} pageCount={getPageCount(pagination)} containerClassName="pagination" />
+            <ReactPaginate onPageChange={navToPage} initialPage={getPageNumber(pagination)} pageCount={getPageCount(pagination)} containerClassName="pagination" />
         </div>
     )
 };

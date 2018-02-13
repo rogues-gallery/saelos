@@ -9,7 +9,7 @@ import registerServiceWorker from './registerServiceWorker';
 render(
     <App />,
     document.getElementById('root')
-)
+);
 
 registerServiceWorker();
 

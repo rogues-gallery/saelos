@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { API_PATH } from '../../config/_entrypoint';
 import Select from 'react-select';
 import 'react-day-picker/lib/style.css';
-import DatePicker from '../components/UI/DatePicker';
+import DatePicker from '../../components/UI/DatePicker';
 import _ from 'lodash';
 
 export function itemToLinks(items) {
