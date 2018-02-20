@@ -5,47 +5,33 @@ import { formatDate, parseDate } from "react-day-picker/moment";
 import 'react-day-picker/lib/style.css';
 import moment from "moment/moment";
 
-export default
-class DatePicker extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this._onChange = this._onChange.bind(this);
-    }
-
-    _onChange(day) {
+const DatePicker = ({value, defaultValue, onChange, name}) => {
+    const pickerOnChange = (day) => {
         let event = {
             target: {
                 type: 'input',
-                name: this.props.name,
+                name: name,
                 value: moment(day).format('YYYY-MM-DD')
             }
         };
 
-        return this.props.onChange(event);
-    }
+        return onChange(event);
+    };
 
-    render() {
-        if (this.props.defaultValue === null) {
-            this.props.defaultValue = '';
-        }
-
-        return (
-            <DayPickerInput
-                formatDate={formatDate}
-                parseDate={parseDate}
-                value={this.props.value != null ? this.props.value : this.props.defaultValue}
-                format="YYYY-MM-DD"
-                onDayChange={this._onChange}
-                placeholder="YYYY-MM-DD"
-                inputProps={{
-                    name: this.props.name
-                }}
-            />
-        )
-    }
-}
+    return (
+        <DayPickerInput
+            formatDate={formatDate}
+            parseDate={parseDate}
+            value={value !== null ? value : (defaultValue === null ? '' : defaultValue)}
+            format="YYYY-MM-DD"
+            onDayChange={pickerOnChange}
+            placeholder="YYYY-MM-DD"
+            inputProps={{
+                name: name
+            }}
+        />
+    );
+};
 
 DatePicker.propTypes = {
     value: PropTypes.object,
@@ -53,3 +39,5 @@ DatePicker.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string
 };
+
+export default DatePicker;

@@ -5,6 +5,7 @@ import Progress from "../UI/Progress";
 import PropTypes from 'prop-types';
 import * as types from '../../actions/types';
 import { MentionWrapper, MentionMenu } from 'react-githubish-mentions';
+import {togglePanelById} from "../../utils/helpers";
 
 let nl2br = require('react-nl2br');
 
@@ -17,7 +18,7 @@ class NotePanel extends Component {
     }
 
     _togglePanelClass() {
-        document.getElementById(this.props.targetParentPanel).classList.toggle('note-panel-open');
+        togglePanelById(this.props.targetParentPanel, 'note-panel-open');
 
         this.props.dispatch({
             type: types.CLEAR_NOTES_FOR_FLYOUT

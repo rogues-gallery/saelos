@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 import Dropzone from 'react-dropzone';
 import Progress from "../UI/Progress";
 import fetch, { uploadFile } from "../../utils/fetch";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+import { togglePanelById } from "../../utils/helpers";
 
 class DocumentPanel extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class DocumentPanel extends Component {
     }
 
     _togglePanelClass() {
-        document.getElementById(this.props.targetParentPanel).classList.toggle('document-panel-open');
+        togglePanelById(this.props.targetParentPanel, 'document-panel-open');
     }
 
     _onDrop(acceptedFiles, rejectedFiles) {

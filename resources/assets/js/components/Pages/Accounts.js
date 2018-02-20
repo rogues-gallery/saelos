@@ -7,6 +7,7 @@ import { actionCreators } from '../../actions';
 import Filter from '../Helpers/Filter';
 import * as types from "../../actions/types";
 import AccountsList from '../Lists/AccountsList';
+import { togglePanelById, togglePreventContentScroll } from '../../utils/helpers';
 
 class Accounts extends Component {
 
@@ -17,8 +18,8 @@ class Accounts extends Component {
     }
 
     _toggleNewPanel() {
-        document.getElementById('account-panel-wrapper').classList.toggle('account-panel-open');
-        document.querySelector('body').classList.toggle('panel-open');
+        togglePanelById('account-panel-wrapper', 'account-panel-open');
+        togglePreventContentScroll();
 
         // Set the form state for a new contact
         this.props.dispatch({

@@ -10,6 +10,7 @@ import * as types from "../../actions/types";
 import HistoryPanel from './HistoryPanel';
 import NotePanel from './NotePanel';
 import DocumentPanel from './DocumentPanel';
+import {togglePanelById, togglePreventContentScroll} from "../../utils/helpers";
 
 class OpportunityPanel extends Component {
     constructor(props) {
@@ -43,7 +44,7 @@ class OpportunityPanel extends Component {
     }
 
     _toggleBodyClass() {
-        let exists = document.getElementById('opportunity-panel-wrapper').classList.toggle('opportunity-panel-open');
+        let exists = togglePanelById('opportunity-panel-wrapper', 'opportunity-panel-open');
 
         if (!exists) {
             this.props.dispatch({
@@ -60,13 +61,13 @@ class OpportunityPanel extends Component {
             document.getElementById('contact-panel-wrapper').classList.remove('opportunity-panel-open')
         }
 
-        document.querySelector('body').classList.toggle('panel-open');
+        togglePreventContentScroll();
 
         this._handleFormSubmit();
     }
 
     _toggleHistoryClass() {
-        document.getElementById('opportunity-panel-wrapper').classList.toggle('history-panel-open');
+        togglePanelById('opportunity-panel-wrapper', 'history-panel-open');
     }
 
     _toggleNoteClass() {
@@ -77,7 +78,7 @@ class OpportunityPanel extends Component {
             entityType: 'App\\Deal'
         });
 
-        document.getElementById('opportunity-panel-wrapper').classList.toggle('note-panel-open');
+        togglePanelById('opportunity-panel-wrapper', 'note-panel-open');
     }
 
     _toggleDocumentsClass() {
@@ -88,7 +89,7 @@ class OpportunityPanel extends Component {
             entityType: 'App\\Deal'
         });
 
-        document.getElementById('opportunity-panel-wrapper').classList.toggle('document-panel-open');
+        togglePanelById('opportunity-panel-wrapper', 'document-panel-open');
     }
 
     render() {
