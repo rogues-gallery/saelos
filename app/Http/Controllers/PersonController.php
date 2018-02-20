@@ -73,6 +73,8 @@ class PersonController extends Controller
             $people->where('updated_at', '>=', $modifiedSince);
         }
 
+        $people->orderBy('id', 'desc');
+
         return new PersonCollection($people->paginate());
     }
 
