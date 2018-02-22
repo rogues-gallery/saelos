@@ -14,5 +14,7 @@ yarn-error.log
 .DS_Store
 /_ide_helper*
 /public/js/app.js
+/public/js/app.js.map
 /public/css/app.css
+/public/css/app.css.map
 /public/uploads/*

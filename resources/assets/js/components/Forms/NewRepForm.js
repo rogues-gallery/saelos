@@ -52,7 +52,7 @@ class NewRepForm extends Component {
     }
 
     render() {
-        let customFields = customFieldsHelper({}, this.props.customFields, this._handleInputChange);
+        let customFields = customFieldsHelper(this.state.formState, this.props.customFields, this._handleInputChange);
 
         return (
             <form id="rep-details-form">

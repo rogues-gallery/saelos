@@ -53,9 +53,12 @@ class NewOpportunityForm extends Component {
     }
 
     render() {
-        let customFields = customFieldsHelper({}, this.props.customFields, this._handleInputChange);
+        let customFields = customFieldsHelper(this.state.formState, this.props.customFields, this._handleInputChange);
         let stageOptions = this.props.stages.map((stage) => {
-            return <option key={stage.id} value={stage.id}>{stage.title}</option>
+            return {
+                value: stage.id,
+                label: stage.title
+            }
         });
 
         let teamMembers = _.map(this.props.user.team.users, (member, index) => {
