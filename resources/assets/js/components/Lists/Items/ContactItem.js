@@ -1,11 +1,12 @@
 import React from 'react';
-import {togglePanelById, togglePreventContentScroll} from "../../../utils/helpers";
+import {togglePanelById, togglePreventContentScroll, getCustomFieldValue} from "../../../utils/helpers";
 import PropTypes from "prop-types";
 import * as types from "../../../actions/types";
 import Progress from '../../UI/Progress';
 import Gravatar from 'react-gravatar';
 import Select from 'react-select';
 import { actionCreators } from "../../../actions";
+import _ from 'lodash';
 
 export const ContactItem = ({dispatch, user, contact}) => {
     const toggleBodyClass = () => {
@@ -28,14 +29,13 @@ export const ContactItem = ({dispatch, user, contact}) => {
     };
 
     const getTeamMembers = () => {
-        let teamMembers = _.map(user.team.users, (member, index) => {
-            return {
-                value: member.id,
-                label: member.name
-            }
-        });
+        let teamMembers = _.map(user.team.users, member => ({
+            value: member.id,
+            label: member.name
+        }));
 
         teamMembers.unshift({value:null, label: "Please select..."});
+
         return teamMembers;
     };
 
@@ -59,7 +59,7 @@ export const ContactItem = ({dispatch, user, contact}) => {
             </td>
 
             <td>
-                {contact.custom_fields.status ? contact.status.name : 'Unknown'}
+                {getCustomFieldValue('status', contact.custom_fields, 'Unknown')}
             </td>
 
             <td>

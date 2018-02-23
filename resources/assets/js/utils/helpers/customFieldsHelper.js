@@ -22,6 +22,18 @@ function createLink(item) {
     return <div><Link key={item} to={`/${route}/show/${encodeURIComponent(item)}`}>{item}</Link></div>;
 }
 
+export const getCustomField = (customField, fields) => {
+    let fieldIndex = _.findIndex(fields, (f) => f.custom_field_alias === customField);
+
+    return fieldIndex >= 0 ? fields[fieldIndex] : {};
+};
+
+export const getCustomFieldValue = (customField, fields, defaultValue) => {
+    const field = getCustomField(customField, fields);
+
+    return field.value ? field.value : defaultValue;
+};
+
 export function customFieldsHelper(object, fields, handleInputChange) {
     return Object.keys(fields).map((key, index) => {
         let thisField = fields[key];
