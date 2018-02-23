@@ -75,11 +75,16 @@ class DealController extends Controller
         $dealStage = $data['stage_id'] ?? null;
         $dealPeople = $data['people'] ?? null;
 
-        if ($dealCompany) {
+        if ($dealCompany && isset($dealCompany['id'])) {
             $company = Company::findOrFail($dealCompany['id']);
+
             $company->update($dealCompany);
 
-            $deal->company()->associate($company);
+            $data['company_id'] = $company->id;
+        } else {
+            $deal->company()->dissociate()->save();
+            $data['company_id'] = null;
+            unset($data['company']);
         }
 
         if ($dealStage) {

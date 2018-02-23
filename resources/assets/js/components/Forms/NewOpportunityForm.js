@@ -4,6 +4,7 @@ import {customFieldsHelper} from "../../utils/helpers";
 import {connect} from "react-redux";
 import Select from 'react-select';
 import DatePicker from '../../components/UI/DatePicker';
+import {actionCreators} from "../../actions";
 
 let _ = require('lodash');
 
@@ -12,6 +13,7 @@ class NewOpportunityForm extends Component {
         super(props);
 
         this._handleInputChange = this._handleInputChange.bind(this);
+        this._setCompany = this._setCompany.bind(this);
 
         this.state = {
             formState: props.opportunity
@@ -50,6 +52,48 @@ class NewOpportunityForm extends Component {
         });
 
         this.props.setFormState(oppState)
+    }
+
+    _setCompany(value) {
+        let selectedId = value ? value.value : null;
+        let selectedName = value ? value.label : null;
+
+        let event = {
+            target: {
+                type: 'select',
+                name: 'company',
+                value: {
+                    id: selectedId,
+                    name: selectedName
+                }
+            }
+        };
+
+        this._handleInputChange(event);
+    }
+
+    _searchCompanies(input, callback) {
+        let search = '';
+
+        if (input && input.length > 0) {
+            search = {
+                name: input
+            }
+        }
+
+        return actionCreators.searchAccounts(search)
+            .then((companies) => {
+                let options = companies.map((company) => {
+                    return {
+                        value: company.id,
+                        label: company.name
+                    }
+                });
+
+                callback(null, {options: options})
+
+                return {options: options};
+            });
     }
 
     render() {
@@ -129,6 +173,16 @@ class NewOpportunityForm extends Component {
                             }}
                             options={stageOptions}
                         />
+                    </div>
+
+                    <div className="input-container">
+                        <label>Company</label>
+                        <Select.Async
+                            multi={false}
+                            value={this.state.formState.company ? {value: this.state.formState.company.id, label: this.state.formState.company.name} : null}
+                            onChange={this._setCompany}
+                            filterOptions={(options) => options}
+                            loadOptions={this._searchCompanies} />
                     </div>
 
                 </div>
