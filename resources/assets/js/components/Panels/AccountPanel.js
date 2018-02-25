@@ -115,7 +115,7 @@ class AccountPanel extends Component {
                                         Notes
                                     </div>
                                     <div className="user-action-box" onClick={this._toggleDocumentsClass}>
-                                        <i className="md-icon">chat_bubble_outline</i><br />
+                                        <i className="md-icon">photo_filter</i><br />
                                         Documents
                                     </div>
                                 </div>

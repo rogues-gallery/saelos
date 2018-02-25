@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import { actionCreators } from "../../actions";
 import EditContactForm from '../Forms/EditContactForm';
 import NewContactForm from '../Forms/NewContactForm';
-import ContactContactPanel from './ContactContactPanel';
+import DocumentPanel from './DocumentPanel';
 import NotePanel from './NotePanel';
 import HistoryPanel from './HistoryPanel';
 import Gravatar from 'react-gravatar';
@@ -25,6 +25,7 @@ class ContactPanel extends Component {
         this._toggleContactClass = this._toggleContactClass.bind(this);
         this._toggleNoteClass = this._toggleNoteClass.bind(this);
         this._toggleHistoryClass = this._toggleHistoryClass.bind(this);
+        this._toggleDocumentsClass = this._toggleDocumentsClass.bind(this);
 
         this.state = {
             contact: Object.assign({}, props.contact)
@@ -82,6 +83,17 @@ class ContactPanel extends Component {
         togglePanelById('contact-panel-wrapper', 'history-panel-open');
     }
 
+    _toggleDocumentsClass() {
+        this.props.dispatch({
+            type: types.SET_DOCUMENTS_FOR_FLYOUT,
+            data: this.props.contact.documents,
+            entityId: this.props.contact.id,
+            entityType: 'App\\Person'
+        });
+
+        togglePanelById('contact-panel-wrapper', 'document-panel-open');
+    }
+
     render() {
         return (
             <div id="contact-panel-wrapper">
@@ -115,9 +127,9 @@ class ContactPanel extends Component {
                                         <i className="md-icon">event_note</i><br />
                                         Notes
                                     </div>
-                                    <div className="user-action-box" onClick={this._toggleContactClass}>
-                                        <i className="md-icon">chat_bubble_outline</i><br />
-                                        Contact
+                                    <div className="user-action-box" onClick={this._toggleDocumentsClass}>
+                                        <i className="md-icon">photo_filter</i><br />
+                                        Documents
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +167,7 @@ class ContactPanel extends Component {
                 </div>
                 <HistoryPanel activities={this.props.contact.activities ? this.props.contact.activities : []} targetParentPanel="contact-panel-wrapper" />
                 <NotePanel itemId={this.props.contact.id ? this.props.contact.id : 0} addNoteFunc={actionCreators.addContactNote} notes={this.props.contact.notes ? this.props.contact.notes : []} targetParentPanel="contact-panel-wrapper" />
-                <ContactContactPanel contact={this.props.contact} dispatch={this.props.dispatch} />
+                <DocumentPanel itemId={this.props.contact.id ? this.props.contact.id : 0} documents={this.props.contact.documents ? this.props.contact.documents : []} targetParentPanel="contact-panel-wrapper" />
             </div>
         );
     }

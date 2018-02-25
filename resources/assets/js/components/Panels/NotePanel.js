@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Panel } from '../UI/Panel';
-import Progress from "../UI/Progress";
 import PropTypes from 'prop-types';
 import * as types from '../../actions/types';
 import { MentionWrapper, MentionMenu } from 'react-githubish-mentions';

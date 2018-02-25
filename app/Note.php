@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Note extends Model
 {
+    use HasDocumentsTrait;
 
     protected $guarded = [
         'id',

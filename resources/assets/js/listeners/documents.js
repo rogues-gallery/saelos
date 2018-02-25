@@ -24,6 +24,10 @@ Echo.channel('documents')
                 state = window.reduxStore.getState().accountState;
                 type = types.FETCHING_ACCOUNTS_SUCCESS;
                 break;
+            case 'App\\Person':
+                state = window.reduxStore.getState().contactState;
+                type = types.FETCHING_CONTACTS_SUCCESS;
+                break;
         }
 
         let entities = state.data;

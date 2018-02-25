@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface
 {
+    use HasDocumentsTrait;
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
     use HasNotesTrait;

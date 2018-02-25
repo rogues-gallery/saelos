@@ -33,6 +33,7 @@ Route::group([
     });
 
     Route::resource('deals.documents', 'DealDocumentController');
+    Route::resource('people.documents', 'PersonDocumentController');
     Route::resource('companies.documents', 'CompanyDocumentController');
 
     Route::get('/reports/{id}/export', 'ReportExportController@export');

@@ -30,13 +30,14 @@ class DocumentPanel extends Component {
             case 'account-panel-wrapper':
                 uploadUrl = '/companies/' + this.props.itemId + '/documents';
                 break;
+            case 'contact-panel-wrapper':
+                uploadUrl = '/people/' + this.props.itemId + '/documents';
+                break;
         }
 
         if (!uploadUrl) {
             return false;
         }
-
-        console.log(acceptedFiles);
 
         uploadFile(uploadUrl, acceptedFiles[0], 'document')
             .then((response) => {
@@ -54,9 +55,12 @@ class DocumentPanel extends Component {
             case 'account-panel-wrapper':
                 downloadUrl = '/companies/' + this.props.itemId + '/documents/' + doc.id;
                 break;
+            case 'contact-panel-wrapper':
+                downloadUrl = '/people/' + this.props.itemId + '/documents/' + doc.id;
+                break;
         }
 
-        fetch(downloadUrl);
+        fetch(downloadUrl, {responseType: "blob"});
     }
 
     render() {

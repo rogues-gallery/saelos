@@ -26,8 +26,14 @@ export default function (url, options = {}) {
     let method = options.hasOwnProperty('method') ? options.method : 'GET';
     let data = options.hasOwnProperty('body') ? options.body : {};
 
+    if (options.hasOwnProperty('responseType')) {
+        data.responseType = options.responseType;
+    }
+
     return axios[method.toLowerCase()](link, data)
         .then((response) => {
+            console.log(response);
+
             if (response.headers['x-suggested-filename']) {
                 return FileDownload(response.data, response.headers['x-suggested-filename']);
             }
