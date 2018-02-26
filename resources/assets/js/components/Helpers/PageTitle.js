@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter, matchPath } from 'react-router-dom';
 import Breadcrumbs from '../Helpers/Breadcrumbs';
 import Shortcuts from '../UI/Shortcut';
-import { routes } from '../../routes';
+import { routes } from '../../routes/routes';
 
 class PageTitle extends Component {
     findTitle() {

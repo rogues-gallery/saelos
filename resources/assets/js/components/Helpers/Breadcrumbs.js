@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { withRouter, matchPath, NavLink } from 'react-router-dom';
-import { routes } from '../../routes';
+import { routes } from '../../routes/routes';
 
 class Breadcrumbs extends Component {
     getPaths(pathname) {

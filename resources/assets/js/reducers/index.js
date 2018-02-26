@@ -4,7 +4,7 @@ import contactReducer from './contacts';
 import taskReducer from './tasks';
 import memberReducer from './members';
 import projectReducer from './projects';
-import authReducer from './auth';
+import authReducer from '../modules/auth/store/auth';
 import accountReducer from './accounts';
 import opportunityReducer from "./opportunities";
 import stageReducer from './stages';

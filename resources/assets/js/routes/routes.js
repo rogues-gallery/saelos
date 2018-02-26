@@ -1,16 +1,16 @@
-import Contacts from './components/Pages/Contacts';
-import Dashboard from './components/Pages/Dashboard';
-import Headquarters from './components/Pages/Headquarters';
-import Manager from './components/Pages/Manager';
-import Icons from './components/Pages/Icons';
-import Forms from './components/Pages/Forms';
-import RequireAuth from './components/Auth/RequireAuth';
-import Accounts from "./components/Pages/Accounts";
-import Opportunities from "./components/Pages/Opportunities";
-import Reports from './components/Pages/Reports';
-import Report from './components/Reports/Report';
+import Contacts from '../components/Pages/Contacts';
+import Dashboard from '../components/Pages/Dashboard';
+import Headquarters from '../components/Pages/Headquarters';
+import Manager from '../components/Pages/Manager';
+import Icons from '../components/Pages/Icons';
+import Forms from '../components/Pages/Forms';
+import RequireAuth from '../components/Auth/RequireAuth';
+import Accounts from "../components/Pages/Accounts";
+import Opportunities from "../components/Pages/Opportunities";
+import Reports from '../components/Pages/Reports';
+import Report from '../components/Reports/Report';
 
-export const routes = [
+const routes = [
     {
         path: '/',
         title: 'Dashboard',
@@ -92,3 +92,5 @@ export const routes = [
         component: Icons
     }
 ];
+
+export default routes;

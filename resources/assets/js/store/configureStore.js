@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose} from 'redux'
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import reducers from './reducers';
+import reducers from '../reducers/index';
 import throttle from 'lodash/throttle';
 import { loadState, saveState } from './localStorage';
 
