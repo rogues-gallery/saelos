@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Assign implements ActionInterface
 {
+    private $didApply = true;
+
     /**
      * @param Model $model
      * @param array $details
@@ -16,6 +18,11 @@ class Assign implements ActionInterface
      */
     public function execute(Model $model, array $details): array
     {
+        if ($model->user instanceof User) {
+            $this->didApply = false;
+            return $details;
+        }
+
         $user = User::find($details['user_id']);
 
         $model->user()->associate($user);
@@ -34,6 +41,11 @@ class Assign implements ActionInterface
      */
     public function updateActionDetails(WorkflowAction $action, array $details): bool
     {
+        // Bail early if we didn't apply the rule
+        if ($this->didApply === false) {
+            return true;
+        }
+
         $assignedTo = $details['user_id'];
         $availableUsers = $details['users'];
         $useNext = false;
