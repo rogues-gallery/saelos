@@ -1,4 +1,3 @@
-require('babel-polyfill');
 require('./bootstrap');
 
 import React from 'react';

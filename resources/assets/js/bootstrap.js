@@ -1,3 +1,5 @@
+require('babel-polyfill');
+
 window._ = require('lodash');
 
 /**
@@ -9,7 +11,8 @@ window._ = require('lodash');
 try {
   window.$ = window.jQuery = require('jquery');
 
-  require('bootstrap-sass');
+  require('tether');
+  require('bootstrap');
 } catch (e) {}
 
 /**
