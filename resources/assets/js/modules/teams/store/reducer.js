@@ -1,4 +1,4 @@
-import { FETCHING_TEAM, FETCHING_TEAM_SUCCESS, FETCHING_TEAM_FAILURE } from '../actions/types';
+import { FETCHING_TEAM, FETCHING_TEAM_SUCCESS, FETCHING_TEAM_FAILURE } from './action-types';
 
 const initialState = {
     data: [],

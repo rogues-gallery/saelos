@@ -1,114 +1,53 @@
-import * as types from './types';
-import fetch from '../utils/fetch';
+import * as types from './action-types';
 
-export const fetchOpportunities = (page = 1, query = {}) => (dispatch) => {
-    dispatch({
-        type: types.FETCHING_OPPORTUNITIES,
-        search: query
-    });
+export const fetchingOpportunity = () => ({
+    type: types.FETCHING_SINGLE_OPPORTUNITY
+})
 
-    let URL = '/deals?page=' + page;
+export const fetchingOpportunitySuccess = (payload) => ({
+    type: types.FETCHING_SINGLE_OPPORTUNITY_SUCCESS,
+    data: payload
+})
 
-    if (Object.keys(query).length) {
-        Object.keys(query).map((key) => {
-            URL = URL + '&' + key + '=' + query[key];
-        });
-    }
+export const fetchingOpportunityFailure = () => ({
+    type: types.FETCHING_SINGLE_OPPORTUNITY_FAILURE
+})
 
-    fetch(URL)
-        .then((response) => {
-            dispatch({
-                type: types.FETCHING_OPPORTUNITIES_SUCCESS,
-                data: response.data.data,
-                dataFetched: true,
-                pagination: response.data.meta
-            });
-        });
-};
+export const fetchingOpportunities = () => ({
+    type: types.FETCHING_OPPORTUNITIES
+})
 
-export const fetchOpportunity = (id) => (dispatch) => {
-    dispatch({
-        type: types.FETCHING_SINGLE_ACCOUNT
-    });
+export const fetchingOpportunitiesSuccess = (payload) => ({
+    type: types.FETCHING_OPPORTUNITIES_SUCCESS,
+    data: payload
+})
 
-    let URL = '/deals/' + id;
+export const fetchingOpportunitiesFailure = () => ({
+    type: types.FETCHING_OPPORTUNITIES_FAILURE
+})
 
-    fetch(URL)
-        .then((response) => {
-            dispatch({
-                type: types.FETCHING_SINGLE_ACCOUNT_SUCCESS,
-                data: response.data.data,
-                dataFetched: true
-            });
-        });
-};
+export const postingOpportunity = () => ({
+    type: types.POSTING_OPPORTUNITY
+})
 
-export const fetchOpportunityCustomFields = () => (dispatch) => {
-    dispatch({
-        type: types.FETCHING_OPPORTUNITY_CUSTOM_FIELDS
-    })
+export const postingOpportunitySuccess = (payload) => ({
+    type: types.POSTING_OPPORTUNITY_SUCCESS,
+    data: payload
+})
 
-    let URL = '/contexts/Deal?customOnly=true';
+export const postingOpportunityFailure = () => ({
+    type: types.POSTING_OPPORTUNITY_FAILURE
+})
 
-    fetch(URL)
-        .then((response) => {
-            dispatch({
-                type: types.FETCHING_OPPORTUNITY_CUSTOM_FIELDS_SUCCESS,
-                data: response.data,
-                dataFetched: true
-            })
-        })
-};
+export const deletingOpportunity = () => ({
+    type: types.DELETING_OPPORTUNITY
+})
 
-export const postOpportunity = (data) => (dispatch) => {
-    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
-        return;
-    }
+export const deletingOpportunitySuccess = (payload) => ({
+    type: types.DELETING_OPPORTUNITY_SUCCESS,
+    data: payload
+})
 
-    dispatch({
-        type: types.POSTING_OPPORTUNITY
-    });
-
-    let METHOD = 'POST';
-    let URL = '/deals';
-
-    if (data.hasOwnProperty('id') && data.id !== 'new') {
-        URL = URL + '/' + data.id;
-        METHOD = 'PATCH';
-    } else {
-        delete data.id;
-    }
-
-    let options = {
-        body: data,
-        method: METHOD
-    };
-
-    fetch(URL, options)
-        .then((response) => {
-            dispatch({
-                type: types.POSTING_OPPORTUNITY_SUCCESS,
-                data: response.data.data,
-                dataFetched: true
-            })
-        });
-};
-
-export const addOpportunityNote = (data) => {
-    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
-        return;
-    }
-
-    let METHOD = 'POST';
-    let URL = '/deals/' + data.id + '/notes';
-
-    let options = {
-        body: data,
-        method: METHOD
-    }
-
-    fetch(URL, options)
-        .then((response) => {
-            console.log(response);
-        });
-};
+export const deletingOpportunityFailure = () => ({
+    type: types.DELETING_OPPORTUNITY_FAILURE
+})

@@ -21,20 +21,7 @@ use Illuminate\Support\Facades\Mail;
 class PersonController extends Controller
 {
     const INDEX_WITH = [
-        'user',
-        'company',
-        'deals',
-        'deals.people',
-        'deals.notes',
-        'deals.notes.user',
-        'documents',
-        'documents.user',
-        'activities',
-        'activities.details',
-        'customFields',
-        'customFields.customField',
-        'notes',
-        'notes.user',
+        'customFields'
     ];
 
     const SHOW_WITH = [

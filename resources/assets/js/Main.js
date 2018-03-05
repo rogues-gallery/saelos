@@ -32,6 +32,6 @@ Main.propTypes = {
 };
 
 export default connect(state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.user,
+    isAuthenticated: state.auth.authenticated,
+    user: state.user.user,
 }))(Main)

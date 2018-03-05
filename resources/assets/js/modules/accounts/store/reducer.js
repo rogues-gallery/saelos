@@ -1,73 +1,63 @@
-import * as types from '../actions/types';
-
-let _ = require('lodash');
+import * as types from './action-types';
+import _ from 'lodash';
 
 const initialState = {
-    data: [],
-    pagination: {},
-    dataFetched: false,
-    isFetching: false,
-    error: false,
-    singleAccount: {},
-    search: {},
-    accountUpdated: false
+  data: [],
+  meta: {
+    currentPage: 0,
+    from: 0,
+    lastPage: 0,
+    path: '',
+    perPage: 0,
+    to: 0,
+    total: 0,
+  },
+  isFetching: false,
+  error: false
 }
 
 export default function accountReducer(state = initialState, action) {
-    switch (action.type) {
-        case types.FETCHING_ACCOUNTS:
-            let query = action.hasOwnProperty('search') ? action.search : {};
+  switch (action.type) {
+    case types.FETCHING_ACCOUNTS:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case types.FETCHING_ACCOUNTS_SUCCESS:
+      return {
+        ...state,
+        data: action.data.data,
+        meta: action.data.meta,
+        isFetching: false,
+        error: false
+      }
+    case types.FETCHING_SINGLE_ACCOUNT_FAILURE:
+    case types.FETCHING_ACCOUNTS_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        error: true
+      }
+    case types.FETCHING_SINGLE_ACCOUNT_SUCCESS:
+      const index = _.findIndex(state.data, (c) => c.id === parseInt(action.data.id));
 
-            return {
-                ...state,
-                isFetching: true,
-                search: query
-            }
-        case types.FETCHING_ACCOUNTS_SUCCESS:
-            return {
-                ...state,
-                isFetching: false,
-                dataFetched: true,
-                data: action.data,
-                pagination: action.pagination
-            }
-        case types.FETCHING_ACCOUNTS_FAILURE:
-            return {
-                ...state,
-                isFetching: false,
-                error: true
-            }
-        case types.FETCHING_SINGLE_ACCOUNT_SUCCESS:
-            return {
-                ...state,
-                isFetching: false,
-                dataFetched: true,
-                singleAccount: action.data
-            }
-        case types.FETCHING_SINGLE_ACCOUNT_FAILURE:
-            return {
-                ...state,
-                isFetching: false,
-                error: true
-            }
-        case types.RECEIVED_ACCOUNT_UPDATE:
-            let account = action.data;
-            let alteredData = state.data;
-            let accountIndex = _.findIndex(alteredData, {id: account.id});
+      if (index >= 0) {
+        state.data[index] = action.data
+      } else {
+        state.data.push(action.data);
+      }
 
-            if (accountIndex >= 0) {
-                alteredData.splice(accountIndex, 1, account);
-            } else {
-                alteredData.push(account);
-            }
-
-            return {
-                ...state,
-                data: alteredData,
-                accountUpdated: true,
-                error: false
-            }
-        default:
-            return state
-    }
+      return {
+        ...state,
+        isFetching: false,
+        error: false
+      }
+    default:
+      return state
+  }
 }
+
+export const getAccountIndex = (state, id) => _.findIndex(getAccounts(state), (c) => c.id === parseInt(id));
+export const getAccount = (state, id) => _.find(getAccounts(state), (c) => c.id === parseInt(id));
+export const getAccounts = (state) => state.data;
+export const getPaginationForAccounts = (state) => state.pagination;

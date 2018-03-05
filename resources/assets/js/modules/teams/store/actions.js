@@ -1,5 +1,5 @@
-import * as types from './types';
-import fetch from '../utils/fetch';
+import * as types from './action-types';
+import Http from '../../../utils/Http';
 
 export const fetchTeams = (page = 1, query = {}) => (dispatch) => {
     dispatch({
@@ -15,7 +15,7 @@ export const fetchTeams = (page = 1, query = {}) => (dispatch) => {
         });
     }
 
-    fetch(URL)
+    Http.get(URL)
         .then((response) => {
             dispatch({
                 type: types.FETCHING_TEAMS_SUCCESS,
@@ -33,7 +33,7 @@ export const fetchTeam = (id) => (dispatch) => {
 
     let URL = '/teams/' + id;
 
-    fetch(URL)
+    Http.get(URL)
         .then((response) => {
             dispatch({
                 type: types.FETCHING_TEAM_SUCCESS,

@@ -22,7 +22,11 @@ class ReportController extends Controller
 
     public function show($id)
     {
-        return new ReportResource(Report::with(static::SHOW_WITH)->find($id));
+        $report = Report::with(static::SHOW_WITH)->find($id);
+
+        $report->data = $report->data()->paginate();
+
+        return new ReportResource($report);
     }
 
     public function update(Request $request, $id)

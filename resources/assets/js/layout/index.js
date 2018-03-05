@@ -6,20 +6,13 @@ import { withRouter } from 'react-router-dom'
 
 // import services actions
 import { fetchUser } from '../modules/auth/service'
+import { getAuth } from '../modules/auth/store/reducer';
 
 // import components
 import PrivateLayout from './Private'
 import PublicLayout from './Public'
 
 class Layout extends Component {
-  static displayName = 'Layout'
-  static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
-    user: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
-    dispatch: PropTypes.func.isRequired,
-  }
-
   componentWillMount() {
     const { isAuthenticated, user } = this.props
 
@@ -38,11 +31,14 @@ class Layout extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.user,
-  }
+Layout.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
+    children: PropTypes.node.isRequired,
+    dispatch: PropTypes.func.isRequired,
 }
 
-export default withRouter(connect(mapStateToProps)(Layout))
+export default withRouter(connect(state => ({
+    isAuthenticated: getAuth(state),
+    user: state.user,
+}))(Layout))

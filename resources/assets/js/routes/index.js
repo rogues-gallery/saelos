@@ -1,6 +1,6 @@
 // import libs
 import React from 'react'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { Router, Switch } from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
 
 // import components

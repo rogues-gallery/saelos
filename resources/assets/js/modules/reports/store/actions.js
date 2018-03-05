@@ -1,84 +1,53 @@
-import * as types from './types';
-import fetch from '../utils/fetch';
+import * as types from './action-types';
 
-export const fetchReports = (page = 1, query = {}) => (dispatch) => {
-    dispatch({
-        type: types.FETCHING_REPORTS,
-        search: query
-    });
+export const fetchingReport = () => ({
+    type: types.FETCHING_SINGLE_REPORT
+})
 
-    let URL = '/reports?page=' + page;
+export const fetchingReportSuccess = (payload) => ({
+    type: types.FETCHING_SINGLE_REPORT_SUCCESS,
+    data: payload
+})
 
-    if (Object.keys(query).length) {
-        Object.keys(query).map((key) => {
-            URL = URL + '&' + key + '=' + query[key];
-        });
-    }
+export const fetchingReportFailure = () => ({
+    type: types.FETCHING_SINGLE_REPORT_FAILURE
+})
 
-    fetch(URL)
-        .then((response) => {
-            dispatch({
-                type: types.FETCHING_REPORTS_SUCCESS,
-                data: response.data.data,
-                dataFetched: true,
-                pagination: response.data.meta
-            });
-        });
-};
+export const fetchingReports = () => ({
+    type: types.FETCHING_REPORTS
+})
 
-export const fetchReport = (id, page = 1) => (dispatch) => {
-    dispatch({
-        type: types.FETCHING_REPORT
-    });
+export const fetchingReportsSuccess = (payload) => ({
+    type: types.FETCHING_REPORTS_SUCCESS,
+    data: payload
+})
 
-    let URL = '/reports/' + id + '?page=' + page;
+export const fetchingReportsFailure = () => ({
+    type: types.FETCHING_REPORTS_FAILURE
+})
 
-    fetch(URL)
-        .then((response) => {
-            dispatch({
-                type: types.FETCHING_REPORT_SUCCESS,
-                data: response.data,
-                dataFetched: true
-            });
-        });
-};
+export const postingReport = () => ({
+    type: types.POSTING_REPORT
+})
 
-export const downloadReport = (id) => {
-    let URL = '/reports/' + id + '/export';
+export const postingReportSuccess = (payload) => ({
+    type: types.POSTING_REPORT_SUCCESS,
+    data: payload
+})
 
-    fetch(URL);
-};
+export const postingReportFailure = () => ({
+    type: types.POSTING_REPORT_FAILURE
+})
 
-export const postReport = (data) => (dispatch) => {
-    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
-        return;
-    }
+export const deletingReport = () => ({
+    type: types.DELETING_REPORT
+})
 
-    dispatch({
-        type: types.POSTING_ACCOUNT
-    });
+export const deletingReportSuccess = (payload) => ({
+    type: types.DELETING_REPORT_SUCCESS,
+    data: payload
+})
 
-    let METHOD = 'POST';
-    let URL = '/reports';
-
-    if (data.hasOwnProperty('id') && data.id !== 'new') {
-        URL = URL + '/' + data.id;
-        METHOD = 'PATCH';
-    } else {
-        delete data.id;
-    }
-
-    let options = {
-        body: data,
-        method: METHOD
-    };
-
-    fetch(URL, options)
-        .then((response) => {
-            dispatch({
-                type: types.POSTING_REPORT_SUCCESS,
-                data: response.data.data,
-                dataFetched: true
-            })
-        });
-};
+export const deletingReportFailure = () => ({
+    type: types.DELETING_REPORT_FAILURE
+})

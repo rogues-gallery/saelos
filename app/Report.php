@@ -121,13 +121,4 @@ class Report extends Model
 
         return $items;
     }
-
-    public function toArray()
-    {
-        $array = parent::toArray();
-
-        $array['data'] = $this->data()->paginate();
-
-        return $array;
-    }
 }

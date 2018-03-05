@@ -14,12 +14,9 @@ use Illuminate\Http\Request;
 */
 Route::group([
     'prefix' => '/v1',
-    'as' => 'api.',
-    'middleware' => 'auth:api',
+    'as' => 'api.'
 ], function () {
-    Route::get('/me', function () {
-        return \Illuminate\Http\JsonResponse::create(Auth::user());
-    });
+    Route::prefix('auth')->group(base_path('routes/api/auth.php'));
 
     Route::post('/people/{id}/email', 'PersonController@email');
 
@@ -53,4 +50,5 @@ Route::group([
     Route::resource('activities', 'ActivityController');
     Route::resource('users', 'UserController');
     Route::resource('reports', 'ReportController');
+    Route::resource('workflows', 'WorkflowController');
 });

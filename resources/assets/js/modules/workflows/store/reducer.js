@@ -1,60 +1,63 @@
-import * as types from '../actions/types';
-
-let _ = require('lodash');
+import * as types from './action-types';
+import _ from 'lodash';
 
 const initialState = {
     data: [],
-    pagination: {},
-    dataFetched: false,
+    meta: {
+        currentPage: 0,
+        from: 0,
+        lastPage: 0,
+        path: '',
+        perPage: 0,
+        to: 0,
+        total: 0,
+    },
     isFetching: false,
-    error: false,
-    singleAccount: {},
-    search: {},
-    accountUpdated: false
+    error: false
 }
 
 export default function workflowReducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCHING_WORKFLOWS:
-            let query = action.hasOwnProperty('search') ? action.search : {};
-
             return {
                 ...state,
-                isFetching: true,
-                search: query
+                isFetching: true
             }
         case types.FETCHING_WORKFLOWS_SUCCESS:
             return {
                 ...state,
+                data: action.data.data,
+                meta: action.data.meta,
                 isFetching: false,
-                dataFetched: true,
-                data: action.data,
-                pagination: action.pagination
+                error: false
             }
+        case types.FETCHING_SINGLE_WORKFLOW_FAILURE:
         case types.FETCHING_WORKFLOWS_FAILURE:
             return {
                 ...state,
                 isFetching: false,
                 error: true
             }
-        case types.RECEIVED_WORKFLOW_UPDATE:
-            let account = action.data;
-            let alteredData = state.data;
-            let accountIndex = _.findIndex(alteredData, {id: account.id});
+        case types.FETCHING_SINGLE_WORKFLOW_SUCCESS:
+            const index = _.findIndex(state.data, (c) => c.id === parseInt(action.data.id));
 
-            if (accountIndex >= 0) {
-                alteredData.splice(accountIndex, 1, account);
+            if (index >= 0) {
+                state.data[index] = action.data
             } else {
-                alteredData.push(account);
+                state.data.push(action.data);
             }
 
             return {
                 ...state,
-                data: alteredData,
-                accountUpdated: true,
+                isFetching: false,
                 error: false
             }
         default:
             return state
     }
 }
+
+export const getWorkflowIndex = (state, id) => _.findIndex(getWorkflows(state), (c) => c.id === parseInt(id));
+export const getWorkflow = (state, id) => _.find(getWorkflows(state), (c) => c.id === parseInt(id));
+export const getWorkflows = (state) => state.data;
+export const getPaginationForWorkflows = (state) => state.meta;

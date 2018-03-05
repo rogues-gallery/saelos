@@ -1,28 +1,77 @@
-import Http from "../../utils/Http";
-import { logoutUser, authUser } from "./store/actions";
-import Transformer from "../../utils/Transformer";
+import Http from '../../utils/Http'
+import * as authActions from './store/actions'
+import Transformer from '../../utils/Transformer'
 
-export const isUserAuthenticated = () => (dispatch) => {
-    fetch('/authenticated', {forAuth: true})
-        .then((response) => {
-            if (response.data.status) {
-                return dispatch({
-                    type: types.AUTH_USER,
-                    data: response.data.status
-                });
-            } else {
-                return logoutUser();
-            }
-        });
-};
+/**
+ * fetch the current logged in user
+ *
+ * @returns {function(*)}
+ */
+export function fetchUser() {
+    return dispatch => {
+        return Http.get('auth/user')
+            .then(res => {
+                const data = Transformer.fetch(res.data)
+                dispatch(authActions.authUser(data))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+}
 
-export const fetchUser = () => (dispatch) => {
-    return Http.get('auth/user')
-        .then(response => {
-            const data = Transformer.fetch(response.data);
-            dispatch(authUser(data));
+/**
+ * login user
+ *
+ * @param credentials
+ * @returns {function(*)}
+ */
+export function login(credentials) {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.post('auth/login', credentials)
+                .then(res => {
+                    const data = Transformer.fetch(res.data)
+                    dispatch(authActions.authLogin(data.accessToken))
+                    return resolve()
+                })
+                .catch((err) => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+
+                    if (statusCode === 422) {
+                        const resetErrors = {
+                            errors: err.response.data.errors,
+                            replace: false,
+                            searchStr: '',
+                            replaceStr: '',
+                        };
+                        data.error = Transformer.resetValidationFields(resetErrors);
+                    } else if (statusCode === 401) {
+                        data.error = err.response.data.message;
+                    }
+                    return reject(data);
+                })
         })
-        .catch(error => {
-            console.log(error);
-        });
-};
+    )
+}
+
+/**
+ * logout user
+ *
+ * @returns {function(*)}
+ */
+export function logout() {
+    return dispatch => {
+        return Http.delete('auth/logout')
+            .then(() => {
+                dispatch(authActions.authLogout())
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+}

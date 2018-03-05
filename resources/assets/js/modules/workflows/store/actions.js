@@ -1,76 +1,53 @@
-import * as types from './types';
-import fetch from '../utils/fetch';
+import * as types from './action-types';
 
-export const fetchWorkflows = (page = 1, query = {}) => (dispatch) => {
-    dispatch({
-        type: types.FETCHING_WORKFLOWS,
-        search: query
-    });
+export const fetchingWorkflow = () => ({
+    type: types.FETCHING_SINGLE_WORKFLOW
+})
 
-    let URL = '/workflows?page=' + page;
+export const fetchingWorkflowSuccess = (payload) => ({
+    type: types.FETCHING_SINGLE_WORKFLOW_SUCCESS,
+    data: payload
+})
 
-    if (Object.keys(query).length) {
-        Object.keys(query).map((key) => {
-            URL = URL + '&' + key + '=' + query[key];
-        });
-    }
+export const fetchingWorkflowFailure = () => ({
+    type: types.FETCHING_SINGLE_WORKFLOW_FAILURE
+})
 
-    return fetch(URL)
-        .then((response) => {
-            dispatch({
-                type: types.FETCHING_WORKFLOWS_SUCCESS,
-                data: response.data.data,
-                dataFetched: true,
-                pagination: response.data.meta
-            });
-        });
-};
+export const fetchingWorkflows = () => ({
+    type: types.FETCHING_WORKFLOWS
+})
 
-export const searchWorkflows = (query = {}) => {
-    let URL = '/workflows?published=1';
+export const fetchingWorkflowsSuccess = (payload) => ({
+    type: types.FETCHING_WORKFLOWS_SUCCESS,
+    data: payload
+})
 
-    if (Object.keys(query).length) {
-        Object.keys(query).map((key) => {
-            URL = URL + '&' + key + '=' + query[key];
-        });
-    }
+export const fetchingWorkflowsFailure = () => ({
+    type: types.FETCHING_WORKFLOWS_FAILURE
+})
 
-    return fetch(URL)
-        .then((response) => {
-            return response.data.data;
-        });
-};
+export const postingWorkflow = () => ({
+    type: types.POSTING_WORKFLOW
+})
 
-export const postWorkflow = (data) => (dispatch) => {
-    if (typeof data === 'undefined' || Object.keys(data).length === 0) {
-        return;
-    }
+export const postingWorkflowSuccess = (payload) => ({
+    type: types.POSTING_WORKFLOW_SUCCESS,
+    data: payload
+})
 
-    dispatch({
-        type: types.POSTING_ACCOUNT
-    });
+export const postingWorkflowFailure = () => ({
+    type: types.POSTING_WORKFLOW_FAILURE
+})
 
-    let METHOD = 'POST';
-    let URL = '/workflows';
+export const deletingWorkflow = () => ({
+    type: types.DELETING_WORKFLOW
+})
 
-    if (data.hasOwnProperty('id') && data.id !== 'new') {
-        URL = URL + '/' + data.id;
-        METHOD = 'PATCH';
-    } else {
-        delete data.id;
-    }
+export const deletingWorkflowSuccess = (payload) => ({
+    type: types.DELETING_WORKFLOW_SUCCESS,
+    data: payload
+})
 
-    let options = {
-        body: data,
-        method: METHOD
-    };
-
-    fetch(URL, options)
-        .then((response) => {
-            dispatch({
-                type: types.POSTING_ACCOUNT_SUCCESS,
-                data: response.data.data,
-                dataFetched: true
-            })
-        });
-};
+export const deletingWorkflowFailure = () => ({
+    type: types.DELETING_WORKFLOW_FAILURE
+})
