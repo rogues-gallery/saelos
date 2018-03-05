@@ -5,9 +5,8 @@
  * @param panelClass
  * @returns {boolean}
  */
-export const togglePanelById = (identificator, panelClass) => {
-    return document.getElementById(identificator).classList.toggle(panelClass);
-};
+export const togglePanelById = (identificator, panelClass) =>
+  document.getElementById(identificator).classList.toggle(panelClass);
 
 /**
  * Toggle panel visibility by classname.
@@ -16,13 +15,11 @@ export const togglePanelById = (identificator, panelClass) => {
  * @param panelClass
  * @returns {boolean}
  */
-export const togglePanelByClass = (classname, panelClass) => {
-    return document.querySelector(classname).classList.toggle(panelClass);
-};
+export const togglePanelByClass = (classname, panelClass) =>
+  document.querySelector(classname).classList.toggle(panelClass);
 
 /**
  * Toggle prevention of content scrolling
  */
-export const togglePreventContentScroll = () => {
-    document.querySelector('body').classList.toggle('panel-open');
-};
+export const togglePreventContentScroll = () =>
+  document.querySelector('body').classList.toggle('panel-open');

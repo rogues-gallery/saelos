@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 
 // import services actions
 import { fetchUser } from '../modules/auth/service'
-import { getAuth } from '../modules/auth/store/reducer';
+import { getAuth } from '../modules/auth/store/selectors';
 
 // import components
 import PrivateLayout from './Private'
@@ -32,13 +32,13 @@ class Layout extends Component {
 }
 
 Layout.propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
-    user: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
-    dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
+  dispatch: PropTypes.func.isRequired,
 }
 
 export default withRouter(connect(state => ({
-    isAuthenticated: getAuth(state),
-    user: state.user,
+  isAuthenticated: getAuth(state),
+  user: state.user,
 }))(Layout))

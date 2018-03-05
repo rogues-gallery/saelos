@@ -11,21 +11,11 @@ class Report extends Model {
   initialize(props) {
     super.initialize(props)
 
-    this.published = props.published || 0
-    this.firstName = props.firstName || ''
-    this.lastName = props.lastName || ''
-    this.position = props.position || ''
-    this.email = props.email || ''
-    this.address1 = props.address1 || ''
-    this.address2 = props.address2 || ''
-    this.city = props.city || ''
-    this.state = props.state || ''
-    this.zip = props.zip || ''
-    this.country = props.country || ''
-    this.phone = props.phone || ''
-    this.fax = props.fax || ''
-    this.website = props.website || ''
-    this.info = props.info || ''
+    this.name = props.name || ''
+    this.columns = props.columns || []
+    this.description = props.description || ''
+    this.dataSource = props.dataSource || ''
+    this.filters = props.filters || {}
 
     // relate user model
     this.user = props.user ? new User(props.user) : null

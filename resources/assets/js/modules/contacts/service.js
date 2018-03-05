@@ -8,17 +8,17 @@ import Transformer from '../../utils/Transformer'
  * @returns {function(*)}
  */
 export const fetchContact = (id) => (dispatch) => {
-    dispatch(actions.fetchingContact());
+  dispatch(actions.fetchingContact());
 
-    return Http.get(`people/${id}`)
-        .then(res => {
-            const data = Transformer.fetch(res.data.data)
-            dispatch(actions.fetchingContactSuccess(data))
-        })
-        .catch(err => {
-            console.log(err)
-            dispatch(actions.fetchingContactFailure());
-        })
+  return Http.get(`people/${id}`)
+    .then(res => {
+      const data = Transformer.fetch(res.data.data)
+      dispatch(actions.fetchingContactSuccess(data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingContactFailure());
+    })
 }
 
 /**
@@ -28,57 +28,57 @@ export const fetchContact = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchContacts = (params) => (dispatch) => {
-    dispatch(actions.fetchingContacts());
+  dispatch(actions.fetchingContacts());
 
-    params = params || {}
+  params = params || {}
 
-    return Http.get('people', {params: params})
-        .then(res => {
-            const data = Transformer.fetch(res.data)
-            dispatch(actions.fetchingContactsSuccess(data))
-        })
-        .catch(err => {
-            console.log(err)
-            dispatch(actions.fetchingContactsFailure())
-        })
+  return Http.get('people', {params: params})
+    .then(res => {
+      const data = Transformer.fetch(res.data)
+      dispatch(actions.fetchingContactsSuccess(data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingContactsFailure())
+    })
 }
 
 export const saveContact = (params) => (dispatch) => {
-    dispatch(actions.postingContact());
+  dispatch(actions.postingContact());
 
-    if (params.id) {
-        return Http.patch(`people/${params.id}`, params)
-            .then(res => {
-                const data = Transformer.fetch(res.data)
-                dispatch(actions.postingContactSuccess(data))
-            })
-            .catch(err => {
-                console.log(err)
-                dispatch(actions.postingContactFailure());
-            })
-    } else {
-        return Http.post(`people`, params)
-            .then(res => {
-                const data = Transformer.fetch(res.data)
-                dispatch(actions.postingContactSuccess(data))
-            })
-            .catch(err => {
-                console.log(err)
-                dispatch(actions.postingContactFailure());
-            })
-    }
+  if (params.id) {
+    return Http.patch(`people/${params.id}`, params)
+      .then(res => {
+        const data = Transformer.fetch(res.data)
+        dispatch(actions.postingContactSuccess(data))
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(actions.postingContactFailure());
+      })
+  } else {
+    return Http.post(`people`, params)
+      .then(res => {
+        const data = Transformer.fetch(res.data)
+        dispatch(actions.postingContactSuccess(data))
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(actions.postingContactFailure());
+      })
+  }
 }
 
 export const deleteContact = (id) => (dispatch) => {
-    dispatch(actions.deletingContact());
+  dispatch(actions.deletingContact());
 
-    return Http.delete(`people/${id}`)
-        .then(res => {
-            const data = Transformer.fetch(res.data)
-            dispatch(actions.deletingContactSuccess(data))
-        })
-        .catch(err => {
-            console.log(err)
-            dispatch(actions.deletingContactFailure())
-        })
+  return Http.delete(`people/${id}`)
+    .then(res => {
+      const data = Transformer.fetch(res.data)
+      dispatch(actions.deletingContactSuccess(data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.deletingContactFailure())
+    })
 }

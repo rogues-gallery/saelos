@@ -10,7 +10,7 @@ import NavItem from './NavItem'
 const PublicHeader = ({ showNavigation }) => (
   <Collapse className="navbar-collapse navbar-dark" isOpen={showNavigation}>
     <ul className="navbar-nav mr-auto">
-        <NavItem path="/">Home</NavItem>
+      <NavItem path="/">Home</NavItem>
     </ul>
     <ul className="navbar-nav">
       <NavItem path="/login">Login</NavItem>
@@ -20,7 +20,7 @@ const PublicHeader = ({ showNavigation }) => (
 )
 
 PublicHeader.propTypes = {
-    showNavigation: PropTypes.bool.isRequired,
+  showNavigation: PropTypes.bool.isRequired,
 };
 
 // export component

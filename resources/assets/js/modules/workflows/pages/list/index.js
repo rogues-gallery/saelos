@@ -3,5 +3,5 @@ import Page from './Page';
 import { getWorkflows } from '../../store/selectors'
 
 export default connect(state => ({
-    workflows: getWorkflows(state)
+  workflows: getWorkflows(state)
 }))(Page);

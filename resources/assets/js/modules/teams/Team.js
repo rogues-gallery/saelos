@@ -1,7 +1,7 @@
 import Model from '../../utils/Model'
 import User from '../../modules/user/User'
 
-class Leader extends Model {
+class Team extends Model {
   constructor(props) {
     super(props)
 
@@ -19,4 +19,4 @@ class Leader extends Model {
   }
 }
 
-export default Leader
+export default Team

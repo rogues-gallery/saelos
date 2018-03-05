@@ -1,53 +1,53 @@
 import * as types from './action-types';
 
 export const fetchingContact = () => ({
-    type: types.FETCHING_SINGLE_CONTACT
+  type: types.FETCHING_SINGLE_CONTACT
 })
 
 export const fetchingContactSuccess = (payload) => ({
-    type: types.FETCHING_SINGLE_CONTACT_SUCCESS,
-    data: payload
+  type: types.FETCHING_SINGLE_CONTACT_SUCCESS,
+  data: payload
 })
 
 export const fetchingContactFailure = () => ({
-    type: types.FETCHING_SINGLE_CONTACT_FAILURE
+  type: types.FETCHING_SINGLE_CONTACT_FAILURE
 })
 
 export const fetchingContacts = () => ({
-    type: types.FETCHING_CONTACTS
+  type: types.FETCHING_CONTACTS
 })
 
 export const fetchingContactsSuccess = (payload) => ({
-    type: types.FETCHING_CONTACTS_SUCCESS,
-    data: payload
+  type: types.FETCHING_CONTACTS_SUCCESS,
+  data: payload
 })
 
 export const fetchingContactsFailure = () => ({
-    type: types.FETCHING_CONTACTS_FAILURE
+  type: types.FETCHING_CONTACTS_FAILURE
 })
 
 export const postingContact = () => ({
-    type: types.POSTING_CONTACT
+  type: types.POSTING_CONTACT
 })
 
 export const postingContactSuccess = (payload) => ({
-    type: types.POSTING_CONTACT_SUCCESS,
-    data: payload
+  type: types.POSTING_CONTACT_SUCCESS,
+  data: payload
 })
 
 export const postingContactFailure = () => ({
-    type: types.POSTING_CONTACT_FAILURE
+  type: types.POSTING_CONTACT_FAILURE
 })
 
 export const deletingContact = () => ({
-    type: types.DELETING_CONTACT
+  type: types.DELETING_CONTACT
 })
 
 export const deletingContactSuccess = (payload) => ({
-    type: types.DELETING_CONTACT_SUCCESS,
-    data: payload
+  type: types.DELETING_CONTACT_SUCCESS,
+  data: payload
 })
 
 export const deletingContactFailure = () => ({
-    type: types.DELETING_CONTACT_FAILURE
+  type: types.DELETING_CONTACT_FAILURE
 })

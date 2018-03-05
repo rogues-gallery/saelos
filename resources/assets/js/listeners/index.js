@@ -9,29 +9,29 @@ import Echo from 'laravel-echo';
 window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: 'us2',
-    encrypted: true
+  broadcaster: 'pusher',
+  key: process.env.MIX_PUSHER_APP_KEY,
+  cluster: 'us2',
+  encrypted: true
 });
 
 window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
 
 // Event listener when focusing inputs to set the parent input container as focused
 document.addEventListener('focusin', function (e) {
-    let parentNode = e.target.parentNode;
+  let parentNode = e.target.parentNode;
 
-    if (parentNode.classList.contains('input-container')) {
-        parentNode.classList.toggle('focused');
-    }
+  if (parentNode.classList.contains('input-container')) {
+    parentNode.classList.toggle('focused');
+  }
 });
 
 document.addEventListener('focusout', function (e) {
-    let parentNode = e.target.parentNode;
+  let parentNode = e.target.parentNode;
 
-    if (parentNode.classList.contains('input-container')) {
-        parentNode.classList.toggle('focused');
-    }
+  if (parentNode.classList.contains('input-container')) {
+    parentNode.classList.toggle('focused');
+  }
 });
 
 require('./app');

@@ -13,12 +13,12 @@ const Link = ({ path, children }) => (
 )
 
 Link.propTypes = {
-    path: PropTypes.string.isRequired,
-    children: PropTypes.any,
+  path: PropTypes.string.isRequired,
+  children: PropTypes.any,
 }
 
 Link.contextTypes = {
-    router: PropTypes.object,
+  router: PropTypes.object,
 }
 
 export default Link

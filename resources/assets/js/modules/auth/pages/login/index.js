@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Page from './Page';
+import { getAuth } from "../../store/selectors";
 
 export default connect(state => ({
-    isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: getAuth(state)
 }))(Page)

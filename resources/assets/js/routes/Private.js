@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getAuth } from '../modules/auth/store/reducer';
+import { getAuth } from '../modules/auth/store/selectors';
 
 const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
   return <Route {...rest} render={props => (
@@ -13,7 +13,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
         state: { from: props.location },
       }}/>
   )}/>
-  
+
 }
 
 PrivateRoute.propTypes = {
@@ -23,5 +23,5 @@ PrivateRoute.propTypes = {
 }
 
 export default connect(state => ({
-    isAuthenticated: getAuth(state)
+  isAuthenticated: getAuth(state)
 }))(PrivateRoute)

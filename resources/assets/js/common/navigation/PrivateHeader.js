@@ -18,7 +18,7 @@ const PrivateHeader = ({ user, showNavigation, showDropdown, toggleDropdown, log
       <NavItem path="/opportunities">Opportunities</NavItem>
       <NavItem path="/reports">Reports</NavItem>
     </ul>
-    
+
     <ul className="navbar-nav">
       <Dropdown isOpen={showDropdown} toggle={toggleDropdown}>
         <DropdownToggle nav caret>
@@ -38,11 +38,11 @@ const PrivateHeader = ({ user, showNavigation, showDropdown, toggleDropdown, log
   </Collapse>)
 
 PrivateHeader.propTypes = {
-    user: PropTypes.object.isRequired,
-    showNavigation: PropTypes.bool.isRequired,
-    showDropdown: PropTypes.bool.isRequired,
-    toggleDropdown: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  showNavigation: PropTypes.bool.isRequired,
+  showDropdown: PropTypes.bool.isRequired,
+  toggleDropdown: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 
 // export component

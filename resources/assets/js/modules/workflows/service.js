@@ -8,17 +8,17 @@ import Transformer from '../../utils/Transformer'
  * @returns {function(*)}
  */
 export const fetchWorkflow = (id) => (dispatch) => {
-    dispatch(actions.fetchingWorkflow());
+  dispatch(actions.fetchingWorkflow());
 
-    return Http.get(`workflows/${id}`)
-        .then(res => {
-            const data = Transformer.fetch(res.data.data)
-            dispatch(actions.fetchingWorkflowSuccess(data))
-        })
-        .catch(err => {
-            console.log(err)
-            dispatch(actions.fetchingWorkflowFailure());
-        })
+  return Http.get(`workflows/${id}`)
+    .then(res => {
+      const data = Transformer.fetch(res.data.data)
+      dispatch(actions.fetchingWorkflowSuccess(data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingWorkflowFailure());
+    })
 }
 
 /**
@@ -28,57 +28,69 @@ export const fetchWorkflow = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchWorkflows = (params) => (dispatch) => {
-    dispatch(actions.fetchingWorkflows());
+  dispatch(actions.fetchingWorkflows());
 
-    params = params || {}
+  params = params || {}
 
-    return Http.get('workflows', {params: params})
-        .then(res => {
-            const data = Transformer.fetch(res.data)
-            dispatch(actions.fetchingWorkflowsSuccess(data))
-        })
-        .catch(err => {
-            console.log(err)
-            dispatch(actions.fetchingWorkflowsFailure())
-        })
+  return Http.get('workflows', {params: params})
+    .then(res => {
+      const data = Transformer.fetch(res.data)
+      dispatch(actions.fetchingWorkflowsSuccess(data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingWorkflowsFailure())
+    })
 }
 
+/**
+ * Save a workflow
+ *
+ * @param params
+ * @returns {function(*)}
+ */
 export const saveWorkflow = (params) => (dispatch) => {
-    dispatch(actions.postingWorkflow());
+  dispatch(actions.postingWorkflow());
 
-    if (params.id) {
-        return Http.patch(`workflows/${params.id}`, params)
-            .then(res => {
-                const data = Transformer.fetch(res.data)
-                dispatch(actions.postingWorkflowSuccess(data))
-            })
-            .catch(err => {
-                console.log(err)
-                dispatch(actions.postingWorkflowFailure());
-            })
-    } else {
-        return Http.post(`workflows`, params)
-            .then(res => {
-                const data = Transformer.fetch(res.data)
-                dispatch(actions.postingWorkflowSuccess(data))
-            })
-            .catch(err => {
-                console.log(err)
-                dispatch(actions.postingWorkflowFailure());
-            })
-    }
+  if (params.id) {
+    return Http.patch(`workflows/${params.id}`, params)
+      .then(res => {
+        const data = Transformer.fetch(res.data)
+        dispatch(actions.postingWorkflowSuccess(data))
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(actions.postingWorkflowFailure());
+      })
+  } else {
+    return Http.post(`workflows`, params)
+      .then(res => {
+        const data = Transformer.fetch(res.data)
+        dispatch(actions.postingWorkflowSuccess(data))
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(actions.postingWorkflowFailure());
+      })
+  }
 }
 
+/**
+ * Delete a workflow
+ *
+ * @param id
+ * @returns {function(*)}
+ */
 export const deleteWorkflow = (id) => (dispatch) => {
-    dispatch(actions.deletingWorkflow());
+  dispatch(actions.deletingWorkflow());
 
-    return Http.delete(`workflows/${id}`)
-        .then(res => {
-            const data = Transformer.fetch(res.data)
-            dispatch(actions.deletingWorkflowSuccess(data))
-        })
-        .catch(err => {
-            console.log(err)
-            dispatch(actions.deletingWorkflowFailure())
-        })
+  return Http.delete(`workflows/${id}`)
+    .then(res => {
+      const data = Transformer.fetch(res.data)
+      dispatch(actions.deletingWorkflowSuccess(data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.deletingWorkflowFailure())
+    })
 }

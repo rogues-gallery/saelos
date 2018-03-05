@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Page from './Page';
-import { getContacts } from '../../store/selectors'
+import { getTeams } from '../../store/selectors'
 
 export default connect(state => ({
-    contacts: getContacts(state)
+  teams: getTeams(state)
 }))(Page);

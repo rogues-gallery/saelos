@@ -48,12 +48,12 @@ const Form = ({ email, password, remember, errors, handleChange, handleSubmit })
 )
 
 Form.propTypes = {
-    email: PropTypes.string,
-    password: PropTypes.string,
-    remember: PropTypes.bool,
-    errors: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    handleChange: PropTypes.func.isRequired,
+  email: PropTypes.string,
+  password: PropTypes.string,
+  remember: PropTypes.bool,
+  errors: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default Form
