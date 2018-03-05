@@ -22,7 +22,7 @@ export const fetchReport = (id) => (dispatch) => {
 }
 
 /**
- * Fetch a paginated list of contacts
+ * Fetch a paginated list of reports
  *
  * @param params
  * @returns {function(*)}
@@ -43,6 +43,12 @@ export const fetchReports = (params) => (dispatch) => {
         })
 }
 
+/**
+ * Save a report
+ *
+ * @param params
+ * @returns {function(*)}
+ */
 export const saveReport = (params) => (dispatch) => {
     dispatch(actions.postingReport());
 
@@ -69,6 +75,12 @@ export const saveReport = (params) => (dispatch) => {
     }
 }
 
+/**
+ * Delete a report
+ *
+ * @param id
+ * @returns {function(*)}
+ */
 export const deleteReport = (id) => (dispatch) => {
     dispatch(actions.deletingReport());
 

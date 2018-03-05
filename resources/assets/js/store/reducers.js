@@ -6,6 +6,7 @@ import accountReducer from '../modules/accounts/store/reducer';
 import opportunityReducer from '../modules/opportunities/store/reducer';
 import reportReducer from '../modules/reports/store/reducer';
 import workflowReducer from '../modules/workflows/store/reducer';
+import teamReducer from '../modules/teams/store/reducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   accountState: accountReducer,
   opportunityState: opportunityReducer,
   reportState: reportReducer,
-  workflowState: workflowReducer
+  workflowState: workflowReducer,
+  teamState: teamReducer
 });
