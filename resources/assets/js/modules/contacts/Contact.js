@@ -15,7 +15,7 @@ class Contact extends Model {
     this.published = props.published || 0
     this.firstName = props.firstName || ''
     this.lastName = props.lastName || ''
-    this.position = props.position || 'Position'
+    this.position = props.position || ''
     this.email = props.email || ''
     this.address1 = props.address1 || ''
     this.address2 = props.address2 || ''
@@ -30,7 +30,7 @@ class Contact extends Model {
 
     // relate user model
     this.user = props.user ? new User(props.user) : null
-    this.company = props.company ? new Account(props.company) : null
+    this.company = props.company ? new Account(props.company) : new Account({})
   }
 }
 

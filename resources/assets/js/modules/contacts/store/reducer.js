@@ -66,7 +66,7 @@ export const getContact = (state, id) => {
     return new Contact({})
   }
 
-  return contact;
+  return new Contact(contact);
 }
 export const getContacts = (state) => state.data;
 export const getPaginationForContacts = (state) => state.pagination;

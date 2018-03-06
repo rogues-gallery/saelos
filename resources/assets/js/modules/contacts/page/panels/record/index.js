@@ -3,10 +3,17 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getContact } from '../../../store/selectors';
+import { fetchContact } from '../../../service';
 
 class Record extends React.Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillMount() {
+    if (this.props.match.params.id) {
+      this.props.dispatch(fetchContact(this.props.match.params.id))
+    }
   }
 
   render() {
@@ -27,25 +34,25 @@ class Record extends React.Component {
             <li className="list-group-item">
               <div className="text-muted small pb-2">PROFESSIONAL</div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Company</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Company</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value={contact.company.name} />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Position</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Position</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value={contact.position} />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Work Phone</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Work Phone</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Work Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Work Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="" />
                 </div>
@@ -54,19 +61,19 @@ class Record extends React.Component {
             <li className="list-group-item">
               <div className="text-muted small pb-2">PERSONAL</div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
@@ -75,19 +82,19 @@ class Record extends React.Component {
             <li className="list-group-item">
               <div className="text-muted small pb-2">SOCIAL</div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
@@ -96,39 +103,19 @@ class Record extends React.Component {
             <li className="list-group-item">
               <div className="text-muted small pb-2">ADDITIONAL INFO</div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
-                <div className="col-sm-9">
-                  <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
-                </div>
-              </div>
-            </li>
-            <li className="list-group-item">
-              <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
-                <div className="col-sm-9">
-                  <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
-                </div>
-              </div>
-              <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
-                <div className="col-sm-9">
-                  <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
-                </div>
-              </div>
-              <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
@@ -136,19 +123,19 @@ class Record extends React.Component {
             </li>
             <li className="list-group-item">
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
@@ -156,19 +143,39 @@ class Record extends React.Component {
             </li>
             <li className="list-group-item">
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>
               </div>
               <div className="form-group row">
-                <label for="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <div className="col-sm-9">
+                  <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                </div>
+              </div>
+            </li>
+            <li className="list-group-item">
+              <div className="form-group row">
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <div className="col-sm-9">
+                  <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                <div className="col-sm-9">
+                  <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
                 <div className="col-sm-9">
                   <input type="text" readOnly className="form-control-plaintext" id="staticEmail" value="email@example.com" />
                 </div>

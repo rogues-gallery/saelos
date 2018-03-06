@@ -4,13 +4,15 @@ import { fetchContacts, fetchContact } from "../service";
 import Record from './panels/record';
 
 const Page = ({ contacts, dispatch }) => ([
-    <List contacts={contacts} dispatch={dispatch} />,
-    <Record />
+    <List contacts={contacts} dispatch={dispatch} key={0} />,
+    <Record key={1} dispatch={dispatch} />
 ])
 
 class List extends React.Component {
   componentWillMount() {
-    this.props.dispatch(fetchContacts())
+    if (this.props.contacts.length === 0) {
+      this.props.dispatch(fetchContacts()) 
+    }
   }
 
   render() {
