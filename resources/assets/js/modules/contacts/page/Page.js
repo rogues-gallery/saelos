@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { fetchContacts, fetchContact } from "../service";
 import Record from './panels/record';
 
-const Page = ({ contacts, dispatch }) => (
-  <div className="parent-container">
-    <List contacts={contacts} dispatch={dispatch} />
+const Page = ({ contacts, dispatch }) => ([
+    <List contacts={contacts} dispatch={dispatch} />,
     <Record />
-  </div>
-)
+])
 
 class List extends React.Component {
   componentWillMount() {
