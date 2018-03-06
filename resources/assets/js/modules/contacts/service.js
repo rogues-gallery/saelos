@@ -9,6 +9,17 @@ import Transformer from '../../utils/Transformer'
  */
 export const fetchContact = (id) => (dispatch) => {
   dispatch(actions.fetchingContact());
+  dispatch(actions.fetchingCustomFieldsForContacts());
+
+  Http.get(`contexts/Person`)
+    .then(res => {
+      const data = Transformer.fetch(res.data)
+      dispatch(actions.fetchingCustomFieldsForContactsSuccess(data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingCustomFieldsForContactsFailure());
+    })
 
   return Http.get(`people/${id}`)
     .then(res => {

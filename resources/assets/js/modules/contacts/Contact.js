@@ -1,6 +1,7 @@
 import Model from '../../utils/Model'
 import User from '../../modules/user/User'
 import Account from '../../modules/accounts/Account'
+import _ from 'lodash';
 
 class Contact extends Model {
   constructor(props) {
@@ -27,6 +28,7 @@ class Contact extends Model {
     this.fax = props.fax || ''
     this.website = props.website || ''
     this.info = props.info || ''
+    this.company_id = props.company_id || 0;
 
     // relate user model
     this.user = props.user ? new User(props.user) : null

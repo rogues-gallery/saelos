@@ -40,6 +40,7 @@ class ContextController extends Controller
                         'label' => $key,
                         'alias' => $key,
                         'required' => $key === 'email',
+                        'group' => 'core'
                     ];
                 }
             }
@@ -58,6 +59,7 @@ class ContextController extends Controller
                     'type' => $customField->type,
                     'options' => $customField->values,
                     'default' => $customField->default,
+                    'group' => $customField->group
                 ];
             }
 

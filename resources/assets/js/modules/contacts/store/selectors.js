@@ -8,3 +8,6 @@ export const getContact = (state, id) =>
 
 export const getPaginationForContacts = (state) =>
   fromReducer.getPaginationForContacts(state.contactState);
+
+export const getCustomFieldsForContacts = (state) =>
+  fromReducer.getCustomFieldsForContacts(state.contactState);

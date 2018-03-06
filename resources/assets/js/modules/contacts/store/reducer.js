@@ -14,7 +14,8 @@ const initialState = {
     total: 0,
   },
   isFetching: false,
-  error: false
+  error: false,
+  customFields : []
 }
 
 export default function contactReducer(state = initialState, action) {
@@ -53,6 +54,11 @@ export default function contactReducer(state = initialState, action) {
         isFetching: false,
         error: false
       }
+    case types.FETCHING_CUSTOM_FIELDS_FOR_CONTACTS_SUCCESS:
+      return {
+        ...state,
+        customFields: action.data
+      }
     default:
       return state
   }
@@ -70,3 +76,4 @@ export const getContact = (state, id) => {
 }
 export const getContacts = (state) => state.data;
 export const getPaginationForContacts = (state) => state.pagination;
+export const getCustomFieldsForContacts = (state) => state.customFields;

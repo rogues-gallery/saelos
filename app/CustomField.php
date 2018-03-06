@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CustomField extends Model
 {
+	protected $table = 'fields';
+	
     protected $casts = [
         'values' => 'array',
     ];
