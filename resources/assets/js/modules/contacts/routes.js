@@ -1,17 +1,16 @@
-import List from './pages/list';
-import Record from './pages/record';
+import Page from './page';
 
 export default [
   {
     path: '/contacts',
     exact: true,
     auth: true,
-    component: List
+    component: Page
   },
   {
     path: '/contacts/:id',
     exact: true,
     auth: true,
-    component: Record
+    component: Page
   }
 ];
