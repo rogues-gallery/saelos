@@ -1,5 +1,6 @@
 import * as types from './action-types';
 import _ from 'lodash';
+import Account from "../Account";
 
 const initialState = {
   data: [],
@@ -58,6 +59,14 @@ export default function accountReducer(state = initialState, action) {
 }
 
 export const getAccountIndex = (state, id) => _.findIndex(getAccounts(state), (c) => c.id === parseInt(id));
-export const getAccount = (state, id) => _.find(getAccounts(state), (c) => c.id === parseInt(id));
+export const getAccount = (state, id) => {
+  let account = _.find(getAccounts(state), (c) => c.id === parseInt(id));
+
+  if (typeof account === 'undefined') {
+    return new Account({})
+  }
+
+  return account;
+}
 export const getAccounts = (state) => state.data;
 export const getPaginationForAccounts = (state) => state.pagination;

@@ -1,5 +1,6 @@
 import * as types from './action-types';
 import _ from 'lodash';
+import Opportunity from "../Opportunity";
 
 const initialState = {
   data: [],
@@ -58,6 +59,14 @@ export default function opportunityReducer(state = initialState, action) {
 }
 
 export const getOpportunityIndex = (state, id) => _.findIndex(getOpportunities(state), (c) => c.id === parseInt(id));
-export const getOpportunity = (state, id) => _.find(getOpportunities(state), (c) => c.id === parseInt(id));
+export const getOpportunity = (state, id) => {
+  let opportunity = _.find(getOpportunities(state), (c) => c.id === parseInt(id));
+
+  if (typeof opportunity === 'undefined') {
+    return new Opportunity({})
+  }
+
+  return opportunity;
+}
 export const getOpportunities = (state) => state.data;
 export const getPaginationForOpportunities = (state) => state.meta;

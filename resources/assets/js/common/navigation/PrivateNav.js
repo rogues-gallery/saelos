@@ -8,7 +8,7 @@ import { Nav } from 'reactstrap';
 import NavItem from './NavItem'
 
 const PrivateNav = ({ user, showNavigation, showDropdown, toggleDropdown, logout }) => (
-  <Nav vertical>
+  <Nav vertical pills>
     <NavItem path="/">Home</NavItem>
     <NavItem path="/headquarters">My Vector</NavItem>
     <NavItem path="/contacts">Contacts</NavItem>
