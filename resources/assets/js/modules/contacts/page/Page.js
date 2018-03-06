@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { fetchContacts, fetchContact } from "../../service";
+import { fetchContacts, fetchContact } from "../service";
+import Record from './panels/record';
 
 const Page = ({ contacts, dispatch }) => (
-  <List contacts={contacts} dispatch={dispatch} />
+  <div className="parent-container">
+    <List contacts={contacts} dispatch={dispatch} />
+    <Record />
+  </div>
 )
 
 class List extends React.Component {
@@ -20,7 +24,7 @@ class List extends React.Component {
           </form>
         </div>
         <div className="list-group">
-          {this.props.contacts.map(contact => <Contact key={contact.id} contact={contact} dispatch={this.props.dispatch} />)}
+          {this.props.contacts.map(contact => <Contact key={contact.id} contact={contact} dispatch={this.props.dispatch} router={this.context.router} />)}
         </div>
       </div>
     )
@@ -32,16 +36,25 @@ List.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
-const Contact = ({ contact, dispatch }) => {
+List.contextTypes = {
+  router: PropTypes.object
+}
+
+const Contact = ({ contact, dispatch, router }) => {
+  const openContactRecord = (id) => {
+    dispatch(fetchContact(contact.id))
+    router.history.push(`/contacts/${id}`)
+  }
+
   return (
-    <a href={`/contacts/${contact.id}`} onClick={() => dispatch(fetchContact(contact.id))} className="list-group-item list-group-item-action flex-column align-items-start">
+    <div onClick={() => openContactRecord(contact.id)} className={`list-group-item list-group-item-action flex-column align-items-start ${contact.id === parseInt(router.route.match.params.id) ? ' active' : ''}`}>
       <div className="d-flex w-100 justify-content-between">
         <h5 className="mb-1">{`${contact.firstName} ${contact.lastName}`}</h5>
         <small className="text-muted">3 days ago</small>
       </div>
       <p className="mb-1">{contact.position}</p>
       <small className="text-muted">Some Text</small>
-    </a>
+    </div>
   );
 }
 

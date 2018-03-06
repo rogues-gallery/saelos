@@ -1,5 +1,6 @@
 import * as types from './action-types';
 import _ from 'lodash';
+import Contact from "../Contact";
 
 const initialState = {
   data: [],
@@ -58,6 +59,14 @@ export default function contactReducer(state = initialState, action) {
 }
 
 export const getContactIndex = (state, id) => _.findIndex(getContacts(state), (c) => c.id === parseInt(id));
-export const getContact = (state, id) => _.find(getContacts(state), (c) => c.id === parseInt(id));
+export const getContact = (state, id) => {
+  let contact = _.find(getContacts(state), (c) => c.id === parseInt(id));
+
+  if (typeof contact === 'undefined') {
+    return new Contact({})
+  }
+
+  return contact;
+}
 export const getContacts = (state) => state.data;
 export const getPaginationForContacts = (state) => state.pagination;
