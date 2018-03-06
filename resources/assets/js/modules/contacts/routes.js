@@ -1,4 +1,5 @@
 import List from './pages/list';
+import Record from './pages/record';
 
 export default [
   {
@@ -6,5 +7,11 @@ export default [
     exact: true,
     auth: true,
     component: List
+  },
+  {
+    path: '/contacts/:id',
+    exact: true,
+    auth: true,
+    component: Record
   }
 ];

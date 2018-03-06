@@ -3,17 +3,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logout } from '../../modules/auth/service'
-import {
-  Nav,
-  NavItem,
-  NavLink
-} from 'reactstrap';
 
 // import components
-import { Link } from 'react-router-dom'
-import { Navbar, NavbarToggler } from 'reactstrap';
-import PrivateHeader from './PrivateHeader'
-import PublicHeader from './PublicHeader'
+import PrivateNav from './PrivateNav';
+import PublicNav from './PublicNav';
 import { getAuth } from "../../modules/auth/store/selectors";
 
 class Navigation extends Component {
@@ -50,19 +43,20 @@ class Navigation extends Component {
 
   render() {
     return (
-      <Navbar className="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-        <Link to="/" className="navbar-brand">Saelos</Link>
-        <NavbarToggler className="navbar-toggler d-lg-none" onClick={this.toggleNavbar} />
+      <div className="col-sm-2 col-md-2 sidebar left pt-5 bg-inverse">
+        <div className="fixed-top">
+          <h3>User Stuff</h3>
+        </div>
         {
           this.props.isAuthenticated
-            ? <PrivateHeader user={this.props.user}
-                             showNavigation={this.state.showNavigation}
-                             toggleDropdown={this.toggleDropdown}
-                             showDropdown={this.state.showDropdown}
-                             logout={this.logout} />
-            : <PublicHeader showNavigation={this.state.showNavigation} />
+            ? <PrivateNav user={this.props.user}
+                          showNavigation={this.state.showNavigation}
+                          toggleDropdown={this.toggleDropdown}
+                          showDropdown={this.state.showDropdown}
+                          logout={this.logout} />
+            : <PublicNav showNavigation={this.state.showNavigation} />
         }
-      </Navbar>
+      </div>
     )
   }
 }
