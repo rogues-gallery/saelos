@@ -43,10 +43,9 @@ class Navigation extends Component {
 
   render() {
     return (
-      <div className="col-sm-2 col-md-2 sidebar left pt-5 bg-inverse">
-        <div className="fixed-top">
-          <h3>User Stuff</h3>
-        </div>
+      <div className="col-sm-2 col-md-2 nav-panel bg-dark-grey">
+        <h3>User Stuff</h3>
+        <div className="nav h-scroll">
         {
           this.props.isAuthenticated
             ? <PrivateNav user={this.props.user}
@@ -56,6 +55,7 @@ class Navigation extends Component {
                           logout={this.logout} />
             : <PublicNav showNavigation={this.state.showNavigation} />
         }
+        </div>
       </div>
     )
   }

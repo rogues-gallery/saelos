@@ -6,7 +6,7 @@
 
 $white:                           #fff;
 $gray-100:                        #f0f3f5;
-$gray-200:                        #c2cfd6;
+$gray-200:                        #e2e2e2;
 $gray-300:                        #a4b7c1;
 $gray-400:                        #869fac;
 $gray-500:                        #678898;
@@ -59,13 +59,13 @@ $theme-colors: (
 // Quickly modify global styling by enabling or disabling optional features.
 
 $enable-transitions:              true;
-$enable-rounded:                  false;
+$enable-rounded:                  true;
 
 // Body
 //
 // Settings for the `<body>` element.
 
-$body-bg:                         #e4e5e6;
+$body-bg:                         #f8f8f8;
 
 // Typography
 //

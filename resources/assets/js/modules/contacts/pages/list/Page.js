@@ -13,8 +13,8 @@ class List extends React.Component {
 
   render() {
     return (
-      <div className="col-sm-2 col-md-3 sidebar offset-md-2 pt-5">
-        <div className="fixed-top">
+      <div className="container col-sm-2 col-md-3 list-panel offset-md-2">
+        <div className="position-fixed">
           <form>
             <input type="search" className="form-control ds-input" id="search-input" placeholder="Search..." role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style={{position:"relative", verticalAlign:"top"}} />
           </form>
