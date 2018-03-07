@@ -63,7 +63,7 @@ class Record extends React.Component {
             <div className="text-dark mini-text"><b>{contact.user.name}</b></div>
           </div>
         </div>
-        <h3 className="border-bottom py-1">{contact.firstName} {contact.lastName}</h3>
+        <h3 className="border-bottom py-2">{contact.firstName} {contact.lastName}</h3>
         <div className="h-scroll">
           {contactFields}
         </div>
