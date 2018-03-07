@@ -44,7 +44,7 @@ class Navigation extends Component {
   render() {
     return (
       <div className="col-sm-2 col-md-2 nav-panel bg-dark-grey">
-        <div class="mx-4 mb-4 py-2 border-bottom heading">
+        <div className="mx-4 mb-4 py-2 border-bottom heading">
           <a href="#" className="btn btn-primary float-right"><b>+</b></a>
         </div>
 
