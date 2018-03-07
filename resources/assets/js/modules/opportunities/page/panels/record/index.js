@@ -23,14 +23,14 @@ class Record extends React.Component {
 
     return (
       <main key={0} className="col main-panel px-3">
-          <div className="toolbar border-bottom pt-1 pb-1">
+          <div className="toolbar border-bottom py-2">
             <button type="button" className="btn btn-default mr-2">1</button>
             <button type="button" className="btn btn-default mr-2">2</button>
             <button type="button" className="btn btn-default mr-2">3</button>
             <button type="button" className="btn btn-default mr-2">4</button>
             <button type="button" className="btn btn-default mr-2">5</button>
           </div>
-          <h3 className="border-bottom pt-1 pb-1">{opportunity.name}</h3>
+          <h3 className="border-bottom py-2">{opportunity.name}</h3>
         <div className="card h-scroll">
           <ul className="list-group list-group-flush">
             <li className="list-group-item">

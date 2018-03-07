@@ -31,7 +31,8 @@ class Opportunity extends Model {
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
     this.company = props.company ? new Account(props.company) : new Account({})
-    this.contacts = props.people || [];
+    this.contacts = props.people || []
+    this.notes = props.notes || []
   }
 }
 

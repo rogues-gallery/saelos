@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Contacts from './components/contacts'
+import Notes from './components/notes'
 import Opportunity from '../../../Opportunity'
 import { getOpportunity } from '../../../store/selectors'
 
@@ -12,7 +13,6 @@ class Detail extends React.Component {
   constructor(props) {
     super(props)
   }
-
 
   render() {
     return (
@@ -34,22 +34,8 @@ class Detail extends React.Component {
               </div>
             </div>
           </div>
-
           <Contacts contacts={this.props.opportunity.contacts} dispatch={this.props.dispatch} />
-
-          <div className="card">
-            <div className="card-header" id="headingNotes">
-              <h6 className="mb-0" data-toggle="collapse" data-target="#collapseNotes" aria-expanded="true" aria-controls="collapseNotes">
-                <MDIcons.MdArrowDropDownCircle /> Notes
-              </h6>
-            </div>
-
-            <div id="collapseNotes" className="collapse show" aria-labelledby="headingNotes">
-              <div className="card-body border-bottom">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-              </div>
-            </div>
-          </div>
+          <Notes notes={this.props.opportunity.notes} dispatch={this.props.dispatch} />
         </div>
       </div>
     )
