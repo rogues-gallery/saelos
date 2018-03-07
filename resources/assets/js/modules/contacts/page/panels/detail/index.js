@@ -11,14 +11,32 @@ import { getContact } from '../../../store/selectors'
 class Detail extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      view: "default"
+    }
+
+    this._toggleView = this._toggleView.bind(this)
+
   }
 
+  _toggleView(view) {
+    this.setState({view: view})
+  }
 
   render() {
-    return (
-      <div key={1} className="col detail-panel border-left">
+    switch(this.state.view){
+      case 'default':
+        return <Details contact={this.props.contact} dispatch={this.props.dispatch} toggle={this._toggleView} />
+      case 'history':
+        return <History activities={this.props.contact.activities} dispatch={this.props.dispatch}  toggle={this._toggleView} />
+    }
+  }
+}
+
+const Details = ({contact, dispatch, toggle}) => (
+    <div key={1} className="col detail-panel border-left">
         <div className="border-bottom text-center py-2 heading">
-          <h5 className="pt-2 mb-1">Contact Details</h5>
+          <h5 className="pt-2 mb-1">Contact Details <span onClick={() => toggle('history')}>>></span></h5>
         </div>
         <div className="h-scroll">
           <div className="card">
@@ -35,7 +53,7 @@ class Detail extends React.Component {
             </div>
           </div>
 
-          <Opportunities opportunities={this.props.contact.opportunities} dispatch={this.props.dispatch} />
+          <Opportunities opportunities={contact.opportunities} dispatch={dispatch} />
 
           <div className="card">
             <div className="card-header" id="headingNotes">
@@ -52,9 +70,15 @@ class Detail extends React.Component {
           </div>
         </div>
       </div>
-    )
-  }
-}
+  )
+
+const History = ({activities, dispatch, toggle}) => (
+      <div key={1} className="col detail-panel border-left">
+        <div className="border-bottom text-center py-2 heading">
+          <h5 className="pt-2 mb-1">History <span onClick={() => toggle('default')}>>></span></h5>
+        </div>
+      </div>
+  )
 
 Detail.propTypes = {
   contact: PropTypes.instanceOf(Contact).isRequired

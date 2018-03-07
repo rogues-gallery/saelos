@@ -20,6 +20,7 @@ h1 {
 
 h5, h6 {
   color: $gray-900;
+  margin-bottom: 0.2em;
 }
 h5 {
   font-weight: 400;
@@ -27,6 +28,9 @@ h5 {
 h6, .h6 {
   font-weight: 700;
   font-size: 0.975rem;
+}
+p {
+  margin-bottom: 0.2em;
 }
 
 label {
