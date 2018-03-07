@@ -11,7 +11,7 @@ export const fetchContact = (id) => (dispatch) => {
   dispatch(actions.fetchingContact());
   dispatch(actions.fetchingCustomFieldsForContacts());
 
-  Http.get(`contexts/Person`)
+  Http.get(`contexts/Person?customOnly=true`)
     .then(res => {
       const data = Transformer.fetch(res.data)
       dispatch(actions.fetchingCustomFieldsForContactsSuccess(data))

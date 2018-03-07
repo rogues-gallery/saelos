@@ -55,7 +55,7 @@ class ContextController extends Controller
                     'label' => $customField->label,
                     'alias' => $alias,
                     'required' => $customField->required,
-                    'is_custom' => true,
+                    'is_custom' => !$customField->protected,
                     'type' => $customField->type,
                     'options' => $customField->values,
                     'default' => $customField->default,
