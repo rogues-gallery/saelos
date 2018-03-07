@@ -48,9 +48,9 @@ const Contact = ({ contact, dispatch, router }) => {
 
   return (
     <div onClick={() => openContactRecord(contact.id)} className={`list-group-item list-group-item-action flex-column align-items-start ${contact.id === parseInt(router.route.match.params.id) ? ' active' : ''}`}>
-      <div className="d-flex w-100 justify-content-between">
-        <h5 className="mb-1">{`${contact.firstName} ${contact.lastName}`}</h5>
-        <small className="text-muted">3 days ago</small>
+      <div>
+        <h6>{contact.firstName} {contact.lastName}</h6>
+        <p>Company Name</p>
       </div>
       <p className="mb-1">{contact.position}</p>
       <small className="text-muted">Some Text</small>
