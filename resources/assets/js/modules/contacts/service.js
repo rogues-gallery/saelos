@@ -13,8 +13,7 @@ export const fetchContact = (id) => (dispatch) => {
 
   Http.get(`contexts/Person?customOnly=true`)
     .then(res => {
-      const data = Transformer.fetch(res.data)
-      dispatch(actions.fetchingCustomFieldsForContactsSuccess(data))
+      dispatch(actions.fetchingCustomFieldsForContactsSuccess(res.data))
     })
     .catch(err => {
       console.log(err)
@@ -23,8 +22,7 @@ export const fetchContact = (id) => (dispatch) => {
 
   return Http.get(`people/${id}`)
     .then(res => {
-      const data = Transformer.fetch(res.data.data)
-      dispatch(actions.fetchingContactSuccess(data))
+      dispatch(actions.fetchingContactSuccess(res.data.data))
     })
     .catch(err => {
       console.log(err)
@@ -45,8 +43,7 @@ export const fetchContacts = (params) => (dispatch) => {
 
   return Http.get('people', {params: params})
     .then(res => {
-      const data = Transformer.fetch(res.data)
-      dispatch(actions.fetchingContactsSuccess(data))
+      dispatch(actions.fetchingContactsSuccess(res.data))
     })
     .catch(err => {
       console.log(err)
@@ -60,8 +57,7 @@ export const saveContact = (params) => (dispatch) => {
   if (params.id) {
     return Http.patch(`people/${params.id}`, params)
       .then(res => {
-        const data = Transformer.fetch(res.data)
-        dispatch(actions.postingContactSuccess(data))
+        dispatch(actions.postingContactSuccess(res.data.data))
       })
       .catch(err => {
         console.log(err)
@@ -70,8 +66,7 @@ export const saveContact = (params) => (dispatch) => {
   } else {
     return Http.post(`people`, params)
       .then(res => {
-        const data = Transformer.fetch(res.data)
-        dispatch(actions.postingContactSuccess(data))
+        dispatch(actions.postingContactSuccess(res.data.data))
       })
       .catch(err => {
         console.log(err)
@@ -85,8 +80,7 @@ export const deleteContact = (id) => (dispatch) => {
 
   return Http.delete(`people/${id}`)
     .then(res => {
-      const data = Transformer.fetch(res.data)
-      dispatch(actions.deletingContactSuccess(data))
+      dispatch(actions.deletingContactSuccess(res.data))
     })
     .catch(err => {
       console.log(err)

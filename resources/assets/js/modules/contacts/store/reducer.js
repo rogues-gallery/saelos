@@ -14,6 +14,7 @@ const initialState = {
     total: 0,
   },
   isFetching: false,
+  isPosting: false,
   error: false,
   customFields : []
 }
@@ -40,6 +41,12 @@ export default function contactReducer(state = initialState, action) {
         isFetching: false,
         error: true
       }
+    case types.POSTING_CONTACT:
+      return {
+        ...state,
+        isPosting: true
+      }
+    case types.POSTING_CONTACT_SUCCESS:
     case types.FETCHING_SINGLE_CONTACT_SUCCESS:
       const index = _.findIndex(state.data, (c) => c.id === parseInt(action.data.id));
 
@@ -52,7 +59,8 @@ export default function contactReducer(state = initialState, action) {
       return {
         ...state,
         isFetching: false,
-        error: false
+        error: false,
+        isPosting: false
       }
     case types.FETCHING_CUSTOM_FIELDS_FOR_CONTACTS_SUCCESS:
       return {
@@ -77,3 +85,4 @@ export const getContact = (state, id) => {
 export const getContacts = (state) => state.data;
 export const getPaginationForContacts = (state) => state.pagination;
 export const getCustomFieldsForContacts = (state) => state.customFields;
+export const isStateDirty = (state) => state.isPosting;
