@@ -33,6 +33,8 @@ class Contact extends Model {
     // relate user model
     this.user = props.user ? new User(props.user) : null
     this.company = props.company ? new Account(props.company) : new Account({})
+    this.notes = props.notes || [];
+    this.opportunities = props.deals || [];
   }
 }
 

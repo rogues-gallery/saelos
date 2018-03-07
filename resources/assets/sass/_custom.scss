@@ -19,13 +19,24 @@ h1 {
   border-bottom: 1px solid #eee;
 }
 
-label {
-  font-weight: bold;
+h5, h6 {
+  color: $gray-900;
+}
+h5 {
+  font-weight: 400;
+}
+h6 {
+  font-weight: 600;
 }
 
-.small {
+label {
+  font-weight: 600;
+}
+
+.micro-text {
   font-size: 70%;
   letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
 
 /*
@@ -47,11 +58,23 @@ label {
   z-index: 1000;
   padding: 0px;
   overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  overflow-y: auto;
 }
 
 .detail-panel {
   right: 0;
+
+  .card {
+    border-left: 0;
+    border-top: 0;
+    border-bottom: 0;
+
+    .card-header {
+      border-top: 0;
+    }
+
+  }
+
 }
 
 /* 
