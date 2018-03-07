@@ -59,6 +59,7 @@ class Detail extends React.Component {
 Detail.propTypes = {
   contact: PropTypes.instanceOf(Contact).isRequired
 }
+
 export default withRouter(connect((state, ownProps) => ({
   contact: getContact(state, ownProps.match.params.id)
 }))(Detail))
