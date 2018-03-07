@@ -92,7 +92,10 @@ label {
   }
   .list-group-item:first-child {
       border-top: 0;
-    }
+  }
+  .h-scroll {
+    height: calc(100vh - 97px); 
+  }
 }
 
 /* 
@@ -126,7 +129,7 @@ label {
 }
 
 .h-scroll {
-  height: 100vh; /* %-height of the viewport */
+  height: calc(100vh - 52px); /* %-height of the viewport */
   overflow-y: scroll;
 }
 
