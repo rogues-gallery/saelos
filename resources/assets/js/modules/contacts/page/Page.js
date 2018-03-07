@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import List from './panels/list';
-import Record from './panels/record';
-import Detail from './panels/detail';
+import React from 'react'
+import PropTypes from 'prop-types'
+import List from './panels/list'
+import Record from './panels/record'
+import Detail from './panels/detail'
 
 const Page = ({ contacts, dispatch }) => ([
     <List contacts={contacts} dispatch={dispatch} key={0} />,
@@ -11,8 +11,7 @@ const Page = ({ contacts, dispatch }) => ([
 ])
 
 Page.propTypes = {
-  contacts: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired
+  contacts: PropTypes.array.isRequired
 };
 
 export default Page;

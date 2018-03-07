@@ -40,7 +40,7 @@ export default function opportunityReducer(state = initialState, action) {
         error: true
       }
     case types.FETCHING_SINGLE_OPPORTUNITY_SUCCESS:
-      const index = _.findIndex(state.data, (c) => c.id === parseInt(action.data.id));
+      const index = _.findIndex(state.data, (o) => o.id === parseInt(action.data.id));
 
       if (index >= 0) {
         state.data[index] = action.data
@@ -58,15 +58,15 @@ export default function opportunityReducer(state = initialState, action) {
   }
 }
 
-export const getOpportunityIndex = (state, id) => _.findIndex(getOpportunities(state), (c) => c.id === parseInt(id));
+export const getOpportunityIndex = (state, id) => _.findIndex(getOpportunities(state), (o) => o.id === parseInt(id));
 export const getOpportunity = (state, id) => {
-  let opportunity = _.find(getOpportunities(state), (c) => c.id === parseInt(id));
+  let opportunity = _.find(getOpportunities(state), (o) => o.id === parseInt(id));
 
   if (typeof opportunity === 'undefined') {
     return new Opportunity({})
   }
 
-  return opportunity;
+  return new Opportunity(opportunity);
 }
 export const getOpportunities = (state) => state.data;
 export const getPaginationForOpportunities = (state) => state.meta;

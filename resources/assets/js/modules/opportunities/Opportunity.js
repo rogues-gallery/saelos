@@ -13,7 +13,7 @@ class Opportunity extends Model {
     super.initialize(props)
 
     this.published = props.published || 0
-    this.firstName = props.firstName || ''
+    this.name = props.name || ''
     this.lastName = props.lastName || ''
     this.position = props.position || ''
     this.email = props.email || ''
@@ -29,8 +29,9 @@ class Opportunity extends Model {
     this.info = props.info || ''
 
     // relate user model
-    this.user = props.user ? new User(props.user) : null
-    this.company = props.company ? new Account(props.company) : null
+    this.user = props.user ? new User(props.user) : new User({})
+    this.company = props.company ? new Account(props.company) : new Account({})
+    this.contacts = props.people || [];
   }
 }
 

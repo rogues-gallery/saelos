@@ -1,8 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { fetchOpportunity } from "../../../../../opportunities/service"
 import * as MDIcons from 'react-icons/lib/md'
 
-const Opportunities = ({ opportunities }) => (
+
+class Opportunities extends React.Component {
+  render() {
+    const { opportunities, dispatch } = this.props;
+    return (
   <div className="card">
     <div className="card-header" id="headingOpportunities">
       <h6 className="mb-0" data-toggle="collapse" data-target="#collapseOpportunities" aria-expanded="true" aria-controls="collapseOpportunities">
@@ -10,16 +15,38 @@ const Opportunities = ({ opportunities }) => (
       </h6>
     </div>
 
-    <div id="collapseOpportunities" className="collapse show" aria-labelledby="headingOpportunities">
-      <div className="card-body border-bottom">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+    <div id="collapseOpportunities" className="collapse show mh-200" aria-labelledby="headingOpportunities">
+      <div className="list-group border-bottom">
+        {opportunities.map(opportunity => <Opportunity key={opportunity.id} opportunity={opportunity} router={this.context.router} dispatch={dispatch} />)}
       </div>
     </div>
   </div>
-)
+)}
+}
+
+const Opportunity = ({ opportunity, dispatch, router }) => {
+  const openOpportunityRecord = (id) => {
+    dispatch(fetchOpportunity(opportunity.id))
+    router.history.push(`/opportunities/${id}`)
+  }
+
+  return (
+    <div onClick={() => openOpportunityRecord(opportunity.id)} className="list-group-item list-group-item-action align-items-start">
+      <p className="mini-text text-muted float-right"><b>Stage</b></p>
+      <p><strong>{opportunity.name}</strong>
+      <br />Account Name</p>
+      
+    </div>
+  );
+}
+
 
 Opportunities.propTypes = {
   opportunities: PropTypes.array.isRequired
+}
+
+Opportunities.contextTypes = {
+  router: PropTypes.object
 }
 
 export default Opportunities
