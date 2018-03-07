@@ -32,7 +32,7 @@ const Note = ({ note, dispatch }) => {
   return (
     <div onClick={() => openNoteRecord(contact.id)} className="list-group-item list-group-item-action align-items-start">
       <p className="mini-text text-muted float-right"><b>TIME</b></p>
-      <p><strong>{note.user.firstName} {notes.user.lastName}</strong>
+      <p><strong>{note.user.firstName} {note.user.lastName}</strong>
       <br />{note.note}</p>
       
     </div>

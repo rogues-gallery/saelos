@@ -40,6 +40,7 @@ class Record extends React.Component {
     this.setState({inEdit: false})
   }
 
+  // @todo: Abstract this out
   _handleInputChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;

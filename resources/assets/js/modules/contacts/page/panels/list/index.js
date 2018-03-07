@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { fetchContacts, fetchContact } from "../../../service";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { fetchContacts, fetchContact } from "../../../service"
 
 
 class List extends React.Component {
@@ -47,7 +47,7 @@ const Contact = ({ contact, dispatch, router }) => {
     <div onClick={() => openContactRecord(contact.id)} className={`list-group-item list-group-item-action align-items-start ${contact.id === parseInt(router.route.match.params.id) ? ' active' : ''}`}>
       <h6>{contact.first_name} {contact.last_name}</h6>
       <p>Company Name</p>
-      <p className="text-muted">Contact Status</p>
+      <p className="text-muted">Status</p>
     </div>
   );
 }
