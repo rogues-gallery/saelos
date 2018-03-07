@@ -22,48 +22,50 @@ class Record extends React.Component {
     const { contact } = this.props;
     const groups = _.groupBy(this.props.customFields, 'group');
     const contactFields = Object.keys(groups).map(key => (
-      <li key={key} className="list-group-item">
-        <div className="mini-text text-muted">{key}</div>
-        {groups[key].map(f => {
-          let fieldValue = _.get(this.props.contact, f.alias);
+      <div className="card mb-1" key={key}>
+        <ul className="list-group list-group-flush">
+          <li key={key} className="list-group-item">
+            <div className="mini-text text-muted">{key}</div>
+            {groups[key].map(f => {
+              let fieldValue = _.get(this.props.contact, f.alias);
 
-          if (typeof fieldValue === 'object') {
-            fieldValue = _.get(fieldValue, 'name');
+              if (typeof fieldValue === 'object') {
+                fieldValue = _.get(fieldValue, 'name');
+              }
+
+              const hidden = typeof fieldValue === 'undefined' || fieldValue.length === 0 ? 'd-none' : '';
+
+              return (
+                <div className={`form-group row ${hidden}`} key={f.alias}>
+                  <label htmlFor={f.alias} className="col-sm-3 col-form-label">{f.label}</label>
+                  <div className="col-sm-9">
+                    <input type="text" readOnly className="form-control-plaintext" id={f.alias} name={f.alias} value={fieldValue} />
+                  </div>
+                </div>
+              )
+            })
           }
-
-          const hidden = typeof fieldValue === 'undefined' || fieldValue.length === 0 ? 'd-none' : '';
-
-          return (
-            <div className={`form-group row ${hidden}`} key={f.fieldId}>
-              <label htmlFor={f.alias} className="col-sm-3 col-form-label">{f.label}</label>
-              <div className="col-sm-9">
-                <input type="text" readOnly className="form-control-plaintext" id={f.alias} name={f.alias} value={fieldValue} />
-              </div>
-            </div>
-          )
-        })
-      }
-      </li>
+          </li>
+        </ul>
+      </div>
     ));
 
     return (
-      <main key={0} className="main-panel col-sm-3 col-md-5 offset-md-5">
-          <div className="toolbar border-bottom py-2 heading">
-            <button type="button" className="btn btn-default mr-2">1</button>
-            <button type="button" className="btn btn-default mr-2">2</button>
-            <button type="button" className="btn btn-default mr-2">3</button>
-            <button type="button" className="btn btn-default mr-2">4</button>
-            <button type="button" className="btn btn-default mr-2">5</button>
-            <div className="float-right text-right">
-              <div className="mini-text text-muted">Assigned To</div>
-              <div className="text-dark mini-text"><b>{contact.user.name}</b></div>
-            </div>
+      <main key={0} className="col main-panel px-3">
+        <div className="toolbar border-bottom py-2 heading">
+          <button type="button" className="btn btn-default mr-2">1</button>
+          <button type="button" className="btn btn-default mr-2">2</button>
+          <button type="button" className="btn btn-default mr-2">3</button>
+          <button type="button" className="btn btn-default mr-2">4</button>
+          <button type="button" className="btn btn-default mr-2">5</button>
+          <div className="float-right text-right">
+            <div className="mini-text text-muted">Assigned To</div>
+            <div className="text-dark mini-text"><b>{contact.user.name}</b></div>
           </div>
-          <h3 className="border-bottom py-1">{contact.firstName} {contact.lastName}</h3>
-        <div className="card h-scroll">
-          <ul className="list-group list-group-flush">
-              {contactFields}
-          </ul>
+        </div>
+        <h3 className="border-bottom py-1">{contact.firstName} {contact.lastName}</h3>
+        <div className="h-scroll">
+          {contactFields}
         </div>
       </main>
     )

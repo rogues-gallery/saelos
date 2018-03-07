@@ -12,7 +12,7 @@ class List extends React.Component {
 
   render() {
     return (
-      <div className="container col-sm-2 col-md-3 list-panel offset-md-2 border-right">
+      <div className="col list-panel border-right">
           <div className="px-4 pt-4 bg-white border-bottom">
             <form>
               <input type="search" className="form-control ds-input" id="search-input" placeholder="Search..." role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style={{position:"relative", verticalAlign:"top"}} />

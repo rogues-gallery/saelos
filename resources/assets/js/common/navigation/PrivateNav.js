@@ -9,7 +9,7 @@ import * as MDIcons from 'react-icons/lib/md'
 import NavItem from './NavItem'
 
 const PrivateNav = ({ user, showNavigation, showDropdown, toggleDropdown, logout }) => (
-  <div className="nav h-scroll">
+  <div className="nav">
     <NavItem path="/contacts"><MDIcons.MdPersonOutline /> Contacts</NavItem>
     <NavItem path="/headquarters"><MDIcons.MdNetworkCheck /> My Vector</NavItem>
     <NavItem path="/accounts"><MDIcons.MdBusiness /> Accounts</NavItem>

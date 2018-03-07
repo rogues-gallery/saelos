@@ -5,7 +5,6 @@
  */
 
 body {
-  padding-top: 10px;
   overflow: hidden;
 }
 
@@ -58,31 +57,15 @@ label {
  * Panels
  */
 
-.list-panel, .detail-panel, .nav-panel {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  z-index: 1000;
-  padding: 0px;
-  overflow-x: hidden;
-  overflow-y: auto;
+.list-panel, .detail-panel, .nav-panel, .main-panel {
     .heading {
       height: 52px;
     }
 }
 
-.main-panel {
-  position: fixed;
-  top: 0;
-
-  .heading {
-      height: 52px;
-    }
-}
-
 .detail-panel {
-  right: 0;
-
+  flex: 0 0 320;
+  max-width: 320px;
   .card {
     border-left: 0;
     border-top: 0;
@@ -100,6 +83,9 @@ label {
 * List Panel
 */
 .list-panel {
+  flex: 0 0 300;
+  max-width: 300px;
+  
   .list-group-item {
     border-right: 0;
     border-radius: 0;
@@ -113,11 +99,9 @@ label {
 * Nav Panel
 */
 .nav-panel {
-  left: 0;
-  padding-left: 0;
-  padding-right: 0;
-  margin-bottom: 20px;
-
+  flex: 0 0 180;
+  max-width: 180px;
+  
   .nav {
     display: inherit;
   }
@@ -142,7 +126,7 @@ label {
 }
 
 .h-scroll {
-  height: 96vh; /* %-height of the viewport */
+  height: 100vh; /* %-height of the viewport */
   overflow-y: scroll;
 }
 

@@ -12,12 +12,12 @@ import Navigation from '../common/navigation'
 import Footer from '../common/footer'
 
 const PrivateLayout = ({ children }) => (
-  <Container fluid={true}>
-    <div className="row">
+  <div>
+    <div className="row no-gutters">
       <Navigation/>
       { children }
     </div>
-  </Container>
+  </div>
 )
 
 PrivateLayout.propTypes = {
