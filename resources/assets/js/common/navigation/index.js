@@ -44,8 +44,10 @@ class Navigation extends Component {
   render() {
     return (
       <div className="col-sm-2 col-md-2 nav-panel bg-dark-grey">
-        <h3>User Stuff</h3>
-        <div className="nav h-scroll">
+        <div class="mx-4 mb-4 py-2 border-bottom heading">
+          <a href="#" className="btn btn-primary float-right"><b>+</b></a>
+        </div>
+
         {
           this.props.isAuthenticated
             ? <PrivateNav user={this.props.user}
@@ -55,7 +57,6 @@ class Navigation extends Component {
                           logout={this.logout} />
             : <PublicNav showNavigation={this.state.showNavigation} />
         }
-        </div>
       </div>
     )
   }

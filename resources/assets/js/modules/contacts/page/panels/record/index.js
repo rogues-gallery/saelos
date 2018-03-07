@@ -23,7 +23,7 @@ class Record extends React.Component {
     const groups = _.groupBy(this.props.customFields, 'group');
     const contactFields = Object.keys(groups).map(key => (
       <li key={key} className="list-group-item">
-        <div className="micro-text text-muted">{key}</div>
+        <div className="mini-text text-muted">{key}</div>
         {groups[key].map(f => {
           let fieldValue = _.get(this.props.contact, f.alias);
 
@@ -47,16 +47,16 @@ class Record extends React.Component {
     ));
 
     return ([
-      <main key={0} className="col-sm-3 col-md-5 offset-md-5">
-          <div className="toolbar border-bottom py-1">
+      <main key={0} className="main-panel col-sm-3 col-md-5 offset-md-5">
+          <div className="toolbar border-bottom py-2 heading">
             <button type="button" className="btn btn-default mr-2">1</button>
             <button type="button" className="btn btn-default mr-2">2</button>
             <button type="button" className="btn btn-default mr-2">3</button>
             <button type="button" className="btn btn-default mr-2">4</button>
             <button type="button" className="btn btn-default mr-2">5</button>
             <div className="float-right text-right">
-              <div className="micro-text text-muted">Assigned To</div>
-              <div className="text-dark micro-text"><b>{contact.user.name}</b></div>
+              <div className="mini-text text-muted">Assigned To</div>
+              <div className="text-dark mini-text"><b>{contact.user.name}</b></div>
             </div>
           </div>
           <h3 className="border-bottom py-1">{contact.firstName} {contact.lastName}</h3>
@@ -67,7 +67,9 @@ class Record extends React.Component {
         </div>
       </main>,
       <div key={1} className="col-sm-3 col-md-2 detail-panel border-left">
-        <h5 className="border-bottom text-center mb-0 py-2">Contact Details</h5>
+        <div className="border-bottom text-center py-2 heading">
+          <h5 className="pt-2 mb-1">Contact Details</h5>
+        </div>
         <div className="h-scroll">
           <div className="card">
             <div className="card-header" id="headingSRI">

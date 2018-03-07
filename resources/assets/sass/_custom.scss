@@ -25,16 +25,23 @@ h5, h6 {
 h5 {
   font-weight: 400;
 }
-h6 {
-  font-weight: 600;
+h6, .h6 {
+  font-weight: 700;
+  font-size: 0.975rem;
 }
 
 label {
-  font-weight: 600;
+  font-weight: 700;
+}
+
+.mini-text {
+  font-size: 70%;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
 
 .micro-text {
-  font-size: 70%;
+  font-size: 60%;
   letter-spacing: 0.4px;
   text-transform: uppercase;
 }
@@ -59,6 +66,18 @@ label {
   padding: 0px;
   overflow-x: hidden;
   overflow-y: auto;
+    .heading {
+      height: 52px;
+    }
+}
+
+.main-panel {
+  position: fixed;
+  top: 0;
+
+  .heading {
+      height: 52px;
+    }
 }
 
 .detail-panel {
@@ -77,20 +96,32 @@ label {
 
 }
 
+/*
+* List Panel
+*/
+.list-panel {
+  .list-group-item {
+    border-right: 0;
+    border-radius: 0;
+  }
+  .list-group-item:first-child {
+      border-top: 0;
+    }
+}
+
 /* 
 * Nav Panel
 */
 .nav-panel {
   left: 0;
-}
-
-.nav-panel {
   padding-left: 0;
   padding-right: 0;
-}
-
-.nav-panel {
   margin-bottom: 20px;
+
+  .nav {
+    display: inherit;
+  }
+
 }
 
 .nav-panel .nav-item {
@@ -102,7 +133,12 @@ label {
 }
 
 .nav-panel .nav-link {
+  color: $gray-300;
   border-radius: 0;
+}
+
+.nav-panel .nav-link:hover {
+  background: $gray-400;
 }
 
 .h-scroll {
