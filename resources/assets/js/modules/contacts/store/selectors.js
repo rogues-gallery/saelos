@@ -11,3 +11,6 @@ export const getPaginationForContacts = (state) =>
 
 export const getCustomFieldsForContacts = (state) =>
   fromReducer.getCustomFieldsForContacts(state.contactState);
+
+export const isStateDirty = (state) =>
+  fromReducer.isStateDirty(state.contactState);

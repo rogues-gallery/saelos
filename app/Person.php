@@ -34,6 +34,7 @@ class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInte
         'activities',
         'custom_fields',
         'notes',
+        'documents',
     ];
 
     public function user()

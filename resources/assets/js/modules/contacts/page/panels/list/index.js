@@ -29,7 +29,8 @@ class List extends React.Component {
 
 List.propTypes = {
   contacts: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  isPosting: PropTypes.bool
 };
 
 List.contextTypes = {
@@ -44,7 +45,7 @@ const Contact = ({ contact, dispatch, router }) => {
 
   return (
     <div onClick={() => openContactRecord(contact.id)} className={`list-group-item list-group-item-action align-items-start ${contact.id === parseInt(router.route.match.params.id) ? ' active' : ''}`}>
-      <h6>{contact.firstName} {contact.lastName}</h6>
+      <h6>{contact.first_name} {contact.last_name}</h6>
       <p>Company Name</p>
       <p className="text-muted">Contact Status</p>
     </div>

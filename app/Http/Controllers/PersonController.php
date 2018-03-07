@@ -117,9 +117,6 @@ class PersonController extends Controller
         $person->update($data);
         $person->assignCustomFields($customFields);
 
-        Auth::user()->notify(new PersonUpdated($person));
-        ContactUpdated::broadcast($person);
-
         return $this->show($person->id);
     }
 
