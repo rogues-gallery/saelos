@@ -28,6 +28,8 @@ h5 {
 h6, .h6 {
   font-weight: 700;
   font-size: 0.975rem;
+  letter-spacing: 0.2px;
+
 }
 p {
   margin-bottom: 0.2em;
@@ -66,14 +68,39 @@ label {
     border-left: 0;
     border-right: 0;
     border-radius: 0;
+    
+    > :last-child {
+      margin-bottom: 0;
+    }
+
+  }
+
+  .active > h6, .active > .text-muted {
+    color: $white !important;
+  }
+
+  .active > h6 {
+    font-weight: 600;
   }
   
+  .active > .text-muted, .active > p {
+    font-weight: 200;
+  }
+
   .list-group-item:first-child {
       border-top: 0;
   }
-    .heading {
-      height: 52px;
-    }
+  .heading {
+    height: 52px;
+  }
+
+  .list-group-item-action.active:hover, .list-group-item-action.active:focus {
+    background: $blue;
+  }
+
+  .list-group-item-action:hover, .list-group-item-action:focus {
+    background: $blue-hover;
+  }
 }
 
 .detail-panel {
@@ -101,6 +128,14 @@ label {
 
   .h-scroll {
     height: calc(100vh - 97px); 
+  }
+
+  .list-group-item {
+    cursor: pointer;
+  }
+
+  .text-muted {
+    color: $gray-500 !important;
   }
 }
 
