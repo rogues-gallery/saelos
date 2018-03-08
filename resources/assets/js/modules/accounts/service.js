@@ -8,12 +8,21 @@ import Transformer from '../../utils/Transformer'
  * @returns {function(*)}
  */
 export const fetchAccount = (id) => (dispatch) => {
-  dispatch(actions.fetchingAccount());
+  dispatch(actions.fetchingAccount())
+  dispatch(actions.fetchingCustomFieldsForAccounts())
+
+  Http.get(`contexts/Company?customOnly=true`)
+    .then(res => {
+      dispatch(actions.fetchingCustomFieldsForAccountsSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingCustomFieldsForAccountsFailure())
+    })
 
   return Http.get(`companies/${id}`)
     .then(res => {
-      const data = Transformer.fetch(res.data.data)
-      dispatch(actions.fetchingAccountSuccess(data))
+      dispatch(actions.fetchingAccountSuccess(res.data.data))
     })
     .catch(err => {
       console.log(err)
@@ -34,8 +43,7 @@ export const fetchAccounts = (params) => (dispatch) => {
 
   return Http.get('companies', {params: params})
     .then(res => {
-      const data = Transformer.fetch(res.data)
-      dispatch(actions.fetchingAccountsSuccess(data))
+      dispatch(actions.fetchingAccountsSuccess(res.data))
     })
     .catch(err => {
       console.log(err)
@@ -49,8 +57,7 @@ export const saveAccount = (params) => (dispatch) => {
   if (params.id) {
     return Http.patch(`companies/${params.id}`, params)
       .then(res => {
-        const data = Transformer.fetch(res.data)
-        dispatch(actions.postingAccountSuccess(data))
+        dispatch(actions.postingAccountSuccess(res.data.data))
       })
       .catch(err => {
         console.log(err)
@@ -59,8 +66,7 @@ export const saveAccount = (params) => (dispatch) => {
   } else {
     return Http.post(`companies`, params)
       .then(res => {
-        const data = Transformer.fetch(res.data)
-        dispatch(actions.postingAccountSuccess(data))
+        dispatch(actions.postingAccountSuccess(res.data.data))
       })
       .catch(err => {
         console.log(err)
@@ -74,8 +80,7 @@ export const deleteAccount = (id) => (dispatch) => {
 
   return Http.delete(`companies/${id}`)
     .then(res => {
-      const data = Transformer.fetch(res.data)
-      dispatch(actions.deletingAccountSuccess(data))
+      dispatch(actions.deletingAccountSuccess(res.data))
     })
     .catch(err => {
       console.log(err)

@@ -8,3 +8,9 @@ export const getAccount = (state, id) =>
 
 export const getPaginationForAccounts = (state) =>
   fromReducer.getPaginationForAccounts(state.accountState);
+
+export const getCustomFieldsForAccounts = (state) =>
+  fromReducer.getCustomFieldsForAccounts(state.accountState);
+
+export const isStateDirty = (state) =>
+  fromReducer.isStateDirty(state.accountState);

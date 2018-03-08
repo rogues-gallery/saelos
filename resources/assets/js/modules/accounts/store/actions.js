@@ -51,3 +51,15 @@ export const deletingAccountSuccess = (payload) => ({
 export const deletingAccountFailure = () => ({
   type: types.DELETING_ACCOUNT_FAILURE
 })
+export const fetchingCustomFieldsForAccounts = () => ({
+  type: types.FETCHING_CUSTOM_FIELDS_FOR_ACCOUNTS
+})
+
+export const fetchingCustomFieldsForAccountsSuccess = (payload) => ({
+  type: types.FETCHING_CUSTOM_FIELDS_FOR_ACCOUNTS_SUCCESS,
+  data: payload
+})
+
+export const fetchingCustomFieldsForAccountsFailure = () => ({
+  type: types.FETCHING_CUSTOM_FIELDS_FOR_ACCOUNTS_FAILURE
+})

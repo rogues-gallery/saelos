@@ -1,5 +1,9 @@
 import Model from '../../utils/Model'
 import User from '../../modules/user/User'
+import Contact from '../../modules/contacts/Contact'
+import store from '../../store'
+import { getCustomFieldsForAccounts } from './store/selectors'
+import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
 
 class Account extends Model {
   constructor(props) {
@@ -11,22 +15,24 @@ class Account extends Model {
   initialize(props) {
     super.initialize(props)
 
-    this.name = props.name || ''
-    this.published = props.published || 0
-    this.description = props.description || ''
-    this.address1 = props.address1 || ''
-    this.address2 = props.address2 || ''
-    this.city = props.city || ''
-    this.state = props.state || ''
-    this.zip = props.zip || ''
-    this.country = props.country || ''
-    this.phone = props.phone || ''
-    this.fax = props.fax || ''
-    this.website = props.website || ''
-    this.info = props.info || ''
+    const fields = getCustomFieldsForAccounts(store.getState())
+
+    Object.keys(fields).map(key => {
+        const field = fields[key]
+
+        if (field.is_custom) {
+            this[key] = getCustomFieldValue(field.alias, props.custom_fields, field.default)
+        } else {
+            this[key] = props[key]
+        }
+    })
 
     // relate user model
-    this.user = props.user ? new User(props.user) : null
+    this.user = props.user ? new User(props.user) : new User({})
+    this.contacts = props.people || []
+    this.notes = props.notes || []
+    this.opportunities = props.deals || []
+    this.activities = props.activities || []
   }
 }
 

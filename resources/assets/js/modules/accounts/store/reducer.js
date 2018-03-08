@@ -14,7 +14,9 @@ const initialState = {
     total: 0,
   },
   isFetching: false,
-  error: false
+  isPosting: false,
+  error: false,
+  customFields : []
 }
 
 export default function accountReducer(state = initialState, action) {
@@ -39,8 +41,14 @@ export default function accountReducer(state = initialState, action) {
         isFetching: false,
         error: true
       }
+    case types.POSTING_ACCOUNT:
+      return {
+        ...state,
+        isPosting: true
+      }
+    case types.POSTING_ACCOuNT_SUCCESS:
     case types.FETCHING_SINGLE_ACCOUNT_SUCCESS:
-      const index = _.findIndex(state.data, (c) => c.id === parseInt(action.data.id));
+      const index = _.findIndex(state.data, (a) => a.id === parseInt(action.data.id));
 
       if (index >= 0) {
         state.data[index] = action.data
@@ -51,7 +59,13 @@ export default function accountReducer(state = initialState, action) {
       return {
         ...state,
         isFetching: false,
-        error: false
+        error: false,
+        isPosting: false
+      }
+    case types.FETCHING_CUSTOM_FIELDS_FOR_ACCOUNTS_SUCCESS:
+      return {
+        ...state,
+        customFields: action.data
       }
     default:
       return state
@@ -66,7 +80,9 @@ export const getAccount = (state, id) => {
     return new Account({})
   }
 
-  return account;
+  return new Account(account);
 }
 export const getAccounts = (state) => state.data;
 export const getPaginationForAccounts = (state) => state.pagination;
+export const getCustomFieldsForAccounts = (state) => state.customFields
+export const isStateDirty = (state) => state.isPosting
