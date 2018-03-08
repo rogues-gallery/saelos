@@ -223,7 +223,27 @@ a:hover {
   border-width: 1px;
 }
 
-.modal.show .modal-dialog {
-  -webkit-transform: translate3d(0, -25%, 0);
-  transform: translate3d(0, -25%, 0);
+.show {
+
+  &.modal .modal-dialog {
+    margin: 0 auto;
+    -webkit-transform: translate3d(0, -25%, 0);
+    transform: translate3d(0, -25%, 0);
+  }
+  
+  &.modal-backdrop {
+    opacity: 0;
+  }
+}
+
+.z-depth-1 {
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+.z-depth-1-half {
+  box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 4px 15px 0 rgba(0,0,0,.15);
+}
+
+.z-depth-2 {
+  box-shadow: 0 8px 17px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
 }

@@ -74,8 +74,10 @@ class Note extends React.Component {
           <p className="font-weight-bold">{note.user.name}</p>
           <div className="note"><TextTruncate line={3} truncateText="..." text={note.note}/></div>
         </div>
-        <Modal isOpen={this.state.modal} fade={false} toggle={this._toggleModal} autoFocus={false} className="noteModal">
-          <ModalBody>
+        <Modal isOpen={this.state.modal} toggle={this._toggleModal} autoFocus={false} className="noteModal pt-2">
+          <ModalBody className=" z-depth-1 mt-2">
+            <span className="mini-text text-muted mt-1 float-right">{moment(note.created_at).fromNow()}</span>
+            <p className="font-weight-bold">{note.user.name}</p>
             {note.note}
           </ModalBody>
         </Modal>
