@@ -27,7 +27,12 @@ export default function contactReducer(state = initialState, action) {
         isFetching: true
       }
     case types.FETCHING_CONTACTS_SUCCESS:
-      const newContacts = state.data.concat(action.data.data)
+      const { data } = state
+      let newContacts = data
+
+      action.data.data.map(c => {
+        newContacts = injectContactIntoState(c, newContacts)
+      })
 
       return {
         ...state,
@@ -50,16 +55,11 @@ export default function contactReducer(state = initialState, action) {
       }
     case types.POSTING_CONTACT_SUCCESS:
     case types.FETCHING_SINGLE_CONTACT_SUCCESS:
-      const index = _.findIndex(state.data, (c) => c.id === parseInt(action.data.id));
-
-      if (index >= 0) {
-        state.data[index] = action.data
-      } else {
-        state.data.push(action.data);
-      }
+      const newData = injectContactIntoState(action.data, state.data)
 
       return {
         ...state,
+        data: newData,
         isFetching: false,
         error: false,
         isPosting: false
@@ -72,6 +72,18 @@ export default function contactReducer(state = initialState, action) {
     default:
       return state
   }
+}
+
+const injectContactIntoState = (contact, data) => {
+  const index = _.findIndex(data, (c) => c.id === parseInt(contact.id))
+
+  if (index >= 0) {
+    data[index] = _.merge(data[index], contact)
+  } else {
+    data.push(contact)
+  }
+
+  return data
 }
 
 export const getContactIndex = (state, id) => _.findIndex(getContacts(state), (c) => c.id === parseInt(id));
