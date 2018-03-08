@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { fetchOpportunity } from "../../../../../opportunities/service"
+import { fetchOpportunity } from "../../opportunities/service"
 import * as MDIcons from 'react-icons/lib/md'
 
 

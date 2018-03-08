@@ -4,10 +4,10 @@ import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Opportunities from './components/opportunities'
-import Contacts from './components/contacts'
+import Opportunities from '../../../../opportunities/partials/_opportunities'
+import Contacts from '../../../../contacts/partials/_contacts'
+import Notes from '../../../../notes/partials/_notes'
 import Account from '../../../Account'
-import Notes from './components/notes'
 import { getAccount } from '../../../store/selectors'
 
 class Detail extends React.Component {

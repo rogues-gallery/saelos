@@ -4,8 +4,8 @@ import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Contacts from './components/contacts'
-import Notes from './components/notes'
+import Contacts from '../../../../contacts/partials/_contacts'
+import Notes from '../../../../notes/partials/_notes'
 import Opportunity from '../../../Opportunity'
 import { getOpportunity } from '../../../store/selectors'
 

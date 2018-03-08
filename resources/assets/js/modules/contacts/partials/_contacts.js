@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { fetchContact } from "../../../../../contacts/service"
+import { fetchContact } from "../service"
 import * as MDIcons from 'react-icons/lib/md'
 
 
