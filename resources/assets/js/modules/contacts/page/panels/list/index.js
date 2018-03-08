@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { fetchContacts, fetchContact } from "../../../service"
-
+import { fetchContacts, fetchContact } from '../../../service'
+import moment from 'moment'
 
 class List extends React.Component {
   componentWillMount() {
@@ -45,6 +45,7 @@ const Contact = ({ contact, dispatch, router }) => {
 
   return (
     <div onClick={() => openContactRecord(contact.id)} className={`list-group-item list-group-item-action align-items-start ${contact.id === parseInt(router.route.match.params.id) ? ' active' : ''}`}>
+      <span className="text-muted mini-text float-right">{moment(contact.updated_at).fromNow()}</span>
       <h6>{contact.first_name} {contact.last_name}</h6>
       <p>Company Name</p>
       <p className="text-muted">Status</p>

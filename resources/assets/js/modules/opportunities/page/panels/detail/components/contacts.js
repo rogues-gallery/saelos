@@ -11,7 +11,7 @@ class Contacts extends React.Component {
   <div className="card">
     <div className="card-header" id="headingContacts">
       <h6 className="mb-0" data-toggle="collapse" data-target="#collapseContacts" aria-expanded="true" aria-controls="collapseContacts">
-        <MDIcons.MdArrowDropDownCircle /> Contacts
+        <MDIcons.MdKeyboardArrowDown /> Contacts <span className="text-muted font-weight-normal">({contacts.length})</span>
       </h6>
     </div>
 

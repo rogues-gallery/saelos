@@ -24,7 +24,7 @@ class Detail extends React.Component {
           <div className="card">
             <div className="card-header" id="headingOutcome">
               <h6 className="mb-0" data-toggle="collapse" data-target="#collapseOutcome" aria-expanded="true" aria-controls="collapseOutcome">
-                <MDIcons.MdArrowDropDownCircle /> Opportunity Outcome
+                <MDIcons.MdKeyboardArrowDown /> Opportunity Outcome
               </h6>
             </div>
 

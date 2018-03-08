@@ -11,7 +11,7 @@ class Opportunities extends React.Component {
   <div className="card">
     <div className="card-header" id="headingOpportunities">
       <h6 className="mb-0" data-toggle="collapse" data-target="#collapseOpportunities" aria-expanded="true" aria-controls="collapseOpportunities">
-        <MDIcons.MdArrowDropDownCircle /> Opportunities
+        <MDIcons.MdKeyboardArrowDown /> Opportunities <span className="text-muted font-weight-normal">({opportunities.length})</span>
       </h6>
     </div>
 
@@ -32,7 +32,7 @@ const Opportunity = ({ opportunity, dispatch, router }) => {
 
   return (
     <div onClick={() => openOpportunityRecord(opportunity.id)} className="list-group-item list-group-item-action align-items-start">
-      <p className="mini-text text-muted float-right"><b>Stage</b></p>
+      <p className="mini-text text-muted float-right">Stage</p>
       <p><strong>{opportunity.name}</strong>
       <br />Account Name</p>
       

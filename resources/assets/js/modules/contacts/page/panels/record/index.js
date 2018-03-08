@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {getContact, getCustomFieldsForContacts, isStateDirty} from '../../../store/selectors';
 import { fetchContact, saveContact } from '../../../service';
 import _ from 'lodash';
+import * as MDIcons from 'react-icons/lib/md'
 
 class Record extends React.Component {
   constructor(props) {
@@ -111,30 +112,31 @@ class Record extends React.Component {
 
     return (
       <main className="col main-panel px-3">
-        <div className="toolbar border-bottom py-2 heading">
-          <button type="button" className="btn btn-default mr-2">1</button>
-          <button type="button" className="btn btn-default mr-2">2</button>
-          <button type="button" className="btn btn-default mr-2">3</button>
-          <button type="button" className="btn btn-default mr-2">4</button>
-          <button type="button" className="btn btn-default mr-2">5</button>
-          <div className="float-right text-right">
+        <div className="toolbar border-bottom py-2 heading list-inline">
+          <button className="btn btn-primary mr-3 btn-sm list-inline-item"><span className="h5"><MDIcons.MdLocalPhone /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2 text-muted"><MDIcons.MdMailOutline /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3 text-muted"><MDIcons.MdPermPhoneMsg /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2 text-muted"><MDIcons.MdCheck /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2 text-muted"><MDIcons.MdDelete /></span></button>
+
+          <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">Assigned To</div>
             <div className="text-dark mini-text"><b>{contact.user.name}</b></div>
           </div>
         </div>
         {inEdit ?
-          <span className="float-right">
-            <span onClick={this._toggleEdit}>Cancel</span>
-            <span className="btn btn-success" onClick={this._submit}>Save</span>
+          <span className="float-right py-3 mt-1">
+            <a href="javascript:void(0);" onClick={this._toggleEdit}>Cancel</a>
+            <span className="ml-2 btn btn-primary btn-sm" onClick={this._submit}>Save</span>
           </span>
           :
-          <span className="float-right">
-            <span className="btn btn-primary" onClick={this._toggleEdit}>Edit</span>
+          <span className="float-right py-3 mt-1">
+            <a href="javascript:void(0);" onClick={this._toggleEdit}>Edit</a>
           </span>
         }
-        <h3 className="border-bottom py-2">
-          {contact.first_name} {contact.last_name}
-        </h3>
+        <h4 className="border-bottom py-3">
+          {contact.first_name} {contact.last_name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
+        </h4>
 
         <div className="h-scroll">
           {contactFields}

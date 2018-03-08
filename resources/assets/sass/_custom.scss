@@ -26,8 +26,8 @@ h5 {
   font-weight: 400;
 }
 h6, .h6 {
-  font-weight: 700;
-  font-size: 0.975rem;
+  font-weight: 500;
+  font-size: 0.85rem;
   letter-spacing: 0.2px;
 
 }
@@ -36,7 +36,20 @@ p {
 }
 
 label {
-  font-weight: 700;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.toolbar > button.btn-sm {
+  padding: 0.15rem 0.25rem 0.25rem;
+}
+
+.btn-outline-secondary:hover {
+  color: $gray-300;
+  background: $white;
 }
 
 .mini-text {
@@ -68,19 +81,22 @@ label {
     border-left: 0;
     border-right: 0;
     border-radius: 0;
-    
+
     > :last-child {
       margin-bottom: 0;
     }
 
   }
 
-  .active > h6, .active > .text-muted {
+  .active > h6, .active p {
     color: $white !important;
+  }
+  .active > .text-muted {
+    color: hsla(0,0%,100%,.8) !important;
   }
 
   .active > h6 {
-    font-weight: 600;
+    font-weight: 500;
   }
   
   .active > .text-muted, .active > p {
@@ -94,8 +110,13 @@ label {
     height: 52px;
   }
 
+  .list-group-item-action {
+    color: $gray-900;
+  }
+
   .list-group-item-action.active:hover, .list-group-item-action.active:focus {
     background: $blue;
+    color: $white;
   }
 
   .list-group-item-action:hover, .list-group-item-action:focus {
@@ -115,6 +136,10 @@ label {
       border-top: 0;
     }
 
+  }
+
+  .list-group-item {
+    cursor: pointer;
   }
 
 }
@@ -162,6 +187,7 @@ label {
 
 .nav-panel .nav-link {
   color: $gray-300;
+  font-weight: 200;
   border-radius: 0;
 }
 
