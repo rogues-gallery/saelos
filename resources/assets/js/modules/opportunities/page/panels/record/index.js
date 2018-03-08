@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getOpportunity, getCustomFieldsForOpportunities, isStateDirty} from '../../../store/selectors';
-import { fetchOpportunity } from '../../../service';
+import { fetchOpportunity, saveOpportunity } from '../../../service';
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
 import ReactQuill from 'react-quill'
