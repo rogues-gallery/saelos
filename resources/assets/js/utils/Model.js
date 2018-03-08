@@ -1,3 +1,4 @@
+import React from 'react'
 import moment from 'moment'
 import _ from 'lodash'
 
@@ -25,6 +26,17 @@ class Model {
     })
 
     return props
+  }
+
+  nl2br(text) {
+    return text.split('\n').map(function(item, key) {
+      return (
+        <span key={key}>
+          {item}
+          <br/>
+        </span>
+      )
+    })
   }
 }
 

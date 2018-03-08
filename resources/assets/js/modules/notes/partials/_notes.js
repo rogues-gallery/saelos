@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as MDIcons from 'react-icons/lib/md'
 import moment from 'moment'
+import Note from '../Note'
 import TextTruncate from 'react-text-truncate'
 import { Modal, ModalBody } from 'reactstrap'
 
@@ -36,7 +37,7 @@ class Notes extends React.Component {
 
         <div id="collapseNotes" className="collapse show mh-200" aria-labelledby="headingNotes">
           <div className="list-group border-bottom">
-            {notes.map(note => <Note key={note.id} note={note} />)}
+            {notes.map(note => <Item key={note.id} note={note} />)}
           </div>
         </div>
       </div>
@@ -47,7 +48,7 @@ Notes.propTypes = {
   notes: PropTypes.array.isRequired
 }
 
-class Note extends React.Component {
+class Item extends React.Component {
   constructor(props) {
     super(props)
 
@@ -65,20 +66,20 @@ class Note extends React.Component {
   }
 
   render() {
-    const { note } = this.props;
+    const note = new Note(this.props.note)
 
     return (
       <div>
         <div onClick={this._toggleModal} className="list-group-item list-group-item-action align-items-start">
-          <span className="mini-text text-muted float-right mt-1">{moment(note.created_at).fromNow()}</span>
+          <span className="mini-text text-muted float-right mt-1">{note.created_at.fromNow()}</span>
           <p className="font-weight-bold">{note.user.name}</p>
           <div className="note"><TextTruncate line={3} truncateText="..." text={note.note}/></div>
         </div>
-        <Modal isOpen={this.state.modal} toggle={this._toggleModal} autoFocus={false} className="noteModal pt-2">
-          <ModalBody className=" z-depth-1 mt-2">
-            <span className="mini-text text-muted mt-1 float-right">{moment(note.created_at).fromNow()}</span>
+        <Modal isOpen={this.state.modal} fade={false} toggle={this._toggleModal} autoFocus={false} className="noteModal">
+          <ModalBody>
+            <span className="mini-text text-muted mt-1 float-right">{note.created_at.fromNow()}</span>
             <p className="font-weight-bold">{note.user.name}</p>
-            {note.note}
+            <div className="pt-2">{note.nl2br(note.note)}</div>
           </ModalBody>
         </Modal>
       </div>

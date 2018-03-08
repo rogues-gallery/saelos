@@ -12,8 +12,7 @@ export const fetchOpportunity = (id) => (dispatch) => {
 
     return Http.get(`deals/${id}`)
         .then(res => {
-            const data = Transformer.fetch(res.data.data)
-            dispatch(actions.fetchingOpportunitySuccess(data))
+            dispatch(actions.fetchingOpportunitySuccess(res.data.data))
         })
         .catch(err => {
             console.log(err)
@@ -34,8 +33,7 @@ export const fetchOpportunities = (params) => (dispatch) => {
 
     return Http.get('deals', {params: params})
         .then(res => {
-            const data = Transformer.fetch(res.data)
-            dispatch(actions.fetchingOpportunitiesSuccess(data))
+            dispatch(actions.fetchingOpportunitiesSuccess(res.data))
         })
         .catch(err => {
             console.log(err)
@@ -49,8 +47,7 @@ export const saveOpportunity = (params) => (dispatch) => {
     if (params.id) {
         return Http.patch(`deals/${params.id}`, params)
             .then(res => {
-                const data = Transformer.fetch(res.data)
-                dispatch(actions.postingOpportunitySuccess(data))
+                dispatch(actions.postingOpportunitySuccess(res.data))
             })
             .catch(err => {
                 console.log(err)
@@ -59,8 +56,7 @@ export const saveOpportunity = (params) => (dispatch) => {
     } else {
         return Http.post(`deals`, params)
             .then(res => {
-                const data = Transformer.fetch(res.data)
-                dispatch(actions.postingOpportunitySuccess(data))
+                dispatch(actions.postingOpportunitySuccess(res.data))
             })
             .catch(err => {
                 console.log(err)
@@ -74,8 +70,7 @@ export const deleteOpportunity = (id) => (dispatch) => {
 
     return Http.delete(`deals/${id}`)
         .then(res => {
-            const data = Transformer.fetch(res.data)
-            dispatch(actions.deletingOpportunitySuccess(data))
+            dispatch(actions.deletingOpportunitySuccess(res.data))
         })
         .catch(err => {
             console.log(err)
