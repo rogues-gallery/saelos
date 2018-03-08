@@ -8,3 +8,9 @@ export const getOpportunity = (state, id) =>
 
 export const getPaginationForOpportunities = (state) =>
   fromReducer.getPaginationForOpportunities(state.opportunityState);
+
+export const getCustomFieldsForOpportunities = (state) =>
+  fromReducer.getCustomFieldsForOpportunities(state.opportunityState);
+
+export const isStateDirty = (state) =>
+  fromReducer.isStateDirty(state.opportunityState);

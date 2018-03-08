@@ -1,6 +1,5 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
-import Transformer from '../../utils/Transformer'
 
 /**
  * Fetch the full contact by id

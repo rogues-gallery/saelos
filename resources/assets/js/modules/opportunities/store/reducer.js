@@ -14,7 +14,9 @@ const initialState = {
     total: 0,
   },
   isFetching: false,
-  error: false
+  isPosting: false,
+  error: false,
+  customFields : []
 }
 
 export default function opportunityReducer(state = initialState, action) {
@@ -39,6 +41,12 @@ export default function opportunityReducer(state = initialState, action) {
         isFetching: false,
         error: true
       }
+    case types.POSTING_OPPORTUNITY:
+      return {
+        ...state,
+        isPosting: true
+      }
+    case types.POSTING_OPPORTUNITY_SUCCESS:
     case types.FETCHING_SINGLE_OPPORTUNITY_SUCCESS:
       const index = _.findIndex(state.data, (o) => o.id === parseInt(action.data.id));
 
@@ -53,9 +61,27 @@ export default function opportunityReducer(state = initialState, action) {
         isFetching: false,
         error: false
       }
+    case types.FETCHING_CUSTOM_FIELDS_FOR_OPPORTUNITIES_SUCCESS:
+      return {
+        ...state,
+        customFields: action.data
+      }
+    
     default:
       return state
   }
+}
+
+const injectOpportunityIntoState = (opportunity, data) => {
+  const index = _.findIndex(data, (o) => o.id === parseInt(opportunity.id))
+
+  if (index >= 0) {
+    data[index] = _.merge(data[index], opportunity)
+  } else {
+    data.push(opportunity)
+  }
+
+  return data
 }
 
 export const getOpportunityIndex = (state, id) => _.findIndex(getOpportunities(state), (o) => o.id === parseInt(id));
@@ -70,3 +96,5 @@ export const getOpportunity = (state, id) => {
 }
 export const getOpportunities = (state) => state.data;
 export const getPaginationForOpportunities = (state) => state.meta;
+export const getCustomFieldsForOpportunities = (state) => state.customFields;
+export const isStateDirty = (state) => state.isPosting;

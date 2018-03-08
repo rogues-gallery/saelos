@@ -1,6 +1,10 @@
 import Model from '../../utils/Model'
 import User from '../../modules/user/User'
 import Account from '../../modules/accounts/Account'
+import store from '../../store'
+import { getCustomFieldsForOpportunities } from './store/selectors'
+import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
+
 
 class Opportunity extends Model {
   constructor(props) {
@@ -12,21 +16,17 @@ class Opportunity extends Model {
   initialize(props) {
     super.initialize(props)
 
-    this.published = props.published || 0
-    this.name = props.name || ''
-    this.lastName = props.lastName || ''
-    this.position = props.position || ''
-    this.email = props.email || ''
-    this.address1 = props.address1 || ''
-    this.address2 = props.address2 || ''
-    this.city = props.city || ''
-    this.state = props.state || ''
-    this.zip = props.zip || ''
-    this.country = props.country || ''
-    this.phone = props.phone || ''
-    this.fax = props.fax || ''
-    this.website = props.website || ''
-    this.info = props.info || ''
+       const fields = getCustomFieldsForOpportunities(store.getState())
+
+    Object.keys(fields).map(key => {
+        const field = fields[key]
+
+        if (field.is_custom) {
+            this[key] = getCustomFieldValue(field.alias, props.custom_fields, field.default)
+        } else {
+            this[key] = props[key]   
+        }
+    })
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})

@@ -51,3 +51,16 @@ export const deletingOpportunitySuccess = (payload) => ({
 export const deletingOpportunityFailure = () => ({
   type: types.DELETING_OPPORTUNITY_FAILURE
 })
+
+export const fetchingCustomFieldsForOpportunities = () => ({
+  type: types.FETCHING_CUSTOM_FIELDS_FOR_OPPORTUNITIES
+})
+
+export const fetchingCustomFieldsForOpportunitiesSuccess = (payload) => ({
+  type: types.FETCHING_CUSTOM_FIELDS_FOR_OPPORTUNITIES_SUCCESS,
+  data: payload
+})
+
+export const fetchingCustomFieldsForOpportunitiesFailure = () => ({
+  type: types.FETCHING_CUSTOM_FIELDS_FOR_OPPORTUNITIES_FAILURE
+})

@@ -1,6 +1,5 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
-import Transformer from '../../utils/Transformer'
 
 /**
  * Fetch the full contact by id
@@ -9,6 +8,15 @@ import Transformer from '../../utils/Transformer'
  */
 export const fetchOpportunity = (id) => (dispatch) => {
     dispatch(actions.fetchingOpportunity());
+
+  Http.get(`contexts/Deal?customOnly=true`)
+    .then(res => {
+      dispatch(actions.fetchingCustomFieldsForOpportunitiesSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingCustomFieldsForOpportunitiesFailure());
+    })
 
     return Http.get(`deals/${id}`)
         .then(res => {
