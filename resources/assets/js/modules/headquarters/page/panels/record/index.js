@@ -12,10 +12,7 @@ class Record extends React.Component {
 
   render() {
     <div className=""> </div>
-}
-
-Record.propTypes = {
-
+  }
 }
 
 export default withRouter(connect((state, ownProps) => ({

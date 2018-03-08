@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import List from './panels/list'
 import Record from './panels/record'
 import Detail from './panels/detail'
 
