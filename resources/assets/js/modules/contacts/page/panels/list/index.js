@@ -4,13 +4,32 @@ import { fetchContacts, fetchContact } from '../../../service'
 import moment from 'moment'
 
 class List extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this._onScroll = this._onScroll.bind(this)
+  }
+
   componentWillMount() {
-    if (this.props.contacts.length === 0) {
-      this.props.dispatch(fetchContacts()) 
+    const { contacts, dispatch } = this.props
+
+    if (contacts.length === 0) {
+      dispatch(fetchContacts())
+    }
+  }
+
+  _onScroll(event) {
+    const { target } = event
+    const { dispatch, pagination } = this.props
+
+    if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
+      dispatch(fetchContacts({page: pagination.current_page + 1}))
     }
   }
 
   render() {
+    const { contacts, dispatch } = this.props
+
     return (
       <div className="col list-panel border-right">
           <div className="px-4 pt-4 bg-white border-bottom">
@@ -19,8 +38,8 @@ class List extends React.Component {
             </form>
             <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>Active</b></div> <div className="text-muted col"><b>All</b></div></div>
           </div>
-        <div className="list-group h-scroll">
-          {this.props.contacts.map(contact => <Contact key={contact.id} contact={contact} dispatch={this.props.dispatch} router={this.context.router} />)}
+        <div className="list-group h-scroll" onScroll={this._onScroll}>
+          {contacts.map(contact => <Contact key={contact.id} contact={contact} dispatch={dispatch} router={this.context.router} />)}
         </div>
       </div>
     )
@@ -30,7 +49,8 @@ class List extends React.Component {
 List.propTypes = {
   contacts: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
-  isPosting: PropTypes.bool
+  isPosting: PropTypes.bool,
+  pagination: PropTypes.object.isRequired
 };
 
 List.contextTypes = {
@@ -54,7 +74,7 @@ const Contact = ({ contact, dispatch, router }) => {
 }
 
 Contact.propTypes = {
-  contact: PropTypes.object.isRequired
+  contact: PropTypes.object.isRequired,
 };
 
 export default List

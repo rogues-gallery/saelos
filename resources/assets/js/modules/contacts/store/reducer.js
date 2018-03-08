@@ -27,9 +27,11 @@ export default function contactReducer(state = initialState, action) {
         isFetching: true
       }
     case types.FETCHING_CONTACTS_SUCCESS:
+      const newContacts = state.data.concat(action.data.data)
+
       return {
         ...state,
-        data: action.data.data,
+        data: newContacts,
         meta: action.data.meta,
         isFetching: false,
         error: false
@@ -83,6 +85,6 @@ export const getContact = (state, id) => {
   return new Contact(contact);
 }
 export const getContacts = (state) => state.data;
-export const getPaginationForContacts = (state) => state.pagination;
+export const getPaginationForContacts = (state) => state.meta;
 export const getCustomFieldsForContacts = (state) => state.customFields;
 export const isStateDirty = (state) => state.isPosting;
