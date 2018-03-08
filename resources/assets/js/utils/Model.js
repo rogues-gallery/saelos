@@ -10,9 +10,9 @@ class Model {
     this.originalProps = props;
 
     this.id = props.id && Number(props.id) || null
-    this.createdAt = props.createdAt && moment(props.createdAt) || null
-    this.updatedAt = props.updatedAt && moment(props.updatedAt) || null
-    this.deletedAt = props.deletedAt && moment(props.deletedAt) || null
+    this.created_at = props.created_at && moment(props.created_at) || null
+    this.updated_at = props.updated_at && moment(props.updated_at) || null
+    this.deleted_at = props.deleted_at && moment(props.deleted_at) || null
   }
 
   toJson() {
