@@ -169,6 +169,19 @@ class Record extends React.Component {
         </h4>
 
         <div className="h-scroll">
+          
+          <div className="card mb-1">
+            <ul className="list-group list-group-flush">
+              <li key="company" className="list-group-item">
+                <div className="mini-text text-muted">Company</div>
+                <div className="py-2">
+                  <p className="font-weight-bold">{contact.company.name}</p>
+                  <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
           {contactFields}
         </div>
       </main>
