@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 
 class PersonCommentController extends Controller
 {
+    public function update(Request $request, Person $person, Note $note)
+    {
+        $note->update($request->all());
+    }
+
     /**
      * @param Request $request
      * @param Person  $person
@@ -46,5 +51,10 @@ class PersonCommentController extends Controller
         NoteAdded::broadcast($note);
 
         return $note;
+    }
+
+    public function destroy(Person $person, Note $note)
+    {
+        $note->delete();
     }
 }

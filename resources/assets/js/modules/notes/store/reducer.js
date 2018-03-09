@@ -1,6 +1,5 @@
-import * as types from '../actions/types';
-
-let _ = require('lodash');
+import * as types from './action-types'
+import _ from 'lodash'
 
 const initialState = {
   data: [],

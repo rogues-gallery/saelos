@@ -1,14 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as MDIcons from 'react-icons/lib/md'
-import moment from 'moment'
 import Note from '../Note'
 import TextTruncate from 'react-text-truncate'
-import { Modal, ModalBody } from 'reactstrap'
+import _ from 'lodash'
 import { saveNote, deleteNote } from '../service'
 import ContentEditable from 'react-contenteditable'
 
 class Notes extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this._handleInputChange = this._handleInputChange.bind(this)
+    this._submit = this._submit.bind(this)
+
+    const newNote = new Note({
+      entity_type: this.props.entityType,
+      entity_id: this.props.entityId,
+      user: this.props.user
+    })
+
+    this.state = {
+      formState: newNote.originalProps
+    }
+  }
+
+  _handleInputChange(event) {
+    const { target } = event
+
+    this.state.formState.note = target.value
+  }
+
+  _submit() {
+    this.props.dispatch(saveNote(this.state.formState))
+  }
+
   render() {
     const { notes } = this.props
 
@@ -19,6 +45,14 @@ class Notes extends React.Component {
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseNotes" aria-expanded="true" aria-controls="collapseNotes">
             <MDIcons.MdKeyboardArrowDown /> Notes <span className="text-muted font-weight-normal">({notes.length})</span>
           </h6>
+        </div>
+        <div className="newNote">
+          <h2>{this.props.user.name}</h2>
+          <ContentEditable onChange={this._handleInputChange} />
+          <div className="btn-group">
+            <button className="btn btn-outline-light">Cancel</button>
+            <button className="btn btn-primary" onClick={this._submit}>Create</button>
+          </div>
         </div>
 
         <div id="collapseNotes" className="collapse show mh-200" aria-labelledby="headingNotes">
@@ -32,7 +66,10 @@ class Notes extends React.Component {
 
 Notes.propTypes = {
   notes: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  entityType: PropTypes.string.isRequired,
+  entityId: PropTypes.number.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 class Item extends React.Component {
@@ -68,17 +105,19 @@ class Item extends React.Component {
   }
 
   _handleInputChange(event) {
-    console.log(event.target.value);
+    const { target } = event
+
+    this.state.formState.note = target.value
   }
 
   _submit() {
     this.props.dispatch(saveNote(this.state.formState))
 
-    this.setState({edit: false})
+    this.setState({inEdit: false})
   }
 
   render() {
-    const note = new Note(this.props.note)
+    const { note } = this.props
 
     return (
       <div>
