@@ -4,6 +4,8 @@ import Company from '../../modules/companies/Company'
 import store from '../../store'
 import { getCustomFieldsForContacts } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
+import Note from "../notes/Note";
+import Opportunity from "../opportunities/Opportunity";
 
 class Contact extends Model {
   constructor(props) {
@@ -31,8 +33,8 @@ class Contact extends Model {
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
     this.company = props.company ? new Company(props.company) : new Company({})
-    this.notes = props.notes || []
-    this.opportunities = props.deals || []
+    this.notes = props.notes && props.notes.map(n => new Note(n)) || []
+    this.opportunities = props.deals && props.deals.map(d => new Opportunity(d)) || []
     this.activities = props.activities || []
   }
 }

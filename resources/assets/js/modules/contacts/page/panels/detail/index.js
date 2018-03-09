@@ -26,19 +26,19 @@ class Detail extends React.Component {
   }
 
   render() {
-    switch(this.state.view){
+    switch(this.state.view) {
       case 'default':
-        return <Details contact={this.props.contact} dispatch={this.props.dispatch} toggle={this._toggleView} />
+        return <Details contact={this.props.contact} dispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} />
       case 'history':
         return <History activities={this.props.contact.activities} dispatch={this.props.dispatch}  toggle={this._toggleView} />
     }
   }
 }
 
-const Details = ({contact, dispatch, toggle}) => (
-    <div key={1} className="col detail-panel border-left">
-      <div className="border-bottom text-center py-2 heading">
-        <h5>Contact Details
+const Details = ({contact, dispatch, toggle, user}) => (
+  <div key={1} className="col detail-panel border-left">
+    <div className="border-bottom text-center py-2 heading">
+      <h5>Contact Details
         <div className="dropdown d-inline-block ml-2 pt-2">
           <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
           <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
@@ -46,48 +46,49 @@ const Details = ({contact, dispatch, toggle}) => (
             <div className="dropdown-item" onClick={() => toggle('history')} >History</div>
           </div>
         </div>
-        </h5>
-      </div>
-      <div className="h-scroll">
-        <div className="card">
-          <div className="card-header" id="headingSRI">
-            <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSRI" aria-expanded="true" aria-controls="collapseSRI">
-              <MDIcons.MdKeyboardArrowDown /> Readiness Indicator
-            </h6>
-          </div>
-
-          <div id="collapseSRI" className="collapse show" aria-labelledby="headingSRI">
-            <div className="card-body border-bottom">
-              <SRI />
-            </div>
-          </div>
+      </h5>
+    </div>
+    <div className="h-scroll">
+      <div className="card">
+        <div className="card-header" id="headingSRI">
+          <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSRI" aria-expanded="true" aria-controls="collapseSRI">
+            <MDIcons.MdKeyboardArrowDown /> Readiness Indicator
+          </h6>
         </div>
 
-        <Opportunities opportunities={contact.opportunities} dispatch={dispatch} />
-        <Notes notes={contact.notes} dispatch={dispatch} />
-
+        <div id="collapseSRI" className="collapse show" aria-labelledby="headingSRI">
+          <div className="card-body border-bottom">
+            <SRI />
+          </div>
+        </div>
       </div>
+
+      <Opportunities opportunities={contact.opportunities} dispatch={dispatch} />
+      <Notes notes={contact.notes} dispatch={dispatch} entityType="App\Person" entityId={contact.id} user={user} />
     </div>
-  )
+  </div>
+)
 
 const History = ({activities, dispatch, toggle}) => (
-      <div key={1} className="col detail-panel border-left">
-        <div className="border-bottom text-center py-2 heading">
-          <div className="dropdown justify-content-center">
-            <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">History</div>
-            <div className="dropdown-menu" aria-labelledby="detailViewToggle">
-              <div className="dropdown-item" onClick={() => toggle('default')}>Details</div>
-              <div className="dropdown-item disabled">History</div>
-            </div>
-          </div>
+  <div key={1} className="col detail-panel border-left">
+    <div className="border-bottom text-center py-2 heading">
+      <div className="dropdown justify-content-center">
+        <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">History</div>
+        <div className="dropdown-menu" aria-labelledby="detailViewToggle">
+          <div className="dropdown-item" onClick={() => toggle('default')}>Details</div>
+          <div className="dropdown-item disabled">History</div>
         </div>
       </div>
-  )
+    </div>
+  </div>
+)
 
 Detail.propTypes = {
-  contact: PropTypes.instanceOf(Contact).isRequired
+  contact: PropTypes.instanceOf(Contact).isRequired,
+  user: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  contact: getContact(state, ownProps.match.params.id)
+  contact: getContact(state, ownProps.match.params.id),
+  user: state.user
 }))(Detail))
