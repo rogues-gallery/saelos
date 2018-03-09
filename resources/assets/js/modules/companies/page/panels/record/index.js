@@ -152,7 +152,7 @@ Record.propTypes = {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  company: getCompany(state, ownProps.match.params.id),
+  company: getCompany(state, ownProps.match.params.id || state.companyState.data[0].id),
   customFields: getCustomFieldsForCompanies(state),
   isDirty: isStateDirty(state)
 }))(Record))
