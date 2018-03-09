@@ -1,5 +1,6 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
+import store from '../../store'
 
 /**
  * Fetch the full contact by id
@@ -7,17 +8,7 @@ import * as actions from './store/actions'
  * @returns {function(*)}
  */
 export const fetchContact = (id) => (dispatch) => {
-  dispatch(actions.fetchingContact());
-  dispatch(actions.fetchingCustomFieldsForContacts());
-
-  Http.get(`contexts/Person?customOnly=true`)
-    .then(res => {
-      dispatch(actions.fetchingCustomFieldsForContactsSuccess(res.data))
-    })
-    .catch(err => {
-      console.log(err)
-      dispatch(actions.fetchingCustomFieldsForContactsFailure());
-    })
+  dispatch(actions.fetchingContact())
 
   return Http.get(`people/${id}`)
     .then(res => {
@@ -36,7 +27,26 @@ export const fetchContact = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchContacts = (params) => (dispatch) => {
-  dispatch(actions.fetchingContacts());
+  const { isFetching } = store.getState().contactState;
+
+  if (isFetching) {
+    return
+  }
+
+  dispatch(actions.fetchingCustomFieldsForContacts());
+
+  Http.get(`contexts/Person?customOnly=true`)
+    .then(res => {
+      dispatch(actions.fetchingCustomFieldsForContactsSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingCustomFieldsForContactsFailure());
+    })
+
+  dispatch(actions.fetchingContacts({
+    ...params
+  }));
 
   params = params || {}
 

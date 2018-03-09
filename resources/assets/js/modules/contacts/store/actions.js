@@ -13,8 +13,9 @@ export const fetchingContactFailure = () => ({
   type: types.FETCHING_SINGLE_CONTACT_FAILURE
 })
 
-export const fetchingContacts = () => ({
-  type: types.FETCHING_CONTACTS
+export const fetchingContacts = (payload) => ({
+  type: types.FETCHING_CONTACTS,
+  data: payload
 })
 
 export const fetchingContactsSuccess = (payload) => ({

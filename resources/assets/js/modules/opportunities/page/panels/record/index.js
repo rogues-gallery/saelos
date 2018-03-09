@@ -124,10 +124,11 @@ class Record extends React.Component {
       <main key={0} className="col main-panel px-3">
           <div className="toolbar border-bottom py-2">
             <button className="btn btn-primary mr-3 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>
-            <button className="btn btn-link text-muted mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
-            <button className="btn btn-link text-muted mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
-            <button className="btn btn-link text-muted mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>
-            <button className="btn btn-link text-muted mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdDelete /></span></button>
+            <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
+            <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
+            <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>
+            <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
+            <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdDelete /></span></button>
             
             <div className="float-right text-right pt-2">
               <div className="mini-text text-muted">Assigned To</div>

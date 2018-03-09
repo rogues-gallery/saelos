@@ -115,7 +115,7 @@ class Record extends React.Component {
               }
 
               return (
-                <div className={`form-group row ${hidden}`} key={f.alias}>
+                <div className={`form-group mb-0 row ${hidden}`} key={f.alias}>
                   <label htmlFor={f.alias} className="col-sm-3 col-form-label">{f.label}</label>
                   <div className="col-sm-9">
                     <input type="text" {...readOnly} id={f.alias} name={f.alias} onChange={this._handleInputChange} defaultValue={fieldValue} />
@@ -133,10 +133,15 @@ class Record extends React.Component {
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading list-inline">
           <button className="btn btn-primary mr-3 btn-sm list-inline-item" onClick={() => this._setActionView('call')}><span className="h5"><MDIcons.MdLocalPhone /></span></button>
-          <button className="btn btn-link text-muted mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('email')}><span className="h2"><MDIcons.MdMailOutline /></span></button>
-          <button className="btn btn-link text-muted mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>
-          <button className="btn btn-link text-muted mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
-          <button className="btn btn-link text-muted mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('email')}><span className="h2"><MDIcons.MdMailOutline /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" ><span className="h2"><MDIcons.MdCallMerge /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
           <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">Assigned To</div>

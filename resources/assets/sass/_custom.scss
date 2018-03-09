@@ -36,7 +36,7 @@ p {
 }
 
 label {
-  font-weight: 500;
+  font-weight: $font-weight-bold;
 }
 
 a:hover {
@@ -50,6 +50,13 @@ a:hover {
 .btn-outline-secondary:hover {
   color: $gray-300;
   background: $white;
+}
+
+.btn-link {
+  color: $gray-300;
+}
+.btn-link:hover {
+  color: $gray-500;
 }
 
 .mini-text {
@@ -325,7 +332,4 @@ a:hover {
   .ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
     stroke: $blue;
   }
-}
-.form-group {
-  margin-bottom: 0rem;
 }

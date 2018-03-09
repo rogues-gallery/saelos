@@ -16,7 +16,8 @@ const initialState = {
   isFetching: false,
   isPosting: false,
   error: false,
-  customFields : []
+  customFields : [],
+  searchString: ''
 }
 
 export default function contactReducer(state = initialState, action) {
@@ -24,20 +25,32 @@ export default function contactReducer(state = initialState, action) {
     case types.FETCHING_CONTACTS:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        searchString: action.data.searchString
       }
     case types.FETCHING_CONTACTS_SUCCESS:
-      const { data } = state
-      let newContacts = data
+      let { data, meta } = action.data
+      let newContactsForState
 
-      action.data.data.map(c => {
-        newContacts = injectContactIntoState(c, newContacts)
-      })
+      if (data.length === 0) {
+        return state
+      }
+
+      // When fetching the first page, always replace the contacts in the app state
+      if (meta.current_page === 1) {
+        newContactsForState = data
+      } else {
+        newContactsForState = state.data
+
+        data.map(c => {
+          newContactsForState = injectContactIntoState(c, newContactsForState)
+        })
+      }
 
       return {
         ...state,
-        data: newContacts,
-        meta: action.data.meta,
+        data: newContactsForState,
+        meta: meta,
         isFetching: false,
         error: false
       }
@@ -100,3 +113,4 @@ export const getContacts = (state) => state.data;
 export const getPaginationForContacts = (state) => state.meta;
 export const getCustomFieldsForContacts = (state) => state.customFields;
 export const isStateDirty = (state) => state.isPosting;
+export const getSearchStringForContacts = (state) => state.searchString;

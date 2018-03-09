@@ -4,8 +4,8 @@ import List from './panels/list'
 import Record from './panels/record'
 import Detail from './panels/detail'
 
-const Page = ({ contacts, dispatch, isPosting, pagination }) => ([
-    <List contacts={contacts} dispatch={dispatch} key={0} isPosting={isPosting} pagination={pagination} />,
+const Page = ({ contacts, dispatch, isPosting, pagination, searchString }) => ([
+    <List contacts={contacts} dispatch={dispatch} key={0} isPosting={isPosting} pagination={pagination} searchString={searchString} />,
     <Record key={1} dispatch={dispatch} />,
     <Detail key={2} dispatch={dispatch} />
 ])
