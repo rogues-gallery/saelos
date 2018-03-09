@@ -6,7 +6,7 @@ import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId}
 import { fetchContact, saveContact } from '../../../service';
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
-import ReactQuill from 'react-quill'
+import { ActionView } from './components'
 
 class Record extends React.Component {
   constructor(props) {
@@ -135,7 +135,7 @@ class Record extends React.Component {
           <button className="btn btn-primary mr-3 btn-sm list-inline-item" onClick={() => this._setActionView('call')}><span className="h5"><MDIcons.MdLocalPhone /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('email')}><span className="h2"><MDIcons.MdMailOutline /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item" ><span className="h2"><MDIcons.MdCallMerge /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdCallMerge /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
@@ -149,7 +149,7 @@ class Record extends React.Component {
           </div>
         </div>
 
-        {this.state.actionView != "none" ? 
+        {this.state.actionView !== "none" ?
           <div className="border-bottom">
             <div className="card actionView my-2">
               <ActionView view={this.state.actionView} />
@@ -196,57 +196,6 @@ class Record extends React.Component {
 
 Record.propTypes = {
   contact: PropTypes.object.isRequired
-}
-
-class ActionView extends React.Component {
-  render() {
-    switch (this.props.view) {
-      case "email":
-        return (
-          <div className="card-body emailActionView">
-            <div className="float-right">
-              <span className="mini-text text-muted font-weight-bold">CC | BCC</span>
-            </div>
-            <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Subject</label>
-              <input type="text" className="form-control" placeholder="Enter email subject" />
-            </div>
-            <div className="form-group">
-              <ReactQuill value={this.props.view} />
-            </div>
-            <button className="btn btn-primary">Send</button><button className="btn btn-link text-muted" onClick={() => this._setActionView('none')} >Cancel</button>
-          </div>
-          )
-      case "call":
-        return (
-          <div className="card-body callActionView">
-            <div className="row">
-              <div className="col fw-100 border-right">
-                <button className="btn btn-primary btn-lg" onClick={() => this._setActionView('call')}><span className="h2"><MDIcons.MdLocalPhone /></span></button>
-              </div>
-              <div className="col">
-                <p>
-                  Click the button to the left to initiate a call to this user. Once the call is completed please enter your Rep Sentiment Score below.
-                </p>
-                <input type="range" min="1" max="10" className="slider"/>
-              </div>
-            </div>
-          </div>
-        )
-      case "sms":
-        return (
-          <div className="card-body smsActionView">
-            <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Message</label>
-              <input type="text" className="form-control" placeholder="Enter SMS message" />
-            </div>
-            <button className="btn btn-primary">Send</button><button className="btn btn-link text-muted" onClick={() => this._setActionView('none')} >Cancel</button>
-          </div>
-        )
-      default:
-        return ''
-    }
-  }
 }
 
 export default withRouter(connect((state, ownProps) => ({
