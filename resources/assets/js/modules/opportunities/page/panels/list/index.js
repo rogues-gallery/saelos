@@ -76,7 +76,7 @@ class List extends React.Component {
             </form>
             <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>Active</b></div> <div className="text-muted col"><b>All</b></div></div>
           </div>
-        <div className="list-group h-scroll">
+        <div className="list-group h-scroll" onScroll={this._onScroll}>
           {opportunities.map(opportunity => <Opportunity key={opportunity.id} opportunity={opportunity} dispatch={this.props.dispatch} router={this.context.router} activeID={activeIndex} />)}
         </div>
       </div>
