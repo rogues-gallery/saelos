@@ -6,7 +6,7 @@ import createBrowserHistory from 'history/createBrowserHistory'
 // import components
 import routes from './routes'
 import PrivateRoute from './Private'
-import PublicRoute from './Public'
+import ConfigRoute from './Config'
 import Layout from '../layout'
 
 const history = createBrowserHistory();
@@ -20,7 +20,7 @@ const Routes = () => (
             return <PrivateRoute key={i} {...route} />
           }
 
-          return <PublicRoute key={i} {...route} />
+          return <ConfigRoute key={i} {...route} />
         })}
       </Switch>
     </Layout>

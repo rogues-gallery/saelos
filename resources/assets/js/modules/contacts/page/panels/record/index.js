@@ -93,6 +93,7 @@ class Record extends React.Component {
     const { contact } = this.props;
     const groups = _.groupBy(this.props.customFields, 'group');
     const inEdit = this.state.inEdit;
+    
     const contactFields = Object.keys(groups).map(key => (
       <div className="card mb-1" key={contact.id + key}>
         <ul className="list-group list-group-flush">
@@ -188,6 +189,7 @@ class Record extends React.Component {
           </div>
 
           {contactFields}
+
         </div>
       </main>
     )

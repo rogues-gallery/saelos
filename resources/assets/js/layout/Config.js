@@ -9,7 +9,7 @@ const containerStyle = {
   paddingTop: '3.5rem',
 }
 
-const PublicLayout = ({ children }) => (
+const ConfigLayout = ({ children }) => (
   <div style={containerStyle}>
     <main style={{ minHeight: '100vh'}}>
       { children }
@@ -17,8 +17,8 @@ const PublicLayout = ({ children }) => (
   </div>
 )
 
-PublicLayout.propTypes = {
+ConfigLayout.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export default PublicLayout
+export default ConfigLayout

@@ -10,6 +10,7 @@ import { getAuth } from '../modules/auth/store/selectors';
 
 // import components
 import PrivateLayout from './Private'
+import ConfigLayout from './Config'
 import PublicLayout from './Public'
 
 class Layout extends Component {
@@ -23,11 +24,15 @@ class Layout extends Component {
   }
 
   render() {
-    const { children, ...props } = this.props
-    if (this.props.isAuthenticated) {
-      return <PrivateLayout {...props}>{children}</PrivateLayout>
+    const { children, user, ...props } = this.props
+    if (user.admin === 1) {
+      return <ConfigLayout {...props}>{children}</ConfigLayout>
     }
-    return <PublicLayout {...props}>{children}</PublicLayout>
+    else if (this.props.isAuthenticated) {
+      return <PrivateLayout {...props}>{children}</PrivateLayout>
+    } else {
+      return <PublicLayout {...props}>{children}</PublicLayout>
+    }
   }
 }
 

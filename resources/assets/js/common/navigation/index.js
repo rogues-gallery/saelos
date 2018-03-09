@@ -6,7 +6,7 @@ import { logout } from '../../modules/auth/service'
 
 // import components
 import PrivateNav from './PrivateNav';
-import PublicNav from './PublicNav';
+import ConfigNav from './ConfigNav';
 import { getAuth } from "../../modules/auth/store/selectors";
 
 class Navigation extends Component {

@@ -7,6 +7,8 @@ import workflowRoutes from "../modules/workflows/routes";
 import teamRoutes from "../modules/teams/routes";
 // import hqRoutes from "../modules/headquarters/routes";
 
+import configRoutes from "../modules/config/routes";
+
 export default [
   ...contactRoutes,
   ...authRoutes,
@@ -16,4 +18,6 @@ export default [
   ...workflowRoutes,
   ...teamRoutes,
   // ...hqRoutes,
+
+  ...configRoutes
 ];
