@@ -202,7 +202,7 @@ class ActionView extends React.Component {
       case "call":
         return (
           <div className="card-body callActionView">
-            <div class="row">
+            <div className="row">
               <div className="col fw-100 border-right">
                 <button className="btn btn-primary btn-lg" onClick={() => this._setActionView('call')}><span className="h2"><MDIcons.MdLocalPhone /></span></button>
               </div>
@@ -210,6 +210,7 @@ class ActionView extends React.Component {
                 <p>
                   Click the button to the left to initiate a call to this user. Once the call is completed please enter your Rep Sentiment Score below.
                 </p>
+                <input type="range" min="1" max="10" className="slider"/>
               </div>
             </div>
           </div>
@@ -227,8 +228,6 @@ class ActionView extends React.Component {
       default:
         return ''
     }
-
-    
   }
 }
 
