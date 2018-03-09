@@ -13,8 +13,9 @@ export const fetchingOpportunityFailure = () => ({
   type: types.FETCHING_SINGLE_OPPORTUNITY_FAILURE
 })
 
-export const fetchingOpportunities = () => ({
-  type: types.FETCHING_OPPORTUNITIES
+export const fetchingOpportunities = (payload) => ({
+  type: types.FETCHING_OPPORTUNITIES,
+  data: payload
 })
 
 export const fetchingOpportunitiesSuccess = (payload) => ({

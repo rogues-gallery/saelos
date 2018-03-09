@@ -1,5 +1,6 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
+import store from '../../store'
 
 /**
  * Fetch the full contact by id
@@ -8,15 +9,6 @@ import * as actions from './store/actions'
  */
 export const fetchOpportunity = (id) => (dispatch) => {
     dispatch(actions.fetchingOpportunity());
-
-  Http.get(`contexts/Deal?customOnly=true`)
-    .then(res => {
-      dispatch(actions.fetchingCustomFieldsForOpportunitiesSuccess(res.data))
-    })
-    .catch(err => {
-      console.log(err)
-      dispatch(actions.fetchingCustomFieldsForOpportunitiesFailure());
-    })
 
     return Http.get(`deals/${id}`)
         .then(res => {
@@ -35,7 +27,26 @@ export const fetchOpportunity = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchOpportunities = (params) => (dispatch) => {
-    dispatch(actions.fetchingOpportunities());
+    const { isFetching } = store.getState().contactState;
+
+    if (isFetching) {
+        return
+    }
+
+    dispatch(actions.fetchingCustomFieldsForOpportunities());
+
+    Http.get(`contexts/Deal?customOnly=true`)
+    .then(res => {
+      dispatch(actions.fetchingCustomFieldsForOpportunitiesSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingCustomFieldsForOpportunitiesFailure());
+    })
+
+    dispatch(actions.fetchingOpportunities({
+        ...params
+    }));
 
     params = params || {}
 

@@ -11,7 +11,11 @@ const Page = (props) => ([
 ])
 
 Page.propTypes = {
-  opportunities: PropTypes.array.isRequired
+  opportunities: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  isPosting: PropTypes.bool,
+  pagination: PropTypes.object.isRequired,
+  firstOpportunityId: PropTypes.number.isRequired
 };
 
 export default Page;

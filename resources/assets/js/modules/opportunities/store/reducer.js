@@ -16,7 +16,8 @@ const initialState = {
   isFetching: false,
   isPosting: false,
   error: false,
-  customFields : []
+  customFields : [],
+  searchString: ''
 }
 
 export default function opportunityReducer(state = initialState, action) {
@@ -24,13 +25,32 @@ export default function opportunityReducer(state = initialState, action) {
     case types.FETCHING_OPPORTUNITIES:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        searchString: action.data.searchString
       }
     case types.FETCHING_OPPORTUNITIES_SUCCESS:
+      let { data, meta } = action.data
+      let newOpportunitiesForState
+
+      if (data.length === 0) {
+        return state
+      }
+
+      // When fetching the first page, always replace the contacts in the app state
+      if (meta.current_page === 1) {
+        newOpportunitiesForState = data
+      } else {
+        newOpportunitiesForState = state.data
+
+        data.map(o => {
+          newOpportunitiesForState = injectOpportunityIntoState(o, newOpportunitiesForState)
+        })
+      }
+
       return {
         ...state,
-        data: action.data.data,
-        meta: action.data.meta,
+        data: newOpportunitiesForState,
+        meta: meta,
         isFetching: false,
         error: false
       }
@@ -48,25 +68,20 @@ export default function opportunityReducer(state = initialState, action) {
       }
     case types.POSTING_OPPORTUNITY_SUCCESS:
     case types.FETCHING_SINGLE_OPPORTUNITY_SUCCESS:
-      const index = _.findIndex(state.data, (o) => o.id === parseInt(action.data.id));
-
-      if (index >= 0) {
-        state.data[index] = action.data
-      } else {
-        state.data.push(action.data);
-      }
+      const newData = injectOpportunityIntoState(action.data, state.data)
 
       return {
         ...state,
+        data: newData,
         isFetching: false,
-        error: false
+        error: false,
+        isPosting: false
       }
     case types.FETCHING_CUSTOM_FIELDS_FOR_OPPORTUNITIES_SUCCESS:
       return {
         ...state,
         customFields: action.data
       }
-    
     default:
       return state
   }
@@ -98,3 +113,5 @@ export const getOpportunities = (state) => state.data;
 export const getPaginationForOpportunities = (state) => state.meta;
 export const getCustomFieldsForOpportunities = (state) => state.customFields;
 export const isStateDirty = (state) => state.isPosting;
+export const getSearchStringForOpportunities = (state) => state.searchString;
+export const getFirstOpportunityId = (state) => state.data.length ? state.data[0].id : 0
