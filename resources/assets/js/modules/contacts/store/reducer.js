@@ -114,3 +114,4 @@ export const getPaginationForContacts = (state) => state.meta;
 export const getCustomFieldsForContacts = (state) => state.customFields;
 export const isStateDirty = (state) => state.isPosting;
 export const getSearchStringForContacts = (state) => state.searchString;
+export const getFirstContactId = (state) => state.data.length ? state.data[0].id : 0

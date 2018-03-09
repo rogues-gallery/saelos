@@ -62,8 +62,8 @@ class List extends React.Component {
   }
 
   render() {
-    const { contacts, dispatch, searchString } = this.props
-    const activeIndex = parseInt(this.context.router.route.match.params.id) || contacts[0].id
+    const { contacts, dispatch, searchString, firstContactId } = this.props
+    const activeIndex = parseInt(this.context.router.route.match.params.id) || firstContactId
 
     return (
       <div className="col list-panel border-right">
@@ -128,6 +128,7 @@ const Contact = ({ contact, dispatch, router, activeID }) => {
 Contact.propTypes = {
   contact: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  router: PropTypes.object.isRequired,
   activeID: PropTypes.number.isRequired
 };
 

@@ -5,6 +5,7 @@ namespace App;
 use App\Contracts\HasCustomFieldsInterface;
 use App\Contracts\HasWorkflowsInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Deal
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface
+class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface
 {
     use HasDocumentsTrait;
     use HasActivitiesTrait;
@@ -50,6 +51,32 @@ class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterf
         'actual_close',
         'last_viewed',
     ];
+
+    public static function search(string $searchString, Builder $builder): Builder
+    {
+        $searchArray = static::parseSearchString($searchString);
+
+        $builder->where('published', 1);
+        $builder->where(function(Builder $q) use ($searchArray) {
+            if ($name = $searchArray['name']) {
+                $q->orWhere('name', 'like', '%'.$name.'%');
+            }
+        });
+
+        if ($modifiedSince = $searchArray['modified_since']) {
+            $builder->where('updated_at', '>=', $modifiedSince);
+        }
+
+        return $builder;
+    }
+
+    public static function parseSearchString(string $searchString): array
+    {
+        return [
+            'name' => $searchString,
+            'modified_since' => null
+        ];
+    }
 
     public function user()
     {

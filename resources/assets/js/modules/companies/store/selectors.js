@@ -14,3 +14,9 @@ export const getCustomFieldsForCompanies = (state) =>
 
 export const isStateDirty = (state) =>
   fromReducer.isStateDirty(state.companyState);
+
+ export const getSearchStringForCompanies = (state) =>
+ 	fromReducer.getSearchStringForCompanies(state.companyState);
+
+ export const getFirstCompanyId = (state) =>
+ 	fromReducer.getFirstCompanyId(state.companyState);

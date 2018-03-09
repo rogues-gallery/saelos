@@ -38,12 +38,9 @@ class DealController extends Controller
     {
         $deals = Deal::with(static::INDEX_WITH);
 
-        $deals->where('published', 1);
-        $deals->where(function($q) use ($request) {
-            if ($name = $request->get('name')) {
-                $q->orWhere('name', 'like', '%'.$name.'%');
-            }
-        });
+        if ($searchString = $request->get('searchString')) {
+            $deals = Deal::search($searchString, $deals);
+        }
 
         return new DealCollection($deals->paginate());
     }

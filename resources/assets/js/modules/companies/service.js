@@ -10,14 +10,7 @@ export const fetchCompany = (id) => (dispatch) => {
   dispatch(actions.fetchingCompany())
   dispatch(actions.fetchingCustomFieldsForCompanies())
 
-  Http.get(`contexts/Company?customOnly=true`)
-    .then(res => {
-      dispatch(actions.fetchingCustomFieldsForCompaniesSuccess(res.data))
-    })
-    .catch(err => {
-      console.log(err)
-      dispatch(actions.fetchingCustomFieldsForCompaniesFailure())
-    })
+
 
   return Http.get(`companies/${id}`)
     .then(res => {
@@ -39,6 +32,15 @@ export const fetchCompanies = (params) => (dispatch) => {
   dispatch(actions.fetchingCompanies());
 
   params = params || {}
+  
+  Http.get(`contexts/Company?customOnly=true`)
+    .then(res => {
+      dispatch(actions.fetchingCustomFieldsForCompaniesSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingCustomFieldsForCompaniesFailure())
+    })
 
   return Http.get('companies', {params: params})
     .then(res => {

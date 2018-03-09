@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {getContact, getCustomFieldsForContacts, isStateDirty} from '../../../store/selectors';
+import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors';
 import { fetchContact, saveContact } from '../../../service';
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
@@ -250,7 +250,7 @@ class ActionView extends React.Component {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  contact: getContact(state, ownProps.match.params.id || state.contactState.data[0].id),
+  contact: getContact(state, ownProps.match.params.id || getFirstContactId(state)),
   customFields: getCustomFieldsForContacts(state),
   isDirty: isStateDirty(state)
 }))(Record))

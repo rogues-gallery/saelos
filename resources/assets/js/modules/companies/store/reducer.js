@@ -16,7 +16,8 @@ const initialState = {
   isFetching: false,
   isPosting: false,
   error: false,
-  customFields : []
+  customFields : [],
+  searchString: ''
 }
 
 export default function companyReducer(state = initialState, action) {
@@ -27,10 +28,28 @@ export default function companyReducer(state = initialState, action) {
         isFetching: true
       }
     case types.FETCHING_COMPANIES_SUCCESS:
+      let { data, meta } = action.data
+      let newCompaniesForState
+
+      if (data.length === 0) {
+        return state
+      }
+
+      // When fetching the first page, always replace the contacts in the app state
+      if (meta.current_page === 1) {
+        newCompaniesForState = data
+      } else {
+        newCompaniesForState = state.data
+
+        data.map(c => {
+          newCompaniesForState = injectCompaniesIntoState(c, newCompaniesForState)
+        })
+      }
+
       return {
         ...state,
-        data: action.data.data,
-        meta: action.data.meta,
+        data: newCompaniesForState,
+        meta: meta,
         isFetching: false,
         error: false
       }
@@ -72,6 +91,18 @@ export default function companyReducer(state = initialState, action) {
   }
 }
 
+const injectCompaniesIntoState = (company, data) => {
+  const index = _.findIndex(data, (c) => c.id === parseInt(company.id))
+
+  if (index >= 0) {
+    data[index] = _.merge(data[index], company)
+  } else {
+    data.push(company)
+  }
+
+  return data
+}
+
 export const getCompanyIndex = (state, id) => _.findIndex(getCompanies(state), (c) => c.id === parseInt(id));
 export const getCompany = (state, id) => {
   let company = _.find(getCompanies(state), (c) => c.id === parseInt(id));
@@ -83,6 +114,8 @@ export const getCompany = (state, id) => {
   return new Company(company);
 }
 export const getCompanies = (state) => state.data;
-export const getPaginationForCompanies = (state) => state.pagination;
+export const getPaginationForCompanies = (state) => state.meta;
 export const getCustomFieldsForCompanies = (state) => state.customFields
 export const isStateDirty = (state) => state.isPosting
+export const getSearchStringForCompanies = (state) => state.searchString
+export const getFirstCompanyId = (state) => state.data.length ? state.data[0].id : 0

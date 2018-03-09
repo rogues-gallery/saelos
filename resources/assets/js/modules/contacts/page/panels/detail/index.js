@@ -38,7 +38,7 @@ class Detail extends React.Component {
 const Details = ({contact, dispatch, toggle}) => (
     <div key={1} className="col detail-panel border-left">
       <div className="border-bottom text-center py-2 heading">
-        <h5 className="pt-2 mb-1">Contact Details
+        <h5>Contact Details
         <div className="dropdown d-inline-block ml-2 pt-2">
           <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
           <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
@@ -73,15 +73,13 @@ const Details = ({contact, dispatch, toggle}) => (
 const History = ({activities, dispatch, toggle}) => (
       <div key={1} className="col detail-panel border-left">
         <div className="border-bottom text-center py-2 heading">
-          <h5 className="pt-2 mb-1">History
-            <div className="dropdown d-inline-block ml-2 pt-2">
-            <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
-            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
+          <div className="dropdown justify-content-center">
+            <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">History</div>
+            <div className="dropdown-menu" aria-labelledby="detailViewToggle">
               <div className="dropdown-item" onClick={() => toggle('default')}>Details</div>
               <div className="dropdown-item disabled">History</div>
             </div>
           </div>
-          </h5>
         </div>
       </div>
   )

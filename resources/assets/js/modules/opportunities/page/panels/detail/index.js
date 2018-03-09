@@ -18,7 +18,7 @@ class Detail extends React.Component {
     return (
       <div key={1} className="col detail-panel border-left">
         <div className="border-bottom text-center py-2 heading">
-          <h5 className="pt-2 mb-1">Opportunity Details</h5>
+          <h5>Opportunity Details</h5>
         </div>
         <div className="h-scroll">
           <div className="card">

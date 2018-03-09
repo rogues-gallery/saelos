@@ -17,3 +17,6 @@ export const isStateDirty = (state) =>
 
  export const getSearchStringForContacts = (state) =>
  	fromReducer.getSearchStringForContacts(state.contactState);
+
+ export const getFirstContactId = (state) =>
+ 	fromReducer.getFirstContactId(state.contactState);

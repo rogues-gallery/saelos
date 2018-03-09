@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getCompany, getCustomFieldsForCompanies, isStateDirty } from '../../../store/selectors'
+import { getCompany, getCustomFieldsForCompanies, isStateDirty, getFirstCompanyId } from '../../../store/selectors'
 import { fetchCompany, saveCompany } from '../../../service'
 import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
@@ -152,7 +152,7 @@ Record.propTypes = {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  company: getCompany(state, ownProps.match.params.id || state.companyState.data[0].id),
+  company: getCompany(state, ownProps.match.params.id || getFirstCompanyId(state)),
   customFields: getCustomFieldsForCompanies(state),
   isDirty: isStateDirty(state)
 }))(Record))

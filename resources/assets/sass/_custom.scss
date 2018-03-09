@@ -333,3 +333,8 @@ a:hover {
     stroke: $blue;
   }
 }
+
+.justify-content-center .dropdown-menu {
+   left: 50% !important;
+   transform: translateX(-50%) !important;
+}

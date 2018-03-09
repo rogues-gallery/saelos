@@ -34,27 +34,11 @@ class CompanyController extends Controller
     {
         $companies = Company::with(static::INDEX_WITH);
 
-        $companies->where('published', 1);
-        $companies->where(function($q) use ($request) {
-            if ($id = $request->get('id')) {
-                $q->where('id', (int) $id);
+        if ($searchString = $request->get('searchString')) {
+            $companies = Company::search($searchString, $companies);
+        }
 
-                // If we're getting an ID, just search that
-                return;
-            }
-
-            if ($name = $request->get('name')) {
-                $q->orWhere('name', 'like', '%'.$name.'%');
-            }
-
-            if ($city = $request->get('city')) {
-                $q->orWhere('city', 'like', '%'.$city.'%');
-            }
-
-            if ($state = $request->get('state')) {
-                $q->orWhere('state', 'like', '%'.$state.'%');
-            }
-        });
+        $companies->orderBy('id', 'desc');
 
         return new CompanyCollection($companies->paginate());
     }
