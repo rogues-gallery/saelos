@@ -299,3 +299,30 @@ a:hover {
     background: $blue;
     cursor: pointer;
 }
+
+/* Temporary Location */
+.ct-series-a .ct-area, .ct-series-a .ct-slice-donut-solid, .ct-series-a .ct-slice-pie {      
+  transition: all .2s ease-in;
+  fill: $gray-200;
+}
+.ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
+  transition: all .2s ease-in;
+  stroke: $gray-200;
+}
+.ct-area {
+  stroke: none;
+  fill-opacity: .1;
+}
+.ct-line {
+  stroke-width: 2px;
+}
+
+#collapseSRI:hover {
+  .ct-series-a .ct-area, .ct-series-a .ct-slice-donut-solid, .ct-series-a .ct-slice-pie {
+    fill: $blue;
+  }
+  
+  .ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
+    stroke: $blue;
+  }
+}
