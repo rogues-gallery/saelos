@@ -18,13 +18,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface
+class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface
 {
     use HasDocumentsTrait;
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
     use HasNotesTrait;
     use HasWorkflowsTrait;
+    use SearchableTrait;
 
     protected $guarded = [
         'id',

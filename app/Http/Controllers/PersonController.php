@@ -41,27 +41,16 @@ class PersonController extends Controller
         'notes.user',
     ];
 
+    const SEARCH_PARAMS = [
+        // 'key_to_look_for' => 'regex'
+    ];
+
     public function index(Request $request)
     {
         $people = Person::with(static::INDEX_WITH);
 
-        $people->where('published', 1);
-        $people->where(function($q) use ($request) {
-            if ($firstName = $request->get('first_name')) {
-                $q->orWhere('first_name', 'like', '%'.$firstName.'%');
-            }
-
-            if ($lastName = $request->get('last_name')) {
-                $q->orWhere('last_name', 'like', '%'.$lastName.'%');
-            }
-
-            if ($email = $request->get('email')) {
-                $q->orWhere('email', 'like', '%'.$email.'%');
-            }
-        });
-
-        if ($modifiedSince = $request->get('modified_since')) {
-            $people->where('updated_at', '>=', $modifiedSince);
+        if ($searchString = $request->get('searchString')) {
+            $people = Person::search($searchString, $people);
         }
 
         $people->orderBy('id', 'desc');
