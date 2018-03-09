@@ -186,9 +186,44 @@ class ActionView extends React.Component {
       case "email":
         return (
           <div className="card-body emailActionView">
-            <ReactQuill value={this.props.view} />
+            <div className="float-right">
+              <span className="mini-text text-muted font-weight-bold">CC | BCC</span>
+            </div>
+            <div className="form-group">
+              <label htmlFor="exampleInputEmail1">Subject</label>
+              <input type="text" className="form-control" placeholder="Enter email subject" />
+            </div>
+            <div className="form-group">
+              <ReactQuill value={this.props.view} />
+            </div>
+            <button className="btn btn-primary">Send</button><button className="btn btn-link text-muted" onClick={() => this._setActionView('none')} >Cancel</button>
           </div>
           )
+      case "call":
+        return (
+          <div className="card-body callActionView">
+            <div class="row">
+              <div className="col fw-100 border-right">
+                <button className="btn btn-primary btn-lg" onClick={() => this._setActionView('call')}><span className="h2"><MDIcons.MdLocalPhone /></span></button>
+              </div>
+              <div className="col">
+                <p>
+                  Click the button to the left to initiate a call to this user. Once the call is completed please enter your Rep Sentiment Score below.
+                </p>
+              </div>
+            </div>
+          </div>
+        )
+      case "sms":
+        return (
+          <div className="card-body smsActionView">
+            <div className="form-group">
+              <label htmlFor="exampleInputEmail1">Message</label>
+              <input type="text" className="form-control" placeholder="Enter SMS message" />
+            </div>
+            <button className="btn btn-primary">Send</button><button className="btn btn-link text-muted" onClick={() => this._setActionView('none')} >Cancel</button>
+          </div>
+        )
       default:
         return ''
     }

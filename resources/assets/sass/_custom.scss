@@ -236,3 +236,45 @@ a:hover {
     font-size: 12px;
     line-height: 1.42857;
 }
+
+.fw-100 {
+  width: 100px;
+  max-width: 100px;
+}
+
+#range {
+  width: 180px;
+  height: 4px;
+  border: 0;
+  border-radius: 100px;
+  background: rgba(0,0,0,0.2);
+  outline: none;
+
+  .ui-slider-handle {
+    position: absolute;
+    margin: -6px 0 0 -17px;
+    border-radius: 50px;
+    background: $blue;
+    color: $white;
+    border: 0;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    width: 30px;
+    outline: none;
+    cursor: pointer;
+    font-size: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.1s ease;
+  }
+}
+
+.ql-toolbar.ql-snow {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+.ql-container.ql-snow {
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
