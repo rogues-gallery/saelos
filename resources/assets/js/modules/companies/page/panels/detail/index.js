@@ -68,7 +68,6 @@ const Details = ({company, dispatch, toggle, user}) => (
       <Contacts contacts={company.contacts} dispatch={dispatch} />
       <Opportunities opportunities={company.opportunities} dispatch={dispatch} />
       <Notes notes={company.notes} dispatch={dispatch} entityId={company.id} entityType="App\Company" user={user} />
-
     </div>
   </div>
 )

@@ -2,6 +2,7 @@ import Model from '../../utils/Model'
 import User from '../../modules/user/User'
 import Contact from '../../modules/contacts/Contact'
 import store from '../../store'
+import Note from "../notes/Note";
 import { getCustomFieldsForCompanies } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
 
@@ -30,8 +31,8 @@ class Company extends Model {
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
     this.contacts = props.people || []
-    this.notes = props.notes || []
-    this.opportunities = props.deals || []
+    this.notes = props.notes && props.notes.map(n => new Note(n)) || []
+    this.opportunities = props.deals && props.deals.map(d => new Opportunity(d)) || []
     this.activities = props.activities || []
   }
 }
