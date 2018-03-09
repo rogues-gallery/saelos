@@ -1,6 +1,6 @@
 import * as types from './action-types';
 import _ from 'lodash';
-import Account from "../Account";
+import Company from "../Company";
 
 const initialState = {
   data: [],
@@ -19,14 +19,14 @@ const initialState = {
   customFields : []
 }
 
-export default function accountReducer(state = initialState, action) {
+export default function companyReducer(state = initialState, action) {
   switch (action.type) {
-    case types.FETCHING_ACCOUNTS:
+    case types.FETCHING_COMPANIES:
       return {
         ...state,
         isFetching: true
       }
-    case types.FETCHING_ACCOUNTS_SUCCESS:
+    case types.FETCHING_COMPANIES_SUCCESS:
       return {
         ...state,
         data: action.data.data,
@@ -34,20 +34,20 @@ export default function accountReducer(state = initialState, action) {
         isFetching: false,
         error: false
       }
-    case types.FETCHING_SINGLE_ACCOUNT_FAILURE:
-    case types.FETCHING_ACCOUNTS_FAILURE:
+    case types.FETCHING_SINGLE_COMPANY_FAILURE:
+    case types.FETCHING_COMPANIES_FAILURE:
       return {
         ...state,
         isFetching: false,
         error: true
       }
-    case types.POSTING_ACCOUNT:
+    case types.POSTING_COMPANY:
       return {
         ...state,
         isPosting: true
       }
     case types.POSTING_ACCOuNT_SUCCESS:
-    case types.FETCHING_SINGLE_ACCOUNT_SUCCESS:
+    case types.FETCHING_SINGLE_COMPANY_SUCCESS:
       const index = _.findIndex(state.data, (a) => a.id === parseInt(action.data.id));
 
       if (index >= 0) {
@@ -62,7 +62,7 @@ export default function accountReducer(state = initialState, action) {
         error: false,
         isPosting: false
       }
-    case types.FETCHING_CUSTOM_FIELDS_FOR_ACCOUNTS_SUCCESS:
+    case types.FETCHING_CUSTOM_FIELDS_FOR_COMPANIES_SUCCESS:
       return {
         ...state,
         customFields: action.data
@@ -72,17 +72,17 @@ export default function accountReducer(state = initialState, action) {
   }
 }
 
-export const getAccountIndex = (state, id) => _.findIndex(getAccounts(state), (c) => c.id === parseInt(id));
-export const getAccount = (state, id) => {
-  let account = _.find(getAccounts(state), (c) => c.id === parseInt(id));
+export const getCompanyIndex = (state, id) => _.findIndex(getCompanies(state), (c) => c.id === parseInt(id));
+export const getCompany = (state, id) => {
+  let company = _.find(getCompanies(state), (c) => c.id === parseInt(id));
 
-  if (typeof account === 'undefined') {
-    return new Account({})
+  if (typeof company === 'undefined') {
+    return new Company({})
   }
 
-  return new Account(account);
+  return new Company(company);
 }
-export const getAccounts = (state) => state.data;
-export const getPaginationForAccounts = (state) => state.pagination;
-export const getCustomFieldsForAccounts = (state) => state.customFields
+export const getCompanies = (state) => state.data;
+export const getPaginationForCompanies = (state) => state.pagination;
+export const getCustomFieldsForCompanies = (state) => state.customFields
 export const isStateDirty = (state) => state.isPosting

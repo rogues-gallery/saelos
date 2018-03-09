@@ -1,6 +1,6 @@
 import Model from '../../utils/Model'
 import User from '../../modules/user/User'
-import Account from '../../modules/accounts/Account'
+import Company from '../../modules/companies/Company'
 import store from '../../store'
 import { getCustomFieldsForContacts } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
@@ -30,7 +30,7 @@ class Contact extends Model {
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
-    this.company = props.company ? new Account(props.company) : new Account({})
+    this.company = props.company ? new Company(props.company) : new Company({})
     this.notes = props.notes || []
     this.opportunities = props.deals || []
     this.activities = props.activities || []

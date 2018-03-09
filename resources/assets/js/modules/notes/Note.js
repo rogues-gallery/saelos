@@ -1,6 +1,5 @@
 import Model from '../../utils/Model'
 import User from '../../modules/user/User'
-import Account from '../../modules/accounts/Account'
 
 class Note extends Model {
   constructor(props) {

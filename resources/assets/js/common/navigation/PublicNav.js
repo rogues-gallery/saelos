@@ -11,7 +11,7 @@ const PublicNav = ({ showNavigation }) => (
     <NavItem path="/">Home</NavItem>
     <NavItem path="/headquarters">My Vector</NavItem>
     <NavItem path="/contacts">Contacts</NavItem>
-    <NavItem path="/accounts">Accounts</NavItem>
+    <NavItem path="/companies">Companies</NavItem>
     <NavItem path="/opportunities">Opportunities</NavItem>
     <NavItem path="/reports">Reports</NavItem>
   </Nav>

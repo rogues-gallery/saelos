@@ -34,7 +34,7 @@ const Opportunity = ({ opportunity, dispatch, router }) => {
     <div onClick={() => openOpportunityRecord(opportunity.id)} className="list-group-item list-group-item-action align-items-start">
       <p className="mini-text text-muted float-right">Stage</p>
       <p><strong>{opportunity.name}</strong>
-      <br />Account Name</p>
+      <br />Company Name</p>
       
     </div>
   );

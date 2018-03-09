@@ -2,10 +2,10 @@ import Model from '../../utils/Model'
 import User from '../../modules/user/User'
 import Contact from '../../modules/contacts/Contact'
 import store from '../../store'
-import { getCustomFieldsForAccounts } from './store/selectors'
+import { getCustomFieldsForCompanies } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
 
-class Account extends Model {
+class Company extends Model {
   constructor(props) {
     super(props)
 
@@ -15,7 +15,7 @@ class Account extends Model {
   initialize(props) {
     super.initialize(props)
 
-    const fields = getCustomFieldsForAccounts(store.getState())
+    const fields = getCustomFieldsForCompanies(store.getState())
 
     Object.keys(fields).map(key => {
         const field = fields[key]
@@ -36,4 +36,4 @@ class Account extends Model {
   }
 }
 
-export default Account
+export default Company

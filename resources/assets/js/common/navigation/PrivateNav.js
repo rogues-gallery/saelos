@@ -12,7 +12,7 @@ const PrivateNav = ({ user, showNavigation, showDropdown, toggleDropdown, logout
   <div className="nav">
     <NavItem path="/contacts"><i className="h5 mr-2"><MDIcons.MdPersonOutline /></i> Contacts</NavItem>
     <NavItem path="/headquarters"><i className="h5 mr-2"><MDIcons.MdNetworkCheck /></i> My Vector</NavItem>
-    <NavItem path="/accounts"><i className="h5 mr-2"><MDIcons.MdBusiness /></i> Accounts</NavItem>
+    <NavItem path="/companies"><i className="h5 mr-2"><MDIcons.MdBusiness /></i> Companies</NavItem>
     <NavItem path="/opportunities"><i className="h5 mr-2"><MDIcons.MdAttachMoney /></i> Opportunities</NavItem>
     <NavItem path="/reports"><i className="h5 mr-2"><MDIcons.MdInsertChart /></i> Reports</NavItem>
   </div>

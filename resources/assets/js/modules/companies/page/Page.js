@@ -4,14 +4,14 @@ import List from './panels/list'
 import Record from './panels/record'
 import Detail from './panels/detail'
 
-const Page = ({ accounts, dispatch, isPosting }) => ([
-    <List key={0} accounts={accounts} dispatch={dispatch} isPosting={isPosting} />,
+const Page = ({ companies, dispatch, isPosting }) => ([
+    <List key={0} companies={companies} dispatch={dispatch} isPosting={isPosting} />,
     <Record key={1} dispatch={dispatch} />,
     <Detail key={2} dispatch={dispatch} />
 ])
 
 Page.propTypes = {
-  accounts: PropTypes.array.isRequired,
+  companies: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool
 }

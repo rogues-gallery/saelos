@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getAccount, getCustomFieldsForAccounts, isStateDirty } from '../../../store/selectors'
-import { fetchAccount, saveAccount } from '../../../service'
+import { getCompany, getCustomFieldsForCompanies, isStateDirty } from '../../../store/selectors'
+import { fetchCompany, saveCompany } from '../../../service'
 import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
 
@@ -17,18 +17,18 @@ class Record extends React.Component {
 
     this.state = {
       inEdit: false,
-      formState: props.account.originalProps
+      formState: props.company.originalProps
     }
   }
 
   componentWillMount() {
     if (this.props.match.params.id) {
-      this.props.dispatch(fetchAccount(this.props.match.params.id))
+      this.props.dispatch(fetchCompany(this.props.match.params.id))
     }
   }
 
   componentWillReceiveProps(next) {
-    this.setState({formState: next.account.originalProps})
+    this.setState({formState: next.company.originalProps})
   }
 
   _toggleEdit() {
@@ -36,7 +36,7 @@ class Record extends React.Component {
   }
 
   _submit() {
-    this.props.dispatch(saveAccount(this.state.formState))
+    this.props.dispatch(saveCompany(this.state.formState))
 
     this.setState({inEdit: false})
   }
@@ -46,41 +46,41 @@ class Record extends React.Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     let name = target.name;
-    let accountState = this.state.formState;
+    let companyState = this.state.formState;
 
     // Special handling for custom field state
     if (this.state.formState.hasOwnProperty(name) === false) {
       let customField = this.props.customFields[_.split(name, '.')[1]];
-      let accountCustomFieldIndex = _.findIndex(accountState.custom_fields, (o) => o.custom_field_id === customField.field_id);
+      let companyCustomFieldIndex = _.findIndex(companyState.custom_fields, (o) => o.custom_field_id === customField.field_id);
 
-      if (accountCustomFieldIndex >= 0) {
-        accounntState.custom_fields[accountCustomFieldIndex].value = value;
+      if (companyCustomFieldIndex >= 0) {
+        accounntState.custom_fields[companyCustomFieldIndex].value = value;
       } else {
-        accountState.custom_fields.push({
+        companyState.custom_fields.push({
           custom_field_id: customField.field_id,
           value: value
         });
       }
     } else {
-      _.set(accountState, name, value);
+      _.set(companyState, name, value);
     }
 
     this.setState({
-      formState: accountState
+      formState: companyState
     });
   }
 
   render() {
-    const { account } = this.props
+    const { company } = this.props
     const groups = _.groupBy(this.props.customFields, 'group')
     const inEdit = this.state.inEdit
-    const accountFields = Object.keys(groups).map(key => (
-      <div className="card mb-1" key={account.id + key}>
+    const companyFields = Object.keys(groups).map(key => (
+      <div className="card mb-1" key={company.id + key}>
         <ul className="list-group list-group-flush">
           <li key={key} className="list-group-item">
             <div className="mini-text text-muted">{key}</div>
             {groups[key].map(f => {
-              let fieldValue = _.get(account, f.alias);
+              let fieldValue = _.get(company, f.alias);
 
               if (typeof fieldValue === 'object') {
                 fieldValue = _.get(fieldValue, 'name');
@@ -121,7 +121,7 @@ class Record extends React.Component {
 
           <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">Assigned To</div>
-            <div className="text-dark mini-text"><b>{account.user.name}</b></div>
+            <div className="text-dark mini-text"><b>{company.user.name}</b></div>
           </div>
         </div>
         {inEdit ?
@@ -135,11 +135,11 @@ class Record extends React.Component {
           </span>
         }
         <h4 className="border-bottom py-3">
-          {account.name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
+          {company.name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
         </h4>
 
         <div className="h-scroll">
-          {accountFields}
+          {companyFields}
         </div>
       </main>
     )
@@ -147,11 +147,11 @@ class Record extends React.Component {
 }
 
 Record.propTypes = {
-  account: PropTypes.object.isRequired
+  company: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  account: getAccount(state, ownProps.match.params.id),
-  customFields: getCustomFieldsForAccounts(state),
+  company: getCompany(state, ownProps.match.params.id),
+  customFields: getCustomFieldsForCompanies(state),
   isDirty: isStateDirty(state)
 }))(Record))

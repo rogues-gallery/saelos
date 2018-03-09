@@ -84,7 +84,7 @@ class EditContactForm extends Component {
       }
     }
 
-    return actionCreators.searchAccounts(search)
+    return actionCreators.searchCompanies(search)
       .then((companies) => {
         let options = companies.map((company) => {
           return {

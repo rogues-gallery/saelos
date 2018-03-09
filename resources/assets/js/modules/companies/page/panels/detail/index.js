@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 import Opportunities from '../../../../opportunities/partials/_opportunities'
 import Contacts from '../../../../contacts/partials/_contacts'
 import Notes from '../../../../notes/partials/_notes'
-import Account from '../../../Account'
-import { getAccount } from '../../../store/selectors'
+import Company from '../../../Company'
+import { getCompany } from '../../../store/selectors'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -28,17 +28,17 @@ class Detail extends React.Component {
   render() {
     switch(this.state.view){
       case 'default':
-        return <Details account={this.props.account} dispatch={this.props.dispatch} toggle={this._toggleView} />
+        return <Details company={this.props.company} dispatch={this.props.dispatch} toggle={this._toggleView} />
       case 'history':
-        return <History activities={this.props.account.activities} dispatch={this.props.dispatch}  toggle={this._toggleView} />
+        return <History activities={this.props.company.activities} dispatch={this.props.dispatch}  toggle={this._toggleView} />
     }
   }
 }
 
-const Details = ({account, dispatch, toggle}) => (
+const Details = ({company, dispatch, toggle}) => (
     <div key={1} className="col detail-panel border-left">
       <div className="border-bottom text-center py-2 heading">
-        <h5 className="pt-2 mb-1">Account Details
+        <h5 className="pt-2 mb-1">Company Details
         <div className="dropdown d-inline-block ml-2 pt-2">
           <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
           <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
@@ -63,9 +63,9 @@ const Details = ({account, dispatch, toggle}) => (
           </div>
         </div>
 
-        <Contacts contacts={account.contacts} dispatch={dispatch} />
-        <Opportunities opportunities={account.opportunities} dispatch={dispatch} />
-        <Notes notes={account.notes} dispatch={dispatch} />
+        <Contacts contacts={company.contacts} dispatch={dispatch} />
+        <Opportunities opportunities={company.opportunities} dispatch={dispatch} />
+        <Notes notes={company.notes} dispatch={dispatch} />
 
       </div>
     </div>
@@ -88,9 +88,9 @@ const History = ({activities, dispatch, toggle}) => (
   )
 
 Detail.propTypes = {
-  account: PropTypes.instanceOf(Account).isRequired
+  company: PropTypes.instanceOf(Company).isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  account: getAccount(state, ownProps.match.params.id)
+  company: getCompany(state, ownProps.match.params.id)
 }))(Detail))
