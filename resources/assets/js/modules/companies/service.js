@@ -1,5 +1,6 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
+import store from '../../store'
 
 /**
  * Fetch the full company by id
@@ -29,10 +30,14 @@ export const fetchCompany = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchCompanies = (params) => (dispatch) => {
-  dispatch(actions.fetchingCompanies());
+  const { isFetching } = store.getState().companyState;
 
-  params = params || {}
-  
+  if (isFetching) {
+    return
+  }
+
+  dispatch(actions.fetchingCustomFieldsForCompanies());
+
   Http.get(`contexts/Company?customOnly=true`)
     .then(res => {
       dispatch(actions.fetchingCustomFieldsForCompaniesSuccess(res.data))
@@ -41,6 +46,12 @@ export const fetchCompanies = (params) => (dispatch) => {
       console.log(err)
       dispatch(actions.fetchingCustomFieldsForCompaniesFailure())
     })
+
+  dispatch(actions.fetchingCompanies({
+    ...params
+  }));
+
+  params = params || {}
 
   return Http.get('companies', {params: params})
     .then(res => {
