@@ -103,7 +103,7 @@ const injectCompaniesIntoState = (company, data) => {
   return data
 }
 
-export const getCompanyIndex = (state, id) => _.findIndex(getCompanies(state), (c) => c.id === parseInt(id));
+export const getCompanyIndex = (state, id) => _.findIndex(getCompanies(state), (c) => c.id === parseInt(id))
 export const getCompany = (state, id) => {
   let company = _.find(getCompanies(state), (c) => c.id === parseInt(id));
 
@@ -111,10 +111,10 @@ export const getCompany = (state, id) => {
     return new Company({})
   }
 
-  return new Company(company);
+  return company
 }
-export const getCompanies = (state) => state.data;
-export const getPaginationForCompanies = (state) => state.meta;
+export const getCompanies = (state) => state.data.map(c => new Company(c))
+export const getPaginationForCompanies = (state) => state.meta
 export const getCustomFieldsForCompanies = (state) => state.customFields
 export const isStateDirty = (state) => state.isPosting
 export const getSearchStringForCompanies = (state) => state.searchString

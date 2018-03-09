@@ -99,7 +99,7 @@ const injectOpportunityIntoState = (opportunity, data) => {
   return data
 }
 
-export const getOpportunityIndex = (state, id) => _.findIndex(getOpportunities(state), (o) => o.id === parseInt(id));
+export const getOpportunityIndex = (state, id) => _.findIndex(getOpportunities(state), (o) => o.id === parseInt(id))
 export const getOpportunity = (state, id) => {
   let opportunity = _.find(getOpportunities(state), (o) => o.id === parseInt(id));
 
@@ -107,11 +107,11 @@ export const getOpportunity = (state, id) => {
     return new Opportunity({})
   }
 
-  return new Opportunity(opportunity);
+  return opportunity
 }
-export const getOpportunities = (state) => state.data;
-export const getPaginationForOpportunities = (state) => state.meta;
-export const getCustomFieldsForOpportunities = (state) => state.customFields;
-export const isStateDirty = (state) => state.isPosting;
-export const getSearchStringForOpportunities = (state) => state.searchString;
+export const getOpportunities = (state) => state.data.map(o => new Opportunity(o))
+export const getPaginationForOpportunities = (state) => state.meta
+export const getCustomFieldsForOpportunities = (state) => state.customFields
+export const isStateDirty = (state) => state.isPosting
+export const getSearchStringForOpportunities = (state) => state.searchString
 export const getFirstOpportunityId = (state) => state.data.length ? state.data[0].id : 0

@@ -45,21 +45,24 @@ class ContextController extends Controller
                 }
             }
 
-            $customFields = CustomField::where('model', $model)->get();
+            $fields = CustomField::where('model', $model)->get();
 
-            foreach ($customFields->all() as $customField) {
-                $alias = $customField->alias ?: Str::snake($customField->label);
+            foreach ($fields->all() as $field) {
+                $alias = $field->alias ?: Str::snake($field->label);
 
                 $attributes[$alias] = [
-                    'field_id' => $customField->id,
-                    'label' => $customField->label,
+                    'field_id' => $field->id,
+                    'label' => $field->label,
                     'alias' => $alias,
-                    'required' => $customField->required,
-                    'is_custom' => !$customField->protected,
-                    'type' => $customField->type,
-                    'options' => $customField->values,
-                    'default' => $customField->default,
-                    'group' => $customField->group
+                    'required' => $field->required,
+                    'is_custom' => !$field->protected,
+                    'type' => $field->type,
+                    'options' => $field->values,
+                    'default' => $field->default,
+                    'group' => $field->group,
+                    'ordering' => $field->ordering,
+                    'hidden' => $field->hidden,
+                    'protected' => $field->protected
                 ];
             }
 

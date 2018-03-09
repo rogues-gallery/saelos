@@ -99,7 +99,7 @@ List.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
-  searchString: PropTypes.string.isRequired
+  searchString: PropTypes.string
 };
 
 List.contextTypes = {
@@ -119,8 +119,8 @@ const Contact = ({ contact, dispatch, router, activeID }) => {
       >
       <span className="text-muted mini-text float-right">{moment(contact.updated_at).fromNow()}</span>
       <h6>{contact.first_name} {contact.last_name}</h6>
-      <p>Company Name</p>
-      <p className="text-muted">Status</p>
+      <p>{contact.company.name}</p>
+      <p className="text-muted">{contact.status}</p>
     </div>
   );
 }

@@ -21,7 +21,20 @@ use Illuminate\Support\Facades\Mail;
 class PersonController extends Controller
 {
     const INDEX_WITH = [
-        'customFields'
+        'user',
+        'company',
+        'deals',
+        'deals.people',
+        'deals.notes',
+        'deals.notes.user',
+        'documents',
+        'documents.user',
+        'activities',
+        'activities.details',
+        'customFields',
+        'customFields.customField',
+        'notes',
+        'notes.user',
     ];
 
     const SHOW_WITH = [
@@ -53,7 +66,7 @@ class PersonController extends Controller
             $people = Person::search($searchString, $people);
         }
 
-        $people->orderBy('id', 'desc');
+        $people->orderBy('people.id', 'desc');
 
         return new PersonCollection($people->paginate());
     }

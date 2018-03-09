@@ -27,9 +27,7 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.match.params.id) {
-      this.props.dispatch(fetchContact(this.props.match.params.id))
-    }
+    this.props.dispatch(fetchContact(this.props.contact.id))
   }
 
   componentWillReceiveProps(next) {
@@ -91,15 +89,22 @@ class Record extends React.Component {
 
   render() {
     const { contact } = this.props;
-    const groups = _.groupBy(this.props.customFields, 'group');
+    let groups = _.groupBy(this.props.customFields, 'group');
     const inEdit = this.state.inEdit;
+
+    groups = {
+      core: groups.core,
+      personal: groups.personal,
+      social: groups.social,
+      additional: groups.additional_info
+    }
     
     const contactFields = Object.keys(groups).map(key => (
       <div className="card mb-1" key={contact.id + key}>
         <ul className="list-group list-group-flush">
           <li key={key} className="list-group-item">
             <div className="mini-text text-muted">{key}</div>
-            {groups[key].map(f => {
+            {_.sortBy(groups[key], ['ordering']).map(f => {
               let fieldValue = _.get(contact, f.alias);
 
               if (typeof fieldValue === 'object') {

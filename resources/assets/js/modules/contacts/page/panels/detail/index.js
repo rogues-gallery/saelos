@@ -8,7 +8,7 @@ import Opportunities from '../../../../opportunities/partials/_opportunities'
 import SRI from '../../../../sri/partials/_sri'
 import Contact from '../../../Contact'
 import Notes from '../../../../notes/partials/_notes'
-import {getContact, getFirstContactId} from '../../../store/selectors'
+import {getContact, getFirstContactId, isStateDirty} from '../../../store/selectors'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -18,11 +18,10 @@ class Detail extends React.Component {
     }
 
     this._toggleView = this._toggleView.bind(this)
-
   }
 
   _toggleView(view) {
-    this.setState({view: view})
+    this.setState({view})
   }
 
   render() {
@@ -90,5 +89,6 @@ Detail.propTypes = {
 
 export default withRouter(connect((state, ownProps) => ({
   contact: getContact(state, ownProps.match.params.id || getFirstContactId(state)),
-  user: state.user
+  user: state.user,
+  isFetching: isStateDirty(state)
 }))(Detail))

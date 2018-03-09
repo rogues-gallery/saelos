@@ -28,6 +28,11 @@ export default function contactReducer(state = initialState, action) {
         isFetching: true,
         searchString: action.data.searchString
       }
+    case types.FETCHING_SINGLE_CONTACT:
+      return {
+        ...state,
+        isFetching: true
+      }
     case types.FETCHING_CONTACTS_SUCCESS:
       let { data, meta } = action.data
       let newContactsForState
@@ -107,11 +112,11 @@ export const getContact = (state, id) => {
     return new Contact({})
   }
 
-  return new Contact(contact);
+  return contact;
 }
-export const getContacts = (state) => state.data;
+export const getContacts = (state) => state.data.map(c => new Contact(c))
 export const getPaginationForContacts = (state) => state.meta;
 export const getCustomFieldsForContacts = (state) => state.customFields;
-export const isStateDirty = (state) => state.isPosting;
+export const isStateDirty = (state) => state.isPosting || state.isFetching;
 export const getSearchStringForContacts = (state) => state.searchString;
 export const getFirstContactId = (state) => state.data.length ? state.data[0].id : 0

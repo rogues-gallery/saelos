@@ -1,6 +1,7 @@
 import Model from '../../utils/Model'
-import User from '../../modules/user/User'
-import Company from '../../modules/companies/Company'
+import User from '../user/User'
+import Contact from '../contacts/Contact'
+import Company from '../companies/Company'
 import store from '../../store'
 import Note from "../notes/Note";
 import { getCustomFieldsForOpportunities } from './store/selectors'
@@ -32,7 +33,7 @@ class Opportunity extends Model {
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
     this.company = props.company ? new Company(props.company) : new Company({})
-    this.contacts = props.people || []
+    this.contacts = props.people && props.people.map(c => new Contact(c)) || []
     this.notes = props.notes && props.notes.map(n => new Note(n)) || []
   }
 }
