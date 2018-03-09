@@ -25,10 +25,15 @@ class Layout extends Component {
 
   render() {
     const { children, user, ...props } = this.props
+    
+    /*
     if (user.admin === 1) {
       return <ConfigLayout {...props}>{children}</ConfigLayout>
     }
-    else if (this.props.isAuthenticated) {
+    else 
+    */
+
+    if (this.props.isAuthenticated) {
       return <PrivateLayout {...props}>{children}</PrivateLayout>
     } else {
       return <PublicLayout {...props}>{children}</PublicLayout>

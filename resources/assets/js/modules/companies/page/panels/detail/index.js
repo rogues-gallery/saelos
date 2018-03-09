@@ -65,32 +65,34 @@ const Details = ({company, dispatch, toggle}) => (
 
         <Contacts contacts={company.contacts} dispatch={dispatch} />
         <Opportunities opportunities={company.opportunities} dispatch={dispatch} />
-        <Notes notes={company.notes} dispatch={dispatch} />
+        <Notes notes={company.notes} dispatch={dispatch} entityType="App\Company" entityId={company.id} user={user} />
 
       </div>
     </div>
   )
 
 const History = ({activities, dispatch, toggle}) => (
-      <div key={1} className="col detail-panel border-left">
-        <div className="border-bottom text-center py-2 heading">
-          <h5>History
-            <div className="dropdown d-inline-block ml-2 pt-2">
-            <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
-            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
-              <div className="h5 dropdown-item" onClick={() => toggle('default')}>Details</div>
-              <div className="h5 dropdown-item disabled">History</div>
-            </div>
-          </div>
-          </h5>
+  <div key={1} className="col detail-panel border-left">
+    <div className="border-bottom text-center py-2 heading">
+      <h5>History
+        <div className="dropdown d-inline-block ml-2 pt-2">
+        <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
+        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
+          <div className="h5 dropdown-item" onClick={() => toggle('default')}>Details</div>
+          <div className="h5 dropdown-item disabled">History</div>
         </div>
       </div>
-  )
+      </h5>
+    </div>
+  </div>
+)
 
 Detail.propTypes = {
-  company: PropTypes.instanceOf(Company).isRequired
+  company: PropTypes.instanceOf(Company).isRequired,
+  user: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  company: getCompany(state, ownProps.match.params.id)
+  company: getCompany(state, ownProps.match.params.id),
+  user: state.user
 }))(Detail))
