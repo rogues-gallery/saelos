@@ -163,7 +163,7 @@ Record.propTypes = {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  opportunity: getOpportunity(state, ownProps.match.params.id || state.opportunityState.data[0].id),
+  opportunity: getOpportunity(state, ownProps.match.params.id || getFirstOpportunityId(state)),
   customFields: getCustomFieldsForOpportunities(state),
   isDirty: isStateDirty(state)
 }))(Record))
