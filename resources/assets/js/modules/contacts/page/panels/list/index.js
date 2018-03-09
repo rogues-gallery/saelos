@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { fetchContacts, fetchContact } from '../../../service'
 import moment from 'moment'
+import ReactDOM from 'react-dom'
 
 class List extends React.Component {
   constructor(props) {
@@ -18,6 +19,14 @@ class List extends React.Component {
       dispatch(fetchContacts({page: 1, searchString}))
     }
   }
+
+  // componentDidMount() {
+  //   const el = ReactDOM.findDOMNode(this).querySelector('.list-group-item.active');
+
+  //   if (el) {
+  //     el.scrollIntoView(false)
+  //   }
+  // }
 
   _onKeyPress(event) {
     const { target, charCode } = event
@@ -54,6 +63,7 @@ class List extends React.Component {
 
   render() {
     const { contacts, dispatch, searchString } = this.props
+    const activeIndex = parseInt(this.context.router.route.match.params.id) || contacts[0].id
 
     return (
       <div className="col list-panel border-right">
@@ -77,7 +87,7 @@ class List extends React.Component {
             <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>Active</b></div> <div className="text-muted col"><b>All</b></div></div>
           </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
-          {contacts.map(contact => <Contact key={contact.id} contact={contact} dispatch={dispatch} router={this.context.router} />)}
+          {contacts.map(contact => <Contact key={contact.id} contact={contact} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
         </div>
       </div>
     )
@@ -96,14 +106,17 @@ List.contextTypes = {
   router: PropTypes.object
 }
 
-const Contact = ({ contact, dispatch, router }) => {
+const Contact = ({ contact, dispatch, router, activeID }) => {
   const openContactRecord = (id) => {
     dispatch(fetchContact(contact.id))
     router.history.push(`/contacts/${id}`)
   }
 
   return (
-    <div onClick={() => openContactRecord(contact.id)} className={`list-group-item list-group-item-action align-items-start ${contact.id === parseInt(router.route.match.params.id) ? ' active' : ''}`}>
+    <div
+      onClick={() => openContactRecord(contact.id)}
+      className={`list-group-item list-group-item-action align-items-start ${contact.id === parseInt(activeID) ? ' active' : ''}`}
+      >
       <span className="text-muted mini-text float-right">{moment(contact.updated_at).fromNow()}</span>
       <h6>{contact.first_name} {contact.last_name}</h6>
       <p>Company Name</p>
@@ -114,6 +127,8 @@ const Contact = ({ contact, dispatch, router }) => {
 
 Contact.propTypes = {
   contact: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  activeID: PropTypes.number.isRequired
 };
 
 export default List

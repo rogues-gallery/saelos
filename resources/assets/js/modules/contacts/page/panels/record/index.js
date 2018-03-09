@@ -250,7 +250,7 @@ class ActionView extends React.Component {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  contact: getContact(state, ownProps.match.params.id),
+  contact: getContact(state, ownProps.match.params.id || state.contactState.data[0].id),
   customFields: getCustomFieldsForContacts(state),
   isDirty: isStateDirty(state)
 }))(Record))
