@@ -17,11 +17,11 @@ class Main extends Component {
   }
 
   render() {
-    return <div>
-      <main style={{ minHeight: '100vh'}}>
+    return (
+      <div>
         { this.props.children }
-      </main>
-    </div>
+      </div>
+    )
   }
 }
 

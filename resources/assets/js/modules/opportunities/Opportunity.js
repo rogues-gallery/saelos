@@ -16,7 +16,7 @@ class Opportunity extends Model {
   initialize(props) {
     super.initialize(props)
 
-       const fields = getCustomFieldsForOpportunities(store.getState())
+    const fields = getCustomFieldsForOpportunities(store.getState())
 
     Object.keys(fields).map(key => {
         const field = fields[key]

@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import Contacts from '../../../../contacts/partials/_contacts'
 import Notes from '../../../../notes/partials/_notes'
 import Opportunity from '../../../Opportunity'
-import { getOpportunity } from '../../../store/selectors'
+import {getFirstOpportunityId, getOpportunity} from '../../../store/selectors'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -15,6 +15,8 @@ class Detail extends React.Component {
   }
 
   render() {
+    const {opportunity, dispatch, user} = this.props
+
     return (
       <div key={1} className="col detail-panel border-left">
         <div className="border-bottom text-center py-2 heading">
@@ -34,8 +36,8 @@ class Detail extends React.Component {
               </div>
             </div>
           </div>
-          <Contacts contacts={this.props.opportunity.contacts} dispatch={this.props.dispatch} />
-          <Notes notes={this.props.opportunity.notes} dispatch={this.props.dispatch} />
+          <Contacts contacts={opportunity.contacts} dispatch={dispatch} />
+          <Notes notes={opportunity.notes} dispatch={dispatch} entityId={opportunity.id} user={user} entityType="App\Deal" />
         </div>
       </div>
     )
@@ -43,8 +45,10 @@ class Detail extends React.Component {
 }
 
 Detail.propTypes = {
-  opportunity: PropTypes.instanceOf(Opportunity).isRequired
+  opportunity: PropTypes.instanceOf(Opportunity).isRequired,
+  user: PropTypes.object.isRequired
 }
 export default withRouter(connect((state, ownProps) => ({
-  opportunity: getOpportunity(state, ownProps.match.params.id)
+  opportunity: getOpportunity(state, ownProps.match.params.id || getFirstOpportunityId(state)),
+  user: state.user
 }))(Detail))

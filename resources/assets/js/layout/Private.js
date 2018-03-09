@@ -8,16 +8,16 @@ import {
 } from 'reactstrap';
 
 // import components
+import Main from '../Main'
 import Navigation from '../common/navigation'
-import Footer from '../common/footer'
 
 const PrivateLayout = ({ children }) => (
-  <div>
+  <Main>
     <div className="row no-gutters">
       <Navigation/>
       { children }
     </div>
-  </div>
+  </Main>
 )
 
 PrivateLayout.propTypes = {
