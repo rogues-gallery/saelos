@@ -27,7 +27,7 @@ export const fetchOpportunity = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchOpportunities = (params) => (dispatch) => {
-    const { isFetching } = store.getState().contactState;
+    const { isFetching } = store.getState().opportunityState;
 
     if (isFetching) {
         return
