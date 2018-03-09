@@ -14,3 +14,9 @@ export const getCustomFieldsForOpportunities = (state) =>
 
 export const isStateDirty = (state) =>
   fromReducer.isStateDirty(state.opportunityState);
+
+ export const getSearchStringForOpportunities = (state) =>
+ 	fromReducer.getSearchStringForOpportunities(state.opportunityState);
+
+ export const getFirstOpportunityId = (state) =>
+ 	fromReducer.getFirstOpportunityId(state.opportunityState);
