@@ -41,7 +41,6 @@ class Notes extends React.Component {
     return (
       <div className="card">
         <div className="card-header" id="headingNotes">
-          <a href="javascript:void(0);" className="float-right">New</a>
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseNotes" aria-expanded="true" aria-controls="collapseNotes">
             <MDIcons.MdKeyboardArrowDown /> Notes <span className="text-muted font-weight-normal">({notes.length})</span>
           </h6>
@@ -84,6 +83,7 @@ class Item extends React.Component {
     this._toggleEditState = this._toggleEditState.bind(this)
     this._handleInputChange = this._handleInputChange.bind(this)
     this._submit = this._submit.bind(this)
+    this._onDrop = this._onDrop.bind(this);
 
     this.state = {
       open: false,
@@ -120,6 +120,7 @@ class Item extends React.Component {
     this.setState({inEdit: false})
   }
 
+
   render() {
     const { note } = this.props
 
@@ -133,11 +134,10 @@ class Item extends React.Component {
               <div className="note-content nl2br">
                 {this.state.inEdit ?
                   <div>
-                    <ContentEditable name="note" onChange={this._handleInputChange} html={note.note} />
+                    <ContentEditable className="fh-5 my-2 p-1 border rounded" name="note" onChange={this._handleInputChange} html={note.note} />
                     {/* @TODO: Private & File Uploads */}
-                    <span className="float-right mini-text my-2">
-                      <a href="javascript:void(0)" className="text-muted" onClick={this._toggleEditState}>Cancel</a>
-                      &nbsp;
+                    <span className="mini-text my-2">
+                      <a href="javascript:void(0)" className="text-muted pr-1" onClick={this._toggleEditState}>Cancel</a>
                       <a href="javascript:void(0)" onClick={this._submit}>Save</a>
                     </span>
                   </div>
@@ -148,7 +148,7 @@ class Item extends React.Component {
                   </div>
                 }
               </div>
-             : 
+             :
               <TextTruncate line={3} truncateText="..." text={note.note}/>
             }
           </div>

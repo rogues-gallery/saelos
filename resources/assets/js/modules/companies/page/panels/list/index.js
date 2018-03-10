@@ -107,7 +107,7 @@ const Company = ({ company, dispatch, router, activeID }) => {
     <div onClick={() => openCompanyRecord(company.id)}
     className={`list-group-item list-group-item-action align-items-start ${company.id === parseInt(activeID) ? ' active' : ''}`}>
       <span className="text-muted mini-text float-right">{moment(company.updated_at).fromNow()}</span>
-      <h6>{company.name}</h6>
+      <h6 className="text-truncate pr-1">{company.name}</h6>
       <p>Secondary Detail</p>
       <p className="text-muted">Tertiary Information</p>
     </div>

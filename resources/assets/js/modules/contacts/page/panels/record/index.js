@@ -169,7 +169,7 @@ class Record extends React.Component {
 
         {inEdit ?
           <span className="float-right py-3 mt-1">
-            <a href="javascript:void(0);" onClick={this._toggleEdit}>Cancel</a>
+            <a href="javascript:void(0);" className="btn btn-link text-muted btn-sm" onClick={this._toggleEdit}>Cancel</a>
             <span className="ml-2 btn btn-primary btn-sm" onClick={this._submit}>Save</span>
           </span>
           :
@@ -183,6 +183,7 @@ class Record extends React.Component {
 
         <div className="h-scroll">
           
+          {!inEdit ?
           <div className="card mb-1">
             <ul className="list-group list-group-flush">
               <li key="company" className="list-group-item">
@@ -194,6 +195,9 @@ class Record extends React.Component {
               </li>
             </ul>
           </div>
+          : 
+            ''
+          }
 
           {contactFields}
 

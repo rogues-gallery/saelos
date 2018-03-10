@@ -107,7 +107,7 @@ const Opportunity = ({ opportunity, dispatch, router, activeID }) => {
       onClick={() => openOpportunityRecord(opportunity.id)} 
       className={`list-group-item list-group-item-action align-items-start ${opportunity.id === parseInt(activeID) ? ' active' : ''}`}
     >
-      <h6>{opportunity.name}</h6>
+      <h6 className="text-truncate pr-1">{opportunity.name}</h6>
       <p>{opportunity.company.name}</p>
       <p className="text-muted">Opportunity Status</p>
     </div>
