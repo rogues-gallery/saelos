@@ -25,9 +25,11 @@ class SRI extends React.Component {
 					    offset: 0
 					  },
 }
-
+	// @TODO Implement this hover as an 'upsell' for Savant (Saelos Cloud)
+	// <div style="position:absolute; top: 50%; margin: 0 auto; text-align: center; width: 90%;"><button type="button" class="btn btn-outline-primary">Learn More</button></div>
 		return (
 			<div className="sriValue">
+
 				<div className="h1 text-center">0.75</div>
 				<div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> EST <span className="text-dark">3 days</span> to close</div>
 		

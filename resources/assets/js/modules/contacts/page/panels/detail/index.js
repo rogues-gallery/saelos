@@ -37,15 +37,13 @@ class Detail extends React.Component {
 const Details = ({contact, dispatch, toggle, user}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <h5>Contact Details
-        <div className="dropdown d-inline-block ml-2 pt-2">
-          <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
-          <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
-            <div className="dropdown-item disabled">Details</div>
-            <div className="dropdown-item" onClick={() => toggle('history')} >History</div>
-          </div>
+      <div className="dropdown justify-content-center">
+        <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contact Details</div>
+        <div className="dropdown-menu" aria-labelledby="detailViewToggle">
+          <div className="dropdown-item h5 mb-0 disabled text-center">Contact Details</div>
+          <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('history')}>History</div>
         </div>
-      </h5>
+      </div>
     </div>
     <div className="h-scroll">
       <div className="card">
@@ -74,8 +72,8 @@ const History = ({activities, dispatch, toggle}) => (
       <div className="dropdown justify-content-center">
         <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">History</div>
         <div className="dropdown-menu" aria-labelledby="detailViewToggle">
-          <div className="dropdown-item" onClick={() => toggle('default')}>Details</div>
-          <div className="dropdown-item disabled">History</div>
+          <div className="dropdown-item h5 mb-0 disabled text-center">History</div>
+          <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('default')}>Contact Details</div>
         </div>
       </div>
     </div>

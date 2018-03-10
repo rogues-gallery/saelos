@@ -46,12 +46,16 @@ class Notes extends React.Component {
             <MDIcons.MdKeyboardArrowDown /> Notes <span className="text-muted font-weight-normal">({notes.length})</span>
           </h6>
         </div>
-        <div className="newNote">
-          <h2>{this.props.user.name}</h2>
-          <ContentEditable onChange={this._handleInputChange} />
-          <div className="btn-group">
-            <button className="btn btn-outline-light">Cancel</button>
-            <button className="btn btn-primary" onClick={this._submit}>Create</button>
+        <div className="newNote py-2 px-3 border-bottom">
+          <p className="font-weight-bold">
+            {this.props.user.name}
+            <span class="text-muted float-right"><MDIcons.MdLockOutline /></span>
+          </p>
+          <ContentEditable className="fh-5 my-2 p-1 border rounded" onChange={this._handleInputChange} />
+          <div className="text-center">
+            <button className="btn btn-link btn-sm float-left px-1 py-0"><span className="h5"><MDIcons.MdAttachFile /></span></button>
+            <button className="btn btn-link btn-sm">Cancel</button>
+            <button className="btn btn-primary btn-sm" onClick={this._submit}>Create</button>
           </div>
         </div>
 
