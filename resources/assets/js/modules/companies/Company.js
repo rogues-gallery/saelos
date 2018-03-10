@@ -2,6 +2,7 @@ import Model from '../../utils/Model'
 import User from '../../modules/user/User'
 import Contact from '../../modules/contacts/Contact'
 import store from '../../store'
+import Opportunity from '../opportunities/Opportunity'
 import Note from "../notes/Note";
 import { getCustomFieldsForCompanies } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'

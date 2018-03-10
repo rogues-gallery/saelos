@@ -102,7 +102,6 @@ class Record extends React.Component {
     }
     
     const contactFields = Object.keys(groups).map(key => (
-      <div className="card mb-1" key={contact.id + key}>
         <ul className="list-group list-group-flush">
           <li key={key} className="list-group-item">
             <div className="mini-text text-muted">{key}</div>
@@ -134,7 +133,6 @@ class Record extends React.Component {
           }
           </li>
         </ul>
-      </div>
     ));
 
     return (
@@ -174,7 +172,7 @@ class Record extends React.Component {
           </span>
           :
           <span className="float-right py-3 mt-1">
-            <a href="javascript:void(0);" onClick={this._toggleEdit}>Edit</a>
+            <a href="javascript:void(0);" className="btn btn-link btn-sm text-primary" onClick={this._toggleEdit}>Edit</a>
           </span>
         }
         <h4 className="border-bottom py-3">
@@ -182,9 +180,8 @@ class Record extends React.Component {
         </h4>
 
         <div className="h-scroll">
-          
-          {!inEdit ?
           <div className="card mb-1">
+          {!inEdit ?
             <ul className="list-group list-group-flush">
               <li key="company" className="list-group-item">
                 <div className="mini-text text-muted">Company</div>
@@ -194,13 +191,15 @@ class Record extends React.Component {
                 </div>
               </li>
             </ul>
-          </div>
           : 
             ''
           }
 
           {contactFields}
-
+          </div>
+        <div className="card mb-3">
+          <div className="card-body">Conversations will go here.</div>
+        </div>
         </div>
       </main>
     )

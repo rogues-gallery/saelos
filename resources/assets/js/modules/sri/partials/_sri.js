@@ -23,7 +23,7 @@ class SRI extends React.Component {
 					    showGrid: false,
 					    showLabel: false,
 					    offset: 0
-					  },
+					  }
 }
 	// @TODO Implement this hover as an 'upsell' for Savant (Saelos Cloud)
 	//<div style={{position:"absolute", top: "50%", margin:"0 auto", textAlign: "center", width: "90%"}}><button type="button" className="btn btn-outline-primary">Learn More</button></div>

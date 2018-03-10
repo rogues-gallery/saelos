@@ -4,7 +4,8 @@ import * as MDIcons from 'react-icons/lib/md'
 import Note from '../Note'
 import TextTruncate from 'react-text-truncate'
 import _ from 'lodash'
-import { saveNote, deleteNote } from '../service'
+import Dropzone from 'react-dropzone'
+import { saveNote, deleteNote, uploadFile } from '../service'
 import ContentEditable from 'react-contenteditable'
 
 class Notes extends React.Component {
@@ -13,6 +14,7 @@ class Notes extends React.Component {
 
     this._handleInputChange = this._handleInputChange.bind(this)
     this._submit = this._submit.bind(this)
+    this._onDrop = this._onDrop.bind(this)
 
     const newNote = new Note({
       entity_type: this.props.entityType,
@@ -35,6 +37,34 @@ class Notes extends React.Component {
     this.props.dispatch(saveNote(this.state.formState))
   }
 
+  _onDrop(acceptedFiles, rejectedFiles) {
+    let uploadUrl
+    const { entity_type, entity_id } = this.state.formState
+
+    switch(entity_type) {
+      case 'App\\Deal':
+        uploadUrl = `/deals/${entity_id}/documents`
+        break
+      case 'App\\Person':
+        uploadUrl = `/people/${entity_id}/documents`
+        break
+      case 'App\\Company':
+        uploadUrl = `/companies/${entity_id}/documents`
+        break
+    }
+
+    if (!uploadUrl) {
+      return
+    }
+
+    console.log(acceptedFiles);
+
+    uploadFile(uploadUrl, acceptedFiles[0], 'document')
+      .then((response) => {
+        console.log(response)
+      })
+  }
+
   render() {
     const { notes } = this.props
 
@@ -52,7 +82,16 @@ class Notes extends React.Component {
           </p>
           <ContentEditable className="fh-5 my-2 p-1 border rounded" onChange={this._handleInputChange} />
           <div className="text-center">
-            <button className="btn btn-link btn-sm float-left px-1 py-0"><span className="h5"><MDIcons.MdAttachFile /></span></button>
+            <Dropzone
+              onDrop={this._onDrop}
+              className="document-dropzone"
+              activeClassName="active"
+              acceptClassName="accept"
+              rejectClassName="reject"
+              accept="image/jpeg, image/jpg, text/csv, application/json, application/pdf, application/zip, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/msword"
+            >
+              <button className="btn btn-link btn-sm float-left px-1 py-0"><span className="h5"><MDIcons.MdAttachFile /></span></button>
+            </Dropzone>
             <button className="btn btn-link btn-sm">Cancel</button>
             <button className="btn btn-primary btn-sm" onClick={this._submit}>Create</button>
           </div>
@@ -75,6 +114,8 @@ Notes.propTypes = {
   user: PropTypes.object.isRequired
 }
 
+
+
 class Item extends React.Component {
   constructor(props) {
     super(props)
@@ -83,7 +124,6 @@ class Item extends React.Component {
     this._toggleEditState = this._toggleEditState.bind(this)
     this._handleInputChange = this._handleInputChange.bind(this)
     this._submit = this._submit.bind(this)
-    this._onDrop = this._onDrop.bind(this);
 
     this.state = {
       open: false,
@@ -119,7 +159,6 @@ class Item extends React.Component {
 
     this.setState({inEdit: false})
   }
-
 
   render() {
     const { note } = this.props

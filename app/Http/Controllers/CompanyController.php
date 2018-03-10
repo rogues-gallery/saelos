@@ -13,7 +13,20 @@ use App\Http\Resources\Company as CompanyResource;
 class CompanyController extends Controller
 {
     const INDEX_WITH = [
-        'customFields'
+        'user',
+        'people',
+        'people.deals',
+        'people.deals.people',
+        'deals',
+        'deals.people',
+        'deals.customFields',
+        'deals.customFields.customField',
+        'customFields',
+        'customFields.customField',
+        'notes',
+        'notes.user',
+        'documents',
+        'documents.user',
     ];
 
     const SHOW_WITH = [

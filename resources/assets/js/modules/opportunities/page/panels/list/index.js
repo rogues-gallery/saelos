@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { fetchOpportunities, fetchOpportunity } from "../../../service";
+import { Money } from 'react-format'
 
 class List extends React.Component {
   constructor(props) {
@@ -106,10 +107,10 @@ const Opportunity = ({ opportunity, dispatch, router, activeID }) => {
     <div 
       onClick={() => openOpportunityRecord(opportunity.id)} 
       className={`list-group-item list-group-item-action align-items-start ${opportunity.id === parseInt(activeID) ? ' active' : ''}`}
-    >
+    ><span className="text-muted mini-text float-right"><Money>{opportunity.amount}</Money></span>
       <h6 className="text-truncate pr-1">{opportunity.name}</h6>
       <p>{opportunity.company.name}</p>
-      <p className="text-muted">Opportunity Status</p>
+      <p className="text-muted">{opportunity.stage.title}</p>
     </div>
   );
 }

@@ -44,3 +44,24 @@ export const saveNote = (params) => (dispatch) => {
 export const deleteNote = (params) => {
   console.log(params)
 }
+
+export const uploadFile = (url, file, name) => {
+  console.log(url, file, name)
+  return
+
+  let link = (url.includes(API_PATH))
+    ? API_HOST + url
+    : API_HOST + API_PATH + url;
+
+  let formData = new FormData();
+
+  formData.append(name, file);
+
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data'
+    }
+  };
+
+  return Http.post(link, formData, config);
+}

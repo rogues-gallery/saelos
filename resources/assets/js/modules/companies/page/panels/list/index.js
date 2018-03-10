@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { fetchCompanies, fetchCompany } from '../../../service'
 import moment from 'moment'
+import { Money } from 'react-format'
 
 class List extends React.Component {
   constructor(props) {
@@ -109,7 +110,7 @@ const Company = ({ company, dispatch, router, activeID }) => {
       <span className="text-muted mini-text float-right">{moment(company.updated_at).fromNow()}</span>
       <h6 className="text-truncate pr-1">{company.name}</h6>
       <p>Secondary Detail</p>
-      <p className="text-muted">Tertiary Information</p>
+      <p className="text-muted"><Money>{_.sum(_.map(company.opportunities, 'amount'))}</Money> Opportunity Pipeline</p>
     </div>
   );
 }

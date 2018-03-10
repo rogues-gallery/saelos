@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
+import ChartistGraph from 'react-chartist';
 import { connect } from 'react-redux'
 
 import Opportunities from '../../../../opportunities/partials/_opportunities'
@@ -28,16 +29,34 @@ class Detail extends React.Component {
   render() {
     const {dispatch, company, user} = this.props
 
+    const data = {series: [[5, 4, 7, 3, 9]] }
+    const options = {
+            low: 0,
+            fullWidth: true,
+            showArea: true, 
+            showLabel: false,
+            axisX: {
+              showGrid: true,
+              showLabel: false,
+              offset: 0
+            },
+            axisY: {
+              showGrid: false,
+              showLabel: false,
+              offset: 0
+            }
+          }
+
     switch(this.state.view){
       case 'default':
-        return <Details company={company} dispatch={dispatch} toggle={this._toggleView} user={user} />
+        return <Details company={company} dispatch={dispatch} toggle={this._toggleView} user={user} data={data} options={options} />
       case 'history':
         return <History activities={company.activities} dispatch={dispatch}  toggle={this._toggleView} />
     }
   }
 }
 
-const Details = ({company, dispatch, toggle, user}) => (
+const Details = ({company, dispatch, toggle, user, data, options}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
       <h5>Company Details
@@ -54,13 +73,20 @@ const Details = ({company, dispatch, toggle, user}) => (
       <div className="card">
         <div className="card-header" id="headingSRI">
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSRI" aria-expanded="true" aria-controls="collapseSRI">
-            <MDIcons.MdKeyboardArrowDown /> Readiness Indicator
+            <MDIcons.MdKeyboardArrowDown /> Snapshot
           </h6>
         </div>
 
         <div id="collapseSRI" className="collapse show" aria-labelledby="headingSRI">
           <div className="card-body border-bottom">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    <div className="h1 text-center">$65,000</div>
+        <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Lifetime <span className="text-dark">ACV</span></div>
+    
+        <ScoreChart data={data} options={options} type="Line" />
+
+        <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Active Pipeline</div>
+        <p>$24,000 in open opportunities</p>
+
           </div>
         </div>
       </div>
@@ -87,6 +113,12 @@ const History = ({activities, dispatch, toggle}) => (
     </div>
   </div>
 )
+
+const ScoreChart = ({data, options, type}) => {
+  return (
+    <ChartistGraph data={data} options={options} type={type} className="sri-chart" />
+  )
+}
 
 Detail.propTypes = {
   company: PropTypes.instanceOf(Company).isRequired,

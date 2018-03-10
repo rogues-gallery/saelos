@@ -15,7 +15,19 @@ use App\Http\Resources\Deal as DealResource;
 class DealController extends Controller
 {
     const INDEX_WITH = [
-        'customFields'
+        'user',
+        'team',
+        'company',
+        'people',
+        'people.deals',
+        'people.deals.people',
+        'stage',
+        'customFields',
+        'customFields.customField',
+        'notes',
+        'notes.user',
+        'documents',
+        'documents.user',
     ];
 
     const SHOW_WITH = [
