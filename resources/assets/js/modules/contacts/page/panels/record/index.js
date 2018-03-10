@@ -4,9 +4,11 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors';
 import { fetchContact, saveContact } from '../../../service';
+import { ActionView } from './components'
+import { Link } from "react-router-dom"
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
-import { ActionView } from './components'
+
 
 class Record extends React.Component {
   constructor(props) {
@@ -186,7 +188,7 @@ class Record extends React.Component {
               <li key="company" className="list-group-item">
                 <div className="mini-text text-muted">Company</div>
                 <div className="py-2">
-                  <p className="font-weight-bold">{contact.company.name}</p>
+                  <p className="font-weight-bold"><Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
                   <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip}</p>
                 </div>
               </li>

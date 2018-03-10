@@ -89,7 +89,7 @@ List.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
-  searchString: PropTypes.string.isRequired  
+  searchString: PropTypes.string  
 };
 
 List.contextTypes = {
@@ -108,7 +108,7 @@ const Opportunity = ({ opportunity, dispatch, router, activeID }) => {
       className={`list-group-item list-group-item-action align-items-start ${opportunity.id === parseInt(activeID) ? ' active' : ''}`}
     >
       <h6>{opportunity.name}</h6>
-      <p>Company Name</p>
+      <p>{opportunity.company.name}</p>
       <p className="text-muted">Opportunity Status</p>
     </div>
   );

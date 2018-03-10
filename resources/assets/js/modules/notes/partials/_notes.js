@@ -49,7 +49,7 @@ class Notes extends React.Component {
         <div className="newNote py-2 px-3 border-bottom">
           <p className="font-weight-bold">
             {this.props.user.name}
-            <span class="text-muted float-right"><MDIcons.MdLockOutline /></span>
+            <span className="text-muted float-right"><MDIcons.MdLockOutline /></span>
           </p>
           <ContentEditable className="fh-5 my-2 p-1 border rounded" onChange={this._handleInputChange} />
           <div className="text-center">
@@ -144,7 +144,7 @@ class Item extends React.Component {
                   :
                   <div>
                     {note.note}
-                    <a href="javascript:void(0)" className="mini-text float-right" onClick={this._toggleEditState}>Edit</a>
+                    <a href="javascript:void(0)" className="mini-text d-block" onClick={this._toggleEditState}>Edit</a>
                   </div>
                 }
               </div>
