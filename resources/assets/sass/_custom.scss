@@ -131,6 +131,17 @@ a:hover {
   }
 }
 
+.main-panel {
+
+  .h-scroll {
+    height: calc(100vh - 120px);
+  
+    .card:last-child {
+      margin-bottom: 1rem !important;
+    }
+  }
+}
+
 .detail-panel {
   flex: 0 0 320;
   max-width: 320px;

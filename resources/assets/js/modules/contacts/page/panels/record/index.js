@@ -111,7 +111,7 @@ class Record extends React.Component {
                 fieldValue = _.get(fieldValue, 'name');
               }
 
-              const hidden = typeof fieldValue === 'undefined' || fieldValue.length === 0 ? 'd-none' : '';
+              const hidden = inEdit ? '' : typeof fieldValue === 'undefined' || f.hidden || fieldValue.length === 0 ? 'd-none' : '';
               const readOnly = !inEdit ? {
                 readOnly: true,
                 className: 'form-control-plaintext'
