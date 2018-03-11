@@ -1,15 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import List from './panels/list'
 import Record from './panels/record'
 import Detail from './panels/detail'
 
-const Page = ({ dispatch }) => ([
-    <Record key={0} dispatch={dispatch} />,
-    <Detail key={1} dispatch={dispatch} />
+const Page = (props) => ([
+    <List key={0} {...props} />,
+    <Record key={1} dispatch={props.dispatch} />,
+    <Detail key={2} dispatch={props.dispatch} />
 ])
 
 Page.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  contacts: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  isPosting: PropTypes.bool,
+  pagination: PropTypes.object.isRequired,
+  firstContactId: PropTypes.number.isRequired
 };
 
 export default Page;

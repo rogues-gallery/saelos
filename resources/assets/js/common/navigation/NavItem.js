@@ -5,7 +5,7 @@ import { NavItem } from 'reactstrap'
 
 const Link = ({ path, children }) => (
   <NavItem>
-    <NavLink exact to={path} className="nav-link" activeClassName="active">
+    <NavLink to={path} className="nav-link">
       {children}
     </NavLink>
   </NavItem>
