@@ -4,6 +4,7 @@ import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
 import ChartistGraph from 'react-chartist'
 import { connect } from 'react-redux'
+import { Money } from 'react-format'
 
 import Contacts from '../../../../contacts/partials/_contacts'
 import Notes from '../../../../notes/partials/_notes'
@@ -73,7 +74,7 @@ const Details = ({opportunity, dispatch, toggle, user, data, options}) => (
 
         <div id="collapseOutcome" className="collapse show" aria-labelledby="headingOutcome">
           <div className="card-body border-bottom">
-            <div className="h1 text-center">$22,500</div>
+            <div className="h1 text-center"><Money>{opportunity.amount}</Money></div>
             <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> EST <span className="text-dark">7 days</span> to close</div>
             <OpportunityTimeline data={data} options={options} type="Line" />
             <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Next Stage</div>

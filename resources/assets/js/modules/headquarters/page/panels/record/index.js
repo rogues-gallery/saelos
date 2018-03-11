@@ -112,7 +112,6 @@ class Record extends React.Component {
               if (typeof fieldValue === 'object') {
                 fieldValue = _.get(fieldValue, 'name');
               }
-              console.log(f.summary)
               const hidden = typeof fieldValue === 'undefined' || f.hidden || fieldValue.length === 0 || !f.summary ? 'd-none' : '';
               const readOnly = !inEdit ? {
                 readOnly: true,
