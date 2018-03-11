@@ -83,6 +83,12 @@ a:hover {
   background: #353637;
 }
 
+.notes-partial-edit { 
+  .list-group-item-action:hover {
+  background: $white !important;
+  }
+}
+
 /*
  * Panels
  */

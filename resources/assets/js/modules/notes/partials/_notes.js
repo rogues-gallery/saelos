@@ -164,7 +164,7 @@ class Item extends React.Component {
     const { note } = this.props
 
     return (
-      <div>
+      <div className={`notes-partial ${this.state.inEdit ? 'notes-partial-edit' : '' }`}>
         <div onClick={this._toggleOpenState} className="list-group-item list-group-item-action align-items-start">
           <span className="mini-text text-muted float-right mt-1">{note.created_at.fromNow()}</span>
           <p className="font-weight-bold">{note.user.name}</p>
@@ -172,7 +172,7 @@ class Item extends React.Component {
             {this.state.open ?
               <div className="note-content nl2br">
                 {this.state.inEdit ?
-                  <div>
+                  <div className="list-group-item-edit">
                     <ContentEditable className="fh-5 my-2 p-1 border rounded" name="note" onChange={this._handleInputChange} html={note.note} />
                     {/* @TODO: Private & File Uploads */}
                     <span className="mini-text my-2">
@@ -181,7 +181,7 @@ class Item extends React.Component {
                     </span>
                   </div>
                   :
-                  <div>
+                  <div className="list-group-item-view">
                     {note.note}
                     <a href="javascript:void(0)" className="mini-text d-block" onClick={this._toggleEditState}>Edit</a>
                   </div>

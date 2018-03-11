@@ -57,7 +57,9 @@ class Detail extends React.Component {
   }
 }
 
-const Details = ({company, dispatch, toggle, user, data, options}) => (
+const Details = ({company, dispatch, toggle, user, data, options}) => {
+
+  return (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
       <h5>Company Details
@@ -97,7 +99,7 @@ const Details = ({company, dispatch, toggle, user, data, options}) => (
       <Notes notes={company.notes} dispatch={dispatch} entityId={company.id} entityType="App\Company" user={user} />
     </div>
   </div>
-)
+)}
 
 const History = ({activities, dispatch, toggle}) => (
   <div key={1} className="col detail-panel border-left">
