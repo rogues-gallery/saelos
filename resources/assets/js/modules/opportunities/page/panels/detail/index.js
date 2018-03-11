@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
+import ChartistGraph from 'react-chartist'
 import { connect } from 'react-redux'
 
 import Contacts from '../../../../contacts/partials/_contacts'
@@ -27,22 +28,43 @@ class Detail extends React.Component {
   render() {
     const {opportunity, dispatch, user} = this.props
 
+    const data = {series: [[null, null, null, 1, 1], [1, 1, 1, 1,null]] }
+    const options = {
+            low: 0,
+            high: 2,
+            fullWidth: true,
+            height: "50px",
+            showArea: false, 
+            showLabel: false,
+            axisX: {
+              showGrid: false,
+              showLabel: false,
+              offset: 0
+            },
+            axisY: {
+              showGrid: false,
+              showLabel: false,
+              offset: 0
+            }
+          }
+
+
     switch(this.state.view) {
       case 'default':
-        return <Details opportunity={opportunity} dispatch={dispatch} toggle={this._toggleView} user={user} />
+        return <Details opportunity={opportunity} dispatch={dispatch} toggle={this._toggleView} user={user} data={data} options={options} />
       case 'history':
         return <History activities={opportunity.activities} dispatch={dispatch}  toggle={this._toggleView} />
     }
   }
 }
 
-const Details = ({opportunity, dispatch, toggle, user}) => (
+const Details = ({opportunity, dispatch, toggle, user, data, options}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
       <h5>Opportunity Details</h5>
     </div>
     <div className="h-scroll">
-      <div className="card">
+      <div className="card ct-container-inverse">
         <div className="card-header" id="headingOutcome">
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseOutcome" aria-expanded="true" aria-controls="collapseOutcome">
             <MDIcons.MdKeyboardArrowDown /> Opportunity Outcome
@@ -51,7 +73,11 @@ const Details = ({opportunity, dispatch, toggle, user}) => (
 
         <div id="collapseOutcome" className="collapse show" aria-labelledby="headingOutcome">
           <div className="card-body border-bottom">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            <div className="h1 text-center">$22,500</div>
+            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> EST <span className="text-dark">7 days</span> to close</div>
+            <OpportunityTimeline data={data} options={options} type="Line" />
+            <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Next Stage</div>
+            <p>Closed Won: 100%</p>
           </div>
         </div>
       </div>
@@ -74,6 +100,12 @@ const History = ({activities, dispatch, toggle}) => (
     </div>
   </div>
 )
+
+const OpportunityTimeline = ({data, options, type}) => {
+  return (
+    <ChartistGraph data={data} options={options} type={type} className="opportunity-timeline" />
+  )
+}
 
 Detail.propTypes = {
   opportunity: PropTypes.instanceOf(Opportunity).isRequired,

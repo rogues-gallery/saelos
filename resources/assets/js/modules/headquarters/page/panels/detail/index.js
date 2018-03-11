@@ -122,7 +122,7 @@ const VectorChart = ({data, options, type}) => {
   )
 }
 
-const ContactNotes = ({contact, notes, dispatch, user}) => (
+const ContactNotes = ({contact, notes, dispatch, toggle, user}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
       <div className="dropdown justify-content-center">

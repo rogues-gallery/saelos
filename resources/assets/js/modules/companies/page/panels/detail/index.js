@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
-import ChartistGraph from 'react-chartist';
+import ChartistGraph from 'react-chartist'
 import { connect } from 'react-redux'
 
 import Opportunities from '../../../../opportunities/partials/_opportunities'
@@ -73,7 +73,7 @@ const Details = ({company, dispatch, toggle, user, data, options}) => {
       </h5>
     </div>
     <div className="h-scroll">
-      <div className="card">
+      <div className="card ct-container">
         <div className="card-header" id="headingSRI">
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSRI" aria-expanded="true" aria-controls="collapseSRI">
             <MDIcons.MdKeyboardArrowDown /> Snapshot
@@ -82,14 +82,11 @@ const Details = ({company, dispatch, toggle, user, data, options}) => {
 
         <div id="collapseSRI" className="collapse show" aria-labelledby="headingSRI">
           <div className="card-body border-bottom">
-                    <div className="h1 text-center">$65,000</div>
-        <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Lifetime <span className="text-dark">ACV</span></div>
-    
-        <ScoreChart data={data} options={options} type="Line" />
-
-        <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Active Pipeline</div>
-        <p><Link className="hidden-link" to={`/opportunities/?searchString=${company.name}`}>$24,000 in open opportunities</Link></p>
-
+            <div className="h1 text-center">$65,000</div>
+            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Lifetime <span className="text-dark">ACV</span></div>
+            <ScoreChart data={data} options={options} type="Line" />
+            <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Active Pipeline</div>
+            <p><Link className="hidden-link" to={`/opportunities/?searchString=${company.name}`}>$24,000 in open opportunities</Link></p>
           </div>
         </div>
       </div>

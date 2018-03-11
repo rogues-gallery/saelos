@@ -143,6 +143,11 @@ class Record extends React.Component {
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
+          <div className="float-right text-right pt-2">
+            <div className="mini-text text-muted">Assigned To</div>
+            <div className="text-dark mini-text"><b>{contact.user.name}</b></div>
+          </div>
+
         </div>
 
         {this.state.actionView !== "none" ?
