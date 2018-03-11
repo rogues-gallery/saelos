@@ -1,13 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as MDIcons from 'react-icons/lib/md'
+import ChartistGraph from 'react-chartist';
+
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Opportunities from '../../../../opportunities/partials/_opportunities'
-import SRI from '../../../../sri/partials/_sri'
 import Headquarters from '../../../Headquarters'
 import Notes from '../../../../notes/partials/_notes'
+
+import Volume from '../partials/_volume'
+import Email from '../partials/_email'
+import Calls from '../partials/_calls'
+import Team from '../partials/_team'
+import Opportunities from '../partials/_opportunities'
+import Responses from '../partials/_responses'
+
+
 import {getContact, getFirstContactId, isStateDirty} from '../../../store/selectors'
 
 class Detail extends React.Component {
@@ -34,34 +43,75 @@ class Detail extends React.Component {
   }
 }
 
-const Details = ({contact, dispatch, toggle, user}) => (
-  <div key={1} className="col detail-panel border-left">
-    <div className="border-bottom text-center py-2 heading">
-      <div className="dropdown justify-content-center">
-        <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contact Details</div>
-        <div className="dropdown-menu" aria-labelledby="detailViewToggle">
-          <div className="dropdown-item h5 mb-0 disabled text-center">Contact Details</div>
-          <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('history')}>History</div>
-        </div>
-      </div>
-    </div>
-    <div className="h-scroll">
-      <div className="card">
-        <div className="card-header" id="headingSRI">
-          <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSRI" aria-expanded="true" aria-controls="collapseSRI">
-            <MDIcons.MdKeyboardArrowDown /> Readiness Indicator
-          </h6>
-        </div>
+const Details = ({contact, dispatch, toggle, user}) => {
 
-        <div id="collapseSRI" className="collapse show" aria-labelledby="headingSRI">
-          <div className="card-body border-bottom">
-            <SRI />
+  const data = {labels: ['V', 'E', 'C', 'T', 'O', 'R'], series: [[4, 5, 6, 7, 5, 8], [10,10,10,10,10,10]] }
+  const options = {
+          high: 10,
+          low: 0,
+          stackBars: true,
+          fullWidth: true,
+          showArea: true, 
+          // showLabel: true,
+          axisX: {
+            showGrid: false,
+            showLabel: true,
+            // offset: 0
+          },
+          axisY: {
+            showGrid: true,
+            showLabel: false,
+            offset: 0
+          }
+        }
+  return (
+    <div key={1} className="col detail-panel border-left">
+      <div className="border-bottom text-center py-2 heading">
+        <div className="dropdown justify-content-center">
+          <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">VECTOR</div>
+          <div className="dropdown-menu" aria-labelledby="detailViewToggle">
+            <div className="dropdown-item h5 mb-0 disabled text-center">VECTOR</div>
+            <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('history')}>History</div>
           </div>
         </div>
       </div>
+      <div className="h-scroll">
+        <div className="card ct-container">
+          <div className="card-header" id="headingVector">
+            <h6 className="mb-0" data-toggle="collapse" data-target="#headingVector" aria-expanded="true" aria-controls="collapseSRI">
+              <MDIcons.MdKeyboardArrowDown /> Summary
+            </h6>
+          </div>
+
+          <div id="collapseVector" className="collapse show" aria-labelledby="headingVector">
+            <div className="card-body border-bottom">
+              <VectorChart data={data} options={options} type="Bar" />
+            </div>
+          </div>
+
+        </div>
+
+        <Volume />
+        <Email />
+        <Calls />
+        <Team />
+        <Opportunities />
+        <Responses />
+
+      </div>
     </div>
-  </div>
-)
+  )
+}
+
+const VectorChart = ({data, options, type}) => {
+  return (
+    <div className="vectorGraph">
+      <div className="h1 text-center">74%</div>
+      <div className="text-center mini-text text-muted text-uppercase pb-2"><span className="text-success h5"><MDIcons.MdArrowDropUp /></span><span className="text-dark">23% improvement</span> since last week</div>
+      <ChartistGraph data={data} options={options} type={type} className="vector-graph" />
+    </div>
+  )
+}
 
 const History = ({activities, dispatch, toggle}) => (
   <div key={1} className="col detail-panel border-left">
@@ -70,7 +120,7 @@ const History = ({activities, dispatch, toggle}) => (
         <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">History</div>
         <div className="dropdown-menu" aria-labelledby="detailViewToggle">
           <div className="dropdown-item h5 mb-0 disabled text-center">History</div>
-          <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('default')}>Contact Details</div>
+          <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('default')}>VECTOR</div>
         </div>
       </div>
     </div>

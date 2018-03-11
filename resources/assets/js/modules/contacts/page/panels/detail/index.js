@@ -46,7 +46,7 @@ const Details = ({contact, dispatch, toggle, user}) => (
       </div>
     </div>
     <div className="h-scroll">
-      <div className="card">
+      <div className="card ct-container">
         <div className="card-header" id="headingSRI">
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSRI" aria-expanded="true" aria-controls="collapseSRI">
             <MDIcons.MdKeyboardArrowDown /> Readiness Indicator

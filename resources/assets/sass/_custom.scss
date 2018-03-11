@@ -334,9 +334,12 @@ a:hover {
   transition: all .2s ease-in;
   fill: $gray-200;
 }
-.ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
+.ct-series .ct-bar, .ct-series .ct-line, .ct-series .ct-point, .ct-series .ct-slice-donut {
   transition: all .2s ease-in;
   stroke: $gray-200;
+}
+.ct-series-b .ct-bar {
+  stroke: $gray-100;
 }
 .ct-area {
   stroke: none;
@@ -346,9 +349,13 @@ a:hover {
   stroke-width: 2px;
 }
 
-#collapseSRI:hover {
+.ct-container:hover {
   .ct-series-a .ct-area, .ct-series-a .ct-slice-donut-solid, .ct-series-a .ct-slice-pie {
     fill: $blue;
+  }
+  
+  .ct-series-b .ct-bar {
+    stroke: $gray-200;
   }
   
   .ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
