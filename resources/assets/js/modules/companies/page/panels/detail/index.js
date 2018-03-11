@@ -10,6 +10,7 @@ import Contacts from '../../../../contacts/partials/_contacts'
 import Notes from '../../../../notes/partials/_notes'
 import Company from '../../../Company'
 import {getCompany, getFirstCompanyId} from '../../../store/selectors'
+import { Link } from 'react-router-dom'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -85,7 +86,7 @@ const Details = ({company, dispatch, toggle, user, data, options}) => (
         <ScoreChart data={data} options={options} type="Line" />
 
         <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Active Pipeline</div>
-        <p>$24,000 in open opportunities</p>
+        <p><Link className="hidden-link" to={`/opportunities/?searchString=${company.name}`}>$24,000 in open opportunities</Link></p>
 
           </div>
         </div>

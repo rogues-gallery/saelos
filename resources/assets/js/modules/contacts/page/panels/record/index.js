@@ -102,7 +102,7 @@ class Record extends React.Component {
     }
     
     const contactFields = Object.keys(groups).map(key => (
-        <ul className="list-group list-group-flush">
+        <ul key={`group-${key}`} className="list-group list-group-flush">
           <li key={key} className="list-group-item">
             <div className="mini-text text-muted">{key}</div>
             {_.sortBy(groups[key], ['ordering']).map(f => {
