@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../../contacts/store/selectors';
 import { fetchContact, saveContact } from '../../../../contacts/service';
-import { ActionView } from './components'
 import { Link } from "react-router-dom"
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
@@ -111,8 +110,8 @@ class Record extends React.Component {
               if (typeof fieldValue === 'object') {
                 fieldValue = _.get(fieldValue, 'name');
               }
-
-              const hidden = inEdit ? '' : typeof fieldValue === 'undefined' || f.hidden || fieldValue.length === 0 ? 'd-none' : '';
+              console.log(f.summary)
+              const hidden = typeof fieldValue === 'undefined' || f.hidden || fieldValue.length === 0 || !f.summary ? 'd-none' : '';
               const readOnly = !inEdit ? {
                 readOnly: true,
                 className: 'form-control-plaintext'
@@ -138,21 +137,10 @@ class Record extends React.Component {
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading list-inline">
-          <button className="btn btn-primary mr-3 btn-sm list-inline-item" onClick={() => this._setActionView('call')}><span className="h5"><MDIcons.MdLocalPhone /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('email')}><span className="h2"><MDIcons.MdMailOutline /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdCallMerge /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>
+          <button className="btn btn-primary mr-3 btn-sm list-inline-item"><span className="h5"><MDIcons.MdPlaylistAdd /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
-          <div className="float-right text-right pt-2">
-            <div className="mini-text text-muted">Assigned To</div>
-            <div className="text-dark mini-text"><b>{contact.user.name}</b></div>
-          </div>
         </div>
 
         {this.state.actionView !== "none" ?
@@ -165,37 +153,27 @@ class Record extends React.Component {
           ''
         }
 
-        {inEdit ?
-          <span className="float-right py-3 mt-1">
-            <a href="javascript:void(0);" className="btn btn-link text-muted btn-sm" onClick={this._toggleEdit}>Cancel</a>
-            <span className="ml-2 btn btn-primary btn-sm" onClick={this._submit}>Save</span>
-          </span>
-          :
-          <span className="float-right py-3 mt-1">
-            <a href="javascript:void(0);" className="btn btn-link btn-sm text-primary" onClick={this._toggleEdit}>Edit</a>
-          </span>
-        }
         <h4 className="border-bottom py-3">
-          {contact.first_name} {contact.last_name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
+          Title for this view
         </h4>
 
         <div className="h-scroll">
           <div className="card mb-1">
-          {!inEdit ?
+            <div className="card-body">Task information will go here.</div>
+          </div>
+          <div className="card mb-1">
             <ul className="list-group list-group-flush">
               <li key="company" className="list-group-item">
-                <div className="mini-text text-muted">Company</div>
+                <div className="mini-text text-muted">Contact Information</div>
                 <div className="py-2">
-                  <p className="font-weight-bold"><Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
+                  <p className="font-weight-bold"><Link className="hidden-link" to={`/contacts/${contact.id}`}>{contact.first_name} {contact.last_name}</Link></p>
+                  <p className=""><Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
                   <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip}</p>
                 </div>
               </li>
             </ul>
-          : 
-            ''
-          }
+            {contactFields}
 
-          {contactFields}
           </div>
         <div className="card mb-3">
           <div className="card-body">Conversations will go here.</div>

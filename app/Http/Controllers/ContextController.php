@@ -62,7 +62,8 @@ class ContextController extends Controller
                     'group' => $field->group,
                     'ordering' => $field->ordering,
                     'hidden' => $field->hidden,
-                    'protected' => $field->protected
+                    'protected' => $field->protected,
+                    'summary' => $field->summary
                 ];
             }
 
