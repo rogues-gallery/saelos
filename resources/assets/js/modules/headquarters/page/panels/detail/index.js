@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as MDIcons from 'react-icons/lib/md'
-import ChartistGraph from 'react-chartist';
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-
+import { fetchContact, saveContact } from '../../../../contacts/service';
+import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../../contacts/store/selectors';
 import Headquarters from '../../../Headquarters'
 import Notes from '../../../../notes/partials/_notes'
 
@@ -17,7 +16,8 @@ import Opportunities from '../partials/_opportunities'
 import Responses from '../partials/_responses'
 
 
-import {getContact, getFirstContactId, isStateDirty} from '../../../store/selectors'
+import * as MDIcons from 'react-icons/lib/md'
+import ChartistGraph from 'react-chartist';
 
 class Detail extends React.Component {
   constructor(props) {
@@ -29,6 +29,15 @@ class Detail extends React.Component {
     this._toggleView = this._toggleView.bind(this)
   }
 
+  componentWillMount() {
+    this.props.dispatch(fetchContact(this.props.contact.id))
+  }
+
+  componentWillReceiveProps(next) {
+    this.setState({formState: next.contact.originalProps})
+  }
+
+
   _toggleView(view) {
     this.setState({view})
   }
@@ -37,8 +46,8 @@ class Detail extends React.Component {
     switch(this.state.view) {
       case 'default':
         return <Details contact={this.props.contact} dispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} />
-      case 'history':
-        return <History activities={this.props.contact.activities} dispatch={this.props.dispatch}  toggle={this._toggleView} />
+      case 'contact_notes':
+        return <ContactNotes contact={this.props.contact} notes={this.props.contact.notes} dispatch={this.props.dispatch}  toggle={this._toggleView} user={this.props.user} />
     }
   }
 }
@@ -71,7 +80,7 @@ const Details = ({contact, dispatch, toggle, user}) => {
           <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">VECTOR</div>
           <div className="dropdown-menu" aria-labelledby="detailViewToggle">
             <div className="dropdown-item h5 mb-0 disabled text-center">VECTOR</div>
-            <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('history')}>History</div>
+            <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('contact_notes')}>Notes</div>
           </div>
         </div>
       </div>
@@ -113,24 +122,29 @@ const VectorChart = ({data, options, type}) => {
   )
 }
 
-const History = ({activities, dispatch, toggle}) => (
+const ContactNotes = ({contact, notes, dispatch, user}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
       <div className="dropdown justify-content-center">
-        <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">History</div>
+        <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Notes</div>
         <div className="dropdown-menu" aria-labelledby="detailViewToggle">
-          <div className="dropdown-item h5 mb-0 disabled text-center">History</div>
+          <div className="dropdown-item h5 mb-0 disabled text-center">Notes</div>
           <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('default')}>VECTOR</div>
         </div>
       </div>
+    </div>
+    <div className="h-scroll">
+      <Notes notes={notes} dispatch={dispatch} entityType="App\Person" entityId={contact.id} user={user} />
     </div>
   </div>
 )
 
 Detail.propTypes = {
+  contact: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({
+  contact: getContact(state, ownProps.match.params.id || getFirstContactId(state)),
   user: state.user,
 }))(Detail))

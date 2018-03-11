@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../../contacts/store/selectors';
 import { fetchContact, saveContact } from '../../../../contacts/service';
 import { Link } from "react-router-dom"
+import TextTruncate from 'react-text-truncate'
+
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
 
@@ -137,8 +139,8 @@ class Record extends React.Component {
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading list-inline">
-          <button className="btn btn-primary mr-3 btn-sm list-inline-item"><span className="h5"><MDIcons.MdPlaylistAdd /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
+          <button className="btn btn-primary mr-3 btn-sm list-inline-item"><span className="h5"><MDIcons.MdCheck /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
         </div>
@@ -175,9 +177,40 @@ class Record extends React.Component {
             {contactFields}
 
           </div>
-        <div className="card mb-3">
-          <div className="card-body">Conversations will go here.</div>
-        </div>
+          <div className="card mb-3">
+            <ul className="list-group list-group-flush">
+              <li className="list-group-item">
+                <div className="conversation">
+                  <span className="mini-text text-muted float-right pt-1">10 hours ago</span>
+                  <span className="text-muted pr-2 h5"><MDIcons.MdArrowBack /></span><span>Welcome to your new CRM</span> <span className="message-body">This is the beginning of the body for this conver... </span>
+                </div>
+              </li>
+              <li className="list-group-item">
+                <div className="conversation">
+                  <span className="mini-text text-muted float-right pt-1">5 hours ago</span>
+                  <span className="text-muted pr-2 h5"><MDIcons.MdArrowBack /></span><span>Just checking in as a follow-up</span> <span className="message-body">This is the beginning of the body for this con...</span>
+                </div>
+              </li>
+              <li className="list-group-item">
+                <div className="conversation">
+                  <span className="mini-text text-muted float-right pt-1">2 hours ago</span>
+                  <span className="text-muted pr-2 h5"><MDIcons.MdArrowForward /></span><span>This is your first message coming in</span> <span className="message-body">This is the beginning of the body for this...</span>
+                </div>
+              </li>
+              <li className="list-group-item">
+                <div className="conversation">
+                  <span className="mini-text text-muted float-right pt-1">2 min ago</span>
+                  <span className="text-muted pr-2 h5"><MDIcons.MdArrowBack /></span><span>Here is my response to your message</span> <span className="message-body">This is the beginning of the body for thi...</span>
+                </div>
+              </li>
+              <li className="list-group-item">
+                <div className="conversation">
+                  <span className="mini-text text-muted float-right pt-1">Now</span>
+                  <span className="text-primary pl-1 pr-2-5 mini-text align-text-top"><MDIcons.MdRadioButtonChecked /></span><span className="font-weight-bold">Re: And you replied to me again</span> <span className="message-body">This is the beginning of the body for this co...</span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </main>
     )

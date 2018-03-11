@@ -1,6 +1,7 @@
 import Model from '../../utils/Model'
 import User from '../../modules/user/User'
 import Company from '../../modules/companies/Company'
+import Contact from '../../modules/contacts/Contact'
 import store from '../../store'
 import { getCustomFieldsForContacts } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
@@ -32,6 +33,7 @@ class Headquarters extends Model {
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
+    this.contact = props.contact ? new Contact(props.contact) : new Contact({})
     this.company = props.company ? new Company(props.company) : new Company({})
     this.notes = props.notes && props.notes.map(n => new Note(n)) || []
     this.opportunities = props.deals && props.deals.map(d => new Opportunity(d)) || []
