@@ -10,7 +10,9 @@ import NavItem from './NavItem'
 
 const ConfigNav = ({ showNavigation }) => (
   <Nav vertical>
-    <NavItem path="/config">Settings</NavItem>
+    <NavItem path="/config/settings">Settings</NavItem>
+    <NavItem path="/config/stages">Stages</NavItem>
+    <NavItem path="/config/teams">Teams</NavItem>
   </Nav>
 )
 

@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { logout } from '../../modules/auth/service'
 
 // import components
@@ -62,7 +63,9 @@ class Navigation extends Component {
 
         {
           this.props.isAuthenticated
-            ? <PrivateNav user={this.props.user}
+            ? this.props.location.pathname.startsWith('/config/')
+            ? <ConfigNav showNavigation={this.state.showNavigation} />
+            : <PrivateNav user={this.props.user}
                           showNavigation={this.state.showNavigation}
                           toggleDropdown={this.toggleDropdown}
                           showDropdown={this.state.showDropdown}
@@ -78,9 +81,14 @@ Navigation.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
 }
 
-export default connect(state => ({
+Navigation.contextTypes = {
+  router: PropTypes.object.isRequired
+}
+
+export default withRouter(connect(state => ({
   isAuthenticated: getAuth(state),
   user: state.user
-}))(Navigation)
+}))(Navigation))
