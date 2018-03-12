@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getOpportunity, getCustomFieldsForOpportunities, isStateDirty, getFirstOpportunityId} from '../../../store/selectors';
-import { fetchOpportunity, saveOpportunity } from '../../../service';
+import { fetchOpportunity, saveOpportunity, deleteOpportunity } from '../../../service';
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
 import ReactQuill from 'react-quill'
@@ -25,9 +25,11 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.match.params.id) {
-      this.props.dispatch(fetchOpportunity(this.props.match.params.id))
-    }
+    this.props.dispatch(fetchOpportunity(this.props.match.params.id))
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({formState: nextProps.opportunity.originalProps})
   }
 
   _archive() {
@@ -35,9 +37,12 @@ class Record extends React.Component {
   }
 
   _delete () {
+    const { dispatch, opportunity } = this.props
 
+    if (confirm('Are you sure?')) {
+      dispatch(deleteOpportunity(opportunity.id))
+    }
   }
-
 
   _toggleEdit() {
     this.setState({inEdit: !this.state.inEdit})
@@ -58,7 +63,7 @@ class Record extends React.Component {
 
     // Special handling for custom field state
     if (this.state.formState.hasOwnProperty(name) === false) {
-      let customField = this.props.customFields[_.split(name, '.')[1]];
+      let customField = this.props.customFields[name];
       let opportunityCustomFieldIndex = _.findIndex(opportunityState.custom_fields, (o) => o.custom_field_id === customField.field_id);
 
       if (opportunityCustomFieldIndex >= 0) {
@@ -128,7 +133,7 @@ class Record extends React.Component {
             <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
             <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>
             <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
-            <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdDelete /></span></button>
+            <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
             
             <div className="float-right text-right pt-2">
               <div className="mini-text text-muted">Assigned To</div>

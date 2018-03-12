@@ -89,7 +89,7 @@ export const deleteContact = (id) => (dispatch) => {
 
   return Http.delete(`people/${id}`)
     .then(res => {
-      dispatch(actions.deletingContactSuccess(res.data))
+      dispatch(actions.deletingContactSuccess(id))
     })
     .catch(err => {
       console.log(err)

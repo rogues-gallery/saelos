@@ -65,7 +65,7 @@ export default function companyReducer(state = initialState, action) {
         ...state,
         isPosting: true
       }
-    case types.POSTING_ACCOuNT_SUCCESS:
+    case types.POSTING_COMPANY_SUCCESS:
     case types.FETCHING_SINGLE_COMPANY_SUCCESS:
       const index = _.findIndex(state.data, (a) => a.id === parseInt(action.data.id));
 
@@ -86,6 +86,13 @@ export default function companyReducer(state = initialState, action) {
         ...state,
         customFields: action.data
       }
+    case types.DELETING_COMPANY_SUCCESS:
+      const updatedData = removeCompanyFromState(action.data, state.data)
+
+      return {
+        ...state,
+        data: updatedData
+      }
     default:
       return state
   }
@@ -98,6 +105,16 @@ const injectCompaniesIntoState = (company, data) => {
     data[index] = _.merge(data[index], company)
   } else {
     data.push(company)
+  }
+
+  return data
+}
+
+const removeCompanyFromState = (id, data) => {
+  const index = _.findIndex(data, (c) => c.id === parseInt(id))
+
+  if (index) {
+    delete data[index]
   }
 
   return data

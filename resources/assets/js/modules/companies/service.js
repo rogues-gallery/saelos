@@ -90,7 +90,7 @@ export const deleteCompany = (id) => (dispatch) => {
 
   return Http.delete(`companies/${id}`)
     .then(res => {
-      dispatch(actions.deletingCompanySuccess(res.data))
+      dispatch(actions.deletingCompanySuccess(id))
     })
     .catch(err => {
       console.log(err)

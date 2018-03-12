@@ -82,6 +82,13 @@ export default function opportunityReducer(state = initialState, action) {
         ...state,
         customFields: action.data
       }
+    case types.DELETING_OPPORTUNITY_SUCCESS:
+      const updatedData = removeOpportunityFromState(action.data, state.data)
+
+      return {
+        ...state,
+        data: updatedData
+      }
     default:
       return state
   }
@@ -94,6 +101,16 @@ const injectOpportunityIntoState = (opportunity, data) => {
     data[index] = _.merge(data[index], opportunity)
   } else {
     data.push(opportunity)
+  }
+
+  return data
+}
+
+const removeOpportunityFromState = (id, data) => {
+  const index = _.findIndex(data, (c) => c.id === parseInt(id))
+
+  if (index) {
+    delete data[index]
   }
 
   return data

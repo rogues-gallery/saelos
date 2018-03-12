@@ -87,6 +87,13 @@ export default function contactReducer(state = initialState, action) {
         ...state,
         customFields: action.data
       }
+    case types.DELETING_CONTACT_SUCCESS:
+      const updatedData = removeContactFromState(action.data, state.data)
+
+      return {
+        ...state,
+        data: updatedData
+      }
     default:
       return state
   }
@@ -99,6 +106,16 @@ const injectContactIntoState = (contact, data) => {
     data[index] = _.merge(data[index], contact)
   } else {
     data.push(contact)
+  }
+
+  return data
+}
+
+const removeContactFromState = (id, data) => {
+  const index = _.findIndex(data, (c) => c.id === parseInt(id))
+
+  if (index) {
+    delete data[index]
   }
 
   return data

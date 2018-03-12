@@ -89,7 +89,7 @@ export const deleteOpportunity = (id) => (dispatch) => {
 
     return Http.delete(`deals/${id}`)
         .then(res => {
-            dispatch(actions.deletingOpportunitySuccess(res.data))
+            dispatch(actions.deletingOpportunitySuccess(id))
         })
         .catch(err => {
             console.log(err)

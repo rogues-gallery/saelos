@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getCompany, getCustomFieldsForCompanies, isStateDirty, getFirstCompanyId } from '../../../store/selectors'
-import { fetchCompany, saveCompany } from '../../../service'
+import { fetchCompany, saveCompany, deleteCompany } from '../../../service'
 import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
 
@@ -14,6 +14,8 @@ class Record extends React.Component {
     this._toggleEdit = this._toggleEdit.bind(this)
     this._submit = this._submit.bind(this)
     this._handleInputChange = this._handleInputChange.bind(this)
+    this._archive = this._archive.bind(this)
+    this._delete = this._delete.bind(this)
 
     this.state = {
       inEdit: false,
@@ -22,13 +24,23 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.match.params.id) {
-      this.props.dispatch(fetchCompany(this.props.match.params.id))
-    }
+    this.props.dispatch(fetchCompany(this.props.match.params.id))
   }
 
-  componentWillReceiveProps(next) {
-    this.setState({formState: next.company.originalProps})
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({formState: nextProps.company.originalProps})
+  }
+
+  _archive() {
+
+  }
+
+  _delete () {
+    const { dispatch, company} = this.props
+
+    if (confirm('Are you sure?')) {
+      dispatch(deleteCompany(company.id))
+    }
   }
 
   _toggleEdit() {
@@ -50,11 +62,11 @@ class Record extends React.Component {
 
     // Special handling for custom field state
     if (this.state.formState.hasOwnProperty(name) === false) {
-      let customField = this.props.customFields[_.split(name, '.')[1]];
+      let customField = this.props.customFields[name];
       let companyCustomFieldIndex = _.findIndex(companyState.custom_fields, (o) => o.custom_field_id === customField.field_id);
 
       if (companyCustomFieldIndex >= 0) {
-        accounntState.custom_fields[companyCustomFieldIndex].value = value;
+        companyState.custom_fields[companyCustomFieldIndex].value = value;
       } else {
         companyState.custom_fields.push({
           custom_field_id: customField.field_id,
