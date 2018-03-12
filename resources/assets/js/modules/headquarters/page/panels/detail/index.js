@@ -75,9 +75,9 @@ const Details = ({contact, dispatch, toggle, user}) => {
         }
   return (
     <div key={1} className="col detail-panel border-left">
-    <div className="border-bottom text-center py-2 heading">
+    <div className="border-bottom py-2 heading">
       <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed r-0 mr-2" onClick={() => toggle('contact_notes')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
-        <div className="pt-1 mt-1 h5">VECTOR</div>
+        <div className="pt-1 mt-1 h5 text-center">VECTOR</div>
     </div>
     <div className="h-scroll">
         <div className="card ct-container">
@@ -119,9 +119,9 @@ const VectorChart = ({data, options, type}) => {
 
 const ContactNotes = ({contact, notes, dispatch, toggle, user}) => (
   <div key={1} className="col detail-panel border-left">
-    <div className="border-bottom text-center py-2 heading">
+    <div className="border-bottom py-2 heading">
       <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
-        <div className="pt-1 mt-1 h5">Notes</div>
+        <div className="pt-1 mt-1 h5 text-center">Notes</div>
     </div>
     <div className="h-scroll">
       <Notes notes={notes} dispatch={dispatch} entityType="App\Person" entityId={contact.id} user={user} />
