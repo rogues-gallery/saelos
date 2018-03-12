@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors';
-import { fetchContact, saveContact } from '../../../service';
+import {deleteContact, fetchContact, saveContact} from '../../../service';
 import { ActionView } from './components'
 import { Link } from "react-router-dom"
 import _ from 'lodash';
@@ -32,8 +32,8 @@ class Record extends React.Component {
     this.props.dispatch(fetchContact(this.props.contact.id))
   }
 
-  componentWillReceiveProps(next) {
-    this.setState({formState: next.contact.originalProps})
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({formState: nextProps.contact.originalProps})
   }
 
   _archive() {
@@ -41,7 +41,11 @@ class Record extends React.Component {
   }
 
   _delete () {
+    const { dispatch, contact} = this.props
 
+    if (confirm('Are you sure?')) {
+      dispatch(deleteContact(contact.id))
+    }
   }
 
   _setActionView(view) {
@@ -122,7 +126,7 @@ class Record extends React.Component {
               }
 
               return (
-                <div className={`form-group mb-2 row ${hidden}`} key={f.alias}>
+                <div className={`form-group mb-2 row ${hidden}`} key={`${f.alias}-${contact.id}`}>
                   <label htmlFor={f.alias} className="col-sm-3 col-form-label">{f.label}</label>
                   <div className="col-sm-9">
                     <input type="text" {...readOnly} id={f.alias} name={f.alias} onChange={this._handleInputChange} defaultValue={fieldValue} />
@@ -140,12 +144,12 @@ class Record extends React.Component {
         <div className="toolbar border-bottom py-2 heading list-inline">
           <button className="btn btn-primary mr-3 btn-sm list-inline-item" onClick={() => this._setActionView('call')}><span className="h5"><MDIcons.MdLocalPhone /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('email')}><span className="h2"><MDIcons.MdMailOutline /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdCallMerge /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>
+          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>*/}
+          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdCallMerge /></span></button>*/}
+          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>*/}
+          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>*/}
+          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>*/}
+          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>*/}
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 

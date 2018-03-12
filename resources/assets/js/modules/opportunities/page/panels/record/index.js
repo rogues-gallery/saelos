@@ -106,7 +106,7 @@ class Record extends React.Component {
               }
 
               return (
-                <div className={`form-group row ${hidden}`} key={f.alias}>
+                <div className={`form-group row ${hidden}`} key={`${f.alias}-${opportunity.id}`}>
                   <label htmlFor={f.alias} className="col-sm-3 col-form-label">{f.label}</label>
                   <div className="col-sm-9">
                     <input type="text" {...readOnly} id={f.alias} name={f.alias} onChange={this._handleInputChange} defaultValue={fieldValue} />
