@@ -11,6 +11,7 @@ import Notes from '../../../../notes/partials/_notes'
 import Company from '../../../Company'
 import {getCompany, getFirstCompanyId} from '../../../store/selectors'
 import { Link } from 'react-router-dom'
+import { Money } from 'react-format'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -83,10 +84,10 @@ const Details = ({company, dispatch, toggle, user, data, options}) => {
         <div id="collapseSRI" className="collapse show" aria-labelledby="headingSRI">
           <div className="card-body border-bottom">
             <div className="h1 text-center">$65,000</div>
-            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Lifetime <span className="text-dark">ACV</span></div>
+            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Current <span className="text-dark">Lifetime Value</span></div>
             <ScoreChart data={data} options={options} type="Line" />
             <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Active Pipeline</div>
-            <p><Link className="hidden-link" to={`/opportunities/?searchString=${company.name}`}>$24,000 in open opportunities</Link></p>
+            <p><Link className="hidden-link" to={`/opportunities/?searchString=${company.name}`}><Money>{_.sum(_.map(company.opportunities, 'amount'))}</Money> in open opportunities</Link></p>
           </div>
         </div>
       </div>
