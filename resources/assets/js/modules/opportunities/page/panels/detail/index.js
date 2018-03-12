@@ -62,7 +62,10 @@ class Detail extends React.Component {
 const Details = ({opportunity, dispatch, toggle, user, data, options}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <h5>Opportunity Details</h5>
+      <div className="justify-content-center">
+        <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-right mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
+        <div className="pt-1 mt-2 h5">Opportunity Details</div>
+      </div>
     </div>
     <div className="h-scroll">
       <div className="card ct-container-inverse">
@@ -91,13 +94,10 @@ const Details = ({opportunity, dispatch, toggle, user, data, options}) => (
 const History = ({activities, dispatch, toggle}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <div className="dropdown justify-content-center">
-        <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">History</div>
-        <div className="dropdown-menu" aria-labelledby="detailViewToggle">
-          <div className="dropdown-item" onClick={() => toggle('default')}>Details</div>
-          <div className="dropdown-item disabled">History</div>
+        <div className="justify-content-center">
+          <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-left ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
+          <div className="h5 pt-1 mt-2">History</div>
         </div>
-      </div>
     </div>
   </div>
 )

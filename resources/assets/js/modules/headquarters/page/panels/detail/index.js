@@ -76,12 +76,9 @@ const Details = ({contact, dispatch, toggle, user}) => {
   return (
     <div key={1} className="col detail-panel border-left">
       <div className="border-bottom text-center py-2 heading">
-        <div className="dropdown justify-content-center">
-          <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">VECTOR</div>
-          <div className="dropdown-menu" aria-labelledby="detailViewToggle">
-            <div className="dropdown-item h5 mb-0 disabled text-center">VECTOR</div>
-            <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('contact_notes')}>Notes</div>
-          </div>
+        <div className="justify-content-center">
+          <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-right mr-2" onClick={() => toggle('contact_notes')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
+          <div className="pt-1 mt-2 h5">VECTOR</div>
         </div>
       </div>
       <div className="h-scroll">
@@ -125,12 +122,9 @@ const VectorChart = ({data, options, type}) => {
 const ContactNotes = ({contact, notes, dispatch, toggle, user}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <div className="dropdown justify-content-center">
-        <div className="mt-2 h5 dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Notes</div>
-        <div className="dropdown-menu" aria-labelledby="detailViewToggle">
-          <div className="dropdown-item h5 mb-0 disabled text-center">Notes</div>
-          <div className="dropdown-item h5 mb-0 text-center" onClick={() => toggle('default')}>VECTOR</div>
-        </div>
+      <div className="justify-content-center">
+        <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-left ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
+        <div className="pt-1 mt-2 h5">Notes</div>
       </div>
     </div>
     <div className="h-scroll">

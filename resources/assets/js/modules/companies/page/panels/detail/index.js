@@ -11,6 +11,7 @@ import Notes from '../../../../notes/partials/_notes'
 import Company from '../../../Company'
 import {getCompany, getFirstCompanyId} from '../../../store/selectors'
 import { Link } from 'react-router-dom'
+import { Money } from 'react-format'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -62,15 +63,10 @@ const Details = ({company, dispatch, toggle, user, data, options}) => {
   return (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <h5>Company Details
-        <div className="dropdown d-inline-block ml-2 pt-2">
-          <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-          <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
-            <div className="dropdown-item disabled">Details</div>
-            <div className="dropdown-item" onClick={() => toggle('history')} >History</div>
-          </div>
-        </div>
-      </h5>
+      <div className="justify-content-center">
+        <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-right mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
+        <div className="pt-1 mt-2 h5">Company Details</div>
+      </div>
     </div>
     <div className="h-scroll">
       <div className="card ct-container">
@@ -83,10 +79,10 @@ const Details = ({company, dispatch, toggle, user, data, options}) => {
         <div id="collapseSRI" className="collapse show" aria-labelledby="headingSRI">
           <div className="card-body border-bottom">
             <div className="h1 text-center">$65,000</div>
-            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Lifetime <span className="text-dark">ACV</span></div>
+            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Current <span className="text-dark">Lifetime Value</span></div>
             <ScoreChart data={data} options={options} type="Line" />
             <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Active Pipeline</div>
-            <p><Link className="hidden-link" to={`/opportunities/?searchString=${company.name}`}>$24,000 in open opportunities</Link></p>
+            <p><Link className="hidden-link" to={`/opportunities/?searchString=${company.name}`}><Money>{_.sum(_.map(company.opportunities, 'amount'))}</Money> in open opportunities</Link></p>
           </div>
         </div>
       </div>
@@ -101,15 +97,10 @@ const Details = ({company, dispatch, toggle, user, data, options}) => {
 const History = ({activities, dispatch, toggle}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <h5>History
-        <div className="dropdown d-inline-block ml-2 pt-2">
-          <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-          <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
-            <div className="h5 dropdown-item" onClick={() => toggle('default')}>Details</div>
-            <div className="h5 dropdown-item disabled">History</div>
-          </div>
-        </div>
-      </h5>
+      <div className="justify-content-center">
+        <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-left ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
+        <div className="pt-1 mt-2 h5">History</div>
+      </div>
     </div>
   </div>
 )
