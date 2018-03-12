@@ -58,15 +58,11 @@ class Detail extends React.Component {
   }
 }
 
-const Details = ({company, dispatch, toggle, user, data, options}) => {
-
-  return (
+const Details = ({company, dispatch, toggle, user, data, options}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <div className="justify-content-center">
-        <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-right mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
-        <div className="pt-1 mt-2 h5">Company Details</div>
-      </div>
+      <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed r-0 mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
+        <div className="pt-1 mt-1 h5">Company Details</div>
     </div>
     <div className="h-scroll">
       <div className="card ct-container">
@@ -92,15 +88,13 @@ const Details = ({company, dispatch, toggle, user, data, options}) => {
       <Notes notes={company.notes} dispatch={dispatch} entityId={company.id} entityType="App\Company" user={user} />
     </div>
   </div>
-)}
+)
 
 const History = ({activities, dispatch, toggle}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <div className="justify-content-center">
-        <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-left ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
-        <div className="pt-1 mt-2 h5">History</div>
-      </div>
+      <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
+      <div className="pt-1 mt-1 h5">History</div>
     </div>
   </div>
 )

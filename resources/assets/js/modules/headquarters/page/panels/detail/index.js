@@ -75,13 +75,11 @@ const Details = ({contact, dispatch, toggle, user}) => {
         }
   return (
     <div key={1} className="col detail-panel border-left">
-      <div className="border-bottom text-center py-2 heading">
-        <div className="justify-content-center">
-          <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-right mr-2" onClick={() => toggle('contact_notes')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
-          <div className="pt-1 mt-2 h5">VECTOR</div>
-        </div>
-      </div>
-      <div className="h-scroll">
+    <div className="border-bottom text-center py-2 heading">
+      <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed r-0 mr-2" onClick={() => toggle('contact_notes')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
+        <div className="pt-1 mt-1 h5">VECTOR</div>
+    </div>
+    <div className="h-scroll">
         <div className="card ct-container">
           <div className="card-header" id="headingVector">
             <h6 className="mb-0" data-toggle="collapse" data-target="#headingVector" aria-expanded="true" aria-controls="collapseSRI">
@@ -122,10 +120,8 @@ const VectorChart = ({data, options, type}) => {
 const ContactNotes = ({contact, notes, dispatch, toggle, user}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <div className="justify-content-center">
-        <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-left ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
-        <div className="pt-1 mt-2 h5">Notes</div>
-      </div>
+      <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
+        <div className="pt-1 mt-1 h5">Notes</div>
     </div>
     <div className="h-scroll">
       <Notes notes={notes} dispatch={dispatch} entityType="App\Person" entityId={contact.id} user={user} />

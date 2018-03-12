@@ -122,7 +122,7 @@ class Record extends React.Component {
 
     return (
       <main key={0} className="col main-panel px-3">
-          <div className="toolbar border-bottom py-2">
+          <div className="toolbar border-bottom py-2 heading">
             <button className="btn btn-primary mr-3 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>
             <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
             <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
