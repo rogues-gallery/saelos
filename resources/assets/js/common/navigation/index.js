@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { logout } from '../../modules/auth/service'
 
 // import components
+import { Link } from 'react-router-dom'
 import PrivateNav from './PrivateNav';
 import ConfigNav from './ConfigNav';
 import { getAuth } from "../../modules/auth/store/selectors";
@@ -45,7 +46,15 @@ class Navigation extends Component {
     return (
       <div className="col nav-panel bg-dark-grey">
         <div className="mx-4 mb-4 py-2 border-bottom heading">
-          <a href="#" className="btn btn-primary float-right"><b>+</b></a>
+          <div className="dropdown show float-right">
+            <Link to={'/'} className="btn btn-primary dropdown-toggle" role="button" id="quickCreateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">+</Link>
+            <div className="dropdown-menu" aria-labelledby="quickCreateMenu">
+              <Link to={'/contacts/new'} className="dropdown-item">Create Contact</Link>
+              <Link to={'/companies/new'} className="dropdown-item">Create Company</Link>
+              <Link to={'/opportunities/new'} className="dropdown-item">Create Opportunity</Link>
+              <Link to={'/tasks/new'} className="dropdown-item">Create Task</Link>
+            </div>
+          </div>
         </div>
 
         {

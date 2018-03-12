@@ -208,6 +208,10 @@ a:hover {
     display: inherit;
   }
 
+  .dropdown-toggle::after {
+    display: none;
+  }
+
 }
 
 .nav-panel .nav-item {
