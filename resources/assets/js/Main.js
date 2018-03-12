@@ -6,6 +6,7 @@ import { getAuth } from "./modules/auth/store/selectors";
 import {fetchContacts} from './modules/contacts/service'
 import {fetchCompanies} from './modules/companies/service'
 import {fetchOpportunities} from './modules/opportunities/service'
+import {fetchReports} from './modules/reports/service'
 
 // import services actions
 import { fetchUser } from './modules/auth/service'
@@ -21,6 +22,7 @@ class Main extends Component {
     dispatch(fetchContacts({page: 1}))
     dispatch(fetchCompanies({page: 1}))
     dispatch(fetchOpportunities({page: 1}))
+    dispatch(fetchReports({page: 1}))
   }
 
   render() {

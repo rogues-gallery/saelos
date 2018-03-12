@@ -1,6 +1,6 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
-import Transformer from '../../utils/Transformer'
+import store from '../../store'
 
 /**
  * Fetch the full report by id
@@ -12,8 +12,7 @@ export const fetchReport = (id) => (dispatch) => {
 
   return Http.get(`reports/${id}`)
     .then(res => {
-      const data = Transformer.fetch(res.data.data)
-      dispatch(actions.fetchingReportSuccess(data))
+      dispatch(actions.fetchingReportSuccess(res.data.data))
     })
     .catch(err => {
       console.log(err)
@@ -28,14 +27,15 @@ export const fetchReport = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchReports = (params) => (dispatch) => {
+  const { isFetching } = store.getState().reportState
+
   dispatch(actions.fetchingReports());
 
   params = params || {}
 
   return Http.get('reports', {params: params})
     .then(res => {
-      const data = Transformer.fetch(res.data)
-      dispatch(actions.fetchingReportsSuccess(data))
+      dispatch(actions.fetchingReportsSuccess(res.data))
     })
     .catch(err => {
       console.log(err)
@@ -55,8 +55,7 @@ export const saveReport = (params) => (dispatch) => {
   if (params.id) {
     return Http.patch(`reports/${params.id}`, params)
       .then(res => {
-        const data = Transformer.fetch(res.data)
-        dispatch(actions.postingReportSuccess(data))
+        dispatch(actions.postingReportSuccess(res.data))
       })
       .catch(err => {
         console.log(err)
@@ -65,8 +64,7 @@ export const saveReport = (params) => (dispatch) => {
   } else {
     return Http.post(`reports`, params)
       .then(res => {
-        const data = Transformer.fetch(res.data)
-        dispatch(actions.postingReportSuccess(data))
+        dispatch(actions.postingReportSuccess(res.data))
       })
       .catch(err => {
         console.log(err)
@@ -86,8 +84,7 @@ export const deleteReport = (id) => (dispatch) => {
 
   return Http.delete(`reports/${id}`)
     .then(res => {
-      const data = Transformer.fetch(res.data)
-      dispatch(actions.deletingReportSuccess(data))
+      dispatch(actions.deletingReportSuccess(res.data))
     })
     .catch(err => {
       console.log(err)

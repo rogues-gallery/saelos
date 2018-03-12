@@ -8,13 +8,40 @@ use App\Http\Controllers\PersonController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class Report extends Model
+class Report extends Model implements SearchableInterface
 {
     protected $casts = [
         'columns' => 'array',
         'filters' => 'array',
     ];
 
+
+    public static function search(string $searchString, Builder $builder): Builder
+    {
+        $searchArray = static::parseSearchString($searchString);
+
+        $builder->where('published', 1);
+        $builder->where(function(Builder $q) use ($searchArray) {
+            if ($name = $searchArray['name']) {
+                $q->orWhere('name', 'like', '%'.$name.'%');
+            }
+        });
+
+        if ($modifiedSince = $searchArray['modified_since']) {
+            $builder->where('updated_at', '>=', $modifiedSince);
+        }
+
+        return $builder;
+    }
+
+    public static function parseSearchString(string $searchString): array
+    {
+        return [
+            'name' => $searchString,
+            'modified_since' => null
+        ];
+    }
+    
     public function user()
     {
         return $this->belongsTo(User::class);
