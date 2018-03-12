@@ -1,5 +1,6 @@
 import Model from '../../utils/Model'
 import User from '../../modules/user/User'
+import store from '../../store'
 
 class Report extends Model {
   constructor(props) {
@@ -18,7 +19,7 @@ class Report extends Model {
     this.filters = props.filters || {}
 
     // relate user model
-    this.user = props.user ? new User(props.user) : null
+    this.user = props.user ? new User(props.user) : new User({})
   }
 }
 

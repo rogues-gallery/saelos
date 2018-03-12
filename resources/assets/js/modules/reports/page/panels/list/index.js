@@ -1,22 +1,21 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { fetchCompanies, fetchCompany } from '../../../service'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { fetchReports, fetchReport } from "../../../service";
 import moment from 'moment'
-import { Money } from 'react-format'
 
 class List extends React.Component {
   constructor(props) {
-     super(props)
+    super(props)
 
     this._onScroll = this._onScroll.bind(this)
     this._onKeyPress = this._onKeyPress.bind(this)
   }
 
   componentWillMount() {
-    const { companies, dispatch, searchString } = this.props
+    const { reports, dispatch, searchString } = this.props
 
-    if (companies.length === 0) {
-      dispatch(fetchCompanies({page: 1, searchString}))
+    if (reports.length === 0) {
+      dispatch(fetchReports({page: 1, searchString})) 
     }
   }
   
@@ -32,30 +31,20 @@ class List extends React.Component {
     this._submit(target)
   }
 
-  _submit(input) {
-    const { value } = input
-    const { dispatch } = this.props
-
-    if (value.length >= 3) {
-      dispatch(fetchCompanies({page: 1, searchString: value}))
-    } else if (value.length === 0) {
-      dispatch(fetchCompanies({page: 1, searchString: ''}))
-    }
-  }
-
   _onScroll(event) {
     const { target } = event
     const { dispatch, pagination, searchString } = this.props
     const currentPosition = target.scrollTop + target.offsetHeight
 
     if ((currentPosition + 300) >= target.scrollHeight) {
-      dispatch(fetchCompanies({page: pagination.current_page + 1, searchString}))
+      dispatch(fetchReports({page: pagination.current_page + 1, searchString}))
     }
   }
 
+
   render() {
-    const { companies, dispatch, searchString, firstCompanyId } = this.props
-    const activeIndex = parseInt(this.context.router.route.match.params.id) || firstCompanyId
+    const { reports, dispatch, searchString, firstReportId } = this.props
+    const activeIndex = parseInt(this.context.router.route.match.params.id) || firstReportId
 
     return (
       <div className="col list-panel border-right">
@@ -79,7 +68,7 @@ class List extends React.Component {
           <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>Active</b></div> <div className="text-muted col"><b>All</b></div></div>
         </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
-          {companies.map(company => <Company key={company.id} company={company} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
+        {reports.map(report => <Report key={report.id} report={report} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
         </div>
       </div>
     )
@@ -87,39 +76,38 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  companies: PropTypes.array.isRequired,
+  reports: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
-  searchString: PropTypes.string.isRequired
+  searchString: PropTypes.string
 };
 
 List.contextTypes = {
   router: PropTypes.object
 }
 
-const Company = ({ company, dispatch, router, activeID }) => {
+const Report = ({ report, dispatch, router, activeID }) => {
   const openCompanyRecord = (id) => {
-    dispatch(fetchCompany(company.id))
-    router.history.push(`/companies/${id}`)
+    dispatch(fetchReport(report.id))
+    router.history.push(`/reports/${id}`)
   }
 
   return (
-    <div onClick={() => openCompanyRecord(company.id)}
-    className={`list-group-item list-group-item-action align-items-start ${company.id === parseInt(activeID) ? ' active' : ''}`}>
-      <span className="text-muted mini-text float-right">{moment(company.updated_at).fromNow()}</span>
-      <h6 className="text-truncate pr-1">{company.name}</h6>
+    <div onClick={() => openReportRecord(report.id)}
+    className={`list-group-item list-group-item-action align-items-start ${report.id === parseInt(activeID) ? ' active' : ''}`}>
+      <span className="text-muted mini-text float-right">{moment(report.updated_at).fromNow()}</span>
+      <h6 className="text-truncate pr-1">{report.name}</h6>
       <p>Secondary Detail</p>
-      <p className="text-muted"><Money>{_.sum(_.map(company.opportunities, 'amount'))}</Money> Opportunity Pipeline</p>
+      <p className="text-muted">Tertiary Information</p>
     </div>
   );
 }
 
-Company.propTypes = {
-  company: PropTypes.object.isRequired,
+Report.propTypes = {
+  report: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   activeID: PropTypes.number.isRequired
-};
-
-export default List
+}
+export default List;

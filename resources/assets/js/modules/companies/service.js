@@ -11,8 +11,6 @@ export const fetchCompany = (id) => (dispatch) => {
   dispatch(actions.fetchingCompany())
   dispatch(actions.fetchingCustomFieldsForCompanies())
 
-
-
   return Http.get(`companies/${id}`)
     .then(res => {
       dispatch(actions.fetchingCompanySuccess(res.data.data))

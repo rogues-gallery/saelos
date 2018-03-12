@@ -13,8 +13,9 @@ export const fetchingReportFailure = () => ({
   type: types.FETCHING_SINGLE_REPORT_FAILURE
 })
 
-export const fetchingReports = () => ({
-  type: types.FETCHING_REPORTS
+export const fetchingReports = (payload) => ({
+  type: types.FETCHING_REPORTS,
+  data: payload
 })
 
 export const fetchingReportsSuccess = (payload) => ({

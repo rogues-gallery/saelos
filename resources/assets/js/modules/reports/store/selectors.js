@@ -8,3 +8,12 @@ export const getReport = (state, id) =>
 
 export const getPaginationForReports = (state) =>
   fromReducer.getPaginationForReports(state.reportState);
+
+export const isStateDirty = (state) =>
+	fromReducer.isStateDirty(state.reportState);
+
+export const getSearchStringForReports = (state) =>
+	fromReducer.getSearchStringForReports(state.reportState);
+
+export const getFirstReportId = (state) =>
+	fromReducer.getFirstReportId(state.reportState);

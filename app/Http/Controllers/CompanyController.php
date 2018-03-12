@@ -15,6 +15,7 @@ class CompanyController extends Controller
     const INDEX_WITH = [
         'user',
         'people',
+        'people.company',
         'people.deals',
         'people.deals.people',
         'deals',
@@ -33,6 +34,7 @@ class CompanyController extends Controller
     const SHOW_WITH = [
         'user',
         'people',
+        'people.company',
         'people.deals',
         'people.deals.people',
         'deals',
