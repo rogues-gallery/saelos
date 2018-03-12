@@ -63,15 +63,10 @@ const Details = ({company, dispatch, toggle, user, data, options}) => {
   return (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <h5>Company Details
-        <div className="dropdown d-inline-block ml-2 pt-2">
-          <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-          <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
-            <div className="dropdown-item disabled">Details</div>
-            <div className="dropdown-item" onClick={() => toggle('history')} >History</div>
-          </div>
-        </div>
-      </h5>
+      <div className="justify-content-center">
+        <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-right mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
+        <div className="pt-1 mt-2 h5">Company Details</div>
+      </div>
     </div>
     <div className="h-scroll">
       <div className="card ct-container">
@@ -102,15 +97,10 @@ const Details = ({company, dispatch, toggle, user, data, options}) => {
 const History = ({activities, dispatch, toggle}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom text-center py-2 heading">
-      <h5>History
-        <div className="dropdown d-inline-block ml-2 pt-2">
-          <div className="text-muted dropdown-toggle" id="detailViewToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-          <div className="dropdown-menu dropdown-menu-right" aria-labelledby="detailViewToggle">
-            <div className="h5 dropdown-item" onClick={() => toggle('default')}>Details</div>
-            <div className="h5 dropdown-item disabled">History</div>
-          </div>
-        </div>
-      </h5>
+      <div className="justify-content-center">
+        <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary float-left ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
+        <div className="pt-1 mt-2 h5">History</div>
+      </div>
     </div>
   </div>
 )
