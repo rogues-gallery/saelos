@@ -69,7 +69,7 @@ class Record extends React.Component {
 
     // Special handling for custom field state
     if (this.state.formState.hasOwnProperty(name) === false) {
-      let customField = this.props.customFields[_.split(name, '.')[1]];
+      let customField = this.props.customFields[name];
       let contactCustomFieldIndex = _.findIndex(contactState.custom_fields, (o) => o.custom_field_id === customField.field_id);
 
       if (contactCustomFieldIndex >= 0) {
