@@ -11,14 +11,10 @@ class StageController extends Controller
 {
     const INDEX_WITH = [
         'deals',
-        'userDeals',
-        'teamDeals',
     ];
 
     const SHOW_WITH = [
         'deals',
-        'userDeals',
-        'teamDeals',
     ];
 
     public function index()

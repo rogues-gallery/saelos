@@ -24,20 +24,17 @@ class Layout extends Component {
   }
 
   render() {
-    const { children, user, ...props } = this.props
-    
-    /*
-    if (user.admin === 1) {
-      return <ConfigLayout {...props}>{children}</ConfigLayout>
-    }
-    else 
-    */
+    const { children, isAuthenticated, location, ...props } = this.props
 
-    if (this.props.isAuthenticated) {
+    if (isAuthenticated) {
+      if (location.pathname.startsWith('/config/')) {
+        return <ConfigLayout {...props}>{children}</ConfigLayout>
+      }
+
       return <PrivateLayout {...props}>{children}</PrivateLayout>
-    } else {
-      return <PublicLayout {...props}>{children}</PublicLayout>
     }
+
+    return <PublicLayout {...props}>{children}</PublicLayout>
   }
 }
 
@@ -46,6 +43,7 @@ Layout.propTypes = {
   user: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   dispatch: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired
 }
 
 export default withRouter(connect(state => ({

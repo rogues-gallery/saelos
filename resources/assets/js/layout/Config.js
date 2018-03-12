@@ -12,6 +12,7 @@ const containerStyle = {
 const ConfigLayout = ({ children }) => (
   <div style={containerStyle}>
     <main style={{ minHeight: '100vh'}}>
+      <Navigation />
       { children }
     </main>
   </div>

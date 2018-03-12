@@ -1,11 +1,21 @@
-import * as types from '../actions/types';
+import * as types from './action-types';
+import Stage from "../Stage";
 
 const initialState = {
   data: [],
-  pagination: {},
-  dataFetched: false,
+  meta: {
+    currentPage: 0,
+    from: 0,
+    lastPage: 0,
+    path: '',
+    perPage: 0,
+    to: 0,
+    total: 0,
+  },
   isFetching: false,
-  error: false
+  isPosting: false,
+  error: false,
+  searchString: ''
 }
 
 export default function stageReducer(state = initialState, action) {
@@ -13,22 +23,89 @@ export default function stageReducer(state = initialState, action) {
     case types.FETCHING_STAGES:
       return {
         ...state,
+        isFetching: true,
+        searchString: action.data.searchString
+      }
+    case types.FETCHING_SINGLE_STAGE:
+      return {
+        ...state,
         isFetching: true
       }
     case types.FETCHING_STAGES_SUCCESS:
+      let { data, meta } = action.data
+      let newStagesForState
+
+      if (data.length === 0) {
+        return state
+      }
+
+      // When fetching the first page, always replace the contacts in the app state
+      if (meta.current_page === 1) {
+        newStagesForState = data
+      } else {
+        newStagesForState = state.data
+
+        data.map(c => {
+          newStagesForState = injectStageIntoState(c, newStagesForState)
+        })
+      }
+
       return {
         ...state,
+        data: newStagesForState,
+        meta: meta,
         isFetching: false,
-        dataFetched: true,
-        data: action.data
+        error: false
       }
+    case types.FETCHING_SINGLE_STAGE_FAILURE:
     case types.FETCHING_STAGES_FAILURE:
       return {
         ...state,
         isFetching: false,
         error: true
       }
+    case types.POSTING_STAGE:
+      return {
+        ...state,
+        isPosting: true
+      }
+    case types.POSTING_STAGE_SUCCESS:
+    case types.FETCHING_SINGLE_STAGE_SUCCESS:
+      const newData = injectStageIntoState(action.data, state.data)
+
+      return {
+        ...state,
+        data: newData,
+        isFetching: false,
+        error: false,
+        isPosting: false
+      }
     default:
       return state
   }
 }
+
+const injectStageIntoState = (contact, data) => {
+  const index = _.findIndex(data, (c) => c.id === parseInt(contact.id))
+
+  if (index >= 0) {
+    data[index] = _.merge(data[index], contact)
+  } else {
+    data.push(contact)
+  }
+
+  return data
+}
+
+export const getStages = (state) => state.data.map(s => new Stage(s))
+export const getStage = (state, id) => {
+  let stage = _.find(getStages(state), (s) => s.id === parseInt(id));
+
+  if (typeof stage === 'undefined') {
+    return new Stage({})
+  }
+
+  return stage;
+}
+export const getSearchStringForStages = (state) => state.searchString;
+export const getPaginationForStages = (state) => state.meta;
