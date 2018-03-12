@@ -1,11 +1,6 @@
 //import libs
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Container,
-  Row,
-  Col
-} from 'reactstrap';
 
 // import components
 import Main from '../Main'

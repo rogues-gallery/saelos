@@ -3,19 +3,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 // import components
+import Main from '../Main'
 import Navigation from '../common/navigation'
 
-const containerStyle = {
-  paddingTop: '3.5rem',
-}
-
 const ConfigLayout = ({ children }) => (
-  <div style={containerStyle}>
-    <main style={{ minHeight: '100vh'}}>
-      <Navigation />
+  <Main>
+    <div className="row no-gutters">
+      <Navigation/>
       { children }
-    </main>
-  </div>
+    </div>
+  </Main>
 )
 
 ConfigLayout.propTypes = {
