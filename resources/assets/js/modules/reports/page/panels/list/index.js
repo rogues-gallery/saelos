@@ -88,7 +88,7 @@ List.contextTypes = {
 }
 
 const Report = ({ report, dispatch, router, activeID }) => {
-  const openCompanyRecord = (id) => {
+  const openReportRecord = (id) => {
     dispatch(fetchReport(report.id))
     router.history.push(`/reports/${id}`)
   }
