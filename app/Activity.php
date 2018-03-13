@@ -30,11 +30,6 @@ class Activity extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function entity()
-    {
-        return $this->morphTo();
-    }
-
     public function details()
     {
         return $this->morphTo();

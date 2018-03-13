@@ -2,10 +2,17 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+
 trait HasActivitiesTrait
 {
-    public function activities()
+    public function activities():  MorphToMany
     {
-        return $this->morphMany(Activity::class, 'entity');
+        return $this->morphToMany(
+            Activity::class,
+            'entity',
+            'activity_entities'
+        )
+            ->withPivot(['primary']);
     }
 }

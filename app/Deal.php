@@ -6,6 +6,7 @@ use App\Contracts\HasCustomFieldsInterface;
 use App\Contracts\HasWorkflowsInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * App\Deal

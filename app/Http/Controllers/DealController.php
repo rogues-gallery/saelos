@@ -9,6 +9,7 @@ use Auth;
 use App\Company;
 use App\Deal;
 use App\Http\Resources\DealCollection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\Deal as DealResource;
 
@@ -32,6 +33,8 @@ class DealController extends Controller
     ];
 
     const SHOW_WITH = [
+        'activities',
+        'activities.details',
         'user',
         'team',
         'company',
@@ -61,7 +64,17 @@ class DealController extends Controller
 
     public function show($id)
     {
-        return new DealResource(Deal::with(static::SHOW_WITH)->find($id));
+        $with = static::SHOW_WITH;
+
+        unset($with[0]);
+
+        $with['activities'] = function(Builder $q) use ($id) {
+            $q->whereNested(function($q) use ($id) {
+                $q->where('deal_id', $id);
+            }, 'or');
+        };
+
+        return new DealResource(Deal::with($with)->find($id));
     }
 
     public function update(Request $request, $id)
