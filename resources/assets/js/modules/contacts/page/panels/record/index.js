@@ -103,11 +103,14 @@ class Record extends React.Component {
       core: groups.core,
       personal: groups.personal,
       social: groups.social,
-      additional: groups.additional_info
+      additional: groups.additional
     }
     
-    const contactFields = Object.keys(groups).map(key => (
-        <ul key={`group-${key}`} className="list-group list-group-flush">
+    const contactFields = Object.keys(groups).map(key => {
+        let emptyGroup = !inEdit && groups[key].length === 0 ? 'd-none' : ''
+        return (
+        <div>
+        <ul key={`group-${key}`} className={`list-group list-group-flush ${emptyGroup}`}>
           <li key={key} className="list-group-item">
             <div className="mini-text text-muted">{key}</div>
             {_.sortBy(groups[key], ['ordering']).map(f => {
@@ -138,17 +141,32 @@ class Record extends React.Component {
           }
           </li>
         </ul>
-    ));
+        {(key == 'core') ?
+          <ul className="list-group list-group-flush">
+            <li key="address" className="list-group-item">
+              <div className="mini-text text-muted">Address</div>
+              <div className="py-2">
+                <p className="font-weight-bold">{contact.address1} {contact.address2}</p>
+                <p className="text-muted">{contact.city} {contact.state} {contact.zip} {contact.country}</p>
+              </div>
+            </li>
+          </ul>
+        :
+        ''
+        }
+        <span class="d-none"></span>
+      </div>
+    )})
 
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading list-inline">
           <button className="btn btn-primary mr-3 btn-sm list-inline-item" onClick={() => this._setActionView('call')}><span className="h5"><MDIcons.MdLocalPhone /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('email')}><span className="h2"><MDIcons.MdMailOutline /></span></button>
-          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>*/}
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>
           {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdCallMerge /></span></button>*/}
           {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>*/}
-          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>*/}
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
           {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>*/}
           {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>*/}
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
@@ -189,10 +207,10 @@ class Record extends React.Component {
           {!inEdit ?
             <ul className="list-group list-group-flush">
               <li key="company" className="list-group-item">
-                <div className="mini-text text-muted">Company</div>
+                <div className="mini-text text-muted">Professional</div>
                 <div className="py-2">
-                  <p className="font-weight-bold"><Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
-                  <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip}</p>
+                  <p className="h6">{contact.position} <span class="text-muted">at</span> <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
+                  <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip} {contact.company.country}</p>
                 </div>
               </li>
             </ul>
