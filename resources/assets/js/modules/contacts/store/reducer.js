@@ -1,4 +1,5 @@
 import * as types from './action-types';
+import { POSTING_NOTE_SUCCESS } from "../../notes/store/action-types";
 import _ from 'lodash';
 import Contact from "../Contact";
 
@@ -93,6 +94,27 @@ export default function contactReducer(state = initialState, action) {
       return {
         ...state,
         data: updatedData
+      }
+    case POSTING_NOTE_SUCCESS:
+      const {entity_type, entity_id} = action.data.data
+
+      if (entity_type !== 'App\\Person') {
+        return state
+      }
+
+      const contact = _.find(state.data, (c) => c.id === entity_id)
+
+      if (! contact.id) {
+        return state
+      }
+
+      contact.notes.unshift(action.data.data);
+
+      const updatedDataWithNotes = injectContactIntoState(contact, state.data)
+
+      return {
+        ...state,
+        data: updatedDataWithNotes
       }
     default:
       return state
