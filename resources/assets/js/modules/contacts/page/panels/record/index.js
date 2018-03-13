@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors';
 import {deleteContact, fetchContact, saveContact} from '../../../service';
+import Conversations from '../../../../conversations/partials/_conversations'
 import { ActionView } from './components'
 import { Link } from "react-router-dom"
 import _ from 'lodash';
@@ -200,10 +201,11 @@ class Record extends React.Component {
           }
 
           {contactFields}
+        
           </div>
-        <div className="card mb-3">
-          <div className="card-body">Conversations will go here.</div>
-        </div>
+          
+          <Conversations dispatch={this.props.dispatch} activities={_.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity')} />
+
         </div>
       </main>
     )

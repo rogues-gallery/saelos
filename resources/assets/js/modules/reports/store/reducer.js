@@ -103,6 +103,6 @@ export const getReport = (state, id) => {
 }
 export const getReports = (state) => state.data;
 export const getPaginationForReports = (state) => state.meta;
-export const isStateDirty = (state) => state.isPosting
+export const isStateDirty = (state) => state.isPosting || state.isFetching
 export const getSearchStringForReports = (state) => state.searchString
 export const getFirstReportId = (state) => state.data.length ? state.data[0].id : 0
