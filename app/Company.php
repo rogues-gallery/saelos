@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface
+class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface
 {
     use HasDocumentsTrait;
     use HasActivitiesTrait;

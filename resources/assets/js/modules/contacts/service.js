@@ -96,3 +96,16 @@ export const deleteContact = (id) => (dispatch) => {
       dispatch(actions.deletingContactFailure())
     })
 }
+
+export const emailContact = (params) => (dispatch) => {
+  dispatch(actions.emailingContact())
+
+  return Http.post(`people/${params.id}/email`, params)
+    .then(res => {
+      dispatch(actions.emailingContactSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.emailingContactFailure())
+    })
+}

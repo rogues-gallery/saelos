@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Activity;
 use App\CustomFieldValue;
 use App\FieldUpdateActivity;
+use App\HasActivitiesInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class ModelUpdateObserver
@@ -30,9 +31,7 @@ class ModelUpdateObserver
 
                 $fieldUpdate->save();
 
-                Activity::create([
-                    'entity_id' => $model->id,
-                    'entity_type' => get_class($model),
+                $activity = Activity::create([
                     'title' => 'Field updated',
                     'description' => '',
                     'completed' => 1,
@@ -40,11 +39,13 @@ class ModelUpdateObserver
                     'details_id' => $fieldUpdate->id,
                     'details_type' => FieldUpdateActivity::class
                 ]);
+
+                $model->activities()->save($activity, ['primary' => true]);
             }
         }
     }
 
-    private function handleCustomFieldUpdating($model)
+    private function handleCustomFieldUpdating(CustomFieldValue $model)
     {
         if ($model->isDirty()) {
             $fieldUpdate = new FieldUpdateActivity([
@@ -55,9 +56,7 @@ class ModelUpdateObserver
 
             $fieldUpdate->save();
 
-            Activity::create([
-                'entity_id' => $model->model_id,
-                'entity_type' => $model->model_type,
+            $activity = Activity::create([
                 'title' => 'Field updated',
                 'description' => '',
                 'completed' => 1,
@@ -65,6 +64,12 @@ class ModelUpdateObserver
                 'details_id' => $fieldUpdate->id,
                 'details_type' => FieldUpdateActivity::class
             ]);
+
+            $entityModel = $model->model();
+
+            if ($entityModel instanceof HasActivitiesInterface) {
+                $entityModel->activities()->save($activity, ['primary' => true]);
+            }
         }
     }
 }

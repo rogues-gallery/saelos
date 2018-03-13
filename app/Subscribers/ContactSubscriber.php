@@ -34,23 +34,24 @@ class ContactSubscriber
         $user = $event->getUser();
         $email = $event->getEmail();
 
-        $activity = new Activity();
-        $activity->title = 'Email sent.';
-        $activity->description = sprintf(
-            'Email to %s %s sent by %s.',
-            $person->first_name,
-            $person->last_name,
-            $user->name
-        );
+        $details = EmailActivity::create([
+            'content' => $email->getEmailContent(),
+            'details' => []
+        ]);
 
-        $details = new EmailActivity();
-        $details->content = $email->getEmailContent();
-        $details->details = json_encode([]);
+        $activity = Activity::create([
+            'title' => 'Email sent.',
+            'description' => sprintf(
+                'Email to %s %s sent by %s.',
+                $person->first_name,
+                $person->last_name,
+                $user->name
+            ),
+            'user_id' => $user->id,
+            'details_id' => $details->id,
+            'details_type' => EmailActivity::class
+        ]);
 
-        $details->save();
-
-        $activity->details()->associate($details);
-        $activity->entity()->associate($person);
-        $activity->save();
+        $person->activities()->save($activity, ['primary' => true]);
     }
 }

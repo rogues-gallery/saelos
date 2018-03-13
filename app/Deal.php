@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface
+class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface
 {
     use HasDocumentsTrait;
     use HasActivitiesTrait;
