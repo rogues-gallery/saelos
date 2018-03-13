@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { fetchReports, fetchReport } from "../../../service";
+import TextTruncate from 'react-text-truncate'
 import moment from 'moment'
 
 class List extends React.Component {
@@ -98,7 +99,7 @@ const Report = ({ report, dispatch, router, activeID }) => {
     className={`list-group-item list-group-item-action align-items-start ${report.id === parseInt(activeID) ? ' active' : ''}`}>
       <span className="text-muted mini-text float-right">{moment(report.updated_at).fromNow()}</span>
       <h6 className="text-truncate pr-1">{report.name}</h6>
-      <p>Secondary Detail</p>
+      <p><TextTruncate line={1} truncateText="..." text={report.description}/></p>
       <p className="text-muted">Tertiary Information</p>
     </div>
   );

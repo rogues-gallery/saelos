@@ -80,72 +80,50 @@ class Record extends React.Component {
 
 
   render() {
-    const { report } = this.props;
+    const { report, isDirty } = this.props
 
-    const groups = _.groupBy(this.props.customFields, 'group');
-    const inEdit = this.state.inEdit;
-    const reportFields = Object.keys(groups).map(key => (
-      <div className="card mb-1" key={report.id + key}>
-        <ul className="list-group list-group-flush">
-          <li key={key} className="list-group-item">
-            <div className="mini-text text-muted">{key}</div>
-            {groups[key].map(f => {
-              let fieldValue = _.get(report, f.alias);
+    if (isDirty) {
+      return <div>Loading</div>
+    }
 
-              if (typeof fieldValue === 'object') {
-                fieldValue = _.get(fieldValue, 'name');
-              }
+    let results = report.data ? report.data.data.map((row) => {
+      return <ReportItem key={row.id} item={row} columns={report.columns} dataSource={report.data_source} />
+    }) : [];
 
-              const hidden = typeof fieldValue === 'undefined' || fieldValue.length === 0 ? 'd-none' : '';
-              const readOnly = !inEdit ? {
-                readOnly: true,
-                className: 'form-control-plaintext'
-              } : {
-                readOnly: false,
-                className: 'form-control'
-              }
-
-              return (
-                <div className={`form-group row ${hidden}`} key={f.alias}>
-                  <label htmlFor={f.alias} className="col-sm-3 col-form-label">{f.label}</label>
-                  <div className="col-sm-9">
-                    <input type="text" {...readOnly} id={f.alias} name={f.alias} onChange={this._handleInputChange} defaultValue={fieldValue} />
-                  </div>
-                </div>
-              )
-            })
-          }
-          </li>
-        </ul>
-      </div>
-    ));
+    let headerRow = report.columns.map((header, index) => {
+        return <th key={index}>{header}</th>
+    });
 
     return (
       <main key={0} className="col main-panel px-3">
-          <div className="toolbar border-bottom py-2 heading">
-            <button className="btn btn-primary mr-3 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>
-            <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
-            <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
-            <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>
-            <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
-            <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdDelete /></span></button>
-          </div>
-          
-          {inEdit ?
-            <span className="float-right py-3 mt-1">
-              <a href="javascript:void(0);" onClick={this._toggleEdit}>Cancel</a>
-              <span className="ml-2 btn btn-primary btn-sm" onClick={this._submit}>Save</span>
-            </span>
-            :
-            <span className="float-right py-3 mt-1">
-              <a href="javascript:void(0);" onClick={this._toggleEdit}>Edit</a>
-            </span>
-          }
+        <div className="toolbar border-bottom py-2 heading">
+          <button className="btn btn-primary mr-3 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._initReportDownload}><span className="h3"><MDIcons.MdInput /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
+          <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdDelete /></span></button>
+        </div>
+
         <h4 className="border-bottom py-3">
           {report.name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
         </h4>
         <div className="h-scroll">
-          {reportFields}
+          <div className="card mb-1">
+          <h6 className="card-title border-bottom p-4">
+                {report.description}
+              </h6>
+            <div className="card-body">
+              <table>
+                  <thead>
+                  <tr>
+                      {headerRow}
+                  </tr>
+                  </thead>
+                  <tbody>{results}</tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </main>
     )
@@ -154,6 +132,35 @@ class Record extends React.Component {
 
 Record.propTypes = {
   report: PropTypes.object.isRequired
+}
+
+
+class ReportItem extends React.Component {
+
+    render() {
+        let cells = this.props.columns.map((column, index) => {
+            if (/custom_fields/.test(column)) {
+                let customFieldIndex = _.findIndex(this.props.item.custom_fields, (f) => 'custom_fields.' + f.custom_field_alias === column);
+                column = 'custom_fields.' + customFieldIndex + '.value';
+            }
+
+            let cellValue = _.get(this.props.item, column);
+
+            return <td key={index}>{cellValue}</td>
+        });
+
+        return (
+            <tr>
+                {cells}
+            </tr>
+        )
+    }
+}
+
+ReportItem.propTypes = {
+    item: PropTypes.object.isRequired,
+    columns: PropTypes.array.isRequired,
+    dataSource: PropTypes.string.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({

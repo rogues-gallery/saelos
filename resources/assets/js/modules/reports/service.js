@@ -12,7 +12,7 @@ export const fetchReport = (id) => (dispatch) => {
 
   return Http.get(`reports/${id}`)
     .then(res => {
-      dispatch(actions.fetchingReportSuccess(res.data.data))
+      dispatch(actions.fetchingReportSuccess(res.data))
     })
     .catch(err => {
       console.log(err)
