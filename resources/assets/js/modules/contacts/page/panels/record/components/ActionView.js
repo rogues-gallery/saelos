@@ -4,13 +4,15 @@ import EmailAction from './actions/email'
 import CallAction from './actions/call'
 import SmsAction from './actions/sms'
 import MergeAction from './actions/merge'
+import Contact from "../../../../Contact";
 
 class ActionView extends React.Component {
   render() {
+    const { contact, view } = this.props
 
-    switch (this.props.view) {
+    switch (view) {
       case "email":
-        return <EmailAction />
+        return <EmailAction contact={contact} />
       case "call":
         return <CallAction />
       case "sms":
@@ -23,7 +25,8 @@ class ActionView extends React.Component {
 }
 
 ActionView.propTypes = {
-  view: PropTypes.string.isRequired
+  view: PropTypes.string.isRequired,
+  contact: PropTypes.instanceOf(Contact).isRequired
 }
 
 export default ActionView

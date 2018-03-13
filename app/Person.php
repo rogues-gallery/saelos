@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface
+class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface
 {
     use HasDocumentsTrait;
     use HasActivitiesTrait;

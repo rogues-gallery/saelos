@@ -65,3 +65,16 @@ export const fetchingCustomFieldsForContactsSuccess = (payload) => ({
 export const fetchingCustomFieldsForContactsFailure = () => ({
   type: types.FETCHING_CUSTOM_FIELDS_FOR_CONTACTS_FAILURE
 })
+
+export const emailingContact = () => ({
+  type: types.EMAILING_CONTACT
+})
+
+export const emailingContactSuccess = (payload) => ({
+  type: types.EMAILING_CONTACT_SUCCESS,
+  data: payload
+})
+
+export const emailingContactFailure = () => ({
+  type: types.EMAILING_CONTACT_FAILURE
+})
