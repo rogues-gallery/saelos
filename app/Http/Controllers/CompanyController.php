@@ -9,7 +9,6 @@ use App\Http\Resources\CompanyCollection;
 use App\User;
 use Illuminate\Database\Query\Builder as QBuilder;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Request;
 use App\Http\Resources\Company as CompanyResource;
 
@@ -70,32 +69,7 @@ class CompanyController extends Controller
 
     public function show($id)
     {
-        $with = static::SHOW_WITH;
-
-        unset($with[0]);
-
-        $with['activities'] = function(MorphMany $q) use ($id) {
-            $query = $q->getQuery();
-            /** @var Builder $builder */
-            $builder = $query->getQuery();
-
-            $newQuery = $builder->newQuery();
-            $newQuery->from($builder->from);
-            $newQuery->whereNested(function(QBuilder $q) use ($builder) {
-                $q->mergeWheres($builder->wheres, $builder->bindings);
-            });
-            $newQuery->whereNested(function($q) use ($id) {
-                $q->where('activities.company_id', $id);
-            }, 'or');
-
-            $q->setQuery($newQuery);
-        };
-
-        $company = Company::with($with)->find($id);
-
-        echo $company->toJson();die;
-
-        return new CompanyResource(Company::with($with)->find($id));
+        return new CompanyResource(Company::with(static::SHOW_WITH)->find($id));
     }
 
     public function update(Request $request, $id)
