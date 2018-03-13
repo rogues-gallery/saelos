@@ -4,7 +4,7 @@ import * as MDIcons from 'react-icons/lib/md'
 
 class Conversations extends React.Component {
   render() {
-  	const { dispatch, ...props } = this.props;
+  	const { dispatch, activities, ...props } = this.props;
 
     return (
 			<div className="card mb-3">
@@ -43,6 +43,11 @@ class Conversations extends React.Component {
 			</div>
 		)
   }
+}
+
+Conversations.propTypes = {
+	dispatch: PropTypes.func.isRequired,
+	activities: PropTypes.array.isRequired
 }
 
 export default Conversations
