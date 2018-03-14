@@ -106,10 +106,8 @@ class Record extends React.Component {
       'additional'
     ]
 
-    console.log(groups)
-
     const contactFields = order.map(key => {
-      let emptyGroup = !inEdit && groups.hasOwnProperty(key) && groups[key].length === 0 ? 'd-none' : ''
+      let emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
       return (
         <div key={`group-${key}`}>
           <ul className={`list-group list-group-flush ${emptyGroup}`}>
