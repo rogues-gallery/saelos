@@ -97,49 +97,48 @@ class Record extends React.Component {
 
   render() {
     const { contact } = this.props;
-    let groups = _.groupBy(this.props.customFields, 'group');
+    const groups = _.groupBy(this.props.customFields, 'group');
     const inEdit = this.state.inEdit;
+    const order = [
+      'core',
+      'personal',
+      'social',
+      'additional'
+    ]
 
-    groups = {
-      core: groups.core,
-      personal: groups.personal,
-      social: groups.social,
-      additional: groups.additional
-    }
+    console.log(groups)
 
-    contact.position ? contact.position : 'Works';
-    
-    const contactFields = Object.keys(groups).map(key => {
-        let emptyGroup = !inEdit && groups[key].length === 0 ? 'd-none' : ''
-        return (
+    const contactFields = order.map(key => {
+      let emptyGroup = !inEdit && groups.hasOwnProperty(key) && groups[key].length === 0 ? 'd-none' : ''
+      return (
         <div key={`group-${key}`}>
-        <ul className={`list-group list-group-flush ${emptyGroup}`}>
-          <li key={key} className="list-group-item">
-            <div className="mini-text text-muted">{key}</div>
-            {_.sortBy(groups[key], ['ordering']).map(f => {
-              return (
-                <FieldLayout contact={contact} field={f} inEdit={inEdit} />
-              )
-            })
-          }
-          </li>
-        </ul>
-        {(key == 'core') ?
-          <ul className="list-group list-group-flush">
-            <li key="address" className="list-group-item">
-              <div className="mini-text text-muted">Address</div>
-              <div className="py-2">
-                <p className="font-weight-bold">{contact.address1} {contact.address2}</p>
-                <p className="text-muted">{contact.city} {contact.state} {contact.zip} {contact.country}</p>
-              </div>
+          <ul className={`list-group list-group-flush ${emptyGroup}`}>
+            <li key={key} className="list-group-item">
+              <div className="mini-text text-muted">{key}</div>
+              {_.sortBy(groups[key], ['ordering']).map(f => {
+                return (
+                  <FieldLayout contact={contact} field={f} inEdit={inEdit} />
+                )
+              })
+              }
             </li>
           </ul>
-        :
-        ''
-        }
-        <span className="d-none"></span>
-      </div>
-    )})
+          {key === 'core' ?
+            <ul className="list-group list-group-flush">
+              <li key="address" className="list-group-item">
+                <div className="mini-text text-muted">Address</div>
+                <div className="py-2">
+                  <p className="font-weight-bold">{contact.address1} {contact.address2}</p>
+                  <p className="text-muted">{contact.city} {contact.state} {contact.zip} {contact.country}</p>
+                </div>
+              </li>
+            </ul>
+            :
+            ''
+          }
+          <span className="d-none" />
+        </div>
+      )})
 
     return (
       <main className="col main-panel px-3">
@@ -167,7 +166,7 @@ class Record extends React.Component {
               <ActionView view={this.state.actionView} contact={contact} />
             </div>
           </div>
-        :
+          :
           ''
         }
 
@@ -187,24 +186,24 @@ class Record extends React.Component {
 
         <div className="h-scroll">
           <div className="card mb-1">
-          {!inEdit ?
-            <ul className="list-group list-group-flush">
-              <li key="company" className="list-group-item">
-                <div className="mini-text text-muted">Professional</div>
-                <div className="py-2">
-                  <p className="h6">{contact.position} <span className="text-muted">at</span> <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
-                  <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip} {contact.company.country}</p>
-                </div>
-              </li>
-            </ul>
-          : 
-            ''
-          }
+            {!inEdit ?
+              <ul className="list-group list-group-flush">
+                <li key="company" className="list-group-item">
+                  <div className="mini-text text-muted">Professional</div>
+                  <div className="py-2">
+                    <p className="h6">{contact.position} <span className="text-muted">at</span> <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
+                    <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip} {contact.company.country}</p>
+                  </div>
+                </li>
+              </ul>
+              :
+              ''
+            }
 
-          {contactFields}
-        
+            {contactFields}
+
           </div>
-          
+
           <Conversations dispatch={this.props.dispatch} activities={_.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity')} />
 
         </div>
