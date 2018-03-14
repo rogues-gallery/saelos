@@ -192,7 +192,7 @@ class Record extends React.Component {
               <li key="company" className="list-group-item">
                 <div className="mini-text text-muted">Professional</div>
                 <div className="py-2">
-                  <p className="h6">{contact.position} <span classNamej="text-muted">at</span> <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
+                  <p className="h6">{contact.position} <span className="text-muted">at</span> <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
                   <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip} {contact.company.country}</p>
                 </div>
               </li>

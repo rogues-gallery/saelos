@@ -38,7 +38,7 @@ class FieldLayout extends React.Component {
 						<div className={`form-group mb-2 row ${hidden}`} key={`${field.alias}-${field.field_id}`}>
 							<label htmlFor={field.alias} className="col-sm-3 col-form-label">{field.label}</label>
 							<div className="col-sm-9">
-								<a className="hidden-link form-control-plaintext" href={fieldValue} target="_blank">{fieldValue} <span class="text-muted"><MDIcons.MdExitToApp /></span></a>
+								<a className="hidden-link form-control-plaintext" href={fieldValue} target="_blank">{fieldValue} <span className="text-muted"><MDIcons.MdExitToApp /></span></a>
 							</div>
 						</div>
 						)
