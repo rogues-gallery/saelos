@@ -22,9 +22,9 @@ class PersonController extends Controller
 {
     const INDEX_WITH = [
         'user',
-        'company',
+        'companies',
         'deals',
-        'deals.company',
+        'deals.companies',
         'deals.people',
         'deals.notes',
         'deals.notes.user',
@@ -41,9 +41,9 @@ class PersonController extends Controller
 
     const SHOW_WITH = [
         'user',
-        'company',
+        'companies',
         'deals',
-        'deals.company',
+        'deals.companies',
         'deals.people',
         'deals.notes',
         'deals.notes.user',

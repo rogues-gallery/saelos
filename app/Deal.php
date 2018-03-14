@@ -21,10 +21,11 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface
+class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface
 {
     use HasDocumentsTrait;
     use HasActivitiesTrait;
+    use HasCompaniesTrait;
     use HasCustomFieldsTrait;
     use HasNotesTrait;
     use HasWorkflowsTrait;
@@ -37,7 +38,7 @@ class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterf
         'id',
         'user',
         'team',
-        'company',
+        'companies',
         'people',
         'stage',
         'custom_fields',
@@ -87,11 +88,6 @@ class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterf
     public function team()
     {
         return $this->user->team();
-    }
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
     }
 
     public function people()

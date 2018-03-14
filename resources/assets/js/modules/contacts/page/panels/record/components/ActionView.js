@@ -8,15 +8,15 @@ import Contact from "../../../../Contact";
 
 class ActionView extends React.Component {
   render() {
-    const { contact, view } = this.props
+    const { contact, user, view } = this.props
 
     switch (view) {
       case "email":
-        return <EmailAction contact={contact} />
+        return <EmailAction contact={contact} user={user} />
       case "call":
-        return <CallAction />
+        return <CallAction contact={contact} user={user} />
       case "sms":
-        return <SmsAction />
+        return <SmsAction contact={contact} user={user} />
       case "merge":
       default:
         return ''

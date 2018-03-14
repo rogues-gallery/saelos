@@ -18,18 +18,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface
+class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface
 {
     use HasDocumentsTrait;
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
+    use HasCompaniesTrait;
     use HasNotesTrait;
     use HasWorkflowsTrait;
     use SearchableTrait;
 
     protected $guarded = [
         'id',
-        'company',
+        'companies',
         'deals',
         'user',
         'activities',
@@ -41,11 +42,6 @@ class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInte
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
     }
 
     public function deals()

@@ -29,9 +29,11 @@ class Company extends Model {
         }
     })
 
+    this.primary = props.pivot && props.pivot.primary
+
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
-    this.contacts = props.people || []
+    this.contacts = props.people && props.people.map(c => new Contact(c)) || []
     this.notes = props.notes && props.notes.map(n => new Note(n)) || []
     this.opportunities = props.deals && props.deals.map(d => new Opportunity(d)) || []
     this.activities = props.activities || []

@@ -33,7 +33,7 @@ class Opportunity extends Model {
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
-    this.company = props.company ? new Company(props.company) : new Company({})
+    this.companies = props.companies && props.companies.map(c => new Company(c)) || []
     this.stage = props.stage ? new Stage(props.stage) : new Stage({})
     this.contacts = props.people && props.people.map(c => new Contact(c)) || []
     this.notes = props.notes && props.notes.map(n => new Note(n)) || []
