@@ -186,7 +186,15 @@ a:hover {
 
   }
 
-  .list-group-item {
+  .history {
+    .list-group-item {
+      cursor: inherit;
+      background: inherit;
+      border-color: rgba(0, 0, 0, 0.025);
+    }
+  }
+
+  .list-group-item, .cursor-pointer {
     cursor: pointer;
   }
 
@@ -424,4 +432,8 @@ a:hover {
     }
 
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

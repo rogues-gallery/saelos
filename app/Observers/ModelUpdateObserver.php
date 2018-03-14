@@ -31,11 +31,22 @@ class ModelUpdateObserver
 
                 $fieldUpdate->save();
 
+                $fieldName = \DB::table('fields')
+                    ->select('label')
+                    ->from('fields')
+                    ->where([
+                        'alias' => $fieldAlias,
+                        'model' => get_class($model)
+                    ])
+                    ->first()->label;
+
+                $user = \Auth::user();
+
                 $activity = Activity::create([
-                    'title' => 'Field updated',
-                    'description' => '',
+                    'title' => sprintf('%s updated', $fieldName),
+                    'description' => sprintf('%s updated %s to %s', $user->name, $fieldUpdate->old_value, $fieldUpdate->new_value),
                     'completed' => 1,
-                    'user_id' => \Auth::user() ? \Auth::user()->id : null,
+                    'user_id' => $user->id,
                     'details_id' => $fieldUpdate->id,
                     'details_type' => FieldUpdateActivity::class
                 ]);
@@ -56,16 +67,24 @@ class ModelUpdateObserver
 
             $fieldUpdate->save();
 
+            $fieldName = \DB::table('fields')
+                ->select('label')
+                ->from('fields')
+                ->where('id', $model->custom_field_id)
+                ->first()->label;
+
+            $user = \Auth::user();
+
             $activity = Activity::create([
-                'title' => 'Field updated',
-                'description' => '',
+                'title' => sprintf('%s updated', $fieldName),
+                'description' => sprintf('%s updated %s to %s', $user->name, $fieldUpdate->old_value, $fieldUpdate->new_value),
                 'completed' => 1,
-                'user_id' => \Auth::user() ? \Auth::user()->id : null,
+                'user_id' => $user->id,
                 'details_id' => $fieldUpdate->id,
                 'details_type' => FieldUpdateActivity::class
             ]);
 
-            $entityModel = $model->model();
+            $entityModel = $model->model()->first();
 
             if ($entityModel instanceof HasActivitiesInterface) {
                 $entityModel->activities()->save($activity, ['primary' => true]);

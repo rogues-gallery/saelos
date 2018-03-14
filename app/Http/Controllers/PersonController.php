@@ -98,6 +98,7 @@ class PersonController extends Controller
         $personUser = $data['user'] ?? null;
         $customFields = $data['custom_fields'] ?? [];
 
+        //@TODO: Abstract this out to allow multiple companies
         if ($personCompany) {
             $company = array_key_exists('id', $personCompany)
                 ? Company::findOrFail($personCompany['id'])

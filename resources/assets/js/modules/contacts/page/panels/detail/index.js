@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import moment from 'moment'
 
 import Opportunities from '../../../../opportunities/partials/_opportunities'
 import SRI from '../../../../sri/partials/_sri'
@@ -29,7 +30,7 @@ class Detail extends React.Component {
       case 'default':
         return <Details contact={this.props.contact} dispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} />
       case 'history':
-        return <History activities={this.props.contact.activities} dispatch={this.props.dispatch}  toggle={this._toggleView} />
+        return <History activities={this.props.contact.activities} dispatch={this.props.dispatch} fields={this.props.contact.fields} toggle={this._toggleView} />
     }
   }
 }
@@ -63,11 +64,23 @@ const Details = ({contact, dispatch, toggle, user}) => (
   </div>
 )
 
-const History = ({activities, dispatch, toggle}) => (
+const History = ({activities, dispatch, fields, toggle}) => (
   <div key={1} className="col detail-panel border-left">
     <div className="border-bottom py-2 heading">
       <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary position-fixed ml-2 mt-1" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
       <div className="pt-1 mt-1 h5 text-center">History</div>
+    </div>
+    <div className="h-scroll history">
+      {activities.map(activity => {
+        const theChangedField = _.find(fields, f => f.alias === activity.field_alias)
+        return(
+            <div className="list-group-item">
+              <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
+              <div className="activity"><b>{activity.title}</b></div>
+              {activity.description}
+            </div>
+            )
+      })}
     </div>
   </div>
 )

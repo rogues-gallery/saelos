@@ -169,7 +169,7 @@ class Record extends React.Component {
           <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">Assigned To</div>
             <div className="dropdown show">
-              <div className="text-dark mini-text" id="assigneeDropdown" data-toggle="dropdown"><b>{contact.user.name}</b></div>
+              <div className="text-dark mini-text cursor-pointer" id="assigneeDropdown" data-toggle="dropdown"><b>{contact.user.name ? contact.user.name : 'Unassigned'}</b></div>
               <div className="dropdown-menu" aria-labelledby="assigneeDropdown">
                 {user.team.users.map(u => (
                   <a key={`team-${user.team.id}-member-${u.id}`} className="dropdown-item" href="javascript:void(0)" onClick={() => onAssignmentChange(u.id)}>{u.name}</a>
