@@ -5,7 +5,7 @@ import * as MDIcons from 'react-icons/lib/md'
 
 class FieldLayout extends React.Component {
   render() {
-    const { contact, field, inEdit, ...props } = this.props;
+    const { contact, field, inEdit, onChange, ...props } = this.props;
 
     let fieldValue = _.get(contact, field.alias);
 
@@ -27,7 +27,7 @@ class FieldLayout extends React.Component {
 				<div className={`form-group mb-2 row ${hidden}`} key={`${field.alias}-${field.field_id}`}>
 					<label htmlFor={field.alias} className="col-sm-3 col-form-label">{field.label}</label>
           <div className="col-sm-9">
-            <input type="text" {...readOnly} id={field.alias} name={field.alias} onChange={this._handleInputChange} defaultValue={fieldValue} />
+            <input type="text" {...readOnly} id={field.alias} name={field.alias} onChange={onChange} defaultValue={fieldValue} />
           </div>
         </div>
     	)
@@ -47,7 +47,7 @@ class FieldLayout extends React.Component {
 						<div className={`form-group mb-2 row ${hidden}`} key={`${field.alias}-${field.field_id}`}>
 							<label htmlFor={field.alias} className="col-sm-3 col-form-label">{field.label}</label>
 							<div className="col-sm-9">
-				      	<input type="text" {...readOnly} id={field.alias} name={field.alias} onChange={this._handleInputChange} defaultValue={fieldValue} />
+				      	<input type="text" {...readOnly} id={field.alias} name={field.alias} onChange={onChange} defaultValue={fieldValue} />
 				    	</div>
 				    </div>
 			    )

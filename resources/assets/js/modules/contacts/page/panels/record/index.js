@@ -115,7 +115,7 @@ class Record extends React.Component {
               <div className="mini-text text-muted">{key}</div>
               {_.sortBy(groups[key], ['ordering']).map(f => {
                 return (
-                  <FieldLayout contact={contact} field={f} inEdit={inEdit} />
+                  <FieldLayout contact={contact} field={f} inEdit={inEdit} onChange={this._handleInputChange} />
                 )
               })
               }
