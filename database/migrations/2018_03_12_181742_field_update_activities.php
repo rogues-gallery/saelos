@@ -17,8 +17,8 @@ class FieldUpdateActivities extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->text('field_alias');
-            $table->text('old_value');
-            $table->text('new_value');
+            $table->text('old_value')->nullable();
+            $table->text('new_value')->nullable();
         });
     }
 
