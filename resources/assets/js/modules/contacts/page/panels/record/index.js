@@ -1,11 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors';
-import {deleteContact, fetchContact, saveContact} from '../../../service';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors'
+import {deleteContact, fetchContact, saveContact} from '../../../service'
 import Conversations from '../../../../conversations/partials/_conversations'
 import { ActionView } from './components'
+import FieldLayout from './components/FieldLayout'
 import { Link } from "react-router-dom"
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
@@ -105,37 +106,19 @@ class Record extends React.Component {
       social: groups.social,
       additional: groups.additional
     }
+
+    contact.position ? contact.position : 'Works';
     
     const contactFields = Object.keys(groups).map(key => {
         let emptyGroup = !inEdit && groups[key].length === 0 ? 'd-none' : ''
         return (
-        <div>
-        <ul key={`group-${key}`} className={`list-group list-group-flush ${emptyGroup}`}>
+        <div key={`group-${key}`}>
+        <ul className={`list-group list-group-flush ${emptyGroup}`}>
           <li key={key} className="list-group-item">
             <div className="mini-text text-muted">{key}</div>
             {_.sortBy(groups[key], ['ordering']).map(f => {
-              let fieldValue = _.get(contact, f.alias);
-
-              if (typeof fieldValue === 'object') {
-                fieldValue = _.get(fieldValue, 'name');
-              }
-
-              const hidden = inEdit ? '' : typeof fieldValue === 'undefined' || f.hidden || fieldValue.length === 0 ? 'd-none' : '';
-              const readOnly = !inEdit ? {
-                readOnly: true,
-                className: 'form-control-plaintext'
-              } : {
-                readOnly: false,
-                className: 'form-control'
-              }
-
               return (
-                <div className={`form-group mb-2 row ${hidden}`} key={`${f.alias}-${contact.id}`}>
-                  <label htmlFor={f.alias} className="col-sm-3 col-form-label">{f.label}</label>
-                  <div className="col-sm-9">
-                    <input type="text" {...readOnly} id={f.alias} name={f.alias} onChange={this._handleInputChange} defaultValue={fieldValue} />
-                  </div>
-                </div>
+                <FieldLayout contact={contact} field={f} inEdit={inEdit} />
               )
             })
           }
@@ -154,7 +137,7 @@ class Record extends React.Component {
         :
         ''
         }
-        <span class="d-none"></span>
+        <span className="d-none"></span>
       </div>
     )})
 
@@ -209,7 +192,7 @@ class Record extends React.Component {
               <li key="company" className="list-group-item">
                 <div className="mini-text text-muted">Professional</div>
                 <div className="py-2">
-                  <p className="h6">{contact.position} <span class="text-muted">at</span> <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
+                  <p className="h6">{contact.position} <span classNamej="text-muted">at</span> <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
                   <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip} {contact.company.country}</p>
                 </div>
               </li>

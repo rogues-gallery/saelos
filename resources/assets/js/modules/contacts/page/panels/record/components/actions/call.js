@@ -12,6 +12,7 @@ const CallAction = () => (
         <p>
           Click the button to the left to initiate a call to this user. Once the call is completed please enter your Rep Sentiment Score below.
         </p>
+        
         <input type="range" min="1" max="10" className="slider"/>
       </div>
     </div>

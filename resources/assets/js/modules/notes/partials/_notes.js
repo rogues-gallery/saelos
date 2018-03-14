@@ -81,7 +81,7 @@ class Notes extends React.Component {
             <span className="text-muted float-right"><MDIcons.MdLockOutline /></span>
           </p>
           <ContentEditable className="fh-5 my-2 p-1 border rounded" onChange={this._handleInputChange} />
-          <div className="text-center">
+          <div>
             <Dropzone
               onDrop={this._onDrop}
               className="document-dropzone"
@@ -90,10 +90,12 @@ class Notes extends React.Component {
               rejectClassName="reject"
               accept="image/jpeg, image/jpg, text/csv, application/json, application/pdf, application/zip, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/msword"
             >
-              <button className="btn btn-link btn-sm float-left px-1 py-0"><span className="h5"><MDIcons.MdAttachFile /></span></button>
+              <button className="position-fixed btn btn-link btn-xs"><span className="h5"><MDIcons.MdAttachFile /></span></button>
             </Dropzone>
-            <button className="btn btn-link btn-sm">Cancel</button>
-            <button className="btn btn-primary btn-sm" onClick={this._submit}>Create</button>
+            <div className="text-center">
+              <button className="btn btn-link btn-sm">Cancel</button>
+              <button className="btn btn-primary btn-sm" onClick={this._submit}>Create</button>
+            </div>
           </div>
         </div>
 
