@@ -13,6 +13,6 @@ trait HasActivitiesTrait
             'entity',
             'activity_entities'
         )
-            ->withPivot(['primary']);
+            ->withPivot(['primary'])->orderBy('created_at', 'DESC');
     }
 }
