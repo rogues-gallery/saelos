@@ -85,7 +85,7 @@ class Workflow extends Model
      *
      * @return string
      */
-    private function getWorkflowFieldValue(Model $model): string
+    private function getWorkflowFieldValue(Model $model): ?string
     {
         // Check main model attributes
         $attributes = $model->attributesToArray();
