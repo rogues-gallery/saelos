@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom';
-import { NavItem } from 'reactstrap'
 
 const Link = ({ path, children }) => (
-  <NavItem>
+  <li className="nav-item">
     <NavLink to={path} className="nav-link">
       {children}
     </NavLink>
-  </NavItem>
+  </li>
 )
 
 Link.propTypes = {

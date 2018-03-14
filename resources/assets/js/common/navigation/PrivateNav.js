@@ -1,7 +1,6 @@
 // import libs
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Nav } from 'reactstrap';
 
 import * as MDIcons from 'react-icons/lib/md'
 
