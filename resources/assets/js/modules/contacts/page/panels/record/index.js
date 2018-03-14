@@ -202,7 +202,7 @@ class Record extends React.Component {
 
           </div>
 
-          <Conversations dispatch={this.props.dispatch} activities={_.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity')} />
+          <Conversations dispatch={this.props.dispatch} conversations={_.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity')} />
 
         </div>
       </main>

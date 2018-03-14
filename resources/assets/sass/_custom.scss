@@ -412,3 +412,16 @@ a:hover {
 .pr-2-5 {
   padding-right: 0.7rem !important;
 }
+
+.conversations-partial {
+  .message-body {
+    div {
+      display: inline;
+      div {
+        display: inline-block;
+        padding-left: 0.25rem;
+      }
+    }
+
+  }
+}
