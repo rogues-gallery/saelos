@@ -37,3 +37,6 @@ function authUser(state, user) {
 }
 
 export default reducer
+
+export const getUser = (state) => new User(state)
+export const getTeam = (state) => getUser(state).team

@@ -15,7 +15,8 @@ class Team extends Model {
     this.description = props.description || ''
 
     // relate user model
-    this.leader = props.user ? new User(props.leader) : new User({})
+    this.leader = props.user && new User(props.leader) || {}
+    this.users = props.users && props.users.map(u => new User(u)) || [] 
   }
 }
 

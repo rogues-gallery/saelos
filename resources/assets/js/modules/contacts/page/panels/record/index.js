@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { getUser } from '../../../../user/store/selectors'
 import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors'
 import {deleteContact, fetchContact, saveContact} from '../../../service'
 import Conversations from '../../../../conversations/partials/_conversations'
@@ -62,7 +63,6 @@ class Record extends React.Component {
 
   _submit() {
     this.props.dispatch(saveContact(this.state.formState))
-
     this.setState({inEdit: false})
   }
 
@@ -96,7 +96,7 @@ class Record extends React.Component {
   }
 
   render() {
-    const { contact } = this.props;
+    const { contact, user } = this.props;
     const groups = _.groupBy(this.props.customFields, 'group');
     const inEdit = this.state.inEdit;
     const order = [
@@ -107,7 +107,7 @@ class Record extends React.Component {
     ]
 
     const contactFields = order.map(key => {
-      let emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
+      const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
       return (
         <div key={`group-${key}-${contact.id}`}>
           <ul className={`list-group list-group-flush ${emptyGroup}`}>
@@ -138,6 +138,20 @@ class Record extends React.Component {
         </div>
       )})
 
+    const companyDisplay = contact.company.id ? <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link> : 'Unknown'
+
+    const onAssignmentChange = (id) => {
+      const event = {
+        target: {
+          type: 'text',
+          name: 'user_id',
+          value: id
+        }
+      }
+      this._handleInputChange(event)
+      this._submit()
+    }
+
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading list-inline">
@@ -154,7 +168,14 @@ class Record extends React.Component {
 
           <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">Assigned To</div>
-            <div className="text-dark mini-text"><b>{contact.user.name}</b></div>
+            <div className="dropdown show">
+              <div className="text-dark mini-text" id="assigneeDropdown" data-toggle="dropdown"><b>{contact.user.name}</b></div>
+              <div className="dropdown-menu" aria-labelledby="assigneeDropdown">
+                {user.team.users.map(u => (
+                  <a key={`team-${user.team.id}-member-${u.id}`} className="dropdown-item" href="javascript:void(0)" onClick={() => onAssignmentChange(u.id)}>{u.name}</a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -189,7 +210,7 @@ class Record extends React.Component {
                 <li key="company" className="list-group-item">
                   <div className="mini-text text-muted">Professional</div>
                   <div className="py-2">
-                    <p className="h6">{contact.position ? contact.position : 'Works'} <span className="text-muted">at</span> <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link></p>
+                    <p className="h6">{contact.position ? contact.position : 'Works'} <span className="text-muted">at</span> {companyDisplay} </p>
                     <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip} {contact.company.country}</p>
                   </div>
                 </li>
@@ -217,5 +238,6 @@ Record.propTypes = {
 export default withRouter(connect((state, ownProps) => ({
   contact: getContact(state, ownProps.match.params.id || getFirstContactId(state)),
   customFields: getCustomFieldsForContacts(state),
-  isDirty: isStateDirty(state)
+  isDirty: isStateDirty(state),
+  user: getUser(state)
 }))(Record))
