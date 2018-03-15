@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Activity extends Model
+class Activity extends Model implements SearchableInterface
 {
     protected $dates = [
         'created_at',
@@ -23,6 +24,27 @@ class Activity extends Model
     protected $guarded = [
         'id'
     ];
+
+    public static function search(string $searchString, Builder $builder): Builder
+    {
+        $searchArray = static::parseSearchString($searchString);
+
+        $builder->where(function(Builder $q) use ($searchArray) {
+            if ($userId = $searchArray['user_id']) {
+                $q->orWhere('user_id', $userId);
+            }
+        });
+
+        return $builder;
+    }
+
+    public static function parseSearchString(string $searchString): array
+    {
+        return [
+            'user_id' => $searchString,
+            'modified_since' => null
+        ];
+    }
 
     public function user()
     {

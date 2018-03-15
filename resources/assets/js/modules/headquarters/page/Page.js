@@ -11,11 +11,9 @@ const Page = (props) => ([
 ])
 
 Page.propTypes = {
-  contacts: PropTypes.array.isRequired,
+  activities: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
-  isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
-  firstContactId: PropTypes.number.isRequired
 };
 
 export default Page;
