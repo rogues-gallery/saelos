@@ -213,7 +213,7 @@ class Record extends React.Component {
                 {contact.companies.map((company, index) => {
                   if (!inEdit) {
                     return (
-                      <div className="py-2">
+                      <div className="py-2" key={`contact-company-${company.id}`}>
                         <p className="h6">{company.position} <span className="text-muted">at</span> {company.id ?
                           <Link className="hidden-link" to={`/companies/${company.id}`}>{company.name}</Link> : 'Unknown'} </p>
                         <p className="text-muted">{company.address1} {company.city} {company.state} {company.zip} {company.country}</p>
@@ -221,10 +221,26 @@ class Record extends React.Component {
                     )
                   } else {
                     return (
-                      <div className="py-2">
-                        <input type="text" placeholder="Position" name={`companies.${index}.pivot.position`} onChange={this._handleInputChange} defaultValue={company.position} />
-                        <input type="text" placeholder="Primary (1 or 0)" name={`companies.${index}.pivot.primary`} onChange={this._handleInputChange} defaultValue={company.primary} />
-                        <input type="text" placeholder="Company ID" name={`companies.${index}.id`} onChange={this._handleInputChange} defaultValue={company.id} />
+                      <div className="py-2 row" key={`contact-company-${company.id}`}>
+                        <div className={`form-group mb-1 col`}>
+                          <label htmlFor={`companies.${index}.pivot.position`}>Position</label>
+                          <div className="form-group mb-0">
+                            <input type="text" className="form-control" placeholder="Position" name={`companies.${index}.pivot.position`} onChange={this._handleInputChange} defaultValue={company.position} />
+                          </div>
+                        </div>
+                        <div className={`form-group mb-1 col`}>
+                          <label htmlFor={`companies.${index}.id`}>Company</label>
+                          <div className="form-group mb-0">
+                            <input type="text" className="form-control" placeholder="Company ID" name={`companies.${index}.id`} onChange={this._handleInputChange} defaultValue={company.id} />
+                          </div>
+                        </div>
+                        <div className={`form-group mb-0 col-sm-2 mt-4 pt-2`}>
+                          <span className="float-right"><a href="javascript:void(0);" className="text-muted"><MDIcons.MdDelete /></a></span>
+                          <input className="form-check-input" type="checkbox" name={`companies.${index}.pivot.primary`} onChange={this._handleInputChange} value={company.primary} />
+                          <label className="text-muted mini-text form-check-label" for={`companies.${index}.pivot.primary`}>
+                            Primary Contact
+                          </label>
+                        </div>
                       </div>
                     )
                   }
