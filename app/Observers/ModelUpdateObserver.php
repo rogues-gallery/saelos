@@ -44,7 +44,7 @@ class ModelUpdateObserver
 
                 $activity = Activity::create([
                     'title' => sprintf('%s updated', $fieldName),
-                    'description' => sprintf('%s updated %s to %s', $user->name, $fieldUpdate->old_value, $fieldUpdate->new_value),
+                    'description' => sprintf('%s updated %s from %s to %s', $user->name, $fieldName, $fieldUpdate->old_value, $fieldUpdate->new_value),
                     'completed' => 1,
                     'user_id' => $user->id,
                     'details_id' => $fieldUpdate->id,
