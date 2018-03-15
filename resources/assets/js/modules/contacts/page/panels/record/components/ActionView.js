@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import EmailAction from './actions/email'
 import CallAction from './actions/call'
 import SmsAction from './actions/sms'
+import TaskAction from './actions/task'
 import MergeAction from './actions/merge'
 import Contact from "../../../../Contact";
 
@@ -17,6 +18,8 @@ class ActionView extends React.Component {
         return <CallAction contact={contact} user={user} />
       case "sms":
         return <SmsAction contact={contact} user={user} />
+      case "task":
+        return <TaskAction contact={contact} user={user} />
       case "merge":
       default:
         return ''
