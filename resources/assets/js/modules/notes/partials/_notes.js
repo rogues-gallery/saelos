@@ -112,7 +112,7 @@ Notes.propTypes = {
   notes: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   entityType: PropTypes.string.isRequired,
-  entityId: PropTypes.number.isRequired,
+  entityId: PropTypes.number,
   user: PropTypes.object.isRequired
 }
 
