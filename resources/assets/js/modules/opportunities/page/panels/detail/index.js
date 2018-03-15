@@ -95,7 +95,20 @@ const History = ({activities, dispatch, toggle}) => (
       <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
         <div className="pt-1 mt-1 h5 text-center">History</div>
     </div>
+    <div className="h-scroll history">
+      {activities.map(activity => {
+        const theChangedField = _.find(fields, f => f.alias === activity.field_alias)
+        return(
+            <div className="list-group-item">
+              <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
+              <div className="activity"><b>{activity.title}</b></div>
+              <div dangerouslySetInnerHTML={{__html: activity.description}} />
+            </div>
+            )
+      })}
+    </div>
   </div>
+
 )
 
 const OpportunityTimeline = ({data, options, type}) => {

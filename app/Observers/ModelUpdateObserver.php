@@ -31,20 +31,29 @@ class ModelUpdateObserver
 
                 $fieldUpdate->save();
 
-                $fieldName = \DB::table('fields')
-                    ->select('label')
-                    ->from('fields')
-                    ->where([
-                        'alias' => $fieldAlias,
-                        'model' => get_class($model)
-                    ])
-                    ->first()->label;
-
                 $user = \Auth::user();
 
+                if ($fieldAlias == 'user_id') {
+                    $newAssignee = \DB::table('users')->select('name')->from('users')->where('id', $fieldUpdate->new_value)->first()->name;
+                    $oldAssignee = \DB::table('users')->select('name')->from('users')->where('id', $fieldUpdate->old_value)->first()->name;
+                    $title = sprintf('Assigned to %s', $newAssignee);
+                    $description = sprintf('%s changed the assignee to %s <span class="text-muted">(from %s)</span>', $user->name, $newAssignee, $oldAssignee);
+                } else {
+                    $fieldName = \DB::table('fields')
+                        ->select('label')
+                        ->from('fields')
+                        ->where([
+                            'alias' => $fieldAlias,
+                            'model' => get_class($model)
+                        ])
+                        ->first()->label;
+                    $title = sprintf('%s updated', $fieldName);
+                    $description = sprintf('%s updated %s from %s to %s', $user->name, $fieldName, $fieldUpdate->old_value, $fieldUpdate->new_value);
+                }
+
                 $activity = Activity::create([
-                    'title' => sprintf('%s updated', $fieldName),
-                    'description' => sprintf('%s updated %s from %s to %s', $user->name, $fieldName, $fieldUpdate->old_value, $fieldUpdate->new_value),
+                    'title' => $title,
+                    'description' => $description,
                     'completed' => 1,
                     'user_id' => $user->id,
                     'details_id' => $fieldUpdate->id,

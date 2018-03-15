@@ -77,7 +77,7 @@ const History = ({activities, dispatch, fields, toggle, inEdit}) => (
             <div className="list-group-item">
               <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
               <div className="activity"><b>{activity.title}</b></div>
-              {activity.description}
+              <div dangerouslySetInnerHTML={{__html: activity.description}} />
             </div>
             )
       })}
