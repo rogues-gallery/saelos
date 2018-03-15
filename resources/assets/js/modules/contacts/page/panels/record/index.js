@@ -6,12 +6,14 @@ import { getUser } from '../../../../user/store/selectors'
 import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors'
 import {deleteContact, fetchContact, saveContact} from '../../../service'
 import {editingContact, editingContactFinished} from '../../../store/actions'
+import {searchCompanies} from '../../../../companies/service'
 import Conversations from '../../../../conversations/partials/_conversations'
 import { ActionView } from './components'
 import FieldLayout from './components/FieldLayout'
 import { Link } from "react-router-dom"
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
+import Select from 'react-select'
 
 
 class Record extends React.Component {
@@ -24,6 +26,8 @@ class Record extends React.Component {
     this._setActionView = this._setActionView.bind(this)
     this._archive = this._archive.bind(this)
     this._delete = this._delete.bind(this)
+    this._searchCompanies = this._searchCompanies.bind(this)
+    this._setCompanyForContact = this._setCompanyForContact.bind(this)
 
     this.state = {
       inEdit: false,
@@ -69,6 +73,48 @@ class Record extends React.Component {
     this.props.dispatch(editingContactFinished())
   }
 
+  _searchCompanies(input, callback) {
+    let search = '';
+
+    if (input && input.length > 0) {
+      search = {
+        searchString: input
+      }
+    }
+
+    return searchCompanies(search)
+      .then(companies => {
+        let options = companies.map(c => {
+          return {
+            value: c.id,
+            label: c.name
+          }
+        });
+
+        callback(null, {options: options})
+
+        return {options: options};
+      });
+  }
+
+  _setCompanyForContact(value, fieldName) {
+    const selectedId = value ? value.value : null;
+    const selectedName = value ? value.label : null;
+
+    let event = {
+      target: {
+        type: 'select',
+        name: fieldName,
+        value: {
+          id: selectedId,
+          name: selectedName
+        }
+      }
+    };
+
+    this._handleInputChange(event);
+  }
+
   // @todo: Abstract this out
   _handleInputChange(event) {
     const target = event.target;
@@ -90,7 +136,6 @@ class Record extends React.Component {
         });
       }
     } else {
-      console.log(name, value)
       _.set(contactState, name, value);
     }
 
@@ -210,11 +255,11 @@ class Record extends React.Component {
             <ul className="list-group list-group-flush">
               <li key={`companies-for-contact-${contact.id}`} className="list-group-item">
                 <div className="mini-text text-muted">Professional</div>
-                {contact.companies.map((company, index) => {
+                {this.state.formState.companies.map((company, index) => {
                   if (!inEdit) {
                     return (
                       <div className="py-2" key={`contact-company-${company.id}`}>
-                        <p className="h6">{company.position} <span className="text-muted">at</span> {company.id ?
+                        <p className="h6">{company.pivot.position} <span className="text-muted">at</span> {company.id ?
                           <Link className="hidden-link" to={`/companies/${company.id}`}>{company.name}</Link> : 'Unknown'} </p>
                         <p className="text-muted">{company.address1} {company.city} {company.state} {company.zip} {company.country}</p>
                       </div>
@@ -225,19 +270,23 @@ class Record extends React.Component {
                         <div className={`form-group mb-1 col`}>
                           <label htmlFor={`companies.${index}.pivot.position`}>Position</label>
                           <div className="form-group mb-0">
-                            <input type="text" className="form-control" placeholder="Position" name={`companies.${index}.pivot.position`} onChange={this._handleInputChange} defaultValue={company.position} />
+                            <input type="text" className="form-control" placeholder="Position" name={`companies.${index}.pivot.position`} onChange={this._handleInputChange} defaultValue={company.pivot.position} />
                           </div>
                         </div>
                         <div className={`form-group mb-1 col`}>
                           <label htmlFor={`companies.${index}.id`}>Company</label>
                           <div className="form-group mb-0">
-                            <input type="text" className="form-control" placeholder="Company ID" name={`companies.${index}.id`} onChange={this._handleInputChange} defaultValue={company.id} />
+                            <Select.Async
+                              multi={false}
+                              value={{value: company.id, label: company.name}}
+                              onChange={(value) => this._setCompanyForContact(value, `companies.${index}`)}
+                              loadOptions={this._searchCompanies} />
                           </div>
                         </div>
                         <div className={`form-group mb-0 col-sm-2 mt-4 pt-2`}>
                           <span className="float-right"><a href="javascript:void(0);" className="text-muted"><MDIcons.MdDelete /></a></span>
-                          <input className="form-check-input" type="checkbox" name={`companies.${index}.pivot.primary`} onChange={this._handleInputChange} value={company.primary} />
-                          <label className="text-muted mini-text form-check-label" for={`companies.${index}.pivot.primary`}>
+                          <input className="form-check-input" type="checkbox" name={`companies.${index}.pivot.primary`} onChange={this._handleInputChange} value={company.pivot.primary} />
+                          <label className="text-muted mini-text form-check-label" htmlFor={`companies.${index}.pivot.primary`}>
                             Primary Contact
                           </label>
                         </div>
