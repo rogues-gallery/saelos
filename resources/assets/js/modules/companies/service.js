@@ -61,6 +61,23 @@ export const fetchCompanies = (params) => (dispatch) => {
     })
 }
 
+/**
+ *
+ * @param params
+ * @returns {Promise<any>}
+ */
+export const searchCompanies = (params) => {
+  params = params || {}
+
+  return Http.get('companies', {params: params})
+    .then(res => {
+      return res.data.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
 export const saveCompany = (params) => (dispatch) => {
   dispatch(actions.postingCompany());
 
