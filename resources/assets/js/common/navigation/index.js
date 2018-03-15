@@ -7,9 +7,12 @@ import { logout } from '../../modules/auth/service'
 
 // import components
 import { Link } from 'react-router-dom'
-import PrivateNav from './PrivateNav';
-import ConfigNav from './ConfigNav';
-import { getAuth } from "../../modules/auth/store/selectors";
+import PrivateNav from './PrivateNav'
+import ConfigNav from './ConfigNav'
+import { getAuth } from '../../modules/auth/store/selectors'
+import { isInEdit as isContactInEdit } from '../../modules/contacts/store/selectors'
+import { isInEdit as isCompanyInEdit } from '../../modules/companies/store/selectors'
+import { isInEdit as isOpportunityInEdit } from '../../modules/opportunities/store/selectors'
 
 import * as MDIcons from 'react-icons/lib/md'
 
@@ -47,7 +50,7 @@ class Navigation extends Component {
 
   render() {
     return (
-      <div className="col nav-panel bg-dark-grey">
+      <div className={`col nav-panel bg-dark-grey ${this.props.inEdit ? 'inEdit' : ''}`}>
         <div className="mx-4 mb-4 py-2 border-bottom heading">
           <Link to={'/'} className="btn btn-secondary"><MDIcons.MdNotificationsNone /></Link>
           <div className="dropdown show float-right">
@@ -77,11 +80,14 @@ class Navigation extends Component {
   }
 }
 
+const isInEdit = (state) => isContactInEdit(state) || isCompanyInEdit(state) || isOpportunityInEdit(state)
+
 Navigation.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
+  inEdit: PropTypes.bool.isRequired
 }
 
 Navigation.contextTypes = {
@@ -90,5 +96,6 @@ Navigation.contextTypes = {
 
 export default withRouter(connect(state => ({
   isAuthenticated: getAuth(state),
-  user: state.user
+  user: state.user,
+  inEdit: isInEdit(state)
 }))(Navigation))

@@ -5,7 +5,8 @@ import {
 	getPaginationForOpportunities,
 	isStateDirty,
 	getSearchStringForOpportunities,
-	getFirstOpportunityId
+	getFirstOpportunityId,
+  isInEdit
 } from '../store/selectors'
 
 export default connect(state => ({
@@ -13,5 +14,6 @@ export default connect(state => ({
   isDirty: isStateDirty(state),
   pagination: getPaginationForOpportunities(state),
   searchString: getSearchStringForOpportunities(state),
-  firstOpportunityId: getFirstOpportunityId(state)
+  firstOpportunityId: getFirstOpportunityId(state),
+  inEdit: isInEdit(state)
 }))(Page);

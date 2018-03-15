@@ -27,7 +27,7 @@ class Detail extends React.Component {
   }
 
   render() {
-    const {opportunity, dispatch, user} = this.props
+    const {opportunity, dispatch, user, inEdit} = this.props
 
     const data = {series: [[null, null, null, 1, 1], [1, 1, 1, 1,null]] }
     const options = {
@@ -52,15 +52,15 @@ class Detail extends React.Component {
 
     switch(this.state.view) {
       case 'default':
-        return <Details opportunity={opportunity} dispatch={dispatch} toggle={this._toggleView} user={user} data={data} options={options} />
+        return <Details opportunity={opportunity} dispatch={dispatch} toggle={this._toggleView} user={user} data={data} options={options} inEdit={inEdit} />
       case 'history':
-        return <History activities={opportunity.activities} dispatch={dispatch}  toggle={this._toggleView} />
+        return <History activities={opportunity.activities} dispatch={dispatch}  toggle={this._toggleView} inEdit={inEdit} />
     }
   }
 }
 
-const Details = ({opportunity, dispatch, toggle, user, data, options}) => (
-  <div key={1} className="col detail-panel border-left">
+const Details = ({opportunity, dispatch, toggle, user, data, options, inEdit}) => (
+  <div key={1} className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom py-2 heading">
       <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed r-0 mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
         <div className="pt-1 mt-1 h5 text-center">Opportunity Details</div>
@@ -89,8 +89,8 @@ const Details = ({opportunity, dispatch, toggle, user, data, options}) => (
   </div>
 )
 
-const History = ({activities, dispatch, toggle}) => (
-  <div key={1} className="col detail-panel border-left">
+const History = ({activities, dispatch, toggle, inEdit}) => (
+  <div key={1} className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom py-2 heading">
       <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
         <div className="pt-1 mt-1 h5 text-center">History</div>
@@ -106,8 +106,10 @@ const OpportunityTimeline = ({data, options, type}) => {
 
 Detail.propTypes = {
   opportunity: PropTypes.instanceOf(Opportunity).isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  inEdit: PropTypes.bool.isRequired
 }
+
 export default withRouter(connect((state, ownProps) => ({
   opportunity: getOpportunity(state, ownProps.match.params.id || getFirstOpportunityId(state)),
   user: state.user

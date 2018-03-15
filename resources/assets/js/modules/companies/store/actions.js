@@ -63,3 +63,11 @@ export const fetchingCustomFieldsForCompaniesSuccess = (payload) => ({
 export const fetchingCustomFieldsForCompaniesFailure = () => ({
   type: types.FETCHING_CUSTOM_FIELDS_FOR_COMPANIES_FAILURE
 })
+
+export const editingCompany = () => ({
+  type: types.EDITING_COMPANY
+})
+
+export const editingCompanyFinished = () => ({
+  type: types.EDITING_COMPANY_FINISHED
+})

@@ -7,6 +7,7 @@ import { fetchOpportunity, saveOpportunity, deleteOpportunity } from '../../../s
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
 import ReactQuill from 'react-quill'
+import {editingOpportunity, editingOpportunityFinished} from "../../../store/actions";
 
 class Record extends React.Component {
   constructor(props) {
@@ -46,12 +47,14 @@ class Record extends React.Component {
 
   _toggleEdit() {
     this.setState({inEdit: !this.state.inEdit})
+    this.props.dispatch(editingOpportunity())
   }
 
   _submit() {
     this.props.dispatch(saveOpportunity(this.state.formState))
 
     this.setState({inEdit: false})
+    this.props.dispatch(editingOpportunityFinished())
   }
 
   // @todo: Extract this crap. Mercy, this is embarrassing 

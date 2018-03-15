@@ -6,8 +6,8 @@ import Detail from './panels/detail'
 
 const Page = (props) => ([
     <List key={0} {...props} />,
-    <Record key={1} dispatch={props.dispatch} />,
-    <Detail key={2} dispatch={props.dispatch} />
+    <Record key={1} {...props} />,
+    <Detail key={2} {...props} />
 ])
 
 Page.propTypes = {
@@ -15,7 +15,8 @@ Page.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
-  firstOpportunityId: PropTypes.number.isRequired
+  firstOpportunityId: PropTypes.number.isRequired,
+  inEdit: PropTypes.bool.isRequired
 };
 
 export default Page;
