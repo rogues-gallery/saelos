@@ -65,3 +65,11 @@ export const fetchingCustomFieldsForOpportunitiesSuccess = (payload) => ({
 export const fetchingCustomFieldsForOpportunitiesFailure = () => ({
   type: types.FETCHING_CUSTOM_FIELDS_FOR_OPPORTUNITIES_FAILURE
 })
+
+export const editingOpportunity = () => ({
+  type: types.EDITING_OPPORTUNITY
+})
+
+export const editingOpportunityFinished = () => ({
+  type: types.EDITING_OPPORTUNITY_FINISHED
+})

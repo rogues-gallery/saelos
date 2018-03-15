@@ -5,7 +5,8 @@ import {
 	getPaginationForCompanies,
 	isStateDirty,
 	getSearchStringForCompanies,
-	getFirstCompanyId
+	getFirstCompanyId,
+	isInEdit
 } from '../store/selectors'
 
 export default connect(state => ({
@@ -13,5 +14,6 @@ export default connect(state => ({
   isDirty: isStateDirty(state),
  	pagination: getPaginationForCompanies(state),
   searchString: getSearchStringForCompanies(state),
-  firstCompanyId: getFirstCompanyId(state)
+  firstCompanyId: getFirstCompanyId(state),
+	inEdit: isInEdit(state),
 }))(Page);

@@ -17,11 +17,22 @@ const initialState = {
   isPosting: false,
   error: false,
   customFields : [],
-  searchString: ''
+  searchString: '',
+  inEdit: false
 }
 
 export default function companyReducer(state = initialState, action) {
   switch (action.type) {
+    case types.EDITING_COMPANY:
+      return {
+        ...state,
+        inEdit: !state.inEdit
+      }
+    case types.EDITING_COMPANY_FINISHED:
+      return {
+        ...state,
+        inEdit: false
+      }
     case types.FETCHING_COMPANIES:
       return {
         ...state,
@@ -136,3 +147,4 @@ export const getCustomFieldsForCompanies = (state) => state.customFields
 export const isStateDirty = (state) => state.isPosting
 export const getSearchStringForCompanies = (state) => state.searchString
 export const getFirstCompanyId = (state) => state.data.length ? state.data[0].id : 0
+export const isInEdit = (state) => state.inEdit

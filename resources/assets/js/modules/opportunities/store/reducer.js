@@ -17,11 +17,22 @@ const initialState = {
   isPosting: false,
   error: false,
   customFields : [],
-  searchString: ''
+  searchString: '',
+  inEdit: false
 }
 
 export default function opportunityReducer(state = initialState, action) {
   switch (action.type) {
+    case types.EDITING_OPPORTUNITY:
+      return {
+        ...state,
+        inEdit: !state.inEdit
+      }
+    case types.EDITING_OPPORTUNITY_FINISHED:
+      return {
+        ...state,
+        inEdit: false
+      }
     case types.FETCHING_OPPORTUNITIES:
       return {
         ...state,
@@ -132,3 +143,4 @@ export const getCustomFieldsForOpportunities = (state) => state.customFields
 export const isStateDirty = (state) => state.isPosting
 export const getSearchStringForOpportunities = (state) => state.searchString
 export const getFirstOpportunityId = (state) => state.data.length ? state.data[0].id : 0
+export const isInEdit = (state) => state.inEdit

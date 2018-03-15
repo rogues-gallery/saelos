@@ -53,11 +53,11 @@ class List extends React.Component {
   }
 
   render() {
-    const { opportunities, dispatch, searchString, firstOpportunityId } = this.props
+    const { opportunities, dispatch, searchString, firstOpportunityId, inEdit } = this.props
     const activeIndex = parseInt(this.context.router.route.match.params.id) || firstOpportunityId
     
     return (
-      <div className="col list-panel border-right">
+      <div className={`col list-panel border-right ${inEdit ? 'inEdit' : ''}`}>
           <div className="px-4 pt-4 bg-white border-bottom">
             <form>
               <input
@@ -90,7 +90,8 @@ List.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
-  searchString: PropTypes.string  
+  searchString: PropTypes.string,
+  inEdit: PropTypes.bool.isRequired
 };
 
 List.contextTypes = {

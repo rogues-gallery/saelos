@@ -6,6 +6,7 @@ import { getCompany, getCustomFieldsForCompanies, isStateDirty, getFirstCompanyI
 import { fetchCompany, saveCompany, deleteCompany } from '../../../service'
 import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
+import {editingCompany, editingCompanyFinished} from "../../../store/actions";
 
 class Record extends React.Component {
   constructor(props) {
@@ -45,12 +46,14 @@ class Record extends React.Component {
 
   _toggleEdit() {
     this.setState({inEdit: !this.state.inEdit})
+    this.props.dispatch(editingCompany())
   }
 
   _submit() {
     this.props.dispatch(saveCompany(this.state.formState))
 
     this.setState({inEdit: false})
+    this.props.dispatch(editingCompanyFinished())
   }
 
   // @todo: Abstract this out ... Don - looking at you.

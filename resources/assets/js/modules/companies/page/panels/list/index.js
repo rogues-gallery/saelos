@@ -54,11 +54,11 @@ class List extends React.Component {
   }
 
   render() {
-    const { companies, dispatch, searchString, firstCompanyId } = this.props
+    const { companies, dispatch, searchString, firstCompanyId, inEdit } = this.props
     const activeIndex = parseInt(this.context.router.route.match.params.id) || firstCompanyId
 
     return (
-      <div className="col list-panel border-right">
+      <div className={`col list-panel border-right ${inEdit ? 'inEdit' : ''}`}>
         <div className="px-4 pt-4 bg-white border-bottom">
           <form>
             <input
