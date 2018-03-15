@@ -33,7 +33,7 @@ export default function activityReducer(state = initialState, action) {
       }
     case types.FETCHING_ACTIVITIES_SUCCESS:
       let { data, meta } = action.data
-      let newActivitysForState
+      let newActivitiesForState
 
       if (data.length === 0) {
         return state
@@ -41,18 +41,18 @@ export default function activityReducer(state = initialState, action) {
 
       // When fetching the first page, always replace the contacts in the app state
       if (meta.current_page === 1) {
-        newActivitysForState = data
+        newActivitiesForState = data
       } else {
-        newActivitysForState = state.data
+        newActivitiesForState = state.data
 
-        data.map(c => {
-          newActivitysForState = injectActivityIntoState(c, newActivitysForState)
+        data.map(a => {
+          newActivitiesForState = injectActivityIntoState(a, newActivitiesForState)
         })
       }
 
       return {
         ...state,
-        data: newActivitysForState,
+        data: newActivitiesForState,
         meta: meta,
         isFetching: false,
         error: false
@@ -85,21 +85,21 @@ export default function activityReducer(state = initialState, action) {
   }
 }
 
-const injectActivityIntoState = (contact, data) => {
-  const index = _.findIndex(data, (c) => c.id === parseInt(contact.id))
+const injectActivityIntoState = (activity, data) => {
+  const index = _.findIndex(data, (a) => a.id === parseInt(activity.id))
 
   if (index >= 0) {
-    data[index] = _.merge(data[index], contact)
+    data[index] = _.merge(data[index], activity)
   } else {
-    data.push(contact)
+    data.push(activity)
   }
 
   return data
 }
 
-export const getActivities = (state) => state.data.map(s => new Activity(s))
+export const getActivities = (state) => state.data.map(a => new Activity(a))
 export const getActivity = (state, id) => {
-  let activity = _.find(getActivities(state), (s) => s.id === parseInt(id));
+  let activity = _.find(getActivities(state), (a) => a.id === parseInt(id));
 
   if (typeof activity === 'undefined') {
     return new Activity({})

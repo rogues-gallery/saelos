@@ -14,6 +14,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Activity extends Model implements SearchableInterface
 {
+    protected $fillable = [
+        'title',
+        'description',
+        'due_date',
+        'details_type',
+        'details_id',
+        'user_id'
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -44,6 +53,21 @@ class Activity extends Model implements SearchableInterface
             'user_id' => $searchString,
             'modified_since' => null
         ];
+    }
+
+    public function deals()
+    {
+        return $this->morphedByMany(Deal::class, 'entity', 'activity_entities');
+    }
+
+    public function people()
+    {
+        return $this->morphedByMany(Person::class, 'entity', 'activity_entities');
+    }
+
+    public function companies()
+    {
+        return $this->morphedByMany(Company::class, 'entity', 'activity_entities');
     }
 
     public function user()
