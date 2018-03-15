@@ -29,7 +29,8 @@ class Company extends Model {
         }
     })
 
-    this.primary = props.pivot && props.pivot.primary
+    this.primary = props.pivot && props.pivot.primary || 0
+    this.position = props.pivot && props.pivot.position || 'Works'
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})

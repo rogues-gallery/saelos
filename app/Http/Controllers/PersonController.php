@@ -94,26 +94,28 @@ class PersonController extends Controller
         /** @var Person $person */
         $person = Person::findOrFail($id);
         $data = $request->all();
-        $personCompany = $data['company'] ?? [];
+        $companies = $data['companies'] ?? [];
         $personUser = $data['user'] ?? null;
         $customFields = $data['custom_fields'] ?? [];
 
         //@TODO: Abstract this out to allow multiple companies
-        if ($personCompany) {
-            $company = array_key_exists('id', $personCompany)
-                ? Company::findOrFail($personCompany['id'])
-                : new Company;
+        foreach ($companies as $personCompany) {
+            $company = Company::findOrFail($personCompany['id']);
 
-            $company->update($personCompany);
-
-            $data['company_id'] = $company->id;
+            if ($person->companies()->get()->contains('id', $company->id)) {
+                $person->companies()->updateExistingPivot($company->id, [
+                    'primary' => $personCompany['pivot']['primary'],
+                    'position' => $personCompany['pivot']['position']
+                ]);
+            } else {
+                $person->companies()->save($company, [
+                    'primary' => $personCompany['pivot']['primary'],
+                    'position' => $personCompany['pivot']['position']
+                ]);
+            }
         }
 
-        if ($personUser) {
-            $user = User::find($personUser);
-        } else {
-            $user = Auth::user();
-        }
+        $user = $personUser ? User::find($personUser) : Auth::user();
 
         if (isset($data['user_id']) && is_string($data['user_id']) && !is_numeric($data['user_id'])) {
             $user = User::where('name', $data['user_id'])->first();

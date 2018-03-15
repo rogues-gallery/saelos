@@ -13,6 +13,6 @@ trait HasCompaniesTrait
             'entity',
             'company_entities'
         )
-            ->withPivot(['primary']);
+            ->withPivot(['primary', 'position']);
     }
 }

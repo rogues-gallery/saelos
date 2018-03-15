@@ -77,7 +77,7 @@ class Record extends React.Component {
     let contactState = this.state.formState;
 
     // Special handling for custom field state
-    if (this.state.formState.hasOwnProperty(name) === false) {
+    if (this.state.formState.hasOwnProperty(name) === false && this.props.customFields[name]) {
       let customField = this.props.customFields[name];
       let contactCustomFieldIndex = _.findIndex(contactState.custom_fields, (o) => o.custom_field_id === customField.field_id);
 
@@ -90,6 +90,7 @@ class Record extends React.Component {
         });
       }
     } else {
+      console.log(name, value)
       _.set(contactState, name, value);
     }
 
@@ -140,8 +141,6 @@ class Record extends React.Component {
           <span className="d-none" />
         </div>
       )})
-
-    const companyDisplay = contact.company.id ? <Link className="hidden-link" to={`/companies/${contact.company.id}`}>{contact.company.name}</Link> : 'Unknown'
 
     const onAssignmentChange = (id) => {
       const event = {
@@ -208,20 +207,30 @@ class Record extends React.Component {
 
         <div className="h-scroll">
           <div className="card mb-1">
-            {!inEdit ?
-              <ul className="list-group list-group-flush">
-                <li key="company" className="list-group-item">
-                  <div className="mini-text text-muted">Professional</div>
-                  <div className="py-2">
-                    <p className="h6">{contact.position ? contact.position : 'Works'} <span className="text-muted">at</span> {companyDisplay} </p>
-                    <p className="text-muted">{contact.company.address1} {contact.company.city} {contact.company.state} {contact.company.zip} {contact.company.country}</p>
-                  </div>
-                </li>
-              </ul>
-              :
-              ''
-            }
-
+            <ul className="list-group list-group-flush">
+              <li key={`companies-for-contact-${contact.id}`} className="list-group-item">
+                <div className="mini-text text-muted">Professional</div>
+                {contact.companies.map((company, index) => {
+                  if (!inEdit) {
+                    return (
+                      <div className="py-2">
+                        <p className="h6">{company.position} <span className="text-muted">at</span> {company.id ?
+                          <Link className="hidden-link" to={`/companies/${company.id}`}>{company.name}</Link> : 'Unknown'} </p>
+                        <p className="text-muted">{company.address1} {company.city} {company.state} {company.zip} {company.country}</p>
+                      </div>
+                    )
+                  } else {
+                    return (
+                      <div className="py-2">
+                        <input type="text" placeholder="Position" name={`companies.${index}.pivot.position`} onChange={this._handleInputChange} defaultValue={company.position} />
+                        <input type="text" placeholder="Primary (1 or 0)" name={`companies.${index}.pivot.primary`} onChange={this._handleInputChange} defaultValue={company.primary} />
+                        <input type="text" placeholder="Company ID" name={`companies.${index}.id`} onChange={this._handleInputChange} defaultValue={company.id} />
+                      </div>
+                    )
+                  }
+                })}
+              </li>
+            </ul>
             {contactFields}
 
           </div>
