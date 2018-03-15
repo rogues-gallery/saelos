@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import * as MDIcons from 'react-icons/lib/md'
 import {fetchActivity} from "../service";
 
@@ -7,9 +8,10 @@ class ListActivities extends React.Component {
   render() {
     const { activities, dispatch, ...props } = this.props;
     const view = this.props.view ? this.props.view : 'activities'
+    const upcoming = _.filter(activities, (a) => { return a.originalProps.details_type != 'App\\FieldUpdateActivity'})
     return (
       <div>
-        {activities.map(activity => <Activity key={activity.id} activity={activity} view={view} dispatch={dispatch} router={this.context.router} />)}
+        {upcoming.map(activity => <Activity key={activity.id} activity={activity} view={view} dispatch={dispatch} router={this.context.router} />)}
       </div>
     )
   }
@@ -23,8 +25,8 @@ const Activity = ({ activity, dispatch, router, view }) => {
 
   return (
     <div onClick={() => openActivityRecord(activity.id, view)} className="list-group-item list-group-item-action align-items-start">
-      <p className="mini-text text-muted float-right"><b>Stage</b></p>
-      <p><strong>{activity.title}</strong></p>
+      <span className="mini-text text-muted float-right"><b>{moment(activity.due_date).fromNow()}</b></span>
+      <h6>{activity.title}</h6>
     </div>
   );
 }

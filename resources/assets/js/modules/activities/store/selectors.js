@@ -7,7 +7,7 @@ export const getActivity = (state, id) =>
   fromReducer.getActivity(state.activityState, id)
 
 export const getSearchStringForActivities = (state) =>
-  fromReducer.getSearchStringForActivities(state.activityState);
+  fromReducer.getSearchStringForActivities(state.activityState)
 
 export const getPaginationForActivities = (state) =>
-  fromReducer.getPaginationForActivities(state.activityState);
+  fromReducer.getPaginationForActivities(state.activityState)

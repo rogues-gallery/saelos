@@ -27,7 +27,6 @@ const Contact = ({ contact, dispatch, router, view }) => {
       <p className="mini-text text-muted float-right"><b>Stage</b></p>
       <p><strong>{contact.first_name} {contact.last_name}</strong>
       <br />{contact.company.name}</p>
-      
     </div>
   );
 }

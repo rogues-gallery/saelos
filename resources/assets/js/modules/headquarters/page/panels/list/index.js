@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ListActivities from '../../../../activities/partials/_list'
-import { fetchActivities } from "../../../../activities/service";
+import { fetchActivities, fetchActivity } from "../../../../activities/service";
 
 class List extends React.Component {
   constructor(props) {
@@ -83,5 +83,17 @@ class List extends React.Component {
     )
   }
 }
+
+
+List.propTypes = {
+  activities: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  pagination: PropTypes.object.isRequired,
+};
+
+List.contextTypes = {
+  router: PropTypes.object
+}
+
 
 export default List
