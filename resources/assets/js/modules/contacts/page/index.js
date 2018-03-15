@@ -5,7 +5,8 @@ import {
 	getPaginationForContacts,
 	isStateDirty,
 	getSearchStringForContacts,
-	getFirstContactId
+	getFirstContactId,
+	isInEdit
 } from '../store/selectors'
 
 export default connect(state => ({
@@ -13,5 +14,6 @@ export default connect(state => ({
   isDirty: isStateDirty(state),
   pagination: getPaginationForContacts(state),
   searchString: getSearchStringForContacts(state),
-  firstContactId: getFirstContactId(state)
+  firstContactId: getFirstContactId(state),
+  inEdit: isInEdit(state),
 }))(Page);

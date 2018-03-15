@@ -78,3 +78,11 @@ export const emailingContactSuccess = (payload) => ({
 export const emailingContactFailure = () => ({
   type: types.EMAILING_CONTACT_FAILURE
 })
+
+export const editingContact = () => ({
+  type: types.EDITING_CONTACT
+})
+
+export const editingContactFinished = () => ({
+  type: types.EDITING_CONTACT_FINISHED
+})

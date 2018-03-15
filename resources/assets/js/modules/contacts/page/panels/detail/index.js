@@ -28,15 +28,15 @@ class Detail extends React.Component {
   render() {
     switch(this.state.view) {
       case 'default':
-        return <Details contact={this.props.contact} dispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} />
+        return <Details contact={this.props.contact} dispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} inEdit={this.props.inEdit} />
       case 'history':
-        return <History activities={this.props.contact.activities} dispatch={this.props.dispatch} fields={this.props.contact.fields} toggle={this._toggleView} />
+        return <History activities={this.props.contact.activities} dispatch={this.props.dispatch} fields={this.props.contact.fields} toggle={this._toggleView} inEdit={this.props.inEdit} />
     }
   }
 }
 
-const Details = ({contact, dispatch, toggle, user}) => (
-  <div key={1} className="col detail-panel border-left">
+const Details = ({contact, dispatch, toggle, user, inEdit}) => (
+  <div key={1} className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom  py-2 heading">
         <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed r-0 mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
         <div className="pt-1 mt-1 h5 text-center">
@@ -64,8 +64,8 @@ const Details = ({contact, dispatch, toggle, user}) => (
   </div>
 )
 
-const History = ({activities, dispatch, fields, toggle}) => (
-  <div key={1} className="col detail-panel border-left">
+const History = ({activities, dispatch, fields, toggle, inEdit}) => (
+  <div key={1} className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom py-2 heading">
       <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary position-fixed ml-2 mt-1" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
       <div className="pt-1 mt-1 h5 text-center">History</div>

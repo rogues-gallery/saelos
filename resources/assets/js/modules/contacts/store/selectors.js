@@ -15,8 +15,11 @@ export const getCustomFieldsForContacts = (state) =>
 export const isStateDirty = (state) =>
   fromReducer.isStateDirty(state.contactState);
 
- export const getSearchStringForContacts = (state) =>
+export const getSearchStringForContacts = (state) =>
  	fromReducer.getSearchStringForContacts(state.contactState);
 
- export const getFirstContactId = (state) =>
+export const getFirstContactId = (state) =>
  	fromReducer.getFirstContactId(state.contactState);
+
+export const isInEdit = (state) =>
+	fromReducer.isInEdit(state.contactState);

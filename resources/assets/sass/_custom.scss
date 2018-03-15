@@ -437,3 +437,8 @@ a:hover {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.inEdit {
+  pointer-events: none;
+  opacity: 0.4;
+}

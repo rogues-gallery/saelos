@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { getUser } from '../../../../user/store/selectors'
 import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors'
 import {deleteContact, fetchContact, saveContact} from '../../../service'
+import {editingContact, editingContactFinished} from '../../../store/actions'
 import Conversations from '../../../../conversations/partials/_conversations'
 import { ActionView } from './components'
 import FieldLayout from './components/FieldLayout'
@@ -59,11 +60,13 @@ class Record extends React.Component {
 
   _toggleEdit() {
     this.setState({inEdit: !this.state.inEdit})
+    this.props.dispatch(editingContact())
   }
 
   _submit() {
     this.props.dispatch(saveContact(this.state.formState))
     this.setState({inEdit: false})
+    this.props.dispatch(editingContactFinished())
   }
 
   // @todo: Abstract this out

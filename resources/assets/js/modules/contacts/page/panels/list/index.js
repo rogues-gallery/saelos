@@ -64,9 +64,10 @@ class List extends React.Component {
   render() {
     const { contacts, dispatch, searchString, firstContactId } = this.props
     const activeIndex = parseInt(this.context.router.route.match.params.id) || firstContactId
+    const inEditClass = this.props.inEdit ? 'inEdit' : ''
 
     return (
-      <div className="col list-panel border-right">
+      <div className={`col list-panel border-right ${inEditClass}`}>
           <div className="px-4 pt-4 bg-white border-bottom">
             <form>
               <input

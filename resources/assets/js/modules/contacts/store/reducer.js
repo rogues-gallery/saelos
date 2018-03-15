@@ -18,11 +18,22 @@ const initialState = {
   isPosting: false,
   error: false,
   customFields : [],
-  searchString: ''
+  searchString: '',
+  inEdit: false
 }
 
 export default function contactReducer(state = initialState, action) {
   switch (action.type) {
+    case types.EDITING_CONTACT:
+      return {
+        ...state,
+        inEdit: !state.inEdit
+      }
+    case types.EDITING_CONTACT_FINISHED:
+      return {
+        ...state,
+        inEdit: false
+      }
     case types.FETCHING_CONTACTS:
       return {
         ...state,
@@ -159,3 +170,4 @@ export const getCustomFieldsForContacts = (state) => state.customFields;
 export const isStateDirty = (state) => state.isPosting || state.isFetching;
 export const getSearchStringForContacts = (state) => state.searchString;
 export const getFirstContactId = (state) => state.data.length ? state.data[0].id : 0
+export const isInEdit = (state) => state.inEdit
