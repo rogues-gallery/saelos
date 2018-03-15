@@ -74,12 +74,12 @@ const History = ({activities, dispatch, fields, toggle, inEdit}) => (
       {activities.map(activity => {
         const theChangedField = _.find(fields, f => f.alias === activity.field_alias)
         return(
-            <div className="list-group-item">
-              <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
-              <div className="activity"><b>{activity.title}</b></div>
-              <div dangerouslySetInnerHTML={{__html: activity.description}} />
-            </div>
-            )
+          <div className="list-group-item" key={`activity-history-${activity.id}`}>
+            <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
+            <div className="activity"><b>{activity.title}</b></div>
+            <div dangerouslySetInnerHTML={{__html: activity.description}} />
+          </div>
+          )
       })}
     </div>
   </div>

@@ -13,7 +13,7 @@ class Conversations extends React.Component {
   	if (conversations.length != 0) {
 
 	    return (
-				<div className="card mb-3">
+				<div className="card mb-3" key="conversations-key-1">
 					<ul className="list-group list-group-flush">
 						{conversations.map(conversation => <Conversation conversation={conversation} type={conversation.type == 'App\\EmailActivity' ? ConversationEmail : ConversationCall} dispatch={dispatch} />)}
 					</ul>
@@ -58,7 +58,7 @@ class Conversation extends React.Component {
     const { conversation, type: Type, ...rest } = this.props
 
     return (
-    	<li className="list-group-item" key={conversation.id}>
+    	<li className="list-group-item" key={`conversation-${conversation.id}`}>
 	      <div className={`conversations-partial`}>
 	        <div onClick={this._toggleOpenState}>
 	          <span className="mini-text text-muted float-right pt-1">{moment(conversation.created_at).fromNow()}</span>
