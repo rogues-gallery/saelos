@@ -255,7 +255,7 @@ class Record extends React.Component {
             <ul className="list-group list-group-flush">
               <li key={`companies-for-contact-${contact.id}`} className="list-group-item">
                 <div className="mini-text text-muted">Professional</div>
-                {this.state.formState.companies.map((company, index) => {
+                {this.state.formState.companies && this.state.formState.companies.map((company, index) => {
                   if (!inEdit) {
                     return (
                       <div className="py-2" key={`contact-company-${company.id}`}>

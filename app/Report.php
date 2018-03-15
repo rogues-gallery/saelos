@@ -89,11 +89,11 @@ class Report extends Model implements SearchableInterface
                         $q->whereIn($customInId, function ($builder) use ($col, $details, $customInRaw) {
                             $builder->select('custom_field_values.model_id')
                                 ->from('custom_field_values')
-                                ->leftJoin('custom_fields', 'custom_field_values.custom_field_id', '=', 'custom_fields.id')
+                                ->leftJoin('fields', 'custom_field_values.custom_field_id', '=', 'fields.id')
                                 ->where('custom_field_values.model_type', '=', $this->data_source)
                                 ->where('custom_field_values.model_id', '=', \DB::raw($customInRaw))
                                 ->where('custom_field_values.value', '=', $details['filter'])
-                                ->where('custom_fields.alias', '=', $col);
+                                ->where('fields.alias', '=', $col);
                         });
 
                         continue;

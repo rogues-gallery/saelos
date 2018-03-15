@@ -14,6 +14,12 @@ class Activity extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $array = parent::toArray($request);
+
+        $array['company'] = $array['company'][0] ?? null;
+        $array['deal'] = $array['deal'][0] ?? null;
+        $array['person'] = $array['person'][0] ?? null;
+
+        return $array;
     }
 }

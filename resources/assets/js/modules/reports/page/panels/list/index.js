@@ -99,7 +99,7 @@ const Report = ({ report, dispatch, router, activeID }) => {
     className={`list-group-item list-group-item-action align-items-start ${report.id === parseInt(activeID) ? ' active' : ''}`}>
       <span className="text-muted mini-text float-right">{moment(report.updated_at).fromNow()}</span>
       <h6 className="text-truncate pr-1">{report.name}</h6>
-      <p><TextTruncate line={1} truncateText="..." text={report.description}/></p>
+      <div><TextTruncate line={1} truncateText="..." text={report.description}/></div>
       <p className="text-muted">Tertiary Information</p>
     </div>
   );
