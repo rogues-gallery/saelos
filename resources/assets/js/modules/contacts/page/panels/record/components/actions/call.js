@@ -18,7 +18,11 @@ const CallAction = ({user, contact}) => (
             <input type="range" min="1" max="10" className="slider"/>
           </div>
           <div className="col col-sm-3">
-            {contact.company.name}
+            <ul>
+              {contact.companies.map(c => (
+                <li key={`contact-${contact.id}-company-${c.id}`} onClick={() => console.log(c)}>{c.name}</li>
+              ))}
+            </ul>
           </div>
           <div className="col col-sm-3">
             <ul>

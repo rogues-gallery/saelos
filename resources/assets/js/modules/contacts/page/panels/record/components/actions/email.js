@@ -17,7 +17,9 @@ class EmailAction extends Component {
       formState: {
         id: props.contact.id,
         emailSubject: '',
-        emailContent: ''
+        emailContent: '',
+        deal_id: null,
+        company_id: null
       }
     }
   }
@@ -49,6 +51,8 @@ class EmailAction extends Component {
   }
 
   render() {
+    const { contact } = this.props
+
     return (
       <div className="card-body emailActionView">
         <div className="float-right">
@@ -61,7 +65,27 @@ class EmailAction extends Component {
         <div className="form-group">
           <ReactQuill name="emailContent" onChange={this._handleContentChange} />
         </div>
-        <button className="btn btn-primary" onClick={this._submit}>Send</button><button className="btn btn-link text-muted">Cancel</button>
+        <div className="row">
+          <div className="col col-sm-6">
+            <button className="btn btn-primary" onClick={this._submit}>Send</button>
+            <button className="btn btn-link text-muted">Cancel</button>
+          </div>
+
+          <div className="col col-sm-3">
+            <ul>
+              {contact.companies.map(c => (
+                <li key={`contact-${contact.id}-company-${c.id}`} onClick={() => console.log(c)}>{c.name}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="col col-sm-3">
+            <ul>
+              {contact.opportunities.map(o => (
+                <li key={`contact-${contact.id}-opportunity-${o.id}`} onClick={() => console.log(o)}>{o.name}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     )
   }

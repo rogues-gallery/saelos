@@ -8,7 +8,7 @@ class ListActivities extends React.Component {
   render() {
     const { activities, dispatch, ...props } = this.props;
     const view = this.props.view ? this.props.view : 'activities'
-    const upcoming = _.filter(activities, (a) => { return a.originalProps.details_type != 'App\\FieldUpdateActivity'})
+    const upcoming = _.filter(activities, a => a.details_type !== 'App\\FieldUpdateActivity')
     return (
       <div>
         {upcoming.map(activity => <Activity key={activity.id} activity={activity} view={view} dispatch={dispatch} router={this.context.router} />)}
@@ -24,7 +24,7 @@ const Activity = ({ activity, dispatch, router, view }) => {
   }
 
   return (
-    <div onClick={() => openActivityRecord(activity.id, view)} className="list-group-item list-group-item-action align-items-start">
+    <div onClick={() => openActivityRecord(activity.id, view)} className={`list-group-item list-group-item-action align-items-start ${activity.id ===}`}>
       <span className="mini-text text-muted float-right"><b>{moment(activity.due_date).fromNow()}</b></span>
       <h6>{activity.title}</h6>
     </div>

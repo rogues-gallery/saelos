@@ -10,12 +10,11 @@ class Conversations extends React.Component {
   render() {
   	const { dispatch, conversations, ...props } = this.props;
 
-  	if (conversations.length != 0) {
-
+  	if (conversations.length) {
 	    return (
 				<div className="card mb-3" key="conversations-key-1">
 					<ul className="list-group list-group-flush">
-						{conversations.map(conversation => <Conversation conversation={conversation} type={conversation.type == 'App\\EmailActivity' ? ConversationEmail : ConversationCall} dispatch={dispatch} />)}
+						{conversations.map(conversation => <Conversation key={`conversation-${conversation.id}`} conversation={conversation} type={conversation.type === 'App\\EmailActivity' ? ConversationEmail : ConversationCall} dispatch={dispatch} />)}
 					</ul>
 				</div>
 			) 
