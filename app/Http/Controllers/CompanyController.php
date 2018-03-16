@@ -113,9 +113,6 @@ class CompanyController extends Controller
         $company->update($data);
         $company->assignCustomFields($customFields);
 
-        \App\Events\CompanyUpdated::broadcast($company);
-        Auth::user()->notify(new CompanyUpdated($company));
-
         return $this->show($company->id);
     }
 

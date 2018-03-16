@@ -113,9 +113,6 @@ class DealController extends Controller
         $deal->update($data);
         $deal->assignCustomFields($customFields);
 
-        \App\Events\DealUpdated::broadcast($deal);
-        Auth::user()->notify(new DealUpdated($deal));
-
         return $this->show($deal->id);
     }
 

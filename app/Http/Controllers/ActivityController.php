@@ -58,15 +58,15 @@ class ActivityController extends Controller
         $deal = $data['deal_id'] ?? null;
 
         if ($person) {
-            $activity->people()->save(Person::find($person));
+            $activity->person()->save(Person::find($person));
         }
 
         if ($company) {
-            $activity->companies()->save(Company::find($company));
+            $activity->company()->save(Company::find($company));
         }
 
         if ($deal) {
-            $activity->deals()->save(Deal::find($deal));
+            $activity->deal()->save(Deal::find($deal));
         }
 
         $activity->update($data);
