@@ -5,13 +5,19 @@ import * as MDIcons from 'react-icons/lib/md'
 import {fetchActivity} from "../service";
 
 class ListActivities extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      view: props.view ? props.view : 'activities',
+    }
+  }
+
   render() {
-    const { activities, dispatch, ...props } = this.props;
-    const view = this.props.view ? this.props.view : 'activities'
-    const upcoming = _.filter(activities, a => a.details_type !== 'App\\FieldUpdateActivity')
+    const { activities, dispatch, ...props } = this.props
     return (
       <div>
-        {upcoming.map(activity => <Activity key={activity.id} activity={activity} view={view} dispatch={dispatch} router={this.context.router} />)}
+        {activities.map(activity => <Activity key={activity.id} activity={activity} view={this.state.view} dispatch={dispatch} router={this.context.router} />)}
       </div>
     )
   }

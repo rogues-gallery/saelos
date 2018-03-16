@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ListActivities from '../../../../activities/partials/_list'
-import { fetchActivities, fetchActivity } from "../../../../activities/service";
+import { fetchActivities, fetchActivity } from "../../../../activities/service"
+import moment from 'moment'
 
 class List extends React.Component {
   constructor(props) {
@@ -9,6 +10,11 @@ class List extends React.Component {
 
     this._onScroll = this._onScroll.bind(this)
     this._onKeyPress = this._onKeyPress.bind(this)
+    this._toggleListFilter = this._toggleListFilter.bind(this)
+
+    this.state = {
+      filter: 'current'
+    }
   }
 
   componentWillMount() {
@@ -52,8 +58,27 @@ class List extends React.Component {
     }
   }
 
+  _toggleListFilter(filter) {
+    this.setState({
+      filter
+    })
+  }
+
   render() {
     const { activities, dispatch, searchString } = this.props
+    const filtered = _.filter(
+      _.filter(activities, a => a.details_type !== 'App\\FieldUpdateActivity'),
+      item => {
+        switch(this.state.filter) {
+          case 'current':
+            return item.due_date.isAfter(moment()) && !item.complete
+          case 'late':
+            return item.due_date.isBefore(moment()) && !item.complete
+          default:
+            return item
+        }
+      }
+    )
 
     return (
       <div className="col list-panel border-right">
@@ -74,10 +99,20 @@ class List extends React.Component {
               defaultValue={searchString}
             />
           </form>
-          <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>Current</b></div><div className="text-muted col"><b>Late</b></div><div className="text-muted col"><b>All</b></div></div>
+          <div className="micro-text row text-center pt-3 pb-2">
+            {['current', 'late', 'all'].map(filter => {
+              const className = this.state.filter === filter ? 'text-dark active' : 'text-muted'
+
+              return (
+                <div className={`${className} col`} onClick={() => this._toggleListFilter(filter)}>
+                  <b>{filter}</b>
+                </div>
+              )
+            })}
+          </div>
         </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
-          <ListActivities activities={activities} dispatch={dispatch} view={'headquarters'} />
+          <ListActivities activities={filtered} dispatch={dispatch} view={'headquarters'} />
         </div>
       </div>
     )

@@ -16,7 +16,6 @@ class ListContacts extends React.Component {
 }
 
 const Contact = ({ contact, dispatch, router, view }) => {
-  
   const openContactRecord = (id, view) => {
     dispatch(fetchContact(contact.id))
     router.history.push(`/${view}/${id}`)
