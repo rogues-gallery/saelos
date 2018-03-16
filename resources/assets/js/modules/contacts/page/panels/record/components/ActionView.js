@@ -6,6 +6,7 @@ import SmsAction from './actions/sms'
 import TaskAction from './actions/task'
 import MergeAction from './actions/merge'
 import Contact from "../../../../Contact";
+import User from "../../../../../user/User";
 
 class ActionView extends React.Component {
   render() {
@@ -29,7 +30,8 @@ class ActionView extends React.Component {
 
 ActionView.propTypes = {
   view: PropTypes.string.isRequired,
-  contact: PropTypes.instanceOf(Contact).isRequired
+  contact: PropTypes.instanceOf(Contact).isRequired,
+  user: PropTypes.instanceOf(User)
 }
 
 export default ActionView
