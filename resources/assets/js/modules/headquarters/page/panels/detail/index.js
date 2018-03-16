@@ -169,42 +169,42 @@ const Pipeline = ({contacts, dispatch, toggle, user}) => {
 
           <div id="collapseStatus" className="show collapse mh-200" aria-labelledby="headingStatus">
             <div className="list-group">
-              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+              <div className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right"></p>
                 <p><strong>Cold</strong>
                 <br />22 Contacts</p>
               </div>
             </div>
             <div className="list-group">
-              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+              <div className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right"></p>
                 <p><strong>First Attempt</strong>
                 <br />80 Contacts</p>
               </div>
             </div>
             <div className="list-group">
-              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+              <div className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right"></p>
                 <p><strong>Second Attempt</strong>
                 <br />67 Contacts</p>
               </div>
             </div>
             <div className="list-group">
-              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+              <div className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right"></p>
                 <p><strong>Third Attempt</strong>
                 <br />58 Contacts</p>
               </div>
             </div>
             <div className="list-group">
-              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+              <div className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right"></p>
                 <p><strong>Discovery Call Booked</strong>
                 <br />34 Contacts</p>
               </div>
             </div>
             <div className="list-group">
-              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+              <div className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right"></p>
                 <p><strong>Discovery Call Completed</strong>
                 <br />22 Contacts</p>
