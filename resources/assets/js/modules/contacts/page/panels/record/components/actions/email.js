@@ -70,7 +70,7 @@ class EmailAction extends Component {
           <ReactQuill name="emailContent" onChange={this._handleContentChange} />
         </div>
         <div className="row">
-          <div className="col col-sm-4">
+          <div className="col col-sm-4 pt-4">
             <button className="btn btn-primary" onClick={this._submit}>Send</button>
             <button className="btn btn-link text-muted">Cancel</button>
           </div>
