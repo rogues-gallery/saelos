@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getActivity } from "../../../../activities/store/selectors"
+import { getActivity, getFirstActivityId } from "../../../../activities/store/selectors"
 import { ActionView } from '../../../../contacts/page/panels/record/components'
 import { Link } from "react-router-dom"
 import TextTruncate from 'react-text-truncate'
@@ -41,7 +41,7 @@ class Record extends React.Component {
 
   render() {
     const { activity } = this.props
-    const actionView = activity.originalProps.details_type == 'App\\CallActivity' ? 'call' : 'email'
+    const actionView = activity.details_type === 'App\\CallActivity' ? 'call' : 'email'
 
     return (
       <main className="col main-panel px-3">
@@ -67,6 +67,7 @@ class Record extends React.Component {
             <ActionView view={actionView} contact={activity.contact} />
           </div>
           <div className="row">
+            {activity.contact ?
             <div className="col-12">
               <div className="card mb-1">
                 <ul className="list-group list-group-flush">
@@ -81,6 +82,7 @@ class Record extends React.Component {
                 </ul>
               </div>
             </div>
+              : ''}
             <div className="col-12">
               <div className="card mb-1">
                 <ul className="list-group list-group-flush">
@@ -121,5 +123,5 @@ Record.propTypes = {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  activity: getActivity(state, ownProps.match.params.id)
+  activity: getActivity(state, ownProps.match.params.id || getFirstActivityId(state))
 }))(Record))

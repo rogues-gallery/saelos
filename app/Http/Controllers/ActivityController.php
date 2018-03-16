@@ -17,7 +17,8 @@ class ActivityController extends Controller
         'user',
         'company',
         'deal',
-        'person'
+        'person',
+        'person.companies'
     ];
 
     const SHOW_WITH = [
@@ -25,7 +26,8 @@ class ActivityController extends Controller
         'user',
         'company',
         'deal',
-        'person'
+        'person',
+        'person.companies',
     ];
 
     public function index(Request $request)

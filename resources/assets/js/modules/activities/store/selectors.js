@@ -11,3 +11,6 @@ export const getSearchStringForActivities = (state) =>
 
 export const getPaginationForActivities = (state) =>
   fromReducer.getPaginationForActivities(state.activityState)
+
+export const getFirstActivityId = (state) =>
+  fromReducer.getFirstActivityId(state.activityState)

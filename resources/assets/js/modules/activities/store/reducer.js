@@ -107,5 +107,6 @@ export const getActivity = (state, id) => {
 
   return activity;
 }
-export const getSearchStringForActivities = (state) => state.searchString;
-export const getPaginationForActivities = (state) => state.meta;
+export const getSearchStringForActivities = (state) => state.searchString
+export const getPaginationForActivities = (state) => state.meta
+export const getFirstActivityId = (state) => state.data.length ? state.data[0].id : 0
