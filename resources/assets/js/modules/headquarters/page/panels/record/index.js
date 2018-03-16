@@ -64,7 +64,7 @@ class Record extends React.Component {
         <div className="h-scroll">
           <div className="card mb-2">
             <div className="card-body border-bottom" dangerouslySetInnerHTML={{__html: activity.description}} />
-            <ActionView view={actionView} contact={activity.contact} />
+            <ActionView view={actionView} contact={activity.contact} user={activity.user} />
           </div>
           <div className="row">
             {activity.contact ?

@@ -127,11 +127,6 @@ const Pipeline = ({contacts, dispatch, toggle, user}) => {
           fullWidth: true,
           showArea: true, 
           showLabel: false,
-          series: {
-            stage: {
-              lineSmooth: Chartist.Interpolation.step()
-            }
-          },
           axisX: {
             showGrid: false,
             showLabel: false,
@@ -150,13 +145,30 @@ const Pipeline = ({contacts, dispatch, toggle, user}) => {
           <div className="pt-1 mt-1 h5 text-center">Pipeline</div>
       </div>
       <div className="h-scroll">
-         <div className="collapse show">
-              <div className="card-body border-bottom">
-                <div className="pipelineGraph">
-                  <ChartistGraph data={data} options={options} type="Line" className="graph" />
-                </div>
-              </div>
+         <div className="card">
+          <div className="card-body border-bottom">
+            <div className="pipelineGraph">
+              <ChartistGraph data={data} options={options} type="Bar" className="graph" />
             </div>
+          </div>
+        </div>
+        <div className="card">
+        <div className="card-header" id="headingStatus">
+          <h6 className="mb-0" data-toggle="collapse" data-target="#collapseStatus" aria-expanded="false" aria-controls="collapseStatus">
+            <MDIcons.MdKeyboardArrowDown /> Status
+          </h6>
+        </div>
+
+        <div id="collapseStatus" className="collapse mh-200" aria-labelledby="headingStatus">
+          <div className="list-group border-bottom">
+            <div onClick="" className="list-group-item list-group-item-action align-items-start">
+              <p className="mini-text text-muted float-right"></p>
+              <p><strong>Cold</strong>
+              <br />22 Contacts</p>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   )
