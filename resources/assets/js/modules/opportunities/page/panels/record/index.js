@@ -162,7 +162,7 @@ class Record extends React.Component {
     const opportunityFields = ['core', 'personal', 'social', 'additional'].map(key => {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
       return (
-        <div key={`group-${key}-${opportunity.id}`}>
+        <div className={`list-group list-group-flush`} key={`group-${key}-${opportunity.id}`}>
           <ul className={`list-group list-group-flush ${emptyGroup}`}>
             <li key={key} className="list-group-item">
               <div className="mini-text text-muted">{key}</div>
