@@ -222,48 +222,61 @@ class Record extends React.Component {
         </h4>
 
         <div className="h-scroll">
-          {inEdit ?
-            <div className="card mb-1">
-              <label>Opportunities</label>
-              <Select.Async
-                key={`opportunities-select-${this.state.formState.deals && this.state.formState.deals.length}`}
-                value={this.state.formState.deals && this.state.formState.deals.map(o => o.id)}
-                multi={true}
-                loadOptions={this._searchOpportunities}
-                onChange={(values) => {
-                  const event = {
-                    target: {
-                      type: 'select',
-                      name: 'deals',
-                      value: values.map(v => ({id: v.value, name: v.label}))
-                    }
-                  }
+          <div className="card mb-1">
+          {inEdit ?          
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">
+                  <div className="mini-text text-muted">Relationships</div>
+                  <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">Opportunities</label>
+                    <div className="col-sm-9">
+                      <Select.Async
+                        key={`opportunities-select-${this.state.formState.opportunities && this.state.formState.opportunities.length}`}
+                        value={this.state.formState.opportunities && this.state.formState.opportunities.map(o => o.id)}
+                        multi={true}
+                        loadOptions={this._searchOpportunities}
+                        onChange={(values) => {
+                          const event = {
+                            target: {
+                              type: 'select',
+                              name: 'opportunities',
+                              value: values.map(v => ({id: v.value, name: v.label}))
+                            }
+                          }
 
-                  this._handleInputChange(event);
-                }}
-              />
-              <label>Contacts</label>
-              <Select.Async
-                key={`contacts-select-${this.state.formState.people && this.state.formState.people.length}`}
-                value={this.state.formState.people && this.state.formState.people.map(o => o.id)}
-                multi={true}
-                loadOptions={this._searchContacts}
-                onChange={(values) => {
-                  const event = {
-                    target: {
-                      type: 'select',
-                      name: 'people',
-                      value: values.map(v => ({id: v.value, name: v.label}))
-                    }
-                  }
+                          this._handleInputChange(event);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">Contacts</label>
+                    <div className="col-sm-9">
+                      <Select.Async
+                        key={`contacts-select-${this.state.formState.people && this.state.formState.people.length}`}
+                        value={this.state.formState.people && this.state.formState.people.map(o => o.id)}
+                        multi={true}
+                        loadOptions={this._searchContacts}
+                        onChange={(values) => {
+                          const event = {
+                            target: {
+                              type: 'select',
+                              name: 'people',
+                              value: values.map(v => ({id: v.value, name: v.label}))
+                            }
+                          }
 
-                  this._handleInputChange(event);
-                }}
-              />
-            </div>
+                          this._handleInputChange(event);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </li>
+              </ul>
             : ''}
 
           {companyFields}
+          </div>
         </div>
       </main>
     )

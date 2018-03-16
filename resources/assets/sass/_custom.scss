@@ -230,6 +230,10 @@ a:hover {
   
   .nav {
     display: inherit;
+
+    .nav-link.active {
+      background-color: hsla(0,0%,100%,.12);
+    }
   }
 
   .dropdown-toggle::after {
