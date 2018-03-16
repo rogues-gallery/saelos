@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Notifications\CompanyUpdated;
 use Auth;
 use App\Company;
-use App\Http\Resources\CompanyCollection;
+use App\Deal;
+use App\Person;
 use App\User;
+use App\Http\Resources\CompanyCollection;
 use Illuminate\Database\Query\Builder as QBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -78,6 +80,34 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         $data = $request->all();
         $customFields = $data['custom_fields'] ?? [];
+        $people = $data['people'] ?? [];
+        $deals = $data['deals'] ?? [];
+
+        foreach ($deals as $i => $companyDeal) {
+            $deal = Deal::findOrFail($companyDeal['id']);
+
+            if ($company->deals()->get()->contains('id', $deal->id)) {
+                $company->deals()->updateExistingPivot($company->id, [
+                    'primary' => $i === 0
+                ]);
+            } else {
+                $company->deals()->save($deal, [
+                    'primary' => $i === 0
+                ]);
+            }
+        }
+
+        if ($people) {
+            $toSync = [];
+
+            foreach ($people as $i => $dealPerson) {
+                $person = Person::findOrFail($dealPerson['id']);
+
+                $toSync[$person->id] = ['primary' => $i === 0];
+            }
+
+            $company->people()->sync($toSync);
+        }
 
         $company->user()->associate(Auth::user());
         $company->update($data);

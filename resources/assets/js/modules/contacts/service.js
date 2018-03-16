@@ -118,3 +118,20 @@ export const callContact = (params) => (dispatch) => {
       return dispatch(actions.callingContactFailure())
     })
 }
+
+/**
+ *
+ * @param params
+ * @returns {Promise<any>}
+ */
+export const searchContacts = (params) => {
+  params = params || {}
+
+  return Http.get('people', {params: params})
+    .then(res => {
+      return res.data.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}

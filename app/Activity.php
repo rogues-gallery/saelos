@@ -31,7 +31,8 @@ class Activity extends Model implements SearchableInterface
     ];
 
     protected $guarded = [
-        'id'
+        'id',
+        'activities',
     ];
 
     public static function search(string $searchString, Builder $builder): Builder

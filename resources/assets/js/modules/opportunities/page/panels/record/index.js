@@ -7,7 +7,11 @@ import { fetchOpportunity, saveOpportunity, deleteOpportunity } from '../../../s
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
 import ReactQuill from 'react-quill'
-import {editingOpportunity, editingOpportunityFinished} from "../../../store/actions";
+import {editingOpportunity, editingOpportunityFinished} from "../../../store/actions"
+import Contact from "../../../../contacts/Contact"
+import {searchContacts} from "../../../../contacts/service"
+import {searchCompanies} from "../../../../companies/service"
+import Select from 'react-select'
 
 class Record extends React.Component {
   constructor(props) {
@@ -20,7 +24,7 @@ class Record extends React.Component {
     this._delete = this._delete.bind(this)
 
     this.state = {
-      inEdit: false,
+      inEdit: props.inEdit,
       formState: props.opportunity.originalProps
     }    
   }
@@ -55,6 +59,67 @@ class Record extends React.Component {
 
     this.setState({inEdit: false})
     this.props.dispatch(editingOpportunityFinished())
+  }
+
+  _searchContacts(input, callback) {
+    let search = '';
+
+    if (input && input.length > 0) {
+      search = {
+        searchString: input
+      }
+    }
+
+    return searchContacts(search)
+      .then(contacts => {
+        let options = contacts.map(c => {
+          c = new Contact(c)
+          return {
+            value: c.id,
+            label: c.name
+          }
+        })
+
+        this.state.formState.people.map(p => {
+          if (typeof _.find(options, o => o.value === p.id) === 'undefined') {
+            options.push({value: p.id, label:p.name})
+          }
+        })
+
+        callback(null, {options: options})
+
+        return {options: options}
+      })
+  }
+
+  _searchCompanies(input, callback) {
+    let search = '';
+
+    if (input && input.length > 0) {
+      search = {
+        searchString: input
+      }
+    }
+
+    return searchCompanies(search)
+      .then(companies => {
+        let options = companies.map(c => {
+          return {
+            value: c.id,
+            label: c.name
+          }
+        })
+
+        this.state.formState.deals.map(d => {
+          if (typeof _.find(options, o => o.value === d.id) === 'undefined') {
+            options.push({value: d.id, label: d.name})
+          }
+        })
+
+        callback(null, {options: options})
+
+        return {options: options}
+      })
   }
 
   // @todo: Extract this crap. Mercy, this is embarrassing 
@@ -159,6 +224,47 @@ class Record extends React.Component {
           {opportunity.name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
         </h4>
         <div className="h-scroll">
+
+          {inEdit ?
+            <div className="card mb-1">
+              <label>Companies</label>
+              <Select.Async
+                key={`companies-select-${this.state.formState.companies && this.state.formState.companies.length}`}
+                value={this.state.formState.companies && this.state.formState.companies.map(o => o.id)}
+                multi={true}
+                loadOptions={this._searchCompanies}
+                onChange={(values) => {
+                  const event = {
+                    target: {
+                      type: 'select',
+                      name: 'companies',
+                      value: values.map(v => ({id: v.value, name: v.label}))
+                    }
+                  }
+
+                  this._handleInputChange(event);
+                }}
+              />
+              <label>Contacts</label>
+              <Select.Async
+                key={`contacts-select-${this.state.formState.people && this.state.formState.people.length}`}
+                value={this.state.formState.people && this.state.formState.people.map(o => o.id)}
+                multi={true}
+                loadOptions={this._searchContacts}
+                onChange={(values) => {
+                  const event = {
+                    target: {
+                      type: 'select',
+                      name: 'people',
+                      value: values.map(v => ({id: v.value, name: v.label}))
+                    }
+                  }
+
+                  this._handleInputChange(event);
+                }}
+              />
+            </div>
+            : ''}
           {opportunityFields}
         </div>
       </main>

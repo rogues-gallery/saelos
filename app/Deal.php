@@ -44,6 +44,7 @@ class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterf
         'custom_fields',
         'notes',
         'documents',
+        'activities',
     ];
 
     protected $dates = [

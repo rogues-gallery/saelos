@@ -19,7 +19,7 @@ class ModelUpdateObserver
 
         if ($model->isDirty()) {
             foreach ($model->getDirty() as $fieldAlias => $value) {
-                if (in_array($fieldAlias, ['updated_at', 'created_at', 'deleted_at'])) {
+                if (in_array($fieldAlias, ['updated_at', 'created_at', 'deleted_at', 'activities'])) {
                     return;
                 }
 

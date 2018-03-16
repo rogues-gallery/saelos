@@ -104,7 +104,6 @@ class PersonController extends Controller
         $personUser = $data['user'] ?? null;
         $customFields = $data['custom_fields'] ?? [];
 
-        //@TODO: Abstract this out to allow multiple companies
         foreach ($companies as $personCompany) {
             $company = Company::findOrFail($personCompany['id']);
 

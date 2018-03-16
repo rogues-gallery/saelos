@@ -30,7 +30,7 @@ class Record extends React.Component {
     this._setCompanyForContact = this._setCompanyForContact.bind(this)
 
     this.state = {
-      inEdit: false,
+      inEdit: props.inEdit,
       formState: props.contact.originalProps,
       actionView: "none"
     }

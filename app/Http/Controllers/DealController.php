@@ -64,17 +64,7 @@ class DealController extends Controller
 
     public function show($id)
     {
-        $with = static::SHOW_WITH;
-
-        unset($with[0]);
-
-        $with['activities'] = function(Builder $q) use ($id) {
-            $q->whereNested(function($q) use ($id) {
-                $q->where('deal_id', $id);
-            }, 'or');
-        };
-
-        return new DealResource(Deal::with($with)->find($id));
+        return new DealResource(Deal::with(static::SHOW_WITH)->find($id));
     }
 
     public function update(Request $request, $id)
@@ -82,21 +72,23 @@ class DealController extends Controller
         /** @var Deal $deal */
         $deal = Deal::findOrFail($id);
         $data = $request->all();
-        $dealCompany = $data['company'] ?? [];
+        $companies = $data['companies'] ?? [];
         $customFields = $data['custom_fields'] ?? [];
         $dealStage = $data['stage_id'] ?? null;
-        $dealPeople = $data['people'] ?? null;
+        $people = $data['people'] ?? null;
 
-        if ($dealCompany && isset($dealCompany['id'])) {
+        foreach ($companies as $dealCompany) {
             $company = Company::findOrFail($dealCompany['id']);
 
-            $company->update($dealCompany);
-
-            $data['company_id'] = $company->id;
-        } else {
-            $deal->company()->dissociate()->save();
-            $data['company_id'] = null;
-            unset($data['company']);
+            if ($deal->companies()->get()->contains('id', $company->id)) {
+                $deal->companies()->updateExistingPivot($company->id, [
+                    'primary' => $dealCompany['pivot']['primary']
+                ]);
+            } else {
+                $deal->companies()->save($company, [
+                    'primary' => $dealCompany['pivot']['primary']
+                ]);
+            }
         }
 
         if ($dealStage) {
@@ -105,13 +97,13 @@ class DealController extends Controller
             $deal->stage()->associate($stage);
         }
 
-        if ($dealPeople) {
+        if ($people) {
             $toSync = [];
 
-            foreach ($dealPeople as $i => $dealPerson) {
-                $person = Person::findOrFail($dealPerson['id']);
+            foreach ($people as $i => $dealPerson) {
+                $deal = Person::findOrFail($dealPerson['id']);
 
-                $toSync[$person->id] = ['primary' => $i === 0];
+                $toSync[$deal->id] = ['primary' => $i === 0];
             }
 
             $deal->people()->sync($toSync);

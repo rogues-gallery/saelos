@@ -72,6 +72,7 @@ class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
         'custom_fields',
         'notes',
         'documents',
+        'activities',
     ];
 
     public function user()
@@ -81,11 +82,11 @@ class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
 
     public function people()
     {
-        return $this->hasMany(Person::class);
+        return $this->morphedByMany(Person::class, 'entity', 'company_entities');
     }
 
     public function deals()
     {
-        return $this->hasMany(Deal::class);
+        return $this->morphedByMany(Deal::class, 'entity', 'company_entities');
     }
 }
