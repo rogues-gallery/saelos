@@ -164,17 +164,6 @@ class Record extends React.Component {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
       return (
         <div className={`list-group list-group-flush`} key={`group-${key}-${company.id}`}>
-          <ul className={`list-group list-group-flush ${emptyGroup}`}>
-            <li key={key} className="list-group-item">
-              <div className="mini-text text-muted">{key}</div>
-              {_.sortBy(groups[key], ['ordering']).map(f => {
-                return (
-                  <FieldLayout model={company} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
-                )
-              })
-              }
-            </li>
-          </ul>
           {key === 'core' ?
             <ul className="list-group list-group-flush">
               <li key="address" className="list-group-item">
@@ -188,6 +177,17 @@ class Record extends React.Component {
             :
             ''
           }
+          <ul className={`list-group list-group-flush ${emptyGroup}`}>
+            <li key={key} className="list-group-item">
+              <div className="mini-text text-muted">{key}</div>
+              {_.sortBy(groups[key], ['ordering']).map(f => {
+                return (
+                  <FieldLayout model={company} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
+                )
+              })
+              }
+            </li>
+          </ul>
           <span className="d-none" />
         </div>
       )})
