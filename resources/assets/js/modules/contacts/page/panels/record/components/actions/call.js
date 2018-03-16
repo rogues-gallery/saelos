@@ -108,7 +108,6 @@ class CallAction extends Component {
 CallAction.propTypes = {
   dispatch: PropTypes.func.isRequired,
   contact: PropTypes.instanceOf(Contact).isRequired,
-  user: PropTypes.instanceOf(User).isRequired
 }
 
 export default connect()(CallAction)

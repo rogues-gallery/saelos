@@ -24,7 +24,7 @@ class Main extends Component {
     dispatch(fetchCompanies({page: 1}))
     dispatch(fetchOpportunities({page: 1}))
     dispatch(fetchReports({page: 1}))
-    dispatch(fetchActivities({page: 1, searchString: user.id}))
+    dispatch(fetchActivities({page: 1}))
   }
 
   render() {
