@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { Money } from 'react-format'
 
 import Contacts from '../../../../contacts/partials/_contacts'
+import Companies from '../../../../companies/partials/_companies'
 import Notes from '../../../../notes/partials/_notes'
 import Opportunity from '../../../Opportunity'
 import {getFirstOpportunityId, getOpportunity} from '../../../store/selectors'
@@ -84,6 +85,7 @@ const Details = ({opportunity, dispatch, toggle, user, data, options, inEdit}) =
         </div>
       </div>
       <Contacts contacts={opportunity.contacts} dispatch={dispatch} />
+      <Companies companies={opportunity.companies} dispatch={dispatch} />
       <Notes notes={opportunity.notes} dispatch={dispatch} entityType="App\Deal" entityId={opportunity.id} user={user} />
     </div>
   </div>
