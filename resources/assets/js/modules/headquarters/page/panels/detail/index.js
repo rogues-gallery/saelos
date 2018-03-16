@@ -144,33 +144,70 @@ const Pipeline = ({contacts, dispatch, toggle, user}) => {
         <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed ml-2" onClick={() => toggle('vector')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
           <div className="pt-1 mt-1 h5 text-center">Pipeline</div>
       </div>
-      <div className="h-scroll">
+      <div className="h-scroll ct-container">
          <div className="card">
           <div className="card-body border-bottom">
             <div className="pipelineGraph">
+            <div className="h1 text-center">283</div>
+            <div className="text-center mini-text text-muted text-uppercase pb-2"><span className="text-danger h5"><MDIcons.MdArrowDropDown /></span><span className="text-dark">3% decrease</span> since last week</div>
               <ChartistGraph data={data} options={options} type="Bar" className="graph" />
             </div>
           </div>
         </div>
         <div className="card">
-        <div className="card-header" id="headingStatus">
-          <h6 className="mb-0" data-toggle="collapse" data-target="#collapseStatus" aria-expanded="false" aria-controls="collapseStatus">
-            <MDIcons.MdKeyboardArrowDown /> Status
-          </h6>
-        </div>
+          <div className="card-header" id="headingStatus">
+            <h6 className="mb-0" data-toggle="collapse" data-target="#collapseStatus" aria-expanded="false" aria-controls="collapseStatus">
+              <MDIcons.MdKeyboardArrowDown /> Status
+            </h6>
+          </div>
 
-        <div id="collapseStatus" className="collapse mh-200" aria-labelledby="headingStatus">
-          <div className="list-group border-bottom">
-            <div onClick="" className="list-group-item list-group-item-action align-items-start">
-              <p className="mini-text text-muted float-right"></p>
-              <p><strong>Cold</strong>
-              <br />22 Contacts</p>
+          <div id="collapseStatus" className="show collapse mh-200" aria-labelledby="headingStatus">
+            <div className="list-group">
+              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+                <p className="mini-text text-muted float-right"></p>
+                <p><strong>Cold</strong>
+                <br />22 Contacts</p>
+              </div>
+            </div>
+            <div className="list-group">
+              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+                <p className="mini-text text-muted float-right"></p>
+                <p><strong>First Attempt</strong>
+                <br />80 Contacts</p>
+              </div>
+            </div>
+            <div className="list-group">
+              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+                <p className="mini-text text-muted float-right"></p>
+                <p><strong>Second Attempt</strong>
+                <br />67 Contacts</p>
+              </div>
+            </div>
+            <div className="list-group">
+              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+                <p className="mini-text text-muted float-right"></p>
+                <p><strong>Third Attempt</strong>
+                <br />58 Contacts</p>
+              </div>
+            </div>
+            <div className="list-group">
+              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+                <p className="mini-text text-muted float-right"></p>
+                <p><strong>Discovery Call Booked</strong>
+                <br />34 Contacts</p>
+              </div>
+            </div>
+            <div className="list-group">
+              <div onClick="" className="list-group-item list-group-item-action align-items-start">
+                <p className="mini-text text-muted float-right"></p>
+                <p><strong>Discovery Call Completed</strong>
+                <br />22 Contacts</p>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
       </div>
     </div>
+  </div>
   )
 }
 
