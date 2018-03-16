@@ -229,7 +229,7 @@ class Record extends React.Component {
         {this.state.actionView !== "none" ?
           <div className="border-bottom">
             <div className="card actionView my-2">
-              <ActionView view={this.state.actionView} contact={contact} />
+              <ActionView view={this.state.actionView} contact={contact} user={user} />
             </div>
           </div>
           :

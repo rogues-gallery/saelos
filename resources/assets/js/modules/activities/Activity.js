@@ -19,8 +19,8 @@ class Activity extends Model {
     this.title = props.title || ''
     this.description = props.description || ''
     this.completed = props.completed ? props.completed : 0
-    this.due_date = props.due_date ? props.due_date : null
-    this.fulfillment_date = props.fulfillment_date ? props.fulfillment_date : null
+    this.due_date = props.due_date ? moment(props.due_date) : null
+    this.fulfillment_date = props.fulfillment_date ? moment(props.fulfillment_date) : null
     this.user = props.user && new User(props.user) || new User({})
     this.details = props.details ? props.details : {}
     this.details_type = props.details_type ? props.details_type : ''
