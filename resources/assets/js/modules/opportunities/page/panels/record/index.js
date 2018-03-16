@@ -227,42 +227,55 @@ class Record extends React.Component {
 
           {inEdit ?
             <div className="card mb-1">
-              <label>Companies</label>
-              <Select.Async
-                key={`companies-select-${this.state.formState.companies && this.state.formState.companies.length}`}
-                value={this.state.formState.companies && this.state.formState.companies.map(o => o.id)}
-                multi={true}
-                loadOptions={this._searchCompanies}
-                onChange={(values) => {
-                  const event = {
-                    target: {
-                      type: 'select',
-                      name: 'companies',
-                      value: values.map(v => ({id: v.value, name: v.label}))
-                    }
-                  }
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">
+                  <div className="mini-text text-muted">Relationships</div>
+                  <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">Companies</label>
+                    <div className="col-sm-9">
+                      <Select.Async
+                        key={`companies-select-${this.state.formState.companies && this.state.formState.companies.length}`}
+                        value={this.state.formState.companies && this.state.formState.companies.map(o => o.id)}
+                        multi={true}
+                        loadOptions={this._searchCompanies}
+                        onChange={(values) => {
+                          const event = {
+                            target: {
+                              type: 'select',
+                              name: 'companies',
+                              value: values.map(v => ({id: v.value, name: v.label}))
+                            }
+                          }
 
-                  this._handleInputChange(event);
-                }}
-              />
-              <label>Contacts</label>
-              <Select.Async
-                key={`contacts-select-${this.state.formState.people && this.state.formState.people.length}`}
-                value={this.state.formState.people && this.state.formState.people.map(o => o.id)}
-                multi={true}
-                loadOptions={this._searchContacts}
-                onChange={(values) => {
-                  const event = {
-                    target: {
-                      type: 'select',
-                      name: 'people',
-                      value: values.map(v => ({id: v.value, name: v.label}))
-                    }
-                  }
+                          this._handleInputChange(event);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">Contacts</label>
+                    <div className="col-sm-9">
+                      <Select.Async
+                        key={`contacts-select-${this.state.formState.people && this.state.formState.people.length}`}
+                        value={this.state.formState.people && this.state.formState.people.map(o => o.id)}
+                        multi={true}
+                        loadOptions={this._searchContacts}
+                        onChange={(values) => {
+                          const event = {
+                            target: {
+                              type: 'select',
+                              name: 'people',
+                              value: values.map(v => ({id: v.value, name: v.label}))
+                            }
+                          }
 
-                  this._handleInputChange(event);
-                }}
-              />
+                          this._handleInputChange(event);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
             : ''}
           {opportunityFields}
