@@ -39,9 +39,7 @@ class Activity extends Model implements SearchableInterface
         $searchArray = static::parseSearchString($searchString);
 
         $builder->where(function(Builder $q) use ($searchArray) {
-            if ($userId = $searchArray['user_id']) {
-                $q->orWhere('user_id', $userId);
-            }
+            $q->where('user_id', \Auth::user()->id);
         });
 
         return $builder;

@@ -86,3 +86,16 @@ export const editingContact = () => ({
 export const editingContactFinished = () => ({
   type: types.EDITING_CONTACT_FINISHED
 })
+
+export const callingContact = () => ({
+  type: types.CALLING_CONTACT
+})
+
+export const callingContactSuccess = (payload) => ({
+  type: types.CALLING_CONTACT_SUCCESS,
+  data: payload
+})
+
+export const callingContactFailure = () => ({
+  type: types.CALLING_CONTACT_FAILURE
+})

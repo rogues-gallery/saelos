@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ReactQuill from 'react-quill'
-import {emailContact} from "../../../../../service";
-import Contact from "../../../../../Contact";
+import {emailContact} from "../../../../../service"
+import Contact from "../../../../../Contact"
+import Select from 'react-select'
 
 class EmailAction extends Component {
   constructor(props) {
@@ -53,6 +54,9 @@ class EmailAction extends Component {
   render() {
     const { contact } = this.props
 
+    const opportunityOptions = contact.opportunities.map(o => ({value: o.id, label: o.name}))
+    const companyOptions = contact.companies.map(c => ({value: c.id, label: c.name}))
+
     return (
       <div className="card-body emailActionView">
         <div className="float-right">
@@ -66,24 +70,46 @@ class EmailAction extends Component {
           <ReactQuill name="emailContent" onChange={this._handleContentChange} />
         </div>
         <div className="row">
-          <div className="col col-sm-6">
+          <div className="col col-sm-4">
             <button className="btn btn-primary" onClick={this._submit}>Send</button>
             <button className="btn btn-link text-muted">Cancel</button>
           </div>
 
-          <div className="col col-sm-3">
-            <ul>
-              {contact.companies.map(c => (
-                <li key={`contact-${contact.id}-company-${c.id}`} onClick={() => console.log(c)}>{c.name}</li>
-              ))}
-            </ul>
+          <div className="col col-sm-4">
+            {opportunityOptions.length ?
+              <Select
+                multi={false}
+                value={this.state.formState.deal_id}
+                onChange={(value) => {
+                  const event = {
+                    target: {
+                      name: 'deal_id',
+                      value: value
+                    }
+                  }
+
+                  this._handleInputChange(event)
+                }}
+                options={opportunityOptions} />
+              : ''}
           </div>
-          <div className="col col-sm-3">
-            <ul>
-              {contact.opportunities.map(o => (
-                <li key={`contact-${contact.id}-opportunity-${o.id}`} onClick={() => console.log(o)}>{o.name}</li>
-              ))}
-            </ul>
+          <div className="col col-sm-4">
+            {companyOptions.length ?
+              <Select
+                multi={false}
+                value={this.state.formState.company_id}
+                onChange={(value) => {
+                  const event = {
+                    target: {
+                      name: 'company_id',
+                      value: value
+                    }
+                  }
+
+                  this._handleInputChange(event)
+                }}
+                options={companyOptions} />
+              : ''}
           </div>
         </div>
       </div>

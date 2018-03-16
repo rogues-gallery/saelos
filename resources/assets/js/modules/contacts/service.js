@@ -101,11 +101,20 @@ export const emailContact = (params) => (dispatch) => {
   dispatch(actions.emailingContact())
 
   return Http.post(`people/${params.id}/email`, params)
-    .then(res => {
-      dispatch(actions.emailingContactSuccess(res.data))
-    })
+    .then(res => dispatch(actions.emailingContactSuccess(res.data)))
     .catch(err => {
       console.log(err)
       dispatch(actions.emailingContactFailure())
+    })
+}
+
+export const callContact = (params) => (dispatch) => {
+  dispatch(actions.callingContact())
+
+  return Http.post(`/people/${params.id}/call`, params)
+    .then(res => dispatch(actions.callingContactSuccess(res.data)))
+    .catch(err => {
+      console.log(err)
+      return dispatch(actions.callingContactFailure())
     })
 }
