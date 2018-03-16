@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ReactQuill from 'react-quill'
-import {saveActivity} from "../../../../../../activities/service";
+import {saveActivity} from "../../../../../../activities/service"
+import Select from 'react-select'
+import DatePicker from '../../../../../../../common/ui/datepicker'
 
 class TaskAction extends Component {
   constructor(props) {
@@ -15,7 +17,9 @@ class TaskAction extends Component {
     this.state = {
       formState: {
         user_id: this.props.user.id,
-        person_id: this.props.contact.id
+        person_id: this.props.contact.id,
+        deal_id: null,
+        company_id: null
       }
     }
   }
@@ -53,6 +57,11 @@ class TaskAction extends Component {
   }
 
   render() {
+    const { contact } = this.props
+
+    const opportunityOptions = contact.opportunities.map(o => ({value: o.id, label: o.name}))
+    const companyOptions = contact.companies.map(c => ({value: c.id, label: c.name}))
+
   	return(
 		  <div className="card-body taskActionView">
 		  	<div className="form-row">
@@ -70,7 +79,7 @@ class TaskAction extends Component {
           </div>
           <div className="form-group col-md-4">
 			      <label htmlFor="due_date">Due Date</label>
-			      <input type="text" className="form-control" name="due_date" placeholder="Enter due date" onChange={this._handleInputChange} />
+			      <DatePicker className="form-control" name="due_date" placeholder="Enter due date" onChange={this._handleInputChange} />
 			    </div>
 			  </div>
 			  <div className="form-row">
@@ -82,12 +91,46 @@ class TaskAction extends Component {
 		    	<div className="col-md-6">
 		    		<button className="btn btn-primary" onClick={this._submit}>Create</button><button className="btn btn-link text-muted">Cancel</button>
 		    	</div>
-		    	<div className="col-md-3">
-		    		Opportunity List
-		    	</div>
-		    	<div className="col-md-3">
-		    		Company List
-		    	</div>
+
+          {opportunityOptions.length ?
+            <div className="col col-sm-4">
+              <label htmlFor="emailOpportunity">Opportunity</label>
+              <Select
+                multi={false}
+                value={this.state.formState.deal_id}
+                onChange={(value) => {
+                  const event = {
+                    target: {
+                      name: 'deal_id',
+                      value: value.value
+                    }
+                  }
+
+                  this._handleInputChange(event)
+                }}
+                options={opportunityOptions} />
+            </div>
+            : ''}
+
+          {companyOptions.length ?
+            <div className="col col-sm-4">
+              <label htmlFor="emailCompany">Company</label>
+              <Select
+                multi={false}
+                value={this.state.formState.company_id}
+                onChange={(value) => {
+                  const event = {
+                    target: {
+                      name: 'company_id',
+                      value: value.value
+                    }
+                  }
+
+                  this._handleInputChange(event)
+                }}
+                options={companyOptions} />
+            </div>
+            : ''}
 		    </div>
 		  </div>
 		)

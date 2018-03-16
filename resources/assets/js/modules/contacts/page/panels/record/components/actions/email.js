@@ -85,7 +85,7 @@ class EmailAction extends Component {
                     const event = {
                       target: {
                         name: 'deal_id',
-                        value: value
+                        value: value.value
                       }
                     }
 
@@ -105,7 +105,7 @@ class EmailAction extends Component {
                     const event = {
                       target: {
                         name: 'company_id',
-                        value: value
+                        value: value.value
                       }
                     }
 
