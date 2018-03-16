@@ -443,3 +443,20 @@ a:hover {
   pointer-events: none;
   opacity: 0.4;
 }
+
+.corner-flag::before,
+.corner-flag::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.corner-flag::after {
+    border-radius: 0.2em;
+    border-width: 0.4em;
+    border-left-color: $black;
+    border-top-color: $black;
+}
