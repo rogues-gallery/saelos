@@ -460,3 +460,10 @@ a:hover {
     border-left-color: $black;
     border-top-color: $black;
 }
+
+.nav {
+  .nav-link.active {
+    background-color:$blue;
+    color:$white
+  }
+}

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const Link = ({ path, children }) => (
   <li className="nav-item">
-    <NavLink to={path} className="nav-link">
+    <NavLink to={path} className="nav-link" activeClassName="active">
       {children}
     </NavLink>
   </li>
