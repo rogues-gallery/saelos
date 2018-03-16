@@ -12,6 +12,7 @@ import Contact from "../../../../contacts/Contact"
 import {searchContacts} from "../../../../contacts/service"
 import {searchCompanies} from "../../../../companies/service"
 import Select from 'react-select'
+import FieldLayout from "../../../../contacts/page/panels/record/components/FieldLayout";
 
 class Record extends React.Component {
   constructor(props) {
@@ -157,41 +158,24 @@ class Record extends React.Component {
 
     const groups = _.groupBy(this.props.customFields, 'group');
     const inEdit = this.state.inEdit;
-    const opportunityFields = Object.keys(groups).map(key => (
-      <div className="card mb-1" key={opportunity.id + key}>
-        <ul className="list-group list-group-flush">
-          <li key={key} className="list-group-item">
-            <div className="mini-text text-muted">{key}</div>
-            {groups[key].map(f => {
-              let fieldValue = _.get(opportunity, f.alias);
-
-              if (typeof fieldValue === 'object') {
-                fieldValue = _.get(fieldValue, 'name');
+    const opportunityFields = ['core', 'personal', 'social', 'additional'].map(key => {
+      const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
+      return (
+        <div key={`group-${key}-${opportunity.id}`}>
+          <ul className={`list-group list-group-flush ${emptyGroup}`}>
+            <li key={key} className="list-group-item">
+              <div className="mini-text text-muted">{key}</div>
+              {_.sortBy(groups[key], ['ordering']).map(f => {
+                return (
+                  <FieldLayout model={opportunity} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
+                )
+              })
               }
-
-              const hidden = typeof fieldValue === 'undefined' || f.hidden || fieldValue.length === 0 ? 'd-none' : '';
-              const readOnly = !inEdit ? {
-                readOnly: true,
-                className: 'form-control-plaintext'
-              } : {
-                readOnly: false,
-                className: 'form-control'
-              }
-
-              return (
-                <div className={`form-group row ${hidden}`} key={`${f.alias}-${opportunity.id}`}>
-                  <label htmlFor={f.alias} className="col-sm-3 col-form-label">{f.label}</label>
-                  <div className="col-sm-9">
-                    <input type="text" {...readOnly} id={f.alias} name={f.alias} onChange={this._handleInputChange} defaultValue={fieldValue} />
-                  </div>
-                </div>
-              )
-            })
-          }
-          </li>
-        </ul>
-      </div>
-    ));
+            </li>
+          </ul>
+          <span className="d-none" />
+        </div>
+      )})
 
     return (
       <main key={0} className="col main-panel px-3">

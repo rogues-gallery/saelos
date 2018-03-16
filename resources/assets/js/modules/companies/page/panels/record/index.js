@@ -4,13 +4,15 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getCompany, getCustomFieldsForCompanies, isStateDirty, getFirstCompanyId } from '../../../store/selectors'
 import {fetchCompany, saveCompany, deleteCompany} from '../../../service'
-import {searchContacts} from "../../../../contacts/service";
-import {searchOpportunities} from "../../../../opportunities/service";
+import {searchContacts} from "../../../../contacts/service"
+import {searchOpportunities} from "../../../../opportunities/service"
 import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
 import Select from 'react-select'
-import {editingCompany, editingCompanyFinished} from "../../../store/actions";
-import Contact from "../../../../contacts/Contact";
+import {editingCompany, editingCompanyFinished} from "../../../store/actions"
+import Contact from "../../../../contacts/Contact"
+import FieldLayout from "../../../../contacts/page/panels/record/components/FieldLayout";
+
 
 class Record extends React.Component {
   constructor(props) {
@@ -158,41 +160,37 @@ class Record extends React.Component {
     const { company } = this.props
     const groups = _.groupBy(this.props.customFields, 'group')
     const inEdit = this.state.inEdit
-    const companyFields = Object.keys(groups).map(key => (
-      <div className="card mb-1" key={company.id + key}>
-        <ul className="list-group list-group-flush">
-          <li key={key} className="list-group-item">
-            <div className="mini-text text-muted">{key}</div>
-            {groups[key].map(f => {
-              let fieldValue = _.get(company, f.alias);
-
-              if (typeof fieldValue === 'object') {
-                fieldValue = _.get(fieldValue, 'name');
+    const companyFields = ['core', 'personal', 'social', 'additional'].map(key => {
+      const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
+      return (
+        <div key={`group-${key}-${company.id}`}>
+          <ul className={`list-group list-group-flush ${emptyGroup}`}>
+            <li key={key} className="list-group-item">
+              <div className="mini-text text-muted">{key}</div>
+              {_.sortBy(groups[key], ['ordering']).map(f => {
+                return (
+                  <FieldLayout model={company} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
+                )
+              })
               }
-
-              const hidden = typeof fieldValue === 'undefined' || fieldValue.length === 0 ? 'd-none' : '';
-              const readOnly = !inEdit ? {
-                readOnly: true,
-                className: 'form-control-plaintext'
-              } : {
-                readOnly: false,
-                className: 'form-control'
-              }
-
-              return (
-                <div className={`form-group row ${hidden}`} key={`${f.alias}-${company.id}`}>
-                  <label htmlFor={f.alias} className="col-sm-3 col-form-label">{f.label}</label>
-                  <div className="col-sm-9">
-                    <input type="text" {...readOnly} id={f.alias} name={f.alias} onChange={this._handleInputChange} defaultValue={fieldValue} />
-                  </div>
+            </li>
+          </ul>
+          {key === 'core' ?
+            <ul className="list-group list-group-flush">
+              <li key="address" className="list-group-item">
+                <div className="mini-text text-muted">Address</div>
+                <div className="py-2">
+                  <p className="font-weight-bold">{company.address1} {company.address2}</p>
+                  <p className="text-muted">{company.city} {company.state} {company.zip} {company.country}</p>
                 </div>
-              )
-            })
+              </li>
+            </ul>
+            :
+            ''
           }
-          </li>
-        </ul>
-      </div>
-    ));
+          <span className="d-none" />
+        </div>
+      )})
 
     return (
       <main className="col main-panel px-3">

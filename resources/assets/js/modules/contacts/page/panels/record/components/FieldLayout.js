@@ -5,9 +5,9 @@ import * as MDIcons from 'react-icons/lib/md'
 
 class FieldLayout extends React.Component {
   render() {
-    const { contact, field, inEdit, onChange, ...props } = this.props;
+    const { model, field, inEdit, onChange, ...props } = this.props;
 
-    let fieldValue = _.get(contact, field.alias);
+    let fieldValue = _.get(model, field.alias);
 
     if (typeof fieldValue === 'object') {
       fieldValue = _.get(fieldValue, 'name')
@@ -57,7 +57,7 @@ class FieldLayout extends React.Component {
 }
 
 FieldLayout.propTypes = {
-	contact: PropTypes.object.isRequired,
+	model: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
   inEdit: PropTypes.bool.isRequired
 }
