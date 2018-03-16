@@ -253,7 +253,7 @@ class Record extends React.Component {
                   if (!inEdit) {
                     return (
                       <div className="py-2" key={`contact-company-${company.id}`}>
-                        <p className="h6">{company.pivot.position} <span className="text-muted">at</span> {company.id ?
+                        <p className="h6">{company.pivot.position ? company.pivot.position : <span className="text-muted">Works</span>} <span className="text-muted">at</span> {company.id ?
                           <Link className="hidden-link" to={`/companies/${company.id}`}>{company.name}</Link> : 'Unknown'} </p>
                         <p className="text-muted">{company.address1} {company.city} {company.state} {company.zip} {company.country}</p>
                       </div>
