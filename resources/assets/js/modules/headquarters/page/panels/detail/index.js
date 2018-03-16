@@ -146,6 +146,12 @@ const Pipeline = ({contacts, dispatch, toggle, user}) => {
       </div>
       <div className="h-scroll ct-container">
          <div className="card">
+         <div className="card-header">
+            <h6 className="mb-0">
+              <MDIcons.MdKeyboardArrowDown /> My Contacts
+            </h6>
+          </div>
+
           <div className="card-body border-bottom">
             <div className="pipelineGraph">
             <div className="h1 text-center">283</div>
@@ -157,7 +163,7 @@ const Pipeline = ({contacts, dispatch, toggle, user}) => {
         <div className="card">
           <div className="card-header" id="headingStatus">
             <h6 className="mb-0" data-toggle="collapse" data-target="#collapseStatus" aria-expanded="false" aria-controls="collapseStatus">
-              <MDIcons.MdKeyboardArrowDown /> Status
+              <MDIcons.MdKeyboardArrowDown /> Current Status
             </h6>
           </div>
 
