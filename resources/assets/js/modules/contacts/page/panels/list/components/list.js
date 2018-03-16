@@ -23,7 +23,7 @@ const Contact = ({ contact, dispatch, router, view }) => {
 
   return (
     <div onClick={() => openContactRecord(contact.id, view)} className="list-group-item list-group-item-action align-items-start">
-      <p className="mini-text text-muted float-right"><b>Stage</b></p>
+      <p className="mini-text text-muted float-right"><b>{contact.status}</b></p>
       <p><strong>{contact.first_name} {contact.last_name}</strong>
       <br />{contact.company.name}</p>
     </div>
