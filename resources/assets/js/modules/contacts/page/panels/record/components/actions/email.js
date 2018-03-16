@@ -75,42 +75,45 @@ class EmailAction extends Component {
             <button className="btn btn-link text-muted">Cancel</button>
           </div>
 
-          <div className="col col-sm-4">
             {opportunityOptions.length ?
-              <Select
-                multi={false}
-                value={this.state.formState.deal_id}
-                onChange={(value) => {
-                  const event = {
-                    target: {
-                      name: 'deal_id',
-                      value: value
+              <div className="col col-sm-4">
+                <label htmlFor="emailOpportunity">Opportunity</label>
+                <Select
+                  multi={false}
+                  value={this.state.formState.deal_id}
+                  onChange={(value) => {
+                    const event = {
+                      target: {
+                        name: 'deal_id',
+                        value: value
+                      }
                     }
-                  }
 
-                  this._handleInputChange(event)
-                }}
-                options={opportunityOptions} />
+                    this._handleInputChange(event)
+                  }}
+                  options={opportunityOptions} />
+                </div>
               : ''}
-          </div>
-          <div className="col col-sm-4">
+
             {companyOptions.length ?
-              <Select
-                multi={false}
-                value={this.state.formState.company_id}
-                onChange={(value) => {
-                  const event = {
-                    target: {
-                      name: 'company_id',
-                      value: value
+              <div className="col col-sm-4">
+                <label htmlFor="emailCompany">Company</label>
+                <Select
+                  multi={false}
+                  value={this.state.formState.company_id}
+                  onChange={(value) => {
+                    const event = {
+                      target: {
+                        name: 'company_id',
+                        value: value
+                      }
                     }
-                  }
 
-                  this._handleInputChange(event)
-                }}
-                options={companyOptions} />
+                    this._handleInputChange(event)
+                  }}
+                  options={companyOptions} />
+              </div>
               : ''}
-          </div>
         </div>
       </div>
     )

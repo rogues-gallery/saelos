@@ -50,53 +50,61 @@ class CallAction extends Component {
       <div className="card-body callActionView">
         <div className="row">
           <div className="col fw-100 border-right">
-            <button className="btn btn-primary btn-lg"><span className="h2"><MDIcons.MdLocalPhone /></span></button>
+            <button className="btn btn-primary btn-lg w-100 pb-3"><span className="h2"><MDIcons.MdLocalPhone /></span></button>
+            <button className="mt-2 btn btn-outline-primary btn-sm w-100"><span className="">SCORE</span></button>
           </div>
           <div className="col">
             <p>
               Click the button to the left to initiate a call to this user. Once the call is completed please enter your Rep Sentiment Score below.
             </p>
 
-            <div className="row">
-              <div className="col col-sm-6">
-                <input type="range" min="1" max="10" className="slider"/>
+            <div className="row pt-3">
+              <div className="col col-sm-4">
+                <label htmlFor="repSentiment">Rep Sentiment Score</label>
+                <div className="pt-1">
+                  <input type="range" min="1" max="10" className="slider" name="repSentiment" />
+                </div>
               </div>
-              <div className="col col-sm-3">
                 {opportunityOptions.length ?
-                <Select
-                  multi={false}
-                  value={this.state.formState.deal_id}
-                  onChange={(value) => {
-                    const event = {
-                      target: {
-                        name: 'deal_id',
-                        value: value
+                <div className="col col-sm-4">
+                  <label htmlFor="callOpportunity">Opportunity</label>
+                  <Select
+                    multi={false}
+                    value={this.state.formState.deal_id}
+                    onChange={(value) => {
+                      const event = {
+                        target: {
+                          name: 'deal_id',
+                          value: value
+                        }
                       }
-                    }
 
-                    this._handleInputChange(event)
-                  }}
-                  options={opportunityOptions} />
-                  : ''}
-              </div>
-              <div className="col col-sm-3">
+                      this._handleInputChange(event)
+                    }}
+                     options={opportunityOptions} />
+                </div>
+                    : ''}
+              
+              
                 {companyOptions.length ?
-                <Select
-                  multi={false}
-                  value={this.state.formState.company_id}
-                  onChange={(value) => {
-                    const event = {
-                      target: {
-                        name: 'company_id',
-                        value: value
+                <div className="col col-sm-4">
+                  <label htmlFor="callCompany">Company</label>
+                  <Select
+                    multi={false}
+                    value={this.state.formState.company_id}
+                    onChange={(value) => {
+                      const event = {
+                        target: {
+                          name: 'company_id',
+                          value: value
+                        }
                       }
-                    }
 
-                    this._handleInputChange(event)
-                  }}
-                  options={companyOptions} />
+                      this._handleInputChange(event)
+                    }}
+                    options={companyOptions} />
+                </div>
                   : ''}
-              </div>
             </div>
           </div>
         </div>
