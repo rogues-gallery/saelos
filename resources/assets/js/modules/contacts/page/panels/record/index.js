@@ -147,15 +147,9 @@ class Record extends React.Component {
   render() {
     const { contact, user } = this.props;
     const groups = _.groupBy(this.props.customFields, 'group');
-    const inEdit = this.state.inEdit;
-    const order = [
-      'core',
-      'personal',
-      'social',
-      'additional'
-    ]
+    const inEdit = this.state.inEdit
 
-    const contactFields = order.map(key => {
+    const contactFields = ['core', 'personal', 'social', 'additional'].map(key => {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
       return (
         <div key={`group-${key}-${contact.id}`}>
@@ -164,7 +158,7 @@ class Record extends React.Component {
               <div className="mini-text text-muted">{key}</div>
               {_.sortBy(groups[key], ['ordering']).map(f => {
                 return (
-                  <FieldLayout contact={contact} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
+                  <FieldLayout model={contact} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
                 )
               })
               }
