@@ -88,12 +88,12 @@ class TaskAction extends Component {
 			  	</div>
 			  </div>
 		    <div className="form-row">
-		    	<div className="col-md-6">
+		    	<div className="col pt-4">
 		    		<button className="btn btn-primary" onClick={this._submit}>Create</button><button className="btn btn-link text-muted">Cancel</button>
 		    	</div>
 
           {opportunityOptions.length ?
-            <div className="col col-sm-4">
+            <div className="col">
               <label htmlFor="emailOpportunity">Opportunity</label>
               <Select
                 multi={false}
@@ -113,7 +113,7 @@ class TaskAction extends Component {
             : ''}
 
           {companyOptions.length ?
-            <div className="col col-sm-4">
+            <div className="col">
               <label htmlFor="emailCompany">Company</label>
               <Select
                 multi={false}
