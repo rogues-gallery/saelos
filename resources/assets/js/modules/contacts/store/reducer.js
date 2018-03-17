@@ -159,7 +159,7 @@ export const getContact = (state, id) => {
   let contact = _.find(getContacts(state), (c) => c.id === parseInt(id));
 
   if (typeof contact === 'undefined') {
-    return new Contact({})
+    return new Contact({custom_fields:[]})
   }
 
   return contact;

@@ -34,10 +34,10 @@ class ModelUpdateObserver
                 $user = \Auth::user();
 
                 if ($fieldAlias == 'user_id') {
-                    $newAssignee = \DB::table('users')->select('name')->from('users')->where('id', $fieldUpdate->new_value)->first()->name;
-                    $oldAssignee = \DB::table('users')->select('name')->from('users')->where('id', $fieldUpdate->old_value)->first()->name;
-                    $title = sprintf('Assigned to %s', $newAssignee);
-                    $description = sprintf('%s changed the assignee to %s <span class="text-muted">(from %s)</span>', $user->name, $newAssignee, $oldAssignee);
+                    $newAssignee = \DB::table('users')->select('name')->from('users')->where('id', $fieldUpdate->new_value)->first();
+                    $oldAssignee = \DB::table('users')->select('name')->from('users')->where('id', $fieldUpdate->old_value)->first();
+                    $title = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
+                    $description = sprintf('%s changed the assignee to %s <span class="text-muted">(from %s)</span>', $user->name, $newAssignee ? $newAssignee->name : null, $oldAssignee ? $oldAssignee->name : null);
                 } else {
                     $fieldName = \DB::table('fields')
                         ->select('label')

@@ -16,7 +16,7 @@ class Contact extends Model {
   }
 
   initialize(props) {
-    super.initialize(props)
+    props.custom_fields = props.custom_fields ? props.custom_fields : []
 
     const fields = getCustomFieldsForContacts(store.getState())
 
@@ -26,9 +26,15 @@ class Contact extends Model {
         if (field.is_custom) {
             this[key] = getCustomFieldValue(field.alias, props.custom_fields, field.default)
         } else {
-            this[key] = props[key]   
+            if (! props.hasOwnProperty(key)) {
+                props[key] = null
+            }
+            
+            this[key] = props[key]
         }
     })
+
+    super.initialize(props)
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
