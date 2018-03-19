@@ -158,10 +158,11 @@ class Record extends React.Component {
 
     const groups = _.groupBy(this.props.customFields, 'group');
     const inEdit = this.state.inEdit;
+    
     const opportunityFields = ['core', 'personal', 'social', 'additional'].map(key => {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
       return (
-        <div key={`group-${key}-${opportunity.id}`}>
+        <div className={`list-group list-group-flush`} key={`group-${key}-${opportunity.id}`}>
           <ul className={`list-group list-group-flush ${emptyGroup}`}>
             <li key={key} className="list-group-item">
               <div className="mini-text text-muted">{key}</div>
@@ -207,10 +208,10 @@ class Record extends React.Component {
         <h4 className="border-bottom py-3">
           {opportunity.name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
         </h4>
-        <div className="h-scroll">
 
-          {inEdit ?
-            <div className="card mb-1">
+        <div className="h-scroll">
+          <div className="card mb-1">
+          {inEdit ?          
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                   <div className="mini-text text-muted">Relationships</div>
@@ -260,9 +261,10 @@ class Record extends React.Component {
                   </div>
                 </li>
               </ul>
-            </div>
             : ''}
-          {opportunityFields}
+            {opportunityFields}
+
+          </div>
         </div>
       </main>
     )

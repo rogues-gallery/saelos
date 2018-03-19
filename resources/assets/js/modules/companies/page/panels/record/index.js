@@ -163,18 +163,7 @@ class Record extends React.Component {
     const companyFields = ['core', 'personal', 'social', 'additional'].map(key => {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
       return (
-        <div key={`group-${key}-${company.id}`}>
-          <ul className={`list-group list-group-flush ${emptyGroup}`}>
-            <li key={key} className="list-group-item">
-              <div className="mini-text text-muted">{key}</div>
-              {_.sortBy(groups[key], ['ordering']).map(f => {
-                return (
-                  <FieldLayout model={company} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
-                )
-              })
-              }
-            </li>
-          </ul>
+        <div className={`list-group list-group-flush`} key={`group-${key}-${company.id}`}>
           {key === 'core' ?
             <ul className="list-group list-group-flush">
               <li key="address" className="list-group-item">
@@ -188,6 +177,17 @@ class Record extends React.Component {
             :
             ''
           }
+          <ul className={`list-group list-group-flush ${emptyGroup}`}>
+            <li key={key} className="list-group-item">
+              <div className="mini-text text-muted">{key}</div>
+              {_.sortBy(groups[key], ['ordering']).map(f => {
+                return (
+                  <FieldLayout model={company} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
+                )
+              })
+              }
+            </li>
+          </ul>
           <span className="d-none" />
         </div>
       )})
@@ -222,48 +222,61 @@ class Record extends React.Component {
         </h4>
 
         <div className="h-scroll">
-          {inEdit ?
-            <div className="card mb-1">
-              <label>Opportunities</label>
-              <Select.Async
-                key={`opportunities-select-${this.state.formState.deals && this.state.formState.deals.length}`}
-                value={this.state.formState.deals && this.state.formState.deals.map(o => o.id)}
-                multi={true}
-                loadOptions={this._searchOpportunities}
-                onChange={(values) => {
-                  const event = {
-                    target: {
-                      type: 'select',
-                      name: 'deals',
-                      value: values.map(v => ({id: v.value, name: v.label}))
-                    }
-                  }
+          <div className="card mb-1">
+          {inEdit ?          
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">
+                  <div className="mini-text text-muted">Relationships</div>
+                  <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">Opportunities</label>
+                    <div className="col-sm-9">
+                      <Select.Async
+                        key={`opportunities-select-${this.state.formState.opportunities && this.state.formState.opportunities.length}`}
+                        value={this.state.formState.opportunities && this.state.formState.opportunities.map(o => o.id)}
+                        multi={true}
+                        loadOptions={this._searchOpportunities}
+                        onChange={(values) => {
+                          const event = {
+                            target: {
+                              type: 'select',
+                              name: 'opportunities',
+                              value: values.map(v => ({id: v.value, name: v.label}))
+                            }
+                          }
 
-                  this._handleInputChange(event);
-                }}
-              />
-              <label>Contacts</label>
-              <Select.Async
-                key={`contacts-select-${this.state.formState.people && this.state.formState.people.length}`}
-                value={this.state.formState.people && this.state.formState.people.map(o => o.id)}
-                multi={true}
-                loadOptions={this._searchContacts}
-                onChange={(values) => {
-                  const event = {
-                    target: {
-                      type: 'select',
-                      name: 'people',
-                      value: values.map(v => ({id: v.value, name: v.label}))
-                    }
-                  }
+                          this._handleInputChange(event);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">Contacts</label>
+                    <div className="col-sm-9">
+                      <Select.Async
+                        key={`contacts-select-${this.state.formState.people && this.state.formState.people.length}`}
+                        value={this.state.formState.people && this.state.formState.people.map(o => o.id)}
+                        multi={true}
+                        loadOptions={this._searchContacts}
+                        onChange={(values) => {
+                          const event = {
+                            target: {
+                              type: 'select',
+                              name: 'people',
+                              value: values.map(v => ({id: v.value, name: v.label}))
+                            }
+                          }
 
-                  this._handleInputChange(event);
-                }}
-              />
-            </div>
+                          this._handleInputChange(event);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </li>
+              </ul>
             : ''}
 
           {companyFields}
+          </div>
         </div>
       </main>
     )
