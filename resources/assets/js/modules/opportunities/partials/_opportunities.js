@@ -7,7 +7,6 @@ import { saveContact } from "../../contacts/service"
 import { saveCompany } from "../../companies/service"
 import { searchOpportunities } from "../service"
 
-
 class Opportunities extends React.Component {
   constructor(props) {
     super(props)
@@ -97,9 +96,9 @@ class Opportunities extends React.Component {
     return (
       <div className="card">
         <div className="card-header" id="headingOpportunities">
-      <span className="float-right" onClick={this._toggleAdd}>
-        <strong>+ Add</strong>
-      </span>
+          <span className="float-right" onClick={this._toggleAdd}>
+            <strong>+ Add</strong>
+          </span>
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseOpportunities" aria-expanded="true" aria-controls="collapseOpportunities">
             <MDIcons.MdKeyboardArrowDown /> Opportunities <span className="text-muted font-weight-normal">({opportunities.length})</span>
           </h6>

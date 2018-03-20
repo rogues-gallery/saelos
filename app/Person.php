@@ -47,6 +47,6 @@ class Person extends Model implements HasWorkflowsInterface, HasCustomFieldsInte
 
     public function deals()
     {
-        return $this->belongsToMany(Deal::class, 'deal_person');
+        return $this->belongsToMany(Deal::class, 'deal_person')->withPivot(['primary', 'position']);
     }
 }
