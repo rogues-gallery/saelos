@@ -1,8 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import * as MDIcons from 'react-icons/lib/md'
 import Select from 'react-select'
 import _ from 'lodash'
+import { searchCompanies } from "../service";
+import { saveContact } from "../../contacts/service";
+import { saveOpportunity } from "../../opportunities/service";
 
 class Companies extends React.Component {
   constructor(props) {
@@ -12,35 +16,85 @@ class Companies extends React.Component {
     this._toggleAdd = this._toggleAdd.bind(this)
     this._handleInputChange = this._handleInputChange.bind(this)
     this._getSecondaryDetail = this._getSecondaryDetail.bind(this)
+    this._searchCompanies = this._searchCompanies.bind(this)
 
     this.state = {
       formState: {
         id: props.entityId,
-        companies: props.companies
+        company: {
+          id: null,
+          name: null,
+          pivot: {
+            primary: null,
+            position: null
+          }
+        }
       },
       adding: false
     }
-  }
-
-  _submit() {
-    this._toggleAdd()
   }
 
   _toggleAdd() {
     this.setState({adding: !this.state.adding})
   }
 
-  _handleInputChange(e) {
-    const { name, value } = e.target
-    const { formState } = this.state
+  _searchCompanies(input, callback) {
+    let search = '';
 
-    if (typeof value === 'object') {
-      const company = _.find(formState.companies, c => c.id === parseInt(value.id))
-
-      if (company) {
-        return
+    if (input && input.length > 0) {
+      search = {
+        searchString: input
       }
     }
+
+    return searchCompanies(search)
+      .then(companies => {
+        let options = companies.map(c => ({
+            id: c.id,
+            name: c.name
+          })
+        )
+
+        console.log(options)
+
+        return {options}
+      })
+  }
+
+  _handleInputChange(e) {
+    const { target } = e
+    const { name } = target
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { formState } = this.state
+
+    _.set(formState, name, value)
+
+    this.setState({
+      formState
+    })
+  }
+
+  _submit() {
+    const { dispatch } = this.props
+    const companies = this.props.companies.map(c => c.originalProps)
+
+    companies.push(this.state.formState.company)
+
+    const submitProps = {
+      id: this.state.formState.id,
+      companies
+    }
+
+    switch (this.props.entityType) {
+      case 'App\\Person':
+        dispatch(saveContact(submitProps))
+        break
+      case 'App\\Opportunity':
+        dispatch(saveOpportunity(submitProps))
+        break
+    }
+
+    this._toggleAdd()
   }
 
   _getSecondaryDetail(type) {
@@ -66,7 +120,28 @@ class Companies extends React.Component {
         </div>
         {this.state.adding ?
           <div id="addCompany" className="py-2 px-3 border-bottom">
-            <input type="text" name="position" className="form-control" onChange={this._handleInputChange} />
+            <Select.Async
+              value={this.state.formState.company && this.state.formState.company.id ? this.state.formState.company : null}
+              multi={false}
+              loadOptions={this._searchCompanies}
+              labelKey='name'
+              valueKey='id'
+              onChange={(value) => {
+                const event = {
+                  target: {
+                    type: 'select',
+                    name: 'company',
+                    value: value
+                  }
+                }
+
+                this._handleInputChange(event);
+              }}
+            />
+            <input type="text" id="position" name="company.pivot.position" placeholder="Position" className="form-control" onChange={this._handleInputChange} />
+            <label htmlFor="primary"> Primary?
+              <input type="checkbox" id="primary" name="company.pivot.primary" className="form-control" onChange={this._handleInputChange} />
+            </label>
             <button className="btn btn-primary" onClick={this._submit}>Add</button>
           </div>
           : ''}
@@ -88,6 +163,7 @@ class Companies extends React.Component {
 }
 
 Companies.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   companies: PropTypes.array.isRequired
 }
 
@@ -95,4 +171,4 @@ Companies.contextTypes = {
   router: PropTypes.object
 }
 
-export default Companies
+export default connect()(Companies)

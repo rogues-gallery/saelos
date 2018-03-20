@@ -26,8 +26,6 @@ class Record extends React.Component {
     this._setActionView = this._setActionView.bind(this)
     this._archive = this._archive.bind(this)
     this._delete = this._delete.bind(this)
-    this._searchCompanies = this._searchCompanies.bind(this)
-    this._setCompanyForContact = this._setCompanyForContact.bind(this)
 
     this.state = {
       // inEdit: props.inEdit,
@@ -75,48 +73,6 @@ class Record extends React.Component {
     this.props.dispatch(editingContactFinished())
   }
 
-  _searchCompanies(input, callback) {
-    let search = '';
-
-    if (input && input.length > 0) {
-      search = {
-        searchString: input
-      }
-    }
-
-    return searchCompanies(search)
-      .then(companies => {
-        let options = companies.map(c => {
-          return {
-            value: c.id,
-            label: c.name
-          }
-        });
-
-        callback(null, {options: options})
-
-        return {options: options};
-      });
-  }
-
-  _setCompanyForContact(value, fieldName) {
-    const selectedId = value ? value.value : null;
-    const selectedName = value ? value.label : null;
-
-    let event = {
-      target: {
-        type: 'select',
-        name: fieldName,
-        value: {
-          id: selectedId,
-          name: selectedName
-        }
-      }
-    };
-
-    this._handleInputChange(event);
-  }
-
   // @todo: Abstract this out
   _handleInputChange(event) {
     const target = event.target;
@@ -147,9 +103,8 @@ class Record extends React.Component {
   }
 
   render() {
-    const { inEdit, contact, user } = this.props;
-    const groups = _.groupBy(this.props.customFields, 'group');
-    // const inEdit = this.state.inEdit
+    const { inEdit, contact, user } = this.props
+    const groups = _.groupBy(this.props.customFields, 'group')
 
     const contactFields = ['core', 'personal', 'social', 'additional'].map(key => {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
@@ -248,56 +203,9 @@ class Record extends React.Component {
 
         <div className="h-scroll">
           <div className="card mb-1">
-            <ul className="list-group list-group-flush">
-              <li key={`companies-for-contact-${contact.id}`} className="list-group-item">
-                <div className="mini-text text-muted">Professional</div>
-                {this.state.formState.companies && this.state.formState.companies.map((company, index) => {
-                  if (!inEdit) {
-                    return (
-                      <div className="py-2" key={`contact-company-${company.id}`}>
-                        <p className="h6">{company.pivot.position ? company.pivot.position : <span className="text-muted">Works</span>} <span className="text-muted">at</span> {company.id ?
-                          <Link className="hidden-link" to={`/companies/${company.id}`}>{company.name}</Link> : 'Unknown'} </p>
-                        <p className="text-muted">{company.address1} {company.city} {company.state} {company.zip} {company.country}</p>
-                      </div>
-                    )
-                  } else {
-                    return (
-                      <div className="py-2 row" key={`contact-company-${company.id}`}>
-                        <div className={`form-group mb-1 col`}>
-                          <label htmlFor={`companies.${index}.pivot.position`}>Position</label>
-                          <div className="form-group mb-0">
-                            <input type="text" className="form-control" placeholder="Position" name={`companies.${index}.pivot.position`} onChange={this._handleInputChange} defaultValue={company.pivot.position} />
-                          </div>
-                        </div>
-                        <div className={`form-group mb-1 col`}>
-                          <label htmlFor={`companies.${index}.id`}>Company</label>
-                          <div className="form-group mb-0">
-                            <Select.Async
-                              multi={false}
-                              value={{value: company.id, label: company.name}}
-                              onChange={(value) => this._setCompanyForContact(value, `companies.${index}`)}
-                              loadOptions={this._searchCompanies} />
-                          </div>
-                        </div>
-                        <div className={`form-group mb-0 col-sm-2 mt-4 pt-2`}>
-                          <span className="float-right"><a href="javascript:void(0);" className="text-muted"><MDIcons.MdDelete /></a></span>
-                          <input className="form-check-input" type="checkbox" name={`companies.${index}.pivot.primary`} onChange={this._handleInputChange} value={company.pivot.primary} />
-                          <label className="text-muted mini-text form-check-label" htmlFor={`companies.${index}.pivot.primary`}>
-                            Primary Contact
-                          </label>
-                        </div>
-                      </div>
-                    )
-                  }
-                })}
-              </li>
-            </ul>
             {contactFields}
-
           </div>
-
           <Conversations dispatch={this.props.dispatch} conversations={_.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity')} />
-
         </div>
       </main>
     )

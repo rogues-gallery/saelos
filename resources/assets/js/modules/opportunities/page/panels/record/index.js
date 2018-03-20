@@ -112,7 +112,7 @@ class Record extends React.Component {
           }
         })
 
-        this.state.formState.deals.map(d => {
+        this.state.formState.companies.map(d => {
           if (typeof _.find(options, o => o.value === d.id) === 'undefined') {
             options.push({value: d.id, label: d.name})
           }
