@@ -60,7 +60,6 @@ class Record extends React.Component {
 
   _submit() {
     this.props.dispatch(saveOpportunity(this.state.formState))
-
     this.props.dispatch(editingOpportunityFinished())
   }
 
@@ -138,7 +137,7 @@ class Record extends React.Component {
       let opportunityCustomFieldIndex = _.findIndex(opportunityState.custom_fields, (o) => o.custom_field_id === customField.field_id);
 
       if (opportunityCustomFieldIndex >= 0) {
-        opportunityState.custom_fields[contactCustomFieldIndex].value = value;
+        opportunityState.custom_fields[opportunityCustomFieldIndex].value = value;
       } else {
         opportunityState.custom_fields.push({
           custom_field_id: customField.field_id,

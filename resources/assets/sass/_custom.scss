@@ -474,3 +474,11 @@ a:hover {
 .DayPickerInput {
   width: 100%;
 }
+
+.fade {
+  opacity:0;
+
+  &.in {
+    opacity: 1;
+  }
+}

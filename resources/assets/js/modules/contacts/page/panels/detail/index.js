@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 
 import Opportunities from '../../../../opportunities/partials/_opportunities'
+import Companies from "../../../../companies/partials/_companies"
 import SRI from '../../../../sri/partials/_sri'
 import Contact from '../../../Contact'
 import Notes from '../../../../notes/partials/_notes'
@@ -58,7 +59,8 @@ const Details = ({contact, dispatch, toggle, user, inEdit}) => (
         </div>
       </div>
 
-      <Opportunities opportunities={contact.opportunities} dispatch={dispatch} />
+      <Opportunities opportunities={contact.opportunities} dispatch={dispatch} entityType="App\Person" entityId={contact.id} />
+      <Companies companies={contact.companies} dispatch={dispatch} entityType="App\Person" entityId={contact.id} />
       <Notes notes={contact.notes} dispatch={dispatch} entityType="App\Person" entityId={contact.id} user={user} />
     </div>
   </div>
