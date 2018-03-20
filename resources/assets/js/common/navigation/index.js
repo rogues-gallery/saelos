@@ -59,7 +59,6 @@ class Navigation extends Component {
               <Link to={'/contacts/new'} className="dropdown-item">Create Contact</Link>
               <Link to={'/companies/new'} className="dropdown-item">Create Company</Link>
               <Link to={'/opportunities/new'} className="dropdown-item">Create Opportunity</Link>
-              <Link to={'/tasks/new'} className="dropdown-item">Create Task</Link>
             </div>
           </div>
         </div>
