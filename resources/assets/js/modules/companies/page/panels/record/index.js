@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getCompany, getCustomFieldsForCompanies, isStateDirty, getFirstCompanyId } from '../../../store/selectors'
+import { getCompany, getCustomFieldsForCompanies, isStateDirty, getFirstCompanyId, isInEdit } from '../../../store/selectors'
 import {fetchCompany, saveCompany, deleteCompany} from '../../../service'
 import {searchContacts} from "../../../../contacts/service"
 import {searchOpportunities} from "../../../../opportunities/service"
@@ -27,13 +27,16 @@ class Record extends React.Component {
     this._searchOpportunities = this._searchOpportunities.bind(this)
 
     this.state = {
-      inEdit: props.inEdit,
       formState: props.company.originalProps
     }
   }
 
   componentWillMount() {
     this.props.dispatch(fetchCompany(this.props.match.params.id))
+
+    if (this.props.match.params.id === 'new') { 
+      this.props.dispatch(editingCompany())
+    }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -53,14 +56,11 @@ class Record extends React.Component {
   }
 
   _toggleEdit() {
-    this.setState({inEdit: !this.state.inEdit})
     this.props.dispatch(editingCompany())
   }
 
   _submit() {
     this.props.dispatch(saveCompany(this.state.formState))
-
-    this.setState({inEdit: false})
     this.props.dispatch(editingCompanyFinished())
   }
 
@@ -157,9 +157,8 @@ class Record extends React.Component {
   }
 
   render() {
-    const { company } = this.props
+    const { inEdit, company } = this.props
     const groups = _.groupBy(this.props.customFields, 'group')
-    const inEdit = this.state.inEdit
     const companyFields = ['core', 'personal', 'social', 'additional'].map(key => {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
       return (
@@ -290,5 +289,6 @@ Record.propTypes = {
 export default withRouter(connect((state, ownProps) => ({
   company: getCompany(state, ownProps.match.params.id || getFirstCompanyId(state)),
   customFields: getCustomFieldsForCompanies(state),
-  isDirty: isStateDirty(state)
+  isDirty: isStateDirty(state),
+  inEdit: isInEdit(state)
 }))(Record))
