@@ -109,13 +109,13 @@ class PersonController extends Controller
 
             if ($person->companies()->get()->contains('id', $company->id)) {
                 $person->companies()->updateExistingPivot($company->id, [
-                    'primary' => $personCompany['pivot']['primary'],
-                    'position' => $personCompany['pivot']['position']
+                    'primary' => $personCompany['pivot']['primary'] ?? 0,
+                    'position' => $personCompany['pivot']['position'] ?? ''
                 ]);
             } else {
                 $person->companies()->save($company, [
-                    'primary' => $personCompany['pivot']['primary'],
-                    'position' => $personCompany['pivot']['position']
+                    'primary' => $personCompany['pivot']['primary'] ?? 0,
+                    'position' => $personCompany['pivot']['position'] ?? ''
                 ]);
             }
         }

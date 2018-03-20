@@ -82,11 +82,11 @@ class DealController extends Controller
 
             if ($deal->companies()->get()->contains('id', $company->id)) {
                 $deal->companies()->updateExistingPivot($company->id, [
-                    'primary' => $dealCompany['pivot']['primary']
+                    'primary' => $dealCompany['pivot']['primary'] ?? 0
                 ]);
             } else {
                 $deal->companies()->save($company, [
-                    'primary' => $dealCompany['pivot']['primary']
+                    'primary' => $dealCompany['pivot']['primary'] ?? 0
                 ]);
             }
         }
