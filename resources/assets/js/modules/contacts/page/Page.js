@@ -4,11 +4,13 @@ import List from './panels/list'
 import Record from './panels/record'
 import Detail from './panels/detail'
 
-const Page = (props) => ([
-    <List key={0} {...props} />,
-    <Record key={1} {...props} />,
+const Page = (props) => (
+  <React.Fragment>
+    <List key={0} {...props} />
+    <Record key={1} {...props} />
     <Detail key={2} {...props} />
-])
+  </React.Fragment>
+)
 
 Page.propTypes = {
   contacts: PropTypes.array.isRequired,

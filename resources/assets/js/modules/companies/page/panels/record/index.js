@@ -23,8 +23,6 @@ class Record extends React.Component {
     this._handleInputChange = this._handleInputChange.bind(this)
     this._archive = this._archive.bind(this)
     this._delete = this._delete.bind(this)
-    this._searchContacts = this._searchContacts.bind(this)
-    this._searchOpportunities = this._searchOpportunities.bind(this)
 
     this.state = {
       formState: props.company.originalProps
@@ -32,10 +30,12 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(fetchCompany(this.props.match.params.id))
+    const { dispatch } = this.props
 
     if (this.props.match.params.id === 'new') { 
-      this.props.dispatch(editingCompany())
+      dispatch(editingCompany())
+    } else {
+      dispatch(fetchCompany(this.props.match.params.id))
     }
   }
 
@@ -62,67 +62,6 @@ class Record extends React.Component {
   _submit() {
     this.props.dispatch(saveCompany(this.state.formState))
     this.props.dispatch(editingCompanyFinished())
-  }
-
-  _searchContacts(input, callback) {
-    let search = '';
-
-    if (input && input.length > 0) {
-      search = {
-        searchString: input
-      }
-    }
-
-    return searchContacts(search)
-      .then(contacts => {
-        let options = contacts.map(c => {
-          c = new Contact(c)
-          return {
-            value: c.id,
-            label: c.name
-          }
-        })
-
-        this.state.formState.people.map(p => {
-          if (typeof _.find(options, o => o.value === p.id) === 'undefined') {
-            options.push({value: p.id, label:p.name})
-          }
-        })
-
-        callback(null, {options: options})
-
-        return {options: options}
-      })
-  }
-
-  _searchOpportunities(input, callback) {
-    let search = '';
-
-    if (input && input.length > 0) {
-      search = {
-        searchString: input
-      }
-    }
-
-    return searchOpportunities(search)
-      .then(opportunities => {
-        let options = opportunities.map(c => {
-          return {
-            value: c.id,
-            label: c.name
-          }
-        })
-
-        this.state.formState.deals.map(d => {
-          if (typeof _.find(options, o => o.value === d.id) === 'undefined') {
-            options.push({value: d.id, label: d.name})
-          }
-        })
-
-        callback(null, {options: options})
-
-        return {options: options}
-      })
   }
 
   // @todo: Abstract this out ... Don - looking at you.
@@ -222,59 +161,7 @@ class Record extends React.Component {
 
         <div className="h-scroll">
           <div className="card mb-1">
-          {inEdit ?          
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item">
-                  <div className="mini-text text-muted">Relationships</div>
-                  <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Opportunities</label>
-                    <div className="col-sm-9">
-                      <Select.Async
-                        key={`opportunities-select-${this.state.formState.opportunities && this.state.formState.opportunities.length}`}
-                        value={this.state.formState.opportunities && this.state.formState.opportunities.map(o => o.id)}
-                        multi={true}
-                        loadOptions={this._searchOpportunities}
-                        onChange={(values) => {
-                          const event = {
-                            target: {
-                              type: 'select',
-                              name: 'opportunities',
-                              value: values.map(v => ({id: v.value, name: v.label}))
-                            }
-                          }
-
-                          this._handleInputChange(event);
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Contacts</label>
-                    <div className="col-sm-9">
-                      <Select.Async
-                        key={`contacts-select-${this.state.formState.people && this.state.formState.people.length}`}
-                        value={this.state.formState.people && this.state.formState.people.map(o => o.id)}
-                        multi={true}
-                        loadOptions={this._searchContacts}
-                        onChange={(values) => {
-                          const event = {
-                            target: {
-                              type: 'select',
-                              name: 'people',
-                              value: values.map(v => ({id: v.value, name: v.label}))
-                            }
-                          }
-
-                          this._handleInputChange(event);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            : ''}
-
-          {companyFields}
+            {companyFields}
           </div>
         </div>
       </main>

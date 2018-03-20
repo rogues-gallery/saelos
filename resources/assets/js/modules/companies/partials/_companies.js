@@ -38,7 +38,7 @@ class Companies extends React.Component {
     this.setState({adding: !this.state.adding})
   }
 
-  _searchCompanies(input, callback) {
+  _searchCompanies(input) {
     let search = '';
 
     if (input && input.length > 0) {
@@ -54,8 +54,6 @@ class Companies extends React.Component {
             name: c.name
           })
         )
-
-        console.log(options)
 
         return {options}
       })
@@ -111,11 +109,11 @@ class Companies extends React.Component {
     return (
       <div className="card">
         <div className="card-header" id="headingCompanies">
+          <span className="float-right" onClick={this._toggleAdd}>
+            <strong>+ Add</strong>
+          </span>
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseCompanies" aria-expanded="true" aria-controls="collapseCompanies">
             <MDIcons.MdKeyboardArrowDown /> Companies <span className="text-muted font-weight-normal">({companies.length})</span>
-            <a href="javascript:void(0);" className="float-right" onClick={this._toggleAdd}>
-              + Add
-            </a>
           </h6>
         </div>
         {this.state.adding ?

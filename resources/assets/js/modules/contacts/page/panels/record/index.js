@@ -14,6 +14,8 @@ import { Link } from "react-router-dom"
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
 import Select from 'react-select'
+import {editingOpportunity} from "../../../../opportunities/store/actions";
+import {fetchOpportunity} from "../../../../opportunities/service";
 
 
 class Record extends React.Component {
@@ -35,10 +37,12 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(fetchContact(this.props.contact.id))
-    
-    if (this.props.match.params.id === 'new') { 
-      this.props.dispatch(editingContact())
+    const { dispatch } = this.props
+
+    if (this.props.match.params.id === 'new') {
+      dispatch(editingContact())
+    } else {
+      dispatch(fetchContact(this.props.match.params.id))
     }
   }
 
