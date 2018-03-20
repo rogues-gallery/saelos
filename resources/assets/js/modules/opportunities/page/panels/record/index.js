@@ -10,9 +10,10 @@ import ReactQuill from 'react-quill'
 import {editingOpportunity, editingOpportunityFinished} from "../../../store/actions"
 import Contact from "../../../../contacts/Contact"
 import {searchContacts} from "../../../../contacts/service"
-import {searchCompanies} from "../../../../companies/service"
+import {fetchCompany, searchCompanies} from "../../../../companies/service"
 import Select from 'react-select'
 import FieldLayout from "../../../../contacts/page/panels/record/components/FieldLayout";
+import {editingCompany} from "../../../../companies/store/actions";
 
 class Record extends React.Component {
   constructor(props) {
@@ -31,10 +32,12 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(fetchOpportunity(this.props.opportunity.id))
-      
-    if (this.props.match.params.id === 'new') { 
-      this.props.dispatch(editingOpportunity())
+    const { dispatch } = this.props
+
+    if (this.props.match.params.id === 'new') {
+      dispatch(editingOpportunity())
+    } else {
+      dispatch(fetchOpportunity(this.props.match.params.id))
     }
   }
 

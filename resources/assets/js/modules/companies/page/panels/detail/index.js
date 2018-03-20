@@ -84,8 +84,8 @@ const Details = ({company, dispatch, toggle, user, data, options, inEdit}) => (
         </div>
       </div>
 
-      <Contacts contacts={company.contacts} dispatch={dispatch} />
-      <Opportunities opportunities={company.opportunities} dispatch={dispatch} />
+      <Contacts contacts={company.contacts} dispatch={dispatch} entityId={company.id} entityType="App\Company" />
+      <Opportunities opportunities={company.opportunities} dispatch={dispatch} entityId={company.id} entityType="App\Company" />
       <Notes notes={company.notes} dispatch={dispatch} entityId={company.id} entityType="App\Company" user={user} />
     </div>
   </div>

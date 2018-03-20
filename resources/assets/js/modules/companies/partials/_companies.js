@@ -38,7 +38,7 @@ class Companies extends React.Component {
     this.setState({adding: !this.state.adding})
   }
 
-  _searchCompanies(input, callback) {
+  _searchCompanies(input) {
     let search = '';
 
     if (input && input.length > 0) {
@@ -54,8 +54,6 @@ class Companies extends React.Component {
             name: c.name
           })
         )
-
-        console.log(options)
 
         return {options}
       })
