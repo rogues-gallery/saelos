@@ -99,11 +99,11 @@ class Contacts extends React.Component {
     return (
       <div className="card">
         <div className="card-header" id="headingContacts">
+          <span className="float-right" onClick={this._toggleAdd}>
+            <strong>+ Add</strong>
+          </span>
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseContacts" aria-expanded="true" aria-controls="collapseContacts">
             <MDIcons.MdKeyboardArrowDown /> Contacts <span className="text-muted font-weight-normal">({contacts.length})</span>
-            <span className="float-right" onClick={this._toggleAdd}>
-              + Add
-            </span>
           </h6>
         </div>
 
