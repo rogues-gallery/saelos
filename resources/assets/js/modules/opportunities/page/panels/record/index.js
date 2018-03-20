@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getOpportunity, getCustomFieldsForOpportunities, isStateDirty, getFirstOpportunityId} from '../../../store/selectors';
+import { getOpportunity, getCustomFieldsForOpportunities, isStateDirty, getFirstOpportunityId, isInEdit } from '../../../store/selectors';
 import { fetchOpportunity, saveOpportunity, deleteOpportunity } from '../../../service';
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
@@ -32,6 +32,10 @@ class Record extends React.Component {
 
   componentWillMount() {
     this.props.dispatch(fetchOpportunity(this.props.match.params.id))
+      
+    if (this.props.match.params.id === 'new') { 
+      this.props.dispatch(editingOpportunity())
+    }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -51,14 +55,12 @@ class Record extends React.Component {
   }
 
   _toggleEdit() {
-    this.setState({inEdit: !this.state.inEdit})
     this.props.dispatch(editingOpportunity())
   }
 
   _submit() {
     this.props.dispatch(saveOpportunity(this.state.formState))
 
-    this.setState({inEdit: false})
     this.props.dispatch(editingOpportunityFinished())
   }
 
@@ -154,10 +156,9 @@ class Record extends React.Component {
 
 
   render() {
-    const { opportunity } = this.props;
+    const { opportunity, inEdit } = this.props;
 
     const groups = _.groupBy(this.props.customFields, 'group');
-    const inEdit = this.state.inEdit;
     
     const opportunityFields = ['core', 'personal', 'social', 'additional'].map(key => {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
@@ -278,5 +279,6 @@ Record.propTypes = {
 export default withRouter(connect((state, ownProps) => ({
   opportunity: getOpportunity(state, ownProps.match.params.id || getFirstOpportunityId(state)),
   customFields: getCustomFieldsForOpportunities(state),
-  isDirty: isStateDirty(state)
+  isDirty: isStateDirty(state),
+  inEdit: isInEdit(state)
 }))(Record))

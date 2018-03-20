@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getUser } from '../../../../user/store/selectors'
-import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId} from '../../../store/selectors'
+import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId, isInEdit} from '../../../store/selectors'
 import {deleteContact, fetchContact, saveContact} from '../../../service'
 import {editingContact, editingContactFinished} from '../../../store/actions'
 import {searchCompanies} from '../../../../companies/service'
@@ -30,7 +30,7 @@ class Record extends React.Component {
     this._setCompanyForContact = this._setCompanyForContact.bind(this)
 
     this.state = {
-      inEdit: props.inEdit,
+      // inEdit: props.inEdit,
       formState: props.contact.originalProps,
       actionView: "none"
     }
@@ -38,6 +38,10 @@ class Record extends React.Component {
 
   componentWillMount() {
     this.props.dispatch(fetchContact(this.props.contact.id))
+    
+    if (this.props.match.params.id === 'new') { 
+      this.props.dispatch(editingContact())
+    }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -63,13 +67,11 @@ class Record extends React.Component {
   }
 
   _toggleEdit() {
-    this.setState({inEdit: !this.state.inEdit})
     this.props.dispatch(editingContact())
   }
 
   _submit() {
     this.props.dispatch(saveContact(this.state.formState))
-    this.setState({inEdit: false})
     this.props.dispatch(editingContactFinished())
   }
 
@@ -145,9 +147,9 @@ class Record extends React.Component {
   }
 
   render() {
-    const { contact, user } = this.props;
+    const { inEdit, contact, user } = this.props;
     const groups = _.groupBy(this.props.customFields, 'group');
-    const inEdit = this.state.inEdit
+    // const inEdit = this.state.inEdit
 
     const contactFields = ['core', 'personal', 'social', 'additional'].map(key => {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
@@ -310,5 +312,6 @@ export default withRouter(connect((state, ownProps) => ({
   contact: getContact(state, ownProps.match.params.id || getFirstContactId(state)),
   customFields: getCustomFieldsForContacts(state),
   isDirty: isStateDirty(state),
-  user: getUser(state)
+  user: getUser(state),
+  inEdit: isInEdit(state)
 }))(Record))
