@@ -109,7 +109,7 @@ class Record extends React.Component {
     const contactFields = ['core', 'personal', 'social', 'additional'].map(key => {
       const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
       return (
-        <div key={`group-${key}-${contact.id}`}>
+        <React.Fragment key={`group-${key}-${contact.id}`}>
           <ul className={`list-group list-group-flush ${emptyGroup}`}>
             <li key={key} className="list-group-item">
               <div className="mini-text text-muted">{key}</div>
@@ -135,7 +135,7 @@ class Record extends React.Component {
             ''
           }
           <span className="d-none" />
-        </div>
+        </React.Fragment>
       )})
 
     const onAssignmentChange = (id) => {

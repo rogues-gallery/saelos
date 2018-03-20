@@ -15,11 +15,7 @@ class ListActivities extends React.Component {
 
   render() {
     const { activities, dispatch, ...props } = this.props
-    return (
-      <div>
-        {activities.map(activity => <Activity key={activity.id} activity={activity} view={this.state.view} dispatch={dispatch} router={this.context.router} />)}
-      </div>
-    )
+    return activities.map(activity => <Activity key={activity.id} activity={activity} view={this.state.view} dispatch={dispatch} router={this.context.router} />)
   }
 }
 

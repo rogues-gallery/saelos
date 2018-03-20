@@ -34,7 +34,7 @@ class Companies extends React.Component {
     }
   }
 
-  _toggleAdd() {
+  _toggleAdd(e) {
     this.setState({adding: !this.state.adding})
   }
 
@@ -113,9 +113,9 @@ class Companies extends React.Component {
         <div className="card-header" id="headingCompanies">
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseCompanies" aria-expanded="true" aria-controls="collapseCompanies">
             <MDIcons.MdKeyboardArrowDown /> Companies <span className="text-muted font-weight-normal">({companies.length})</span>
-            <span className="float-right" onClick={this._toggleAdd}>
+            <a href="javascript:void(0);" className="float-right" onClick={this._toggleAdd}>
               + Add
-            </span>
+            </a>
           </h6>
         </div>
         {this.state.adding ?
