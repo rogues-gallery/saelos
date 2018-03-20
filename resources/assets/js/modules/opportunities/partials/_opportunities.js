@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { fetchOpportunity } from "../../opportunities/service"
 import * as MDIcons from 'react-icons/lib/md'
 import Select from 'react-select'
+import { connect } from 'react-redux'
 import { saveContact } from "../../contacts/service"
 import { saveCompany } from "../../companies/service"
-import { searchOpportunities } from "../service";
+import { searchOpportunities } from "../service"
 
 
 class Opportunities extends React.Component {
@@ -91,74 +91,72 @@ class Opportunities extends React.Component {
 
     this._toggleAdd(e)
   }
+
   render() {
-    const { opportunities, dispatch } = this.props;
+    const { opportunities, dispatch, entityId } = this.props;
     return (
-  <div className="card">
-    <div className="card-header" id="headingOpportunities">
+      <div className="card">
+        <div className="card-header" id="headingOpportunities">
       <span className="float-right" onClick={this._toggleAdd}>
         <strong>+ Add</strong>
       </span>
-      <h6 className="mb-0" data-toggle="collapse" data-target="#collapseOpportunities" aria-expanded="true" aria-controls="collapseOpportunities">
-        <MDIcons.MdKeyboardArrowDown /> Opportunities <span className="text-muted font-weight-normal">({opportunities.length})</span>
-      </h6>
-    </div>
+          <h6 className="mb-0" data-toggle="collapse" data-target="#collapseOpportunities" aria-expanded="true" aria-controls="collapseOpportunities">
+            <MDIcons.MdKeyboardArrowDown /> Opportunities <span className="text-muted font-weight-normal">({opportunities.length})</span>
+          </h6>
+        </div>
 
-    {this.state.adding ?
-      <div id="addCompany" className="py-2 px-3 border-bottom">
-        <Select.Async
-          value={this.state.formState.opportunity && this.state.formState.opportunity.id ? this.state.formState.opportunity : null}
-          multi={false}
-          loadOptions={this._searchOpportunities}
-          labelKey='name'
-          valueKey='id'
-          onChange={(value) => {
-            const event = {
-              target: {
-                type: 'select',
-                name: 'opportunity',
-                value: value
-              }
-            }
+        {this.state.adding ?
+          <div id="addCompany" className="py-2 px-3 border-bottom">
+            <Select.Async
+              value={this.state.formState.opportunity && this.state.formState.opportunity.id ? this.state.formState.opportunity : null}
+              multi={false}
+              loadOptions={this._searchOpportunities}
+              labelKey='name'
+              valueKey='id'
+              onChange={(value) => {
+                const event = {
+                  target: {
+                    type: 'select',
+                    name: 'opportunity',
+                    value: value
+                  }
+                }
 
-            this._handleInputChange(event);
-          }}
-        />
-        <button className="btn btn-primary" onClick={this._submit}>Add</button>
+                this._handleInputChange(event);
+              }}
+            />
+            {this.props.entityType === 'App\\Person' ?
+              <input type="text" id="position" className="form-control" name="opportunity.pivot.position" placeholder="Role" onChange={this._handleInputChange} />
+              : ''}
+            <button className="btn btn-primary" onClick={this._submit}>Add</button>
+          </div>
+          : ''}
+
+        <div id="collapseOpportunities" className="collapse show mh-200" aria-labelledby="headingOpportunities">
+          <div className="list-group border-bottom">
+            {opportunities.map(opportunity => (
+              <div key={`opportunity-${opportunity.id}-${entityId}`} onClick={() => this.context.router.history.push(`/opportunities/${opportunity.id}`)} className="list-group-item list-group-item-action align-items-start">
+                <p className="mini-text text-muted float-right">{opportunity.status}</p>
+                <p><strong>{opportunity.name}</strong>
+                  <br />{opportunity.company.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      : ''}
-
-    <div id="collapseOpportunities" className="collapse show mh-200" aria-labelledby="headingOpportunities">
-      <div className="list-group border-bottom">
-        {opportunities.map(opportunity => <Opportunity key={opportunity.id} opportunity={opportunity} router={this.context.router} dispatch={dispatch} />)}
-      </div>
-    </div>
-  </div>
-)}
-}
-
-const Opportunity = ({ opportunity, dispatch, router }) => {
-  const openOpportunityRecord = (id) => {
-    dispatch(fetchOpportunity(opportunity.id))
-    router.history.push(`/opportunities/${id}`)
+    )
   }
-
-  return (
-    <div onClick={() => openOpportunityRecord(opportunity.id)} className="list-group-item list-group-item-action align-items-start">
-      <p className="mini-text text-muted float-right">{opportunity.status}</p>
-      <p><strong>{opportunity.name}</strong>
-      <br />{opportunity.company.name}</p>
-    </div>
-  );
 }
-
 
 Opportunities.propTypes = {
-  opportunities: PropTypes.array.isRequired
+  dispatch: PropTypes.func.isRequired,
+  opportunities: PropTypes.array.isRequired,
+  entityType: PropTypes.string.isRequired,
+  entityId: PropTypes.number
 }
 
 Opportunities.contextTypes = {
   router: PropTypes.object
 }
 
-export default Opportunities
+export default connect()(Opportunities)
