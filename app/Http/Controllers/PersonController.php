@@ -12,6 +12,7 @@ use App\Company;
 use App\CustomField;
 use App\CustomFieldValue;
 use App\Events\ContactUpdated;
+use App\Deal;
 use App\Http\Resources\PersonCollection;
 use App\Person;
 use Illuminate\Http\Request;
@@ -101,6 +102,7 @@ class PersonController extends Controller
         $person = Person::findOrFail($id);
         $data = $request->all();
         $companies = $data['companies'] ?? [];
+        $deals = $data['deals'] ?? [];
         $personUser = $data['user'] ?? null;
         $customFields = $data['custom_fields'] ?? [];
 
@@ -119,6 +121,24 @@ class PersonController extends Controller
                 ]);
             }
         }
+
+        foreach ($deals as $personDeal) {
+            $deal = Deal::findOrFail($personDeal['id']);
+
+            if ($person->deals()->get()->contains('id', $deal->id)) {
+                $person->deals()->updateExistingPivot($deal->id, [
+                    'primary' => $personDeal['pivot']['primary'] ?? 0,
+                    'position' => $personDeal['pivot']['position'] ?? ''
+                ]);
+            } else {
+                $person->deals()->save($deal, [
+                    'primary' => $personDeal['pivot']['primary'] ?? 0,
+                    'position' => $personDeal['pivot']['position'] ?? ''
+                ]);
+            }
+        }
+
+
 
         $user = $personUser ? User::find($personUser) : Auth::user();
 
