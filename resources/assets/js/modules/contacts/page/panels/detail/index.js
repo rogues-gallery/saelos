@@ -30,7 +30,7 @@ class Detail extends React.Component {
       case 'default':
         return <Details contact={this.props.contact} dispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} inEdit={this.props.inEdit} />
       case 'history':
-        return <History activities={this.props.contact.activities} dispatch={this.props.dispatch} fields={this.props.contact.fields} toggle={this._toggleView} inEdit={this.props.inEdit} />
+        return <History activities={this.props.contact.activities} dispatch={this.props.dispatch} toggle={this._toggleView} inEdit={this.props.inEdit} />
     }
   }
 }
@@ -64,23 +64,20 @@ const Details = ({contact, dispatch, toggle, user, inEdit}) => (
   </div>
 )
 
-const History = ({activities, dispatch, fields, toggle, inEdit}) => (
+const History = ({activities, dispatch, toggle, inEdit}) => (
   <div key={1} className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom py-2 heading">
       <a href="javascript:void(0)" className="btn btn-xs btn-outline-secondary position-fixed ml-2 mt-1" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
       <div className="pt-1 mt-1 h5 text-center">History</div>
     </div>
     <div className="h-scroll history">
-      {activities.map(activity => {
-        const theChangedField = _.find(fields, f => f.alias === activity.field_alias)
-        return(
+      {activities.map(activity => (
           <div className="list-group-item" key={`activity-history-${activity.id}`}>
             <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
             <div className="activity"><b>{activity.title}</b></div>
             <div dangerouslySetInnerHTML={{__html: activity.description}} />
           </div>
-          )
-      })}
+          ))}
     </div>
   </div>
 )

@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import ChartistGraph from 'react-chartist'
 import { connect } from 'react-redux'
 import { Money } from 'react-format'
+import moment from 'moment'
 
 import Contacts from '../../../../contacts/partials/_contacts'
 import Companies from '../../../../companies/partials/_companies'
@@ -55,7 +56,7 @@ class Detail extends React.Component {
       case 'default':
         return <Details opportunity={opportunity} dispatch={dispatch} toggle={this._toggleView} user={user} data={data} options={options} inEdit={inEdit} />
       case 'history':
-        return <History activities={opportunity.activities} dispatch={dispatch}  toggle={this._toggleView} inEdit={inEdit} />
+        return <History activities={opportunity.activities} dispatch={dispatch} toggle={this._toggleView} inEdit={inEdit} />
     }
   }
 }
@@ -98,16 +99,13 @@ const History = ({activities, dispatch, toggle, inEdit}) => (
         <div className="pt-1 mt-1 h5 text-center">History</div>
     </div>
     <div className="h-scroll history">
-      {activities.map(activity => {
-        const theChangedField = _.find(fields, f => f.alias === activity.field_alias)
-        return(
-            <div className="list-group-item">
-              <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
-              <div className="activity"><b>{activity.title}</b></div>
-              <div dangerouslySetInnerHTML={{__html: activity.description}} />
-            </div>
-            )
-      })}
+      {activities.map(activity => (
+          <div className="list-group-item" key={`activity-history-${activity.id}`}>
+            <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
+            <div className="activity"><b>{activity.title}</b></div>
+            <div dangerouslySetInnerHTML={{__html: activity.description}} />
+          </div>
+          ))}
     </div>
   </div>
 
