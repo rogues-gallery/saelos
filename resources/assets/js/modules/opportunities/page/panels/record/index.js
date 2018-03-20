@@ -31,7 +31,7 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(fetchOpportunity(this.props.match.params.id))
+    this.props.dispatch(fetchOpportunity(this.props.opportunity.id))
       
     if (this.props.match.params.id === 'new') { 
       this.props.dispatch(editingOpportunity())

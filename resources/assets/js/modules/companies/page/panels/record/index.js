@@ -32,7 +32,7 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(fetchCompany(this.props.match.params.id))
+    this.props.dispatch(fetchCompany(this.props.company.id))
 
     if (this.props.match.params.id === 'new') { 
       this.props.dispatch(editingCompany())
