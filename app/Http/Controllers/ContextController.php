@@ -22,28 +22,6 @@ class ContextController extends Controller
 
         if (class_exists($model) && is_a($model, Model::class, true)) {
             $attributes = [];
-            $customOnly = $request->get('customOnly', false);
-
-            if (filter_var($customOnly, FILTER_VALIDATE_BOOLEAN) !== true) {
-                $toIgnore = [
-                    'id'
-                ];
-
-                $modelInstance = $model::first();
-
-                foreach ($modelInstance->attributesToArray() as $key => $value) {
-                    if (in_array($key, $toIgnore)) {
-                        continue;
-                    }
-
-                    $attributes[$key] = [
-                        'label' => $key,
-                        'alias' => $key,
-                        'required' => $key === 'email',
-                        'group' => 'core'
-                    ];
-                }
-            }
 
             $fields = Field::where('model', $model)->get();
 
@@ -63,7 +41,8 @@ class ContextController extends Controller
                     'ordering' => $field->ordering,
                     'hidden' => $field->hidden,
                     'protected' => $field->protected,
-                    'summary' => $field->summary
+                    'summary' => $field->summary,
+                    'searchable' => $field->searchable,
                 ];
             }
 

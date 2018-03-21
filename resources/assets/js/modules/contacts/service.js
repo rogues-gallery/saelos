@@ -35,7 +35,7 @@ export const fetchContacts = (params) => (dispatch) => {
 
   dispatch(actions.fetchingCustomFieldsForContacts());
 
-  Http.get(`contexts/Contact?customOnly=true`)
+  Http.get(`contexts/Contact`)
     .then(res => {
       dispatch(actions.fetchingCustomFieldsForContactsSuccess(res.data))
     })

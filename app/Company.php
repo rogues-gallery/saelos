@@ -85,11 +85,13 @@ class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
 
     public function contacts()
     {
-        return $this->morphedByMany(Contact::class, 'entity', 'company_xref');
+        return $this->morphedByMany(Contact::class, 'entity', 'company_xref')
+            ->where('published', 1);
     }
 
     public function opportunities()
     {
-        return $this->morphedByMany(Opportunity::class, 'entity', 'company_xref');
+        return $this->morphedByMany(Opportunity::class, 'entity', 'company_xref')
+            ->where('published', 1);
     }
 }

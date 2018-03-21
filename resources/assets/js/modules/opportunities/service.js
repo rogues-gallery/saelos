@@ -35,7 +35,7 @@ export const fetchOpportunities = (params) => (dispatch) => {
 
   dispatch(actions.fetchingCustomFieldsForOpportunities());
 
-  Http.get(`contexts/Opportunity?customOnly=true`)
+  Http.get(`contexts/Opportunity`)
     .then(res => {
       dispatch(actions.fetchingCustomFieldsForOpportunitiesSuccess(res.data))
     })

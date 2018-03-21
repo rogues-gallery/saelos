@@ -40,7 +40,7 @@ export const fetchRepCustomFields = () => (dispatch) => {
     type: types.FETCHING_REP_CUSTOM_FIELDS
   })
 
-  let URL = '/contexts/User?customOnly=true';
+  let URL = '/contexts/User';
 
   fetch(URL)
     .then((response) => {

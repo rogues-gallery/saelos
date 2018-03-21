@@ -36,7 +36,7 @@ export const fetchCompanies = (params) => (dispatch) => {
 
   dispatch(actions.fetchingCustomFieldsForCompanies());
 
-  Http.get(`contexts/Company?customOnly=true`)
+  Http.get(`contexts/Company`)
     .then(res => {
       dispatch(actions.fetchingCustomFieldsForCompaniesSuccess(res.data))
     })
