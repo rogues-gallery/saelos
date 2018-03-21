@@ -57,17 +57,17 @@ class Activity extends Model implements SearchableInterface
 
     public function opportunity()
     {
-        return $this->morphedByMany(Opportunity::class, 'entity', 'activity_entities');
+        return $this->morphedByMany(Opportunity::class, 'entity', 'activity_xref');
     }
 
     public function contact()
     {
-        return $this->morphedByMany(Contact::class, 'entity', 'activity_entities');
+        return $this->morphedByMany(Contact::class, 'entity', 'activity_xref');
     }
 
     public function company()
     {
-        return $this->morphedByMany(Company::class, 'entity', 'activity_entities');
+        return $this->morphedByMany(Company::class, 'entity', 'activity_xref');
     }
 
     public function user()

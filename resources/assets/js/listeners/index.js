@@ -17,23 +17,6 @@ window.Echo = new Echo({
 
 window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
 
-// Event listener when focusing inputs to set the parent input container as focused
-document.addEventListener('focusin', function (e) {
-  let parentNode = e.target.parentNode;
-
-  if (parentNode.classList.contains('input-container')) {
-    parentNode.classList.toggle('focused');
-  }
-});
-
-document.addEventListener('focusout', function (e) {
-  let parentNode = e.target.parentNode;
-
-  if (parentNode.classList.contains('input-container')) {
-    parentNode.classList.toggle('focused');
-  }
-});
-
 require('./app');
 require('./contacts');
 require('./accounts');
