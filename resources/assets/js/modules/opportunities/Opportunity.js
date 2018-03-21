@@ -38,6 +38,7 @@ class Opportunity extends Model {
     this.contacts = props.people && props.people.map(c => new Contact(c)) || []
     this.notes = props.notes && props.notes.map(n => new Note(n)) || []
     this.activities = props.activities || []
+    this.pivot = props.pivot ? props.pivot : {}
 
 
     const primaryCompany = _.find(this.companies, c => c.primary === 1)

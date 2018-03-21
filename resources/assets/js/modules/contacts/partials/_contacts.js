@@ -127,7 +127,7 @@ class Contacts extends React.Component {
                 this._handleInputChange(event);
               }}
             />
-            <input type="text" id="position" name="contact.pivot.position" placeholder="Position" className="form-control" onChange={this._handleInputChange} />
+            <input type="text" id="position" name="contact.pivot.position" placeholder={entityType === 'App\\Opportunity' ? 'Role' : 'Position'} className="form-control" onChange={this._handleInputChange} />
             <label htmlFor="primary"> Primary?
               <input type="checkbox" id="primary" name="contact.pivot.primary" className="form-control" onChange={this._handleInputChange} />
             </label>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import * as MDIcons from 'react-icons/lib/md'
 import Select from 'react-select'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 import { saveContact } from "../../contacts/service"
 import { saveCompany } from "../../companies/service"
 import { searchOpportunities } from "../service"
@@ -91,8 +92,19 @@ class Opportunities extends React.Component {
     this._toggleAdd(e)
   }
 
+  _getSecondaryDetail(type) {
+    switch (type) {
+      case 'App\\Person':
+        return 'pivot.position'
+      default:
+        return 'company.name'
+    }
+  }
+
   render() {
-    const { opportunities, dispatch, entityId } = this.props;
+    const { opportunities, dispatch, entityType, entityId } = this.props
+    const secondaryDetail = this._getSecondaryDetail(entityType)
+
     return (
       <div className="card">
         <div className="card-header" id="headingOpportunities">
@@ -137,7 +149,7 @@ class Opportunities extends React.Component {
               <div key={`opportunity-${opportunity.id}-${entityId}`} onClick={() => this.context.router.history.push(`/opportunities/${opportunity.id}`)} className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right">{opportunity.status}</p>
                 <p><strong>{opportunity.name}</strong>
-                  <br />{opportunity.company.name}</p>
+                  <br />{_.get(opportunity, secondaryDetail)}</p>
               </div>
             ))}
           </div>

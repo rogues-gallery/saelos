@@ -43,6 +43,7 @@ class Contact extends Model {
     this.opportunities = props.deals && props.deals.map(d => new Opportunity(d)) || []
     this.activities = props.activities || []
     this.name = `${props.first_name} ${props.last_name}`
+    this.pivot = props.pivot ? props.pivot : {}
 
     const primaryCompany = _.find(this.companies, c => c.primary === 1)
 

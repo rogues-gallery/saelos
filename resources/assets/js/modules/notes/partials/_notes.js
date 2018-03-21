@@ -42,7 +42,7 @@ class Notes extends React.Component {
     const { entity_type, entity_id } = this.state.formState
 
     switch(entity_type) {
-      case 'App\\Deal':
+      case 'App\\Opportunity':
         uploadUrl = `/deals/${entity_id}/documents`
         break
       case 'App\\Person':

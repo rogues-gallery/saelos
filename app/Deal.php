@@ -30,10 +30,6 @@ class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterf
     use HasNotesTrait;
     use HasWorkflowsTrait;
 
-    protected $hidden = [
-        'pivot',
-    ];
-
     protected $guarded = [
         'id',
         'user',
@@ -93,7 +89,7 @@ class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterf
 
     public function people()
     {
-        return $this->belongsToMany(Person::class, 'deal_person');
+        return $this->belongsToMany(Person::class, 'deal_person')->withPivot(['primary', 'position']);
     }
 
     public function stage()
