@@ -81,7 +81,7 @@ class Notes extends React.Component {
             <span className="text-muted float-right"><MDIcons.MdLockOutline /></span>
           </p>
           <ContentEditable className="fh-5 my-2 p-1 border rounded" onChange={this._handleInputChange} />
-          <div>
+          <React.Fragment>
             <Dropzone
               onDrop={this._onDrop}
               className="document-dropzone"
@@ -96,7 +96,7 @@ class Notes extends React.Component {
               <button className="btn btn-link btn-sm">Cancel</button>
               <button className="btn btn-primary btn-sm" onClick={this._submit}>Create</button>
             </div>
-          </div>
+          </React.Fragment>
         </div>
 
         <div id="collapseNotes" className="collapse show mh-200" aria-labelledby="headingNotes">
