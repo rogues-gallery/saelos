@@ -7,7 +7,6 @@ import moment from 'moment'
 
 import Opportunities from '../../../../opportunities/partials/_opportunities'
 import Companies from "../../../../companies/partials/_companies"
-import SRI from '../../../../sri/partials/_sri'
 import Contact from '../../../Contact'
 import Notes from '../../../../notes/partials/_notes'
 import {getContact, getFirstContactId, isStateDirty} from '../../../store/selectors'
@@ -45,20 +44,6 @@ const Details = ({contact, dispatch, toggle, user, inEdit}) => (
         </div>
     </div>
     <div className="h-scroll">
-      <div className="card ct-container">
-        <div className="card-header" id="headingSRI">
-          <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSRI" aria-expanded="true" aria-controls="collapseSRI">
-            <MDIcons.MdKeyboardArrowDown /> Readiness Indicator
-          </h6>
-        </div>
-
-        <div id="collapseSRI" className="collapse show" aria-labelledby="headingSRI">
-          <div className="card-body border-bottom">
-            <SRI />
-          </div>
-        </div>
-      </div>
-
       <Opportunities opportunities={contact.opportunities} dispatch={dispatch} entityType="App\Person" entityId={contact.id} />
       <Companies companies={contact.companies} dispatch={dispatch} entityType="App\Person" entityId={contact.id} />
       <Notes notes={contact.notes} dispatch={dispatch} entityType="App\Person" entityId={contact.id} user={user} />
