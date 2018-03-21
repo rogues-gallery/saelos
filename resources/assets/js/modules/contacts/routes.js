@@ -5,11 +5,11 @@ import Page from './page'
 import {getFirstContactId} from "./store/selectors"
 import Main from '../../Main'
 
-let MyRedirect = ({firstContactId}) =>
-  <Main><Redirect to={`/contacts/${firstContactId}`} /></Main>
+let MyRedirect = ({firstId}) =>
+  <Main><Redirect to={`/contacts/${firstId}`} /></Main>
 
-const RedirectToFirstContact = connect(state => ({
-  firstContactId: getFirstContactId(state)
+const RedirectToFirst = connect(state => ({
+  firstId: getFirstContactId(state)
 }))(MyRedirect)
 
 export default [
@@ -17,13 +17,13 @@ export default [
     path: '/',
     exact: true,
     auth: true,
-    component: RedirectToFirstContact
+    component: Page
   },
   {
     path: '/contacts',
     exact: true,
     auth: true,
-    component: RedirectToFirstContact
+    component: RedirectToFirst
   },
   {
     path: '/contacts/:id',
