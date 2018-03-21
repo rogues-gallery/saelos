@@ -74,9 +74,14 @@ class Companies extends React.Component {
 
   _submit() {
     const { dispatch } = this.props
-    const companies = this.props.companies.map(c => c.originalProps)
+    let companies = this.props.companies.map(c => c.originalProps)
+    const { company } = this.state.formState
 
-    companies.push(this.state.formState.company)
+    if (company.pivot.primary) {
+      companies = companies.map(c => _.set(c, 'pivot.primary', false))
+    }
+
+    companies.push(company)
 
     const submitProps = {
       id: this.state.formState.id,
