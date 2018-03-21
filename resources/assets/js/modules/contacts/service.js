@@ -10,7 +10,7 @@ import store from '../../store'
 export const fetchContact = (id) => (dispatch) => {
   dispatch(actions.fetchingContact())
 
-  return Http.get(`people/${id}`)
+  return Http.get(`contacts/${id}`)
     .then(res => {
       dispatch(actions.fetchingContactSuccess(res.data.data))
     })
@@ -35,7 +35,7 @@ export const fetchContacts = (params) => (dispatch) => {
 
   dispatch(actions.fetchingCustomFieldsForContacts());
 
-  Http.get(`contexts/Person?customOnly=true`)
+  Http.get(`contexts/Contact?customOnly=true`)
     .then(res => {
       dispatch(actions.fetchingCustomFieldsForContactsSuccess(res.data))
     })
@@ -50,7 +50,7 @@ export const fetchContacts = (params) => (dispatch) => {
 
   params = params || {}
 
-  return Http.get('people', {params: params})
+  return Http.get('contacts', {params: params})
     .then(res => {
       dispatch(actions.fetchingContactsSuccess(res.data))
     })
@@ -64,7 +64,7 @@ export const saveContact = (params) => (dispatch) => {
   dispatch(actions.postingContact());
 
   if (params.id) {
-    return Http.patch(`people/${params.id}`, params)
+    return Http.patch(`contacts/${params.id}`, params)
       .then(res => {
         dispatch(actions.postingContactSuccess(res.data.data))
       })
@@ -73,7 +73,7 @@ export const saveContact = (params) => (dispatch) => {
         dispatch(actions.postingContactFailure());
       })
   } else {
-    return Http.post(`people`, params)
+    return Http.post(`contacts`, params)
       .then(res => {
         dispatch(actions.postingContactSuccess(res.data.data))
       })
@@ -87,7 +87,7 @@ export const saveContact = (params) => (dispatch) => {
 export const deleteContact = (id) => (dispatch) => {
   dispatch(actions.deletingContact());
 
-  return Http.delete(`people/${id}`)
+  return Http.delete(`contacts/${id}`)
     .then(res => {
       dispatch(actions.deletingContactSuccess(id))
     })
@@ -100,7 +100,7 @@ export const deleteContact = (id) => (dispatch) => {
 export const emailContact = (params) => (dispatch) => {
   dispatch(actions.emailingContact())
 
-  return Http.post(`people/${params.id}/email`, params)
+  return Http.post(`contacts/${params.id}/email`, params)
     .then(res => dispatch(actions.emailingContactSuccess(res.data)))
     .catch(err => {
       console.log(err)
@@ -111,7 +111,7 @@ export const emailContact = (params) => (dispatch) => {
 export const callContact = (params) => (dispatch) => {
   dispatch(actions.callingContact())
 
-  return Http.post(`/people/${params.id}/call`, params)
+  return Http.post(`/contacts/${params.id}/call`, params)
     .then(res => dispatch(actions.callingContactSuccess(res.data)))
     .catch(err => {
       console.log(err)
@@ -127,7 +127,7 @@ export const callContact = (params) => (dispatch) => {
 export const searchContacts = (params) => {
   params = params || {}
 
-  return Http.get('people', {params: params})
+  return Http.get('contacts', {params: params})
     .then(res => {
       return res.data.data
     })

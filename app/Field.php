@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin \Eloquent
  */
-class CustomField extends Model
+class Field extends Model
 {
 	protected $table = 'fields';
 	

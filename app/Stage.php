@@ -7,28 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Stage
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Deal[] $deals
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Opportunity[] $opportunities
  * @mixin \Eloquent
  */
 class Stage extends Model
 {
-    public function deals()
+    public function opportunities()
     {
-        return $this->hasMany(Deal::class);
+        return $this->hasMany(Opportunity::class);
     }
 
-    public function userDeals()
+    public function userOpportunities()
     {
-        return $this->deals()->where('user_id', '=', \Auth::user()->id);
+        return $this->opportunities()->where('user_id', '=', \Auth::user()->id);
     }
 
-    public function teamDeals()
+    public function teamOpportunities()
     {
-        $relation = $this->deals();
+        $relation = $this->opportunities();
 
         $relation->getQuery()
-            ->select('deals.*')
-            ->join('users', 'deals.user_id', '=', 'users.id')
+            ->select('opportunities.*')
+            ->join('users', 'opportunities.user_id', '=', 'users.id')
             ->where('users.team_id', '=', \Auth::user()->team_id);
 
         return $relation;

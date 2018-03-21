@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\CustomFieldValue
  *
- * @property-read \App\CustomField $customField
+ * @property-read \App\Field                                    $customField
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $model
  * @mixin \Eloquent
  */
 class CustomFieldValue extends Model
 {
-    public function customField()
+    public function field()
     {
-        return $this->belongsTo(CustomField::class);
+        return $this->belongsTo(Field::class);
     }
 
     public function model()

@@ -36,7 +36,7 @@ class Headquarters extends Model {
     this.contact = props.contact ? new Contact(props.contact) : new Contact({})
     this.company = props.company ? new Company(props.company) : new Company({})
     this.notes = props.notes && props.notes.map(n => new Note(n)) || []
-    this.opportunities = props.deals && props.deals.map(d => new Opportunity(d)) || []
+    this.opportunities = props.opportunities && props.opportunities.map(d => new Opportunity(d)) || []
     this.activities = props.activities || []
   }
 }

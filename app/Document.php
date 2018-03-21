@@ -15,8 +15,8 @@ class Document extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function entity()
+    public function note()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Note::class);
     }
 }

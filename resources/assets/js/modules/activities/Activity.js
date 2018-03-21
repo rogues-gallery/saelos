@@ -27,8 +27,8 @@ class Activity extends Model {
 
     //@TODO: Don, I moved your really bad code from the App/Http/Resources/Activity here instead. It's still bad.
     this.company = props.company && props.company.length ? new Company(props.company[0]) : new Company({})
-    this.contact = props.person && props.person.length ? new Contact(props.person[0]) : new Contact({})
-    this.opportunity = props.company && props.deal.length  ? new Opportunity(props.deal[0]) : new Opportunity({})
+    this.contact = props.contact && props.contact.length ? new Contact(props.contact[0]) : new Contact({})
+    this.opportunity = props.company && props.opportunity.length  ? new Opportunity(props.opportunity[0]) : new Opportunity({})
   }
 }
 

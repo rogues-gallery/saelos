@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\ModelTraits;
 
+use App\Activity;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait HasActivitiesTrait

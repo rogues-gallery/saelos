@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Contracts\HasWorkflowsInterface;
 use App\Workflow;
-use App\Person;
+use App\Contact;
 
 class ApplyWorkflowObserver
 {

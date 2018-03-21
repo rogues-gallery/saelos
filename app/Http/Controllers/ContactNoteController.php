@@ -7,38 +7,43 @@ use App\User;
 use Auth;
 use App\Events\NoteAdded;
 use App\Note;
-use App\Company;
+use App\Contact;
 use Illuminate\Http\Request;
 
-class CompanyCommentController extends Controller
+class ContactNoteController extends Controller
 {
+    public function update(Request $request, Contact $contact, Note $note)
+    {
+        $note->update($request->all());
+    }
+
     /**
      * @param Request $request
-     * @param Company  $company
+     * @param Contact $contact
      *
      * @return mixed
      */
-    public function store(Request $request, Company $company)
+    public function store(Request $request, Contact $contact)
     {
         $note = Note::create([
             'name' => $request->get('name'),
             'note' => $request->get('note')
         ]);
 
-        $note->entity()->associate($company)->save();
+        $note->entity()->associate($contact)->save();
         $note->user()->associate(Auth::user())->save();
         $note->load(['entity', 'user']);
 
         $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
 
         if ($mentions > 0) {
-            $company->load(CompanyController::SHOW_WITH);
+            $contact->load(ContactController::SHOW_WITH);
 
             foreach ($matches[1] as $username) {
                 $user = User::where('username', '=', $username)->first();
 
                 if ($user) {
-                    $user->notify(new Mentioned($user, $company));
+                    $user->notify(new Mentioned($user, $contact));
                 }
             }
         }
@@ -46,5 +51,10 @@ class CompanyCommentController extends Controller
         NoteAdded::broadcast($note);
 
         return $note;
+    }
+
+    public function destroy(Contact $contact, Note $note)
+    {
+        $note->delete();
     }
 }

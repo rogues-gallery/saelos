@@ -4,11 +4,11 @@ namespace App\Providers;
 
 use App\Company;
 use App\CustomFieldValue;
-use App\Deal;
+use App\Opportunity;
 use App\Observers\ApplyWorkflowObserver;
 use App\Observers\CustomFieldWorkflowObserver;
 use App\Observers\ModelUpdateObserver;
-use App\Person;
+use App\Contact;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,11 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Person::observe(ApplyWorkflowObserver::class);
-        Person::observe(ModelUpdateObserver::class);
+        Contact::observe(ApplyWorkflowObserver::class);
+        Contact::observe(ModelUpdateObserver::class);
 
-        Deal::observe(ApplyWorkflowObserver::class);
-        Deal::observe(ModelUpdateObserver::class);
+        Opportunity::observe(ApplyWorkflowObserver::class);
+        Opportunity::observe(ModelUpdateObserver::class);
 
         Company::observe(ApplyWorkflowObserver::class);
         Company::observe(ModelUpdateObserver::class);

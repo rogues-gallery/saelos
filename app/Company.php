@@ -2,27 +2,31 @@
 
 namespace App;
 
+use App\Contracts\HasActivitiesInterface;
 use App\Contracts\HasCustomFieldsInterface;
 use App\Contracts\HasWorkflowsInterface;
+use App\Contracts\SearchableInterface;
+use App\ModelTraits\HasActivitiesTrait;
+use App\ModelTraits\HasCustomFieldsTrait;
+use App\ModelTraits\HasNotesTrait;
+use App\ModelTraits\HasWorkflowsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * App\Company
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[]         $activities
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\CustomFieldValue[] $customFields
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Deal[] $deals
- * @property-read mixed $custom_fields
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[] $notes
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Person[] $people
- * @property-read \App\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Opportunity[]      $opportunities
+ * @property-read mixed                                                            $custom_fields
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[]             $notes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contact[]          $contacts
+ * @property-read \App\User                                                        $user
  * @mixin \Eloquent
  */
 class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface
 {
-    use HasDocumentsTrait;
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
     use HasNotesTrait;
@@ -66,12 +70,11 @@ class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
 
     protected $guarded = [
         'id',
-        'deals',
-        'people',
+        'opportunities',
+        'contacts',
         'user',
         'custom_fields',
         'notes',
-        'documents',
         'activities',
     ];
 
@@ -80,13 +83,13 @@ class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
         return $this->belongsTo(User::class);
     }
 
-    public function people()
+    public function contacts()
     {
-        return $this->morphedByMany(Person::class, 'entity', 'company_entities');
+        return $this->morphedByMany(Contact::class, 'entity', 'company_xref');
     }
 
-    public function deals()
+    public function opportunities()
     {
-        return $this->morphedByMany(Deal::class, 'entity', 'company_entities');
+        return $this->morphedByMany(Opportunity::class, 'entity', 'company_xref');
     }
 }

@@ -2,8 +2,8 @@
 <?php
 
 use App\Company;
-use App\Deal;
-use App\Person;
+use App\Opportunity;
+use App\Contact;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -26,12 +26,12 @@ class CompaniesPivot extends Migration
             $table->text('position')->nullable();
         });
 
-        Deal::chunk(100, function($deals) {
+        Opportunity::chunk(100, function($deals) {
             foreach ($deals as $deal) {
                 if ($deal->company_id) {
                     \DB::table('company_entities')->insert([
                         'entity_id' => $deal->id,
-                        'entity_type' => Deal::class,
+                        'entity_type' => Opportunity::class,
                         'company_id' => $deal->company_id,
                         'primary' => true
                     ]);
@@ -39,12 +39,12 @@ class CompaniesPivot extends Migration
             }
         });
 
-        Person::chunk(100, function($people) {
+        Contact::chunk(100, function($people) {
             foreach ($people as $person) {
                 if ($person->company_id) {
                     \DB::table('company_entities')->insert([
                         'entity_id' => $person->id,
-                        'entity_type' => Person::class,
+                        'entity_type' => Contact::class,
                         'company_id' => $person->company_id,
                         'primary' => true,
                         'position' => $person->position

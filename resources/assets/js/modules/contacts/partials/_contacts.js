@@ -78,7 +78,7 @@ class Contacts extends React.Component {
 
     const submitProps = {
       id: this.state.formState.id,
-      people: contacts
+      contacts: contacts
     }
 
     switch (this.props.entityType) {

@@ -4,7 +4,7 @@ namespace App\Subscribers;
 
 use App\Activity;
 use App\CallActivity;
-use App\Person;
+use App\Contact;
 use App\User;
 use Treblig\Plivo\Laravel\Events\CallAnswered;
 use Treblig\Plivo\Laravel\Events\CallEnded;
@@ -49,7 +49,7 @@ class PlivoSubscriber
     public function onCallAnswered(CallAnswered $event)
     {
         $call = $event->getCall();
-        $person = Person::findOrFail($call->getEntityId());
+        $contact = Contact::findOrFail($call->getEntityId());
         $user = User::where('phone', '=', $call->getTo())->first();
         $details = CallActivity::where('uuid', '=', $call->getCallUuid())->first();
 
@@ -64,7 +64,7 @@ class PlivoSubscriber
 <Response>
     <Record action="{$recordingReceivedUrl}" startOnDialAnswer="true" redirect="false" maxLength="1200" />
     <Dial callerId="{$call->getTo()}" callerName="{$user->name}">
-        <Number>{$person->phone}</Number>    
+        <Number>{$contact->phone}</Number>    
     </Dial>
 </Response>
 XML;
@@ -97,15 +97,15 @@ XML;
     public function onCallInitiated(CallInitiated $event)
     {
         $call = $event->getCall();
-        $person = Person::findOrFail($call->getEntityId());
+        $contact = Contact::findOrFail($call->getEntityId());
         $user = User::where('phone', '=', $event->getCallArgs()['to'])->first();
 
         $activity = new Activity();
         $activity->title = 'Phone call placed.';
         $activity->description = sprintf(
             'Call to %s %s initiated by %s.',
-            $person->first_name,
-            $person->last_name,
+            $contact->first_name,
+            $contact->last_name,
             $user->name
         );
 
@@ -119,7 +119,7 @@ XML;
         $details->save();
 
         $activity->details()->associate($details);
-        $activity->entity()->associate($person);
+        $activity->entity()->associate($contact);
         $activity->save();
     }
 

@@ -89,7 +89,7 @@ class Companies extends React.Component {
     }
 
     switch (this.props.entityType) {
-      case 'App\\Person':
+      case 'App\\Contact':
         dispatch(saveContact(submitProps))
         break
       case 'App\\Opportunity':

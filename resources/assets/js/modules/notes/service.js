@@ -9,14 +9,14 @@ export const saveNote = (params) => (dispatch) => {
   let method = 'post'
 
   switch (params.entity_type) {
-    case 'App\\Person':
-      prefix = `/people`
+    case 'App\\Contact':
+      prefix = `/contacts`
       break;
     case 'App\\Company':
       prefix = `/companies`
       break;
-    case 'App\\Deal':
-      prefix = `/deals`
+    case 'App\\Opportunity':
+      prefix = `/opportunities`
       break;
     default:
       break;

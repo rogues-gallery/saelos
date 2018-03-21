@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\Mail\Contact;
-use App\Person;
+use App\Mail\Contact as ContactMail;
+use App\Contact;
 use App\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -18,9 +18,9 @@ class ContactEmailed implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Person
+     * @var Contact
      */
-    private $person;
+    private $contact;
 
     /**
      * @var User
@@ -35,23 +35,23 @@ class ContactEmailed implements ShouldBroadcast
     /**
      * ContactEmailed constructor.
      *
-     * @param Person $person
-     * @param User   $user
+     * @param Contact $contact
+     * @param User    $user
      * @param Contact $email
      */
-    public function __construct(Person $person, User $user, Contact $email)
+    public function __construct(Contact $contact, User $user, ContactMail $email)
     {
-        $this->person = $person;
+        $this->contact = $contact;
         $this->user = $user;
         $this->email = $email;
     }
 
     /**
-     * @return Person
+     * @return Contact
      */
-    public function getPerson(): Person
+    public function getContact(): Contact
     {
-        return $this->person;
+        return $this->contact;
     }
 
     /**
@@ -82,6 +82,6 @@ class ContactEmailed implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return $this->person->toArray();
+        return $this->contact->toArray();
     }
 }

@@ -44,9 +44,9 @@ const Details = ({contact, dispatch, toggle, user, inEdit}) => (
         </div>
     </div>
     <div className="h-scroll">
-      <Opportunities opportunities={contact.opportunities} dispatch={dispatch} entityType="App\Person" entityId={contact.id} />
-      <Companies companies={contact.companies} dispatch={dispatch} entityType="App\Person" entityId={contact.id} />
-      <Notes notes={contact.notes} dispatch={dispatch} entityType="App\Person" entityId={contact.id} user={user} />
+      <Opportunities opportunities={contact.opportunities} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
+      <Companies companies={contact.companies} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
+      <Notes notes={contact.notes} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} user={user} />
     </div>
   </div>
 )

@@ -13,13 +13,13 @@ class UserController extends Controller
 {
     const INDEX_WITH = [
         'team',
-        'deals',
+        'opportunities',
         'customFields',
     ];
 
     const SHOW_WITH = [
         'team',
-        'deals',
+        'opportunities',
         'customFields',
     ];
 
@@ -56,8 +56,6 @@ class UserController extends Controller
 
         $user->update($data);
         $user->assignCustomFields($customFields);
-
-        Auth::user()->notify(new UserUpdated($user));
 
         return $this->show($user->id);
     }

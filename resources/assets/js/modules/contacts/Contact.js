@@ -40,7 +40,7 @@ class Contact extends Model {
     this.user = props.user ? new User(props.user) : new User({})
     this.companies = props.companies && props.companies.map(c => new Company(c)) || []
     this.notes = props.notes && props.notes.map(n => new Note(n)) || []
-    this.opportunities = props.deals && props.deals.map(d => new Opportunity(d)) || []
+    this.opportunities = props.opportunities && props.opportunities.map(d => new Opportunity(d)) || []
     this.activities = props.activities || []
     this.name = `${props.first_name} ${props.last_name}`
     this.pivot = props.pivot ? props.pivot : {}

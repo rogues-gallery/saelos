@@ -19,7 +19,7 @@ class EmailAction extends Component {
         id: props.contact.id,
         emailSubject: '',
         emailContent: '',
-        deal_id: null,
+        opportunity_id: null,
         company_id: null
       }
     }
@@ -80,11 +80,11 @@ class EmailAction extends Component {
                 <label htmlFor="emailOpportunity">Opportunity</label>
                 <Select
                   multi={false}
-                  value={this.state.formState.deal_id}
+                  value={this.state.formState.opportunity_id}
                   onChange={(value) => {
                     const event = {
                       target: {
-                        name: 'deal_id',
+                        name: 'opportunity_id',
                         value: value.value
                       }
                     }

@@ -77,11 +77,11 @@ class Opportunities extends React.Component {
 
     const submitProps = {
       id: this.state.formState.id,
-      deals: opportunities
+      opportunities: opportunities
     }
 
     switch (this.props.entityType) {
-      case 'App\\Person':
+      case 'App\\Contact':
         dispatch(saveContact(submitProps))
         break
       case 'App\\Company':
@@ -94,7 +94,7 @@ class Opportunities extends React.Component {
 
   _getSecondaryDetail(type) {
     switch (type) {
-      case 'App\\Person':
+      case 'App\\Contact':
         return 'pivot.position'
       default:
         return 'company.name'
@@ -136,7 +136,7 @@ class Opportunities extends React.Component {
                 this._handleInputChange(event);
               }}
             />
-            {this.props.entityType === 'App\\Person' ?
+            {this.props.entityType === 'App\\Contact' ?
               <input type="text" id="position" className="form-control" name="opportunity.pivot.position" placeholder="Role" onChange={this._handleInputChange} />
               : ''}
             <button className="btn btn-primary" onClick={this._submit}>Add</button>

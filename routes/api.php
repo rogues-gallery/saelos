@@ -19,32 +19,28 @@ Route::group([
     Route::prefix('auth')->group(base_path('routes/api/auth.php'));
 
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('/people/{id}/email', 'PersonController@email');
+        Route::post('/contacts/{id}/email', 'PersonController@email');
 
         Route::get('/tasks', function () {
-            $people = \App\Person::where('user_id', Auth::user()->id)
-                ->with(\App\Http\Controllers\PersonController::INDEX_WITH)
+            $people = \App\Contact::where('user_id', Auth::user()->id)
+                ->with(\App\Http\Controllers\ContactController::INDEX_WITH)
                 ->orderBy('updated_at')
                 ->get();
 
             return \Illuminate\Http\JsonResponse::create($people);
         });
 
-        Route::resource('deals.documents', 'DealDocumentController');
-        Route::resource('people.documents', 'PersonDocumentController');
-        Route::resource('companies.documents', 'CompanyDocumentController');
-
         Route::get('/reports/{id}/export', 'ReportExportController@export');
 
         Route::get('/contexts/{model}', 'ContextController@show')
             ->where('model', '[a-zA-Z/]+');
 
-        Route::resource('people.notes', 'PersonCommentController');
-        Route::resource('companies.notes', 'CompanyCommentController');
-        Route::resource('deals.notes', 'DealCommentController');
+        Route::resource('contacts.notes', 'ContactNoteController');
+        Route::resource('companies.notes', 'CompanyNoteController');
+        Route::resource('opportunities.notes', 'OpportunityNoteController');
 
-        Route::resource('people', 'PersonController');
-        Route::resource('deals', 'DealController');
+        Route::resource('contacts', 'ContactController');
+        Route::resource('opportunities', 'OpportunityController');
         Route::resource('companies', 'CompanyController');
         Route::resource('stages', 'StageController');
         Route::resource('teams', 'TeamController');

@@ -2,8 +2,8 @@ import * as types from "../actions/types";
 
 let Echo = window.Echo;
 
-Echo.channel('deals')
-  .listen('DealUpdated', (e) => {
+Echo.channel('opportunities')
+  .listen('OpportunityUpdated', (e) => {
     let state = window.reduxStore.getState().opportunityState;
     let type = types.FETCHING_OPPORTUNITIES_SUCCESS;
     let entities = state.data;

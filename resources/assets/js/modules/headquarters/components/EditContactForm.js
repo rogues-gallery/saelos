@@ -56,7 +56,7 @@ class EditContactForm extends Component {
   _openOpportunityPanel(data) {
     if (JSON.stringify(data) === '{}') {
       data = {
-        people: [
+        contacts: [
           {
             id: this.props.contact.id,
             is_primary: true
@@ -120,12 +120,12 @@ class EditContactForm extends Component {
   render() {
     let customFields = customFieldsHelper(this.props.contact, this.props.customFields, this._handleInputChange);
     let lastInteraction = this.props.contact.activities && this.props.contact.activities.length ? this.props.contact.activities.slice(-1)[0].description : 'None';
-    let totalValue = _.sum(_.map(this.props.contact.deals, 'amount'));
-    let opportunities = this.props.contact.deals.map((deal) => {
+    let totalValue = _.sum(_.map(this.props.contact.opportunities, 'amount'));
+    let opportunities = this.props.contact.opportunities.map((opportunity) => {
       return (
-        <div key={deal.id} className="contact-opportunity">
-          <div className="contact-opportunity-title" onClick={this._openOpportunityPanel.bind(this, deal)}>
-            {deal.name}
+        <div key={opportunity.id} className="contact-opportunity">
+          <div className="contact-opportunity-title" onClick={this._openOpportunityPanel.bind(this, opportunity)}>
+            {opportunity.name}
           </div>
         </div>
       )

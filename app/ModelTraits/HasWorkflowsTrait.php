@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\ModelTraits;
+
+use App\Workflow;
 
 trait HasWorkflowsTrait
 {

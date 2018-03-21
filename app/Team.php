@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Team
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Deal[] $deals
- * @property-read \App\User $leader
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[]    $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Opportunity[] $opportunities
+ * @property-read \App\User                                                   $leader
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[]        $users
  * @mixin \Eloquent
  */
 class Team extends Model
@@ -20,9 +20,9 @@ class Team extends Model
         return $this->hasMany(User::class);
     }
 
-    public function deals()
+    public function opportunities()
     {
-        return $this->hasManyThrough(Deal::class, User::class);
+        return $this->hasManyThrough(Opportunity::class, User::class);
     }
 
     public function activities()

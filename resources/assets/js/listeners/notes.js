@@ -16,11 +16,11 @@ Echo.channel('notes')
     let type = null;
 
     switch (e.entity_type) {
-      case 'App\\Person':
+      case 'App\\Contact':
         state = window.reduxStore.getState().contactState;
         type = types.FETCHING_CONTACTS_SUCCESS;
         break;
-      case 'App\\Deal':
+      case 'App\\Opportunity':
         state = window.reduxStore.getState().opportunityState;
         type = types.FETCHING_OPPORTUNITIES_SUCCESS;
         break;

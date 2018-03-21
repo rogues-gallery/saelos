@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Deal::class, function (Faker $faker) {
+$factory->define(App\Opportunity::class, function (Faker $faker) {
     return [
         'name' => $faker->company,
         'summary' => $faker->paragraph,

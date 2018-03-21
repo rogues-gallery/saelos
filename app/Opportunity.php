@@ -2,28 +2,34 @@
 
 namespace App;
 
+use App\Contracts\HasActivitiesInterface;
+use App\Contracts\HasCompaniesInterface;
 use App\Contracts\HasCustomFieldsInterface;
 use App\Contracts\HasWorkflowsInterface;
+use App\Contracts\SearchableInterface;
+use App\ModelTraits\HasActivitiesTrait;
+use App\ModelTraits\HasCompaniesTrait;
+use App\ModelTraits\HasCustomFieldsTrait;
+use App\ModelTraits\HasNotesTrait;
+use App\ModelTraits\HasWorkflowsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
- * App\Deal
+ * App\Opportunity
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
- * @property-read \App\Company $company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[]         $activities
+ * @property-read \App\Company                                                     $company
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\CustomFieldValue[] $customFields
- * @property-read mixed $custom_fields
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[] $notes
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Person[] $people
- * @property-read \App\Stage $stage
- * @property-read \App\User $user
+ * @property-read mixed                                                            $custom_fields
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[]             $notes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contact[]          $contacts
+ * @property-read \App\Stage                                                       $stage
+ * @property-read \App\User                                                        $user
  * @mixin \Eloquent
  */
-class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface
+class Opportunity extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface
 {
-    use HasDocumentsTrait;
     use HasActivitiesTrait;
     use HasCompaniesTrait;
     use HasCustomFieldsTrait;
@@ -35,11 +41,10 @@ class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterf
         'user',
         'team',
         'companies',
-        'people',
+        'contacts',
         'stage',
         'custom_fields',
         'notes',
-        'documents',
         'activities',
     ];
 
@@ -87,9 +92,9 @@ class Deal extends Model implements HasWorkflowsInterface, HasCustomFieldsInterf
         return $this->user->team();
     }
 
-    public function people()
+    public function contacts()
     {
-        return $this->belongsToMany(Person::class, 'deal_person')->withPivot(['primary', 'position']);
+        return $this->belongsToMany(Contact::class, 'opportunity_contact')->withPivot(['primary', 'position']);
     }
 
     public function stage()

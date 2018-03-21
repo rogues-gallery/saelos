@@ -2,32 +2,32 @@
 
 namespace App\Notifications;
 
-use App\Person;
+use App\Contact;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PersonEmailed extends Notification
+class ContactUpdated extends Notification
 {
     use Queueable;
 
     /**
-     * @var Person
+     * @var Contact
      */
-    private $person;
+    private $contact;
 
     /**
      * Create a new notification instance.
      *
-     * @param Person $person
+     * @param Contact $contact
      *
      * @return void
      */
-    public function __construct(Person $person)
+    public function __construct(Contact $contact)
     {
-        $this->person = $person;
+        $this->contact = $contact;
     }
 
     /**
@@ -49,11 +49,11 @@ class PersonEmailed extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'person' => $this->toArray($notifiable),
+            'contact' => $this->toArray($notifiable),
             'message' => sprintf(
-                'Email sent to %s %s!',
-                $this->person->first_name,
-                $this->person->last_name
+                '%s %s has been updated!',
+                $this->contact->first_name,
+                $this->contact->last_name
             ),
         ]);
     }
@@ -66,6 +66,6 @@ class PersonEmailed extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->person->toArray();
+        return $this->contact->toArray();
     }
 }

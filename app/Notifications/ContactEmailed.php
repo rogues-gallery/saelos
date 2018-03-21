@@ -2,32 +2,32 @@
 
 namespace App\Notifications;
 
-use App\Deal;
+use App\Contact;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class DealUpdated extends Notification
+class ContactEmailed extends Notification
 {
     use Queueable;
 
     /**
-     * @var Deal
+     * @var Contact
      */
-    private $deal;
+    private $contact;
 
     /**
      * Create a new notification instance.
      *
-     * @param Deal $deal
+     * @param Contact $contact
      *
      * @return void
      */
-    public function __construct(Deal $deal)
+    public function __construct(Contact $contact)
     {
-        $this->deal = $deal;
+        $this->contact = $contact;
     }
 
     /**
@@ -49,10 +49,11 @@ class DealUpdated extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'deal' => $this->toArray($notifiable),
+            'contact' => $this->toArray($notifiable),
             'message' => sprintf(
-                '%s has been updated!',
-                $this->deal->name
+                'Email sent to %s %s!',
+                $this->contact->first_name,
+                $this->contact->last_name
             ),
         ]);
     }
@@ -65,6 +66,6 @@ class DealUpdated extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->deal->toArray();
+        return $this->contact->toArray();
     }
 }

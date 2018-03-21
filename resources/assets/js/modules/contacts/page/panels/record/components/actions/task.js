@@ -17,8 +17,8 @@ class TaskAction extends Component {
     this.state = {
       formState: {
         user_id: this.props.user.id,
-        person_id: this.props.contact.id,
-        deal_id: null,
+        contact_id: this.props.contact.id,
+        opportunity_id: null,
         company_id: null
       }
     }
@@ -97,11 +97,11 @@ class TaskAction extends Component {
               <label htmlFor="emailOpportunity">Opportunity</label>
               <Select
                 multi={false}
-                value={this.state.formState.deal_id}
+                value={this.state.formState.opportunity_id}
                 onChange={(value) => {
                   const event = {
                     target: {
-                      name: 'deal_id',
+                      name: 'opportunity_id',
                       value: value.value
                     }
                   }

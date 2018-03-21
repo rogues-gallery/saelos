@@ -16,7 +16,7 @@ Echo.channel('documents')
     let type = null;
 
     switch (e.entity_type) {
-      case 'App\\Deal':
+      case 'App\\Opportunity':
         state = window.reduxStore.getState().opportunityState;
         type = types.FETCHING_OPPORTUNITIES_SUCCESS;
         break;
@@ -24,7 +24,7 @@ Echo.channel('documents')
         state = window.reduxStore.getState().accountState;
         type = types.FETCHING_ACCOUNTS_SUCCESS;
         break;
-      case 'App\\Person':
+      case 'App\\Contact':
         state = window.reduxStore.getState().contactState;
         type = types.FETCHING_CONTACTS_SUCCESS;
         break;

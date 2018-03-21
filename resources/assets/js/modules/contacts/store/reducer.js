@@ -109,7 +109,7 @@ export default function contactReducer(state = initialState, action) {
     case POSTING_NOTE_SUCCESS:
       const {entity_type, entity_id} = action.data.data
 
-      if (entity_type !== 'App\\Person') {
+      if (entity_type !== 'App\\Contact') {
         return state
       }
 

@@ -37,6 +37,6 @@ document.addEventListener('focusout', function (e) {
 require('./app');
 require('./contacts');
 require('./accounts');
-require('./deals');
+require('./opportunities');
 require('./notes');
 require('./documents');

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class Deal extends Resource
+class Opportunity extends Resource
 {
     /**
      * Transform the resource into an array.

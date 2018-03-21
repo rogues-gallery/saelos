@@ -7,38 +7,38 @@ use App\User;
 use Auth;
 use App\Events\NoteAdded;
 use App\Note;
-use App\Deal;
+use App\Company;
 use Illuminate\Http\Request;
 
-class DealCommentController extends Controller
+class CompanyNoteController extends Controller
 {
     /**
      * @param Request $request
-     * @param Deal  $deal
+     * @param Company  $company
      *
      * @return mixed
      */
-    public function store(Request $request, Deal $deal)
+    public function store(Request $request, Company $company)
     {
         $note = Note::create([
             'name' => $request->get('name'),
             'note' => $request->get('note')
         ]);
 
-        $note->entity()->associate($deal)->save();
+        $note->entity()->associate($company)->save();
         $note->user()->associate(Auth::user())->save();
         $note->load(['entity', 'user']);
 
         $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
 
         if ($mentions > 0) {
-            $deal->load(DealController::SHOW_WITH);
+            $company->load(CompanyController::SHOW_WITH);
 
             foreach ($matches[1] as $username) {
                 $user = User::where('username', '=', $username)->first();
 
                 if ($user) {
-                    $user->notify(new Mentioned($user, $deal));
+                    $user->notify(new Mentioned($user, $company));
                 }
             }
         }

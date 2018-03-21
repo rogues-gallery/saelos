@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CustomFieldController extends Controller
+class FieldController extends Controller
 {
     //
 }

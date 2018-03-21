@@ -11,13 +11,13 @@ class TeamController extends Controller
 {
     const INDEX_WITH = [
         'users',
-        'deals',
+        'opportunities',
         'users.customFields',
     ];
 
     const SHOW_WITH = [
         'users',
-        'users.deals',
+        'users.opportunities',
         'users.customFields',
     ];
 

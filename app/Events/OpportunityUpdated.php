@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\Deal;
-use App\Http\Controllers\DealController;
+use App\Opportunity;
+use App\Http\Controllers\OpportunityController;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,25 +11,25 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Http\Resources\Deal as DealResource;
+use App\Http\Resources\Opportunity as OpportunityResource;
 
-class DealUpdated implements ShouldBroadcast
+class OpportunityUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Deal
+     * @var Opportunity
      */
-    private $deal;
+    private $opportunity;
 
     /**
      * ContactUpdated constructor.
      *
-     * @param Deal $deal
+     * @param Opportunity $opportunity
      */
-    public function __construct(Deal $deal)
+    public function __construct(Opportunity $opportunity)
     {
-        $this->deal = $deal;
+        $this->opportunity = $opportunity;
     }
 
     /**
@@ -39,11 +39,11 @@ class DealUpdated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('deals');
+        return new Channel('opportunities');
     }
 
     public function broadcastWith()
     {
-        return (new DealResource($this->deal->load(DealController::SHOW_WITH)))->toArray(null);
+        return (new OpportunityResource($this->opportunity->load(OpportunityController::SHOW_WITH)))->toArray(null);
     }
 }

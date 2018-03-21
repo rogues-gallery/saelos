@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Person::class, function (Faker $faker) {
+$factory->define(App\Contact::class, function (Faker $faker) {
     return [
         'published' => 1,
         'first_name' => $faker->firstName,

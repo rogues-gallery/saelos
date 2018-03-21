@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\CustomField;
+use App\Field;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -45,7 +45,7 @@ class ContextController extends Controller
                 }
             }
 
-            $fields = CustomField::where('model', $model)->get();
+            $fields = Field::where('model', $model)->get();
 
             foreach ($fields->all() as $field) {
                 $alias = $field->alias ?: Str::snake($field->label);

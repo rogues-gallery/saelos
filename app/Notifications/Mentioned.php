@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Deal;
+use App\Opportunity;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;

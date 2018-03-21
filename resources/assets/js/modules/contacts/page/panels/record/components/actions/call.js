@@ -18,7 +18,7 @@ class CallAction extends Component {
       formState: {
         id: props.contact.id,
         sentiment: null,
-        deal_id: null,
+        opportunity_id: null,
         company_id: null
       }
     }
@@ -70,11 +70,11 @@ class CallAction extends Component {
                   <label htmlFor="callOpportunity">Opportunity</label>
                   <Select
                     multi={false}
-                    value={this.state.formState.deal_id}
+                    value={this.state.formState.opportunity_id}
                     onChange={(value) => {
                       const event = {
                         target: {
-                          name: 'deal_id',
+                          name: 'opportunity_id',
                           value: value
                         }
                       }

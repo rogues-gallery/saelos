@@ -85,7 +85,7 @@ class Record extends React.Component {
           }
         })
 
-        this.state.formState.people.map(p => {
+        this.state.formState.contacts.map(p => {
           if (typeof _.find(options, o => o.value === p.id) === 'undefined') {
             options.push({value: p.id, label:p.name})
           }
@@ -244,15 +244,15 @@ class Record extends React.Component {
                     <label className="col-sm-3 col-form-label">Contacts</label>
                     <div className="col-sm-9">
                       <Select.Async
-                        key={`contacts-select-${this.state.formState.people && this.state.formState.people.length}`}
-                        value={this.state.formState.people && this.state.formState.people.map(o => o.id)}
+                        key={`contacts-select-${this.state.formState.contacts && this.state.formState.contacts.length}`}
+                        value={this.state.formState.contacts && this.state.formState.contacts.map(o => o.id)}
                         multi={true}
                         loadOptions={this._searchContacts}
                         onChange={(values) => {
                           const event = {
                             target: {
                               type: 'select',
-                              name: 'people',
+                              name: 'contacts',
                               value: values.map(v => ({id: v.value, name: v.label}))
                             }
                           }

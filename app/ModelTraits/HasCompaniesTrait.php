@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\ModelTraits;
 
+use App\Company;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait HasCompaniesTrait
@@ -11,7 +12,7 @@ trait HasCompaniesTrait
         return $this->morphToMany(
             Company::class,
             'entity',
-            'company_entities'
+            'company_xref'
         )
             ->withPivot(['primary', 'position']);
     }

@@ -1,7 +1,9 @@
 <?php
 
-namespace App;
+namespace App\ModelTraits;
 
+use App\CustomFieldValue;
+use App\Field;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasCustomFieldsTrait
@@ -18,7 +20,7 @@ trait HasCustomFieldsTrait
         }
 
         foreach ($value as $field) {
-            $customField = CustomField::find($field['custom_field_id']);
+            $customField = Field::find($field['custom_field_id']);
 
             // If we don't have a matching custom field, bail
             if (!$customField) {
@@ -32,7 +34,7 @@ trait HasCustomFieldsTrait
 
             if (!$customFieldValue) {
                 $customFieldValue = new CustomFieldValue();
-                $customFieldValue->customField()->associate($customField);
+                $customFieldValue->field()->associate($customField);
             }
 
             // If the value is empty, delete the entry and continue

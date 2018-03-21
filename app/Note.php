@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\ModelTraits\HasDocumentsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**

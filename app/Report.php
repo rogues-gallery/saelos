@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\Contracts\SearchableInterface;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\DealController;
-use App\Http\Controllers\PersonController;
+use App\Http\Controllers\OpportunityController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -62,15 +63,15 @@ class Report extends Model implements SearchableInterface
         $customInRaw = null;
 
         switch ($this->data_source) {
-            case 'App\\Person':
-                $items->with(PersonController::INDEX_WITH);
-                $customInId = 'people.id';
-                $customInRaw = '`people`.`id`';
+            case 'App\\Contact':
+                $items->with(ContactController::INDEX_WITH);
+                $customInId = 'contacts.id';
+                $customInRaw = '`contacts`.`id`';
                 break;
-            case 'App\\Deal':
-                $items->with(DealController::INDEX_WITH);
-                $customInId = 'deals.id';
-                $customInRaw = '`deals`.`id`';
+            case 'App\\Opportunity':
+                $items->with(OpportunityController::INDEX_WITH);
+                $customInId = 'opportunities.id';
+                $customInRaw = '`opportunities`.`id`';
                 break;
             case 'App\\Companies':
                 $items->with(CompanyController::INDEX_WITH);
@@ -101,11 +102,11 @@ class Report extends Model implements SearchableInterface
                 }
 
                 switch ($this->data_source) {
-                    case 'App\\Person':
-                        $field = 'people.'.$field;
+                    case 'App\\Contact':
+                        $field = 'contacts.'.$field;
                         break;
-                    case 'App\\Deal':
-                        $field = 'deals.'.$field;
+                    case 'App\\Opportunity':
+                        $field = 'opportunities.'.$field;
                         break;
                     case 'App\\Company':
                         $field = 'companies.'.$field;

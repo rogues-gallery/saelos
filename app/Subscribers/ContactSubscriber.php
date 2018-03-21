@@ -6,7 +6,7 @@ use App\Activity;
 use App\CallActivity;
 use App\EmailActivity;
 use App\Events\ContactEmailed;
-use App\Person;
+use App\Contact;
 use App\User;
 use Treblig\Plivo\Laravel\Events\CallAnswered;
 use Treblig\Plivo\Laravel\Events\CallEnded;
@@ -30,7 +30,7 @@ class ContactSubscriber
 
     public function onContactEmailed(ContactEmailed $event)
     {
-        $person = $event->getPerson();
+        $contact = $event->getContact();
         $user = $event->getUser();
         $email = $event->getEmail();
 
@@ -43,8 +43,8 @@ class ContactSubscriber
             'title' => 'Email sent.',
             'description' => sprintf(
                 'Email to %s %s sent by %s.',
-                $person->first_name,
-                $person->last_name,
+                $contact->first_name,
+                $contact->last_name,
                 $user->name
             ),
             'user_id' => $user->id,
@@ -52,6 +52,6 @@ class ContactSubscriber
             'details_type' => EmailActivity::class
         ]);
 
-        $person->activities()->save($activity, ['primary' => true]);
+        $contact->activities()->save($activity, ['primary' => true]);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\Http\Controllers\PersonController;
-use App\Person;
+use App\Http\Controllers\ContactController;
+use App\Contact;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,25 +11,25 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Http\Resources\Person as PersonResource;
+use App\Http\Resources\Contact as ContactResource;
 
 class ContactUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Person
+     * @var Contact
      */
-    private $person;
+    private $contact;
 
     /**
      * ContactUpdated constructor.
      *
-     * @param Person $person
+     * @param Contact $contact
      */
-    public function __construct(Person $person)
+    public function __construct(Contact $contact)
     {
-        $this->person = $person;
+        $this->contact = $contact;
     }
 
     /**
@@ -44,6 +44,6 @@ class ContactUpdated implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return (new PersonResource($this->person->load(PersonController::SHOW_WITH)))->toArray(null);
+        return (new ContactResource($this->contact->load(ContactController::SHOW_WITH)))->toArray(null);
     }
 }

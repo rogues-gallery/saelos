@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\CompanyUpdated;
 use Auth;
 use App\Company;
-use App\Deal;
-use App\Person;
-use App\User;
+use App\Opportunity;
+use App\Contact;
 use App\Http\Resources\CompanyCollection;
-use Illuminate\Database\Query\Builder as QBuilder;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\Company as CompanyResource;
 
@@ -18,42 +14,40 @@ class CompanyController extends Controller
 {
     const INDEX_WITH = [
         'user',
-        'people',
-        'people.companies',
-        'people.deals',
-        'people.deals.people',
-        'deals',
-        'deals.companies',
-        'deals.people',
-        'deals.customFields',
-        'deals.customFields.customField',
+        'contacts',
+        'contacts.companies',
+        'contacts.opportunities',
+        'contacts.opportunities.contacts',
+        'opportunities',
+        'opportunities.companies',
+        'opportunities.contacts',
+        'opportunities.customFields',
+        'opportunities.customFields.field',
         'customFields',
-        'customFields.customField',
+        'customFields.field',
         'notes',
+        'notes.documents',
         'notes.user',
-        'documents',
-        'documents.user',
     ];
 
     const SHOW_WITH = [
         'activities',
         'activities.details',
         'user',
-        'people',
-        'people.companies',
-        'people.deals',
-        'people.deals.people',
-        'deals',
-        'deals.companies',
-        'deals.people',
-        'deals.customFields',
-        'deals.customFields.customField',
+        'contacts',
+        'contacts.companies',
+        'contacts.opportunities',
+        'contacts.opportunities.contacts',
+        'opportunities',
+        'opportunities.companies',
+        'opportunities.contacts',
+        'opportunities.customFields',
+        'opportunities.customFields.field',
         'customFields',
-        'customFields.customField',
+        'customFields.field',
         'notes',
+        'notes.documents',
         'notes.user',
-        'documents',
-        'documents.user',
     ];
 
     public function index(Request $request)
@@ -80,33 +74,33 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         $data = $request->all();
         $customFields = $data['custom_fields'] ?? [];
-        $people = $data['people'] ?? [];
-        $deals = $data['deals'] ?? [];
+        $contacts = $data['contacts'] ?? [];
+        $opportunities = $data['opportunities'] ?? [];
 
-        foreach ($deals as $i => $companyDeal) {
-            $deal = Deal::findOrFail($companyDeal['id']);
+        foreach ($opportunities as $i => $companyOpp) {
+            $opportunity = Opportunity::findOrFail($companyOpp['id']);
 
-            if ($company->deals()->get()->contains('id', $deal->id)) {
-                $company->deals()->updateExistingPivot($company->id, [
+            if ($company->opportunities()->get()->contains('id', $opportunity->id)) {
+                $company->opportunities()->updateExistingPivot($company->id, [
                     'primary' => $i === 0
                 ]);
             } else {
-                $company->deals()->save($deal, [
+                $company->opportunities()->save($opportunity, [
                     'primary' => $i === 0
                 ]);
             }
         }
 
-        if ($people) {
+        if ($contacts) {
             $toSync = [];
 
-            foreach ($people as $i => $dealPerson) {
-                $person = Person::findOrFail($dealPerson['id']);
+            foreach ($contacts as $i => $companyContact) {
+                $contact = Contact::findOrFail($companyContact['id']);
 
-                $toSync[$person->id] = ['primary' => $i === 0];
+                $toSync[$contact->id] = ['primary' => $i === 0];
             }
 
-            $company->people()->sync($toSync);
+            $company->contacts()->sync($toSync);
         }
 
         $company->user()->associate(Auth::user());

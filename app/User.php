@@ -3,22 +3,22 @@
 namespace App;
 
 use App\Contracts\HasCustomFieldsInterface;
+use App\ModelTraits\HasCustomFieldsTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 
 /**
  * App\User
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Company[] $companies
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Deal[] $deals
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[]                                                  $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[]                                       $clients
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Company[]                                                   $companies
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Opportunity[]                                               $opportunities
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Person[] $people
- * @property-read \App\Team $team
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contact[]                                                   $contacts
+ * @property-read \App\Team                                                                                                 $team
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[]                                        $tokens
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements HasCustomFieldsInterface
@@ -44,9 +44,9 @@ class User extends Authenticatable implements HasCustomFieldsInterface
         'password', 'remember_token',
     ];
 
-    public function people()
+    public function contacts()
     {
-        return $this->hasMany(Person::class);
+        return $this->hasMany(Contact::class);
     }
 
     public function companies()
@@ -54,9 +54,9 @@ class User extends Authenticatable implements HasCustomFieldsInterface
         return $this->hasMany(Company::class);
     }
 
-    public function deals()
+    public function opportunities()
     {
-        return $this->hasMany(Deal::class);
+        return $this->hasMany(Opportunity::class);
     }
 
     public function team()

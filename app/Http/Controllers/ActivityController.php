@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Company;
-use App\Deal;
-use App\Person;
+use App\Opportunity;
+use App\Contact;
 use App\Http\Resources\Activity as ActivityResource;
 use App\Http\Resources\ActivityCollection;
 use Illuminate\Http\Request;
@@ -16,18 +16,18 @@ class ActivityController extends Controller
         'details',
         'user',
         'company',
-        'deal',
-        'person',
-        'person.companies'
+        'opportunity',
+        'contact',
+        'contact.companies'
     ];
 
     const SHOW_WITH = [
         'details',
         'user',
         'company',
-        'deal',
-        'person',
-        'person.companies',
+        'opportunity',
+        'contact',
+        'contact.companies',
     ];
 
     public function index(Request $request)
@@ -53,20 +53,20 @@ class ActivityController extends Controller
         /** @var Activity $activity */
         $activity = Activity::findOrFail($id);
         $data = $request->all();
-        $person = $data['person_id'] ?? null;
+        $contact = $data['contact_id'] ?? null;
         $company = $data['company_id'] ?? null;
-        $deal = $data['deal_id'] ?? null;
+        $opportunity = $data['opportunity_id'] ?? null;
 
-        if ($person) {
-            $activity->person()->save(Person::find($person));
+        if ($contact) {
+            $activity->contacts()->save(Contact::find($contact));
         }
 
         if ($company) {
             $activity->company()->save(Company::find($company));
         }
 
-        if ($deal) {
-            $activity->deal()->save(Deal::find($deal));
+        if ($opportunity) {
+            $activity->opportunities()->save(Opportunity::find($opportunity));
         }
 
         $activity->update($data);

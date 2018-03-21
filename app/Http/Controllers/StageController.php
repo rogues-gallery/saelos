@@ -10,11 +10,11 @@ use App\Http\Resources\Stage as StageResource;
 class StageController extends Controller
 {
     const INDEX_WITH = [
-        'deals',
+        'opportunities',
     ];
 
     const SHOW_WITH = [
-        'deals',
+        'opportunities',
     ];
 
     public function index()

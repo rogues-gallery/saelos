@@ -10,7 +10,7 @@ import store from '../../store'
 export const fetchOpportunity = (id) => (dispatch) => {
   dispatch(actions.fetchingOpportunity());
 
-  return Http.get(`deals/${id}`)
+  return Http.get(`opportunities/${id}`)
     .then(res => {
       dispatch(actions.fetchingOpportunitySuccess(res.data.data))
     })
@@ -35,7 +35,7 @@ export const fetchOpportunities = (params) => (dispatch) => {
 
   dispatch(actions.fetchingCustomFieldsForOpportunities());
 
-  Http.get(`contexts/Deal?customOnly=true`)
+  Http.get(`contexts/Opportunity?customOnly=true`)
     .then(res => {
       dispatch(actions.fetchingCustomFieldsForOpportunitiesSuccess(res.data))
     })
@@ -50,7 +50,7 @@ export const fetchOpportunities = (params) => (dispatch) => {
 
   params = params || {}
 
-  return Http.get('deals', {params: params})
+  return Http.get('opportunities', {params: params})
     .then(res => {
       dispatch(actions.fetchingOpportunitiesSuccess(res.data))
     })
@@ -64,7 +64,7 @@ export const saveOpportunity = (params) => (dispatch) => {
   dispatch(actions.postingOpportunity());
 
   if (params.id) {
-    return Http.patch(`deals/${params.id}`, params)
+    return Http.patch(`opportunities/${params.id}`, params)
       .then(res => {
         dispatch(actions.postingOpportunitySuccess(res.data))
       })
@@ -73,7 +73,7 @@ export const saveOpportunity = (params) => (dispatch) => {
         dispatch(actions.postingOpportunityFailure());
       })
   } else {
-    return Http.post(`deals`, params)
+    return Http.post(`opportunities`, params)
       .then(res => {
         dispatch(actions.postingOpportunitySuccess(res.data))
       })
@@ -87,7 +87,7 @@ export const saveOpportunity = (params) => (dispatch) => {
 export const deleteOpportunity = (id) => (dispatch) => {
   dispatch(actions.deletingOpportunity());
 
-  return Http.delete(`deals/${id}`)
+  return Http.delete(`opportunities/${id}`)
     .then(res => {
       dispatch(actions.deletingOpportunitySuccess(id))
     })
@@ -105,7 +105,7 @@ export const deleteOpportunity = (id) => (dispatch) => {
 export const searchOpportunities = (params) => {
   params = params || {}
 
-  return Http.get('deals', {params: params})
+  return Http.get('opportunities', {params: params})
     .then(res => {
       return res.data.data
     })
