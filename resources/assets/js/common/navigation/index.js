@@ -15,6 +15,7 @@ import { isInEdit as isCompanyInEdit } from '../../modules/companies/store/selec
 import { isInEdit as isOpportunityInEdit } from '../../modules/opportunities/store/selectors'
 
 import * as MDIcons from 'react-icons/lib/md'
+import _ from 'lodash';
 
 class Navigation extends Component {
   constructor(props) {
@@ -51,8 +52,15 @@ class Navigation extends Component {
   render() {
     return (
       <div className={`col nav-panel bg-dark-grey ${this.props.inEdit ? 'inEdit' : ''}`}>
-        <div className="mx-4 mb-4 py-2 border-bottom heading">
-          <Link to={'/'} className="btn btn-secondary"><MDIcons.MdNotificationsNone /></Link>
+        <div className="mx-2 mb-4 py-2 border-bottom heading">
+          <div className="dropdown show float-left">
+            <Link to={'/'} className="btn btn-dark dropdown-toggle" role="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.props.user.name.match(/\b(\w)/g).join('')}</Link>
+            <div className="dropdown-menu" aria-labelledby="userMenu">
+              <Link to={'/user/profile'} className="dropdown-item">My Profile</Link>
+              <Link to={'/notifications'} className="dropdown-item">Notifications</Link>
+              <Link to={'/config'} className="dropdown-item">Config</Link>
+            </div>
+          </div>
           <div className="dropdown show float-right">
             <Link to={'/'} className="btn btn-primary dropdown-toggle" role="button" id="quickCreateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><MDIcons.MdAdd /></Link>
             <div className="dropdown-menu" aria-labelledby="quickCreateMenu">
