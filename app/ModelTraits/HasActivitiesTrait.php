@@ -12,7 +12,7 @@ trait HasActivitiesTrait
         return $this->morphToMany(
             Activity::class,
             'entity',
-            'activity_entities'
+            'activity_xref'
         )
             ->withPivot(['primary'])->orderBy('created_at', 'DESC');
     }

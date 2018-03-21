@@ -40,6 +40,12 @@ class Structure extends Migration
             $table->foreign('company_id')->references('id')->on('companies');
         });
 
+        Schema::table('activity_xref', function (Blueprint $table) {
+            $table->index(['entity_id', 'entity_type']);
+            $table->index('activity_id');
+            $table->foreign('activity_id')->references('id')->on('activities');
+        });
+
         \DB::table('custom_field_values')
             ->where('model_type', 'App\\Deal')
             ->update(['model_type' => 'App\\Opportunity']);
@@ -56,11 +62,11 @@ class Structure extends Migration
             ->where('model', 'App\\Person')
             ->update(['model' => 'App\\Contact']);
 
-        \DB::table('company_entities')
+        \DB::table('company_xref')
             ->where('entity_type', 'App\\Deal')
             ->update(['entity_type' => 'App\\Opportunity']);
 
-        \DB::table('company_entities')
+        \DB::table('company_xref')
             ->where('entity_type', 'App\\Person')
             ->update(['entity_type' => 'App\\Contact']);
 
@@ -88,11 +94,11 @@ class Structure extends Migration
             ->where('entity_type', 'App\\Person')
             ->update(['entity_type' => 'App\\Contact']);
 
-        \DB::table('activity_entities')
+        \DB::table('activity_xref')
             ->where('entity_type', 'App\\Deal')
             ->update(['entity_type' => 'App\\Opportunity']);
 
-        \DB::table('activity_entities')
+        \DB::table('activity_xref')
             ->where('entity_type', 'App\\Person')
             ->update(['entity_type' => 'App\\Contact']);
     }

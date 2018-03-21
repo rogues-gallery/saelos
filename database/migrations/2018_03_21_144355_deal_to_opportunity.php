@@ -49,6 +49,14 @@ class DealToOpportunity extends Migration
 
         Schema::rename('company_entities', 'company_xref');
 
+        Schema::table('activity_entities', function (Blueprint $table) {
+            $table->dropForeign('activity_entities_activity_id_foreign');
+            $table->dropIndex('activity_entities_activity_id_index');
+            $table->dropIndex('activity_entities_entity_id_entity_type_index');
+        });
+
+        Schema::rename('activity_entities', 'activity_xref');
+
         Schema::table('activities', function (Blueprint $table) {
             $table->dropColumn('deal_id');
             $table->dropColumn('company_id');
