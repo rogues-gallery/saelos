@@ -47,7 +47,6 @@ class Page extends Component {
       })
   }
 
-  // event to handle form submit
   handleSubmit(e) {
     e.preventDefault()
     const { credentials } = this.state
@@ -80,12 +79,12 @@ class Page extends Component {
       })
   }
 
-  // render component
   render() {
     // check if user is authenticated then redirect him to home page
     if (this.props.isAuthenticated) {
       return <Redirect to="/" />
     }
+
     const props = {
       email: this.state.credentials.email,
       password: this.state.credentials.password,
@@ -95,22 +94,24 @@ class Page extends Component {
       handleSubmit: this.handleSubmit,
     }
 
-    return (<div className="container py-5">
-      <div className="row">
-        <div className="col-md-12">
-          <div className="row">
-            <div className="mx-auto">
-              <span className="anchor"/>
-              <div className="card has-shadow">
-                <div className="card-body">
-                  <Form {...props} />
+    return (
+      <div className="container py-5">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="row">
+              <div className="mx-auto">
+                <span className="anchor"/>
+                <div className="card has-shadow">
+                  <div className="card-body">
+                    <Form {...props} />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>)
+    )
   }
 }
 
