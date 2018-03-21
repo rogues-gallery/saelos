@@ -43,7 +43,10 @@ export default function companyReducer(state = initialState, action) {
       let newCompaniesForState
 
       if (data.length === 0) {
-        return state
+        return {
+          ...state,
+          isFetching: false
+        }
       }
 
       // When fetching the first page, always replace the contacts in the app state
