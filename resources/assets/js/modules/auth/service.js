@@ -11,8 +11,7 @@ export function fetchUser() {
   return dispatch => {
     return Http.get('auth/user')
       .then(res => {
-        const data = Transformer.fetch(res.data)
-        dispatch(authActions.authUser(data))
+        dispatch(authActions.authUser(res.data))
       })
       .catch(err => {
         console.log(err)
@@ -31,8 +30,7 @@ export function login(credentials) {
     new Promise((resolve, reject) => {
       Http.post('auth/login', credentials)
         .then(res => {
-          const data = Transformer.fetch(res.data)
-          dispatch(authActions.authLogin(data.accessToken))
+          dispatch(authActions.authLogin(res.data.access_token))
           return resolve()
         })
         .catch((err) => {

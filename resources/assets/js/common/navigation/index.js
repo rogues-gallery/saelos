@@ -54,7 +54,7 @@ class Navigation extends Component {
       <div className={`col nav-panel bg-dark-grey ${this.props.inEdit ? 'inEdit' : ''}`}>
         <div className="mx-2 mb-4 py-2 border-bottom heading">
           <div className="dropdown show float-left">
-            <Link to={'/'} className="btn btn-dark dropdown-toggle" role="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</Link>
+            <Link to={'/'} className="btn btn-dark dropdown-toggle" role="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.props.user.name.match(/\b(\w)/g).join('')}</Link>
             <div className="dropdown-menu" aria-labelledby="userMenu">
               <Link to={'/user/profile'} className="dropdown-item">My Profile</Link>
               <Link to={'/notifications'} className="dropdown-item">Notifications</Link>

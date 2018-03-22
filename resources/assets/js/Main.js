@@ -28,11 +28,11 @@ class Main extends Component {
   }
 
   render() {
-    return (
-      <div>
-        { this.props.children }
-      </div>
-    )
+    if (this.props.user.id) {
+      return this.props.children
+    }
+
+    return ''
   }
 }
 
