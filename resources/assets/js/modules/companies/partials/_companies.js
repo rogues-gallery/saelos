@@ -114,38 +114,50 @@ class Companies extends React.Component {
     return (
       <div className="card">
         <div className="card-header" id="headingCompanies">
-          <span className="float-right" onClick={this._toggleAdd}>
+          <a href="javascript:void(0);" className="float-right" onClick={this._toggleAdd}>
             <strong>+ Add</strong>
-          </span>
+          </a>
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseCompanies" aria-expanded="true" aria-controls="collapseCompanies">
             <MDIcons.MdKeyboardArrowDown /> Companies <span className="text-muted font-weight-normal">({companies.length})</span>
           </h6>
         </div>
         {this.state.adding ?
           <div id="addCompany" className="py-2 px-3 border-bottom">
-            <Select.Async
-              value={this.state.formState.company && this.state.formState.company.id ? this.state.formState.company : null}
-              multi={false}
-              loadOptions={this._searchCompanies}
-              labelKey='name'
-              valueKey='id'
-              onChange={(value) => {
-                const event = {
-                  target: {
-                    type: 'select',
-                    name: 'company',
-                    value: value
+            <div className="form-group-sm">
+              <Select.Async
+                value={this.state.formState.company && this.state.formState.company.id ? this.state.formState.company : null}
+                multi={false}
+                loadOptions={this._searchCompanies}
+                labelKey='name'
+                valueKey='id'
+                onChange={(value) => {
+                  const event = {
+                    target: {
+                      type: 'select',
+                      name: 'company',
+                      value: value
+                    }
                   }
-                }
 
-                this._handleInputChange(event);
-              }}
-            />
-            <input type="text" id="position" name="company.pivot.position" placeholder="Position" className="form-control" onChange={this._handleInputChange} />
-            <label htmlFor="primary"> Primary?
-              <input type="checkbox" id="primary" name="company.pivot.primary" className="form-control" onChange={this._handleInputChange} />
-            </label>
-            <button className="btn btn-primary" onClick={this._submit}>Add</button>
+                  this._handleInputChange(event);
+                }}
+              />
+              <div className="row pt-2 no-gutters">
+                <div className="col-sm-10">
+                  <div className="input-group pr-1">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">
+                          <input type="checkbox" id="primary" name="company.pivot.primary" onChange={this._handleInputChange} data-toggle="tooltip" data-placement="top" title="Primary Company" />
+                      </div>
+                    </div>
+                    <input type="text" id="position" name="company.pivot.position" placeholder="Position" className="form-control" onChange={this._handleInputChange} />
+                  </div>
+                </div>
+                <div className="col-sm-2">
+                  <button className="btn btn-primary" onClick={this._submit}>Add</button>
+                </div>
+              </div>
+            </div>
           </div>
           : ''}
 
