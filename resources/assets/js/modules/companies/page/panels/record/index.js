@@ -4,13 +4,9 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getCompany, getCustomFieldsForCompanies, isStateDirty, getFirstCompanyId, isInEdit } from '../../../store/selectors'
 import {fetchCompany, saveCompany, deleteCompany} from '../../../service'
-import {searchContacts} from "../../../../contacts/service"
-import {searchOpportunities} from "../../../../opportunities/service"
 import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
-import Select from 'react-select'
 import {editingCompany, editingCompanyFinished} from "../../../store/actions"
-import Contact from "../../../../contacts/Contact"
 import FieldLayout from "../../../../contacts/page/panels/record/components/FieldLayout";
 
 

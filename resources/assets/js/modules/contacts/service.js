@@ -128,13 +128,23 @@ export const callContact = (params) => (dispatch) => {
 
 /**
  *
- * @param params
+ * @param input
  * @returns {Promise<any>}
  */
-export const searchContacts = (params) => {
-  params = params || {}
+export const searchContacts = (input) => {
+  const searchParams = JSON.stringify({
+    offsets: [
+      {
+        keyword: "freetext",
+        value: input,
+        exact: false
+      }
+    ],
+    text: input,
+    exclude: {}
+  })
 
-  return Http.get('contacts', {params: params})
+  return Http.get('contacts', {params: {searchParams}})
     .then(res => {
       return res.data.data
     })

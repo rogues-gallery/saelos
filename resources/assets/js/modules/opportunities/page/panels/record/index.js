@@ -67,15 +67,7 @@ class Record extends React.Component {
   }
 
   _searchContacts(input, callback) {
-    let search = '';
-
-    if (input && input.length > 0) {
-      search = {
-        searchString: input
-      }
-    }
-
-    return searchContacts(search)
+    return searchContacts(input)
       .then(contacts => {
         let options = contacts.map(c => {
           c = new Contact(c)

@@ -86,6 +86,8 @@ const parse = (string, options) => {
       terms.push({
         keyword: 'freetext',
         value: term,
+        exact: false,
+        text: term
       })
     }
   }

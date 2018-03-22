@@ -37,15 +37,7 @@ class Contacts extends React.Component {
   }
 
   _searchContacts(input) {
-    let search = '';
-
-    if (input && input.length > 0) {
-      search = {
-        searchString: input
-      }
-    }
-
-    return searchContacts(search)
+    return searchContacts(input)
       .then(contacts => {
         let options = contacts.map(c => ({
             id: c.id,
@@ -109,7 +101,7 @@ class Contacts extends React.Component {
 
         {this.state.adding ?
           <div id="addContact" className="py-2 px-3 border-bottom">
-            <div class="form-group-sm">
+            <div className="form-group-sm">
               <Select.Async
                 value={this.state.formState.contact && this.state.formState.contact.id ? this.state.formState.contact : null}
                 multi={false}
@@ -129,7 +121,7 @@ class Contacts extends React.Component {
                 }}
               />
               <div className="row pt-2 no-gutters">
-                <div class="col-sm-10">
+                <div className="col-sm-10">
                   <div className="input-group pr-1">
                     <div className="input-group-prepend">
                       <div className="input-group-text">
