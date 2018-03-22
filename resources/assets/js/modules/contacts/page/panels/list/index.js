@@ -78,10 +78,14 @@ class List extends React.Component {
     }
   }
 
-  _activateAdvancedSearch() {
+  _activateAdvancedSearch(e) {
     this.setState({
       advancedSearch: true
     })
+
+    const val = e.target.value
+    e.target.value = ''
+    e.target.value = val
   }
 
   render() {
@@ -103,6 +107,8 @@ class List extends React.Component {
             aria-expanded="false"
             aria-owns="algolia-autocomplete-listbox-0"
             dir="auto"
+            autoFocus
+            onChange={(e) => this.setState({searchString: e.target.value.trim()})}
             style={{position:"relative", verticalAlign:"top"}}
             onKeyPress={this._onKeyPress}
             onFocus={this._activateAdvancedSearch}
@@ -111,7 +117,7 @@ class List extends React.Component {
           {advancedSearch ?
             <div className="advanced-search px-4 py-4">
               {_.filter(fields, f => f.searchable).map(f =>
-                <span className="tag" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.alias}: </span>
+                <span key={`contacts-search-${f.alias}`} className="tag" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.label}: </span>
               )}
             </div>
             :
