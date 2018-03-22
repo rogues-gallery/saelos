@@ -10,6 +10,7 @@ use App\ModelTraits\HasActivitiesTrait;
 use App\ModelTraits\HasCustomFieldsTrait;
 use App\ModelTraits\HasNotesTrait;
 use App\ModelTraits\HasWorkflowsTrait;
+use App\ModelTraits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -31,42 +32,7 @@ class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
     use HasCustomFieldsTrait;
     use HasNotesTrait;
     use HasWorkflowsTrait;
-
-    public static function search(string $searchString, Builder $builder): Builder
-    {
-        $searchArray = static::parseSearchString($searchString);
-
-        $builder->where('published', 1);
-        $builder->where(function(Builder $q) use ($searchArray) {
-            if ($name = $searchArray['name']) {
-                $q->orWhere('name', 'like', '%'.$name.'%');
-            }
-
-            if ($city = $searchArray['city']) {
-                $q->orWhere('city', 'like', '%'.$city.'%');
-            }
-
-            if ($state = $searchArray['state']) {
-                $q->orWhere('state', 'like', '%'.$state.'%');
-            }
-        });
-
-        if ($modifiedSince = $searchArray['modified_since']) {
-            $builder->where('updated_at', '>=', $modifiedSince);
-        }
-
-        return $builder;
-    }
-
-    public static function parseSearchString(string $searchString): array
-    {
-        return [
-            'name' => $searchString,
-            'city' => $searchString,
-            'state' => $searchString,
-            'modified_since' => null
-        ];
-    }
+    use SearchableTrait;
 
     protected $guarded = [
         'id',

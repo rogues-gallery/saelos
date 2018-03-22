@@ -1,8 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchContacts, fetchContact } from '../../../service'
 import moment from 'moment'
-import ReactDOM from 'react-dom'
+import { fetchContacts, fetchContact } from '../../../service'
+import { getSearchStringForContacts, getCustomFieldsForContacts } from "../../../store/selectors"
 
 class List extends React.Component {
   constructor(props) {
@@ -10,6 +11,13 @@ class List extends React.Component {
 
     this._onScroll = this._onScroll.bind(this)
     this._onKeyPress = this._onKeyPress.bind(this)
+    this._activateAdvancedSearch = this._activateAdvancedSearch.bind(this)
+    this._updateSearchString = this._updateSearchString.bind(this)
+
+    this.state = {
+      searchString: props.searchString,
+      advancedSearch: false
+    }
   }
 
   componentWillMount() {
@@ -19,14 +27,6 @@ class List extends React.Component {
       dispatch(fetchContacts({page: 1, searchString}))
     }
   }
-
-  // componentDidMount() {
-  //   const el = ReactDOM.findDOMNode(this).querySelector('.list-group-item.active');
-
-  //   if (el) {
-  //     el.scrollIntoView(false)
-  //   }
-  // }
 
   _onKeyPress(event) {
     const { target, charCode } = event
@@ -47,8 +47,25 @@ class List extends React.Component {
     if (value.length >= 3) {
       dispatch(fetchContacts({page: 1, searchString: value}))
     } else if (value.length === 0) {
+      this.setState({
+        searchString: ''
+      })
+
       dispatch(fetchContacts({page: 1, searchString: ''}))
     }
+
+    this.setState({
+      advancedSearch: false
+    })
+  }
+
+  _updateSearchString(string) {
+    this.setState({
+      searchString: `${this.state.searchString}${string}`.trim(),
+      advancedSearch: false
+    })
+
+    document.getElementById('search-input').focus()
   }
 
   _onScroll(event) {
@@ -61,31 +78,49 @@ class List extends React.Component {
     }
   }
 
+  _activateAdvancedSearch() {
+    this.setState({
+      advancedSearch: true
+    })
+  }
+
   render() {
-    const { contacts, dispatch, searchString, firstContactId, inEdit } = this.props
+    const { contacts, dispatch, firstContactId, inEdit, fields } = this.props
+    const { searchString, advancedSearch } = this.state
     const activeIndex = parseInt(this.context.router.route.match.params.id) || firstContactId
 
     return (
       <div className={`col list-panel border-right ${inEdit ? 'inEdit' : ''}`}>
-          <div className="px-4 pt-4 bg-white border-bottom">
-            <form>
-              <input
-                type="search"
-                className="form-control ds-input"
-                id="search-input"
-                placeholder="Search..."
-                role="combobox"
-                aria-autocomplete="list"
-                aria-expanded="false"
-                aria-owns="algolia-autocomplete-listbox-0"
-                dir="auto"
-                style={{position:"relative", verticalAlign:"top"}}
-                onKeyPress={this._onKeyPress}
-                defaultValue={searchString}
-              />
-            </form>
-            <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>Active</b></div> <div className="text-muted col"><b>All</b></div></div>
-          </div>
+        <div className="position-relative px-4 pt-4 bg-white border-bottom">
+          <input
+            key={searchString}
+            type="search"
+            className="form-control ds-input"
+            id="search-input"
+            placeholder="Search..."
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-owns="algolia-autocomplete-listbox-0"
+            dir="auto"
+            style={{position:"relative", verticalAlign:"top"}}
+            onKeyPress={this._onKeyPress}
+            onFocus={this._activateAdvancedSearch}
+            defaultValue={searchString}
+          />
+          {advancedSearch ?
+            <div className="advanced-search px-4 py-4">
+              {_.filter(fields, f => f.searchable).map(f =>
+                <span className="tag" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.alias}: </span>
+              )}
+            </div>
+            :
+            <div className="micro-text row text-center pt-3 pb-2">
+              <div className="text-dark col"><b>Active</b></div>
+              <div className="text-muted col"><b>All</b></div>
+            </div>
+          }
+        </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {contacts.map(contact => <Contact key={contact.id} contact={contact} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
         </div>
@@ -99,7 +134,8 @@ List.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
-  searchString: PropTypes.string
+  searchString: PropTypes.string.isRequired,
+  fields: PropTypes.object.isRequired
 };
 
 List.contextTypes = {
@@ -132,4 +168,7 @@ Contact.propTypes = {
   activeID: PropTypes.number.isRequired
 };
 
-export default List
+export default connect(state => ({
+  searchString: getSearchStringForContacts(state),
+  fields: getCustomFieldsForContacts(state)
+}))(List)

@@ -487,3 +487,26 @@ a:hover {
   position:absolute;
   left:10px;
 }
+
+.position-relative {
+  position:relative;
+}
+
+.advanced-search {
+  position:absolute;
+  top:100%;
+  left:0;
+  width:100%;
+  z-index:999;
+  min-height:200px;
+  background: $white;
+
+  .tag {
+    cursor: pointer;
+    display: inline-block;
+    padding: 4px;
+    margin-right: 2px;
+    border: 1px solid $blue;
+    background: lightblue;
+  }
+}

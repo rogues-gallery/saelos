@@ -6,9 +6,9 @@ import Detail from './panels/detail'
 
 const Page = (props) => (
   <React.Fragment>
-    <List key={0} {...props} />
-    <Record key={1} {...props} />
-    <Detail key={2} {...props} />
+    <List {...props} />
+    <Record {...props} />
+    <Detail {...props} />
   </React.Fragment>
 )
 

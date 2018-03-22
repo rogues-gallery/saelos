@@ -17,10 +17,8 @@ class Report extends Model implements SearchableInterface
     ];
 
 
-    public static function search(string $searchString, Builder $builder): Builder
+    public static function search(array $searchArray, Builder $builder): Builder
     {
-        $searchArray = static::parseSearchString($searchString);
-
         $builder->where('published', 1);
         $builder->where(function(Builder $q) use ($searchArray) {
             if ($name = $searchArray['name']) {
@@ -33,14 +31,6 @@ class Report extends Model implements SearchableInterface
         }
 
         return $builder;
-    }
-
-    public static function parseSearchString(string $searchString): array
-    {
-        return [
-            'name' => $searchString,
-            'modified_since' => null
-        ];
     }
     
     public function user()

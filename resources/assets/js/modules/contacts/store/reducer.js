@@ -38,7 +38,7 @@ export default function contactReducer(state = initialState, action) {
       return {
         ...state,
         isFetching: true,
-        searchString: action.data.searchString
+        searchString: action.data.hasOwnProperty('searchString') ? action.data.searchString : ''
       }
     case types.FETCHING_SINGLE_CONTACT:
       return {

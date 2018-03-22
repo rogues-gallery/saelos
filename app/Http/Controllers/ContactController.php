@@ -65,8 +65,8 @@ class ContactController extends Controller
     {
         $contacts = Contact::with(static::INDEX_WITH);
 
-        if ($searchString = $request->get('searchString')) {
-            $contacts = Contact::search($searchString, $contacts);
+        if ($searchParams = json_decode($request->get('searchParams'), true)) {
+            $contacts = Contact::search($searchParams, $contacts);
         }
 
         $contacts->orderBy('contacts.id', 'desc');

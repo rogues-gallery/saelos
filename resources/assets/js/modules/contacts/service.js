@@ -1,6 +1,8 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
 import store from '../../store'
+import { getCustomFieldsForContacts } from "./store/selectors";
+import { parseSearchString } from '../../utils/helpers'
 
 /**
  * Fetch the full contact by id
@@ -27,7 +29,8 @@ export const fetchContact = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchContacts = (params) => (dispatch) => {
-  const { isFetching } = store.getState().contactState;
+  const state = store.getState()
+  const { isFetching } = state.contactState;
 
   if (isFetching) {
     return
@@ -48,9 +51,13 @@ export const fetchContacts = (params) => (dispatch) => {
     ...params
   }));
 
-  params = params || {}
+  params = Object.assign({}, params || {})
 
-  return Http.get('contacts', {params: params})
+  params.searchParams = parseSearchString(params.searchString, getCustomFieldsForContacts(state))
+
+  delete params.searchString
+
+  return Http.get('contacts', {params})
     .then(res => {
       dispatch(actions.fetchingContactsSuccess(res.data))
     })

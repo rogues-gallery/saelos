@@ -36,23 +36,13 @@ class Activity extends Model implements SearchableInterface
         'activities',
     ];
 
-    public static function search(string $searchString, Builder $builder): Builder
+    public static function search(array $searchArray, Builder $builder): Builder
     {
-        $searchArray = static::parseSearchString($searchString);
-
         $builder->where(function(Builder $q) use ($searchArray) {
             $q->where('user_id', \Auth::user()->id);
         });
 
         return $builder;
-    }
-
-    public static function parseSearchString(string $searchString): array
-    {
-        return [
-            'user_id' => $searchString,
-            'modified_since' => null
-        ];
     }
 
     public function opportunity()
