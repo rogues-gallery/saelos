@@ -108,38 +108,44 @@ class Opportunities extends React.Component {
     return (
       <div className="card">
         <div className="card-header" id="headingOpportunities">
-          <span className="float-right" onClick={this._toggleAdd}>
+          <a href="javascript:void(0);" className="float-right" onClick={this._toggleAdd}>
             <strong>+ Add</strong>
-          </span>
+          </a>
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseOpportunities" aria-expanded="true" aria-controls="collapseOpportunities">
             <MDIcons.MdKeyboardArrowDown /> Opportunities <span className="text-muted font-weight-normal">({opportunities.length})</span>
           </h6>
         </div>
 
         {this.state.adding ?
-          <div id="addCompany" className="py-2 px-3 border-bottom">
-            <Select.Async
-              value={this.state.formState.opportunity && this.state.formState.opportunity.id ? this.state.formState.opportunity : null}
-              multi={false}
-              loadOptions={this._searchOpportunities}
-              labelKey='name'
-              valueKey='id'
-              onChange={(value) => {
-                const event = {
-                  target: {
-                    type: 'select',
-                    name: 'opportunity',
-                    value: value
-                  }
-                }
+          <div id="addCompany" className="py-2 px-3 border-bottom row no-gutters">
+            <div className="col-10">
+              <div className="pr-1">
+                <Select.Async
+                  value={this.state.formState.opportunity && this.state.formState.opportunity.id ? this.state.formState.opportunity : null}
+                  multi={false}
+                  loadOptions={this._searchOpportunities}
+                  labelKey='name'
+                  valueKey='id'
+                  onChange={(value) => {
+                    const event = {
+                      target: {
+                        type: 'select',
+                        name: 'opportunity',
+                        value: value
+                      }
+                    }
 
-                this._handleInputChange(event);
-              }}
-            />
+                    this._handleInputChange(event);
+                  }}
+                />
+              </div>
+            </div>
             {this.props.entityType === 'App\\Contact' ?
               <input type="text" id="position" className="form-control" name="opportunity.pivot.position" placeholder="Role" onChange={this._handleInputChange} />
               : ''}
-            <button className="btn btn-primary" onClick={this._submit}>Add</button>
+            <div className="col-2">
+              <button className="btn btn-primary" onClick={this._submit}>Add</button>
+            </div>
           </div>
           : ''}
 
