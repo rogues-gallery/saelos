@@ -31,8 +31,6 @@ class List extends React.Component {
   _onKeyPress(event) {
     const { target, charCode } = event
 
-    console.log(charCode)
-
     if (charCode !== 13) {
       return
     }
@@ -110,7 +108,7 @@ class List extends React.Component {
             aria-owns="algolia-autocomplete-listbox-0"
             dir="auto"
             autoFocus
-            onChange={(e) => this.setState({searchString: e.target.value})}
+            onChange={(e) => this.setState({searchString: e.target.value.trim()})}
             style={{position:"relative", verticalAlign:"top"}}
             onKeyPress={this._onKeyPress}
             onFocus={this._activateAdvancedSearch}
