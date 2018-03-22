@@ -17,15 +17,28 @@ trait SearchableTrait
         $builder->where(function(Builder $q) use ($searchArray, $searchableFields) {
             foreach ($searchArray['offsets'] as $criteria) {
                 $field = $searchableFields->where('alias', $criteria['keyword'])->first();
-                $operator = array_key_exists($criteria['keyword'], $searchArray['exclude']) ? '!=' : '=';
+
+                if ($criteria['exact']) {
+                    $operator = array_key_exists($criteria['keyword'], $searchArray['exclude']) ? '!=' : '=';
+                } else {
+                    $operator = array_key_exists($criteria['keyword'], $searchArray['exclude']) ? 'NOT LIKE' : 'LIKE';
+                }
 
                 if (is_array($criteria['value'])) {
                     $q->where(function (Builder $sq) use ($field, $operator, $criteria) {
-                        foreach ($criteria->value as $val) {
+                        foreach ($criteria['value'] as $val) {
+                            if (strpos($operator, 'LIKE') !== false) {
+                                $val = '%'.$val.'%';
+                            }
+
                             $sq->orWhere($criteria['keyword'], $operator, $val);
                         }
                     });
                 } else {
+                    if (strpos($operator, 'LIKE') !== false) {
+                        $criteria['value'] = '%'.$criteria['value'].'%';
+                    }
+
                     switch($field->type) {
                         // @TODO add support for different field types
                         default:
