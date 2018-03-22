@@ -35,14 +35,14 @@ trait SearchableTrait
                         }
                     });
                 } else {
-                    if (strpos($operator, 'LIKE') !== false) {
-                        $criteria['value'] = '%'.$criteria['value'].'%';
-                    }
+                    $val = strpos($operator, 'LIKE') !== false
+                        ? '%'.$criteria['value'].'%'
+                        : $criteria['value'];
 
                     switch($field->type) {
                         // @TODO add support for different field types
                         default:
-                            $q->where($criteria['keyword'], $operator, $criteria['value']);
+                            $q->where($criteria['keyword'], $operator, $val);
                             break;
                     }
                 }

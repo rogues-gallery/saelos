@@ -117,7 +117,7 @@ class List extends React.Component {
           {advancedSearch ?
             <div className="advanced-search px-4 py-4">
               {_.filter(fields, f => f.searchable).map(f =>
-                <span className="tag" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.label}: </span>
+                <span key={`contacts-search-${f.alias}`} className="tag" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.label}: </span>
               )}
             </div>
             :
