@@ -97,9 +97,9 @@ class OpportunityController extends Controller
             $toSync = [];
 
             foreach ($contacts as $i => $opportunityContact) {
-                $opportunity = Contact::findOrFail($opportunityContact['id']);
+                $contact = Contact::findOrFail($opportunityContact['id']);
 
-                $toSync[$opportunity->id] = ['primary' => $i === 0];
+                $toSync[$contact->id] = ['primary' => $i === 0];
             }
 
             $opportunity->contacts()->sync($toSync);
