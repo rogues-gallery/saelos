@@ -91,7 +91,7 @@ class Notes extends React.Component {
               rejectClassName="reject"
               accept="image/jpeg, image/jpg, text/csv, application/json, application/pdf, application/zip, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/msword"
             >
-              <button className="position-fixed btn btn-link btn-xs"><span className="h5"><MDIcons.MdAttachFile /></span></button>
+              <button className="btn btn-link btn-xs"><span className="h5"><MDIcons.MdAttachFile /></span></button>
             </Dropzone>
             <div className="text-center">
               <button className="btn btn-link btn-sm">Cancel</button>

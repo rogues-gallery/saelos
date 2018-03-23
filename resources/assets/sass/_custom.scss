@@ -232,7 +232,8 @@ a:hover {
     display: inherit;
 
     .nav-link.active {
-      background-color: hsla(0,0%,100%,.12);
+      background: $gray-900;
+      border-left: 4px solid #B21E22;
     }
   }
 
@@ -509,4 +510,8 @@ a:hover {
     border: 1px solid $blue;
     background: lightblue;
   }
+}
+
+.border-saelos {
+  border-top: 4px solid #B21E22;
 }
