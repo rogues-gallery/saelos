@@ -25,7 +25,7 @@ class OpportunityController extends Controller
         'customFields',
         'customFields.field',
         'notes',
-        'notes.documents',
+        'notes.document',
         'notes.user',
     ];
 
@@ -43,7 +43,7 @@ class OpportunityController extends Controller
         'customFields',
         'customFields.field',
         'notes',
-        'notes.documents',
+        'notes.document',
         'notes.user',
     ];
 

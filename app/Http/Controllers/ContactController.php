@@ -32,7 +32,7 @@ class ContactController extends Controller
         'customFields',
         'customFields.field',
         'notes',
-        'notes.documents',
+        'notes.document',
         'notes.user',
     ];
 
@@ -53,7 +53,7 @@ class ContactController extends Controller
         'customFields',
         'customFields.field',
         'notes',
-        'notes.documents',
+        'notes.document',
         'notes.user',
     ];
 

@@ -1,5 +1,6 @@
 import Model from '../../utils/Model'
 import User from '../../modules/user/User'
+import Document from './Document'
 
 class Note extends Model {
   constructor(props) {
@@ -18,6 +19,7 @@ class Note extends Model {
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
+    this.document = props.document ? new Document(props.document) : new Document({})
   }
 }
 

@@ -43,13 +43,13 @@ class Notes extends React.Component {
 
     switch(entity_type) {
       case 'App\\Opportunity':
-        uploadUrl = `/opportunities/${entity_id}/documents`
+        uploadUrl = `/opportunities/${entity_id}/notes`
         break
       case 'App\\Contact':
-        uploadUrl = `/contacts/${entity_id}/documents`
+        uploadUrl = `/contacts/${entity_id}/notes`
         break
       case 'App\\Company':
-        uploadUrl = `/companies/${entity_id}/documents`
+        uploadUrl = `/companies/${entity_id}/notes`
         break
     }
 

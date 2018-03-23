@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\ModelTraits\HasDocumentsTrait;
+use App\Document;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -12,12 +12,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Note extends Model
 {
-    use HasDocumentsTrait;
-
     protected $guarded = [
         'id',
         'entity',
         'user',
+        'document',
     ];
 
     public function entity()
@@ -28,5 +27,10 @@ class Note extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function document()
+    {
+        return $this->hasOne(Document::class);
     }
 }
