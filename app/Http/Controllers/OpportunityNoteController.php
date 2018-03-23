@@ -12,6 +12,13 @@ use Illuminate\Http\Request;
 
 class OpportunityNoteController extends Controller
 {
+    public function update(Request $request, Opportunity $opportunity, Note $note)
+    {
+        $note->update($request->all());
+
+        return $note;
+    }
+
     /**
      * @param Request     $request
      * @param Opportunity $opportunity
@@ -67,5 +74,13 @@ class OpportunityNoteController extends Controller
         }
 
         return $note;
+    }
+
+    public function destroy(Opportunity $opportunity, Note $note)
+    {
+        $note->document()->delete();
+        $note->delete();
+
+        return ['data' => $note];
     }
 }

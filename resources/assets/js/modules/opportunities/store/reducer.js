@@ -1,6 +1,7 @@
 import * as types from './action-types';
 import _ from 'lodash';
 import Opportunity from "../Opportunity";
+import {DELETING_NOTE_SUCCESS, POSTING_NOTE_SUCCESS} from "../../notes/store/action-types";
 
 const initialState = {
   data: [],
@@ -50,7 +51,7 @@ export default function opportunityReducer(state = initialState, action) {
         }
       }
 
-      // When fetching the first page, always replace the contacts in the app state
+      // When fetching the first page, always replace the opps in the app state
       if (meta.current_page === 1) {
         newOpportunitiesForState = data
       } else {
@@ -102,6 +103,32 @@ export default function opportunityReducer(state = initialState, action) {
       return {
         ...state,
         data: updatedData
+      }
+    case DELETING_NOTE_SUCCESS:
+    case POSTING_NOTE_SUCCESS:
+      const {entity_type, entity_id} = action.data.data
+
+      if (entity_type !== 'App\\Opportunity') {
+        return state
+      }
+
+      const opp = _.find(state.data, (c) => c.id === entity_id)
+
+      if (! opp.id) {
+        return state
+      }
+
+      if (action.type === DELETING_NOTE_SUCCESS) {
+        opp.notes = _.filter(opp.notes, n => n.id !== action.data.data.id)
+      } else {
+        opp.notes.unshift(action.data.data);
+      }
+
+      const updatedDataWithNotes = injectOpportunityIntoState(opp, state.data)
+
+      return {
+        ...state,
+        data: updatedDataWithNotes
       }
     default:
       return state

@@ -1,6 +1,7 @@
 import * as types from './action-types';
 import _ from 'lodash';
 import Company from "../Company";
+import {DELETING_NOTE_SUCCESS, POSTING_NOTE_SUCCESS} from "../../notes/store/action-types";
 
 const initialState = {
   data: [],
@@ -106,6 +107,32 @@ export default function companyReducer(state = initialState, action) {
       return {
         ...state,
         data: updatedData
+      }
+    case DELETING_NOTE_SUCCESS:
+    case POSTING_NOTE_SUCCESS:
+      const {entity_type, entity_id} = action.data.data
+
+      if (entity_type !== 'App\\Company') {
+        return state
+      }
+
+      const company = _.find(state.data, (c) => c.id === entity_id)
+
+      if (! company.id) {
+        return state
+      }
+
+      if (action.type === DELETING_NOTE_SUCCESS) {
+        company.notes = _.filter(company.notes, n => n.id !== action.data.data.id)
+      } else {
+        company.notes.unshift(action.data.data);
+      }
+
+      const updatedDataWithNotes = injectCompaniesIntoState(company, state.data)
+
+      return {
+        ...state,
+        data: updatedDataWithNotes
       }
     default:
       return state

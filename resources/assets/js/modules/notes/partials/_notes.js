@@ -130,6 +130,7 @@ class Item extends React.Component {
     this._toggleEditState = this._toggleEditState.bind(this)
     this._handleInputChange = this._handleInputChange.bind(this)
     this._submit = this._submit.bind(this)
+    this._delete = this._delete.bind(this)
 
     this.state = {
       open: false,
@@ -152,6 +153,10 @@ class Item extends React.Component {
     this.setState({
       inEdit: !this.state.inEdit
     })
+  }
+
+  _delete() {
+    this.props.dispatch(deleteNote(this.state.formState))
   }
 
   _handleInputChange(event) {
@@ -194,6 +199,7 @@ class Item extends React.Component {
                   :
                   <div className="list-group-item-view">
                     {note.note}
+                    <a href="javascript:void(0)" className="mini-text d-block" onClick={this._delete}>Delete</a>
                     <a href="javascript:void(0)" className="mini-text d-block" onClick={this._toggleEditState}>Edit</a>
                   </div>
                 }

@@ -1,7 +1,7 @@
-import * as types from './action-types';
-import { POSTING_NOTE_SUCCESS } from "../../notes/store/action-types";
-import _ from 'lodash';
-import Contact from "../Contact";
+import * as types from './action-types'
+import {DELETING_NOTE_SUCCESS, POSTING_NOTE_SUCCESS} from "../../notes/store/action-types"
+import _ from 'lodash'
+import Contact from "../Contact"
 
 const initialState = {
   data: [],
@@ -109,6 +109,7 @@ export default function contactReducer(state = initialState, action) {
         ...state,
         data: updatedData
       }
+    case DELETING_NOTE_SUCCESS:
     case POSTING_NOTE_SUCCESS:
       const {entity_type, entity_id} = action.data.data
 
@@ -122,7 +123,11 @@ export default function contactReducer(state = initialState, action) {
         return state
       }
 
-      contact.notes.unshift(action.data.data);
+      if (action.type === DELETING_NOTE_SUCCESS) {
+        contact.notes = _.filter(contact.notes, n => n.id !== action.data.data.id)
+      } else {
+        contact.notes.unshift(action.data.data);
+      }
 
       const updatedDataWithNotes = injectContactIntoState(contact, state.data)
 

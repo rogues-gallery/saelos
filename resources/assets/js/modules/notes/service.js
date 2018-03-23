@@ -52,8 +52,36 @@ export const saveNote = (params) => (dispatch) => {
     })
 }
 
-export const deleteNote = (params) => {
-  console.log(params)
+export const deleteNote = (params) => (dispatch) => {
+  dispatch(actions.deletingNote());
+
+  let url
+  let prefix
+
+  switch (params.entity_type) {
+    case 'App\\Contact':
+      prefix = `/contacts`
+      break;
+    case 'App\\Company':
+      prefix = `/companies`
+      break;
+    case 'App\\Opportunity':
+      prefix = `/opportunities`
+      break;
+    default:
+      break;
+  }
+
+  url = `${prefix}/${params.entity_id}/notes/${params.id}`
+
+  return Http.delete(url)
+    .then(res => {
+      dispatch(actions.deletingNoteSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.deletingNoteFailure())
+    })
 }
 
 export const uploadFile = (url, file, name) => {

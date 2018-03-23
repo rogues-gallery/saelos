@@ -15,6 +15,8 @@ class ContactNoteController extends Controller
     public function update(Request $request, Contact $contact, Note $note)
     {
         $note->update($request->all());
+
+        return $note;
     }
 
     /**
@@ -54,6 +56,7 @@ class ContactNoteController extends Controller
 
         $note->entity()->associate($contact)->save();
         $note->user()->associate(Auth::user())->save();
+        $note->save();
         $note->load(['entity', 'user', 'document']);
 
         $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
@@ -75,6 +78,9 @@ class ContactNoteController extends Controller
 
     public function destroy(Contact $contact, Note $note)
     {
+        $note->document()->delete();
         $note->delete();
+
+        return ['data' => $note];
     }
 }

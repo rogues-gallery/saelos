@@ -12,6 +12,13 @@ use Illuminate\Http\Request;
 
 class CompanyNoteController extends Controller
 {
+    public function update(Request $request, Company $company, Note $note)
+    {
+        $note->update($request->all());
+
+        return $note;
+    }
+
     /**
      * @param Request $request
      * @param Company  $company
@@ -49,7 +56,8 @@ class CompanyNoteController extends Controller
 
         $note->entity()->associate($company)->save();
         $note->user()->associate(Auth::user())->save();
-        $note->load(['entity', 'user']);
+        $note->save();
+        $note->load(['entity', 'user', 'document']);
 
         $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
 
@@ -66,5 +74,13 @@ class CompanyNoteController extends Controller
         }
 
         return $note;
+    }
+
+    public function destroy(Company $company, Note $note)
+    {
+        $note->document()->delete();
+        $note->delete();
+
+        return ['data' => $note];
     }
 }
