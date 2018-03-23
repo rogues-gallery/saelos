@@ -9,6 +9,7 @@ import NavItem from './NavItem'
 
 const ConfigNav = ({ showNavigation }) => (
   <ul className="nav">
+    <NavItem path="/contacts">Back</NavItem>
     <NavItem path="/config/settings">Settings</NavItem>
     <NavItem path="/config/stages">Stages</NavItem>
     <NavItem path="/config/statuses">Statuses</NavItem>

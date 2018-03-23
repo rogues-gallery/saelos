@@ -73,7 +73,7 @@ class Navigation extends Component {
 
         {
           this.props.isAuthenticated
-            ? this.props.location.pathname.startsWith('/config/')
+            ? this.props.location.pathname.startsWith('/config')
             ? <ConfigNav showNavigation={this.state.showNavigation} />
             : <PrivateNav user={this.props.user}
                           showNavigation={this.state.showNavigation}

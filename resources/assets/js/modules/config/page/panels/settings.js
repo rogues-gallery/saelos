@@ -20,7 +20,7 @@ class Settings extends React.Component {
           </div>
         </div>
         <h4 className="border-bottom py-3">
-          {company.name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
+          Settings
         </h4>
       </main>
     )

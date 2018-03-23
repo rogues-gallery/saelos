@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Settings from './panels/settings'
 
 const Page = (props) => ([
-    <Settings key={1} dispatch={props.dispatch} />
+    <Settings {...props} />
 ])
 
 Page.propTypes = {
