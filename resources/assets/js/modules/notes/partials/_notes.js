@@ -107,7 +107,7 @@ class Notes extends React.Component {
 
         <div id="collapseNotes" className="collapse show mh-200" aria-labelledby="headingNotes">
           <div className="list-group border-bottom">
-            {notes.map(note => <Item key={note.id} note={note} dispatch={this.props.dispatch} />)}
+            {notes.map(note => <Item key={note.id} note={note} user={this.props.user} dispatch={this.props.dispatch} />)}
           </div>
         </div>
       </div>
@@ -169,6 +169,11 @@ class Item extends React.Component {
   render() {
     const { note } = this.props
 
+    // don't show private notes for other users
+    if (note.private && note.user.id !== this.props.user.id) {
+      return ''
+    }
+
     return (
       <div className={`notes-partial ${this.state.inEdit ? 'notes-partial-edit' : '' }`}>
         <div onClick={this._toggleOpenState} className={`list-group-item list-group-item-action align-items-start ${note.private ? 'corner-flag' : ''}`}>
@@ -209,6 +214,7 @@ class Item extends React.Component {
 }
 
 Note.propTypes = {
+  user: PropTypes.object.isRequired,
   note: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
