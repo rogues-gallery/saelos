@@ -48,5 +48,6 @@ Route::group([
         Route::resource('users', 'UserController');
         Route::resource('reports', 'ReportController');
         Route::resource('workflows', 'WorkflowController');
+        Route::resource('fields', 'FieldController');
     });
 });

@@ -6,16 +6,11 @@ import { getUser } from '../../../../user/store/selectors'
 import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId, isInEdit} from '../../../store/selectors'
 import {deleteContact, fetchContact, saveContact} from '../../../service'
 import {editingContact, editingContactFinished} from '../../../store/actions'
-import {searchCompanies} from '../../../../companies/service'
 import Conversations from '../../../../conversations/partials/_conversations'
 import { ActionView } from './components'
 import FieldLayout from './components/FieldLayout'
-import { Link } from "react-router-dom"
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
-import Select from 'react-select'
-import {editingOpportunity} from "../../../../opportunities/store/actions";
-import {fetchOpportunity} from "../../../../opportunities/service";
 
 
 class Record extends React.Component {

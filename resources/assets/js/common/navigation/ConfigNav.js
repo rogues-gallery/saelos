@@ -12,6 +12,7 @@ const ConfigNav = ({ showNavigation }) => (
     <NavItem path="/config/settings">Settings</NavItem>
     <NavItem path="/config/stages">Stages</NavItem>
     <NavItem path="/config/statuses">Statuses</NavItem>
+    <NavItem path="/config/fields">Fields</NavItem>
     <NavItem path="/config/teams">Teams</NavItem>
     <NavItem path="/config/users">Users</NavItem>
   </ul>

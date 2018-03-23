@@ -9,6 +9,7 @@ import workflowReducer from '../modules/workflows/store/reducer'
 import teamReducer from '../modules/teams/store/reducer'
 import stageReducer from '../modules/stages/store/reducer'
 import activityReducer from '../modules/activities/store/reducer'
+import fieldReducer from '../modules/fields/store/reducer'
 
 export default combineReducers({
   auth: authReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
   workflowState: workflowReducer,
   teamState: teamReducer,
   stageState: stageReducer,
-  activityState: activityReducer
+  activityState: activityReducer,
+  fieldState: fieldReducer
 });
