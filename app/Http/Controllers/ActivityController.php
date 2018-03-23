@@ -38,6 +38,7 @@ class ActivityController extends Controller
             $activities = Activity::search($searchString, $activities);
         }
 
+        $activities->where('user_id', \Auth::user()->id);
         $activities->orderBy('due_date', 'desc');
 
         return new ActivityCollection($activities->paginate());

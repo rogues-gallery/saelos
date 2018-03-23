@@ -38,10 +38,6 @@ class Activity extends Model implements SearchableInterface
 
     public static function search(array $searchArray, Builder $builder): Builder
     {
-        $builder->where(function(Builder $q) use ($searchArray) {
-            $q->where('user_id', \Auth::user()->id);
-        });
-
         return $builder;
     }
 
