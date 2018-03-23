@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Notifications\Mentioned;
 use App\Document;
-use App\Company;
 use App\User;
 use Auth;
 use App\Note;
@@ -23,7 +22,8 @@ class OpportunityNoteController extends Controller
     {
         $note = Note::create([
             'name' => $request->get('name'),
-            'note' => $request->get('note')
+            'note' => $request->get('note'),
+            'private' => (int) $request->get('private')
         ]);
 
         if ($request->hasFile('document')) {
@@ -49,7 +49,8 @@ class OpportunityNoteController extends Controller
 
         $note->entity()->associate($opportunity)->save();
         $note->user()->associate(Auth::user())->save();
-        $note->load(['entity', 'user']);
+        $note->save();
+        $note->load(['entity', 'user', 'document']);
 
         $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
 

@@ -107,7 +107,6 @@ class List extends React.Component {
             aria-expanded="false"
             aria-owns="algolia-autocomplete-listbox-0"
             dir="auto"
-            autoFocus
             onChange={(e) => this.setState({searchString: e.target.value.trim()})}
             style={{position:"relative", verticalAlign:"top"}}
             onKeyPress={this._onKeyPress}

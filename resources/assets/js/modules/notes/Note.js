@@ -16,6 +16,7 @@ class Note extends Model {
     this.note = props.note || ''
     this.entity_type = props.entity_type || ''
     this.entity_id = props.entity_id || 0
+    this.private = props.private || 0
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})

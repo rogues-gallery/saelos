@@ -4,9 +4,10 @@ import * as actions from './store/actions'
 export const saveNote = (params) => (dispatch) => {
   dispatch(actions.postingNote());
 
-  let url;
-  let prefix;
+  let url
+  let prefix
   let method = 'post'
+  let config = {}
 
   switch (params.entity_type) {
     case 'App\\Contact':
@@ -29,9 +30,19 @@ export const saveNote = (params) => (dispatch) => {
     method = 'patch'
   }
 
-  return Http[method](url, {
-    ...params
+  const formData = new FormData
+
+  _.forOwn(params, (v, k) => {
+    if (k !== 'user') {
+      formData.append(k, v)
+    }
   })
+
+  config.headers = {
+    'content-type': 'multipart/form-data'
+  }
+
+  return Http[method](url, formData, config)
     .then(res => {
       dispatch(actions.postingNoteSuccess({data: res.data}))
     })
@@ -61,7 +72,7 @@ export const uploadFile = (url, file, name) => {
     headers: {
       'content-type': 'multipart/form-data'
     }
-  };
+  }
 
   return Http.post(link, formData, config);
 }

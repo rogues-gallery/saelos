@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import * as MDIcons from 'react-icons/lib/md'
 import Note from '../Note'
 import TextTruncate from 'react-text-truncate'
-import _ from 'lodash'
 import Dropzone from 'react-dropzone'
 import { saveNote, deleteNote, uploadFile } from '../service'
 import ContentEditable from 'react-contenteditable'
@@ -15,11 +14,14 @@ class Notes extends React.Component {
     this._handleInputChange = this._handleInputChange.bind(this)
     this._submit = this._submit.bind(this)
     this._onDrop = this._onDrop.bind(this)
+    this._togglePrivate = this._togglePrivate.bind(this)
 
     const newNote = new Note({
       entity_type: this.props.entityType,
       entity_id: this.props.entityId,
-      user: this.props.user
+      user_id: this.props.user.id,
+      private: 0,
+      document: {}
     })
 
     this.state = {
@@ -37,36 +39,30 @@ class Notes extends React.Component {
     this.props.dispatch(saveNote(this.state.formState))
   }
 
+  _togglePrivate(e) {
+    const { formState } = this.state
+
+    // We're toggling state, so if it is private, change
+    formState.private = formState.private ? 0 : 1
+
+    this.setState({
+      formState
+    })
+  }
+
   _onDrop(acceptedFiles, rejectedFiles) {
-    let uploadUrl
-    const { entity_type, entity_id } = this.state.formState
+    const { formState } = this.state
 
-    switch(entity_type) {
-      case 'App\\Opportunity':
-        uploadUrl = `/opportunities/${entity_id}/notes`
-        break
-      case 'App\\Contact':
-        uploadUrl = `/contacts/${entity_id}/notes`
-        break
-      case 'App\\Company':
-        uploadUrl = `/companies/${entity_id}/notes`
-        break
-    }
+    formState.document = acceptedFiles[0]
 
-    if (!uploadUrl) {
-      return
-    }
-
-    console.log(acceptedFiles);
-
-    uploadFile(uploadUrl, acceptedFiles[0], 'document')
-      .then((response) => {
-        console.log(response)
-      })
+    this.setState({
+      formState
+    })
   }
 
   render() {
     const { notes } = this.props
+    const { document } = this.state.formState
 
     return (
       <div className="card">
@@ -78,7 +74,12 @@ class Notes extends React.Component {
         <div className="newNote py-2 px-3 border-bottom">
           <p className="font-weight-bold">
             {this.props.user.name}
-            <span className="text-muted float-right"><MDIcons.MdLockOutline /></span>
+            <span
+              className={`float-right ${this.state.formState.private ? '' : 'text-muted'}`}
+              onClick={this._togglePrivate}
+            >
+              <MDIcons.MdLockOutline />
+            </span>
           </p>
           <ContentEditable className="fh-5 my-2 p-1 border rounded" onChange={this._handleInputChange} />
           <React.Fragment>
@@ -97,6 +98,11 @@ class Notes extends React.Component {
               <button className="btn btn-primary btn-sm" onClick={this._submit}>Create</button>
             </div>
           </React.Fragment>
+          {document ?
+            <div className="attached-file">
+              <a target="_blank" href={document.preview}>{document.name}</a>
+            </div>
+            : ''}
         </div>
 
         <div id="collapseNotes" className="collapse show mh-200" aria-labelledby="headingNotes">
@@ -115,8 +121,6 @@ Notes.propTypes = {
   entityId: PropTypes.number,
   user: PropTypes.object.isRequired
 }
-
-
 
 class Item extends React.Component {
   constructor(props) {
@@ -167,7 +171,7 @@ class Item extends React.Component {
 
     return (
       <div className={`notes-partial ${this.state.inEdit ? 'notes-partial-edit' : '' }`}>
-        <div onClick={this._toggleOpenState} className="list-group-item list-group-item-action align-items-start">
+        <div onClick={this._toggleOpenState} className={`list-group-item list-group-item-action align-items-start ${note.private ? 'corner-flag' : ''}`}>
           <span className="mini-text text-muted float-right mt-1">{note.created_at.fromNow()}</span>
           <p className="font-weight-bold">{note.user.name}</p>
           <div className="note">
@@ -193,6 +197,11 @@ class Item extends React.Component {
               <TextTruncate line={3} truncateText="..." text={note.note}/>
             }
           </div>
+          {note.document.id ?
+            <div className="attached-file">
+              <a target="_blank" href={`/uploads/${note.document.filename}`}>{note.document.name}</a>
+            </div>
+            : ''}
         </div>
       </div>
     )
