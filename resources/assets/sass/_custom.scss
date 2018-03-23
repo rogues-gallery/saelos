@@ -495,20 +495,24 @@ a:hover {
 
 .advanced-search {
   position:absolute;
-  top:100%;
   left:0;
   width:100%;
   z-index:999;
   min-height:200px;
   background: $white;
+  box-shadow: 0 4px 2px -2px $gray-200;
 
   .tag {
     cursor: pointer;
     display: inline-block;
     padding: 4px;
-    margin-right: 2px;
-    border: 1px solid $blue;
-    background: lightblue;
+    border-radius: 4px;
+  }
+  .field {
+    background: #faedff;
+  }
+  .relation {
+    background: #e8ffde;
   }
 }
 

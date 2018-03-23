@@ -114,17 +114,33 @@ class List extends React.Component {
             defaultValue={searchString}
           />
           {advancedSearch ?
-            <div className="advanced-search px-4 py-4">
-              {_.filter(fields, f => f.searchable).map(f =>
-                <span key={`contacts-search-${f.alias}`} className="tag" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.label}: </span>
-              )}
+            <div className="advanced-search mt-2 py-4 border-bottom">
+              <div className="px-4 pt-2 pb-3 border-bottom">
+                <p className="pb-1 text-muted">QUICK FILTERS</p>
+                <div className="unread">Unread</div>
+                <div className="assigned">Assigned to me</div>
+              </div>
+
+              <div className="px-4 pt-2 pb-3 border-bottom">
+                <p className="pb-1 text-muted">HAS</p>
+                <span className="tag relation mr-2">Status:</span>
+                <span className="tag relation mr-2">Opportunity:</span>
+                <span className="tag relation mr-2">Company:</span>
+              </div>
+
+              <div className="px-4  py-2">
+                <p className="pb-1 text-muted">FIELDS</p>
+                {_.filter(fields, f => f.searchable).map(f =>
+                  <span key={`contacts-search-${f.alias}`} className="tag field mr-2" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.label}: </span>
+                )}
+              </div>
             </div>
-            :
-            <div className="micro-text row text-center pt-3 pb-2">
+            : ''
+          }
+           <div className="micro-text row text-center pt-3 pb-2">
               <div className="text-dark col"><b>Active</b></div>
               <div className="text-muted col"><b>All</b></div>
             </div>
-          }
         </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {contacts.map(contact => <Contact key={contact.id} contact={contact} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
