@@ -16,20 +16,23 @@ class AdvancedSearch extends React.Component {
       searchString: props.searchString,
       parsedSearchString: {}
     }
+
+    this.textInput;
   }
 
   _updateSearchString(string) {
     this.setState({
       searchString: `${this.state.searchString}${string}`.trim(),
-      advancedSearch: false
+      searchOpen: false
     })
 
-    document.getElementById('search-input-real').val = this.state.searchString
+    console.log(this.textInput)
+    this.textInput.value = this.state.searchString
   }
 
   _handleOnChange(e) {
     this.setState({
-
+      searchOpen: true,
       searchString: e.target.value
     })
   }
@@ -43,7 +46,7 @@ class AdvancedSearch extends React.Component {
       return (
         <span className="tag-container" key={`search-tag-${k}`}>
           {typeof field !== 'undefined'
-            ? <span className="tag">{field.label}:</span>
+            ? <span className="tag field mr-2">{field.label}:</span>
             : ''
           }
           {v.value}
@@ -58,15 +61,31 @@ class AdvancedSearch extends React.Component {
 
     return (
       <div className="position-relative px-4 pt-4 bg-white border-bottom">
-        <div id="advanced-search" onClick={() => document.getElementById('search-input-real').focus()}>
+        <div id="advanced-search" onClick={() => this.textInput.focus()}>
           {this._buildHtmlFromSearchString(searchString)}
         </div>
-        <input id="search-input-real" type="text" onChange={this._handleOnChange} />
+        <input id="search-input-real" type="text" ref={i => this.textInput = i} onChange={this._handleOnChange} />
         {searchOpen ?
-          <div className="px-4 py-4">
-            {_.filter(searchFields, f => f.searchable).map(f =>
-              <span key={`contacts-search-${f.alias}`} className="tag" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.label}: </span>
-            )}
+          <div className="advanced-search mt-2 py-4 border-bottom">
+            <div className="px-4 pt-2 pb-3 border-bottom">
+              <p className="pb-1 text-muted">QUICK FILTERS</p>
+              <div className="unread">Unread</div>
+              <div className="assigned">Assigned to me</div>
+            </div>
+
+            <div className="px-4 pt-2 pb-3 border-bottom">
+              <p className="pb-1 text-muted">HAS</p>
+              <span className="tag relation mr-2">Status:</span>
+              <span className="tag relation mr-2">Opportunity:</span>
+              <span className="tag relation mr-2">Company:</span>
+            </div>
+
+            <div className="px-4  py-2">
+              <p className="pb-1 text-muted">FIELDS</p>
+              {_.filter(searchFields, f => f.searchable).map(f =>
+                <span key={`contacts-search-${f.alias}`} className="tag field mr-2" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.label}: </span>
+              )}
+            </div>
           </div>
           :
           <div className="micro-text row text-center pt-3 pb-2">
