@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { fetchContacts, fetchContact } from '../../../service'
 import { getSearchStringForContacts, getCustomFieldsForContacts } from "../../../store/selectors"
+import AdvancedSearch from '../../../../../common/search'
 
 class List extends React.Component {
   constructor(props) {
@@ -95,37 +96,7 @@ class List extends React.Component {
 
     return (
       <div className={`col list-panel border-right ${inEdit ? 'inEdit' : ''}`}>
-        <div className="position-relative px-4 pt-4 bg-white border-bottom">
-          <input
-            key={searchString}
-            type="search"
-            className="form-control ds-input"
-            id="search-input"
-            placeholder="Search..."
-            role="combobox"
-            aria-autocomplete="list"
-            aria-expanded="false"
-            aria-owns="algolia-autocomplete-listbox-0"
-            dir="auto"
-            onChange={(e) => this.setState({searchString: e.target.value.trim()})}
-            style={{position:"relative", verticalAlign:"top"}}
-            onKeyPress={this._onKeyPress}
-            onFocus={this._activateAdvancedSearch}
-            defaultValue={searchString}
-          />
-          {advancedSearch ?
-            <div className="advanced-search px-4 py-4">
-              {_.filter(fields, f => f.searchable).map(f =>
-                <span key={`contacts-search-${f.alias}`} className="tag" onClick={() => this._updateSearchString(` ${f.alias}:`)}>{f.label}: </span>
-              )}
-            </div>
-            :
-            <div className="micro-text row text-center pt-3 pb-2">
-              <div className="text-dark col"><b>Active</b></div>
-              <div className="text-muted col"><b>All</b></div>
-            </div>
-          }
-        </div>
+        <AdvancedSearch searchFunc={fetchContacts} searchFields={fields} searchString={searchString} />
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {contacts.map(contact => <Contact key={contact.id} contact={contact} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
         </div>

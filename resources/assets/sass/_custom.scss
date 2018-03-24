@@ -512,6 +512,21 @@ a:hover {
   }
 }
 
+
+#advanced-search {
+  .tag-container {
+    margin-left: 4px;
+  }
+  .tag {
+    cursor: pointer;
+    display: inline-block;
+    padding: 4px;
+    margin-right: 2px;
+    border: 1px solid $blue;
+    background: lightblue;
+  }
+}
+
 .border-saelos {
   border-top: 4px solid #B21E22;
 }
