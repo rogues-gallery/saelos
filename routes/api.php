@@ -43,6 +43,7 @@ Route::group([
         Route::resource('opportunities', 'OpportunityController');
         Route::resource('companies', 'CompanyController');
         Route::resource('stages', 'StageController');
+        Route::resource('statuses', 'StatusController');
         Route::resource('teams', 'TeamController');
         Route::resource('activities', 'ActivityController');
         Route::resource('users', 'UserController');

@@ -36,17 +36,17 @@ class ModelUpdateObserver
                 if ($fieldAlias === 'user_id') {
                     $newAssignee = \DB::table('users')->select('name')->where('id', $fieldUpdate->new_value)->first();
                     $oldAssignee = \DB::table('users')->select('name')->where('id', $fieldUpdate->old_value)->first();
-                    $title = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
+                    $name = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
                     $description = sprintf('%s changed the assignee to %s <span class="text-muted">(from %s)</span>', $user->name, $newAssignee ? $newAssignee->name : null, $oldAssignee ? $oldAssignee->name : null);
                 } elseif ($fieldAlias === 'status_id') {
                     $newAssignee = \DB::table('statuses')->select('name')->where('id', $fieldUpdate->new_value)->first();
                     $oldAssignee = \DB::table('statuses')->select('name')->where('id', $fieldUpdate->old_value)->first();
-                    $title = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
+                    $name = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
                     $description = sprintf('%s changed the status to %s <span class="text-muted">(from %s)</span>', $user->name, $newAssignee ? $newAssignee->name : null, $oldAssignee ? $oldAssignee->name : null);
                 } elseif ($fieldAlias === 'stage_id') {
                     $newAssignee = \DB::table('stages')->select('name')->where('id', $fieldUpdate->new_value)->first();
                     $oldAssignee = \DB::table('stages')->select('name')->where('id', $fieldUpdate->old_value)->first();
-                    $title = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
+                    $name = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
                     $description = sprintf('%s changed the stage to %s <span class="text-muted">(from %s)</span>', $user->name, $newAssignee ? $newAssignee->name : null, $oldAssignee ? $oldAssignee->name : null);
                 } else {
                     $fieldName = \DB::table('fields')
@@ -57,12 +57,12 @@ class ModelUpdateObserver
                             'model' => get_class($model)
                         ])
                         ->first()->label;
-                    $title = sprintf('%s updated', $fieldName);
+                    $name = sprintf('%s updated', $fieldName);
                     $description = sprintf('%s updated %s from %s to %s', $user->name, $fieldName, $fieldUpdate->old_value, $fieldUpdate->new_value);
                 }
 
                 $activity = Activity::create([
-                    'title' => $title,
+                    'name' => $name,
                     'description' => $description,
                     'completed' => 1,
                     'user_id' => $user->id,
@@ -95,7 +95,7 @@ class ModelUpdateObserver
             $user = \Auth::user();
 
             $activity = Activity::create([
-                'title' => sprintf('%s updated', $fieldName),
+                'name' => sprintf('%s updated', $fieldName),
                 'description' => sprintf('%s updated %s to %s', $user->name, $fieldUpdate->old_value, $fieldUpdate->new_value),
                 'completed' => 1,
                 'user_id' => $user->id,

@@ -8,6 +8,7 @@ import reportReducer from '../modules/reports/store/reducer'
 import workflowReducer from '../modules/workflows/store/reducer'
 import teamReducer from '../modules/teams/store/reducer'
 import stageReducer from '../modules/stages/store/reducer'
+import statusReducer from '../modules/statuses/store/reducer'
 import activityReducer from '../modules/activities/store/reducer'
 import fieldReducer from '../modules/fields/store/reducer'
 
@@ -21,6 +22,7 @@ export default combineReducers({
   workflowState: workflowReducer,
   teamState: teamReducer,
   stageState: stageReducer,
+  statusState: statusReducer,
   activityState: activityReducer,
   fieldState: fieldReducer
 });

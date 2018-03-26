@@ -1,4 +1,5 @@
-import * as types from './action-types';
+import * as types from './action-types'
+import * as notifications from '../notifications'
 
 export const fetchingOpportunity = () => ({
   type: types.FETCHING_SINGLE_OPPORTUNITY
@@ -31,10 +32,14 @@ export const postingOpportunity = () => ({
   type: types.POSTING_OPPORTUNITY
 })
 
-export const postingOpportunitySuccess = (payload) => ({
-  type: types.POSTING_OPPORTUNITY_SUCCESS,
-  data: payload
-})
+export const postingOpportunitySuccess = (payload) => {
+  notifications.onOpportunitySave(payload)
+
+  return {
+    type: types.POSTING_OPPORTUNITY_SUCCESS,
+    data: payload
+  }
+}
 
 export const postingOpportunityFailure = () => ({
   type: types.POSTING_OPPORTUNITY_FAILURE

@@ -1,4 +1,5 @@
-import * as types from './action-types';
+import * as types from './action-types'
+import * as notifications from '../notifications'
 
 export const fetchingCompany = () => ({
   type: types.FETCHING_SINGLE_COMPANY
@@ -30,10 +31,14 @@ export const postingCompany = () => ({
   type: types.POSTING_COMPANY
 })
 
-export const postingCompanySuccess = (payload) => ({
-  type: types.POSTING_COMPANY_SUCCESS,
-  data: payload
-})
+export const postingCompanySuccess = (payload) => {
+  notifications.onCompanySave(payload)
+
+  return {
+    type: types.POSTING_COMPANY_SUCCESS,
+    data: payload
+  }
+}
 
 export const postingCompanyFailure = () => ({
   type: types.POSTING_COMPANY_FAILURE
