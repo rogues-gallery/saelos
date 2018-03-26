@@ -6,14 +6,12 @@ import { getOpportunity, getCustomFieldsForOpportunities, isStateDirty, getFirst
 import { fetchOpportunity, saveOpportunity, deleteOpportunity } from '../../../service';
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
-import ReactQuill from 'react-quill'
 import {editingOpportunity, editingOpportunityFinished} from "../../../store/actions"
 import Contact from "../../../../contacts/Contact"
 import {searchContacts} from "../../../../contacts/service"
-import {fetchCompany, searchCompanies} from "../../../../companies/service"
+import {searchCompanies} from "../../../../companies/service"
 import Select from 'react-select'
-import FieldLayout from "../../../../contacts/page/panels/record/components/FieldLayout";
-import {editingCompany} from "../../../../companies/store/actions";
+import FieldLayout from "../../../../contacts/page/panels/record/components/FieldLayout"
 
 class Record extends React.Component {
   constructor(props) {
@@ -43,10 +41,6 @@ class Record extends React.Component {
 
   componentWillReceiveProps(nextProps, nextContext) {
     this.setState({formState: nextProps.opportunity.originalProps})
-  }
-
-  _archive() {
-
   }
 
   _delete () {
@@ -180,7 +174,6 @@ class Record extends React.Component {
             <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
             <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>
             <button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>
-            <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
             <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
             
             <div className="float-right text-right pt-2">

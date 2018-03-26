@@ -21,7 +21,6 @@ class Record extends React.Component {
     this._submit = this._submit.bind(this)
     this._handleInputChange = this._handleInputChange.bind(this)
     this._setActionView = this._setActionView.bind(this)
-    this._archive = this._archive.bind(this)
     this._delete = this._delete.bind(this)
 
     this.state = {
@@ -43,10 +42,6 @@ class Record extends React.Component {
 
   componentWillReceiveProps(nextProps, nextContext) {
     this.setState({formState: nextProps.contact.originalProps})
-  }
-
-  _archive() {
-
   }
 
   _delete () {
@@ -159,7 +154,6 @@ class Record extends React.Component {
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('task')}><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
           {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>*/}
           {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>*/}
-          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdCheck /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
           <div className="float-right text-right pt-2">
