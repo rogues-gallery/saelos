@@ -13,6 +13,7 @@ use App\ModelTraits\HasWorkflowsTrait;
 use App\ModelTraits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Company
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface
 {
+    use SoftDeletes;
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
     use HasNotesTrait;
@@ -42,6 +44,12 @@ class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
         'custom_fields',
         'notes',
         'activities',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function user()

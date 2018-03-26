@@ -15,6 +15,7 @@ use App\ModelTraits\HasWorkflowsTrait;
 use App\ModelTraits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Opportunity
@@ -31,6 +32,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Opportunity extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface
 {
+    use SoftDeletes;
     use HasActivitiesTrait;
     use HasCompaniesTrait;
     use HasCustomFieldsTrait;
@@ -56,6 +58,7 @@ class Opportunity extends Model implements HasWorkflowsInterface, HasCustomField
         'expected_close',
         'actual_close',
         'last_viewed',
+        'deleted_at',
     ];
 
     public function user()

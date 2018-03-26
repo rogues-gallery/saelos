@@ -14,6 +14,7 @@ use App\ModelTraits\HasNotesTrait;
 use App\ModelTraits\HasWorkflowsTrait;
 use App\ModelTraits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Contact
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Contact extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface
 {
+    use SoftDeletes;
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
     use HasCompaniesTrait;
@@ -45,6 +47,12 @@ class Contact extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
         'custom_fields',
         'notes',
         'status'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function user()
