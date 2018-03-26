@@ -16,8 +16,9 @@ class MakeStatusCoreField extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('title');
+            $table->string('name');
             $table->boolean('published')->default(1);
+            $table->string('color', 7);
         });
 
         Schema::table('people', function (Blueprint $table) {

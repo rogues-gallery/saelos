@@ -11,7 +11,7 @@ class Team extends Model {
   initialize(props) {
     super.initialize(props)
 
-    this.title = props.title || ''
+    this.name = props.name || ''
     this.description = props.description || ''
 
     // relate user model

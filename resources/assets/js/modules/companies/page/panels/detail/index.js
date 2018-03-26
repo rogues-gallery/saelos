@@ -101,7 +101,7 @@ const History = ({activities, dispatch, toggle, inEdit}) => (
       {activities.map(activity => (
           <div className="list-group-item" key={`activity-history-${activity.id}`}>
             <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
-            <div className="activity"><b>{activity.title}</b></div>
+            <div className="activity"><b>{activity.name}</b></div>
             <div dangerouslySetInnerHTML={{__html: activity.description}} />
           </div>
           ))}

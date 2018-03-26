@@ -108,7 +108,7 @@ const Stage = ({ stage, dispatch, router, activeID }) => {
       onClick={() => openStageRecord(stage.id)}
       className={`list-group-item list-group-item-action align-items-start ${stage.id === parseInt(activeID) ? ' active' : ''}`}
     >
-      <h6>{stage.title}</h6>
+      <h6>{stage.name}</h6>
     </div>
   );
 }

@@ -10,7 +10,7 @@ class Stage extends Model {
   initialize(props) {
     super.initialize(props)
 
-    this.title = props.title || ''
+    this.name = props.name || ''
     this.probability = props.probability || ''
     this.active = props.active || 0
 

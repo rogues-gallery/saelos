@@ -234,6 +234,7 @@ a:hover {
     .nav-link.active {
       background: $gray-900;
       border-left: 4px solid #B21E22;
+      padding-left:12px;
     }
   }
 
@@ -518,6 +519,13 @@ a:hover {
 
 
 #advanced-search {
+
+  &:empty:before {
+    content: attr(data-placeholder);
+    display:block;
+    color: #c1c1c1 !important;
+  }
+
   .tag-container {
     margin-left: 4px;
   }

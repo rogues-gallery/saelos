@@ -16,7 +16,7 @@ class Activity extends Model {
     super.initialize(props)
 
     this.details = props.details ? props.details : {}
-    this.title = props.title || ''
+    this.name = props.name || ''
     this.description = props.description || ''
     this.completed = props.completed ? props.completed : 0
     this.due_date = props.due_date ? moment(props.due_date) : moment()

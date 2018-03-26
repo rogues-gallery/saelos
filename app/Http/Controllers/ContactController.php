@@ -34,6 +34,7 @@ class ContactController extends Controller
         'notes',
         'notes.document',
         'notes.user',
+        'status',
     ];
 
     const SHOW_WITH = [
@@ -55,6 +56,7 @@ class ContactController extends Controller
         'notes',
         'notes.document',
         'notes.user',
+        'status',
     ];
 
     const SEARCH_PARAMS = [

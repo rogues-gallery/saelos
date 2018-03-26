@@ -1,6 +1,7 @@
 //import libs
 import React from 'react'
 import PropTypes from 'prop-types'
+import { NotificationContainer } from 'react-notifications'
 
 // import components
 import Main from '../Main'
@@ -11,6 +12,7 @@ const PrivateLayout = ({ children }) => (
     <div className="row no-gutters">
       <Navigation/>
       { children }
+      <NotificationContainer />
     </div>
   </Main>
 )

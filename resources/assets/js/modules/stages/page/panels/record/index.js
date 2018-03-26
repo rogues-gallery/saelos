@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
 const Record = ({stage}) => (
-  <div>{stage.title}</div>
+  <div>{stage.name}</div>
 )
 
 export default withRouter(connect((state, ownProps) => ({

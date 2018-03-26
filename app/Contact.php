@@ -44,6 +44,7 @@ class Contact extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
         'activities',
         'custom_fields',
         'notes',
+        'status'
     ];
 
     public function user()
@@ -54,5 +55,10 @@ class Contact extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
     public function opportunities()
     {
         return $this->belongsToMany(Opportunity::class, 'opportunity_contact')->withPivot(['primary', 'position']);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
     }
 }

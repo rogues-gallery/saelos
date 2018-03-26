@@ -21,13 +21,11 @@ Page.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
-const Team = ({ team, dispatch }) => {
-  return (
-    <div className="team" onClick={() => dispatch(fetchTeam(team.id))}>
-      {team.title}
-    </div>
-  );
-}
+const Team = ({ team, dispatch }) => (
+  <div className="team" onClick={() => dispatch(fetchTeam(team.id))}>
+    {team.name}
+  </div>
+)
 
 Team.propTypes = {
   team: PropTypes.object.isRequired

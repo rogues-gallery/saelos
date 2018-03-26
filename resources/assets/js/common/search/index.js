@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {getCustomField, parseSearchString} from '../../utils/helpers'
+import {fetchContacts} from "../../modules/contacts/service";
 
 class AdvancedSearch extends React.Component {
   constructor(props) {
@@ -10,6 +11,8 @@ class AdvancedSearch extends React.Component {
     this._updateSearchString = this._updateSearchString.bind(this)
     this._handleOnChange = this._handleOnChange.bind(this)
     this._buildHtmlFromSearchString = this._buildHtmlFromSearchString.bind(this)
+    this._onKeyPress = this._onKeyPress.bind(this)
+    this._submit = this._submit.bind(this)
 
     this.state = {
       searchOpen: false,
@@ -21,19 +24,49 @@ class AdvancedSearch extends React.Component {
   }
 
   _updateSearchString(string) {
+    this.textInput.value = this.state.searchString
+
     this.setState({
       searchString: `${this.state.searchString}${string}`.trim(),
       searchOpen: false
     })
-
-    console.log(this.textInput)
-    this.textInput.value = this.state.searchString
   }
 
   _handleOnChange(e) {
     this.setState({
       searchOpen: true,
       searchString: e.target.value
+    })
+  }
+
+  _onKeyPress(event) {
+    const { target, charCode } = event
+
+    if (charCode !== 13) {
+      return
+    }
+
+    event.preventDefault()
+
+    this._submit(target)
+  }
+
+  _submit(input) {
+    const { value } = input
+    const { dispatch } = this.props
+
+    if (value.length >= 3) {
+      dispatch(fetchContacts({page: 1, searchString: value}))
+    } else if (value.length === 0) {
+      this.setState({
+        searchString: ''
+      })
+
+      dispatch(fetchContacts({page: 1, searchString: ''}))
+    }
+
+    this.setState({
+      advancedSearch: false
     })
   }
 
@@ -61,10 +94,10 @@ class AdvancedSearch extends React.Component {
 
     return (
       <div className="position-relative px-4 pt-4 bg-white border-bottom">
-        <div id="advanced-search" onClick={() => this.textInput.focus()}>
-          {this._buildHtmlFromSearchString(searchString)}
-        </div>
-        <input id="search-input-real" type="text" ref={i => this.textInput = i} onChange={this._handleOnChange} />
+        {/*<div id="advanced-search" className="rounded border px-1 py-1" onClick={() => this.textInput.focus()} data-placeholder="Search...">*/}
+          {/*{this._buildHtmlFromSearchString(searchString)}*/}
+        {/*</div>*/}
+        <input id="search-input-real" placeholder="Search..." className="form-control" type="text" ref={i => this.textInput = i} onChange={this._handleOnChange} onKeyPress={this._onKeyPress} defaultValue={searchString} />
         {searchOpen ?
           <div className="advanced-search mt-2 py-4 border-bottom">
             <div className="px-4 pt-2 pb-3 border-bottom">

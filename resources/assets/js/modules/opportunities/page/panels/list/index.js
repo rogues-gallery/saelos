@@ -111,7 +111,7 @@ const Opportunity = ({ opportunity, dispatch, router, activeID }) => {
     ><span className="text-muted mini-text float-right"><Money>{opportunity.amount}</Money></span>
       <h6 className="text-truncate pr-1">{opportunity.name}</h6>
       <p>{opportunity.company.name}</p>
-      <p className="text-muted">{opportunity.stage.title}</p>
+      <p className="text-muted">{opportunity.stage.name}</p>
     </div>
   );
 }

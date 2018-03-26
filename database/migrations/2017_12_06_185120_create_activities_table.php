@@ -18,7 +18,7 @@ class CreateActivitiesTable extends Migration
             $table->timestamps();
             $table->morphs('entity');
             $table->nullableMorphs('details');
-            $table->string('title');
+            $table->string('name');
             $table->text('description');
             $table->boolean('completed')->default(0);
             $table->dateTime('due_date')->nullable();

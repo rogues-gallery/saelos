@@ -62,7 +62,7 @@ class Conversation extends React.Component {
 	        <div onClick={this._toggleOpenState}>
 	          <span className="mini-text text-muted float-right pt-1">{moment(conversation.created_at).fromNow()}</span>
 	          <span className="text-muted pr-2 h5"><MDIcons.MdArrowBack /></span>
-	          <span className="font-weight-bold">{conversation.title}</span><span className="message-body pr-2"><TextTruncate line={1} truncateText="..." text={conversation.description}/></span>
+	          <span className="font-weight-bold">{conversation.name}</span><span className="message-body pr-2"><TextTruncate line={1} truncateText="..." text={conversation.description}/></span>
 	            {this.state.open ?
 			          <div className="conversation">
 		              <div className="conversation-content nl2br">

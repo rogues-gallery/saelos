@@ -1,4 +1,5 @@
-import * as types from './action-types';
+import * as types from './action-types'
+import * as notifications from '../notifications'
 
 export const fetchingContact = () => ({
   type: types.FETCHING_SINGLE_CONTACT
@@ -31,10 +32,14 @@ export const postingContact = () => ({
   type: types.POSTING_CONTACT
 })
 
-export const postingContactSuccess = (payload) => ({
-  type: types.POSTING_CONTACT_SUCCESS,
-  data: payload
-})
+export const postingContactSuccess = (payload) => {
+  notifications.onContactSave(payload)
+
+  return {
+    type: types.POSTING_CONTACT_SUCCESS,
+    data: payload
+  }
+}
 
 export const postingContactFailure = () => ({
   type: types.POSTING_CONTACT_FAILURE

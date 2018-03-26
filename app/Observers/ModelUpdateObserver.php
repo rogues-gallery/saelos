@@ -33,11 +33,21 @@ class ModelUpdateObserver
 
                 $user = \Auth::user();
 
-                if ($fieldAlias == 'user_id') {
-                    $newAssignee = \DB::table('users')->select('name')->from('users')->where('id', $fieldUpdate->new_value)->first();
-                    $oldAssignee = \DB::table('users')->select('name')->from('users')->where('id', $fieldUpdate->old_value)->first();
+                if ($fieldAlias === 'user_id') {
+                    $newAssignee = \DB::table('users')->select('name')->where('id', $fieldUpdate->new_value)->first();
+                    $oldAssignee = \DB::table('users')->select('name')->where('id', $fieldUpdate->old_value)->first();
                     $title = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
                     $description = sprintf('%s changed the assignee to %s <span class="text-muted">(from %s)</span>', $user->name, $newAssignee ? $newAssignee->name : null, $oldAssignee ? $oldAssignee->name : null);
+                } elseif ($fieldAlias === 'status_id') {
+                    $newAssignee = \DB::table('statuses')->select('name')->where('id', $fieldUpdate->new_value)->first();
+                    $oldAssignee = \DB::table('statuses')->select('name')->where('id', $fieldUpdate->old_value)->first();
+                    $title = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
+                    $description = sprintf('%s changed the status to %s <span class="text-muted">(from %s)</span>', $user->name, $newAssignee ? $newAssignee->name : null, $oldAssignee ? $oldAssignee->name : null);
+                } elseif ($fieldAlias === 'stage_id') {
+                    $newAssignee = \DB::table('stages')->select('name')->where('id', $fieldUpdate->new_value)->first();
+                    $oldAssignee = \DB::table('stages')->select('name')->where('id', $fieldUpdate->old_value)->first();
+                    $title = sprintf('Assigned to %s', $newAssignee ? $newAssignee->name : null);
+                    $description = sprintf('%s changed the stage to %s <span class="text-muted">(from %s)</span>', $user->name, $newAssignee ? $newAssignee->name : null, $oldAssignee ? $oldAssignee->name : null);
                 } else {
                     $fieldName = \DB::table('fields')
                         ->select('label')

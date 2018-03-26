@@ -16,9 +16,10 @@ class CreateStagesTable extends Migration
         Schema::create('stages', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('title');
+            $table->string('name');
             $table->integer('probability');
             $table->boolean('active')->default(1);
+            $table->string('color', 7);
         });
 
         Schema::table('deals', function (Blueprint $table) {

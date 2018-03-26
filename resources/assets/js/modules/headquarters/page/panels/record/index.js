@@ -58,7 +58,7 @@ class Record extends React.Component {
         </div>
 
         <h4 className="border-bottom py-3">
-          {activity.title}
+          {activity.name}
         </h4>
 
         <div className="h-scroll">
