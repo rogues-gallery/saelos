@@ -15,7 +15,7 @@ class CustomFieldValue extends Model
 {
     public function field()
     {
-        return $this->belongsTo(Field::class);
+        return $this->belongsTo(Field::class, 'custom_field_id');
     }
 
     public function model()

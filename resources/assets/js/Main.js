@@ -19,12 +19,6 @@ class Main extends Component {
     if (isAuthenticated && !user.id) {
       dispatch(fetchUser())
     }
-
-    dispatch(fetchContacts({page: 1}))
-    dispatch(fetchCompanies({page: 1}))
-    dispatch(fetchOpportunities({page: 1}))
-    dispatch(fetchReports({page: 1}))
-    dispatch(fetchActivities({page: 1}))
   }
 
   render() {

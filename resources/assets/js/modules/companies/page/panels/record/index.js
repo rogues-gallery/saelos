@@ -7,7 +7,7 @@ import {fetchCompany, saveCompany, deleteCompany} from '../../../service'
 import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
 import {editingCompany, editingCompanyFinished} from "../../../store/actions"
-import FieldLayout from "../../../../contacts/page/panels/record/components/FieldLayout";
+import {renderGroupedFields} from "../../../../../utils/helpers/fields"
 
 
 class Record extends React.Component {
@@ -89,37 +89,13 @@ class Record extends React.Component {
   render() {
     const { inEdit, company } = this.props
     const groups = _.groupBy(this.props.customFields, 'group')
-    const companyFields = ['core', 'personal', 'social', 'additional'].map(key => {
-      const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
-      return (
-        <div className={`list-group list-group-flush`} key={`group-${key}-${company.id}`}>
-          {key === 'core' ?
-            <ul className="list-group list-group-flush">
-              <li key="address" className="list-group-item">
-                <div className="mini-text text-muted">Address</div>
-                <div className="py-2">
-                  <p className="font-weight-bold">{company.address1} {company.address2}</p>
-                  <p className="text-muted">{company.city} {company.state} {company.zip} {company.country}</p>
-                </div>
-              </li>
-            </ul>
-            :
-            ''
-          }
-          <ul className={`list-group list-group-flush ${emptyGroup}`}>
-            <li key={key} className="list-group-item">
-              <div className="mini-text text-muted">{key}</div>
-              {_.sortBy(groups[key], ['ordering']).map(f => {
-                return (
-                  <FieldLayout model={company} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
-                )
-              })
-              }
-            </li>
-          </ul>
-          <span className="d-none" />
-        </div>
-      )})
+    const companyFields = renderGroupedFields(
+      inEdit,
+      ['core', 'personal', 'social', 'additional'],
+      groups,
+      company,
+      this._handleInputChange
+    )
 
     return (
       <main className="col main-panel px-3">
@@ -151,6 +127,17 @@ class Record extends React.Component {
 
         <div className="h-scroll">
           <div className="card mb-1">
+            {!inEdit ?
+              <ul className="list-group list-group-flush">
+                <li key="address" className="list-group-item">
+                  <div className="mini-text text-muted">Address</div>
+                  <div className="py-2">
+                    <p className="font-weight-bold">{company.address1} {company.address2}</p>
+                    <p className="text-muted">{company.city} {company.state} {company.zip} {company.country}</p>
+                  </div>
+                </li>
+              </ul>
+              : ''}
             {companyFields}
           </div>
         </div>

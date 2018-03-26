@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {getCustomField, parseSearchString} from '../../utils/helpers'
-import {fetchContacts} from "../../modules/contacts/service";
+import {fetchContacts} from "../../modules/contacts/service"
+import ContentEditable from 'react-contenteditable'
 
 class AdvancedSearch extends React.Component {
   constructor(props) {
@@ -19,23 +20,19 @@ class AdvancedSearch extends React.Component {
       searchString: props.searchString,
       parsedSearchString: {}
     }
-
-    this.textInput;
   }
 
   _updateSearchString(string) {
-    this.textInput.value = this.state.searchString
-
     this.setState({
-      searchString: `${this.state.searchString}${string}`.trim(),
+      searchString: `${this.state.searchString}${string}`,
       searchOpen: false
     })
   }
 
   _handleOnChange(e) {
     this.setState({
-      searchOpen: true,
-      searchString: e.target.value
+      searchString: e.target.value,
+      searchOpen: true
     })
   }
 
@@ -79,10 +76,9 @@ class AdvancedSearch extends React.Component {
       return (
         <span className="tag-container" key={`search-tag-${k}`}>
           {typeof field !== 'undefined'
-            ? <span className="tag field mr-2">{field.label}:</span>
+            ? <span className="tag">{field.alias}:</span>
             : ''
-          }
-          {v.value}
+          }{v.value}
         </span>
       )
     }) || value
@@ -94,10 +90,18 @@ class AdvancedSearch extends React.Component {
 
     return (
       <div className="position-relative px-4 pt-4 bg-white border-bottom">
-        {/*<div id="advanced-search" className="rounded border px-1 py-1" onClick={() => this.textInput.focus()} data-placeholder="Search...">*/}
-          {/*{this._buildHtmlFromSearchString(searchString)}*/}
-        {/*</div>*/}
-        <input id="search-input-real" placeholder="Search..." className="form-control" type="text" ref={i => this.textInput = i} onChange={this._handleOnChange} onKeyPress={this._onKeyPress} defaultValue={searchString} />
+        <div id="advanced-search-container">
+          <ContentEditable
+            id="advanced-search"
+            html={searchString}
+            className="rounded border px-1 py-1"
+            onChange={this._handleOnChange}
+            data-placeholder="Search..."
+          />
+          <div id="advanced-search-underlay">
+            {this._buildHtmlFromSearchString(searchString)}
+          </div>
+        </div>
         {searchOpen ?
           <div className="advanced-search mt-2 py-4 border-bottom">
             <div className="px-4 pt-2 pb-3 border-bottom">
@@ -135,7 +139,7 @@ AdvancedSearch.propTypes = {
   dispatch: PropTypes.func.isRequired,
   searchString: PropTypes.string.isRequired,
   searchFunc: PropTypes.func.isRequired,
-  searchFields: PropTypes.object.isRequired
+  searchFields: PropTypes.array.isRequired
 }
 
 export default connect(state => ({

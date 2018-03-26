@@ -97,7 +97,10 @@ class Workflow extends Model
         if ($model instanceof HasCustomFieldsInterface) {
             $this->customField->load('field');
 
-            if ($this->field_alias === $this->customField->customField->alias) {
+            if (
+                $this->field_alias
+                ===
+                $this->customField->field->alias) {
                 return $this->customField->value;
             }
         }

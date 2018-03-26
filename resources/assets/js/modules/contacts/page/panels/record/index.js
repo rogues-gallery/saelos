@@ -8,9 +8,9 @@ import {deleteContact, fetchContact, saveContact} from '../../../service'
 import {editingContact, editingContactFinished} from '../../../store/actions'
 import Conversations from '../../../../conversations/partials/_conversations'
 import { ActionView } from './components'
-import FieldLayout from './components/FieldLayout'
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
+import {renderGroupedFields} from "../../../../../utils/helpers/fields";
 
 
 class Record extends React.Component {
@@ -24,7 +24,6 @@ class Record extends React.Component {
     this._delete = this._delete.bind(this)
 
     this.state = {
-      // inEdit: props.inEdit,
       formState: props.contact.originalProps,
       actionView: "none"
     }
@@ -94,42 +93,22 @@ class Record extends React.Component {
     this.setState({
       formState: contactState
     });
+
+    // Set the value on the contact prop as well
+    _.set(this.props.contact, name, value)
   }
 
   render() {
     const { inEdit, contact, user } = this.props
     const groups = _.groupBy(this.props.customFields, 'group')
 
-    const contactFields = ['core', 'personal', 'social', 'additional'].map(key => {
-      const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
-      return (
-        <React.Fragment>
-          <ul className={`list-group list-group-flush ${emptyGroup}`}>
-            <li key={key} className="list-group-item">
-              <div className="mini-text text-muted">{key}</div>
-              {_.sortBy(groups[key], ['ordering']).map(f => {
-                return (
-                  <FieldLayout model={contact} field={f} inEdit={inEdit} onChange={this._handleInputChange} key={`group-field-key-${f.field_id}`} />
-                )
-              })
-              }
-            </li>
-          </ul>
-          {key === 'core' && !inEdit ?
-            <ul className="list-group list-group-flush">
-              <li key="address" className="list-group-item">
-                <div className="mini-text text-muted">Address</div>
-                <div className="py-2">
-                  <p className="font-weight-bold">{contact.address1} {contact.address2}</p>
-                  <p className="text-muted">{contact.city} {contact.state} {contact.zip} {contact.country}</p>
-                </div>
-              </li>
-            </ul>
-            :
-            ''
-          }
-        </React.Fragment>
-      )})
+    const contactFields = renderGroupedFields(
+      inEdit,
+      ['core', 'personal', 'social', 'additional'],
+      groups,
+      contact,
+      this._handleInputChange
+    )
 
     const onAssignmentChange = (id) => {
       const event = {
@@ -149,11 +128,7 @@ class Record extends React.Component {
           <button className="btn btn-primary mr-3 btn-sm list-inline-item" onClick={() => this._setActionView('call')}><span className="h5"><MDIcons.MdLocalPhone /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('email')}><span className="h2"><MDIcons.MdMailOutline /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>
-          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdCallMerge /></span></button>*/}
-          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h5"><MDIcons.MdAllInclusive /></span></button>*/}
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('task')}><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
-          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h3"><MDIcons.MdInput /></span></button>*/}
-          {/*<button className="btn btn-link mr-2 btn-sm list-inline-item"><span className="h2"><MDIcons.MdInsertChart /></span></button>*/}
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
           <div className="float-right text-right pt-2">
@@ -195,6 +170,17 @@ class Record extends React.Component {
 
         <div className="h-scroll">
           <div className="card mb-1">
+            {!inEdit ?
+              <ul className="list-group list-group-flush">
+                <li key="address" className="list-group-item">
+                  <div className="mini-text text-muted">Address</div>
+                  <div className="py-2">
+                    <p className="font-weight-bold">{contact.address1} {contact.address2}</p>
+                    <p className="text-muted">{contact.city} {contact.state} {contact.zip} {contact.country}</p>
+                  </div>
+                </li>
+              </ul>
+              : ''}
             {contactFields}
           </div>
           <Conversations dispatch={this.props.dispatch} conversations={_.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity')} />
