@@ -19,6 +19,13 @@ class Main extends Component {
     if (isAuthenticated && !user.id) {
       dispatch(fetchUser())
     }
+
+    // @TODO - figure out what exactly needs to be loaded
+    dispatch(fetchContacts({page: 1}))
+    dispatch(fetchCompanies({page: 1}))
+    dispatch(fetchOpportunities({page: 1}))
+    dispatch(fetchReports({page: 1}))
+    dispatch(fetchActivities({page: 1}))
   }
 
   render() {

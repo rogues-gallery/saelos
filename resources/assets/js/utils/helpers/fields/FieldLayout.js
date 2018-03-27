@@ -156,10 +156,6 @@ class FieldLayout extends React.Component {
 
     const hidden = inEdit ? '' : typeof fieldValue === 'undefined' || field.hidden || fieldValue.length === 0 ? 'd-none' : '';
 
-    console.group(field.alias)
-    console.log(hidden, fieldValue)
-    console.groupEnd()
-
     if (isAdmin) {
       return (
         <div className={`form-group mb-2`}>

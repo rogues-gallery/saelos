@@ -58,7 +58,7 @@ const parse = (string, options) => {
 
     if (sepIndex !== -1) {
       const key = term.slice(0, sepIndex)
-      const val = term.slice(sepIndex + 1).trim()
+      const val = term.slice(sepIndex + 1)
 
       // Strip surrounding quotes
       const strippedVal = val.replace(/^\"|\"$|^\'|\'$/g, '')

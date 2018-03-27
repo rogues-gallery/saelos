@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {getCustomField, parseSearchString} from '../../utils/helpers'
-import {fetchContacts} from "../../modules/contacts/service"
+import { parseSearchString } from '../../utils/helpers'
 import ContentEditable from 'react-contenteditable'
 
 class AdvancedSearch extends React.Component {
@@ -50,16 +49,16 @@ class AdvancedSearch extends React.Component {
 
   _submit(input) {
     const { value } = input
-    const { dispatch } = this.props
+    const { dispatch, searchFunc } = this.props
 
     if (value.length >= 3) {
-      dispatch(fetchContacts({page: 1, searchString: value}))
+      dispatch(searchFunc({page: 1, searchString: value}))
     } else if (value.length === 0) {
       this.setState({
         searchString: ''
       })
 
-      dispatch(fetchContacts({page: 1, searchString: ''}))
+      dispatch(searchFunc({page: 1, searchString: ''}))
     }
 
     this.setState({
