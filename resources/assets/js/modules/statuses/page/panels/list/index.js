@@ -74,6 +74,7 @@ class List extends React.Component {
               defaultValue={searchString}
             />
           </form>
+          <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>All</b></div> <div className="text-muted col"><b>Unpublished</b></div></div>
         </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {statuses.map(status => <Stage key={status.id} status={status} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
