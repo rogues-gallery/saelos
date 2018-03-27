@@ -153,11 +153,7 @@ const injectContactIntoState = (contact, data) => {
 }
 
 const removeContactFromState = (id, data) => {
-  const index = _.findIndex(data, (c) => c.id === parseInt(id))
-
-  if (index) {
-    delete data[index]
-  }
+  _.remove(data, (c) => c.id === parseInt(id))
 
   return data
 }

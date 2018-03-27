@@ -43,6 +43,7 @@ class Record extends React.Component {
 
     if (confirm('Are you sure?')) {
       dispatch(deleteOpportunity(opportunity.id))
+      this.context.router.history.push('/opportunities')
     }
   }
 
@@ -139,6 +140,10 @@ class Record extends React.Component {
 
 Record.propTypes = {
   opportunity: PropTypes.object.isRequired
+}
+
+Record.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({

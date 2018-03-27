@@ -48,6 +48,7 @@ class Record extends React.Component {
 
     if (confirm('Are you sure?')) {
       dispatch(deleteContact(contact.id))
+      this.context.router.history.push('/contacts')
     }
   }
 
@@ -192,6 +193,10 @@ class Record extends React.Component {
 
 Record.propTypes = {
   contact: PropTypes.object.isRequired
+}
+
+Record.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({

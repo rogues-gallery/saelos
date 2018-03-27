@@ -43,6 +43,7 @@ class Record extends React.Component {
 
     if (confirm('Are you sure?')) {
       dispatch(deleteCompany(company.id))
+      this.context.router.history.push('/companies')
     }
   }
 
@@ -148,6 +149,10 @@ class Record extends React.Component {
 
 Record.propTypes = {
   company: PropTypes.object.isRequired
+}
+
+Record.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({

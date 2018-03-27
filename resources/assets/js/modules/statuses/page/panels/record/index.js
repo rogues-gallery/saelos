@@ -40,6 +40,10 @@ class Record extends React.Component {
 	render() {  
     const { status, user } = this.props
 
+    if (this.props.status.id === null) {
+      return 'my placeholder'
+    }
+
     return (
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">

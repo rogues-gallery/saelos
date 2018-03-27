@@ -148,11 +148,7 @@ const injectOpportunityIntoState = (opportunity, data) => {
 }
 
 const removeOpportunityFromState = (id, data) => {
-  const index = _.findIndex(data, (c) => c.id === parseInt(id))
-
-  if (index) {
-    delete data[index]
-  }
+  _.remove(data, (c) => c.id === parseInt(id))
 
   return data
 }

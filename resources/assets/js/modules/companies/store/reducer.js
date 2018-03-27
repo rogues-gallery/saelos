@@ -152,11 +152,7 @@ const injectCompaniesIntoState = (company, data) => {
 }
 
 const removeCompanyFromState = (id, data) => {
-  const index = _.findIndex(data, (c) => c.id === parseInt(id))
-
-  if (index) {
-    delete data[index]
-  }
+  _.remove(data, (c) => c.id === parseInt(id))
 
   return data
 }
