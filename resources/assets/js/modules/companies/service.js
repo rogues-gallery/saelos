@@ -1,6 +1,8 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
 import store from '../../store'
+import {parseSearchString} from "../../utils/helpers"
+import {getCustomFieldsForCompanies} from "./store/selectors";
 
 /**
  * Fetch the full company by id
@@ -28,7 +30,8 @@ export const fetchCompany = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchCompanies = (params) => (dispatch) => {
-  const { isFetching } = store.getState().companyState;
+  const state = store.getState()
+  const { isFetching } = state.companyState;
 
   if (isFetching) {
     return
@@ -38,7 +41,11 @@ export const fetchCompanies = (params) => (dispatch) => {
     ...params
   }));
 
-  params = params || {}
+  params = Object.assign({}, params || {})
+
+  params.searchParams = parseSearchString(params.searchString, getCustomFieldsForCompanies(state))
+
+  delete params.searchString
 
   return Http.get('companies', {params: params})
     .then(res => {

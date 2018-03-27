@@ -21,14 +21,15 @@ trait SearchableTrait
                 foreach ($searchArray['offsets'] as $criteria) {
                     $field = $searchableFields->where('alias', $criteria['keyword'])->first();
 
-                    if ($criteria['keyword'] === 'freetext') {
-                        break;
-                    }
-
                     if ($criteria['exact']) {
                         $operator = array_key_exists($criteria['keyword'], $searchArray['exclude']) ? '!=' : '=';
                     } else {
                         $operator = array_key_exists($criteria['keyword'], $searchArray['exclude']) ? 'NOT LIKE' : 'LIKE';
+                    }
+
+                    if (!$field) {
+                        static::handleRelationalSearch($criteria, $operator, $q);
+                        continue;
                     }
 
                     if (is_array($criteria['value'])) {
@@ -74,4 +75,41 @@ trait SearchableTrait
 
         return $builder;
 	}
+
+	protected static function handleRelationalSearch($criteria, $operator, Builder $query)
+    {
+        if (!isset($criteria['keyword'])) {
+            return;
+        }
+
+        $val = strpos($operator, 'LIKE') !== false ? '%'.$criteria['value'].'%' : $criteria['value'];
+
+        switch ($criteria['keyword']) {
+            case 'opportunity':
+                $query->whereHas('opportunities', function (Builder $q) use ($criteria, $operator, $val) {
+                    $q->where('name', $operator, $val);
+                });
+                break;
+            case 'stage':
+                $query->whereHas('stage', function (Builder $q) use ($criteria, $operator, $val) {
+                    $q->where('name', $operator, $val);
+                });
+                break;
+            case 'status':
+                $query->whereHas('status', function (Builder $q) use ($criteria, $operator, $val) {
+                    $q->where('name', $operator, $val);
+                });
+                break;
+            case 'contact':
+                $query->whereHas('contacts', function (Builder $q) use ($criteria, $operator, $val) {
+                    $q->where('first_name', $operator, $val);
+                });
+                break;
+            case 'company':
+                $query->whereHas('companies', function (Builder $q) use ($criteria, $operator, $val) {
+                    $q->where('name', $operator, $val);
+                });
+                break;
+        }
+    }
 }

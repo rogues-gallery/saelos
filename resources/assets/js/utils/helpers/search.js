@@ -6,6 +6,12 @@ export const parseSearchString = (string, fields) => {
     keywords: _.map(searchable, 'alias'),
   }
 
+  options.keywords.push('stage')
+  options.keywords.push('status')
+  options.keywords.push('opportunity')
+  options.keywords.push('company')
+  options.keywords.push('contact')
+
   return parse(string, options)
 }
 
@@ -58,7 +64,7 @@ const parse = (string, options) => {
 
     if (sepIndex !== -1) {
       const key = term.slice(0, sepIndex)
-      const val = term.slice(sepIndex + 1)
+      const val = term.slice(sepIndex + 1).trim()
 
       // Strip surrounding quotes
       const strippedVal = val.replace(/^\"|\"$|^\'|\'$/g, '')

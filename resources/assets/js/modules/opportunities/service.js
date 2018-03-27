@@ -1,6 +1,8 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
 import store from '../../store'
+import {parseSearchString} from "../../utils/helpers"
+import {getCustomFieldsForOpportunities} from "./store/selectors";
 
 /**
  * Fetch the full contact by id
@@ -27,7 +29,8 @@ export const fetchOpportunity = (id) => (dispatch) => {
  * @returns {function(*)}
  */
 export const fetchOpportunities = (params) => (dispatch) => {
-  const { isFetching } = store.getState().opportunityState;
+  const state = store.getState()
+  const { isFetching } = state.opportunityState;
 
   if (isFetching) {
     return
@@ -37,7 +40,11 @@ export const fetchOpportunities = (params) => (dispatch) => {
     ...params
   }));
 
-  params = params || {}
+  params = Object.assign({}, params || {})
+
+  params.searchParams = parseSearchString(params.searchString, getCustomFieldsForOpportunities(state))
+
+  delete params.searchString
 
   return Http.get('opportunities', {params: params})
     .then(res => {
