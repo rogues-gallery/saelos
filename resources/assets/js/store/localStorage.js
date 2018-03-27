@@ -14,9 +14,22 @@ export const loadState = () => {
 
 export const saveState = (state) => {
   try {
-    const serializedState = JSON.stringify(state);
+    const token = localStorage.getItem('access_token');
 
-    localStorage.setItem('saelosState', serializedState);
+    if (token) {
+      const serializedState = JSON.stringify(state);
+
+      localStorage.setItem('saelosState', serializedState);
+    }
+  } catch (err) {
+    // ignore
+  }
+};
+
+export const deleteState = () => {
+  try {
+    localStorage.removeItem('saelosState');
+    localStorage.removeItem('access_token');
   } catch (err) {
     // ignore
   }
