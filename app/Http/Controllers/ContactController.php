@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Aloha\Twilio\Twilio;
 use App\Mail\Contact as ContactMail;
 use App\User;
 use Auth;
@@ -192,5 +193,13 @@ class ContactController extends Controller
             ->send($email);
 
         return 1;
+    }
+
+    public function call(Request $request, Contact $contact)
+    {
+//        $user = Auth::user();
+//        $user->load(['customFields']);
+//
+//        $twilio = new Twilio($accountId, $token, $fromNumber);
     }
 }

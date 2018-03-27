@@ -59,6 +59,7 @@ class Navigation extends Component {
               <Link to={'/user/profile'} className="dropdown-item">My Profile</Link>
               <Link to={'/notifications'} className="dropdown-item">Notifications</Link>
               <Link to={'/config'} className="dropdown-item">Config</Link>
+              <Link to={'/logout'} className="dropdown-item">Logout</Link>
             </div>
           </div>
           <div className="dropdown show float-right">

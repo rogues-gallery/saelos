@@ -35,6 +35,8 @@ Route::group([
         Route::get('/contexts/{model}', 'ContextController@show')
             ->where('model', '[a-zA-Z/]+');
 
+        Route::post('contacts/{id}/call', 'ContactController@call');
+
         Route::resource('contacts.notes', 'ContactNoteController');
         Route::resource('companies.notes', 'CompanyNoteController');
         Route::resource('opportunities.notes', 'OpportunityNoteController');
