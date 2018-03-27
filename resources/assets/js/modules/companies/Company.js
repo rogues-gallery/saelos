@@ -6,6 +6,7 @@ import Opportunity from '../opportunities/Opportunity'
 import Note from "../notes/Note";
 import { getCustomFieldsForCompanies } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
+import moment from "moment"
 
 class Company extends Model {
   constructor(props) {
@@ -23,7 +24,9 @@ class Company extends Model {
         const field = fields[key]
 
         if (field.is_custom) {
-            this[key] = getCustomFieldValue(field.alias, props.custom_fields, field.default)
+          const value = getCustomFieldValue(field.alias, props.custom_fields, field.default)
+
+          this[key] = field.type === 'date' ? moment(value) : value
         } else {
             this[key] = props[key]
         }

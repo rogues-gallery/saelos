@@ -7,6 +7,7 @@ import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
 import Note from "../notes/Note"
 import Opportunity from "../opportunities/Opportunity"
 import _ from 'lodash'
+import moment from 'moment'
 
 class Contact extends Model {
   constructor(props) {
@@ -21,17 +22,19 @@ class Contact extends Model {
     const fields = getCustomFieldsForContacts(store.getState())
 
     Object.keys(fields).map(key => {
-        const field = fields[key]
+      const field = fields[key]
 
-        if (field.is_custom) {
-            this[key] = getCustomFieldValue(field.alias, props.custom_fields, field.default)
-        } else {
-            if (! props.hasOwnProperty(key)) {
-                props[key] = null
-            }
-            
-            this[key] = props[key]
+      if (field.is_custom) {
+        const value = getCustomFieldValue(field.alias, props.custom_fields, field.default)
+
+        this[key] = field.type === 'date' ? moment(value) : value
+      } else {
+        if (! props.hasOwnProperty(key)) {
+          props[key] = null
         }
+
+        this[key] = props[key]
+      }
     })
 
     super.initialize(props)

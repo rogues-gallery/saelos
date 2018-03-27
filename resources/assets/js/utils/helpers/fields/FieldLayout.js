@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import Select from 'react-select'
 import * as MDIcons from 'react-icons/lib/md'
+import DatePicker from '../../../common/ui/datepicker'
 
 import 'react-day-picker/lib/style.css'
 
@@ -42,7 +43,6 @@ class FieldLayout extends React.Component {
             onChange={onChange}
             defaultValue={fieldValue}
           />
-        case 'radio':
         case 'checkbox':
           return (
             <label className="switch float-left mr-2">
@@ -56,7 +56,6 @@ class FieldLayout extends React.Component {
               <span className="toggle-slider round" />
             </label>
           )
-        case 'lookup':
         case 'number':
           return <input
             type="number"
@@ -66,7 +65,6 @@ class FieldLayout extends React.Component {
             onChange={onChange}
             defaultValue={fieldValue}
           />
-        case 'date':
         case 'email':
           return <input
             type="email"
@@ -77,6 +75,25 @@ class FieldLayout extends React.Component {
             defaultValue={fieldValue}
           />
         case 'multiselect':
+          return <Select
+            options={Object.keys(field.options).map(v => ({value: v, label: v}))}
+            valueKey="value"
+            labelKey="label"
+            multi={true}
+            value={fieldValue}
+            className="form-control"
+            onChange={(value) => {
+              const e = {
+                target: {
+                  name: field.alias,
+                  value: value.value
+                }
+              }
+
+              onChange(e)
+            }}
+          />
+        case 'lookup':
         case 'select':
           return <Select
             options={Object.keys(field.options).map(v => ({value: v, label: v}))}
@@ -94,6 +111,13 @@ class FieldLayout extends React.Component {
 
               onChange(e)
             }}
+          />
+        case 'date':
+          return <DatePicker
+            className="form-control"
+            name={field.alias}
+            value={new Date(model.toJson()[field.alias])}
+            onChange={onChange}
           />
         default:
           return <input
