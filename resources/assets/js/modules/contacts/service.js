@@ -36,17 +36,6 @@ export const fetchContacts = (params) => (dispatch) => {
     return
   }
 
-  dispatch(actions.fetchingCustomFieldsForContacts());
-
-  Http.get(`contexts/Contact`)
-    .then(res => {
-      dispatch(actions.fetchingCustomFieldsForContactsSuccess(res.data))
-    })
-    .catch(err => {
-      console.log(err)
-      dispatch(actions.fetchingCustomFieldsForContactsFailure());
-    })
-
   dispatch(actions.fetchingContacts({
     ...params
   }));
@@ -64,6 +53,19 @@ export const fetchContacts = (params) => (dispatch) => {
     .catch(err => {
       console.log(err)
       dispatch(actions.fetchingContactsFailure())
+    })
+}
+
+export const fetchContactFields = () => (dispatch) => {
+  dispatch(actions.fetchingCustomFieldsForContacts());
+
+  return Http.get(`contexts/Contact`)
+    .then(res => {
+      dispatch(actions.fetchingCustomFieldsForContactsSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingCustomFieldsForContactsFailure());
     })
 }
 

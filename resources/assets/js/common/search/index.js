@@ -138,7 +138,7 @@ AdvancedSearch.propTypes = {
   dispatch: PropTypes.func.isRequired,
   searchString: PropTypes.string.isRequired,
   searchFunc: PropTypes.func.isRequired,
-  searchFields: PropTypes.array.isRequired
+  searchFields: PropTypes.object.isRequired
 }
 
 export default connect(state => ({

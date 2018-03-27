@@ -33,17 +33,6 @@ export const fetchOpportunities = (params) => (dispatch) => {
     return
   }
 
-  dispatch(actions.fetchingCustomFieldsForOpportunities());
-
-  Http.get(`contexts/Opportunity`)
-    .then(res => {
-      dispatch(actions.fetchingCustomFieldsForOpportunitiesSuccess(res.data))
-    })
-    .catch(err => {
-      console.log(err)
-      dispatch(actions.fetchingCustomFieldsForOpportunitiesFailure());
-    })
-
   dispatch(actions.fetchingOpportunities({
     ...params
   }));
@@ -57,6 +46,19 @@ export const fetchOpportunities = (params) => (dispatch) => {
     .catch(err => {
       console.log(err)
       dispatch(actions.fetchingOpportunitiesFailure())
+    })
+}
+
+export const fetchOpportunityFields = () => (dispatch) => {
+  dispatch(actions.fetchingCustomFieldsForOpportunities());
+
+  return Http.get(`contexts/Opportunity`)
+    .then(res => {
+      dispatch(actions.fetchingCustomFieldsForOpportunitiesSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingCustomFieldsForOpportunitiesFailure());
     })
 }
 

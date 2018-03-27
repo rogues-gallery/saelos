@@ -1,4 +1,5 @@
 require('babel-polyfill');
+import Echo from 'laravel-echo';
 
 window._ = require('lodash');
 
@@ -43,16 +44,15 @@ if (token) {
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
+if (process.env.MIX_PUSHER_APP_KEY) {
+  window.Pusher = require('pusher-js');
 
-import Echo from 'laravel-echo';
+  window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: 'us2',
+    encrypted: true
+  });
 
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-  broadcaster: 'pusher',
-  key: process.env.MIX_PUSHER_APP_KEY,
-  cluster: 'us2',
-  encrypted: true
-});
-
-window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
+  window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
+}
