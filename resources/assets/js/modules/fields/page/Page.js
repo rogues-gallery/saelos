@@ -12,7 +12,6 @@ const Page = (props) => (
 
 Page.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  stages: PropTypes.array.isRequired,
   pagination: PropTypes.object.isRequired,
 }
 

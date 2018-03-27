@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { fetchFields, fetchField } from '../../../service'
+import _ from 'lodash'
 
 class List extends React.Component {
   constructor(props) {
@@ -74,6 +75,7 @@ class List extends React.Component {
               defaultValue={searchString}
             />
           </form>
+          <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>Company</b></div> <div className="text-muted col"><b>Contact</b></div> <div className="text-muted col"><b>Opportunity</b></div></div>
         </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {fields.map(field => (
@@ -82,6 +84,7 @@ class List extends React.Component {
               onClick={() => this.context.router.history.push(`/config/fields/${field.id}`)}
               className={`list-group-item list-group-item-action align-items-start ${field.id === activeIndex ? ' active' : ''}`}
             >
+              <span class="float-right text-muted mini-text">{field.type}</span>
               <h6>{field.label}</h6>
             </div>
           ))}

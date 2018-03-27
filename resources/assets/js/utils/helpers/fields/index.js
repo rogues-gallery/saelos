@@ -12,7 +12,7 @@ export const renderGroupedFields = (inEdit, order, groups, model, changeHandler)
         <li className="list-group-item">
           <div className="mini-text text-muted">{key}</div>
           {_.sortBy(groups[key], ['ordering']).map(f =>
-            <FieldLayout model={model} field={f} inEdit={inEdit} onChange={changeHandler} key={`group-field-key-${f.field_id}`} />
+            <FieldLayout model={model} field={f} inEdit={inEdit} onChange={changeHandler} key={`group-field-key-${f.field_id}-model-${model.id}`} />
           )}
         </li>
       </ul>
