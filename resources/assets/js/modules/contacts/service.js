@@ -3,6 +3,7 @@ import * as actions from './store/actions'
 import store from '../../store'
 import { getCustomFieldsForContacts } from "./store/selectors";
 import { parseSearchString } from '../../utils/helpers'
+import {NotificationManager} from 'react-notifications'
 
 /**
  * Fetch the full contact by id
