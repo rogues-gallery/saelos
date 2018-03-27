@@ -1,6 +1,6 @@
 import Model from '../../utils/Model'
 
-class Stage extends Model {
+class Status extends Model {
   constructor(props) {
     super(props)
 
@@ -10,9 +10,9 @@ class Stage extends Model {
   initialize(props) {
     super.initialize(props)
 
-    this.name = props.name || ''
+    this.name = props.name || 'Untouched'
     this.color = props.color || ''
   }
 }
 
-export default Stage
+export default Status

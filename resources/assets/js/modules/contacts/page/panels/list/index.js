@@ -55,7 +55,7 @@ class List extends React.Component {
               <span className="text-muted mini-text float-right">{moment(contact.updated_at).fromNow()}</span>
               <h6>{contact.first_name} {contact.last_name}</h6>
               <p>{contact.company.name}</p>
-              <p className="text-muted">{contact.status ? contact.status.name : 'Untouched'}</p>
+              <p className="text-muted">{contact.status.name}</p>
             </div>
           ))}
         </div>

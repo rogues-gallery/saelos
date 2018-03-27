@@ -8,6 +8,7 @@ import Note from "../notes/Note"
 import Opportunity from "../opportunities/Opportunity"
 import _ from 'lodash'
 import moment from 'moment'
+import Status from "../statuses/Status";
 
 class Contact extends Model {
   constructor(props) {
@@ -47,6 +48,7 @@ class Contact extends Model {
     this.activities = props.activities || []
     this.name = `${props.first_name} ${props.last_name}`
     this.pivot = props.pivot ? props.pivot : {}
+    this.status = props.status ? new Status(props.status) : new Status({})
 
     const primaryCompany = _.find(this.companies, c => c.primary === 1)
 
