@@ -3,6 +3,7 @@ import * as actions from './store/actions'
 import store from '../../store'
 import { getCustomFieldsForContacts } from "./store/selectors";
 import { parseSearchString } from '../../utils/helpers'
+import {NotificationManager} from 'react-notifications'
 
 /**
  * Fetch the full contact by id
@@ -35,12 +36,13 @@ export const fetchContacts = (params) => (dispatch) => {
   if (isFetching) {
     return
   }
-
+  
   dispatch(actions.fetchingCustomFieldsForContacts());
 
   Http.get(`contexts/Contact`)
     .then(res => {
       dispatch(actions.fetchingCustomFieldsForContactsSuccess(res.data))
+      
     })
     .catch(err => {
       console.log(err)
