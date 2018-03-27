@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { fetchCompanies, fetchCompany } from '../../../service'
 import moment from 'moment'
 import { Money } from 'react-format'
-import {getCustomFieldsForCompanies, getSearchStringForCompanies} from "../../../store/selectors";
+import {getCustomFieldsForCompanies, getSearchStringForCompanies} from "../../../store/selectors"
+import AdvancedSearch from '../../../../../common/search'
 
 class List extends React.Component {
   constructor(props) {

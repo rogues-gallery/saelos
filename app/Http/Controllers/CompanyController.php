@@ -54,8 +54,8 @@ class CompanyController extends Controller
     {
         $companies = Company::with(static::INDEX_WITH);
 
-        if ($searchString = $request->get('searchString')) {
-            $companies = Company::search($searchString, $companies);
+        if ($searchParams = json_decode($request->get('searchParams'), true)) {
+            $companies = Company::search($searchParams, $companies);
         }
 
         $companies->orderBy('id', 'desc');

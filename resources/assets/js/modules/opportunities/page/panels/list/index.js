@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchOpportunities, fetchOpportunity } from "../../../service"
 import { Money } from 'react-format'
-import {getCustomFieldsForOpportunities, getSearchStringForOpportunities} from "../../../store/selectors";
+import {getCustomFieldsForOpportunities, getSearchStringForOpportunities} from "../../../store/selectors"
+import AdvancedSearch from '../../../../../common/search'
 
 class List extends React.Component {
   constructor(props) {

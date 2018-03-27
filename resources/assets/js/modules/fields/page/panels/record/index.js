@@ -86,6 +86,8 @@ class Record extends React.Component {
 		                <input type="text" id={field.order} name={field.order} onChange={this._handleInputChange} className="form-control"  />
 		              </div>
 	            	</div>
+	            </li>
+			        <li className="list-group-item">
 	            	<div className="row">
 		            	<div className={`my-2 col`}>
 			              <label className="switch float-left mr-2">

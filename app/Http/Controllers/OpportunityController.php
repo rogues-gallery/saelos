@@ -51,8 +51,8 @@ class OpportunityController extends Controller
     {
         $opportunities = Opportunity::with(static::INDEX_WITH);
 
-        if ($searchString = $request->get('searchString')) {
-            $opportunities = Opportunity::search($searchString, $opportunities);
+        if ($searchParams = json_decode($request->get('searchParams'), true)) {
+            $opportunities = Opportunity::search($searchParams, $opportunities);
         }
 
         return new OpportunityCollection($opportunities->paginate());
