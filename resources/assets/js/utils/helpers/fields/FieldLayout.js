@@ -93,7 +93,6 @@ class FieldLayout extends React.Component {
               onChange(e)
             }}
           />
-        case 'lookup':
         case 'select':
           return <Select
             options={Object.keys(field.options).map(v => ({value: v, label: v}))}
@@ -119,6 +118,7 @@ class FieldLayout extends React.Component {
             value={new Date(model.toJson()[field.alias])}
             onChange={onChange}
           />
+        case 'lookup':
         default:
           return <input
             type="text"
