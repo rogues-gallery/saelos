@@ -36,7 +36,10 @@ export default function fieldReducer(state = initialState, action) {
       let newFieldsForState
 
       if (data.length === 0) {
-        return state
+        return {
+          ...state,
+          isFetching: false
+        }
       }
 
       // When fetching the first page, always replace the contacts in the app state
@@ -85,13 +88,14 @@ export default function fieldReducer(state = initialState, action) {
   }
 }
 
-const injectFieldIntoState = (contact, data) => {
-  const index = _.findIndex(data, (c) => c.id === parseInt(contact.id))
+// @TODO Merge into state in correct order
+const injectFieldIntoState = (field, data) => {
+  const index = _.findIndex(data, (c) => c.id === parseInt(field.id))
 
   if (index >= 0) {
-    data[index] = _.merge(data[index], contact)
+    data[index] = _.merge(data[index], field)
   } else {
-    data.push(contact)
+    data.push(field)
   }
 
   return data

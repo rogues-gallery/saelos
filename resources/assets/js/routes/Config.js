@@ -4,10 +4,6 @@ import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 const ConfigRoute = ({ component: Component, user, ...rest, router }) => {
-  if (true) {
-    console.log(router)
-  }
-
   return <Route {...rest} render={props => (<Component {...props}/>)}/>
 }
 
