@@ -1,10 +1,17 @@
-import List from './pages/list';
+import Page from './page';
 
 export default [
   {
-    path: '/teams',
+    path: '/config/teams',
     exact: true,
     auth: true,
-    component: List
+    component: Page
+  },
+  {
+    path: '/config/teams/:id',
+    exact: true,
+    auth: true,
+    config: true,
+    component: Page
   }
 ];

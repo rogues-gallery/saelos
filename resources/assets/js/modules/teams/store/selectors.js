@@ -6,5 +6,8 @@ export const getTeams = (state) =>
 export const getTeam = (state, id) =>
   fromReducer.getTeam(state.teamState, id);
 
+export const getSearchStringForTeams = (state) =>
+  fromReducer.getSearchStringForTeams(state.teamState);
+
 export const getPaginationForTeams = (state) =>
   fromReducer.getPaginationForTeams(state.teamState);

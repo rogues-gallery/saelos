@@ -99,13 +99,13 @@ const injectStatusIntoState = (status, data) => {
 
 export const getStatuses = (state) => state.data.map(s => new Status(s))
 export const getStatus = (state, id) => {
-  let stage = _.find(getStatuses(state), (s) => s.id === parseInt(id));
+  let status = _.find(getStatuses(state), (s) => s.id === parseInt(id));
 
-  if (typeof stage === 'undefined') {
+  if (typeof status === 'undefined') {
     return new Status({})
   }
 
-  return stage;
+  return status;
 }
 export const getSearchStringForStatuses = (state) => state.searchString;
 export const getPaginationForStatuses = (state) => state.meta;

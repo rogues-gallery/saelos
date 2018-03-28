@@ -60,4 +60,5 @@ export default function teamReducer(state = initialState, action) {
 export const getTeamIndex = (state, id) => _.findIndex(getTeams(state), (c) => c.id === parseInt(id));
 export const getTeam = (state, id) => _.find(getTeams(state), (c) => c.id === parseInt(id));
 export const getTeams = (state) => state.data;
+export const getSearchStringForTeams = (state) => state.searchString;
 export const getPaginationForTeams = (state) => state.meta;

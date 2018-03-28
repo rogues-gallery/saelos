@@ -35,7 +35,7 @@ class List extends React.Component {
   _openRecord(id) {
     const { dispatch } = this.props
     dispatch(fetchOpportunity(id))
-    this.context.router.history.push(`/contacts/${id}`)
+    this.context.router.history.push(`/opportunities/${id}`)
   }
 
   render() {

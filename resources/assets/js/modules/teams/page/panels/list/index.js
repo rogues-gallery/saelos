@@ -76,10 +76,10 @@ class List extends React.Component {
               defaultValue={searchString}
             />
           </form>
-          <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>All</b></div> <div className="text-muted col"><b>Active</b></div> <div className="text-muted col"><b>Inactive</b></div></div>
+          <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>All</b></div> <div className="text-muted col"><b>All</b></div> <div className="text-muted col"><b></b></div></div>
         </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
-          {stages.map(stage => <Stage key={stage.id} stage={stage} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
+          {teams.map(team => <Team key={team.id} team={team} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
         </div>
       </div>
     )
@@ -87,7 +87,7 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  stages: PropTypes.array.isRequired,
+  teams: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
@@ -98,24 +98,24 @@ List.contextTypes = {
   router: PropTypes.object
 }
 
-const Stage = ({ stage, dispatch, router, activeID }) => {
-  const openStageRecord = (id) => {
-    dispatch(fetchStage(stage.id))
-    router.history.push(`/config/stages/${id}`)
+const Team = ({ team, dispatch, router, activeID }) => {
+  const openTeamRecord = (id) => {
+    dispatch(fetchTeam(team.id))
+    router.history.push(`/config/teams/${id}`)
   }
 
   return (
     <div
-      onClick={() => openStageRecord(stage.id)}
-      className={`list-group-item list-group-item-action align-items-start ${stage.id === parseInt(activeID) ? ' active' : ''}`}
+      onClick={() => openTeamRecord(team.id)}
+      className={`list-group-item list-group-item-action align-items-start ${team.id === parseInt(activeID) ? ' active' : ''}`}
     >
-      <h6>{stage.name}</h6>
+      <h6>{team.name}</h6>
     </div>
   );
 }
 
-Stage.propTypes = {
-  stage: PropTypes.object.isRequired,
+Team.propTypes = {
+  team: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   activeID: PropTypes.number.isRequired
