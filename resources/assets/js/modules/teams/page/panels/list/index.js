@@ -110,6 +110,7 @@ const Team = ({ team, dispatch, router, activeID }) => {
       className={`list-group-item list-group-item-action align-items-start ${team.id === parseInt(activeID) ? ' active' : ''}`}
     >
       <h6>{team.name}</h6>
+      <p>{team.leader.name}</p>
     </div>
   );
 }

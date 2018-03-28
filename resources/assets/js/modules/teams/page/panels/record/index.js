@@ -44,7 +44,7 @@ class Record extends React.Component {
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">
 	          <button className="float-right btn btn-primary mr-3 list-inline-item" onClick={this._submit}>Save</button>
-        Team Name Here
+        {team.name}
         </h4>
 
         <div className="h-scroll">
@@ -54,13 +54,13 @@ class Record extends React.Component {
 			          <div className={`form-group mb-2`}>
 		              <label htmlFor="teamName" className="">Name</label>
 		              <div className="">
-		                <input type="text" id="teamName" name="teamName" onChange={this._handleInputChange} className="form-control" placeholder="" />
+		                <input type="text" id="teamName" name="teamName" onChange={this._handleInputChange} className="form-control" placeholder="Team Name" defaultValue={team.name} />
 		              </div>
 	            	</div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="teamDescription" className="">Description</label>
                   <div className="">
-                    <textarea id="stageName" name="stageName" onChange={this._handleInputChange} className="form-control" placeholder="" />
+                    <textarea id="stageName" name="stageName" onChange={this._handleInputChange} className="form-control" defaultValue={team.description} />
                   </div>
                 </div>
 	            </li>

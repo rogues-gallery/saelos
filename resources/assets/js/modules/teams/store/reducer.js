@@ -1,5 +1,6 @@
 import * as types from './action-types';
 import _ from 'lodash';
+import Team from "../Team"
 
 const initialState = {
   data: [],
@@ -57,8 +58,18 @@ export default function teamReducer(state = initialState, action) {
   }
 }
 
+export const getTeams = (state) => state.data.map(t => new Team(t))
+export const getTeam = (state, id) => {
+  let team = _.find(getTeams(state), (t) => t.id === parseInt(id));
+
+  if (typeof team === 'undefined') {
+    return new Team({})
+  }
+
+  return team;
+}
+
 export const getTeamIndex = (state, id) => _.findIndex(getTeams(state), (c) => c.id === parseInt(id));
-export const getTeam = (state, id) => _.find(getTeams(state), (c) => c.id === parseInt(id));
-export const getTeams = (state) => state.data;
+
 export const getSearchStringForTeams = (state) => state.searchString;
 export const getPaginationForTeams = (state) => state.meta;
