@@ -133,14 +133,14 @@ class FieldLayout extends React.Component {
       switch (field.type) {
         case 'url':
           return (
-            <a className="hidden-link" href={fieldValue} target="_blank">
+            <a className="hidden-link form-control-plaintext" href={fieldValue} target="_blank">
               {fieldValue} <span className="text-muted"><MDIcons.MdExitToApp /></span>
             </a>
           )
         case 'checkbox':
           return fieldValue ? 'Yes' : 'No'
         default:
-          return <div dangerouslySetInnerHTML={{__html: fieldValue}} />
+          return <div className="form-control-plaintext" dangerouslySetInnerHTML={{__html: fieldValue}} />
       }
     }
   }

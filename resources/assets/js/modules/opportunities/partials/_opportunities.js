@@ -117,34 +117,41 @@ class Opportunities extends React.Component {
         </div>
 
         {this.state.adding ?
-          <div id="addCompany" className="py-2 px-3 border-bottom row no-gutters">
-            <div className="col-10">
-              <div className="pr-1">
-                <Select.Async
-                  value={this.state.formState.opportunity && this.state.formState.opportunity.id ? this.state.formState.opportunity : null}
-                  multi={false}
-                  loadOptions={this._searchOpportunities}
-                  labelKey='name'
-                  valueKey='id'
-                  onChange={(value) => {
-                    const event = {
-                      target: {
-                        type: 'select',
-                        name: 'opportunity',
-                        value: value
-                      }
+          <div id="addOpportunity" className="py-2 px-3 border-bottom">
+            <div className="form-group-sm">
+              <Select.Async
+                value={this.state.formState.opportunity && this.state.formState.opportunity.id ? this.state.formState.opportunity : null}
+                multi={false}
+                loadOptions={this._searchOpportunities}
+                labelKey='name'
+                valueKey='id'
+                onChange={(value) => {
+                  const event = {
+                    target: {
+                      type: 'select',
+                      name: 'opportunity',
+                      value: value
                     }
+                  }
 
-                    this._handleInputChange(event);
-                  }}
-                />
+                  this._handleInputChange(event);
+                }}
+              />
+              <div className="row pt-2 no-gutters">
+                <div className="col-sm-10">
+                  <div className="input-group pr-1">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">
+                          <input type="checkbox" id="primary" name="company.pivot.primary" onChange={this._handleInputChange} data-toggle="tooltip" data-placement="top" title="Primary Company" />
+                      </div>
+                    </div>
+                    <input type="text" id="role" name="opportunity.pivot.position" placeholder="Role" className="form-control" onChange={this._handleInputChange} />
+                  </div>
+                </div>
+                <div className="col-sm-2">
+                  <button className="btn btn-primary" onClick={this._submit}>Add</button>
+                </div>
               </div>
-            </div>
-            {this.props.entityType === 'App\\Contact' ?
-              <input type="text" id="position" className="form-control" name="opportunity.pivot.position" placeholder="Role" onChange={this._handleInputChange} />
-              : ''}
-            <div className="col-2">
-              <button className="btn btn-primary" onClick={this._submit}>Add</button>
             </div>
           </div>
           : ''}
