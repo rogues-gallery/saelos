@@ -40,6 +40,14 @@ class Record extends React.Component {
 	render() {  
     const { team, user } = this.props
 
+    if (team.id === null) {
+      return (
+        <main className="col main-panel px-3 align-self-center">
+          <h2 class="text-muted text-center">Select a team on the left to edit.</h2>
+        </main>
+        )
+    }
+
     return (
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">

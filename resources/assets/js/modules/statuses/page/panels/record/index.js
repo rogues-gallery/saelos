@@ -40,8 +40,12 @@ class Record extends React.Component {
 	render() {  
     const { status, user } = this.props
 
-    if (this.props.status.id === null) {
-      return 'my placeholder'
+    if (status.id === null) {
+      return (
+        <main className="col main-panel px-3 align-self-center">
+          <h2 class="text-muted text-center">Select a status on the left to edit.</h2>
+        </main>
+        )
     }
 
     return (
