@@ -6,6 +6,7 @@ import reportRoutes from "../modules/reports/routes"
 import workflowRoutes from "../modules/workflows/routes"
 import teamRoutes from "../modules/teams/routes"
 import hqRoutes from "../modules/headquarters/routes"
+import userRoutes from "../modules/user/routes"
 
 import fieldRoutes from "../modules/fields/routes"
 import configRoutes from "../modules/config/routes"
@@ -21,6 +22,7 @@ export default [
   ...workflowRoutes,
   ...teamRoutes,
   ...hqRoutes,
+  ...userRoutes,
 
   ...fieldRoutes,
   ...configRoutes,
