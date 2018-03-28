@@ -44,13 +44,26 @@ Route::group([
         Route::resource('contacts', 'ContactController');
         Route::resource('opportunities', 'OpportunityController');
         Route::resource('companies', 'CompanyController');
-        Route::resource('stages', 'StageController');
-        Route::resource('statuses', 'StatusController');
-        Route::resource('teams', 'TeamController');
+
+        Route::resource('stages', 'StageController')
+            ->middleware('scope:admin,manager');
+
+        Route::resource('statuses', 'StatusController')
+            ->middleware('scope:admin,manager');
+
+        Route::resource('teams', 'TeamController')
+            ->middleware('scope:admin,manager');
+
         Route::resource('activities', 'ActivityController');
-        Route::resource('users', 'UserController');
-        Route::resource('reports', 'ReportController');
+
+        Route::resource('users', 'UserController')
+            ->middleware('scope:admin');
+
+        Route::resource('reports', 'ReportController')
+            ->middleware('scope:admin,manager');
+
+        Route::resource('fields', 'FieldController')
+            ->middleware('scope:admin,manager');
         Route::resource('workflows', 'WorkflowController');
-        Route::resource('fields', 'FieldController');
     });
 });

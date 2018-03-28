@@ -16,6 +16,7 @@ import { isInEdit as isOpportunityInEdit } from '../../modules/opportunities/sto
 
 import * as MDIcons from 'react-icons/lib/md'
 import _ from 'lodash';
+import {getUser} from "../../modules/user/store/selectors";
 
 class Navigation extends Component {
   constructor(props) {
@@ -75,12 +76,8 @@ class Navigation extends Component {
         {
           this.props.isAuthenticated
             ? this.props.location.pathname.startsWith('/config')
-            ? <ConfigNav showNavigation={this.state.showNavigation} />
-            : <PrivateNav user={this.props.user}
-                          showNavigation={this.state.showNavigation}
-                          toggleDropdown={this.toggleDropdown}
-                          showDropdown={this.state.showDropdown}
-                          logout={this.logout} />
+            ? <ConfigNav user={this.props.user} />
+            : <PrivateNav user={this.props.user} />
             : <PublicNav showNavigation={this.state.showNavigation} />
         }
       </div>
@@ -104,6 +101,6 @@ Navigation.contextTypes = {
 
 export default withRouter(connect(state => ({
   isAuthenticated: getAuth(state),
-  user: state.user,
+  user: getUser(state),
   inEdit: isInEdit(state)
 }))(Navigation))

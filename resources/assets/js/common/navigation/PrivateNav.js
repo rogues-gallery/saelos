@@ -2,28 +2,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import * as MDIcons from 'react-icons/lib/md'
-
-// import components
+import routes from '../../routes/routes'
 import NavItem from './NavItem'
 
-const PrivateNav = ({ user, showNavigation, showDropdown, toggleDropdown, logout }) => (
+const PrivateNav = ({ user }) => (
   <ul className="nav">
-    <NavItem path="/contacts"><i className="h5 mr-2"><MDIcons.MdPersonOutline /></i> Contacts</NavItem>
-    <NavItem path="/headquarters"><i className="h5 mr-2"><MDIcons.MdNetworkCheck /></i> My Vector</NavItem>
-    <NavItem path="/companies"><i className="h5 mr-2"><MDIcons.MdBusiness /></i> Companies</NavItem>
-    <NavItem path="/opportunities"><i className="h5 mr-2"><MDIcons.MdAttachMoney /></i> Opportunities</NavItem>
-    <NavItem path="/reports"><i className="h5 mr-2"><MDIcons.MdInsertChart /></i> Reports</NavItem>
+    {routes.map((route, i) => {
+      if (typeof route.menu !== 'object') {
+        return
+      }
+
+      const { linkText, icon: Icon, location, subLinks, roles } = route.menu
+
+      if (location === 'main' && user.authorized(roles)) {
+        return (
+          <NavItem key={`route-nav-item-${i}-main`} path={route.path}>
+            <i className="h5 mr-2">
+              <Icon />
+            </i>
+            {linkText}
+          </NavItem>
+        )
+      }
+    })}
   </ul>
 )
 
 PrivateNav.propTypes = {
-  user: PropTypes.object.isRequired,
-  showNavigation: PropTypes.bool.isRequired,
-  showDropdown: PropTypes.bool.isRequired,
-  toggleDropdown: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 }
-
 
 export default PrivateNav

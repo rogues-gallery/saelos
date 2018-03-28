@@ -1,4 +1,5 @@
 import Page from './page';
+import * as MDIcons from "react-icons/lib/md/index";
 
 export default [
   {
@@ -6,7 +7,14 @@ export default [
     exact: true,
     auth: true,
     config: true,
-    component: Page
+    component: Page,
+    menu: {
+      icon: MDIcons.MdPeople,
+      location: 'config',
+      linkText: 'Stages',
+      subLinks: false,
+      roles: ['admin', 'manager']
+    }
   },
   {
     path: '/config/stages/:id',

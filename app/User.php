@@ -69,6 +69,37 @@ class User extends Authenticatable implements HasCustomFieldsInterface
         return $this->hasMany(Activity::class);
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function roleScopeString()
+    {
+        return $this->roles()->get()->pluck('name')->reduce(function ($carry, $item) {
+            return trim(sprintf('%s %s', $carry, $item));
+        });
+    }
+
+    public function authorizeRoles($roles)
+    {
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+
+        return $this->hasAnyRole($roles) || abort(401, 'Unauthorized');
+    }
+
+    public function hasAnyRole($roles)
+    {
+        return $this->roles()->whereIn('name', $roles)->first() !== null;
+    }
+
+    public function hasRole($role)
+    {
+        return $this->roles()->where('name', $role)->first() !== null;
+    }
+
     public function toArray()
     {
         $array = parent::toArray();

@@ -1,17 +1,26 @@
-import Page from './page';
+import Page from './page'
+import * as MDIcons from 'react-icons/lib/md'
 
 export default [
   {
     path: '/config/teams',
     exact: true,
     auth: true,
-    component: Page
+    component: Page,
+    menu: {
+      icon: MDIcons.MdPeopleOutline,
+      location: 'config',
+      linkText: 'Teams',
+      subLinks: false,
+      roles: ['admin', 'manager']
+    }
   },
   {
     path: '/config/teams/:id',
     exact: true,
     auth: true,
     config: true,
-    component: Page
+    component: Page,
+    menu: false
   }
 ];

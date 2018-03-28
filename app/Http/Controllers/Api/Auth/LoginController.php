@@ -3,20 +3,17 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
+    use AuthenticatesUsers;
+
+    protected function authenticated(Request $request, $user)
     {
-        $this->validate($request, [
-            'email' => 'required|email|exists:users,email',
-            'password' => 'required|min:6'
-        ], [
-            'email.exists' => 'The user credentials were incorrect.'
-        ]);
         try {
             $http = new Client;
 
@@ -28,17 +25,41 @@ class LoginController extends Controller
                     'username' => $request->get('email'),
                     'password' => $request->get('password'),
                     'remember' => $request->get('remember'),
-                    'scope' => '',
+                    'scope' => $user->roleScopeString(),
                 ],
             ]);
 
             return json_decode((string)$response->getBody(), true);
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'invalid_credentials',
-                'message' => "{$e->getCode()}: {$e->getMessage()}"
-            ], 401);
+            return $this->sendFailedLoginResponse($request);
         }
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath());
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        return response()->json([
+            'error' => 'invalid_credentials',
+            'message' => "Authentication Error"
+        ], 401);
     }
 
     public function logout(Request $request)

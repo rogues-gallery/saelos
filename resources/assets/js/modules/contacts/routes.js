@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import Page from './page'
 import {getFirstContactId} from "./store/selectors"
 import Main from '../../Main'
+import * as MDIcons from "react-icons/lib/md/index";
 
 let MyRedirect = ({firstId}) =>
   <Main><Redirect to={`/contacts/${firstId}`} /></Main>
@@ -23,7 +24,14 @@ export default [
     path: '/contacts',
     exact: true,
     auth: true,
-    component: RedirectToFirst
+    component: RedirectToFirst,
+    menu: {
+      icon: MDIcons.MdPersonOutline,
+      location: 'main',
+      linkText: 'Contacts',
+      subLinks: false,
+      roles: false
+    }
   },
   {
     path: '/contacts/:id',
