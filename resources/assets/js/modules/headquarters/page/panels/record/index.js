@@ -43,6 +43,15 @@ class Record extends React.Component {
     const { activity } = this.props
     const actionView = activity.details_type === 'App\\CallActivity' ? 'call' : 'email'
 
+
+     if (activity.id === null && this.props.match.params.id !== 'new') {
+      return (
+        <main className="col main-panel px-3 align-self-center">
+          <h2 className="text-muted text-center">Select a task on the left to get started.</h2>
+        </main>
+      )
+    }
+
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading list-inline">
@@ -123,5 +132,5 @@ Record.propTypes = {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  activity: getActivity(state, ownProps.match.params.id || getFirstActivityId(state))
+  activity: getActivity(state, ownProps.match.params.id || {})
 }))(Record))

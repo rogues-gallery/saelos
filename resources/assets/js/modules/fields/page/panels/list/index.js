@@ -106,7 +106,7 @@ class List extends React.Component {
               const className = this.state.filter === filter ? 'text-dark active' : 'text-muted'
 
               return (
-                <div key={`filter-${filter}`} className={`${className} col`} onClick={() => this._toggleListFilter(filter)}>
+                <div key={`filter-${filter}`} className={`${className} col cursor-pointer`} onClick={() => this._toggleListFilter(filter)}>
                   <b>{filter}</b>
                 </div>
               )

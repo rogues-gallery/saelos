@@ -7,11 +7,18 @@ import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
 import ChartistGraph from 'react-chartist'
 import Chartist from 'chartist'
+import { svgToImage } from '../../../../../utils/helpers/graphics'
 
 class Record extends React.Component {
   constructor(props) {
     super(props)
 
+  }
+
+  _generateImage(event) {
+    const svg = document.getElementsByClassName('analytics-graph')[0].children[0]
+
+    svgToImage(svg)
   }
 
   componentWillMount() {
@@ -54,7 +61,7 @@ class Record extends React.Component {
           Analytics
         </h4>
         <div className="h-scroll">
-          <span className="float-right mt-1"><a href="javascript:void(0);" className="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
+          <span className="float-right mt-1"><a href="javascript:void(0);" onClick={this._generateImage} className="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
           <h5 className="border-bottom py-2">
             Pipeline
           </h5>
