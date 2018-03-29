@@ -143,7 +143,7 @@ const injectCompaniesIntoState = (company, data) => {
   const index = _.findIndex(data, (c) => c.id === parseInt(company.id))
 
   if (index >= 0) {
-    data[index] = _.merge(data[index], company)
+    data[index] = company
   } else {
     data.push(company)
   }

@@ -6,7 +6,6 @@
     "type": "project",
     "require": {
         "php": "^7.1",
-        "aloha/twilio": "^3.0",
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~3.3",
         "giggsey/libphonenumber-for-php": "^8.8",
@@ -17,7 +16,8 @@
         "phpsafari/health-checks": "^0.0.7",
         "pusher/pusher-php-server": "^3.0@dev",
         "rachidlaasri/laravel-installer": "^4.0",
-        "rap2hpoutre/create-user-command": "^0.1.4"
+        "rap2hpoutre/create-user-command": "^0.1.4",
+        "twilio/sdk": "^5.16"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Aloha\Twilio\Twilio;
 use App\Mail\Contact as ContactMail;
 use App\User;
 use Auth;
@@ -13,6 +12,8 @@ use App\Contact;
 use Illuminate\Http\Request;
 use App\Http\Resources\Contact as ContactResource;
 use Illuminate\Support\Facades\Mail;
+use Twilio\Rest\Client;
+use Twilio\Twiml;
 
 class ContactController extends Controller
 {
@@ -58,10 +59,6 @@ class ContactController extends Controller
         'notes.document',
         'notes.user',
         'status',
-    ];
-
-    const SEARCH_PARAMS = [
-        // 'key_to_look_for' => 'regex'
     ];
 
     public function index(Request $request)
@@ -195,11 +192,48 @@ class ContactController extends Controller
         return 1;
     }
 
-    public function call(Request $request, Contact $contact)
+    public function call(Request $request, $id)
     {
-//        $user = Auth::user();
-//        $user->load(['customFields']);
-//
-//        $twilio = new Twilio($accountId, $token, $fromNumber);
+        $contact = Contact::findOrFail($id);
+        $user = Auth::user();
+        $user->load(['customFields']);
+        $twilioNumberField = $user->customFields()->where('custom_field_alias', 'twilio_number')->first();
+
+        if ($twilioNumberField === null) {
+            return response(['success' => false, 'message' => 'User does not have a valid Twilio phone number.']);
+        }
+
+        try {
+            $client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
+
+            $client->calls->create(
+                $user->phone,
+                $twilioNumberField->value,
+                [
+                    'url' => route('api.contacts.outbound', ['id' => $contact->id, 'user_id' => $user->id])
+                ]
+            );
+
+        } catch (\Exception $e) {
+            return response(['success' => false, 'message' => $e->getMessage()]);
+        }
+
+        return response(['success' => true, 'message' => 'Call initiated']);
+    }
+
+    public function outbound(Request $request, $id, $userId)
+    {
+        $contact = Contact::findOrFail($id);
+        $user = User::findOrFail($userId);
+
+        // @TODO: Validate contact phone number
+        // @TODO: Create call activity for this user & contact
+
+        $twiml = new Twiml();
+        $twiml->dial($contact->phone);
+
+        return response($twiml, 200, [
+            'Content-Type' => 'text/xml'
+        ]);
     }
 }

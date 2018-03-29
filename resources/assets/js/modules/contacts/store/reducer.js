@@ -144,7 +144,7 @@ const injectContactIntoState = (contact, data) => {
   const index = _.findIndex(data, (c) => c.id === parseInt(contact.id))
 
   if (index >= 0) {
-    data[index] = _.merge(data[index], contact)
+    data[index] = contact
   } else {
     data.push(contact)
   }

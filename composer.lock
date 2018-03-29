@@ -4,72 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa3395a5d723381975771aa9ff03427a",
+    "content-hash": "fdf96b577ad98a97be472dfab94604d4",
     "packages": [
-        {
-            "name": "aloha/twilio",
-            "version": "3.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aloha/laravel-twilio.git",
-                "reference": "783a74f4a342ab3a32a2794c71319d048ce27202"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aloha/laravel-twilio/zipball/783a74f4a342ab3a32a2794c71319d048ce27202",
-                "reference": "783a74f4a342ab3a32a2794c71319d048ce27202",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.0",
-                "twilio/sdk": ">=3.12.0,<5.0.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^1.9",
-                "illuminate/console": "~4||~5",
-                "illuminate/support": "~4||~5",
-                "phpunit/phpunit": "~4.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Aloha\\Twilio\\Support\\Laravel\\ServiceProvider"
-                    ],
-                    "aliases": {
-                        "Twilio": "Aloha\\Twilio\\Support\\Laravel\\Facade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Aloha\\Twilio\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hannes Van De Vreken",
-                    "email": "vandevreken.hannes@gmail.com"
-                },
-                {
-                    "name": "Travis J Ryan",
-                    "email": "travisjryan@gmail.com"
-                }
-            ],
-            "description": "Twilio API for Laravel",
-            "homepage": "https://github.com/aloha/laravel-twilio",
-            "keywords": [
-                "ivr",
-                "laravel",
-                "sms",
-                "twilio"
-            ],
-            "time": "2017-10-05T06:31:47+00:00"
-        },
         {
             "name": "defuse/php-encryption",
             "version": "v2.1.0",
@@ -3991,30 +3927,30 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "4.12.1",
+            "version": "5.16.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "0a88c48262fbee1c3841f721f46439d3de450b95"
+                "reference": "41f96d9839afb584737f26103cfecded2d9fee50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/0a88c48262fbee1c3841f721f46439d3de450b95",
-                "reference": "0a88c48262fbee1c3841f721f46439d3de450b95",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/41f96d9839afb584737f26103cfecded2d9fee50",
+                "reference": "41f96d9839afb584737f26103cfecded2d9fee50",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.1"
+                "php": ">=5.3.0"
             },
             "require-dev": {
-                "mockery/mockery": ">=0.7.2",
+                "apigen/apigen": "^4.1",
                 "phpunit/phpunit": "4.5.*"
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "Services/Twilio.php"
-                ]
+                "psr-4": {
+                    "Twilio\\": "Twilio/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4022,12 +3958,8 @@
             ],
             "authors": [
                 {
-                    "name": "Kevin Burke",
-                    "email": "kevin@twilio.com"
-                },
-                {
-                    "name": "Kyle Conroy",
-                    "email": "kyle+pear@twilio.com"
+                    "name": "Twilio API Team",
+                    "email": "api@twilio.com"
                 }
             ],
             "description": "A PHP wrapper for Twilio's API",
@@ -4037,7 +3969,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2017-11-17T22:59:03+00:00"
+            "time": "2018-03-22T23:41:51+00:00"
         },
         {
             "name": "vistik/typed-collections",
@@ -4648,6 +4580,67 @@
                 "test"
             ],
             "time": "2016-01-20T08:20:44+00:00"
+        },
+        {
+            "name": "laravel/dusk",
+            "version": "2.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/dusk.git",
+                "reference": "a7aedd50dd5b4965ee589087ba575cb03981fe80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/a7aedd50dd5b4965ee589087ba575cb03981fe80",
+                "reference": "a7aedd50dd5b4965ee589087ba575cb03981fe80",
+                "shasum": ""
+            },
+            "require": {
+                "facebook/webdriver": "~1.0",
+                "illuminate/console": "~5.5",
+                "illuminate/support": "~5.5",
+                "nesbot/carbon": "~1.20",
+                "php": ">=5.6.4",
+                "symfony/console": "~3.2",
+                "symfony/process": "~3.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "~1.0",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Dusk\\DuskServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Dusk\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel Dusk provides simple end-to-end testing and browser automation.",
+            "keywords": [
+                "laravel",
+                "testing",
+                "webdriver"
+            ],
+            "time": "2018-03-09T15:35:54+00:00"
         },
         {
             "name": "maximebf/debugbar",

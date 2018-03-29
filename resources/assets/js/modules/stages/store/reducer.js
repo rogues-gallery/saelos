@@ -88,13 +88,13 @@ export default function stageReducer(state = initialState, action) {
   }
 }
 
-const injectStageIntoState = (contact, data) => {
-  const index = _.findIndex(data, (c) => c.id === parseInt(contact.id))
+const injectStageIntoState = (stage, data) => {
+  const index = _.findIndex(data, (c) => c.id === parseInt(stage.id))
 
   if (index >= 0) {
-    data[index] = _.merge(data[index], contact)
+    data[index] = stage
   } else {
-    data.push(contact)
+    data.push(stage)
   }
 
   return data

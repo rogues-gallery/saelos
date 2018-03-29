@@ -18,8 +18,11 @@ Route::group([
 ], function () {
     Route::prefix('auth')->group(base_path('routes/api/auth.php'));
 
+    Route::post('/contacts/{id}/outbound/{user_id}', 'ContactController@outbound')
+        ->name('contacts.outbound');
+
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('/contacts/{id}/email', 'PersonController@email');
+        Route::post('/contacts/{id}/email', 'ContactController@email');
 
         Route::get('/tasks', function () {
             $people = \App\Contact::where('user_id', Auth::user()->id)

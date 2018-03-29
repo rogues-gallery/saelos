@@ -139,7 +139,7 @@ const injectOpportunityIntoState = (opportunity, data) => {
   const index = _.findIndex(data, (o) => o.id === parseInt(opportunity.id))
 
   if (index >= 0) {
-    data[index] = _.merge(data[index], opportunity)
+    data[index] = opportunity
   } else {
     data.push(opportunity)
   }
