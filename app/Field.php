@@ -16,4 +16,8 @@ class Field extends Model
     protected $casts = [
         'values' => 'array',
     ];
+
+    protected $guarded = [
+        'id',
+    ];
 }

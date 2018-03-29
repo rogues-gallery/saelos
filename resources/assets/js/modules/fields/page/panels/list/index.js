@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { fetchFields, fetchField } from '../../../service'
 import _ from 'lodash'
+import { capitalize } from '../../../../../utils/string'
 
 class List extends React.Component {
   constructor(props) {
@@ -9,18 +10,27 @@ class List extends React.Component {
 
     this._onScroll = this._onScroll.bind(this)
     this._onKeyPress = this._onKeyPress.bind(this)
+    this._openRecord = this._openRecord.bind(this)
+    this._toggleListFilter = this._toggleListFilter.bind(this)
+
+    this.state = {
+      filter: 'contact',
+      searchString: props.searchString
+    }
   }
 
   componentWillMount() {
-    const { fields, dispatch, searchString } = this.props
+    const { dispatch, searchString } = this.props
 
-    if (fields.length === 0) {
-      dispatch(fetchFields({page: 1, searchString}))
-    }
+    dispatch(fetchFields({page: 1, searchString}))
   }
 
   _onKeyPress(event) {
     const { target, charCode } = event
+
+    this.setState({
+      searchString: target.value
+    })
 
     if (charCode !== 13) {
       return
@@ -52,9 +62,25 @@ class List extends React.Component {
     }
   }
 
+  _toggleListFilter(filter) {
+    this.setState({
+      filter
+    })
+  }
+
+  _openRecord(id) {
+    this.props.dispatch(fetchField(id))
+    this.context.router.history.push(`/config/fields/${id}`)
+  }
+
   render() {
-    const { fields, searchString, firstFieldId } = this.props
+    const { searchString } = this.state
+    const { fields, firstFieldId } = this.props
     const activeIndex = parseInt(this.context.router.route.match.params.id) || firstFieldId
+    const filtered = _.filter(
+      fields,
+      item => item.model === `App\\${capitalize(this.state.filter)}`
+    )
 
     return (
       <div className="col list-panel border-right">
@@ -75,16 +101,26 @@ class List extends React.Component {
               defaultValue={searchString}
             />
           </form>
-          <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>Company</b></div> <div className="text-muted col"><b>Contact</b></div> <div className="text-muted col"><b>Opportunity</b></div></div>
+          <div className="micro-text row text-center pt-3 pb-2">
+            {['contact', 'company', 'opportunity'].map(filter => {
+              const className = this.state.filter === filter ? 'text-dark active' : 'text-muted'
+
+              return (
+                <div key={`filter-${filter}`} className={`${className} col`} onClick={() => this._toggleListFilter(filter)}>
+                  <b>{filter}</b>
+                </div>
+              )
+            })}
+          </div>
         </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
-          {fields.map(field => (
+          {filtered.map(field => (
             <div
               key={`field-${field.id}`}
-              onClick={() => this.context.router.history.push(`/config/fields/${field.id}`)}
+              onClick={() => this._openRecord(field.id)}
               className={`list-group-item list-group-item-action align-items-start ${field.id === activeIndex ? ' active' : ''}`}
             >
-              <span class="float-right text-muted mini-text">{field.type}</span>
+              <span className="float-right text-muted mini-text">{field.type}</span>
               <h6>{field.label}</h6>
             </div>
           ))}

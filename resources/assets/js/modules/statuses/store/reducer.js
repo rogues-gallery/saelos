@@ -36,7 +36,10 @@ export default function statusReducer(state = initialState, action) {
       let newStatusesForState
 
       if (data.length === 0) {
-        return state
+        return {
+          ...state,
+          isFetching: false
+        }
       }
 
       // When fetching the first page, always replace the contacts in the app state
