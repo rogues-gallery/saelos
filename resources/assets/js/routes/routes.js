@@ -16,16 +16,16 @@ import statusRoutes from "../modules/statuses/routes"
 export default [
   ...contactRoutes,
   ...hqRoutes,
-  ...authRoutes,
   ...companyRoutes,
   ...opportunityRoutes,
   ...analyticsRoutes,
-  ...workflowRoutes,
-  ...teamRoutes,
-  ...userRoutes,
 
-  ...fieldRoutes,
+  ...authRoutes,
   ...configRoutes,
+  ...fieldRoutes,
   ...stageRoutes,
   ...statusRoutes,
+  ...teamRoutes,
+  ...userRoutes,
+  ...workflowRoutes,
 ];

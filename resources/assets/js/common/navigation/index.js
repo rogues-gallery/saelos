@@ -62,7 +62,7 @@ class Navigation extends Component {
             <div className="dropdown-menu" aria-labelledby="userMenu">
               <Link to={'/user/profile'} className="dropdown-item">My Profile</Link>
               <Link to={'/notifications'} className="dropdown-item">Notifications</Link>
-              <Link to={'/config'} className="dropdown-item">Config</Link>
+              <Link to={'/config/settings'} className="dropdown-item">Config</Link>
               <Link to={'/logout'} className="dropdown-item">Logout</Link>
             </div>
           </div>
