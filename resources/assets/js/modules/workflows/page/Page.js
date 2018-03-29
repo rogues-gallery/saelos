@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { fetchWorkflows, fetchWorkflow } from "../../service";
+import { fetchWorkflows, fetchWorkflow } from "../service";
 
 class Page extends React.Component {
   componentWillMount() {

@@ -20,26 +20,24 @@ class Layout extends Component {
     if (isAuthenticated && !user.id) {
       this.props.dispatch(fetchUser())
     }
-
   }
 
   render() {
-    const { children, isAuthenticated, location, ...props } = this.props
+    const { children, location, ...props } = this.props
 
-    if (isAuthenticated) {
-      if (location.pathname.startsWith('/config/')) {
-        return <ConfigLayout {...props}>{children}</ConfigLayout>
-      }
-
-      return <PrivateLayout {...props}>{children}</PrivateLayout>
+    if (location.pathname.startsWith('/login')) {
+      return <PublicLayout {...props}>{children}</PublicLayout>
     }
 
-    return <PublicLayout {...props}>{children}</PublicLayout>
+    if (location.pathname.startsWith('/config')) {
+      return <ConfigLayout {...props}>{children}</ConfigLayout>
+    }
+
+    return <PrivateLayout {...props}>{children}</PrivateLayout>
   }
 }
 
 Layout.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   dispatch: PropTypes.func.isRequired,
@@ -47,6 +45,5 @@ Layout.propTypes = {
 }
 
 export default withRouter(connect(state => ({
-  isAuthenticated: getAuth(state),
   user: state.user,
 }))(Layout))

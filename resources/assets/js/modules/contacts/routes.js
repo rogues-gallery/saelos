@@ -18,7 +18,7 @@ export default [
     path: '/',
     exact: true,
     auth: true,
-    component: Page
+    component: RedirectToFirst
   },
   {
     path: '/contacts',

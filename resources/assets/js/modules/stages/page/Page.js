@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 import List from './panels/list'
 import Record from './panels/record'
 
-const Page = (props) => ([
-  <List key={0} {...props} />,
-  <Record key={1} dispatch={props.dispatch} />
-])
+const Page = (props) => (
+  <React.Fragment>
+    <List {...props} />
+    <Record dispatch={props.dispatch} />
+  </React.Fragment>
+)
 
 Page.propTypes = {
   dispatch: PropTypes.func.isRequired,

@@ -23,4 +23,4 @@ export default [
     config: true,
     component: Page
   }
-];
+]
