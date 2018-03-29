@@ -16,6 +16,7 @@
         "laravel/tinker": "~1.0",
         "phpsafari/health-checks": "^0.0.7",
         "pusher/pusher-php-server": "^3.0@dev",
+        "rachidlaasri/laravel-installer": "^4.0",
         "rap2hpoutre/create-user-command": "^0.1.4"
     },
     "require-dev": {
