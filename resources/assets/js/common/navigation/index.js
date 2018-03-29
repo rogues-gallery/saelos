@@ -75,14 +75,15 @@ class Navigation extends Component {
           }
           
         </div>
-
-        {
-          this.props.isAuthenticated
-            ? this.props.location.pathname.startsWith('/config')
-            ? <ConfigNav user={this.props.user} />
-            : <PrivateNav user={this.props.user} />
-            : <PublicNav showNavigation={this.state.showNavigation} />
-        }
+        <div className="h-scroll">
+          {
+            this.props.isAuthenticated
+              ? this.props.location.pathname.startsWith('/config')
+              ? <ConfigNav user={this.props.user} />
+              : <PrivateNav user={this.props.user} />
+              : <PublicNav showNavigation={this.state.showNavigation} />
+          }
+        </div>
       </div>
     )
   }

@@ -6,10 +6,11 @@ import PropTypes from 'prop-types'
 import NavItem from './NavItem'
 import routes from "../../routes/routes"
 import PrivateNav from "./PrivateNav";
+import * as MDIcons from 'react-icons/lib/md'
 
 const ConfigNav = ({ user }) => (
   <ul className="nav">
-    <NavItem path="/contacts">Back</NavItem>
+    <NavItem path="/contacts"><i className="h5 mr-2"><MDIcons.MdArrowBack /></i>Exit Config</NavItem>
     {routes.map((route, i) => {
       if (typeof route.menu !== 'object') {
         return
