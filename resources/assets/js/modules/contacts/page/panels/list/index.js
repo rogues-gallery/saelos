@@ -40,8 +40,8 @@ class List extends React.Component {
 
   render() {
     const { router } = this.context
-    const { contacts, firstContactId, inEdit, fields, searchString } = this.props
-    const activeIndex = parseInt(router.route.match.params.id) || firstContactId
+    const { contacts, inEdit, fields, searchString } = this.props
+    const activeIndex = parseInt(router.route.match.params.id)
 
     return (
       <div className={`col list-panel border-right ${inEdit ? 'inEdit' : ''}`}>
@@ -49,6 +49,7 @@ class List extends React.Component {
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {contacts.map(contact => (
             <div
+              key={`contact-list-${contact.id}`}
               onClick={() => this._openRecord(contact.id)}
               className={`list-group-item list-group-item-action align-items-start ${contact.id === activeIndex ? ' active' : ''}`}
             >

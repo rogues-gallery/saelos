@@ -86,7 +86,7 @@ class Contacts extends React.Component {
   }
 
   render() {
-    const { contacts, entityType, entityId, dispatch } = this.props
+    const { contacts, entityType, dispatch } = this.props
 
     return (
       <div className="card">

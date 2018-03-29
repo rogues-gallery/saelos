@@ -92,7 +92,7 @@ const injectActivityIntoState = (activity, data) => {
   const index = _.findIndex(data, (a) => a.id === parseInt(activity.id))
 
   if (index >= 0) {
-    data[index] = _.merge(data[index], activity)
+    data[index] = activity
   } else {
     data.push(activity)
   }

@@ -50,7 +50,7 @@ class CallAction extends Component {
       <div className="card-body callActionView">
         <div className="row">
           <div className="col fw-100 border-right">
-            <button className="btn btn-primary btn-lg w-100 pb-3"><span className="h2"><MDIcons.MdLocalPhone /></span></button>
+            <button className="btn btn-primary btn-lg w-100 pb-3" onClick={this._submit}><span className="h2"><MDIcons.MdLocalPhone /></span></button>
             <button className="mt-2 btn btn-outline-primary btn-sm w-100"><span className="">SCORE</span></button>
           </div>
           <div className="col">

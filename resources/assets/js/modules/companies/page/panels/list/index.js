@@ -40,16 +40,19 @@ class List extends React.Component {
   }
 
   render() {
-    const { companies, searchString, firstCompanyId, inEdit, fields } = this.props
-    const activeIndex = parseInt(this.context.router.route.match.params.id) || firstCompanyId
+    const { companies, searchString, inEdit, fields } = this.props
+    const activeIndex = parseInt(this.context.router.route.match.params.id)
 
     return (
       <div className={`col list-panel border-right ${inEdit ? 'inEdit' : ''}`}>
         <AdvancedSearch searchFunc={fetchCompanies} searchFields={fields} searchString={searchString} />
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {companies.map(company => (
-            <div onClick={() => this._openRecord(company.id)}
-                 className={`list-group-item list-group-item-action align-items-start ${company.id === activeIndex ? ' active' : ''}`}>
+            <div
+              key={`company-list-${company.id}`}
+              onClick={() => this._openRecord(company.id)}
+              className={`list-group-item list-group-item-action align-items-start ${company.id === activeIndex ? ' active' : ''}`}
+            >
               <span className="text-muted mini-text float-right">{moment(company.updated_at).fromNow()}</span>
               <h6 className="text-truncate pr-1">{company.name}</h6>
               <p>Secondary Detail</p>

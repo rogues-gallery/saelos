@@ -92,7 +92,7 @@ const injectStatusIntoState = (status, data) => {
   const index = _.findIndex(data, (c) => c.id === parseInt(status.id))
 
   if (index >= 0) {
-    data[index] = _.merge(data[index], status)
+    data[index] = status
   } else {
     data.push(status)
   }

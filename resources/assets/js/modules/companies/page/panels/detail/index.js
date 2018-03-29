@@ -17,12 +17,12 @@ import { Money } from 'react-format'
 class Detail extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      view: "default"
-    }
 
     this._toggleView = this._toggleView.bind(this)
 
+    this.state = {
+      view: "default"
+    }
   }
 
   _toggleView(view) {
@@ -31,6 +31,10 @@ class Detail extends React.Component {
 
   render() {
     const {dispatch, company, user, inEdit} = this.props
+
+    if (company.id === null) {
+      return ''
+    }
 
     const data = {series: [[5, 4, 7, 3, 9]] }
     const options = {
@@ -50,7 +54,7 @@ class Detail extends React.Component {
             }
           }
 
-    switch(this.state.view){
+    switch(this.state.view) {
       case 'default':
         return <Details company={company} dispatch={dispatch} toggle={this._toggleView} user={user} data={data} options={options} inEdit={inEdit} />
       case 'history':
@@ -60,7 +64,7 @@ class Detail extends React.Component {
 }
 
 const Details = ({company, dispatch, toggle, user, data, options, inEdit}) => (
-  <div key={1} className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
+  <div className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom py-2 heading">
       <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed r-0 mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
         <div className="pt-1 mt-1 h5 text-center">Company Details</div>
@@ -92,7 +96,7 @@ const Details = ({company, dispatch, toggle, user, data, options, inEdit}) => (
 )
 
 const History = ({activities, dispatch, toggle, inEdit}) => (
-  <div key={1} className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
+  <div className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom py-2 heading">
       <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
       <div className="pt-1 mt-1 h5 text-center">History</div>

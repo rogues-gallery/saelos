@@ -93,7 +93,7 @@ const injectFieldIntoState = (field, data) => {
   const index = _.findIndex(data, (c) => c.id === parseInt(field.id))
 
   if (index >= 0) {
-    data[index] = _.merge(data[index], field)
+    data[index] = field
   } else {
     data.push(field)
   }
