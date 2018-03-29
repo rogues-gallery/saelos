@@ -4,7 +4,7 @@ import contactReducer from '../modules/contacts/store/reducer'
 import userReducer from '../modules/user/store/reducer'
 import companyReducer from '../modules/companies/store/reducer'
 import opportunityReducer from '../modules/opportunities/store/reducer'
-import reportReducer from '../modules/reports/store/reducer'
+import analyticsReducer from '../modules/analytics/store/reducer'
 import workflowReducer from '../modules/workflows/store/reducer'
 import teamReducer from '../modules/teams/store/reducer'
 import stageReducer from '../modules/stages/store/reducer'
@@ -18,7 +18,7 @@ export default combineReducers({
   user: userReducer,
   companyState: companyReducer,
   opportunityState: opportunityReducer,
-  reportState: reportReducer,
+  analyticsState: analyticsReducer,
   workflowState: workflowReducer,
   teamState: teamReducer,
   stageState: stageReducer,

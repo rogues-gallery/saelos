@@ -49,7 +49,7 @@ class Detail extends React.Component {
       case 'default':
         return <Pipeline contacts={contacts} dispatch={this.props.dispatch}  toggle={this._toggleView} user={this.props.user} />
       case 'vector':
-        return <Vector cdispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} />
+        return <Vector dispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} />
     }
   }
 }

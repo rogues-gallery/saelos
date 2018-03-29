@@ -3,22 +3,16 @@ import * as MDIcons from "react-icons/lib/md/index";
 
 export default [
   {
-    path: '/reports',
+    path: '/analytics',
     exact: true,
     auth: true,
     component: Page,
     menu: {
       icon: MDIcons.MdInsertChart,
       location: 'main',
-      linkText: 'Reports',
+      linkText: 'Analytics',
       subLinks: false,
       roles: false
     }
-  },
-  {
-    path: '/reports/:id',
-    exact: true,
-    auth: true,
-    component: Page
   }
 ];

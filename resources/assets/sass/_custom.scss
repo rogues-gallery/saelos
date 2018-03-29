@@ -389,6 +389,13 @@ a:hover {
   stroke: none;
   fill-opacity: .1;
 }
+
+.reportGraph {
+  .ct-bar {
+    stroke-width: 100px;
+  }
+}
+
 .ct-line {
   stroke-width: 2px;
 }
