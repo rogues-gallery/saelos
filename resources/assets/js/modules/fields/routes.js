@@ -9,7 +9,7 @@ export default [
     config: true,
     component: Page,
     menu: {
-      icon: MDIcons.MdPeople,
+      icon: MDIcons.MdFeaturedPlayList,
       location: 'config',
       linkText: 'Fields',
       subLinks: false,

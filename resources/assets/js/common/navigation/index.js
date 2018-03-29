@@ -9,6 +9,9 @@ import { logout } from '../../modules/auth/service'
 import { Link } from 'react-router-dom'
 import PrivateNav from './PrivateNav'
 import ConfigNav from './ConfigNav'
+import CreateNav from './CreateNav'
+import CreateConfigNav from './CreateConfigNav'
+
 import { getAuth } from '../../modules/auth/store/selectors'
 import { isInEdit as isContactInEdit } from '../../modules/contacts/store/selectors'
 import { isInEdit as isCompanyInEdit } from '../../modules/companies/store/selectors'
@@ -63,14 +66,14 @@ class Navigation extends Component {
               <Link to={'/logout'} className="dropdown-item">Logout</Link>
             </div>
           </div>
-          <div className="dropdown show float-right">
-            <Link to={'/'} className="btn btn-primary dropdown-toggle" role="button" id="quickCreateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><MDIcons.MdAdd /></Link>
-            <div className="dropdown-menu" aria-labelledby="quickCreateMenu">
-              <Link to={'/contacts/new'} className="dropdown-item">Create Contact</Link>
-              <Link to={'/companies/new'} className="dropdown-item">Create Company</Link>
-              <Link to={'/opportunities/new'} className="dropdown-item">Create Opportunity</Link>
-            </div>
-          </div>
+          
+          { this.props.location.pathname.startsWith('/config')
+            ?
+          <CreateConfigNav user={this.props.user} />
+          :
+          <CreateNav user={this.props.user} />
+          }
+          
         </div>
 
         {

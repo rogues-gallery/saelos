@@ -54,7 +54,7 @@ class Record extends React.Component {
           Analytics
         </h4>
         <div className="h-scroll">
-          <span class="float-right mt-1"><a href="javascript:void(0);" class="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
+          <span className="float-right mt-1"><a href="javascript:void(0);" className="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
           <h5 className="border-bottom py-2">
             Pipeline
           </h5>
@@ -80,7 +80,7 @@ class Record extends React.Component {
             </div>
           </div>
           <div className="pt-3">
-            <span class="float-right mt-1"><a href="javascript:void(0);" class="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
+            <span className="float-right mt-1"><a href="javascript:void(0);" className="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
             <h5 className="border-bottom py-2">
               Activity
             </h5>

@@ -9,7 +9,7 @@ export default [
     config: true,
     component: Page,
     menu: {
-      icon: MDIcons.MdPeople,
+      icon: MDIcons.MdLabelOutline,
       location: 'config',
       linkText: 'Statuses',
       subLinks: false,

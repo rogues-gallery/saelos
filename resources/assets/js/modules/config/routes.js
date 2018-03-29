@@ -14,7 +14,7 @@ export default [
     auth: true,
     component: Page,
     menu: {
-      icon: MDIcons.MdPeople,
+      icon: MDIcons.MdSettings,
       location: 'config',
       linkText: 'Settings',
       subLinks: false,
