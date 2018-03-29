@@ -39,8 +39,8 @@ class List extends React.Component {
   }
 
   render() {
-    const { opportunities, searchString, firstOpportunityId, inEdit, fields } = this.props
-    const activeIndex = parseInt(this.context.router.route.match.params.id) || firstOpportunityId
+    const { opportunities, searchString, inEdit, fields } = this.props
+    const activeIndex = parseInt(this.context.router.route.match.params.id)
     
     return (
       <div className={`col list-panel border-right ${inEdit ? 'inEdit' : ''}`}>
@@ -48,6 +48,7 @@ class List extends React.Component {
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {opportunities.map(opportunity => (
             <div
+              key={`opportunity-list-${opportunity.id}`}
               onClick={() => this._openRecord(opportunity.id)}
               className={`list-group-item list-group-item-action align-items-start ${opportunity.id === activeIndex ? ' active' : ''}`}
             ><span className="text-muted mini-text float-right"><Money>{opportunity.amount}</Money></span>
