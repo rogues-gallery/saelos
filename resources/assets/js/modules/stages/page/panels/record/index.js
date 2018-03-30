@@ -52,7 +52,7 @@ class Record extends React.Component {
     return (
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">
-	          <button className="float-right btn btn-primary mr-3 list-inline-item" onClick={this._submit}>Save</button>
+	          <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
           Edit Stage: {stage.name}
         </h4>
 
