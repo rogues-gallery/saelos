@@ -117,7 +117,7 @@ class AdvancedSearch extends React.Component {
             <div className="input-group-append">
               {searchString ?
                 <button className="btn btn-outline border">
-                  <span className="text-muted" onClick={this._clearSearch}><MDIcons.MdRemove /></span>
+                  <span className="text-muted" onClick={this._clearSearch}><MDIcons.MdClearAll /></span>
                 </button>
               : '' }
               {viewSearchStrings.includes(searchString) ?
