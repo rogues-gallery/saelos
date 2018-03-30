@@ -3,7 +3,7 @@ import {getTag} from "../../../store/selectors"
 import {connect} from "react-redux"
 import {withRouter} from "react-router-dom"
 import { CirclePicker } from 'react-color'
-import {deleteTag, saveTag} from "../../../service";
+import {deleteTag, fetchTag, saveTag} from "../../../service"
 
 class Record extends React.Component {
   constructor(props) {
@@ -17,6 +17,16 @@ class Record extends React.Component {
       formState: props.tag.originalProps,
       pickerOpen: false
     }
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props
+
+    dispatch(fetchTag(this.props.match.params.id))
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({formState: nextProps.tag.originalProps})
   }
 
   _submit() {

@@ -26,7 +26,7 @@ class TagController extends Controller
 
     public function index()
     {
-        return new TagCollection(Tag::with(static::INDEX_WITH)->paginate());
+        return new TagCollection(Tag::with(static::INDEX_WITH)->paginate(1000));
     }
 
     public function show($id)

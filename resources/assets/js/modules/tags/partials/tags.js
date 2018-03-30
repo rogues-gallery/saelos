@@ -8,7 +8,7 @@ import {getTags} from "../store/selectors"
 import {fetchContact, fetchContacts} from "../../contacts/service"
 import {fetchOpportunities, fetchOpportunity} from "../../opportunities/service"
 import {fetchCompanies, fetchCompany} from "../../companies/service"
-import {saveTag} from "../service"
+import {fetchTags, saveTag} from "../service"
 import { CirclePicker } from 'react-color'
 
 class TagsPartial extends React.Component {
@@ -27,6 +27,10 @@ class TagsPartial extends React.Component {
       },
       addTagOpen: false
     }
+  }
+
+  componentWillMount() {
+    this.props.dispatch(fetchTags())
   }
 
   // @todo: Abstract this out
@@ -64,6 +68,7 @@ class TagsPartial extends React.Component {
       })
 
     this.setState({
+      formState: {},
       addTagOpen: false
     })
   }
@@ -89,9 +94,10 @@ class TagsPartial extends React.Component {
   }
 
   _tagEntity(id) {
+    const {entityType, entityId} = this.props
     let name
 
-    switch(this.props.entityType) {
+    switch(entityType) {
       case 'App\\Contact':
         name = 'contact_id'
         break;
@@ -106,7 +112,7 @@ class TagsPartial extends React.Component {
     const event = {
       target: {
         name: name,
-        value: this.props.entityId
+        value: entityId
       }
     }
 
@@ -223,7 +229,7 @@ class TagsPartial extends React.Component {
                       }}
                       placeholder={formState.color} />
                   </div>
-                  <button type="submit" className="btn btn-primary btn-sm" onClick={this._tagEntity}>Create</button>
+                  <button type="submit" className="btn btn-primary btn-sm" onClick={() => this._tagEntity()}>Create</button>
                 </div>
               </div>
             </div>
