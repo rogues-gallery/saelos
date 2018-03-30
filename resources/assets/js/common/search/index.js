@@ -17,6 +17,7 @@ class AdvancedSearch extends React.Component {
     this._submit = this._submit.bind(this)
     this._removeView = this._removeView.bind(this)
     this._addView = this._addView.bind(this)
+    this._clearSearch = this._clearSearch.bind(this)
 
     this.state = {
       searchString: props.searchString
@@ -83,6 +84,16 @@ class AdvancedSearch extends React.Component {
     // @TODO
   }
 
+  _clearSearch() {
+    const { dispatch, searchFunc } = this.props
+
+    this.setState({
+      searchString: ''
+    })
+
+    dispatch(searchFunc({page: 1, searchString: ''}))
+  }
+
   render() {
     const { searchString } = this.state
     const { views } = this.props
@@ -91,7 +102,7 @@ class AdvancedSearch extends React.Component {
 
     return (
       <div className="position-relative px-3 pt-4 bg-white border-bottom">
-        <div id="advanced-search-container" className="input-group">
+        <div id="advanced-search-container" className={searchString ? 'input-group' : ''}>
             <input
               type="search"
               className="form-control ds-input"
@@ -104,13 +115,20 @@ class AdvancedSearch extends React.Component {
               value={searchString}
             />
             <div className="input-group-append">
+              {searchString ?
+                <button className="btn btn-outline border">
+                  <span className="text-muted" onClick={this._clearSearch}><MDIcons.MdRemove /></span>
+                </button>
+              : '' }
+              {viewSearchStrings.includes(searchString) ?
               <button className="btn btn-outline border">
-                {viewSearchStrings.includes(searchString)
-                ? <span className="text-danger" onClick={this._removeView}><MDIcons.MdDoNotDisturb /></span>
-                : <span className="text-muted" onClick={this._addView}><MDIcons.MdRestore /></span>
-                }
-
+                <span className="text-danger" onClick={this._removeView}><MDIcons.MdDelete /></span>
               </button>
+              : searchString ?
+              <button className="btn btn-outline border">
+                <span className="text-muted" onClick={this._addView}><MDIcons.MdAdd /></span>
+              </button>
+                : '' }
             </div>
         </div>
         <div className="micro-text row text-center pt-3 pb-2">

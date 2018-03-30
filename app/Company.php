@@ -47,6 +47,7 @@ class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
         'custom_fields',
         'notes',
         'activities',
+        'tags'
     ];
 
     protected $dates = [

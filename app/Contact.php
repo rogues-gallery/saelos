@@ -49,7 +49,8 @@ class Contact extends Model implements HasWorkflowsInterface, HasCustomFieldsInt
         'activities',
         'custom_fields',
         'notes',
-        'status'
+        'status',
+        'tags'
     ];
 
     protected $dates = [

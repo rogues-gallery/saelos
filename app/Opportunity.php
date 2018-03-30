@@ -53,6 +53,7 @@ class Opportunity extends Model implements HasWorkflowsInterface, HasCustomField
         'custom_fields',
         'notes',
         'activities',
+        'tags'
     ];
 
     protected $dates = [
