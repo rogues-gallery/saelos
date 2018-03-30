@@ -629,6 +629,24 @@ a:hover {
   padding: 1rem;
 }
 
+.dropdown-menu {
+  .circle-picker {
+    position:relative !important;
+    border:none;
+    background:none;
+  }
+}
+
+.add-tag-container {
+  position:relative;
+}
+.add-tag-menu {
+  position:absolute;
+  top:0;
+  left:0;
+  will-change: transform;
+}
+
 .dot {
   height: 10px;
   width: 10px;

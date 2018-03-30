@@ -8,6 +8,7 @@ import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
 import {editingOpportunity, editingOpportunityFinished} from "../../../store/actions"
 import {renderGroupedFields} from "../../../../../utils/helpers/fields"
+import TagsPartial from '../../../../tags/partials/tags'
 
 class Record extends React.Component {
   constructor(props) {
@@ -125,7 +126,8 @@ class Record extends React.Component {
             </span>
         }
         <h4 className="border-bottom py-3">
-          {opportunity.name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
+          {opportunity.name}
+          <TagsPartial tags={opportunity.tags} entityId={opportunity.id} entityType="App\Opportunity" />
         </h4>
 
         <div className="h-scroll">
