@@ -9,7 +9,7 @@
 @endsection
 
 @section('container')
-    <p class="text-center">
+    <p class="text-center mb-3">
       {{ trans('installer_messages.welcome.message') }}
     </p>
     <p class="text-center">

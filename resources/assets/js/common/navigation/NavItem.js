@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom';
 
-const Link = ({ path, children }) => (
+const Link = ({ path, children, className }) => (
   <li className="nav-item">
-    <NavLink to={path} className="nav-link" activeClassName="active">
+    <NavLink to={path} className={`nav-link ${className}`} activeClassName="active">
       {children}
     </NavLink>
   </li>
@@ -13,6 +13,7 @@ const Link = ({ path, children }) => (
 Link.propTypes = {
   path: PropTypes.string.isRequired,
   children: PropTypes.any,
+  className: PropTypes.string
 }
 
 Link.contextTypes = {

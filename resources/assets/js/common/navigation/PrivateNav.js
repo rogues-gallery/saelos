@@ -12,16 +12,21 @@ const PrivateNav = ({ user }) => (
         return
       }
 
-      const { linkText, icon: Icon, location, subLinks, roles } = route.menu
+      const { linkText, icon: Icon, location, subLinks: SubLinks, roles } = route.menu
 
       if (location === 'main' && user.authorized(roles)) {
         return (
-          <NavItem key={`route-nav-item-${i}-main`} path={route.path}>
-            <i className="h5 mr-2">
-              <Icon />
-            </i>
-            {linkText}
-          </NavItem>
+          <React.Fragment>
+            <NavItem key={`route-nav-item-${i}-main`} path={route.path}>
+              <i className="h5 mr-2">
+                <Icon />
+              </i>
+              {linkText}
+            </NavItem>
+            {route.menu.subLinks ? 
+              <SubLinks />
+            : '' }
+          </React.Fragment>
         )
       }
     })}

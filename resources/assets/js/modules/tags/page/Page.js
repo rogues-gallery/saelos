@@ -5,7 +5,6 @@ import Record from './panels/record'
 
 const Page = (props) => (
   <React.Fragment>
-    <List {...props} />
     <Record dispatch={props.dispatch} />
   </React.Fragment>
 )

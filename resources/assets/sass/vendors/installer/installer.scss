@@ -3,7 +3,9 @@
 
 // Font Awesome
 @import "font-awesome/font-awesome";
-
+html, body {
+	height: 100%;
+}
 .box {
 	width: 450px;
 	//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
@@ -39,10 +41,10 @@
 	-ms-user-select: none;
 	//Instead of the line below you could use @include user-select($select)
 	user-select: none;
-	color: $color_10;
+	color: #FFFFFF;
 	font-weight: 400;
-	font-size: 20px;
 	margin: 0 0 15px;
+	border: none;
 }
 .step {
 	padding-left: 0;

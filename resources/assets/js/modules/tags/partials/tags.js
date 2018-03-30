@@ -54,8 +54,8 @@ class TagsPartial extends React.Component {
               + ADD TAG
             </button>
             <div className="dropdown-menu mt-1 pt-1">
-              <a className="dropdown-item px-2" href="#"><span className="dot mr-2"></span>Tag 1</a>
-              <a className="dropdown-item px-2" href="#"><span className="dot mr-2"></span>Tag 2</a>
+              <a className="dropdown-item px-2" href="#"><span className="dot mr-2" />Tag 1</a>
+              <a className="dropdown-item px-2" href="#"><span className="dot mr-2" />Tag 2</a>
               <div className="dropdown-divider"></div>
               <form className="px-2 py-2">
                 <div className="form-group">
