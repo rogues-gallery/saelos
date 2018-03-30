@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { parseSearchString } from '../../utils/helpers'
 import ContentEditable from 'react-contenteditable'
+import * as MDIcons from 'react-icons/lib/md'
 
 class AdvancedSearch extends React.Component {
   constructor(props) {
@@ -75,9 +76,8 @@ class AdvancedSearch extends React.Component {
     const { searchString } = this.state
 
     return (
-      <div className="position-relative px-4 pt-4 bg-white border-bottom">
-        <div id="advanced-search-container">
-          <form>
+      <div className="position-relative px-3 pt-4 bg-white border-bottom">
+        <div id="advanced-search-container" className="input-group">
             <input
               type="search"
               className="form-control ds-input"
@@ -89,7 +89,9 @@ class AdvancedSearch extends React.Component {
               onChange={this._handleOnChange}
               defaultValue={searchString}
             />
-          </form>
+            <div className="input-group-append">
+              <button className="btn btn-outline border"><span className="text-muted"><MDIcons.MdRestore /></span></button>
+            </div>
         </div>
         <div className="micro-text row text-center pt-3 pb-2">
           <div className="text-dark col" onClick={() => this._updateSearchString(' active:true')}><b>Active</b></div>
