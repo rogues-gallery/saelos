@@ -628,3 +628,11 @@ a:hover {
   border-radius: 4px;
   padding: 1rem;
 }
+
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: $gray-200;
+  border-radius: 50%;
+  display: inline-block;
+}
