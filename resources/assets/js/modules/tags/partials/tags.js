@@ -51,7 +51,6 @@ class TagsPartial extends React.Component {
   _submit(tag) {
     const { entityId, dispatch } = this.props
     const submitData = typeof tag !== 'undefined' ? tag : this.state.formState
-
     dispatch(saveTag(submitData))
       .then(() => {
         switch(this.props.entityType) {
@@ -133,6 +132,7 @@ class TagsPartial extends React.Component {
   }
 
   _removeTag(tag) {
+
     const {entityType, entityId} = this.props
 
     switch(entityType) {
@@ -160,6 +160,7 @@ class TagsPartial extends React.Component {
     const { allTags, tags, entityId } = this.props
     const { formState, addTagOpen } = this.state
 
+    // @TODO MAKE myTags and filtered tags part of state instead of filtering here.
     const filtered = _.filter(allTags, at => _.findIndex(tags, t => t.id === at.id) < 0)
     const myTags = _.filter(allTags, at => _.findIndex(tags, t => t.id === at.id) >= 0)
 
@@ -187,13 +188,14 @@ class TagsPartial extends React.Component {
             className="btn btn-outline-secondary btn-sm">
             + ADD TAG
           </button>
-          {addTagOpen ?
+        </small>
+        {addTagOpen ?
             <div className="add-tag-container">
-              <div className="add-tag-menu dropdown-menu show mt-1 pt-1">
+              <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
                 {filtered.map(t => (
                   <span
                     key={`entity-${entityId}-tag-${t.id}-${t.color}`}
-                    className="dropdown-item px-2" onClick={() => this._tagEntity(t.id)}>
+                    className="dropdown-item px-2 py-2 cursor-pointer" onClick={() => this._tagEntity(t.id)}>
                       <span className="dot mr-2" style={{backgroundColor: t.color}} />
                       {t.name}
                     </span>
@@ -201,7 +203,7 @@ class TagsPartial extends React.Component {
                 <div className="dropdown-divider" />
                 <div className="px-2 py-2">
                   <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">Create New Tag</label>
                     <input
                       type="text"
                       className="form-control form-control-sm"
@@ -232,7 +234,6 @@ class TagsPartial extends React.Component {
               </div>
             </div>
             : ''}
-        </small>
       </React.Fragment>
     )
   }
