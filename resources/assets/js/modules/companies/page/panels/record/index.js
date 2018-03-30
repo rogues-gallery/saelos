@@ -100,7 +100,7 @@ class Record extends React.Component {
       this._handleInputChange
     )
 
-    if (company.id === null || company.id == 0) {
+    if (company.id == 0) {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 class="text-muted text-center">Select a company on the left to view.</h2>

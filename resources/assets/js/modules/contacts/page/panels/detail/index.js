@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 import moment from 'moment'
+import ChartistGraph from 'react-chartist'
 
 import Opportunities from '../../../../opportunities/partials/_opportunities'
 import Companies from "../../../../companies/partials/_companies"
@@ -50,6 +52,7 @@ const Details = ({contact, dispatch, toggle, user, inEdit}) => (
         </div>
     </div>
     <div className="h-scroll">
+      <StatusTimeline contact={contact} />
       <Opportunities opportunities={contact.opportunities} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
       <Companies companies={contact.companies} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
       <Notes notes={contact.notes} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} user={user} />
@@ -74,6 +77,47 @@ const History = ({activities, dispatch, toggle, inEdit}) => (
     </div>
   </div>
 )
+
+const StatusTimeline = ({contact}) => {
+  const data = {series: [[null, null, null, 1, 1], [1, 1, 1, 1,null]] }
+  const options = {
+    low: 0,
+    high: 2,
+    fullWidth: true,
+    height: "50px",
+    showArea: false,
+    showLabel: false,
+    axisX: {
+      showGrid: false,
+      showLabel: false,
+      offset: 0
+    },
+    axisY: {
+      showGrid: false,
+      showLabel: false,
+      offset: 0
+    }
+  } 
+
+  return (
+    <div className="card ct-container-inverse">
+      <div className="card-header" id="statusTimeline">
+        <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTimeline" aria-expanded="true" aria-controls="collapseTimeline">
+          <MDIcons.MdKeyboardArrowDown /> Snapshot
+        </h6>
+      </div>
+      <div id="collapseTimeline" className="collapse show" aria-labelledby="statusTimeline">
+        <div className="card-body border-bottom">
+          <div className="h1 text-center">{contact.status.name}</div>
+            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Last touched <span className="text-dark">{moment(contact.updated_at).fromNow()}</span></div>
+              <ChartistGraph data={data} options={options} type="Line" className="status-timeline" />
+            <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Next Task</div>
+          <p>{_.find(contact.activities, (a) => { return a.completed == 0 }).name}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 Detail.propTypes = {
   contact: PropTypes.instanceOf(Contact).isRequired,

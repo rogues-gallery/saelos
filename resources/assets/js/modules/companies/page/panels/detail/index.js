@@ -71,13 +71,13 @@ const Details = ({company, dispatch, toggle, user, data, options, inEdit}) => (
     </div>
     <div className="h-scroll">
       <div className="card ct-container">
-        <div className="card-header" id="headingSRI">
-          <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSRI" aria-expanded="true" aria-controls="collapseSRI">
+        <div className="card-header" id="headingSnapshot">
+          <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSnapshot" aria-expanded="true" aria-controls="collapseSRI">
             <MDIcons.MdKeyboardArrowDown /> Snapshot
           </h6>
         </div>
 
-        <div id="collapseSRI" className="collapse show" aria-labelledby="headingSRI">
+        <div id="collapseSnapshot" className="collapse show" aria-labelledby="headingSnapshot">
           <div className="card-body border-bottom">
             <div className="h1 text-center">$65,000</div>
             <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Current <span className="text-dark">Lifetime Value</span></div>
