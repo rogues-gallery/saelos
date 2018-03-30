@@ -10,8 +10,13 @@ import * as MDIcons from "react-icons/lib/md/index"
 import { getViews } from '../user/store/selectors'
 import {fetchContacts} from "./service"
 
-let MyRedirect = ({firstId}) =>
-  <Main><Redirect to={`/contacts/${firstId}`} /></Main>
+let MyRedirect = ({firstId}) => {
+  // update search state to === ''
+
+  return <Main>
+    <Redirect to={`/contacts/${firstId}`} />
+  </Main>
+}
 
 const RedirectToFirst = connect(state => ({
   firstId: getFirstContactId(state)
