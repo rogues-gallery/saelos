@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { fetchContact, fetchContacts } from '../../../service'
-import { getSearchStringForContacts, getCustomFieldsForContacts } from "../../../store/selectors"
+import {getSearchStringForContacts, getCustomFieldsForContacts, getContacts, getPaginationForContacts} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
+import {isInEdit} from "../../../../companies/store/selectors";
 
 class List extends React.Component {
   constructor(props) {
@@ -80,5 +81,8 @@ List.contextTypes = {
 
 export default connect(state => ({
   searchString: getSearchStringForContacts(state),
-  fields: getCustomFieldsForContacts(state)
+  fields: getCustomFieldsForContacts(state),
+  contacts: getContacts(state),
+  inEdit: isInEdit(state),
+  pagination: getPaginationForContacts(state)
 }))(List)

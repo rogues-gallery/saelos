@@ -19,7 +19,7 @@ class TagsPartial extends React.Component {
     this._submit = this._submit.bind(this)
     this._navToSearch = this._navToSearch.bind(this)
     this._tagEntity = this._tagEntity.bind(this)
-    this._openAddTag = this._openAddTag.bind(this)
+    this._toggleAddTag = this._toggleAddTag.bind(this)
 
     this.state = {
       formState: {
@@ -150,9 +150,9 @@ class TagsPartial extends React.Component {
     this._submit(tag)
   }
 
-  _openAddTag() {
+  _toggleAddTag() {
     this.setState({
-      addTagOpen: true
+      addTagOpen: !this.state.addTagOpen
     })
   }
 
@@ -167,17 +167,15 @@ class TagsPartial extends React.Component {
       <React.Fragment>
         <small className="ml-3">
           {myTags.map(t =>
-            <div className="btn-group mr-2">
+            <div key={`entity-${entityId}-tag-${t.id}-${t.color}`} className="btn-group mr-2">
               <button
                 onClick={() => this._navToSearch(`tag:"${t.name}"`)}
-                key={`entity-${entityId}-tag-${t.id}-${t.color}`}
                 style={{backgroundColor: convertHex(t.color, 10), borderColor: t.color, color: t.color}}
                 className="btn btn-outline-secondary btn-sm">
                 {t.name}
               </button>
               <button
                 onClick={() => this._removeTag(t.originalProps)}
-                key={`entity-${entityId}-tag-${t.id}-${t.color}-remove`}
                 style={{backgroundColor: convertHex(t.color, 10), borderColor: t.color, color: t.color}}
                 className="btn btn-outline-secondary btn-sm">
                 <span aria-hidden="true">&times;</span>
@@ -185,7 +183,7 @@ class TagsPartial extends React.Component {
             </div>
           )}
           <button
-            onClick={this._openAddTag}
+            onClick={this._toggleAddTag}
             className="btn btn-outline-secondary btn-sm">
             + ADD TAG
           </button>

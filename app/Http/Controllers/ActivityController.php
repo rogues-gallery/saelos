@@ -57,17 +57,18 @@ class ActivityController extends Controller
         $contact = $data['contact_id'] ?? null;
         $company = $data['company_id'] ?? null;
         $opportunity = $data['opportunity_id'] ?? null;
+        $completed = $data['completed'] ?? false;
 
         if ($contact) {
-            $activity->contact()->save(Contact::find($contact));
+            $activity->contact()->save(Contact::find($contact), [], $completed && !$activity->completed);
         }
 
         if ($company) {
-            $activity->company()->save(Company::find($company));
+            $activity->company()->save(Company::find($company), [], $completed && !$activity->completed);
         }
 
         if ($opportunity) {
-            $activity->opportunity()->save(Opportunity::find($opportunity));
+            $activity->opportunity()->save(Opportunity::find($opportunity), [], $completed && !$activity->completed);
         }
 
         $activity->update($data);

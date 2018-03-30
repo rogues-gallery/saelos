@@ -29,6 +29,7 @@ class Activity extends Model implements SearchableInterface
         'details_id',
         'user_id',
         'sentiment_score',
+        'completed',
     ];
 
     protected $dates = [

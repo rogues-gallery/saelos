@@ -15,8 +15,8 @@ const PrivateNav = ({ user }) => (
 
       if (location === 'main' && user.authorized(roles)) {
         return (
-          <React.Fragment>
-            <NavItem key={`route-nav-item-${i}-main`} path={route.path}>
+          <React.Fragment key={`route-nav-item-${i}-main`}>
+            <NavItem path={route.path}>
               <i className="h5 mr-2">
                 <Icon />
               </i>

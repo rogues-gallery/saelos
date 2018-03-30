@@ -1,19 +1,14 @@
-import { connect } from 'react-redux';
-import Page from './Page';
-import {
-	getContacts, 
-	getPaginationForContacts,
-	isStateDirty,
-	getSearchStringForContacts,
-	getFirstContactId,
-	isInEdit
-} from '../store/selectors'
+import React from 'react'
+import List from './panels/list'
+import Record from './panels/record'
+import Detail from './panels/detail'
 
-export default connect(state => ({
-  contacts: getContacts(state),
-  isDirty: isStateDirty(state),
-  pagination: getPaginationForContacts(state),
-  searchString: getSearchStringForContacts(state),
-  firstContactId: getFirstContactId(state),
-  inEdit: isInEdit(state),
-}))(Page);
+const Page = () => (
+  <React.Fragment>
+    <List />
+    <Record />
+    <Detail />
+  </React.Fragment>
+)
+
+export default Page;

@@ -6,12 +6,14 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import moment from 'moment'
 import ChartistGraph from 'react-chartist'
+import { NavLink } from 'react-router-dom'
 
 import Opportunities from '../../../../opportunities/partials/_opportunities'
 import Companies from "../../../../companies/partials/_companies"
 import Contact from '../../../Contact'
 import Notes from '../../../../notes/partials/_notes'
 import {getContact, getFirstContactId, isStateDirty} from '../../../store/selectors'
+import {isInEdit} from "../../../../companies/store/selectors";
 
 class Detail extends React.Component {
   constructor(props) {
@@ -46,10 +48,10 @@ class Detail extends React.Component {
 const Details = ({contact, dispatch, toggle, user, inEdit}) => (
   <div className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom  py-2 heading">
-        <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed r-0 mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
-        <div className="pt-1 mt-1 h5 text-center">
-          Contact Details
-        </div>
+      <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed r-0 mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
+      <div className="pt-1 mt-1 h5 text-center">
+        Contact Details
+      </div>
     </div>
     <div className="h-scroll">
       <StatusTimeline contact={contact} />
@@ -68,12 +70,12 @@ const History = ({activities, dispatch, toggle, inEdit}) => (
     </div>
     <div className="h-scroll history">
       {activities.map(activity => (
-          <div className="list-group-item" key={`activity-history-${activity.id}`}>
-            <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
-            <div className="activity"><b>{activity.name}</b></div>
-            <div dangerouslySetInnerHTML={{__html: activity.description}} />
-          </div>
-          ))}
+        <div className="list-group-item" key={`activity-history-${activity.id}`}>
+          <span className="text-muted float-right mini-text">{moment(activity.created_at).fromNow()}</span>
+          <div className="activity"><b>{activity.name}</b></div>
+          <div dangerouslySetInnerHTML={{__html: activity.description}} />
+        </div>
+      ))}
     </div>
   </div>
 )
@@ -97,7 +99,12 @@ const StatusTimeline = ({contact}) => {
       showLabel: false,
       offset: 0
     }
-  } 
+  }
+
+  const firstNotCompleted = _.find(contact.activities, a => !a.completed)
+  const link = firstNotCompleted
+    ? <NavLink to={`/headquarters/${firstNotCompleted.id}`}>{firstNotCompleted.name}</NavLink>
+    : 'All caught up!'
 
   return (
     <div className="card ct-container-inverse">
@@ -109,10 +116,10 @@ const StatusTimeline = ({contact}) => {
       <div id="collapseTimeline" className="collapse show" aria-labelledby="statusTimeline">
         <div className="card-body border-bottom">
           <div className="h1 text-center">{contact.status.name}</div>
-            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Last touched <span className="text-dark">{moment(contact.updated_at).fromNow()}</span></div>
-              <ChartistGraph data={data} options={options} type="Line" className="status-timeline" />
-            <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Next Task</div>
-          <p>{_.find(contact.activities, (a) => { return a.completed == 0 }).name}</p>
+          <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Last touched <span className="text-dark">{moment(contact.updated_at).fromNow()}</span></div>
+          <ChartistGraph data={data} options={options} type="Line" className="status-timeline" />
+          <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Next Task</div>
+          <p>{link}</p>
         </div>
       </div>
     </div>
@@ -127,5 +134,6 @@ Detail.propTypes = {
 export default withRouter(connect((state, ownProps) => ({
   contact: getContact(state, ownProps.match.params.id || getFirstContactId(state)),
   user: state.user,
-  isFetching: isStateDirty(state)
+  isFetching: isStateDirty(state),
+  inEdit: isInEdit(state)
 }))(Detail))

@@ -7,6 +7,7 @@ import { fetchContactFields } from './modules/contacts/service'
 import { fetchCompanyFields } from './modules/companies/service'
 import { fetchOpportunityFields } from './modules/opportunities/service'
 import { fetchUser } from './modules/auth/service'
+import {fetchTags} from "./modules/tags/service";
 
 class Main extends Component {
   componentWillMount() {
@@ -22,6 +23,7 @@ class Main extends Component {
       dispatch(fetchContactFields())
       dispatch(fetchCompanyFields())
       dispatch(fetchOpportunityFields())
+      dispatch(fetchTags())
     }
   }
 

@@ -2,14 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getActivity, getFirstActivityId } from "../../../../activities/store/selectors"
+import { getActivity } from "../../../../activities/store/selectors"
 import { ActionView } from '../../../../contacts/page/panels/record/components'
 import { Link } from "react-router-dom"
-import TextTruncate from 'react-text-truncate'
 import { Money } from 'react-format'
-
-import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
+import {deleteActivity, saveActivity} from "../../../../activities/service"
+import _ from 'lodash'
 
 
 class Record extends React.Component {
@@ -17,34 +16,37 @@ class Record extends React.Component {
     super(props)
 
     this._submit = this._submit.bind(this)
-    this._handleInputChange = this._handleInputChange.bind(this)
-    this._archive = this._archive.bind(this)
+    this._complete = this._complete.bind(this)
     this._delete = this._delete.bind(this)
+
+    this.state = {
+      formState: props.activity.originalProps
+    }
   }
 
-  _archive() {
+  _complete() {
+    const { formState } = this.state
 
+    _.set(formState, 'completed', 1)
+
+    this._submit(formState)
   }
 
-  _delete () {
+  _submit(state) {
+    const submitData = state.id ? state : this.state.formState
 
+    this.props.dispatch(saveActivity(submitData))
   }
 
-  _submit() {
-    
-  }
-
-  // @todo: Abstract this out
-  _handleInputChange(event) {
-   
+  _delete() {
+    this.props.dispatch(deleteActivity(this.props.activity.id))
   }
 
   render() {
     const { activity } = this.props
     const actionView = activity.details_type === 'App\\CallActivity' ? 'call' : 'email'
 
-
-     if (activity.id === null && this.props.match.params.id !== 'new') {
+    if (activity.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">Select a task on the left to get started.</h2>
@@ -55,8 +57,7 @@ class Record extends React.Component {
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading list-inline">
-          <button className="btn btn-primary mr-3 btn-sm list-inline-item"><span className="h5"><MDIcons.MdCheck /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._archive}><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
+          <button className="btn btn-primary mr-3 btn-sm list-inline-item" onClick={this._complete}><span className="h5"><MDIcons.MdCheck /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
           <div className="float-right text-right pt-2">
@@ -77,20 +78,20 @@ class Record extends React.Component {
           </div>
           <div className="row">
             {activity.contact ?
-            <div className="col-12">
-              <div className="card mb-1">
-                <ul className="list-group list-group-flush">
-                  <li key="company" className="list-group-item">
-                    <div className="mini-text text-muted">Contact Information</div>
-                    <div className="py-2">
-                      <p className="font-weight-bold"><Link className="hidden-link" to={`/contacts/${activity.contact.id}`}>{activity.contact.first_name} {activity.contact.last_name}</Link></p>
-                      <p className=""><Link className="hidden-link" to={`/companies/${activity.contact.company.id}`}>{activity.contact.company.name}</Link></p>
-                      <p className="text-muted">{activity.contact.address1} {activity.contact.city} {activity.contact.state} {activity.contact.zip}</p>
-                    </div>
-                  </li>
-                </ul>
+              <div className="col-12">
+                <div className="card mb-1">
+                  <ul className="list-group list-group-flush">
+                    <li key="company" className="list-group-item">
+                      <div className="mini-text text-muted">Contact Information</div>
+                      <div className="py-2">
+                        <p className="font-weight-bold"><Link className="hidden-link" to={`/contacts/${activity.contact.id}`}>{activity.contact.first_name} {activity.contact.last_name}</Link></p>
+                        <p className=""><Link className="hidden-link" to={`/companies/${activity.contact.company.id}`}>{activity.contact.company.name}</Link></p>
+                        <p className="text-muted">{activity.contact.address1} {activity.contact.city} {activity.contact.state} {activity.contact.zip}</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
               : ''}
             <div className="col-12">
               <div className="card mb-1">
