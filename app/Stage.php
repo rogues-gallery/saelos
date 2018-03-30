@@ -12,6 +12,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Stage extends Model
 {
+    protected $guarded = [
+        'id',
+        'opportunities',
+        'userOpportunities',
+        'teamOpportunities',
+    ];
+
     public function opportunities()
     {
         return $this->hasMany(Opportunity::class);
