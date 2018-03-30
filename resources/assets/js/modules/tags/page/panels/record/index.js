@@ -12,6 +12,7 @@ class Record extends React.Component {
     super(props)
 
     this._submit = this._submit.bind(this)
+    this._toggleEdit = this._toggleEdit.bind(this)
     this._handleInputChange = this._handleInputChange.bind(this)
     this._delete = this._delete.bind(this)
     this._openRecord = this._openRecord.bind(this)
@@ -35,6 +36,10 @@ class Record extends React.Component {
 
   _submit() {
     this.props.dispatch(saveTag(this.state.formState))
+  }
+
+  _toggleEdit() {
+    return this.setState({inEdit: !this.state.inEdit})
   }
 
   // @todo: Abstract this out
@@ -79,52 +84,63 @@ class Record extends React.Component {
     }
 
     return (
-      <main className="col main-panel px-3">
-        <h4 className="border-bottom py-3">
-          <button className="float-right btn btn-primary mr-3 list-inline-item" onClick={this._submit}>Save</button>
-          Edit Tag: {tag.name}
+      <main className="col main-panel">
+        <h4 className="border-bottom pl-3 py-3 mb-0">
+          <div className="float-right ">
+            <button className="btn btn-link list-inline-item" onClick={this._submit}>Delete</button>
+            <button className="btn btn-primary mr-3 list-inline-item" onClick={this._toggleEdit}>Edit</button>
+          </div>
+          <span className="dot mr-1" style={{backgroundColor: tag.color}} /> {tag.name}
         </h4>
 
-        <div> {/* Do something to toggle inEdit */}
-          <div className="card mb-1">
-            <ul className={`list-group list-group-flush`}>
-			        <li className="list-group-item">
-			          <div className={`form-group mb-2`}>
-		              <label htmlFor="tagName" className="">Name</label>
-		              <div className="">
-		                <input type="text" id="tagName" name="name" onChange={this._handleInputChange} className="form-control" value={formState.name} />
-		              </div>
-	            	</div>
-	            	<div className={`form-group mb-2`}>
-		              <label htmlFor="tagColor" className="">Color</label>
-		              <div className="">
-                    <input onFocus={() => this.setState({pickerOpen: true})} defaultValue={formState.color} className="form-control" style={{color: formState.color}} />
-                    {pickerOpen ?
-                      <CirclePicker
-                        color={formState.color}
-                        name="tagColor"
-                        onChangeComplete={(color) => {
-                          const event = {
-                            target: {
-                              name: 'color',
-                              value: color.hex
+        {this.state.inEdit ?
+          <div className="border-bottom"> {/* Do something to toggle inEdit */}
+            <div className="card mx-2 my-2">
+              <ul className={`list-group list-group-flush`}>
+  			        <li className="list-group-item">
+  			          <div className={`form-group mb-2`}>
+  		              <label htmlFor="tagName" className="">Name</label>
+  		              <div className="">
+  		                <input type="text" id="tagName" name="name" onChange={this._handleInputChange} className="form-control" value={formState.name} />
+  		              </div>
+  	            	</div>
+  	            	<div className={`form-group mb-2`}>
+  		              <label htmlFor="tagColor" className="">Color</label>
+  		              <div className="">
+                      <input onFocus={() => this.setState({pickerOpen: true})} defaultValue={formState.color} className="form-control" style={{color: formState.color}} />
+                      {pickerOpen ?
+                        <CirclePicker
+                          color={formState.color}
+                          name="tagColor"
+                          onChangeComplete={(color) => {
+                            const event = {
+                              target: {
+                                name: 'color',
+                                value: color.hex
+                              }
                             }
-                          }
 
-                          this._handleInputChange(event)
-                        }}
-                        placeholder={tag.color} />
-                      : ''}
-		              </div>
-	            	</div>
-	            </li>
-			      </ul>
+                            this._handleInputChange(event)
+                          }}
+                          placeholder={tag.color} />
+                        : ''}
+  		              </div>
+  	            	</div>
+  	             <button className="btn btn-primary mr-3 list-inline-item" onClick={this._submit}>Save</button>
+                 <button className="btn btn-link mr-3 list-inline-item" onClick={this._toggleEdit}>Cancel</button>
+                </li>
+  			      </ul>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col list-panel border-right">
+        : '' }
+        <div className="row no-gutters">
+          <div className="col border-right pr-0">
+            <div className="position-relative py-2 border-bottom">
+              <div className="pt-1 mt-1 h5 text-center">
+                Contacts
+              </div>
+            </div>
             <div className="list-group h-scroll">
-              <h1>Contacts</h1>
               {contacts.map(contact => (
                 <div
                   key={`contact-list-${contact.id}`}
@@ -137,9 +153,13 @@ class Record extends React.Component {
               ))}
             </div>
           </div>
-          <div className="col list-panel border-right">
+          <div className="col border-right px-0">
+            <div className="position-relative py-2 border-bottom">
+              <div className="pt-1 mt-1 h5 text-center">
+                Companies
+              </div>
+            </div>
             <div className="list-group h-scroll">
-              <h1>Companies</h1>
               {companies.map(company => (
                 <div
                   key={`company-list-${company.id}`}
@@ -152,9 +172,13 @@ class Record extends React.Component {
               ))}
             </div>
           </div>
-          <div className="col list-panel border-right">
+          <div className="col border-right pl-0">
+            <div className="position-relative py-2 border-bottom">
+              <div className="pt-1 mt-1 h5 text-center">
+                Opportunities
+              </div>
+            </div>
             <div className="list-group h-scroll">
-              <h1>Opportunities</h1>
               {opportunities.map(opportunity => (
                 <div
                   key={`opportunity-list-${opportunity.id}`}
