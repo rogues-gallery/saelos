@@ -35,7 +35,7 @@ class Record extends React.Component {
   }
 
   _submit() {
-    this.props.dispatch(saveTag(this.state.formState))
+    this.props.dispatch(saveTag(this.state.formState)).then(this._toggleEdit)
   }
 
   _toggleEdit() {
