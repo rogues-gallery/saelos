@@ -26,7 +26,7 @@ class TagController extends Controller
 
     public function index()
     {
-        return new TagCollection(Tag::with(static::INDEX_WITH)->paginate());
+        return new TagCollection(Tag::with(static::INDEX_WITH)->paginate(1000));
     }
 
     public function show($id)
@@ -40,11 +40,11 @@ class TagController extends Controller
         $tag = Tag::findOrFail($id);
         $data = $request->all();
         $contactId = $data['contact_id'] ?? null;
-        $contacts = $data['contacts'] ?? [];
+        $contacts = $data['contacts'] ?? $tag->contacts()->get()->all();
         $companyId = $data['company_id'] ?? null;
-        $companies = $data['companies'] ?? [];
+        $companies = $data['companies'] ?? $tag->companies()->get()->all();
         $opportunityId = $data['opportunity_id'] ?? null;
-        $opportunities = $data['opportunities'] ?? [];
+        $opportunities = $data['opportunities'] ?? $tag->opportunities()->get()->all();
 
         $contactIds = array_map(function($c) { return $c['id']; }, $contacts);
 
