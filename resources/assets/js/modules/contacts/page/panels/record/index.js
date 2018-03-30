@@ -124,6 +124,14 @@ class Record extends React.Component {
       this._submit()
     }
 
+    if (contact.id === null || contact.id == 0) {
+      return (
+        <main className="col main-panel px-3 align-self-center">
+          <h2 class="text-muted text-center">Select a contact on the left to view.</h2>
+        </main>
+        )
+    }
+
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading list-inline">

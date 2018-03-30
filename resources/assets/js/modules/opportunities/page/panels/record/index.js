@@ -99,6 +99,14 @@ class Record extends React.Component {
       this._handleInputChange
     )
 
+    if (opportunity.id === null || opportunity.id == 0) {
+      return (
+        <main className="col main-panel px-3 align-self-center">
+          <h2 class="text-muted text-center">Select an opportunity on the left to view.</h2>
+        </main>
+        )
+    }
+
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading">

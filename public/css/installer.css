@@ -3358,15 +3358,6 @@ body {
   margin-bottom: 35px;
 }
 
-.text-center {
-  text-align: center;
-}
-
-.form-control {
-  height: 14px;
-  width: 100%;
-}
-
 .has-error {
   color: #ff0000;
 }
@@ -3385,42 +3376,6 @@ body {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
-}
-
-input[type='text'] {
-  outline: none;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  padding: 10px 12px;
-  width: calc(100% - 24px);
-  margin: 0 auto 1em;
-}
-
-input[type='password'] {
-  outline: none;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  padding: 10px 12px;
-  width: calc(100% - 24px);
-  margin: 0 auto 1em;
-}
-
-input[type='url'] {
-  outline: none;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  padding: 10px 12px;
-  width: calc(100% - 24px);
-  margin: 0 auto 1em;
-}
-
-input[type='number'] {
-  outline: none;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  padding: 10px 12px;
-  width: calc(100% - 24px);
-  margin: 0 auto 1em;
 }
 
 .tabs {
@@ -3460,14 +3415,6 @@ input[type='number'] {
 
 .tabs .tab > *:last-child {
   margin-bottom: 0;
-}
-
-.float-left {
-  float: left;
-}
-
-.float-right {
-  float: right;
 }
 
 .buttons-container {
@@ -3649,7 +3596,7 @@ svg:not(:root) {
 
 .step__item.active .step__icon:hover,
 .step__item.active ~ .step__item .step__icon:hover {
-  background-color: #3d657b;
+  background-color: #6e0e14;
 }
 
 .form-group.has-error select {
