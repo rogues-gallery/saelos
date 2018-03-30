@@ -1,4 +1,3 @@
-// import libs
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -23,7 +22,7 @@ const PrivateNav = ({ user }) => (
               </i>
               {linkText}
             </NavItem>
-            {route.menu.subLinks ? 
+            {route.menu.subLinks ?
               <SubLinks />
             : '' }
           </React.Fragment>

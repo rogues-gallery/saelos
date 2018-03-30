@@ -9,6 +9,7 @@ import * as MDIcons from 'react-icons/lib/md'
 import {editingCompany, editingCompanyFinished} from "../../../store/actions"
 import {renderGroupedFields} from "../../../../../utils/helpers/fields"
 import Conversations from "../../../../conversations/partials/_conversations"
+import TagsPartial from '../../../../tags/partials/tags'
 
 
 class Record extends React.Component {
@@ -124,8 +125,9 @@ class Record extends React.Component {
           </span>
         }
         <h4 className="border-bottom py-3">
-          {company.name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
-        </h4>
+          {company.name}
+          <TagsPartial tags={company.tags} entityId={company.id} entityType="App\Company" />
+      </h4>
 
         <div className="h-scroll">
           <div className="card mb-1">

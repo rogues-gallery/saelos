@@ -170,7 +170,7 @@ class Record extends React.Component {
         }
         <h4 className="border-bottom py-3">
           {contact.first_name} {contact.last_name}
-          <TagsPartial tags={contact.tags} />
+          <TagsPartial tags={contact.tags} entityId={contact.id} entityType="App\Contact" />
         </h4>
 
         <div className="h-scroll">
