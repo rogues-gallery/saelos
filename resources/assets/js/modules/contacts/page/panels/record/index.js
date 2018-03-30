@@ -10,7 +10,8 @@ import Conversations from '../../../../conversations/partials/_conversations'
 import { ActionView } from './components'
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
-import {renderGroupedFields} from "../../../../../utils/helpers/fields";
+import {renderGroupedFields} from "../../../../../utils/helpers/fields"
+import TagsPartial from '../../../../tags/partials/tags'
 
 
 class Record extends React.Component {
@@ -150,7 +151,7 @@ class Record extends React.Component {
         {this.state.actionView !== "none" ?
           <div className="border-bottom">
             <div className="card actionView my-2">
-              <ActionView view={this.state.actionView} contact={contact} user={user} />
+              <ActionView view={this.state.actionView} toggle={this._setActionView} contact={contact} user={user} />
             </div>
           </div>
           :
@@ -168,7 +169,8 @@ class Record extends React.Component {
           </span>
         }
         <h4 className="border-bottom py-3">
-          {contact.first_name} {contact.last_name} <small className="ml-3"><button type="button" className="btn btn-outline-secondary btn-sm">+ ADD TAG</button></small>
+          {contact.first_name} {contact.last_name}
+          <TagsPartial tags={contact.tags} />
         </h4>
 
         <div className="h-scroll">

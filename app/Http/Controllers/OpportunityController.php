@@ -27,6 +27,7 @@ class OpportunityController extends Controller
         'notes',
         'notes.document',
         'notes.user',
+        'tags',
     ];
 
     const SHOW_WITH = [
@@ -45,6 +46,7 @@ class OpportunityController extends Controller
         'notes',
         'notes.document',
         'notes.user',
+        'tags',
     ];
 
     public function index(Request $request)

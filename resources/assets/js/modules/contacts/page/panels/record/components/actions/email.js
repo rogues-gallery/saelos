@@ -13,12 +13,13 @@ class EmailAction extends Component {
     this._handleInputChange = this._handleInputChange.bind(this)
     this._handleContentChange = this._handleContentChange.bind(this)
     this._submit = this._submit.bind(this)
+    this._cancel = this._cancel.bind(this)
 
     this.state = {
       formState: {
         id: props.contact.id,
-        emailSubject: '',
-        emailContent: '',
+        email_subject: '',
+        email_content: '',
         opportunity_id: null,
         company_id: null
       }
@@ -40,7 +41,7 @@ class EmailAction extends Component {
   _handleContentChange(value) {
     const { formState } = this.state
 
-    formState.emailContent = value
+    formState.email_content = value
 
     this.setState({
       formState
@@ -51,8 +52,23 @@ class EmailAction extends Component {
     this.props.dispatch(emailContact(this.state.formState))
   }
 
+  _cancel() {
+    this.setState({
+      formState: {
+        id: this.props.contact.id,
+        email_subject: '',
+        email_content: '',
+        opportunity_id: null,
+        company_id: null
+      }
+    })
+
+    this.props.toggle('email')
+  }
+
   render() {
     const { contact } = this.props
+    const { formState } = this.state
 
     const opportunityOptions = contact.opportunities.map(o => ({value: o.id, label: o.name}))
     const companyOptions = contact.companies.map(c => ({value: c.id, label: c.name}))
@@ -63,16 +79,16 @@ class EmailAction extends Component {
           <span className="mini-text text-muted font-weight-bold">CC | BCC</span>
         </div>
         <div className="form-group">
-          <label htmlFor="emailSubject">Subject</label>
-          <input type="text" onChange={this._handleInputChange} name="emailSubject" className="form-control" placeholder="Enter email subject" />
+          <label htmlFor="email_subject">Subject</label>
+          <input type="text" onChange={this._handleInputChange} value={formState.email_subject} name="email_subject" className="form-control" placeholder="Enter email subject" />
         </div>
         <div className="form-group">
-          <ReactQuill name="emailContent" onChange={this._handleContentChange} />
+          <ReactQuill name="email_content" onChange={this._handleContentChange} />
         </div>
         <div className="row">
           <div className="col col-sm-4 pt-4">
             <button className="btn btn-primary" onClick={this._submit}>Send</button>
-            <button className="btn btn-link text-muted">Cancel</button>
+            <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
           </div>
 
             {opportunityOptions.length ?

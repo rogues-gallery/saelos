@@ -8,7 +8,8 @@ import Note from "../notes/Note"
 import Opportunity from "../opportunities/Opportunity"
 import _ from 'lodash'
 import moment from 'moment'
-import Status from "../statuses/Status";
+import Status from "../statuses/Status"
+import Tag from '../tags/Tag'
 
 class Contact extends Model {
   constructor(props) {
@@ -49,6 +50,7 @@ class Contact extends Model {
     this.name = `${props.first_name} ${props.last_name}`
     this.pivot = props.pivot ? props.pivot : {}
     this.status = props.status ? new Status(props.status) : new Status({})
+    this.tags = props.tags && props.tags.map(t => new Tag(t)) || []
 
     const primaryCompany = _.find(this.companies, c => c.primary === 1)
 

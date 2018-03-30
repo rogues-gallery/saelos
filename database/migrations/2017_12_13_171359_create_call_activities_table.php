@@ -20,7 +20,6 @@ class CreateCallActivitiesTable extends Migration
             $table->dateTime('end_date')->nullable();
             $table->uuid('uuid');
             $table->json('details');
-            $table->text('status');
         });
     }
 

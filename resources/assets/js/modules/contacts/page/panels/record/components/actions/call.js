@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {callContact} from "../../../../../service"
+import {callContact, submitCallScore} from "../../../../../service"
 import Contact from "../../../../../Contact"
-import User from "../../../../../../user/User"
 import * as MDIcons from 'react-icons/lib/md'
 import Select from 'react-select'
 
@@ -12,15 +11,18 @@ class CallAction extends Component {
     super(props)
 
     this._handleInputChange = this._handleInputChange.bind(this)
-    this._submit = this._submit.bind(this)
+    this._initCall = this._initCall.bind(this)
+    this._updateSentimentScore = this._updateSentimentScore.bind(this)
+    this._submitScore = this._submitScore.bind(this)
 
     this.state = {
       formState: {
         id: props.contact.id,
-        sentiment: null,
+        sentiment_score: null,
         opportunity_id: null,
         company_id: null
-      }
+      },
+      callState: {}
     }
   }
 
@@ -36,12 +38,34 @@ class CallAction extends Component {
     });
   }
 
-  _submit() {
+  _initCall() {
     this.props.dispatch(callContact(this.state.formState))
+      .then(call => {
+        this.setState({
+          callState: call
+        })
+      })
+  }
+
+  _submitScore() {
+    this.props.dispatch(submitCallScore(this.state.callState))
+  }
+
+  _updateSentimentScore(event) {
+    const { target } = event
+    const { value } = target
+    const { callState } = this.state
+
+    callState.sentiment_score = value
+
+    this.setState({
+      callState
+    });
   }
 
   render() {
     const { contact } = this.props
+    const { callState } = this.state
 
     const opportunityOptions = contact.opportunities.map(o => ({value: o.id, label: o.name}))
     const companyOptions = contact.companies.map(c => ({value: c.id, label: c.name}))
@@ -50,8 +74,16 @@ class CallAction extends Component {
       <div className="card-body callActionView">
         <div className="row">
           <div className="col fw-100 border-right">
-            <button className="btn btn-primary btn-lg w-100 pb-3" onClick={this._submit}><span className="h2"><MDIcons.MdLocalPhone /></span></button>
-            <button className="mt-2 btn btn-outline-primary btn-sm w-100"><span className="">SCORE</span></button>
+            <button
+              className={`btn btn-lg w-100 pb-3 ${callState.id ? 'btn-outline-primary' : 'btn-primary'}`}
+              onClick={this._initCall}>
+              <span className="h2"><MDIcons.MdLocalPhone /></span>
+            </button>
+            <button
+              className={`mt-2 btn btn-sm w-100 ${callState.id ? 'btn-primary' : 'btn-outline-primary'}`}
+              onClick={this._submitScore}>
+              <span className="">SCORE</span>
+            </button>
           </div>
           <div className="col">
             <p>
@@ -59,10 +91,10 @@ class CallAction extends Component {
             </p>
 
             <div className="row pt-3">
-              <div className="col col-sm-4">
+              <div className={`col col-sm-4 ${callState.id ? '' : 'text-muted'}`}>
                 <label htmlFor="repSentiment">Rep Sentiment Score</label>
                 <div className="pt-1">
-                  <input type="range" min="1" max="10" className="slider" name="repSentiment" />
+                  <input type="range" min="1" max="10" className="slider" name="repSentiment" onChange={this._updateSentimentScore} defaultValue="0" />
                 </div>
               </div>
                 {opportunityOptions.length ?
@@ -75,7 +107,7 @@ class CallAction extends Component {
                       const event = {
                         target: {
                           name: 'opportunity_id',
-                          value: value
+                          value: value ? value.value : null
                         }
                       }
 
@@ -96,7 +128,7 @@ class CallAction extends Component {
                       const event = {
                         target: {
                           name: 'company_id',
-                          value: value
+                          value: value ? value.value : null
                         }
                       }
 
@@ -116,6 +148,7 @@ class CallAction extends Component {
 CallAction.propTypes = {
   dispatch: PropTypes.func.isRequired,
   contact: PropTypes.instanceOf(Contact).isRequired,
+  activeCall: PropTypes.object
 }
 
 export default connect()(CallAction)

@@ -2,6 +2,7 @@ import * as types from './action-types'
 import {DELETING_NOTE_SUCCESS, POSTING_NOTE_SUCCESS} from "../../notes/store/action-types"
 import _ from 'lodash'
 import Contact from "../Contact"
+import {CALLING_CONTACT_SUCCESS} from "./action-types";
 
 const initialState = {
   data: [],
@@ -134,6 +135,23 @@ export default function contactReducer(state = initialState, action) {
       return {
         ...state,
         data: updatedDataWithNotes
+      }
+    case CALLING_CONTACT_SUCCESS:
+      const { activity } = action.data
+
+      const contactFromState = _.find(state.data, (c) => c.id === activity.contact[0].id)
+
+      if (! contactFromState) {
+        return state
+      }
+
+      contactFromState.activities.push(activity)
+
+      const updatedDataWithActivity = injectContactIntoState(contactFromState, state.data)
+
+      return {
+        ...state,
+        data: updatedDataWithActivity
       }
     default:
       return state

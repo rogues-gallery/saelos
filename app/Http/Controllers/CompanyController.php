@@ -28,6 +28,7 @@ class CompanyController extends Controller
         'notes',
         'notes.document',
         'notes.user',
+        'tags',
     ];
 
     const SHOW_WITH = [
@@ -48,6 +49,7 @@ class CompanyController extends Controller
         'notes',
         'notes.document',
         'notes.user',
+        'tags',
     ];
 
     public function index(Request $request)

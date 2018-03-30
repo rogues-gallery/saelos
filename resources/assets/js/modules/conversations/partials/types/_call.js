@@ -10,7 +10,7 @@ class ConversationCall extends React.Component {
 	    return (
 				<div className="col pt-3 pb-1 px-0">
 					<audio controls className="w-100">
-					  <source src={conversation.details.recording} type="audio/mpeg" />
+					  <source src={conversation.recording} type="audio/mpeg" />
 						Your browser does not support the audio element.
 					</audio>
 				</div>

@@ -10,17 +10,17 @@ import User from "../../../../../user/User";
 
 class ActionView extends React.Component {
   render() {
-    const { contact, user, view } = this.props
+    const { view, ...rest} = this.props
 
     switch (view) {
       case "email":
-        return <EmailAction contact={contact} user={user} />
+        return <EmailAction {...rest} />
       case "call":
-        return <CallAction contact={contact} user={user} />
+        return <CallAction {...rest} />
       case "sms":
-        return <SmsAction contact={contact} user={user} />
+        return <SmsAction {...rest} />
       case "task":
-        return <TaskAction contact={contact} user={user} />
+        return <TaskAction {...rest} />
       case "merge":
       default:
         return ''

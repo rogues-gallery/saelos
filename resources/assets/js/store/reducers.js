@@ -11,6 +11,7 @@ import stageReducer from '../modules/stages/store/reducer'
 import statusReducer from '../modules/statuses/store/reducer'
 import activityReducer from '../modules/activities/store/reducer'
 import fieldReducer from '../modules/fields/store/reducer'
+import tagReducer from '../modules/tags/store/reducer'
 
 export default combineReducers({
   auth: authReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
   stageState: stageReducer,
   statusState: statusReducer,
   activityState: activityReducer,
-  fieldState: fieldReducer
+  fieldState: fieldReducer,
+  tagState: tagReducer
 });

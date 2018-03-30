@@ -15,13 +15,20 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Activity extends Model implements SearchableInterface
 {
+    protected $touches = [
+        'opportunity',
+        'contact',
+        'company',
+    ];
+
     protected $fillable = [
-        'title',
+        'name',
         'description',
         'due_date',
         'details_type',
         'details_id',
-        'user_id'
+        'user_id',
+        'sentiment_score',
     ];
 
     protected $dates = [
@@ -34,6 +41,11 @@ class Activity extends Model implements SearchableInterface
     protected $guarded = [
         'id',
         'activities',
+        'opportunity',
+        'contact',
+        'company',
+        'user',
+        'details',
     ];
 
     public static function search(array $searchArray, Builder $builder): Builder

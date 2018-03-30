@@ -59,7 +59,7 @@ class ActivityController extends Controller
         $opportunity = $data['opportunity_id'] ?? null;
 
         if ($contact) {
-            $activity->contacts()->save(Contact::find($contact));
+            $activity->contact()->save(Contact::find($contact));
         }
 
         if ($company) {
@@ -67,7 +67,7 @@ class ActivityController extends Controller
         }
 
         if ($opportunity) {
-            $activity->opportunities()->save(Opportunity::find($opportunity));
+            $activity->opportunity()->save(Opportunity::find($opportunity));
         }
 
         $activity->update($data);

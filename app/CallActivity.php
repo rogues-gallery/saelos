@@ -12,6 +12,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CallActivity extends Model
 {
+    protected $touches = [
+        'activity'
+    ];
+
     protected $casts = [
         'details' => 'array',
     ];
@@ -21,6 +25,10 @@ class CallActivity extends Model
         'updated_at',
         'start_date',
         'end_date',
+    ];
+
+    protected $guarded = [
+        'id'
     ];
 
     public function activity()

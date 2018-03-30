@@ -8,9 +8,9 @@ export default [
     auth: true,
     component: Page,
     menu: {
-      icon: MDIcons.MdNetworkCheck,
+      icon: MDIcons.MdPhonelink,
       location: 'main',
-      linkText: 'My Vector',
+      linkText: 'Headquarters',
       subLinks: false,
       roles: false
     }

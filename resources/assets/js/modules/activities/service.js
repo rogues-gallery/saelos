@@ -42,6 +42,8 @@ export const fetchActivities = (params) => (dispatch) => {
   return Http.get('activities', {params: params})
     .then(res => {
       dispatch(actions.fetchingActivitiesSuccess(res.data))
+
+      return res.data
     })
     .catch(err => {
       console.log(err)
@@ -56,6 +58,8 @@ export const saveActivity = (params) => (dispatch) => {
     return Http.patch(`activities/${params.id}`, params)
       .then(res => {
         dispatch(actions.postingActivitySuccess(res.data.data))
+
+        return res.data.data
       })
       .catch(err => {
         console.log(err)

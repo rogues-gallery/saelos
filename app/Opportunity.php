@@ -5,12 +5,14 @@ namespace App;
 use App\Contracts\HasActivitiesInterface;
 use App\Contracts\HasCompaniesInterface;
 use App\Contracts\HasCustomFieldsInterface;
+use App\Contracts\HasTagsInterface;
 use App\Contracts\HasWorkflowsInterface;
 use App\Contracts\SearchableInterface;
 use App\ModelTraits\HasActivitiesTrait;
 use App\ModelTraits\HasCompaniesTrait;
 use App\ModelTraits\HasCustomFieldsTrait;
 use App\ModelTraits\HasNotesTrait;
+use App\ModelTraits\HasTagsTrait;
 use App\ModelTraits\HasWorkflowsTrait;
 use App\ModelTraits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -30,7 +32,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\User                                                        $user
  * @mixin \Eloquent
  */
-class Opportunity extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface
+class Opportunity extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface, HasTagsInterface
 {
     use SoftDeletes;
     use HasActivitiesTrait;
@@ -38,6 +40,7 @@ class Opportunity extends Model implements HasWorkflowsInterface, HasCustomField
     use HasCustomFieldsTrait;
     use HasNotesTrait;
     use HasWorkflowsTrait;
+    use HasTagsTrait;
     use SearchableTrait;
 
     protected $guarded = [

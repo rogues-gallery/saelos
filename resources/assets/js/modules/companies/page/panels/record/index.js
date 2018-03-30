@@ -8,6 +8,7 @@ import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
 import {editingCompany, editingCompanyFinished} from "../../../store/actions"
 import {renderGroupedFields} from "../../../../../utils/helpers/fields"
+import Conversations from "../../../../conversations/partials/_conversations"
 
 
 class Record extends React.Component {
@@ -141,6 +142,7 @@ class Record extends React.Component {
               : ''}
             {companyFields}
           </div>
+          <Conversations dispatch={this.props.dispatch} conversations={_.filter(company.activities, a => a.details_type !== 'App\\FieldUpdateActivity')} />
         </div>
       </main>
     )

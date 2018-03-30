@@ -118,15 +118,34 @@ export const emailContact = (params) => (dispatch) => {
     })
 }
 
+export const smsContact = (params) => (dispatch) => {
+  //dispatch(actions.smsingContact())
+
+  return Http.post(`contacts/${params.id}/sms`, params)
+}
+
 export const callContact = (params) => (dispatch) => {
   dispatch(actions.callingContact())
 
   return Http.post(`/contacts/${params.id}/call`, params)
-    .then(res => dispatch(actions.callingContactSuccess(res.data)))
+    .then(res => {
+        dispatch(actions.callingContactSuccess(res.data))
+
+        return res.data.success ? res.data.activity : {}
+      }
+    )
     .catch(err => {
       console.log(err)
       return dispatch(actions.callingContactFailure())
     })
+}
+
+
+
+export const submitCallScore = (params) => (dispatch) => {
+  return Http.patch(`/activities/${params.id}`, params)
+    .then(res => res.data)
+    .catch(err => console.log(err))
 }
 
 /**

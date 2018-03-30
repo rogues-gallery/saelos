@@ -3,6 +3,7 @@
 namespace App\ModelTraits;
 
 use App\Field;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -109,6 +110,29 @@ trait SearchableTrait
                 $query->whereHas('companies', function (Builder $q) use ($criteria, $operator, $val) {
                     $q->where('name', $operator, $val);
                 });
+                break;
+            case 'tag':
+                $query->whereHas('tags', function (Builder $q) use ($criteria, $operator, $val) {
+                    $q->where('name', $operator, $val);
+                });
+                break;
+            case 'assignee':
+                $assignee = $criteria['value'];
+
+                if ($assignee === 'me') {
+                    $assignee = \Auth::user()->id;
+                }
+
+                if (!is_numeric($assignee)) {
+                    $user = User::where('name', $criteria['value'])->first();
+
+                    if ($user) {
+                        $assignee = $user->id;
+                    }
+                }
+
+                $query->where('user_id', $assignee);
+
                 break;
         }
     }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
+use App\CallActivity;
 use App\Mail\Contact as ContactMail;
+use App\SmsActivity;
 use App\User;
 use Auth;
 use App\Company;
@@ -37,6 +40,7 @@ class ContactController extends Controller
         'notes.document',
         'notes.user',
         'status',
+        'tags',
     ];
 
     const SHOW_WITH = [
@@ -59,6 +63,7 @@ class ContactController extends Controller
         'notes.document',
         'notes.user',
         'status',
+        'tags',
     ];
 
     public function index(Request $request)
@@ -184,12 +189,77 @@ class ContactController extends Controller
     public function email(Request $request, int $id)
     {
         $contact = Contact::findOrFail($id);
-        $email = new ContactMail($request->get('emailContent'), $request->get('emailSubject'));
+        $email = new ContactMail($request->get('email_content'), $request->get('email_subject'));
 
         Mail::to($contact->email)
             ->send($email);
 
         return 1;
+    }
+
+    public function sms(Request $request, $id)
+    {
+        $contact = Contact::findOrFail($id);
+        $user = Auth::user();
+        $user->load(['customFields']);
+        $twilioNumberField = $user->customFields()->where('custom_field_alias', 'twilio_number')->first();
+
+        if ($twilioNumberField === null) {
+            return response(['success' => false, 'message' => 'User does not have a valid Twilio phone number.']);
+        }
+
+        try {
+            $client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
+
+            $message = $client->messages->create(
+                $contact->phone,
+                [
+                    'from' => $twilioNumberField->value,
+                    'body' => $request->get('message')
+                ]
+            );
+
+        } catch (\Exception $e) {
+            return response(['success' => false, 'message' => $e->getMessage()]);
+        }
+
+        $details = SmsActivity::create([
+            'uuid' => $message->sid,
+            'details' => [],
+            'start_date' => new \DateTime,
+            'message' => $request->get('message')
+        ]);
+
+        $activity = Activity::create([
+            'name' => 'SMS Sent',
+            'description' => sprintf('%s sent an SMS to %s %s', $user->name, $contact->first_name, $contact->last_name),
+            'user_id' => $user->id,
+            'details_id' => $details->id,
+            'details_type' => SmsActivity::class,
+            'completed' => 1
+        ]);
+
+        $activity->contact()->attach($contact);
+
+        if ($opportunityId = $request->get('opportunity_id')) {
+            $opportunity = Opportunity::find($opportunityId);
+
+            if ($opportunity) {
+                $activity->opportunity()->attach($opportunity);
+            }
+        }
+
+        if ($companyId = $request->get('company_id')) {
+            $company = Company::find($companyId);
+
+            if ($company) {
+                $activity->company()->attach($company);
+            }
+        }
+
+        $activity->load(['company', 'contact', 'opportunity', 'details']);
+
+        return response(['success' => true, 'message' => 'SMS Sent', 'activity' => $activity]);
     }
 
     public function call(Request $request, $id)
@@ -206,7 +276,7 @@ class ContactController extends Controller
         try {
             $client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
 
-            $client->calls->create(
+            $call = $client->calls->create(
                 $user->phone,
                 $twilioNumberField->value,
                 [
@@ -218,7 +288,41 @@ class ContactController extends Controller
             return response(['success' => false, 'message' => $e->getMessage()]);
         }
 
-        return response(['success' => true, 'message' => 'Call initiated']);
+        $details = CallActivity::create([
+            'uuid' => $call->sid,
+            'details' => [],
+            'start_date' => new \DateTime,
+        ]);
+
+        $activity = Activity::create([
+            'name' => 'Phone call placed',
+            'description' => sprintf('%s placed a phone call to %s %s', $user->name, $contact->first_name, $contact->last_name),
+            'user_id' => $user->id,
+            'details_id' => $details->id,
+            'details_type' => CallActivity::class
+        ]);
+
+        $activity->contact()->attach($contact);
+
+        if ($opportunityId = $request->get('opportunity_id')) {
+            $opportunity = Opportunity::find($opportunityId);
+
+            if ($opportunity) {
+                $activity->opportunity()->attach($opportunity);
+            }
+        }
+
+        if ($companyId = $request->get('company_id')) {
+            $company = Company::find($companyId);
+
+            if ($company) {
+                $activity->company()->attach($company);
+            }
+        }
+
+        $activity->load(['company', 'contact', 'opportunity', 'details']);
+
+        return response(['success' => true, 'message' => 'Call initiated', 'activity' => $activity]);
     }
 
     public function outbound(Request $request, $id, $userId)
@@ -227,13 +331,28 @@ class ContactController extends Controller
         $user = User::findOrFail($userId);
 
         // @TODO: Validate contact phone number
-        // @TODO: Create call activity for this user & contact
 
         $twiml = new Twiml();
-        $twiml->dial($contact->phone);
+        $twiml->dial($contact->phone, [
+            'record' => 'record-from-answer-dual',
+            'recordingStatusCallback' => route('api.contacts.outbound.recording', ['id' => $contact->id])
+        ]);
 
         return response($twiml, 200, [
             'Content-Type' => 'text/xml'
+        ]);
+    }
+
+    public function recording(Request $request, $id)
+    {
+        $activity = CallActivity::where('uuid', $request->get('CallSid'))->first();
+
+        $activity->update([
+            'recording' => $request->get('RecordingUrl')
+        ]);
+
+        $activity->activity()->update([
+            'completed' => 1
         ]);
     }
 }

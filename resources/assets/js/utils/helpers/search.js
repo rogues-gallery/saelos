@@ -11,6 +11,8 @@ export const parseSearchString = (string, fields) => {
   options.keywords.push('opportunity')
   options.keywords.push('company')
   options.keywords.push('contact')
+  options.keywords.push('assignee')
+  options.keywords.push('tag')
 
   return parse(string, options)
 }

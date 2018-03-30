@@ -18,10 +18,15 @@ Route::group([
 ], function () {
     Route::prefix('auth')->group(base_path('routes/api/auth.php'));
 
+    Route::post('/contacts/{id}/outbound/recording', 'ContactController@recording')
+        ->name('contacts.outbound.recording');
+
     Route::post('/contacts/{id}/outbound/{user_id}', 'ContactController@outbound')
         ->name('contacts.outbound');
 
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('/contacts/{id}/call', 'ContactController@call');
+        Route::post('/contacts/{id}/sms', 'ContactController@sms');
         Route::post('/contacts/{id}/email', 'ContactController@email');
 
         Route::get('/tasks', function () {
@@ -38,8 +43,6 @@ Route::group([
         Route::get('/contexts/{model}', 'ContextController@show')
             ->where('model', '[a-zA-Z/]+');
 
-        Route::post('contacts/{id}/call', 'ContactController@call');
-
         Route::resource('contacts.notes', 'ContactNoteController');
         Route::resource('companies.notes', 'CompanyNoteController');
         Route::resource('opportunities.notes', 'OpportunityNoteController');
@@ -49,6 +52,9 @@ Route::group([
         Route::resource('companies', 'CompanyController');
 
         Route::resource('stages', 'StageController')
+            ->middleware('scope:admin,manager');
+
+        Route::resource('tags', 'TagController')
             ->middleware('scope:admin,manager');
 
         Route::resource('statuses', 'StatusController')

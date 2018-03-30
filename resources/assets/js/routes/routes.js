@@ -12,6 +12,7 @@ import fieldRoutes from "../modules/fields/routes"
 import configRoutes from "../modules/config/routes"
 import stageRoutes from "../modules/stages/routes"
 import statusRoutes from "../modules/statuses/routes"
+import tagRoutes from "../modules/tags/routes"
 
 export default [
   ...contactRoutes,
@@ -23,6 +24,7 @@ export default [
   ...authRoutes,
   ...configRoutes,
   ...fieldRoutes,
+  ...tagRoutes,
   ...stageRoutes,
   ...statusRoutes,
   ...teamRoutes,

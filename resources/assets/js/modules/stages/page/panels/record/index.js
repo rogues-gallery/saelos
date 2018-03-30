@@ -2,6 +2,7 @@ import React from 'react'
 import {getStage} from "../../../store/selectors"
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
+import {deleteTag} from "../../../../tags/service";
 
 class Record extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class Record extends React.Component {
     const { dispatch, stage} = this.props
 
     if (confirm('Are you sure?')) {
-      dispatch(deleteField(stage.id))
+      dispatch(deleteTag(stage.id))
     }
   }
 
@@ -43,7 +44,7 @@ class Record extends React.Component {
     if (stage.id === null) {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 class="text-muted text-center">Select a stage on the left to edit.</h2>
+          <h2 className="text-muted text-center">Select a stage on the left to edit.</h2>
         </main>
         )
     }
