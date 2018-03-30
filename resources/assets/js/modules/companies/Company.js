@@ -7,6 +7,7 @@ import Note from "../notes/Note";
 import { getCustomFieldsForCompanies } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
 import moment from "moment"
+import Tag from "../tags/Tag";
 
 class Company extends Model {
   constructor(props) {
@@ -41,6 +42,7 @@ class Company extends Model {
     this.notes = props.notes && props.notes.map(n => new Note(n)) || []
     this.opportunities = props.opportunities && props.opportunities.map(d => new Opportunity(d)) || []
     this.activities = props.activities || []
+    this.tags = props.tags && props.tags.map(t => new Tag(t)) || []
   }
 }
 

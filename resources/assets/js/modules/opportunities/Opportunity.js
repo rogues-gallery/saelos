@@ -8,6 +8,7 @@ import Note from "../notes/Note";
 import { getCustomFieldsForOpportunities } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
 import moment from "moment"
+import Tag from "../tags/Tag";
 
 
 class Opportunity extends Model {
@@ -42,6 +43,7 @@ class Opportunity extends Model {
     this.notes = props.notes && props.notes.map(n => new Note(n)) || []
     this.activities = props.activities || []
     this.pivot = props.pivot ? props.pivot : {}
+    this.tags = props.tags && props.tags.map(t => new Tag(t)) || []
 
 
     const primaryCompany = _.find(this.companies, c => c.primary === 1)
