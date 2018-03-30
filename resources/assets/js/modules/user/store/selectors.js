@@ -5,3 +5,6 @@ export const getUser = (state) =>
 
 export const getTeam = (state) =>
 	fromReducer.getTeam(state.user)
+
+export const getViews = (state) =>
+	fromReducer.getViews(state.user)

@@ -19,6 +19,18 @@ class User extends Model {
     this.roles = props.roles || []
 
     this.team = props.team && new Team(props.team) || new Team({})
+    this.views = [
+      {
+        searchString: 'first_name:"Don"',
+        linkText: 'First Name: Don',
+        color: '#565656'
+      },
+      {
+        searchString: 'first_name:"David"',
+        linkText: 'First Name: David',
+        color: '#656565'
+      }
+    ]
   }
 
   authorized(role) {

@@ -82,7 +82,14 @@ class TagController extends Controller
 
     public function destroy($id)
     {
-        Tag::findOrFail($id)->delete();
+        /** @var Tag $tag */
+        $tag = Tag::findOrFail($id);
+
+        $tag->opportunities()->sync([]);
+        $tag->contacts()->sync([]);
+        $tag->companies()->sync([]);
+
+        $tag->delete();
 
         return '';
     }

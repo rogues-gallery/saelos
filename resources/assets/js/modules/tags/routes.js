@@ -7,7 +7,7 @@ import Page from './page'
 import * as MDIcons from 'react-icons/lib/md/index'
 import { getTags } from './store/selectors'
 
-const TagList = ({tags}, context) => {
+const TagList = ({tags}) => {
   return (
     <li className="nav-item">
       <ul className="nav">

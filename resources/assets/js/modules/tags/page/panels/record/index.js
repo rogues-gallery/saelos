@@ -4,7 +4,7 @@ import {getTag} from "../../../store/selectors"
 import {connect} from "react-redux"
 import {withRouter} from "react-router-dom"
 import { CirclePicker } from 'react-color'
-import {deleteTag, fetchTag, saveTag} from "../../../service"
+import {deleteTag, fetchTag, fetchTags, saveTag} from "../../../service"
 import moment from "moment/moment"
 
 class Record extends React.Component {
@@ -62,7 +62,11 @@ class Record extends React.Component {
     const { dispatch, tag } = this.props
 
     if (confirm('Are you sure?')) {
-      dispatch(deleteTag(tag.id))
+      dispatch(deleteTag(tag.id)).then(() =>
+        dispatch(fetchTags({page: 1}))
+      )
+
+      this.context.router.history.push('/tags');
     }
   }
 
@@ -87,7 +91,7 @@ class Record extends React.Component {
       <main className="col main-panel">
         <h4 className="border-bottom pl-3 py-3 mb-0">
           <div className="float-right ">
-            <button className="btn btn-link list-inline-item" onClick={this._submit}>Delete</button>
+            <button className="btn btn-link list-inline-item" onClick={this._delete}>Delete</button>
             <button className="btn btn-primary mr-3 list-inline-item" onClick={this._toggleEdit}>Edit</button>
           </div>
           <span className="dot mr-1" style={{backgroundColor: tag.color}} /> {tag.name}

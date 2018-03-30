@@ -43,7 +43,7 @@ class Record extends React.Component {
     if (user.id === null) {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 class="text-muted text-center">Select a user on the left to edit.</h2>
+          <h2 className="text-muted text-center">Select a user on the left to edit.</h2>
         </main>
         )
     }

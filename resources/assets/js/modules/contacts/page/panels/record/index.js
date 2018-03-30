@@ -127,7 +127,7 @@ class Record extends React.Component {
     if (contact.id === null || contact.id == 0) {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 class="text-muted text-center">Select a contact on the left to view.</h2>
+          <h2 className="text-muted text-center">Select a contact on the left to view.</h2>
         </main>
         )
     }

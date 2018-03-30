@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { parseSearchString } from '../../utils/helpers'
 import ContentEditable from 'react-contenteditable'
 import * as MDIcons from 'react-icons/lib/md'
+import {getViews} from "../../modules/user/store/selectors";
 
 class AdvancedSearch extends React.Component {
   constructor(props) {
@@ -14,6 +15,8 @@ class AdvancedSearch extends React.Component {
     this._buildHtmlFromSearchString = this._buildHtmlFromSearchString.bind(this)
     this._onKeyPress = this._onKeyPress.bind(this)
     this._submit = this._submit.bind(this)
+    this._removeView = this._removeView.bind(this)
+    this._addView = this._addView.bind(this)
 
     this.state = {
       searchString: props.searchString
@@ -72,8 +75,19 @@ class AdvancedSearch extends React.Component {
     }) || value
   }
 
+  _removeView() {
+    // @TODO
+  }
+
+  _addView() {
+    // @TODO
+  }
+
   render() {
     const { searchString } = this.state
+    const { views } = this.props
+    const viewSearchStrings = views.map(v => v.searchString)
+
 
     return (
       <div className="position-relative px-3 pt-4 bg-white border-bottom">
@@ -87,10 +101,16 @@ class AdvancedSearch extends React.Component {
               style={{position:"relative", verticalAlign:"top"}}
               onKeyPress={this._onKeyPress}
               onChange={this._handleOnChange}
-              defaultValue={searchString}
+              value={searchString}
             />
             <div className="input-group-append">
-              <button className="btn btn-outline border"><span className="text-muted"><MDIcons.MdRestore /></span></button>
+              <button className="btn btn-outline border">
+                {viewSearchStrings.includes(searchString)
+                ? <span className="text-danger" onClick={this._removeView}><MDIcons.MdDoNotDisturb /></span>
+                : <span className="text-muted" onClick={this._addView}><MDIcons.MdRestore /></span>
+                }
+
+              </button>
             </div>
         </div>
         <div className="micro-text row text-center pt-3 pb-2">
@@ -106,9 +126,10 @@ AdvancedSearch.propTypes = {
   dispatch: PropTypes.func.isRequired,
   searchString: PropTypes.string.isRequired,
   searchFunc: PropTypes.func.isRequired,
-  searchFields: PropTypes.object.isRequired
+  searchFields: PropTypes.object.isRequired,
+  views: PropTypes.array.isRequired
 }
 
 export default connect(state => ({
-
+  views: getViews(state)
 }))(AdvancedSearch)

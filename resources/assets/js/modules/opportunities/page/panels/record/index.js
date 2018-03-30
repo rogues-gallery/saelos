@@ -102,7 +102,7 @@ class Record extends React.Component {
     if (opportunity.id === null || opportunity.id == 0) {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 class="text-muted text-center">Select an opportunity on the left to view.</h2>
+          <h2 className="text-muted text-center">Select an opportunity on the left to view.</h2>
         </main>
         )
     }

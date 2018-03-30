@@ -40,3 +40,4 @@ export default reducer
 
 export const getUser = (state) => new User(state)
 export const getTeam = (state) => getUser(state).team
+export const getViews = (state) => getUser(state).views
