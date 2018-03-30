@@ -9,8 +9,8 @@
         <link rel="icon" type="image/png" href="{{ asset('installer/img/favicon/favicon-16x16.png') }}" sizes="16x16"/>
         <link rel="icon" type="image/png" href="{{ asset('installer/img/favicon/favicon-32x32.png') }}" sizes="32x32"/>
         <link rel="icon" type="image/png" href="{{ asset('installer/img/favicon/favicon-96x96.png') }}" sizes="96x96"/>
-        <link href="{{ asset('installer/css/style.min.css') }}" rel="stylesheet"/>
-        @yield('style')
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/installer.css') }}" rel="stylesheet"/>
         <script>
             window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
@@ -21,7 +21,7 @@
         <div class="master">
             <div class="box">
                 <div class="header">
-                    <h1 class="header__title">@yield('title')</h1>
+                    <h1 class="header__title">Saelos Installer</h1>
                 </div>
                 <ul class="step">
                     <li class="step__divider"></li>

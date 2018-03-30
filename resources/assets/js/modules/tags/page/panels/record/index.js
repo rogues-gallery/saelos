@@ -2,7 +2,7 @@ import React from 'react'
 import {getTag} from "../../../store/selectors"
 import {connect} from "react-redux"
 import {withRouter} from "react-router-dom"
-import { TwitterPicker } from 'react-color'
+import { CirclePicker } from 'react-color'
 import {deleteTag, saveTag} from "../../../service";
 
 class Record extends React.Component {
@@ -79,9 +79,9 @@ class Record extends React.Component {
 	            	<div className={`form-group mb-2`}>
 		              <label htmlFor="tagColor" className="">Color</label>
 		              <div className="">
-                    <input readOnly onFocus={() => this.setState({pickerOpen: true})} value={formState.color} className="form-control" style={{color: formState.color}} />
+                    <input onFocus={() => this.setState({pickerOpen: true})} defaultValue={formState.color} className="form-control" style={{color: formState.color}} />
                     {pickerOpen ?
-                      <TwitterPicker
+                      <CirclePicker
                         color={formState.color}
                         name="tagColor"
                         onChangeComplete={(color) => {

@@ -620,6 +620,11 @@ a:hover {
   border-radius: 50%;
 }
 
-.twitter-picker {
+.circle-picker {
   position:absolute !important;
+  background: #FFFFFF;
+  margin-top: .5rem;
+  border: 1px solid $gray-200;
+  border-radius: 4px;
+  padding: 1rem;
 }

@@ -1,5 +1,5 @@
-import Page from './page';
-import * as MDIcons from "react-icons/lib/md/index";
+import Page from './page'
+import * as MDIcons from "react-icons/lib/md/index"
 
 export default [
   {

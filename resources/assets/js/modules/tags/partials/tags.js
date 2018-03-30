@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { convertHex } from '../../../utils/helpers/graphics'
 
 class TagsPartial extends React.Component {
   constructor(props) {
@@ -30,15 +31,14 @@ class TagsPartial extends React.Component {
     const { addingNew } = this.state
 
     return (
-      <React.Fragment>
-        <div className="tags-container">
+      <React.Fragment>        
           <small className="ml-3">
           {tags.map(t =>
             <button
               onClick={this._navToSearch}
-              key={`entity-${entityId}-tag-${t.id}`}
-              style={{backgroundColor: t.color}}
-              className="btn btn-outline-secondary btn-sm">
+              key={`entity-${entityId}-tag-${t.id} - ${t.color}`}
+              style={{backgroundColor: convertHex(t.color, 10), borderColor: t.color, color: t.color}}
+              className="btn btn-outline-secondary btn-sm mr-2">
               {t.name}
             </button>
           )}
@@ -48,7 +48,6 @@ class TagsPartial extends React.Component {
               + ADD TAG
             </button>
           </small>
-        </div>
       </React.Fragment>
     )
   }

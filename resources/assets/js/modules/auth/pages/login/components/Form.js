@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 const Form = ({ email, password, remember, errors, handleChange, handleSubmit }) => (
   <form className="form" role="form" onSubmit={handleSubmit} noValidate>
-    <h2 className="card-title">Please sign in</h2>
     <div className="form-group">
       <label htmlFor="email" className="sr-only">Email</label>
       <input type="text"
@@ -43,7 +42,6 @@ const Form = ({ email, password, remember, errors, handleChange, handleSubmit })
     <button className="btn btn-lg btn-primary btn-block"
             type="submit"
             disabled={errors.any()}>Sign In</button>
-    <p>Not a member? <Link to='/register'>Signup here</Link></p>
   </form>
 )
 
