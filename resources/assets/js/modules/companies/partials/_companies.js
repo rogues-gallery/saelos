@@ -167,7 +167,7 @@ class Companies extends React.Component {
               <div key={`company-${company.id}-${entityId}`} onClick={() => this.context.router.history.push(`/companies/${company.id}`)} className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right" />
                 <p>
-                  { company.primary ? <span class="dot bg-primary mini" /> : '' }
+                  { company.primary ? <span className="dot bg-primary mini" /> : '' }
                   <strong>{company.name}</strong>
                   <br />{company[secondaryDetail]}</p>
               </div>

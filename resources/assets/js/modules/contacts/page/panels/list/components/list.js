@@ -24,7 +24,7 @@ const Contact = ({ contact, dispatch, router, view }) => {
     <div onClick={() => openContactRecord(contact.id, view)} className="list-group-item list-group-item-action align-items-start">
       <p className="mini-text text-muted float-right"><b>{contact.status.name}</b></p>
       <p>
-        { contact.pivot.primary ? <span class="dot bg-primary mini" /> : '' }
+        { contact.pivot.primary ? <span className="dot bg-primary mini" /> : '' }
         <strong>{contact.first_name} {contact.last_name}</strong>
         <br />{contact.company.name}
       </p>
