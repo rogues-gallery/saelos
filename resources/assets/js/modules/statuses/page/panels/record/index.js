@@ -58,7 +58,7 @@ class Record extends React.Component {
     }
   }
 
-	render() {  
+	render() {
     const { status, user } = this.props
     const { formState } = this.state
 

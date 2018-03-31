@@ -95,7 +95,7 @@ a:hover {
   background: #353637;
 }
 
-.notes-partial-edit { 
+.notes-partial-edit {
   .list-group-item-action:hover {
   background: $white !important;
   }
@@ -132,7 +132,7 @@ a:hover {
   .active > h6 {
     font-weight: 500;
   }
-  
+
   .active > .text-muted, .active > p {
     font-weight: 200;
   }
@@ -162,7 +162,7 @@ a:hover {
 
   .h-scroll {
     height: calc(100vh - 120px);
-  
+
     .card:last-child {
       margin-bottom: 1rem !important;
     }
@@ -209,7 +209,7 @@ a:hover {
   max-width: 300px;
 
   .h-scroll {
-    height: calc(100vh - 97px); 
+    height: calc(100vh - 97px);
   }
 
   .list-group-item {
@@ -221,13 +221,13 @@ a:hover {
   }
 }
 
-/* 
+/*
 * Nav Panel
 */
 .nav-panel {
   flex: 0 0 180;
   max-width: 180px;
-  
+
   .nav {
     display: inherit;
 
@@ -367,7 +367,7 @@ a:hover {
     appearance: none;
     width: 10px;
     height: 10px;
-    border-radius: 50%; 
+    border-radius: 50%;
     background: $blue;
     cursor: pointer;
 }
@@ -404,11 +404,11 @@ a:hover {
   .ct-series-a .ct-area, .ct-series-a .ct-slice-donut-solid, .ct-series-a .ct-slice-pie {
     fill: $blue;
   }
-  
+
   .ct-series-b .ct-bar, .ct-series-b .ct-line, .ct-series-b .ct-point, .ct-series-b .ct-slice-donut {
     stroke: $gray-200;
   }
-  
+
   .ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
     stroke: $blue;
   }
@@ -418,7 +418,7 @@ a:hover {
   .ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
     stroke: $gray-200;
   }
-  
+
   .ct-series-b .ct-bar, .ct-series-b .ct-line, .ct-series-b .ct-point, .ct-series-b .ct-slice-donut {
     stroke: $blue;
   }
@@ -653,4 +653,15 @@ a:hover {
   background-color: $gray-200;
   border-radius: 50%;
   display: inline-block;
+
+  &.mini {
+      height: 4px;
+      width: 4px;
+      margin: 0 5px 1px -12px;
+  }
+}
+
+.in-margin {
+  margin: 0 0 0 -16px;
+  font-size: 12px;
 }

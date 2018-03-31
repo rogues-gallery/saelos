@@ -61,8 +61,8 @@ class Record extends React.Component {
           Analytics
         </h4>
         <div className="h-scroll">
-          <span className="float-right mt-1"><a href="javascript:void(0);" onClick={this._generateImage} className="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
-          <h5 className="border-bottom py-2">
+          <h5 className="py-4">
+          <span className="float-right"><a href="javascript:void(0);" onClick={this._generateImage} className="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
             Pipeline
           </h5>
           <div className="card mb-1">
@@ -87,8 +87,8 @@ class Record extends React.Component {
             </div>
           </div>
           <div className="pt-3">
-            <span className="float-right mt-1"><a href="javascript:void(0);" className="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
-            <h5 className="border-bottom py-2">
+            <h5 className="py-4">
+            <span className="float-right"><a href="javascript:void(0);" onClick={this._generateImage} className="btn btn-link btn-sm text-primary">Take Snapshot</a></span>
               Activity
             </h5>
             <div className="card mb-1">

@@ -166,7 +166,9 @@ class Companies extends React.Component {
             {companies.map(company => (
               <div key={`company-${company.id}-${entityId}`} onClick={() => this.context.router.history.push(`/companies/${company.id}`)} className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right" />
-                <p><strong>{company.name}</strong>
+                <p>
+                  { company.primary ? <span class="dot bg-primary mini" /> : '' }
+                  <strong>{company.name}</strong>
                   <br />{company[secondaryDetail]}</p>
               </div>
             ))}

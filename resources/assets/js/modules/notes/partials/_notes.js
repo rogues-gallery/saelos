@@ -37,6 +37,7 @@ class Notes extends React.Component {
 
   _submit() {
     this.props.dispatch(saveNote(this.state.formState))
+    this.state.formState.note = ''
   }
 
   _togglePrivate(e) {
@@ -81,7 +82,7 @@ class Notes extends React.Component {
               <MDIcons.MdLockOutline />
             </span>
           </p>
-          <ContentEditable className="fh-5 my-2 p-1 border rounded" onChange={this._handleInputChange} />
+          <ContentEditable className="fh-5 my-2 p-1 border rounded" onChange={this._handleInputChange} html={this.state.formState.note} />
           <React.Fragment>
             <Dropzone
               onDrop={this._onDrop}
@@ -181,8 +182,12 @@ class Item extends React.Component {
 
     return (
       <div className={`notes-partial ${this.state.inEdit ? 'notes-partial-edit' : '' }`}>
-        <div onClick={this._toggleOpenState} className={`list-group-item list-group-item-action align-items-start ${note.private ? 'corner-flag' : ''}`}>
+        <div onClick={this._toggleOpenState} className={`list-group-item list-group-item-action align-items-start`}>
           <span className="mini-text text-muted float-right mt-1">{note.created_at.fromNow()}</span>
+           {note.private ?
+             <span className="in-margin float-left text-muted"><MDIcons.MdLockOutline /></span>
+             :
+             '' }
           <p className="font-weight-bold">{note.user.name}</p>
           <div className="note">
             {this.state.open ?
