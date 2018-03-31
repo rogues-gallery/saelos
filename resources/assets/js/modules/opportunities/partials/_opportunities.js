@@ -160,7 +160,7 @@ class Opportunities extends React.Component {
           <div className="list-group border-bottom">
             {opportunities.map(opportunity => (
               <div key={`opportunity-${opportunity.id}-${entityId}`} onClick={() => this.context.router.history.push(`/opportunities/${opportunity.id}`)} className="list-group-item list-group-item-action align-items-start">
-                <p className="mini-text text-muted float-right">{opportunity.stage}</p>
+                <p className="mini-text text-muted float-right">{opportunity.stage.name}</p>
                 <p>
                   <strong>{opportunity.name}</strong>
                   <br />{_.get(opportunity, secondaryDetail)}</p>
