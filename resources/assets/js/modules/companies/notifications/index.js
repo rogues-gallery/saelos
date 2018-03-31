@@ -1,4 +1,12 @@
-import { NotificationManager } from 'react-notifications'
+import { toast } from "react-toastify";
 
 export const onCompanySave = (payload) =>
-  NotificationManager.success(`${payload.name} has been updated.`)
+  toast(`${payload.name} has been updated.`)
+
+export const onFetchingCompanies = () => {
+  toast('Loading...', {className:"toast list-toast"})
+}
+
+export const onFetchingCompaniesSuccess = () => {
+  toast.dismiss()
+}

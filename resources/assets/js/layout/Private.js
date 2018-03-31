@@ -1,7 +1,7 @@
 //import libs
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NotificationContainer } from 'react-notifications'
+import { ToastContainer } from 'react-toastify'
 
 // import components
 import Main from '../Main'
@@ -12,7 +12,12 @@ const PrivateLayout = ({ children }) => (
     <div className="row no-gutters">
       <Navigation/>
       { children }
-      <NotificationContainer />
+      <ToastContainer
+        position="bottom-center"
+        closeButton={false}
+        hideProgressBar={true}
+        toastClassName="toast"
+      />
     </div>
   </Main>
 )

@@ -14,14 +14,21 @@ export const fetchingCompanyFailure = () => ({
   type: types.FETCHING_SINGLE_COMPANY_FAILURE
 })
 
-export const fetchingCompanies = () => ({
-  type: types.FETCHING_COMPANIES
-})
+export const fetchingCompanies = () => {
+  notifications.onFetchingCompanies()
 
-export const fetchingCompaniesSuccess = (payload) => ({
-  type: types.FETCHING_COMPANIES_SUCCESS,
-  data: payload
-})
+  return {
+    type: types.FETCHING_COMPANIES
+  }
+}
+
+export const fetchingCompaniesSuccess = (payload) => {
+  notifications.onFetchingCompaniesSuccess(payload)
+  return {
+    type: types.FETCHING_COMPANIES_SUCCESS,
+    data: payload
+  }
+}
 
 export const fetchingCompaniesFailure = () => ({
   type: types.FETCHING_COMPANIES_FAILURE
@@ -32,7 +39,7 @@ export const postingCompany = () => ({
 })
 
 export const postingCompanySuccess = (payload) => {
-  notifications.onCompanySave(payload)
+  notifications.onCompanySave(payload.data)
 
   return {
     type: types.POSTING_COMPANY_SUCCESS,

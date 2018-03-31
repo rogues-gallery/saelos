@@ -14,15 +14,23 @@ export const fetchingOpportunityFailure = () => ({
   type: types.FETCHING_SINGLE_OPPORTUNITY_FAILURE
 })
 
-export const fetchingOpportunities = (payload) => ({
-  type: types.FETCHING_OPPORTUNITIES,
-  data: payload
-})
+export const fetchingOpportunities = (payload) => {
+  notifications.onFetchingOpportunities()
 
-export const fetchingOpportunitiesSuccess = (payload) => ({
-  type: types.FETCHING_OPPORTUNITIES_SUCCESS,
-  data: payload
-})
+  return {
+    type: types.FETCHING_OPPORTUNITIES,
+    data: payload
+  }
+}
+
+export const fetchingOpportunitiesSuccess = (payload) => {
+  notifications.onFetchingOpportunitiesSuccess()
+
+  return {
+    type: types.FETCHING_OPPORTUNITIES_SUCCESS,
+    data: payload
+  }
+}
 
 export const fetchingOpportunitiesFailure = () => ({
   type: types.FETCHING_OPPORTUNITIES_FAILURE
@@ -33,7 +41,7 @@ export const postingOpportunity = () => ({
 })
 
 export const postingOpportunitySuccess = (payload) => {
-  notifications.onOpportunitySave(payload)
+  notifications.onOpportunitySave(payload.data)
 
   return {
     type: types.POSTING_OPPORTUNITY_SUCCESS,

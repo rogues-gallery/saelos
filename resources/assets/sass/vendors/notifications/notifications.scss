@@ -1,74 +1,18 @@
-$react-notifications-transition-time: 0.4s !default;
-
-$react-notifications-container-top: 0 !default;
-$react-notifications-container-right: 0 !default;
-$react-notifications-container-z-index: 999999 !default;
-$react-notifications-container-top-padding: 0px !default;
-$react-notifications-container-max-height: calc(100% - 30px) !default;
-$react-notifications-container-right-padding: 15px !default;
-
-$react-notifications-border-radius: 2px !default;
-$react-notifications-padding: 15px !default;
-$react-notifications-color: #fff !default;
-$react-notifications-box-shadow: 0 0 12px #999 !default;
-$react-notifications-cursor: pointer !default;
-$react-notifications-font-size: 1em !default;
-$react-notifications-line-height: 1.2em !default;
-$react-notifications-opacity: 0.9 !default;
-$react-notifications-margin-top: 15px !default;
-
-$react-notifications-hover-opacity: 1 !default;
-
-.notification-container {
-  box-sizing: border-box;
-  position: fixed;
+div.toast {
+  background: #323232;
+  color: #FFFFFF;
+  min-width: 288px;
+  max-width: 568px;
+  border-radius: 2px 2px 0px 0px;
   bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: $react-notifications-container-z-index;
-  min-width: 288dp;
-  max-width: 568dp;
-  padding: $react-notifications-container-top-padding $react-notifications-container-right-padding;
-  max-height: $react-notifications-container-max-height;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
+  position: fixed;
+  margin-bottom: 0;
+  box-shadow: none;
+  padding: 0px 20px;
+  height: 48px;
+  min-height: 48px;
 
-.notification {
-  box-sizing: border-box;
-  padding: $react-notifications-padding;
-  border-radius: $react-notifications-border-radius;
-  color: $react-notifications-color;
-  background-color: $gray-900;
-  cursor: $react-notifications-cursor;
-  font-size: $react-notifications-font-size;
-  line-height: $react-notifications-line-height;
-  position: relative;
-  margin-top: $react-notifications-margin-top;
-
-  &:hover, &:focus {
-    opacity: $react-notifications-hover-opacity;
+  &.list-toast {
+      left: 185px;
   }
-}
-
-.notification-enter {
-  visibility: hidden;
-  transform: translate3d(0, 100%, 0);
-}
-
-.notification-enter.notification-enter-active {
-  visibility: visible;
-  transform: translate3d(0, 0, 0);
-  transition: all $react-notifications-transition-time;
-}
-
-.notification-leave {
-  visibility: visible;
-  transform: translate3d(0, 0, 0);
-}
-
-.notification-leave.notification-leave-active {
-  visibility: hidden;
-  transform: translate3d(0, 100%, 0);
-  transition: all $react-notifications-transition-time;
 }
