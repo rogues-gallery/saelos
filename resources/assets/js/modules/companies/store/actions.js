@@ -39,7 +39,7 @@ export const postingCompany = () => ({
 })
 
 export const postingCompanySuccess = (payload) => {
-  notifications.onCompanySave(payload.data)
+  notifications.onCompanySave(payload)
 
   return {
     type: types.POSTING_COMPANY_SUCCESS,

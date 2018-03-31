@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import { fetchCompanies, fetchCompany } from '../../../service'
 import moment from 'moment'
 import { Money } from 'react-format'
-import {getCustomFieldsForCompanies, getSearchStringForCompanies} from "../../../store/selectors"
+import {getCustomFieldsForCompanies, getSearchStringForCompanies, getCompanies, getPaginationForCompanies} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
+import {isInEdit} from "../../../../companies/store/selectors";
 
 class List extends React.Component {
   constructor(props) {
@@ -70,7 +71,8 @@ List.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
-  searchString: PropTypes.string.isRequired
+  searchString: PropTypes.string.isRequired,
+  fields: PropTypes.object.isRequired
 };
 
 List.contextTypes = {
@@ -79,5 +81,8 @@ List.contextTypes = {
 
 export default connect(state => ({
   searchString: getSearchStringForCompanies(state),
-  fields: getCustomFieldsForCompanies(state)
+  fields: getCustomFieldsForCompanies(state),
+  companies: getCompanies(state),
+  inEdit: isInEdit(state),
+  pagination: getPaginationForCompanies(state)
 }))(List)

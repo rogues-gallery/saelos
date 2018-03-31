@@ -13,7 +13,7 @@ import Companies from "../../../../companies/partials/_companies"
 import Contact from '../../../Contact'
 import Notes from '../../../../notes/partials/_notes'
 import {getContact, getFirstContactId, isStateDirty} from '../../../store/selectors'
-import {isInEdit} from "../../../../companies/store/selectors";
+import {isInEdit} from "../../../../contacts/store/selectors";
 
 class Detail extends React.Component {
   constructor(props) {

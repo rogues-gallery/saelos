@@ -12,6 +12,7 @@ import Companies from '../../../../companies/partials/_companies'
 import Notes from '../../../../notes/partials/_notes'
 import Opportunity from '../../../Opportunity'
 import {getFirstOpportunityId, getOpportunity} from '../../../store/selectors'
+import {isInEdit} from "../../../../contacts/store/selectors";
 
 class Detail extends React.Component {
   constructor(props) {
@@ -123,11 +124,11 @@ const OpportunityTimeline = ({data, options, type}) => {
 
 Detail.propTypes = {
   opportunity: PropTypes.instanceOf(Opportunity).isRequired,
-  user: PropTypes.object.isRequired,
-  inEdit: PropTypes.bool.isRequired
+  user: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({
   opportunity: getOpportunity(state, ownProps.match.params.id || getFirstOpportunityId(state)),
-  user: state.user
+  user: state.user,
+  inEdit: isInEdit(state)
 }))(Detail))

@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getUser } from '../../../../user/store/selectors'
 import { getOpportunity, getCustomFieldsForOpportunities, isStateDirty, getFirstOpportunityId, isInEdit } from '../../../store/selectors';
 import { fetchOpportunity, saveOpportunity, deleteOpportunity } from '../../../service';
 import _ from 'lodash';
@@ -88,7 +89,7 @@ class Record extends React.Component {
 
 
   render() {
-    const { opportunity, inEdit } = this.props;
+    const { opportunity, inEdit, user } = this.props;
     const groups = _.groupBy(this.props.customFields, 'group');
 
     const opportunityFields = renderGroupedFields(
@@ -98,6 +99,18 @@ class Record extends React.Component {
       opportunity,
       this._handleInputChange
     )
+
+    const onAssignmentChange = (id) => {
+      const event = {
+        target: {
+          type: 'text',
+          name: 'user_id',
+          value: id
+        }
+      }
+      this._handleInputChange(event)
+      this._submit()
+    }
 
     if (opportunity.id === null || opportunity.id == 0) {
       return (
@@ -118,9 +131,17 @@ class Record extends React.Component {
 
           <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">Assigned To</div>
-            <div className="text-dark mini-text"><b>{opportunity.user.name}</b></div>
+            { user.authorized(['admin', 'manager']) ?
+            <div className="dropdown show">
+              <div className="text-dark mini-text cursor-pointer" id="assigneeDropdown" data-toggle="dropdown"><b>{opportunity.user.name ? opportunity.user.name : 'Unassigned'}</b></div>
+              <div className="dropdown-menu" aria-labelledby="assigneeDropdown">
+                {user.team.users.map(u => (
+                  <a key={`team-${user.team.id}-member-${u.id}`} className="dropdown-item" href="javascript:void(0)" onClick={() => onAssignmentChange(u.id)}>{u.name}</a>
+                ))}
+              </div>
+            </div>
+            : <div className="text-dark mini-text"><b>{opportunity.user.name ? opportunity.user.name : 'Unassigned'}</b></div> }
           </div>
-
         </div>
 
         {inEdit ?
@@ -160,5 +181,6 @@ export default withRouter(connect((state, ownProps) => ({
   opportunity: getOpportunity(state, ownProps.match.params.id || getFirstOpportunityId(state)),
   customFields: getCustomFieldsForOpportunities(state),
   isDirty: isStateDirty(state),
+  user: getUser(state),
   inEdit: isInEdit(state)
 }))(Record))

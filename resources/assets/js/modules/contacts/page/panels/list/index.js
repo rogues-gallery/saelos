@@ -5,7 +5,7 @@ import moment from 'moment'
 import { fetchContact, fetchContacts } from '../../../service'
 import {getSearchStringForContacts, getCustomFieldsForContacts, getContacts, getPaginationForContacts} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
-import {isInEdit} from "../../../../companies/store/selectors";
+import {isInEdit} from "../../../../contacts/store/selectors";
 
 class List extends React.Component {
   constructor(props) {

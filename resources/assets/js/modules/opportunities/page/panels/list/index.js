@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchOpportunities, fetchOpportunity } from "../../../service"
 import { Money } from 'react-format'
-import {getCustomFieldsForOpportunities, getSearchStringForOpportunities} from "../../../store/selectors"
+import {getCustomFieldsForOpportunities, getSearchStringForOpportunities, getOpportunities, getPaginationForOpportunities} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
+import {isInEdit} from "../../../../opportunities/store/selectors";
 
 class List extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class List extends React.Component {
     const { opportunities, dispatch, searchString } = this.props
 
     if (opportunities.length === 0) {
-      dispatch(fetchOpportunities({page: 1, searchString})) 
+      dispatch(fetchOpportunities({page: 1, searchString}))
     }
   }
 
@@ -41,7 +42,7 @@ class List extends React.Component {
   render() {
     const { opportunities, searchString, inEdit, fields } = this.props
     const activeIndex = parseInt(this.context.router.route.match.params.id)
-    
+
     return (
       <div className={`col list-panel border-right ${inEdit ? 'inEdit' : ''}`}>
         <AdvancedSearch searchFunc={fetchOpportunities} searchFields={fields} searchString={searchString} />
@@ -69,7 +70,7 @@ List.propTypes = {
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
   searchString: PropTypes.string,
-  inEdit: PropTypes.bool.isRequired
+  fields: PropTypes.object.isRequired
 };
 
 List.contextTypes = {
@@ -77,6 +78,9 @@ List.contextTypes = {
 }
 
 export default connect(state => ({
+  opportunities: getOpportunities(state),
   searchString: getSearchStringForOpportunities(state),
-  fields: getCustomFieldsForOpportunities(state)
+  fields: getCustomFieldsForOpportunities(state),
+  inEdit: isInEdit(state),
+  pagination: getPaginationForOpportunities(state)
 }))(List)

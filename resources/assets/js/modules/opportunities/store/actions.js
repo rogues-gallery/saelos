@@ -40,12 +40,14 @@ export const postingOpportunity = () => ({
   type: types.POSTING_OPPORTUNITY
 })
 
+/* @TODO Why does opportunities require payload.data instead of just payload */
+
 export const postingOpportunitySuccess = (payload) => {
   notifications.onOpportunitySave(payload.data)
 
   return {
     type: types.POSTING_OPPORTUNITY_SUCCESS,
-    data: payload
+    data: payload.data
   }
 }
 
