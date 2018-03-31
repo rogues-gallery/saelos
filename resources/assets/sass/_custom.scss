@@ -621,12 +621,8 @@ a:hover {
 }
 
 .circle-picker {
-  position:absolute !important;
-  background: #FFFFFF;
+  position: relative !important;
   margin-top: .5rem;
-  border: 1px solid $gray-200;
-  border-radius: 4px;
-  padding: 1rem;
 }
 
 .dropdown-menu {
@@ -634,6 +630,7 @@ a:hover {
     position:relative !important;
     border:none;
     background:none;
+    width: 252px;
   }
 }
 

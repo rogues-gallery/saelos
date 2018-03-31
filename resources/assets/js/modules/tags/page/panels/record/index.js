@@ -74,7 +74,7 @@ class Record extends React.Component {
     this.context.router.history.push(`/${base}/${id}`)
   }
 
-	render() {  
+	render() {
     const { tag } = this.props
     const { formState, pickerOpen, inEdit } = this.state
     const { contacts, opportunities, companies } = tag
@@ -110,25 +110,25 @@ class Record extends React.Component {
   	            	</div>
   	            	<div className={`form-group mb-2`}>
   		              <label htmlFor="tagColor" className="">Color</label>
-  		              <div className="">
-                      <input onFocus={() => this.setState({pickerOpen: true})} defaultValue={formState.color} className="form-control" style={{color: formState.color}} />
-                      {pickerOpen ?
-                        <CirclePicker
-                          color={formState.color}
-                          name="tagColor"
-                          onChangeComplete={(color) => {
-                            const event = {
-                              target: {
-                                name: 'color',
-                                value: color.hex
-                              }
+                    <div className="form-group">
+                      <CirclePicker
+                        color={formState.color}
+                        name="tagColor"
+                        width="100%"
+                        circleSize={20}
+                        circleSpacing={10}
+                        onChangeComplete={(color) => {
+                          const event = {
+                            target: {
+                              name: 'color',
+                              value: color.hex
                             }
+                          }
 
-                            this._handleInputChange(event)
-                          }}
-                          placeholder={tag.color} />
-                        : ''}
-  		              </div>
+                          this._handleInputChange(event)
+                        }}
+                        placeholder={tag.color} />
+                    </div>
   	            	</div>
   	             <button className="btn btn-primary mr-3 list-inline-item" onClick={this._submit}>Save</button>
                  <button className="btn btn-link mr-3 list-inline-item" onClick={this._toggleEdit}>Cancel</button>

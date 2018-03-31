@@ -217,6 +217,8 @@ class TagsPartial extends React.Component {
                     <CirclePicker
                       color={formState.color}
                       name="tagColor"
+                      circleSize={20}
+                      circleSpacing={10}
                       onChangeComplete={(color) => {
                         const event = {
                           target: {
