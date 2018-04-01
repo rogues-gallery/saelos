@@ -1,5 +1,4 @@
 import Model from '../../utils/Model'
-import _ from 'lodash'
 
 const initialShape = {
   name: '',

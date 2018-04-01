@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom"
 import {fetchStage, saveStage, deleteStage} from "../../../service"
 import {editingStage, editingStageFinished} from "../../../store/actions"
+import { CirclePicker } from 'react-color'
 
 class Record extends React.Component {
   constructor(props) {
@@ -88,9 +89,25 @@ class Record extends React.Component {
 	            	</div>
 	            	<div className={`form-group mb-2`}>
 		              <label htmlFor="stageColor" className="">Color</label>
-		              <div className="">
-		                <input type="text" id="stageColor" name="color" onChange={this._handleInputChange} className="form-control" value={formState.color}  />
-		              </div>
+                  <div className="form-group">
+                    <CirclePicker
+                      color={formState.color}
+                      name="stageColor"
+                      width="100%"
+                      circleSize={20}
+                      circleSpacing={10}
+                      onChangeComplete={(color) => {
+                        const event = {
+                          target: {
+                            name: 'color',
+                            value: color.hex
+                          }
+                        }
+
+                        this._handleInputChange(event)
+                      }}
+                      placeholder={formState.color} />
+                  </div>
 	            	</div>
 	            </li>
 			        <li className="list-group-item">
