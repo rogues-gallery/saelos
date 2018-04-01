@@ -235,6 +235,9 @@ a:hover {
       background: $gray-900;
       border-left: 4px solid #B21E22;
       padding-left:12px;
+      &.small {
+        border-left: 0;
+      }
     }
   }
 
