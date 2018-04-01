@@ -5,6 +5,7 @@ import moment from 'moment'
 import { fetchContact, fetchContacts } from '../../../service'
 import {getSearchStringForContacts, getCustomFieldsForContacts, getContacts, getPaginationForContacts} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
+import { getUser } from '../../../../user/store/selectors'
 import {isInEdit} from "../../../../contacts/store/selectors";
 
 class List extends React.Component {
@@ -41,7 +42,7 @@ class List extends React.Component {
 
   render() {
     const { router } = this.context
-    const { contacts, inEdit, fields, searchString } = this.props
+    const { contacts, inEdit, fields, searchString, user } = this.props
     const activeIndex = parseInt(router.route.match.params.id)
 
     return (
@@ -52,7 +53,7 @@ class List extends React.Component {
             <div
               key={`contact-list-${contact.id}`}
               onClick={() => this._openRecord(contact.id)}
-              className={`list-group-item list-group-item-action align-items-start ${contact.id === activeIndex ? ' active' : ''}`}
+              className={`list-group-item list-group-item-action align-items-start ${contact.id === activeIndex ? 'active' : ''} ${contact.user.id === user.id ? 'corner-flag' : '' }`}
             >
               <span className="text-muted mini-text float-right">{moment(contact.updated_at).fromNow()}</span>
               <h6>{contact.first_name} {contact.last_name}</h6>
@@ -84,5 +85,6 @@ export default connect(state => ({
   fields: getCustomFieldsForContacts(state),
   contacts: getContacts(state),
   inEdit: isInEdit(state),
+  user: getUser(state),
   pagination: getPaginationForContacts(state)
 }))(List)

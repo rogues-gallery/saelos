@@ -41,7 +41,7 @@ export const postingContact = () => ({
 })
 
 export const postingContactSuccess = (payload) => {
-  notifications.onContactSave(payload.data)
+  notifications.onContactSave(payload)
 
   return {
     type: types.POSTING_CONTACT_SUCCESS,
