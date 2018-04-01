@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ReactQuill from 'react-quill'
+import { getUser } from '../../../../../../user/store/selectors'
 import {saveActivity} from "../../../../../../activities/service"
 import Select from 'react-select'
 import DatePicker from '../../../../../../../common/ui/datepicker'
@@ -83,7 +84,7 @@ class TaskAction extends Component {
   }
 
   render() {
-    const { contact, company, opportunity } = this.props
+    const { contact, company, opportunity, user } = this.props
     const { formState } = this.state
 
     const contactOptions = typeof company !== 'undefined' ?
@@ -106,11 +107,17 @@ class TaskAction extends Component {
     return(
       <div className="card-body taskActionView">
         <div className="form-row">
-          <div className="form-group col-md-6">
-            <label htmlFor="task_name">Name</label>
-            <input type="text" className="form-control" name="name" placeholder="Enter task name" onChange={this._handleInputChange} value={formState.name} />
+          <div className="form-group col-md-4">
+            <label htmlFor="assignee_name">Assignee</label>
+            { user.authorized(['admin', 'manager']) ?
+              <select className="form-control">
+                {user.team.users.map(u => (
+                  <option key={`team-${user.team.id}-member-${u.id}`} value={u.id} selected={user.id == u.id ? 'selected' : ''}>{u.name}</option>
+                ))}
+              </select>
+            : <input type="text" readOnly className="form-control" value={u.id}>{u.name}</input> }
           </div>
-          <div className="form-group col-md-2">
+          <div className="form-group col-md-4">
             <label htmlFor="due_date">Type</label>
             <select className="form-control" name="details_type" onChange={this._handleInputChange}>
               <option value="">Select...</option>
@@ -122,6 +129,12 @@ class TaskAction extends Component {
           <div className="form-group col-md-4">
             <label htmlFor="due_date">Due Date</label>
             <DatePicker className="form-control" name="due_date" placeholder="Enter due date" onChange={this._handleInputChange} value={formState.due_date} />
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-group col-md-12">
+            <label htmlFor="task_name">Name</label>
+            <input type="text" className="form-control" name="name" placeholder="Enter task name" onChange={this._handleInputChange} value={formState.name} />
           </div>
         </div>
         <div className="form-row">
@@ -201,5 +214,5 @@ class TaskAction extends Component {
 }
 
 export default connect(state => ({
-  user: state.user
+  user: getUser(state)
 }))(TaskAction)
