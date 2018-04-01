@@ -107,7 +107,7 @@ class Notes extends React.Component {
         </div>
 
         <div id="collapseNotes" className="collapse show mh-200" aria-labelledby="headingNotes">
-          <div className="list-group border-bottom">
+          <div className="list-group">
             {notes.map(note => <Item key={note.id} note={note} user={this.props.user} dispatch={this.props.dispatch} />)}
           </div>
         </div>
