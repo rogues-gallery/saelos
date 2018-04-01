@@ -13,6 +13,10 @@ div.toast {
   min-height: 48px;
 
   &.list-toast {
-      left: 185px;
+    left: 185px;
+  }
+
+  &.detail-toast {
+    right: 17px;
   }
 }

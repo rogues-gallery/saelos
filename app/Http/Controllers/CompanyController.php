@@ -125,4 +125,11 @@ class CompanyController extends Controller
 
         return '';
     }
+
+    public function restore($id)
+    {
+        Company::findOrFail($id)->restore();
+
+        return '';
+    }
 }

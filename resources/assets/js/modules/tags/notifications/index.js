@@ -1,4 +1,4 @@
-import { NotificationManager } from 'react-notifications'
+import { toast } from "react-toastify";
 
 export const onTagSave = (payload) =>
-  NotificationManager.success(`${payload.name} has been updated.`)
+  toast(`${payload.name} has been updated.`)

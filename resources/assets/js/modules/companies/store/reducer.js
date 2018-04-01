@@ -108,6 +108,15 @@ export default function companyReducer(state = initialState, action) {
         ...state,
         data: updatedData
       }
+
+    case types.RESTORING_COMPANY_SUCCESS:
+      const updatedDate = injectCompaniesIntoState(action.data, state.data)
+
+      return {
+        ...state,
+        date: updatedData
+      }
+      
     case DELETING_NOTE_SUCCESS:
     case POSTING_NOTE_SUCCESS:
       const {entity_type, entity_id} = action.data.data

@@ -123,3 +123,16 @@ export const deleteCompany = (id) => (dispatch) => {
       dispatch(actions.deletingCompanyFailure())
     })
 }
+
+export const restoreCompany = (id) => (dispatch) => {
+  dispatch(actions.restoringCompany());
+
+  return Http.patch(`companies/${id}`)
+    .then(res => {
+      dispatch(actions.restoringCompanySuccess(id))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.restoringCompanyFailure())
+    })
+}

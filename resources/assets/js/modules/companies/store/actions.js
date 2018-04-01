@@ -55,14 +55,32 @@ export const deletingCompany = () => ({
   type: types.DELETING_COMPANY
 })
 
-export const deletingCompanySuccess = (payload) => ({
-  type: types.DELETING_COMPANY_SUCCESS,
-  data: payload
+export const deletingCompanySuccess = (payload) => {
+  notifications.onDeleteCompanySuccess(payload)
+
+  return {
+    type: types.DELETING_COMPANY_SUCCESS,
+    data: payload
+  }
+}
+
+export const restoringCompany = () => ({
+  type: types.RESTORING_COMPANY
 })
+
+export const restoringCompanySuccess = (payload) => {
+  notifications.onRestoreCompanySuccess(payload)
+
+  return {
+    type: types.RESTORING_COMPANY_SUCCESS,
+    data: payload
+  }
+}
 
 export const deletingCompanyFailure = () => ({
   type: types.DELETING_COMPANY_FAILURE
 })
+
 export const fetchingCustomFieldsForCompanies = () => ({
   type: types.FETCHING_CUSTOM_FIELDS_FOR_COMPANIES
 })
