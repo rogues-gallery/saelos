@@ -13,7 +13,8 @@ import Companies from "../../../../companies/partials/_companies"
 import Contact from '../../../Contact'
 import Notes from '../../../../notes/partials/_notes'
 import {getContact, getFirstContactId, isStateDirty} from '../../../store/selectors'
-import {isInEdit} from "../../../../contacts/store/selectors";
+import {isInEdit} from "../../../../contacts/store/selectors"
+import ListActivities from '../../../../activities/partials/_list'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -55,6 +56,7 @@ const Details = ({contact, dispatch, toggle, user, inEdit}) => (
     </div>
     <div className="h-scroll">
       <StatusTimeline contact={contact} />
+      <ActivityList contact={contact} dispatch={dispatch} />
       <Opportunities opportunities={contact.opportunities} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
       <Companies companies={contact.companies} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
       <Notes notes={contact.notes} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} user={user} />
@@ -124,6 +126,27 @@ const StatusTimeline = ({contact}) => {
       </div>
     </div>
   )
+}
+
+const ActivityList = ({contact, dispatch}) => {
+  const filtered = _.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity')
+
+  return (
+    <div className="card ct-container">
+      <div className="card-header" id="taskList">
+        <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTasks" aria-expanded="true" aria-controls="collapseTasks">
+          <MDIcons.MdKeyboardArrowDown /> Tasks
+        </h6>
+      </div>
+      <div id="collapseTasks" className="collapse mh-200" aria-labelledby="taskList">
+        <div className="list-group">
+          <ListActivities activities={filtered} dispatch={dispatch} view={'headquarters'} />
+        </div>
+      </div>
+    </div>
+  )
+
+
 }
 
 Detail.propTypes = {

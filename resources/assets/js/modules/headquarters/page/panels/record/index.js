@@ -77,7 +77,8 @@ class Record extends React.Component {
             <ActionView view={actionView} contact={activity.contact} user={activity.user} />
           </div>
           <div className="row">
-            {activity.contact ?
+          
+            {activity.contact.id ?
               <div className="col-12">
                 <div className="card mb-1">
                   <ul className="list-group list-group-flush">
@@ -93,6 +94,8 @@ class Record extends React.Component {
                 </div>
               </div>
               : ''}
+
+            {activity.company.id ?
             <div className="col-12">
               <div className="card mb-1">
                 <ul className="list-group list-group-flush">
@@ -107,6 +110,9 @@ class Record extends React.Component {
                 </ul>
               </div>
             </div>
+            : '' }
+
+            {activity.opportunity.id ?
             <div className="col-12">
               <div className="card mb-1">
                 <ul className="list-group list-group-flush">
@@ -121,6 +127,8 @@ class Record extends React.Component {
                 </ul>
               </div>
             </div>
+            : '' }
+
           </div>
         </div>
       </main>
