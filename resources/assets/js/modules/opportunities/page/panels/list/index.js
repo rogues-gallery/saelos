@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchOpportunities, fetchOpportunity } from "../../../service"
 import { Money } from 'react-format'
+import { getUser } from '../../../../user/store/selectors'
 import {getCustomFieldsForOpportunities, getSearchStringForOpportunities, getOpportunities, getPaginationForOpportunities} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
 import {isInEdit} from "../../../../opportunities/store/selectors";
@@ -40,7 +41,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { opportunities, searchString, inEdit, fields } = this.props
+    const { opportunities, searchString, inEdit, fields, user } = this.props
     const activeIndex = parseInt(this.context.router.route.match.params.id)
 
     return (
@@ -51,7 +52,7 @@ class List extends React.Component {
             <div
               key={`opportunity-list-${opportunity.id}`}
               onClick={() => this._openRecord(opportunity.id)}
-              className={`list-group-item list-group-item-action align-items-start ${opportunity.id === activeIndex ? ' active' : ''}`}
+              className={`list-group-item list-group-item-action align-items-start ${opportunity.id === activeIndex ? 'active' : ''} ${opportunity.user.id === user.id ? 'corner-flag' : ''}`}
             ><span className="text-muted mini-text float-right"><Money>{opportunity.amount}</Money></span>
               <h6 className="text-truncate pr-1">{opportunity.name}</h6>
               <p>{opportunity.company.name}</p>
@@ -82,5 +83,6 @@ export default connect(state => ({
   searchString: getSearchStringForOpportunities(state),
   fields: getCustomFieldsForOpportunities(state),
   inEdit: isInEdit(state),
+  user: getUser(state),
   pagination: getPaginationForOpportunities(state)
 }))(List)

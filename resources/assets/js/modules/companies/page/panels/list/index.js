@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { fetchCompanies, fetchCompany } from '../../../service'
 import moment from 'moment'
 import { Money } from 'react-format'
+import { getUser } from '../../../../user/store/selectors'
 import {getCustomFieldsForCompanies, getSearchStringForCompanies, getCompanies, getPaginationForCompanies} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
 import {isInEdit} from "../../../../companies/store/selectors";
@@ -41,7 +42,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { companies, searchString, inEdit, fields } = this.props
+    const { companies, searchString, inEdit, fields, user } = this.props
     const activeIndex = parseInt(this.context.router.route.match.params.id)
 
     return (
@@ -52,7 +53,7 @@ class List extends React.Component {
             <div
               key={`company-list-${company.id}`}
               onClick={() => this._openRecord(company.id)}
-              className={`list-group-item list-group-item-action align-items-start ${company.id === activeIndex ? ' active' : ''}`}
+              className={`list-group-item list-group-item-action align-items-start ${company.id === activeIndex ? 'active' : ''} ${company.user.id === user.id ? 'corner-flag' : ''}`}
             >
               <span className="text-muted mini-text float-right">{moment(company.updated_at).fromNow()}</span>
               <h6 className="text-truncate pr-1">{company.name}</h6>
@@ -84,5 +85,6 @@ export default connect(state => ({
   fields: getCustomFieldsForCompanies(state),
   companies: getCompanies(state),
   inEdit: isInEdit(state),
+  user: getUser(state),
   pagination: getPaginationForCompanies(state)
 }))(List)
