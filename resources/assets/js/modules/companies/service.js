@@ -124,15 +124,16 @@ export const deleteCompany = (id) => (dispatch) => {
     })
 }
 
-export const restoreCompany = (id) => (dispatch) => {
-  dispatch(actions.restoringCompany());
+export const restoreCompany = (id) => {
+  store.dispatch(actions.restoringCompany());
+  const params = {action: 'restore'}
 
-  return Http.patch(`companies/${id}`)
+  return Http.patch(`companies/${id}`, params)
     .then(res => {
-      dispatch(actions.restoringCompanySuccess(id))
+      store.dispatch(actions.restoringCompanySuccess(res.data.data))
     })
     .catch(err => {
       console.log(err)
-      dispatch(actions.restoringCompanyFailure())
+      store.dispatch(actions.restoringCompanyFailure())
     })
 }

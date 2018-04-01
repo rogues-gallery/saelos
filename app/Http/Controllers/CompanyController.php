@@ -72,6 +72,12 @@ class CompanyController extends Controller
 
     public function update(Request $request, $id)
     {
+        if ($request->input('action') == 'restore'
+          && Company::onlyTrashed()->where('id', $id)->restore()) {
+              $company = Company::findOrFail($id);
+              return $this->show($company->id);
+        }
+
         /** @var Company $company */
         $company = Company::findOrFail($id);
         $data = $request->all();
@@ -122,13 +128,6 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         Company::findOrFail($id)->delete();
-
-        return '';
-    }
-
-    public function restore($id)
-    {
-        Company::findOrFail($id)->restore();
 
         return '';
     }

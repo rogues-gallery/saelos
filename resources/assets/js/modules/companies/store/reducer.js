@@ -82,6 +82,7 @@ export default function companyReducer(state = initialState, action) {
       }
     case types.POSTING_COMPANY_SUCCESS:
     case types.FETCHING_SINGLE_COMPANY_SUCCESS:
+    case types.RESTORING_COMPANY_SUCCESS:
       const index = _.findIndex(state.data, (a) => a.id === parseInt(action.data.id));
 
       if (index >= 0) {
@@ -109,14 +110,6 @@ export default function companyReducer(state = initialState, action) {
         data: updatedData
       }
 
-    case types.RESTORING_COMPANY_SUCCESS:
-      const updatedDate = injectCompaniesIntoState(action.data, state.data)
-
-      return {
-        ...state,
-        date: updatedData
-      }
-      
     case DELETING_NOTE_SUCCESS:
     case POSTING_NOTE_SUCCESS:
       const {entity_type, entity_id} = action.data.data

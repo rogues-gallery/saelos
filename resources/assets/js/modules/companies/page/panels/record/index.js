@@ -44,10 +44,8 @@ class Record extends React.Component {
   _delete () {
     const { dispatch, company} = this.props
 
-    // if (confirm('Are you sure?')) {
-      dispatch(deleteCompany(company.id))
-      this.context.router.history.push('/companies')
-    // }
+    dispatch(deleteCompany(company.id))
+    this.context.router.history.push('/companies')
   }
 
   _toggleEdit() {

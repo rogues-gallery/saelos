@@ -1,6 +1,6 @@
 import React from 'react'
 import { toast } from "react-toastify"
-import {restoreCompany} from '../service'
+import { restoreCompany } from '../service'
 
 export const onCompanySave = (payload) =>
   toast(`${payload.name} has been updated.`)
@@ -13,11 +13,14 @@ export const onFetchingCompaniesSuccess = () => {
   toast.dismiss()
 }
 
-export const onDeleteCompanySuccess = (payload) => (dispatch) => {
+export const onDeleteCompanySuccess = (payload) => {
   toast(<div>
     Company deleted.
-    <span className="float-right" onClick={restoreCompany(payload.id)}>
-      RESTORE
+    <span className="float-right" onClick={() => restoreCompany(payload)}>
+      <b>RESTORE</b>
     </span>
   </div>)
 }
+
+export const onRestoreCompanySuccess = (payload) =>
+  toast(`${payload.name} restored.`)
