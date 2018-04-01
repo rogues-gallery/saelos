@@ -162,7 +162,7 @@ class Companies extends React.Component {
           : ''}
 
         <div id="collapseCompanies" className="collapse show mh-200" aria-labelledby="headingCompanies">
-          <div className="list-group border-bottom">
+          <div className="list-group">
             {companies.map(company => (
               <div key={`company-${company.id}-${entityId}`} onClick={() => this.context.router.history.push(`/companies/${company.id}`)} className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right" />

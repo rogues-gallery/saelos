@@ -157,7 +157,7 @@ class Opportunities extends React.Component {
           : ''}
 
         <div id="collapseOpportunities" className="collapse show mh-200" aria-labelledby="headingOpportunities">
-          <div className="list-group border-bottom">
+          <div className="list-group">
             {opportunities.map(opportunity => (
               <div key={`opportunity-${opportunity.id}-${entityId}`} onClick={() => this.context.router.history.push(`/opportunities/${opportunity.id}`)} className="list-group-item list-group-item-action align-items-start">
                 <p className="mini-text text-muted float-right">{opportunity.stage.name}</p>

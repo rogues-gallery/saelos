@@ -140,7 +140,7 @@ class Contacts extends React.Component {
           : ''}
 
         <div id="collapseContacts" className="collapse show mh-200" aria-labelledby="headingContacts">
-          <div className="list-group border-bottom">
+          <div className="list-group">
             <ContactList contacts={contacts} dispatch={dispatch} />
           </div>
         </div>
