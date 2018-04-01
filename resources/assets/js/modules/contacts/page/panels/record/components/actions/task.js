@@ -18,9 +18,9 @@ class TaskAction extends Component {
     this.state = {
       formState: {
         user_id: this.props.user.id,
-        contact_id: this.props.contact.id,
-        opportunity_id: null,
-        company_id: null
+        contact_id: typeof this.props.contact !== 'undefined' ? this.props.contact.id : null,
+        opportunity_id: typeof this.props.opportunity !== 'undefined' ? this.props.opportunity.id : null,
+        company_id: typeof this.props.company !== 'undefined' ? this.props.company.id : null
       }
     }
   }
@@ -58,9 +58,9 @@ class TaskAction extends Component {
           this.setState({
             formState: {
               user_id: this.props.user.id,
-              contact_id: this.props.contact.id,
-              opportunity_id: null,
-              company_id: null
+              contact_id: typeof this.props.contact !== 'undefined' ? this.props.contact.id : null,
+              opportunity_id: typeof this.props.opportunity !== 'undefined' ? this.props.opportunity.id : null,
+              company_id: typeof this.props.company !== 'undefined' ? this.props.company.id : null
             }
           })
 
@@ -73,9 +73,9 @@ class TaskAction extends Component {
     this.setState({
       formState: {
         user_id: this.props.user.id,
-        contact_id: this.props.contact.id,
-        opportunity_id: null,
-        company_id: null
+        contact_id: typeof this.props.contact !== 'undefined' ? this.props.contact.id : null,
+        opportunity_id: typeof this.props.opportunity !== 'undefined' ? this.props.opportunity.id : null,
+        company_id: typeof this.props.company !== 'undefined' ? this.props.company.id : null
       }
     })
 
@@ -83,11 +83,25 @@ class TaskAction extends Component {
   }
 
   render() {
-    const { contact } = this.props
+    const { contact, company, opportunity } = this.props
     const { formState } = this.state
 
-    const opportunityOptions = contact.opportunities.map(o => ({value: o.id, label: o.name}))
-    const companyOptions = contact.companies.map(c => ({value: c.id, label: c.name}))
+    const contactOptions = typeof company !== 'undefined' ?
+      company.contacts.map(c => ({value: c.id, label: c.name}))
+      : typeof opportunity !== 'undefined' ?
+        opportunity.contacts.map(c => ({value: c.id, label: c.name}))
+        : []
+    const companyOptions = typeof contact !== 'undefined' ?
+      contact.companies.map(c => ({value: c.id, label: c.name}))
+      : typeof opportunity !== 'undefined' ?
+        opportunity.companies.map(c => ({value: c.id, label: c.name}))
+        : []
+    const opportunityOptions = typeof contact !== 'undefined' ?
+      contact.opportunities.map(o => ({value: o.id, label: o.name}))
+      : typeof company !== 'undefined' ?
+          company.opportunities.map(o => ({value: o.id, label: o.name}))
+        : []
+
 
     return(
       <div className="card-body taskActionView">
@@ -140,6 +154,26 @@ class TaskAction extends Component {
                 options={opportunityOptions} />
             </div>
             : ''}
+
+            {contactOptions.length ?
+              <div className="col">
+                <label htmlFor="emailOpportunity">Contact</label>
+                <Select
+                  multi={false}
+                  value={this.state.formState.contact_id}
+                  onChange={(value) => {
+                    const event = {
+                      target: {
+                        name: 'contact_id',
+                        value: value ? value.value : null
+                      }
+                    }
+
+                    this._handleInputChange(event)
+                  }}
+                  options={contactOptions} />
+              </div>
+              : ''}
 
           {companyOptions.length ?
             <div className="col">

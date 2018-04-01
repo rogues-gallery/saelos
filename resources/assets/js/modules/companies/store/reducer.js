@@ -88,7 +88,7 @@ export default function companyReducer(state = initialState, action) {
       if (index >= 0) {
         state.data[index] = action.data
       } else {
-        state.data.push(action.data);
+        state.data.push(action.data)
       }
 
       return {
