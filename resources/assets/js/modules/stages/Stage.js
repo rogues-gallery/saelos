@@ -13,7 +13,6 @@ class Stage extends Model {
     this.name = props.name || ''
     this.probability = props.probability || ''
     this.active = props.active || 0
-
   }
 }
 

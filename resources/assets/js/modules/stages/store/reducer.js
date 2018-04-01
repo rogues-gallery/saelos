@@ -20,6 +20,16 @@ const initialState = {
 
 export default function stageReducer(state = initialState, action) {
   switch (action.type) {
+    case types.EDITING_STAGE:
+      return {
+        ...state,
+        inEdit: !state.inEdit
+      }
+    case types.EDITING_STAGE_FINISHED:
+      return {
+        ...state,
+        inEdit: false
+      }
     case types.FETCHING_STAGES:
       return {
         ...state,
@@ -89,7 +99,7 @@ export default function stageReducer(state = initialState, action) {
 }
 
 const injectStageIntoState = (stage, data) => {
-  const index = _.findIndex(data, (c) => c.id === parseInt(stage.id))
+  const index = _.findIndex(data, (s) => s.id === parseInt(stage.id))
 
   if (index >= 0) {
     data[index] = stage

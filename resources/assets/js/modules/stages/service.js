@@ -55,7 +55,7 @@ export const saveStage = (params) => (dispatch) => {
   if (params.id) {
     return Http.patch(`stages/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingStageSuccess(res.data.data))
+        dispatch(actions.postingStageSuccess(res.data))
       })
       .catch(err => {
         console.log(err)
@@ -64,7 +64,7 @@ export const saveStage = (params) => (dispatch) => {
   } else {
     return Http.post(`stages`, params)
       .then(res => {
-        dispatch(actions.postingStageSuccess(res.data.data))
+        dispatch(actions.postingStageSuccess(res.data))
       })
       .catch(err => {
         console.log(err)

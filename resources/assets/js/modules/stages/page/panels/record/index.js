@@ -3,6 +3,7 @@ import {getStage} from "../../../store/selectors"
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom"
 import {fetchStage, saveStage, deleteStage} from "../../../service"
+import {editingStage, editingStageFinished} from "../../../store/actions"
 
 class Record extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class Record extends React.Component {
     const { dispatch } = this.props
 
     if (this.props.match.params.id === 'new') {
-      //dispatch(editingField())
+      dispatch(editingStage())
     } else {
       dispatch(fetchStage(this.props.match.params.id))
     }
@@ -40,13 +41,13 @@ class Record extends React.Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     let name = target.name;
-    const { formState } = this.state;
+    let stageState = this.state.formState;
 
     // Set the value on the contact prop as well
-    _.set(formState, name, value)
+    _.set(stageState, name, value)
 
     this.setState({
-      formState
+      formState: stageState
     })
   }
 
@@ -60,11 +61,11 @@ class Record extends React.Component {
     }
   }
 
-	render() {  
+	render() {
     const { stage, user } = this.props
     const { formState } = this.state
 
-    if (stage.id === null) {
+    if (stage.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">Select a stage on the left to edit.</h2>
@@ -75,8 +76,8 @@ class Record extends React.Component {
     return (
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">
-	          <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
-          Edit Stage: {formState.name}
+          <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
+          {formState.name ? formState.name : 'New Stage'}
         </h4>
 
         <div className="h-scroll">
@@ -122,5 +123,5 @@ class Record extends React.Component {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  stage: getStage(state, ownProps.match.params.id),
+  stage: getStage(state, ownProps.match.params.id)
 }))(Record))

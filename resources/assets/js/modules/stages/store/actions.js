@@ -52,3 +52,11 @@ export const deletingStageSuccess = (payload) => ({
 export const deletingStageFailure = () => ({
   type: types.DELETING_STAGE_FAILURE
 })
+
+export const editingStage = () => ({
+  type: types.EDITING_STAGE
+})
+
+export const editingStageFinished = () => ({
+  type: types.EDITING_STAGE_FINISHED
+})

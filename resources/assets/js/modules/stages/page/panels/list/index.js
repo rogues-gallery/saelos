@@ -118,7 +118,7 @@ Stage.propTypes = {
   stage: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
-  activeID: PropTypes.number.isRequired
+  activeID: PropTypes.number
 };
 
 export default List
