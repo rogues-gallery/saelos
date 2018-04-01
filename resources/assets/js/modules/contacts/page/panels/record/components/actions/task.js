@@ -110,9 +110,9 @@ class TaskAction extends Component {
           <div className="form-group col-md-4">
             <label htmlFor="assignee_name">Assignee</label>
             { user.authorized(['admin', 'manager']) ?
-              <select className="form-control">
+              <select className="form-control" defaultValue={user.id}>
                 {user.team.users.map(u => (
-                  <option key={`team-${user.team.id}-member-${u.id}`} value={u.id} selected={user.id == u.id ? 'selected' : ''}>{u.name}</option>
+                  <option key={`team-${user.team.id}-member-${u.id}`} value={u.id}>{u.name}</option>
                 ))}
               </select>
             : <input type="text" readOnly className="form-control" value={u.id}>{u.name}</input> }
