@@ -18,16 +18,6 @@ class Record extends React.Component {
     }
   }
 
-  componentWillMount() {
-    const { dispatch } = this.props
-
-    if (this.props.match.params.id === 'new') {
-      dispatch(editingStage())
-    } else {
-      dispatch(fetchStage(this.props.match.params.id))
-    }
-  }
-
   componentWillReceiveProps(nextProps, nextContext) {
     this.setState({formState: nextProps.stage.originalProps})
   }

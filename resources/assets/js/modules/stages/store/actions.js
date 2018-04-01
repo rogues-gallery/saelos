@@ -1,4 +1,5 @@
-import * as types from './action-types';
+import * as types from './action-types'
+import * as notifications from '../notifications'
 
 export const fetchingStage = () => ({
   type: types.FETCHING_SINGLE_STAGE
@@ -31,10 +32,14 @@ export const postingStage = () => ({
   type: types.POSTING_STAGE
 })
 
-export const postingStageSuccess = (payload) => ({
+export const postingStageSuccess = (payload) => {
+  notifications.onStageSave(payload)
+
+  return {
   type: types.POSTING_STAGE_SUCCESS,
   data: payload
-})
+  }
+}
 
 export const postingStageFailure = () => ({
   type: types.POSTING_STAGE_FAILURE

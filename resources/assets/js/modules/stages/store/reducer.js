@@ -115,7 +115,7 @@ export const getStage = (state, id) => {
   let stage = _.find(getStages(state), (s) => s.id === parseInt(id));
 
   if (typeof stage === 'undefined') {
-    return new Stage({})
+    return Stage.create()
   }
 
   return stage;

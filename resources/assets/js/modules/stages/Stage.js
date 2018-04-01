@@ -1,4 +1,12 @@
 import Model from '../../utils/Model'
+import _ from 'lodash'
+
+const initialShape = {
+  name: '',
+  probability: '',
+  active: '',
+  color: ''
+}
 
 class Stage extends Model {
   constructor(props) {
@@ -12,7 +20,12 @@ class Stage extends Model {
 
     this.name = props.name || ''
     this.probability = props.probability || ''
+    this.color = props.color || ''
     this.active = props.active || 0
+  }
+
+  static create() {
+    return new Stage(initialShape)
   }
 }
 

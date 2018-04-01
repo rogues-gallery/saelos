@@ -42,9 +42,6 @@ class Record extends React.Component {
     let name = target.name
     const { formState } = this.state
 
-    // Set the value on the contact prop as well
-    _.set(formState, name, value)
-
     this.setState({
       formState
     })
