@@ -9,14 +9,15 @@ import { ActionView } from '../../../../contacts/page/panels/record/components'
 import { Link } from "react-router-dom"
 import { Money } from 'react-format'
 import * as MDIcons from 'react-icons/lib/md'
-import {deleteActivity, saveActivity} from "../../../../activities/service"
+import {deleteActivity, saveActivity} from '../../../../activities/service'
+import TagsPartial from '../../../../tags/partials/tags'
 import _ from 'lodash'
-
 
 class Record extends React.Component {
   constructor(props) {
     super(props)
 
+    this._toggleEdit = this._toggleEdit.bind(this)
     this._submit = this._submit.bind(this)
     this._complete = this._complete.bind(this)
     this._delete = this._delete.bind(this)
@@ -34,6 +35,11 @@ class Record extends React.Component {
     this._submit(formState)
   }
 
+
+  _toggleEdit() {
+    this.props.dispatch(editingCompany())
+  }
+
   _submit(state) {
     const submitData = state.id ? state : this.state.formState
 
@@ -45,7 +51,7 @@ class Record extends React.Component {
   }
 
   render() {
-    const { activity, statuses, stages } = this.props
+    const { inEdit, activity, statuses, stages } = this.props
     const actionView = activity.details_type === 'App\\CallActivity' ? 'call' : 'email'
 
     if (activity.id === null && this.props.match.params.id !== 'new') {
@@ -69,8 +75,19 @@ class Record extends React.Component {
 
         </div>
 
+        {inEdit ?
+          <span className="float-right py-3 mt-1">
+            <a href="javascript:void(0);" onClick={this._toggleEdit}>Cancel</a>
+            <span className="ml-2 btn btn-primary btn-sm" onClick={this._submit}>Save</span>
+          </span>
+          :
+          <span className="float-right py-3 mt-1">
+            <a href="javascript:void(0);" onClick={this._toggleEdit}>Edit</a>
+          </span>
+        }
         <h4 className="border-bottom py-3">
           {activity.name}
+          <TagsPartial tags={activity.tags} entityId={activity.id} entityType="App\Activity" />
         </h4>
 
         <div className="h-scroll">
@@ -165,5 +182,6 @@ Record.propTypes = {
 export default withRouter(connect((state, ownProps) => ({
   activity: getActivity(state, ownProps.match.params.id || {}),
   statuses: getStatuses(state),
-  stages: getStages(state)
+  stages: getStages(state),
+  // inEdit: isInEdit(state)
 }))(Record))

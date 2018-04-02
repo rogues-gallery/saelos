@@ -4,11 +4,12 @@ import { connect } from 'react-redux'
 import { convertHex } from '../../../utils/helpers/graphics'
 import { withRouter } from 'react-router-dom'
 import _ from 'lodash'
-import {getTags} from "../store/selectors"
-import {fetchContact, fetchContacts} from "../../contacts/service"
-import {fetchOpportunities, fetchOpportunity} from "../../opportunities/service"
-import {fetchCompanies, fetchCompany} from "../../companies/service"
-import {fetchTags, saveTag} from "../service"
+import {getTags} from '../store/selectors'
+import {fetchContact, fetchContacts} from '../../contacts/service'
+import {fetchOpportunities, fetchOpportunity} from '../../opportunities/service'
+import {fetchCompanies, fetchCompany} from '../../companies/service'
+import {fetchActivities, fetchActivity} from '../../activities/service'
+import {fetchTags, saveTag} from '../service'
 import { CirclePicker } from 'react-color'
 
 class TagsPartial extends React.Component {
@@ -63,6 +64,9 @@ class TagsPartial extends React.Component {
           case 'App\\Opportunity':
             dispatch(fetchOpportunity(entityId))
             break;
+          case 'App\\Activity':
+            dispatch(fetchActivity(entityId))
+            break;
         }
       })
 
@@ -89,6 +93,10 @@ class TagsPartial extends React.Component {
         dispatch(fetchOpportunities({page: 1, searchString}))
         router.history.push(`/opportunities`)
         break;
+      case 'App\\Activity':
+        dispatch(fetchActivities({page:1, searchString}))
+        router.history.push(`/headquarters`)
+        break;
     }
   }
 
@@ -105,6 +113,9 @@ class TagsPartial extends React.Component {
         break;
       case 'App\\Opportunity':
         name = 'opportunity_id'
+        break;
+      case 'App\\Activity':
+        name = 'activity_id'
         break;
     }
 
@@ -144,6 +155,9 @@ class TagsPartial extends React.Component {
         break;
       case 'App\\Opportunity':
         tag.opportunities = _.filter(tag.opportunities, o => o.id !== parseInt(entityId))
+        break;
+      case 'App\\Activity':
+        tag.activities = _.filter(tag.activities, a => a.id !== parseInt(entityId))
         break;
     }
 

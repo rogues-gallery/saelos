@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Contracts\SearchableInterface;
+use App\Contracts\HasTagsInterface;
+use App\ModelTraits\HasTagsTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,8 +15,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\User $user
  * @mixin \Eloquent
  */
-class Activity extends Model implements SearchableInterface
+class Activity extends Model implements SearchableInterface, HasTagsInterface
 {
+    use HasTagsTrait;
+
     protected $touches = [
         'opportunity',
         'contact',

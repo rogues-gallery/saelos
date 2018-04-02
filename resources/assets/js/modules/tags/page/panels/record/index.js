@@ -77,7 +77,7 @@ class Record extends React.Component {
 	render() {
     const { tag } = this.props
     const { formState, pickerOpen, inEdit } = this.state
-    const { contacts, opportunities, companies } = tag
+    const { contacts, opportunities, companies, activities } = tag
 
     if (tag.id === null) {
       return (
@@ -138,7 +138,7 @@ class Record extends React.Component {
           </div>
         : '' }
         <div className="row no-gutters">
-          <div className="col-md-4 border-right pr-0 col-sm-12">
+          <div className="col-md-3 border-right pr-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
               <div className="pt-1 mt-1 h5 text-center">
                 Contacts
@@ -157,7 +157,7 @@ class Record extends React.Component {
               ))}
             </div>
           </div>
-          <div className="col-md-4 border-right px-0 col-sm-12">
+          <div className="col-md-3 border-right px-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
               <div className="pt-1 mt-1 h5 text-center">
                 Companies
@@ -176,7 +176,7 @@ class Record extends React.Component {
               ))}
             </div>
           </div>
-          <div className="col-md-4 border-right pl-0 col-sm-12">
+          <div className="col-md-3 border-right pl-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
               <div className="pt-1 mt-1 h5 text-center">
                 Opportunities
@@ -191,6 +191,25 @@ class Record extends React.Component {
                 >
                   <span className="text-muted mini-text float-right">{moment(opportunity.updated_at).fromNow()}</span>
                   <h6>{opportunity.name}</h6>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="col-md-3 border-right pl-0 col-sm-12">
+            <div className="position-relative py-2 border-bottom">
+              <div className="pt-1 mt-1 h5 text-center">
+                Tasks
+              </div>
+            </div>
+            <div className="list-group h-scroll">
+              {activities.map(activity => (
+                <div
+                  key={`activity-list-${activity.id}`}
+                  onClick={() => this._openRecord('activities', activity.id)}
+                  className="list-group-item list-group-item-action align-items-start"
+                >
+                  <span className="text-muted mini-text float-right">{moment(activity.updated_at).fromNow()}</span>
+                  <h6>{activity.name}</h6>
                 </div>
               ))}
             </div>

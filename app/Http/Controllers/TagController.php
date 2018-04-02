@@ -15,13 +15,14 @@ class TagController extends Controller
     const INDEX_WITH = [
         'opportunities',
         'companies',
-        'contacts',
+        'contacts'
     ];
 
     const SHOW_WITH = [
         'opportunities',
         'companies',
         'contacts',
+        'activities'
     ];
 
     public function index()
@@ -45,6 +46,8 @@ class TagController extends Controller
         $companies = $data['companies'] ?? $tag->companies()->get()->all();
         $opportunityId = $data['opportunity_id'] ?? null;
         $opportunities = $data['opportunities'] ?? $tag->opportunities()->get()->all();
+        $activityId = $data['activity_id'] ?? null;
+        $activities = $data['activities'] ?? $tag->activities()->get()->all();
 
         $contactIds = array_map(function($c) { return $c['id']; }, $contacts);
 
@@ -64,9 +67,16 @@ class TagController extends Controller
             $opportunityIds[] = $opportunityId;
         }
 
+        $activityIds = array_map(function($a) { return $a['id']; }, $activities);
+
+        if ($activityId && !in_array($activityId, $activityIds)) {
+            $activityIds[] = $activityId;
+        }
+
         $tag->contacts()->sync($contactIds);
         $tag->companies()->sync($companyIds);
         $tag->opportunities()->sync($opportunityIds);
+        $tag->activities()->sync($activityIds);
 
         $tag->update($data);
 
@@ -88,6 +98,7 @@ class TagController extends Controller
         $tag->opportunities()->sync([]);
         $tag->contacts()->sync([]);
         $tag->companies()->sync([]);
+        $tag->activities()->sync([]);
 
         $tag->delete();
 

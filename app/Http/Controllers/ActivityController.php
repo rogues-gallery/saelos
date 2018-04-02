@@ -18,7 +18,8 @@ class ActivityController extends Controller
         'company',
         'opportunity',
         'contact',
-        'contact.companies'
+        'contact.companies',
+        'tags'
     ];
 
     const SHOW_WITH = [
@@ -28,6 +29,7 @@ class ActivityController extends Controller
         'opportunity',
         'contact',
         'contact.companies',
+        'tags'
     ];
 
     public function index(Request $request)

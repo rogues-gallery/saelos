@@ -25,4 +25,9 @@ class Tag extends Model
     {
         return $this->morphedByMany(Company::class, 'entity', 'tag_xref');
     }
+
+    public function activities()
+    {
+        return $this->morphedByMany(Activity::class, 'entity', 'tag_xref');
+    }
 }
