@@ -233,7 +233,7 @@ a:hover {
 
     .nav-link.active {
       background: $gray-900;
-      border-left: 4px solid #B21E22;
+      border-left: 4px solid $saelos;
       padding-left:12px;
       &.small {
         border-left: 0;
@@ -663,4 +663,72 @@ a:hover {
 .in-margin {
   margin: 0 0 0 -16px;
   font-size: 12px;
+}
+
+@include media-breakpoint-down(xs) {
+  body {
+    overflow: auto;
+  }
+  .nav-panel {
+    max-width: 100px;
+    a.nav-link {
+      text-align: center;
+      padding: 0.5rem;
+    }
+    .nav .nav-link.active {
+      border-left: 2px solid $saelos;
+      padding: 0.5rem !important;
+    }
+    .nav-item .nav .nav-item .nav-link {
+      text-align:left;
+      padding: 0.5rem 0.75rem !important;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    i.h5 {
+      font-size: $h3-font-size;
+      display: block;
+      margin: 0.5rem;
+    }
+  }
+  .list-panel {
+    max-width: 100%;
+
+    /* TEMPORARY FIX */
+    .text-truncate {
+      white-space: inherit;
+    }
+    .h-scroll {
+      height: 100vh;
+    }
+  }
+  .main-panel
+  {
+    min-width: 100%;
+    border-top: 1px solid $gray-200;
+    min-height: 100vh;
+
+    h2.text-muted {
+      padding-top: 45vh;
+    }
+
+    .h-scroll {
+        .form-control-plaintext {
+          padding: 0;
+        }
+    }
+    &.full-panel {
+    min-width: inherit;
+    max-width: 100%;
+    }
+  }
+  .detail-panel {
+    min-width: 100%;
+  }
+  .main-panel, .detail-panel, .nav-panel {
+    .h-scroll {
+      height: auto;
+    }
+  }
 }

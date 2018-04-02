@@ -12,7 +12,8 @@ import Companies from '../../../../companies/partials/_companies'
 import Notes from '../../../../notes/partials/_notes'
 import Opportunity from '../../../Opportunity'
 import {getFirstOpportunityId, getOpportunity} from '../../../store/selectors'
-import {isInEdit} from "../../../../contacts/store/selectors";
+import {isInEdit} from "../../../../contacts/store/selectors"
+import ListActivities from '../../../../activities/partials/_list'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -90,6 +91,7 @@ const Details = ({opportunity, dispatch, toggle, user, data, options, inEdit}) =
           </div>
         </div>
       </div>
+      <ActivityList opportunity={opportunity} dispatch={dispatch} />
       <Contacts contacts={opportunity.contacts} dispatch={dispatch} entityType='App\Opportunity' entityId={opportunity.id} />
       <Companies companies={opportunity.companies} dispatch={dispatch} entityType='App\Opportunity' entityId={opportunity.id} />
       <Notes notes={opportunity.notes} dispatch={dispatch} entityType="App\Opportunity" entityId={opportunity.id} user={user} />
@@ -121,6 +123,26 @@ const OpportunityTimeline = ({data, options, type}) => {
     <ChartistGraph data={data} options={options} type={type} className="opportunity-timeline" />
   )
 }
+
+const ActivityList = ({opportunity, dispatch}) => {
+  const filtered = _.filter(opportunity.activities, a => a.details_type !== 'App\\FieldUpdateActivity')
+
+  return (
+    <div className="card ct-container">
+      <div className="card-header" id="taskList">
+        <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTasks" aria-expanded="true" aria-controls="collapseTasks">
+          <MDIcons.MdKeyboardArrowDown /> Tasks
+        </h6>
+      </div>
+      <div id="collapseTasks" className="collapse mh-200" aria-labelledby="taskList">
+        <div className="list-group">
+          <ListActivities activities={filtered} dispatch={dispatch} view={'headquarters'} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 
 Detail.propTypes = {
   opportunity: PropTypes.instanceOf(Opportunity).isRequired,

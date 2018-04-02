@@ -60,14 +60,14 @@ class Record extends React.Component {
     }
   }
 
-	render() {  
+	render() {
     const { field } = this.props
 		const { formState } = this.state
 
     if (field.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 className="text-muted text-center">Select a field on the left to edit.</h2>
+          <h2 className="text-muted text-center">Select a field <span className="d-none d-lg-block">on the left</span> to edit.</h2>
         </main>
 			)
     }

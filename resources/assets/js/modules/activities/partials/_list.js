@@ -27,7 +27,7 @@ const Activity = ({ activity, dispatch, router, view }) => {
 
   return (
     <div onClick={() => openActivityRecord(activity.id, view)} className={`list-group-item list-group-item-action align-items-start ${activity.id === 0 ? 'active' : ''}`}>
-      <span className="mini-text text-muted float-right"><b>{moment(activity.due_date).fromNow()}</b></span>
+      <span className={`mini-text ${moment(activity.due_date).isBefore(moment()) ? 'text-danger' : 'text-muted'} float-right`}><b>{moment(activity.due_date).fromNow()}</b></span>
       <h6>{activity.name}</h6>
     </div>
   );

@@ -50,7 +50,7 @@ class Record extends React.Component {
         }
 
     return (
-      <main key={0} className="col main-panel px-3">
+      <main key={0} className="col main-panel px-3 full-panel">
         <h4 className="border-bottom py-3">
           Analytics
         </h4>

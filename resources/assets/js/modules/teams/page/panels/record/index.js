@@ -37,13 +37,13 @@ class Record extends React.Component {
     }
   }
 
-	render() {  
+	render() {
     const { team, user } = this.props
 
     if (team.id === null) {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 className="text-muted text-center">Select a team on the left to edit.</h2>
+          <h2 className="text-muted text-center">Select a team <span className="d-none d-lg-block">on the left </span>to edit.</h2>
         </main>
         )
     }
@@ -86,10 +86,10 @@ class Record extends React.Component {
                 <div className="form-group mb-2">
                   <input type="text" id="teamMembers" name="teamMembers" onChange={this._handleInputChange} className="form-control" placeholder="Team Member" />
                 </div>
-                <div className="form-group mb-2">  
+                <div className="form-group mb-2">
                   <input type="text" id="teamMembers" name="teamMembers" onChange={this._handleInputChange} className="form-control" placeholder="Team Member" />
                 </div>
-                <div className="form-group mb-2">  
+                <div className="form-group mb-2">
                   <input type="text" id="teamMembers" name="teamMembers" onChange={this._handleInputChange} className="form-control" placeholder="Team Member" />
                 </div>
               </li>

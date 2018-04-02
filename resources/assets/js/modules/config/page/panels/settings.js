@@ -9,7 +9,7 @@ class Settings extends React.Component {
 
 	render() {
 		return (
-      <main className="col main-panel px-3">
+      <main className="col main-panel px-3 full-panel">
         <h4 className="border-bottom py-3">
           Settings
         </h4>

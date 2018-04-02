@@ -138,7 +138,7 @@ class Opportunities extends React.Component {
                 }}
               />
               <div className="row pt-2 no-gutters">
-                <div className="col-sm-10">
+                <div className="col-10">
                   <div className="input-group pr-1">
                     <div className="input-group-prepend">
                       <div className="input-group-text">
@@ -148,7 +148,7 @@ class Opportunities extends React.Component {
                     <input type="text" id="role" name="opportunity.pivot.position" placeholder="Role" className="form-control" onChange={this._handleInputChange} />
                   </div>
                 </div>
-                <div className="col-sm-2">
+                <div className="col-2 text-right">
                   <button className="btn btn-primary" onClick={this._submit}>Add</button>
                 </div>
               </div>

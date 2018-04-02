@@ -37,13 +37,13 @@ class Record extends React.Component {
     }
   }
 
-	render() {  
+	render() {
     const { user } = this.props
 
     if (user.id === null) {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 className="text-muted text-center">Select a user on the left to edit.</h2>
+          <h2 className="text-muted text-center">Select a user <span className="d-none d-lg-block">on the left </span>to edit.</h2>
         </main>
         )
     }
@@ -76,7 +76,7 @@ class Record extends React.Component {
                   <div className="">
                     <input type="password" id="userPassword" name="userPassword" onChange={this._handleInputChange} className="form-control" placeholder="Password"  />
                   </div>
-                </div>                
+                </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="userEmail" className="">Email</label>
                   <div className="">

@@ -81,14 +81,14 @@ class Record extends React.Component {
 
     if (tag.id === null) {
       return (
-        <main className="col main-panel px-3 align-self-center">
+        <main className="col main-panel px-3 align-self-center full-panel">
           <h2 className="text-muted text-center">Select a tag on the left to edit.</h2>
         </main>
         )
     }
 
     return (
-      <main className="col main-panel">
+      <main className="col main-panel full-panel">
         <h4 className="border-bottom pl-3 py-3 mb-0">
           <div className="float-right ">
             <button className="btn btn-link list-inline-item" onClick={this._delete}>Delete</button>
@@ -138,7 +138,7 @@ class Record extends React.Component {
           </div>
         : '' }
         <div className="row no-gutters">
-          <div className="col border-right pr-0">
+          <div className="col-md-4 border-right pr-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
               <div className="pt-1 mt-1 h5 text-center">
                 Contacts
@@ -157,7 +157,7 @@ class Record extends React.Component {
               ))}
             </div>
           </div>
-          <div className="col border-right px-0">
+          <div className="col-md-4 border-right px-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
               <div className="pt-1 mt-1 h5 text-center">
                 Companies
@@ -176,7 +176,7 @@ class Record extends React.Component {
               ))}
             </div>
           </div>
-          <div className="col border-right pl-0">
+          <div className="col-md-4 border-right pl-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
               <div className="pt-1 mt-1 h5 text-center">
                 Opportunities

@@ -16,6 +16,7 @@ $gray-800:                        #29363d;
 $gray-900:                        #212121;
 $black:                           #000 !default;
 
+$saelos:                          #B21E22;
 $blue:                            #3886d9;
 $blue-darker:                     #2060a5;
 $blue-hover:                      #f8fbff;
@@ -30,6 +31,7 @@ $teal:                            #20c997 !default;
 $cyan:                            #63c2de;
 
 $colors: (
+  saelos:                         $saelos,
   blue:                           $blue,
   indigo:                         $indigo,
   purple:                         $purple,

@@ -49,7 +49,7 @@ class Record extends React.Component {
     if (activity.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 className="text-muted text-center">Select a task on the left to get started.</h2>
+          <h2 className="text-muted text-center">Select a task <span className="d-none d-lg-block">on the left</span> to get started.</h2>
         </main>
       )
     }
@@ -77,7 +77,7 @@ class Record extends React.Component {
             <ActionView view={actionView} contact={activity.contact} user={activity.user} />
           </div>
           <div className="row">
-          
+
             {activity.contact.id ?
               <div className="col-12">
                 <div className="card mb-1">

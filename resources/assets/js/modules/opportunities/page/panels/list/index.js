@@ -53,7 +53,8 @@ class List extends React.Component {
               key={`opportunity-list-${opportunity.id}`}
               onClick={() => this._openRecord(opportunity.id)}
               className={`list-group-item list-group-item-action align-items-start ${opportunity.id === activeIndex ? 'active' : ''} ${opportunity.user.id === user.id ? 'corner-flag' : ''}`}
-            ><span className="text-muted mini-text float-right"><Money>{opportunity.amount}</Money></span>
+            >
+              <span className="text-muted mini-text float-right"><Money>{opportunity.amount}</Money></span>
               <h6 className="text-truncate pr-1">{opportunity.name}</h6>
               <p>{opportunity.company.name}</p>
               <p className="text-muted">{opportunity.stage.name}</p>

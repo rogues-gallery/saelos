@@ -7,7 +7,7 @@ import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
 
 class Profile extends React.Component {
-  
+
   constructor(props) {
     super(props)
 
@@ -30,7 +30,7 @@ class Profile extends React.Component {
     const { user } = this.props
 
 		return (
-      <main className="col main-panel px-3">
+      <main className="col main-panel px-3 full-panel">
         <h4 className="border-bottom py-3">
           My Profile
         </h4>

@@ -13,7 +13,6 @@ import * as MDIcons from 'react-icons/lib/md'
 import {renderGroupedFields} from "../../../../../utils/helpers/fields"
 import TagsPartial from '../../../../tags/partials/tags'
 
-
 class Record extends React.Component {
   constructor(props) {
     super(props)
@@ -143,7 +142,7 @@ class Record extends React.Component {
 
           <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">Assigned To</div>
-            { user.authorized(['admin', 'manager']) ? 
+            { user.authorized(['admin', 'manager']) ?
             <div className="dropdown show">
               <div className="text-dark mini-text cursor-pointer" id="assigneeDropdown" data-toggle="dropdown"><b>{contact.user.name ? contact.user.name : 'Unassigned'}</b></div>
               <div className="dropdown-menu" aria-labelledby="assigneeDropdown">

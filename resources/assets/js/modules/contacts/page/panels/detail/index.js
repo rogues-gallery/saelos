@@ -145,8 +145,6 @@ const ActivityList = ({contact, dispatch}) => {
       </div>
     </div>
   )
-
-
 }
 
 Detail.propTypes = {

@@ -6,7 +6,7 @@ import { fetchContact, fetchContacts } from '../../../service'
 import {getSearchStringForContacts, getCustomFieldsForContacts, getContacts, getPaginationForContacts} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
 import { getUser } from '../../../../user/store/selectors'
-import {isInEdit} from "../../../../contacts/store/selectors";
+import {isInEdit} from "../../../../contacts/store/selectors"
 
 class List extends React.Component {
   constructor(props) {

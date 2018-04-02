@@ -20,3 +20,17 @@ div.toast {
     right: 17px;
   }
 }
+
+@include media-breakpoint-down(xs) {
+  div.toast {
+    min-width: 100%;
+    max-width: 100%;
+    
+    &.list-toast {
+      left: 0;
+    }
+    &.detail-toast {
+      right:0;
+    }
+  }
+}
