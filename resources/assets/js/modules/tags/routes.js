@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import NavItem from '../../common/navigation/NavItem'
 
 import Page from './page'
@@ -26,9 +27,10 @@ TagList.propTypes = {
   tags: PropTypes.array.isRequired
 }
 
-const TagMenu = connect(state => ({
+// using withRouter here to force updates to child menu
+const TagMenu = withRouter(connect(state => ({
   tags: getTags(state)
-}))(TagList)
+}))(TagList))
 
 export default [
   {
