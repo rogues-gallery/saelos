@@ -35,6 +35,9 @@ class Opportunity extends Model {
         }
     })
 
+    this.primary = props.pivot && props.pivot.primary || 0
+    this.role = props.pivot && props.pivot.position || ''
+
     // relate user model
     this.user = props.user ? new User(props.user) : new User({})
     this.companies = props.companies && props.companies.map(c => new Company(c)) || []

@@ -102,6 +102,8 @@ class Companies extends React.Component {
 
   _getSecondaryDetail(type) {
     switch (type) {
+      case 'App\\Opportunity':
+        return null
       default:
         return 'position'
     }
@@ -169,7 +171,7 @@ class Companies extends React.Component {
                 <p>
                   { company.primary ? <span className="dot bg-primary mini" /> : '' }
                   <strong>{company.name}</strong>
-                  <br />{company[secondaryDetail]}</p>
+                  <br />{secondaryDetail ? company[secondaryDetail] : ''}</p>
               </div>
             ))}
           </div>

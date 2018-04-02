@@ -129,13 +129,16 @@ const StatusTimeline = ({contact}) => {
 }
 
 const ActivityList = ({contact, dispatch}) => {
-  const filtered = _.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity')
+  const filtered = _.filter(
+    _.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity'),
+    fa => fa.completed === 0
+  )
 
   return (
     <div className="card ct-container">
       <div className="card-header" id="taskList">
         <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTasks" aria-expanded="true" aria-controls="collapseTasks">
-          <MDIcons.MdKeyboardArrowDown /> Tasks
+          <MDIcons.MdKeyboardArrowDown /> Tasks <span className="text-muted font-weight-normal">({filtered.length})</span>
         </h6>
       </div>
       <div id="collapseTasks" className="collapse mh-200" aria-labelledby="taskList">

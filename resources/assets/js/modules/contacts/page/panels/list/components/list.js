@@ -3,33 +3,61 @@ import PropTypes from 'prop-types'
 import { fetchContact } from "../../../../service"
 
 class ListContacts extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.openContactRecord = this.openContactRecord.bind(this)
+  }
+
+  openContactRecord(id) {
+    this.props.dispatch(fetchContact(id))
+    this.context.router.history.push(`/contacts/${id}`)
+  }
+
   render() {
-    const { contacts, dispatch } = this.props;
-		const view = this.props.view ? this.props.view : 'contacts'
+    const { contacts, entityType, entityId } = this.props
+
     return (
 			<div>
-				{contacts.map(contact => <Contact key={contact.id} contact={contact} view={view} dispatch={dispatch} router={this.context.router} />)}
+				{contacts.map(contact => {
+				  let tertiaryText
+
+          switch(entityType) {
+            case 'App\\Company':
+              const thisCompany = _.find(contact.companies, c => c.id === entityId)
+
+              tertiaryText = thisCompany ? thisCompany.position : ''
+              break
+            case 'App\\Opportunity':
+              const thisOpportunity = _.find(contact.opportunities, o => o.id === entityId)
+
+              tertiaryText = thisOpportunity ? thisOpportunity.role : ''
+              break
+            default:
+              tertiaryText = contact.company.name
+          }
+
+          return (
+            <div onClick={() => this.openContactRecord(contact.id)} className="list-group-item list-group-item-action align-items-start">
+              <p className="mini-text text-muted float-right"><b>{contact.status.name}</b></p>
+              <p>
+                { contact.pivot.primary ? <span className="dot bg-primary mini" /> : '' }
+                <strong>{contact.first_name} {contact.last_name}</strong>
+                <br />{tertiaryText}
+              </p>
+            </div>
+          )
+        })}
 			</div>
 		)
 	}
 }
 
-const Contact = ({ contact, dispatch, router, view }) => {
-  const openContactRecord = (id, view) => {
-    dispatch(fetchContact(contact.id))
-    router.history.push(`/${view}/${id}`)
-  }
-
-  return (
-    <div onClick={() => openContactRecord(contact.id, view)} className="list-group-item list-group-item-action align-items-start">
-      <p className="mini-text text-muted float-right"><b>{contact.status.name}</b></p>
-      <p>
-        { contact.pivot.primary ? <span className="dot bg-primary mini" /> : '' }
-        <strong>{contact.first_name} {contact.last_name}</strong>
-        <br />{contact.company.name}
-      </p>
-    </div>
-  );
+ListContacts.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  contacts: PropTypes.array.isRequired,
+  entityType: PropTypes.string.isRequired,
+  entityId: PropTypes.number
 }
 
 ListContacts.contextTypes = {

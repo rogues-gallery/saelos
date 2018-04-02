@@ -1,8 +1,9 @@
 import * as types from './action-types'
-import {DELETING_NOTE_SUCCESS, POSTING_NOTE_SUCCESS} from "../../notes/store/action-types"
+import {DELETING_NOTE_SUCCESS, POSTING_NOTE_SUCCESS} from '../../notes/store/action-types'
 import _ from 'lodash'
-import Contact from "../Contact"
-import {CALLING_CONTACT_SUCCESS} from "./action-types";
+import Contact from '../Contact'
+import {CALLING_CONTACT_SUCCESS} from './action-types'
+import {POSTING_TAG_SUCCESS} from '../../tags/store/action-types'
 
 const initialState = {
   data: [],
@@ -152,6 +153,35 @@ export default function contactReducer(state = initialState, action) {
       return {
         ...state,
         data: updatedDataWithActivity
+      }
+    case POSTING_TAG_SUCCESS:
+      const { contacts } = action.data
+      let updatedDataWithTags = state.data
+
+      if (contacts.length === 0) {
+        return state
+      }
+
+      contacts.forEach(c => {
+        const thisContact = _.findIndex(state.data, sc => sc.id === c.id)
+
+        if (thisContact >= 0) {
+          const actualContact = state.data[thisContact]
+          const foundTag = _.findIndex(actualContact.tags, t => t.id === action.data.id)
+
+          if (foundTag >= 0) {
+            actualContact.tags[foundTag] = action.data
+          } else {
+            actualContact.tags.push(action.data)
+          }
+
+          updatedDataWithTags = injectContactIntoState(actualContact, updatedDataWithTags)
+        }
+      })
+
+      return {
+        ...state,
+        data: updatedDataWithTags
       }
     default:
       return state

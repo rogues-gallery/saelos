@@ -91,7 +91,7 @@ class Contacts extends React.Component {
     return (
       <div className="card">
         <div className="card-header" id="headingContacts">
-          <a href="javscript:void(0);" className="float-right" onClick={this._toggleAdd}>
+          <a href="javascript:void(0);" className="float-right" onClick={this._toggleAdd}>
             <strong>+ Add</strong>
           </a>
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseContacts" aria-expanded="true" aria-controls="collapseContacts">
@@ -141,7 +141,7 @@ class Contacts extends React.Component {
 
         <div id="collapseContacts" className="collapse show mh-200" aria-labelledby="headingContacts">
           <div className="list-group">
-            <ContactList contacts={contacts} dispatch={dispatch} />
+            <ContactList {...this.props} />
           </div>
         </div>
       </div>

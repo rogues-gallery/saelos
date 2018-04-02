@@ -1,40 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import * as MDIcons from 'react-icons/lib/md'
 import {fetchActivity} from "../service";
 
 class ListActivities extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      view: props.view ? props.view : 'activities',
-    }
+    this.openActivityRecord = this.openActivityRecord.bind(this)
+  }
+
+  openActivityRecord(id) {
+    this.props.dispatch(fetchActivity(id))
+    this.context.router.history.push(`/headquarters/${id}`)
   }
 
   render() {
-    const { activities, dispatch, ...props } = this.props
-    return activities.map(activity => <Activity key={activity.id} activity={activity} view={this.state.view} dispatch={dispatch} router={this.context.router} />)
+    const { activities } = this.props
+    return activities.map(activity => {
+      // @TODO: Check fulfillment_date in some capacity
+      const dateInstance = moment(activity.due_date ? activity.due_date : null)
+
+      return (
+        <div onClick={() => this.openActivityRecord(activity.id)} className={`list-group-item list-group-item-action align-items-start ${activity.id === 0 ? 'active' : ''}`}>
+          <span className={`mini-text ${dateInstance.isBefore(moment()) ? 'text-danger' : 'text-muted'} float-right`}><b>{dateInstance.fromNow()}</b></span>
+          <h6>{activity.name}</h6>
+        </div>
+      )
+    })
   }
 }
 
-const Activity = ({ activity, dispatch, router, view }) => {
-  const openActivityRecord = (id, view) => {
-    dispatch(fetchActivity(activity.id))
-    router.history.push(`/${view}/${id}`)
-  }
-
-  return (
-    <div onClick={() => openActivityRecord(activity.id, view)} className={`list-group-item list-group-item-action align-items-start ${activity.id === 0 ? 'active' : ''}`}>
-      <span className={`mini-text ${moment(activity.due_date).isBefore(moment()) ? 'text-danger' : 'text-muted'} float-right`}><b>{moment(activity.due_date).fromNow()}</b></span>
-      <h6>{activity.name}</h6>
-    </div>
-  );
+ListActivities.propTypes = {
+  activities: PropTypes.array.isRequired
 }
 
 ListActivities.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired
 }
 
 export default ListActivities
