@@ -32,8 +32,8 @@ const ViewsList = ({views, dispatch}, { router }) => {
   return (
     <li className="nav-item">
       <ul className="nav">
-        {views.map(v =>
-          <li className="nav-item">
+        {views.map((v, i) =>
+          <li className="nav-item" key={i}>
             <a className="nav-link pl-4 small" href="javascript:void(0)" onClick={() => navToSearch(v, dispatch, router)}>
               <span className="dot mr-2" style={{backgroundColor: v.color}} />
               {v.linkText}
