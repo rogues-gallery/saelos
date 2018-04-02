@@ -112,7 +112,10 @@ export const deleteOpportunity = (id) => (dispatch) => {
  * @returns {Promise<any>}
  */
 export const searchOpportunities = (params) => {
-  params = params || {}
+  const state = store.getState()
+  params = Object.assign({}, params || {})
+
+  params.searchParams = parseSearchString(params.searchString, getCustomFieldsForOpportunities(state))
 
   return Http.get('opportunities', {params: params})
     .then(res => {

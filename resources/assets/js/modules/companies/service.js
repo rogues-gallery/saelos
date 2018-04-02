@@ -76,7 +76,12 @@ export const fetchCompanyFields = () => (dispatch) => {
  * @returns {Promise<any>}
  */
 export const searchCompanies = (params) => {
-  params = params || {}
+  const state = store.getState()
+  params = Object.assign({}, params || {})
+
+  params.searchParams = parseSearchString(params.searchString, getCustomFieldsForCompanies(state))
+
+  delete params.searchString
 
   return Http.get('companies', {params: params})
     .then(res => {
