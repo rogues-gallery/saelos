@@ -113,9 +113,15 @@ class Record extends React.Component {
 		              </div>
 	            	</div>
                 <div className={`form-group mb-2`}>
-                  <label htmlFor="userPassword" className="">Password</label>
+                  <label htmlFor="password" className="">Password</label>
                   <div className="">
                     <input type="password" id="password" name="password" onChange={this._handleInputChange} className="form-control" placeholder="Password"  />
+                  </div>
+                </div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="second_password" className="">Confirm Password</label>
+                  <div className="">
+                    <input type="password" id="second_password" name="second_password" onChange={this._handleInputChange} className="form-control" placeholder="Confirm Password"  />
                   </div>
                 </div>
                 <div className={`form-group mb-2`}>

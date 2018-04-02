@@ -58,6 +58,8 @@ class UserController extends Controller
         $customFields = $data['custom_fields'] ?? [];
         $roleId = $data['role_id'] ?? [];
         $roles = $data['roles'] ?? $user->roles()->get()->all();
+        $password = $data['password'] ?? null;
+        $secondPassword = $data['second_password'] ?? null;
 
         $roleIds = array_map(function($r) { return $r['id']; }, $roles);
 
@@ -67,6 +69,12 @@ class UserController extends Controller
 
         $user->roles()->sync($roleIds);
         $user->update($data);
+
+        if ($password && $password === $secondPassword) {
+            $user->password = \Hash::make($password);
+            $user->save();
+        }
+
         $user->assignCustomFields($customFields);
 
         return $this->show($user->id);
