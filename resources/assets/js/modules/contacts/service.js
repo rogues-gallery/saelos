@@ -149,23 +149,16 @@ export const submitCallScore = (params) => (dispatch) => {
 
 /**
  *
- * @param input
+ * @param params
  * @returns {Promise<any>}
  */
-export const searchContacts = (input) => {
-  const searchParams = JSON.stringify({
-    offsets: [
-      {
-        keyword: "freetext",
-        value: input,
-        exact: false
-      }
-    ],
-    text: input,
-    exclude: {}
-  })
+export const searchContacts = (params) => {
+  const state = store.getState()
+  params = Object.assign({}, params || {})
 
-  return Http.get('contacts', {params: {searchParams}})
+  params.searchParams = parseSearchString(params.searchString, getCustomFieldsForContacts(state))
+
+  return Http.get('contacts', {params})
     .then(res => {
       return res.data.data
     })

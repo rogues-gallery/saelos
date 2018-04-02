@@ -37,9 +37,9 @@ const parse = (string, options) => {
   }
 
   // When a simple string, return it
-  if (-1 === string.indexOf(':')) {
-    return string
-  }
+  // if (-1 === string.indexOf(':')) {
+  //   return string
+  // }
 
   // When no keywords or ranges set, treat as a simple string
   if (!options.keywords && !options.ranges){

@@ -1,8 +1,8 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
 import store from '../../store'
-import {parseSearchString} from "../../utils/helpers"
-import {getCustomFieldsForOpportunities} from "./store/selectors";
+import {parseSearchString} from '../../utils/helpers'
+import {getCustomFieldsForOpportunities} from './store/selectors'
 
 /**
  * Fetch the full contact by id
@@ -46,7 +46,7 @@ export const fetchOpportunities = (params) => (dispatch) => {
 
   delete params.searchString
 
-  return Http.get('opportunities', {params: params})
+  return Http.get('opportunities', {params})
     .then(res => {
       dispatch(actions.fetchingOpportunitiesSuccess(res.data))
     })
@@ -112,7 +112,10 @@ export const deleteOpportunity = (id) => (dispatch) => {
  * @returns {Promise<any>}
  */
 export const searchOpportunities = (params) => {
-  params = params || {}
+  const state = store.getState()
+  params = Object.assign({}, params || {})
+
+  params.searchParams = parseSearchString(params.searchString, getCustomFieldsForOpportunities(state))
 
   return Http.get('opportunities', {params: params})
     .then(res => {
