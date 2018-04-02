@@ -15,7 +15,7 @@ class Tag extends Model {
     super.initialize(props)
 
     this.name = props.name || ''
-    this.color = props.color || 0
+    this.color = props.color || ''
     this.opportunities = props.opportunities && props.opportunities.map(o => new Opportunity(o)) || []
     this.companies = props.companies && props.companies.map(c => new Company(c)) || []
     this.contacts = props.contacts && props.contacts.map(c => new Contact(c)) || []

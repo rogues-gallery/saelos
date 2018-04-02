@@ -182,20 +182,28 @@ class TagsPartial extends React.Component {
       <React.Fragment>
         <small className="ml-3">
           {myTags.map(t =>
-            <div key={`entity-${entityId}-tag-${t.id}-${t.color}`} className="btn-group mr-2">
-              <button
-                onClick={() => this._navToSearch(`tag:"${t.name}"`)}
-                style={{backgroundColor: convertHex(t.color, 10), borderColor: t.color, color: t.color}}
-                className="btn btn-outline-secondary btn-sm">
-                {t.name}
-              </button>
-              <button
-                onClick={() => this._removeTag(t.originalProps)}
-                style={{backgroundColor: convertHex(t.color, 10), borderColor: t.color, color: t.color}}
-                className="btn btn-outline-secondary btn-sm">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+            {
+              let tagStyle = t.color !== 'null' ? 
+                {backgroundColor: convertHex(t.color, 10), borderColor: t.color, color: t.color}
+                : {}
+
+              return (
+                <div key={`entity-${entityId}-tag-${t.id}-${t.color}`} className="btn-group mr-2">
+                  <button
+                    onClick={() => this._navToSearch(`tag:"${t.name}"`)}
+                    style={{backgroundColor: convertHex(t.color, 10), borderColor: t.color, color: t.color}}
+                    className="btn btn-outline-secondary btn-sm">
+                    {t.name}
+                  </button>
+                  <button
+                    onClick={() => this._removeTag(t.originalProps)}
+                    style={tagStyle}
+                    className="btn btn-outline-secondary btn-sm">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              )
+            }
           )}
           <button
             onClick={this._toggleAddTag}

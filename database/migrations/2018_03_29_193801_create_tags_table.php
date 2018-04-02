@@ -17,7 +17,7 @@ class CreateTagsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
-            $table->string('color', 7);
+            $table->string('color', 7)->nullable();
         });
 
         Schema::create('tag_xref', function (Blueprint $table) {
