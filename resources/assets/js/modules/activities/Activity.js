@@ -4,6 +4,7 @@ import User from "../user/User";
 import Contact from "../contacts/Contact"
 import Company from "../companies/Company"
 import Opportunity from "../opportunities/Opportunity"
+import Tag from "../tags/Tag";
 
 class Activity extends Model {
   constructor(props) {
@@ -29,6 +30,7 @@ class Activity extends Model {
     this.company = props.company && props.company.length ? new Company(props.company[0]) : new Company({})
     this.contact = props.contact && props.contact.length ? new Contact(props.contact[0]) : new Contact({})
     this.opportunity = props.company && props.opportunity.length  ? new Opportunity(props.opportunity[0]) : new Opportunity({})
+    this.tags = props.tags && props.tags.map(t => new Tag(t)) || []
   }
 }
 
