@@ -32,7 +32,12 @@ class User extends Authenticatable implements HasCustomFieldsInterface
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone',
+        'name',
+        'email',
+        'password',
+        'phone',
+        'team_id',
+        'username',
     ];
 
     /**

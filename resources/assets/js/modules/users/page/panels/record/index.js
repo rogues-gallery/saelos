@@ -1,7 +1,12 @@
 import React from 'react'
-import {getUser} from "../../../store/selectors"
-import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import PropTypes from 'prop-types'
+import {getUser} from '../../../store/selectors'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
+import {deleteUser, saveUser} from '../../../service'
+import {getTeams} from '../../../../teams/store/selectors'
+import { getRoles } from '../../../../roles/store/selectors'
+import Select from 'react-select'
 
 class Record extends React.Component {
   constructor(props) {
@@ -11,34 +16,40 @@ class Record extends React.Component {
     this._handleInputChange = this._handleInputChange.bind(this)
     this._delete = this._delete.bind(this)
 
+    this.state = {
+      formState: props.user.originalProps
+    }
   }
 
   _submit() {
     this.props.dispatch(saveUser(this.state.formState))
-    this.props.dispatch(editingUserFinished())
   }
 
   // @todo: Abstract this out
   _handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    let name = target.name;
-    let userState = this.state.formState;
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    let name = target.name
+    const { formState } = this.state
 
-    // Set the value on the contact prop as well
-    _.set(this.props.field, name, value)
+    _.set(formState, name, value)
+
+    this.setState({
+      formState
+    })
   }
 
   _delete () {
     const { dispatch, user} = this.props
 
     if (confirm('Are you sure?')) {
-      dispatch(deleteField(user.id))
+      dispatch(deleteUser(user.id))
     }
   }
 
 	render() {
-    const { user } = this.props
+    const { user, teams, roles } = this.props
+    const { formState } = this.state
 
     if (user.id === null) {
       return (
@@ -48,10 +59,13 @@ class Record extends React.Component {
         )
     }
 
+    const teamOptions = teams.map(t => ({value: t.id, label: t.name}))
+    const roleOptions = roles.map(r => ({value: r.id, label: r.name}))
+
     return (
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">
-	          <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
+          <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
           Edit User: {user.name}
         </h4>
 
@@ -60,47 +74,76 @@ class Record extends React.Component {
             <ul className={`list-group list-group-flush`}>
 			        <li className="list-group-item">
 			          <div className={`form-group mb-2`}>
-		              <label htmlFor="userName" className="">Name</label>
+		              <label htmlFor="name" className="">Name</label>
 		              <div className="">
-		                <input type="text" id="userName" name="userName" onChange={this._handleInputChange} className="form-control" value={user.name} />
+		                <input type="text" id="name" name="name" onChange={this._handleInputChange} className="form-control" value={formState.name} />
 		              </div>
 	            	</div>
 								<div className={`form-group mb-2`}>
-	              	<label htmlFor="userUserName" className="">Username</label>
+	              	<label htmlFor="username" className="">Username</label>
 		              <div className="">
-		                <input type="text" id="userUserName" name="userUserName" onChange={this._handleInputChange} className="form-control" value={user.username}  />
+		                <input type="text" id="username" name="username" onChange={this._handleInputChange} className="form-control" value={formState.username}  />
 		              </div>
 	            	</div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="userPassword" className="">Password</label>
                   <div className="">
-                    <input type="password" id="userPassword" name="userPassword" onChange={this._handleInputChange} className="form-control" placeholder="Password"  />
+                    <input type="password" id="password" name="password" onChange={this._handleInputChange} className="form-control" placeholder="Password"  />
                   </div>
                 </div>
                 <div className={`form-group mb-2`}>
-                  <label htmlFor="userEmail" className="">Email</label>
+                  <label htmlFor="email" className="">Email</label>
                   <div className="">
-                    <input type="text" id="userEmail" name="userEmail" onChange={this._handleInputChange} className="form-control" value={user.email}  />
+                    <input type="text" id="email" name="email" onChange={this._handleInputChange} className="form-control" value={formState.email}  />
                   </div>
                 </div>
 	            	<div className={`form-group mb-2`}>
-		              <label htmlFor="userPhone" className="">Phone</label>
+		              <label htmlFor="phone" className="">Phone</label>
 		              <div className="">
-		                <input type="text" id="userPhone" name="userPhone" onChange={this._handleInputChange} className="form-control" value={user.phone}  />
+		                <input type="text" id="phone" name="phone" onChange={this._handleInputChange} className="form-control" value={formState.phone}  />
 		              </div>
 	            	</div>
 	            </li>
 			        <li className="list-group-item">
 	            	<div className={`form-group mb-2`}>
-                  <label htmlFor="userTeam" className="">Team</label>
+                  <label htmlFor="team_id" className="">Team</label>
                   <div className="">
-                    <input type="text" id="userTeam" name="userTeam" onChange={this._handleInputChange} className="form-control" value={user.team.name}  />
+                    <Select
+                      name="team_id"
+                      options={teamOptions}
+                      value={formState.team_id}
+                      onChange={(value) => {
+                        const event = {
+                          target: {
+                            name: 'team_id',
+                            value: value ? value.value : ''
+                          }
+                        }
+
+                        this._handleInputChange(event)
+                      }}
+                      />
                   </div>
                 </div>
                 <div className={`form-group mb-2`}>
-                  <label htmlFor="userRole" className="">Role</label>
+                  <label htmlFor="roles" className="">Role</label>
                   <div className="">
-                    <input type="text" id="userRole" name="userRole" onChange={this._handleInputChange} className="form-control" value={user.role}  />
+                    <Select
+                      name="roles"
+                      options={roleOptions}
+                      value={formState.roles.map(r => r.id)}
+                      multi={true}
+                      onChange={(value) => {
+                        const event = {
+                          target: {
+                            name: 'roles',
+                            value: value ? value.map(v => ({id: v.value})) : []
+                          }
+                        }
+
+                        this._handleInputChange(event)
+                      }}
+                    />
                   </div>
                 </div>
               </li>
@@ -112,6 +155,14 @@ class Record extends React.Component {
   }
 }
 
+Record.propTypes = {
+  user: PropTypes.object.isRequired,
+  teams: PropTypes.array.isRequired,
+  roles: PropTypes.array.isRequired
+}
+
 export default withRouter(connect((state, ownProps) => ({
   user: getUser(state, ownProps.match.params.id),
+  teams: getTeams(state),
+  roles: getRoles(state)
 }))(Record))

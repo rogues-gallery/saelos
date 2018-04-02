@@ -13,6 +13,7 @@ import statusReducer from '../modules/statuses/store/reducer'
 import activityReducer from '../modules/activities/store/reducer'
 import fieldReducer from '../modules/fields/store/reducer'
 import tagReducer from '../modules/tags/store/reducer'
+import roleReducer from '../modules/roles/store/reducer'
 
 export default combineReducers({
   auth: authReducer,
@@ -28,5 +29,6 @@ export default combineReducers({
   statusState: statusReducer,
   activityState: activityReducer,
   fieldState: fieldReducer,
-  tagState: tagReducer
+  tagState: tagReducer,
+  roleState: roleReducer
 });
