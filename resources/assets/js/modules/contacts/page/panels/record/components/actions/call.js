@@ -91,14 +91,14 @@ class CallAction extends Component {
             </p>
 
             <div className="row pt-3">
-              <div className={`col col-sm-4 ${callState.id ? '' : 'text-muted'}`}>
+              <div className={`col ${callState.id ? '' : 'text-muted'}`}>
                 <label htmlFor="repSentiment">Rep Sentiment Score</label>
                 <div className="pt-1">
                   <input type="range" min="1" max="10" className="slider" name="repSentiment" onChange={this._updateSentimentScore} defaultValue="0" />
                 </div>
               </div>
                 {opportunityOptions.length ?
-                <div className="col col-sm-4">
+                <div className="col">
                   <label htmlFor="callOpportunity">Opportunity</label>
                   <Select
                     multi={false}
@@ -116,10 +116,10 @@ class CallAction extends Component {
                      options={opportunityOptions} />
                 </div>
                     : ''}
-              
-              
+
+
                 {companyOptions.length ?
-                <div className="col col-sm-4">
+                <div className="col">
                   <label htmlFor="callCompany">Company</label>
                   <Select
                     multi={false}

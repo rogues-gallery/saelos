@@ -59,10 +59,27 @@ export const deletingOpportunity = () => ({
   type: types.DELETING_OPPORTUNITY
 })
 
-export const deletingOpportunitySuccess = (payload) => ({
-  type: types.DELETING_OPPORTUNITY_SUCCESS,
-  data: payload
+export const deletingOpportunitySuccess = (payload) => {
+  notifications.onDeleteOpportunitySuccess(payload)
+
+  return {
+    type: types.DELETING_OPPORTUNITY_SUCCESS,
+    data: payload
+  }
+}
+
+export const restoringOpportunity = () => ({
+  type: types.RESTORING_OPPORTUNITY
 })
+
+export const restoringOpportunitySuccess = (payload) => {
+  notifications.onRestoreOpportunitySuccess(payload)
+
+  return {
+    type: types.RESTORING_OPPORTUNITY_SUCCESS,
+    data: payload
+  }
+}
 
 export const deletingOpportunityFailure = () => ({
   type: types.DELETING_OPPORTUNITY_FAILURE

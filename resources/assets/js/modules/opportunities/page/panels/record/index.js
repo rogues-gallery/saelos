@@ -47,10 +47,8 @@ class Record extends React.Component {
   _delete () {
     const { dispatch, opportunity } = this.props
 
-    if (confirm('Are you sure?')) {
-      dispatch(deleteOpportunity(opportunity.id))
-      this.context.router.history.push('/opportunities')
-    }
+    dispatch(deleteOpportunity(opportunity.id))
+    this.context.router.history.push('/opportunities')
   }
 
   _setActionView(view) {

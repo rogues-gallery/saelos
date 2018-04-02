@@ -125,3 +125,16 @@ export const searchOpportunities = (params) => {
       console.log(err)
     })
 }
+
+export const restoreOpportunity = (id) => (dispatch) => {
+  dispatch(actions.restoringOpportunity());
+
+  return Http.patch(`opportunities/${id}`)
+    .then(res => {
+      dispatch(actions.restoringOpportunitySuccess(id))
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.restoringOpportunityFailure())
+    })
+}

@@ -104,6 +104,15 @@ export default function opportunityReducer(state = initialState, action) {
         ...state,
         data: updatedData
       }
+
+    case types.RESTORING_OPPORTUNITY_SUCCESS:
+      const updatedDate = injectOpportunitiesIntoState(action.data, state.data)
+
+      return {
+        ...state,
+        date: updatedData
+      }
+
     case DELETING_NOTE_SUCCESS:
     case POSTING_NOTE_SUCCESS:
       const {entity_type, entity_id} = action.data.data
