@@ -205,7 +205,7 @@ class Record extends React.Component {
               {activities.map(activity => (
                 <div
                   key={`activity-list-${activity.id}`}
-                  onClick={() => this._openRecord('activities', activity.id)}
+                  onClick={() => this._openRecord('headquarters', activity.id)}
                   className="list-group-item list-group-item-action align-items-start"
                 >
                   <span className="text-muted mini-text float-right">{moment(activity.updated_at).fromNow()}</span>
