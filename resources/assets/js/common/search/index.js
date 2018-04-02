@@ -132,8 +132,8 @@ class AdvancedSearch extends React.Component {
             </div>
         </div>
         <div className="micro-text row text-center pt-3 pb-2">
-          <div className="text-dark col" onClick={() => this._updateSearchString(' active:true')}><b>Active</b></div>
-          <div className="text-muted col" onClick={() => this._updateSearchString(' active:false')}><b>All</b></div>
+          <div className="cursor-pointer text-dark col" onClick={() => this._updateSearchString(' active:true')}><b>Active</b></div>
+          <div className="cursor-pointer text-muted col" onClick={() => this._updateSearchString(' active:false')}><b>All</b></div>
         </div>
       </div>
     )
