@@ -1,5 +1,6 @@
 import Model from '../../utils/Model'
 import Team from '../teams/Team'
+import Role from "../roles/Role";
 
 const jwt_decode = require('jwt-decode')
 
@@ -16,7 +17,7 @@ class User extends Model {
     this.name = props.name || ''
     this.email = props.email || ''
     this.phone = props.phone || ''
-    this.roles = props.roles || []
+    this.roles = props.roles && props.roles.map(r => new Role(r)) || []
 
     this.team = props.team && new Team(props.team) || new Team({})
     this.views = [

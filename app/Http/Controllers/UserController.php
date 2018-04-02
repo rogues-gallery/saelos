@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Notifications\UserUpdated;
+use App\Role;
 use Auth;
 use App\User;
 use App\Http\Resources\UserCollection;
@@ -15,12 +16,14 @@ class UserController extends Controller
         'team',
         'opportunities',
         'customFields',
+        'roles',
     ];
 
     const SHOW_WITH = [
         'team',
         'opportunities',
         'customFields',
+        'roles',
     ];
 
     public function index()
@@ -53,7 +56,16 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $data = $request->all();
         $customFields = $data['custom_fields'] ?? [];
+        $roleId = $data['role_id'] ?? [];
+        $roles = $data['roles'] ?? $user->roles()->get()->all();
 
+        $roleIds = array_map(function($r) { return $r['id']; }, $roles);
+
+        if ($roleId && !in_array($roleId, $roleIds)) {
+            $roleIds[] = $roleId;
+        }
+
+        $user->roles()->sync($roleIds);
         $user->update($data);
         $user->assignCustomFields($customFields);
 
