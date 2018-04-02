@@ -70,7 +70,7 @@ class Detail extends React.Component {
 const Details = ({opportunity, dispatch, toggle, user, data, options, inEdit}) => (
   <div className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom py-2 heading">
-      <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed r-0 mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
+      <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-absolute r-0 mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
       <div className="pt-1 mt-1 h5 text-center">Opportunity Details</div>
     </div>
     <div className="h-scroll">
@@ -102,7 +102,7 @@ const Details = ({opportunity, dispatch, toggle, user, data, options, inEdit}) =
 const History = ({activities, dispatch, toggle, inEdit}) => (
   <div className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom py-2 heading">
-      <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-fixed ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
+      <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-absolute ml-2" onClick={() => toggle('default')}><span className="h5"><MDIcons.MdKeyboardArrowLeft /></span></a>
       <div className="pt-1 mt-1 h5 text-center">History</div>
     </div>
     <div className="h-scroll history">
