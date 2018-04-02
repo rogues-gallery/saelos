@@ -16,11 +16,24 @@ class FieldLayout extends React.Component {
 
   _buildHtml() {
     const { model, field, inEdit, onChange } = this.props
+    let fieldValue
 
-    let fieldValue = _.get(model, field.alias);
+    if (model.hasOwnProperty(field.alias)) {
+      fieldValue = _.get(model, field.alias);
 
-    if (typeof fieldValue === 'object') {
-      fieldValue = _.get(fieldValue, 'name')
+      if (typeof fieldValue === 'object') {
+        fieldValue = _.get(fieldValue, 'name')
+      }
+    } else {
+      // check custom fields
+      // @TODO: Temp code until we figure out custom fields on User object
+      if (model.hasOwnProperty('custom_fields')) {
+        let cField = _.find(model.custom_fields, f => f.custom_field_alias === field.alias)
+
+        if (cField) {
+          fieldValue = cField.value
+        }
+      }
     }
 
     const readOnly = !inEdit ? {

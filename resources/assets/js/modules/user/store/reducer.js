@@ -2,7 +2,12 @@ import User from '../User'
 import { USER_UPDATE , USER_UNSET } from './action-types'
 import { AUTH_LOGOUT, AUTH_USER } from '../../auth/store/action-types'
 
-const initialState = Object.assign({}, new User({}))
+const initialState = {
+  name: null,
+  username: null,
+  roles: [],
+  team: {}
+}
 
 const reducer = (state = initialState, { type, payload = null }) => {
   switch (type) {

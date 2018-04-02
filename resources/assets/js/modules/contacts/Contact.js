@@ -4,11 +4,11 @@ import Company from '../../modules/companies/Company'
 import store from '../../store'
 import { getCustomFieldsForContacts } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'
-import Note from "../notes/Note"
-import Opportunity from "../opportunities/Opportunity"
+import Note from '../notes/Note'
+import Opportunity from '../opportunities/Opportunity'
 import _ from 'lodash'
 import moment from 'moment'
-import Status from "../statuses/Status"
+import Status from '../statuses/Status'
 import Tag from '../tags/Tag'
 
 class Contact extends Model {

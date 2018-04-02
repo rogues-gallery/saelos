@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {getUser} from '../../../store/selectors'
+import {getFieldsForUsers, getUser} from '../../../store/selectors'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {deleteUser, saveUser} from '../../../service'
 import {getTeams} from '../../../../teams/store/selectors'
 import { getRoles } from '../../../../roles/store/selectors'
 import Select from 'react-select'
+import {renderGroupedFields} from '../../../../../utils/helpers/fields'
+import _ from 'lodash'
 
 class Record extends React.Component {
   constructor(props) {
@@ -31,8 +33,24 @@ class Record extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value
     let name = target.name
     const { formState } = this.state
+    const customFieldIndex = _.findIndex(this.props.fields, f => f.alias === name)
 
-    _.set(formState, name, value)
+    // Special handling for custom field state
+    if (formState.hasOwnProperty(name) === false && customFieldIndex >= 0) {
+      let customField = this.props.fields[customFieldIndex];
+      let userCustomFieldIndex = _.findIndex(formState.custom_fields, f => f.custom_field_id === customField.id);
+
+      if (userCustomFieldIndex >= 0) {
+        formState.custom_fields[userCustomFieldIndex].value = value;
+      } else {
+        formState.custom_fields.push({
+          custom_field_id: customField.id,
+          value: value
+        });
+      }
+    } else {
+      _.set(formState, name, value);
+    }
 
     this.setState({
       formState
@@ -48,8 +66,9 @@ class Record extends React.Component {
   }
 
 	render() {
-    const { user, teams, roles } = this.props
+    const { user, teams, roles, fields } = this.props
     const { formState } = this.state
+    const groups = _.groupBy(fields, 'group')
 
     if (user.id === null) {
       return (
@@ -61,6 +80,14 @@ class Record extends React.Component {
 
     const teamOptions = teams.map(t => ({value: t.id, label: t.name}))
     const roleOptions = roles.map(r => ({value: r.id, label: r.name}))
+    const customFields = renderGroupedFields(
+      true,
+      ['core'],
+      groups,
+      user,
+      this._handleInputChange,
+      true
+    )
 
     return (
       <main className="col main-panel px-3">
@@ -147,6 +174,11 @@ class Record extends React.Component {
                   </div>
                 </div>
               </li>
+              <li className="list-group-item">
+                <div className={`form-group mb-2`}>
+                  {customFields}
+                </div>
+              </li>
 			      </ul>
           </div>
         </div>
@@ -158,11 +190,13 @@ class Record extends React.Component {
 Record.propTypes = {
   user: PropTypes.object.isRequired,
   teams: PropTypes.array.isRequired,
-  roles: PropTypes.array.isRequired
+  roles: PropTypes.array.isRequired,
+  fields: PropTypes.array.isRequired,
 }
 
 export default withRouter(connect((state, ownProps) => ({
   user: getUser(state, ownProps.match.params.id),
   teams: getTeams(state),
-  roles: getRoles(state)
+  roles: getRoles(state),
+  fields: getFieldsForUsers(state)
 }))(Record))

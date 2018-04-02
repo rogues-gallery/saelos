@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getAuth } from "./modules/auth/store/selectors";
+import { getAuth } from './modules/auth/store/selectors'
 import { fetchContactFields } from './modules/contacts/service'
 import { fetchCompanyFields } from './modules/companies/service'
 import { fetchOpportunityFields } from './modules/opportunities/service'
 import { fetchUser } from './modules/auth/service'
-import { fetchTags } from "./modules/tags/service";
-import { fetchRoles } from "./modules/roles/service";
-import {fetchTeams} from "./modules/teams/service";
+import { fetchTags } from './modules/tags/service'
+import { fetchRoles } from './modules/roles/service'
+import { fetchTeams } from './modules/teams/service'
+import { fetchFields } from './modules/fields/service'
 
 class Main extends Component {
   componentWillMount() {
@@ -25,6 +26,7 @@ class Main extends Component {
       dispatch(fetchContactFields())
       dispatch(fetchCompanyFields())
       dispatch(fetchOpportunityFields())
+      dispatch(fetchFields())
       dispatch(fetchTags())
       dispatch(fetchRoles())
       dispatch(fetchTeams())

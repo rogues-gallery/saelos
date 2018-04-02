@@ -1,6 +1,6 @@
 import Model from '../../utils/Model'
 import Team from '../teams/Team'
-import Role from "../roles/Role";
+import Role from '../roles/Role'
 
 const jwt_decode = require('jwt-decode')
 
@@ -12,12 +12,14 @@ class User extends Model {
   }
 
   initialize(props) {
+    // @TODO: Attach custom fields to top level as in Contact, Company, etc. Currently an issue with rendering / speed.
     super.initialize(props)
 
     this.name = props.name || ''
     this.email = props.email || ''
     this.phone = props.phone || ''
     this.roles = props.roles && props.roles.map(r => new Role(r)) || []
+    this.custom_fields = props.custom_fields || []
 
     this.team = props.team && new Team(props.team) || new Team({})
     this.views = [

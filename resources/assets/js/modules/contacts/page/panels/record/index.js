@@ -108,7 +108,7 @@ class Record extends React.Component {
       ['core', 'personal', 'social', 'additional'],
       groups,
       contact,
-      this._handleInputChange
+      this._handleInputChange,
     )
 
     const onAssignmentChange = (id) => {
@@ -123,7 +123,7 @@ class Record extends React.Component {
       this._submit()
     }
 
-    if (contact.id === null || contact.id == 0) {
+    if (contact.id === null || contact.id === 0) {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">Select a contact on the left to view.</h2>
