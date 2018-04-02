@@ -59,7 +59,7 @@ class Record extends React.Component {
     if (stage.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 className="text-muted text-center">Select a stage <span className="d-none d-lg-block">on the left </span>to edit.</h2>
+          <h2 className="text-muted text-center">Select a stage <span className="d-none d-lg-inline">on the left </span>to edit.</h2>
         </main>
         )
     }

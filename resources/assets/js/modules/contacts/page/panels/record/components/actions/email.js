@@ -86,13 +86,13 @@ class EmailAction extends Component {
           <ReactQuill name="email_content" onChange={this._handleContentChange} />
         </div>
         <div className="row">
-          <div className="col col-sm-4 pt-4">
+          <div className="col pt-4">
             <button className="btn btn-primary" onClick={this._submit}>Send</button>
             <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
           </div>
 
             {opportunityOptions.length ?
-              <div className="col col-sm-4">
+              <div className="col">
                 <label htmlFor="emailOpportunity">Opportunity</label>
                 <Select
                   multi={false}
@@ -112,7 +112,7 @@ class EmailAction extends Component {
               : ''}
 
             {companyOptions.length ?
-              <div className="col col-sm-4">
+              <div className="col">
                 <label htmlFor="emailCompany">Company</label>
                 <Select
                   multi={false}

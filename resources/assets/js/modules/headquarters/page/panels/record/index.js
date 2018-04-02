@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getActivity } from "../../../../activities/store/selectors"
+import { getActivity } from '../../../../activities/store/selectors'
+import { getStatuses } from '../../../../statuses/store/selectors'
+import { getStages } from '../../../../stages/store/selectors'
 import { ActionView } from '../../../../contacts/page/panels/record/components'
 import { Link } from "react-router-dom"
 import { Money } from 'react-format'
@@ -43,13 +45,13 @@ class Record extends React.Component {
   }
 
   render() {
-    const { activity } = this.props
+    const { activity, statuses, stages } = this.props
     const actionView = activity.details_type === 'App\\CallActivity' ? 'call' : 'email'
 
     if (activity.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 className="text-muted text-center">Select a task <span className="d-none d-lg-block">on the left</span> to get started.</h2>
+          <h2 className="text-muted text-center">Select a task <span className="d-none d-lg-inline">on the left</span> to get started.</h2>
         </main>
       )
     }
@@ -84,10 +86,20 @@ class Record extends React.Component {
                   <ul className="list-group list-group-flush">
                     <li key="company" className="list-group-item">
                       <div className="mini-text text-muted">Contact Information</div>
-                      <div className="py-2">
-                        <p className="font-weight-bold"><Link className="hidden-link" to={`/contacts/${activity.contact.id}`}>{activity.contact.first_name} {activity.contact.last_name}</Link></p>
-                        <p className=""><Link className="hidden-link" to={`/companies/${activity.contact.company.id}`}>{activity.contact.company.name}</Link></p>
-                        <p className="text-muted">{activity.contact.address1} {activity.contact.city} {activity.contact.state} {activity.contact.zip}</p>
+                      <div className="row">
+                        <div className="col-8 py-2">
+                          <p className="font-weight-bold"><Link className="hidden-link" to={`/contacts/${activity.contact.id}`}>{activity.contact.first_name} {activity.contact.last_name}</Link></p>
+                          <p className=""><Link className="hidden-link" to={`/companies/${activity.contact.company.id}`}>{activity.contact.company.name}</Link></p>
+                          <p className="text-muted">{activity.contact.address1} {activity.contact.city} {activity.contact.state} {activity.contact.zip}</p>
+                        </div>
+                        <div className="col-4">
+                          <label htmlFor="contact-status">Status</label>
+                          <select className="form-control" name="contactStatus" defaultValue={activity.contact.status.id}>
+                            {statuses.map(status => (
+                              <option key={`contact-${status.id}-${activity.id}`} value={status.id}>{status.name}</option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
                     </li>
                   </ul>
@@ -118,10 +130,20 @@ class Record extends React.Component {
                 <ul className="list-group list-group-flush">
                   <li key="company" className="list-group-item">
                     <div className="mini-text text-muted">Opportunity Information</div>
-                    <div className="py-2">
-                      <p className="font-weight-bold"><Link className="hidden-link" to={`/opportunities/${activity.opportunity.id}`}>{activity.opportunity.name}</Link></p>
-                      <p className=""><Money>{activity.opportunity.amount}</Money></p>
-                      <p className="">{activity.opportunity.estimated_close}</p>
+                    <div className="row">
+                      <div className="col-8 py-2">
+                        <p className="font-weight-bold"><Link className="hidden-link" to={`/opportunities/${activity.opportunity.id}`}>{activity.opportunity.name}</Link></p>
+                        <p className=""><Money>{activity.opportunity.amount}</Money></p>
+                        <p className="">{activity.opportunity.estimated_close}</p>
+                      </div>
+                      <div className="col-4">
+                        <label htmlFor="opportunity-stage">Stage</label>
+                        <select className="form-control" name="contactStatus" defaultValue={activity.opportunity.stage.id}>
+                          {stages.map(stage => (
+                            <option key={`opportunity-${stage.id}-${activity.id}`} value={stage.id}>{stage.name}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </li>
                 </ul>
@@ -141,5 +163,7 @@ Record.propTypes = {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  activity: getActivity(state, ownProps.match.params.id || {})
+  activity: getActivity(state, ownProps.match.params.id || {}),
+  statuses: getStatuses(state),
+  stages: getStages(state)
 }))(Record))

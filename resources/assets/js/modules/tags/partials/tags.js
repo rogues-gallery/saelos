@@ -160,7 +160,7 @@ class TagsPartial extends React.Component {
     const { allTags, tags, entityId } = this.props
     const { formState, addTagOpen } = this.state
 
-    // @TODO MAKE myTags and filtered tags part of state instead of filtering here.
+    // @TODO Make myTags and filtered tags part of state instead of filtering here.
     const filtered = _.filter(allTags, at => _.findIndex(tags, t => t.id === at.id) < 0)
     const myTags = _.filter(allTags, at => _.findIndex(tags, t => t.id === at.id) >= 0)
 

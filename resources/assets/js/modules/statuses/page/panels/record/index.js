@@ -62,7 +62,7 @@ class Record extends React.Component {
     if (status.id === null) {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 className="text-muted text-center">Select a status <span className="d-none d-lg-block">on the left </span>to edit.</h2>
+          <h2 className="text-muted text-center">Select a status <span className="d-none d-lg-inline">on the left </span>to edit.</h2>
         </main>
         )
     }

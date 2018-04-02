@@ -43,7 +43,7 @@ class Record extends React.Component {
     if (team.id === null) {
       return (
         <main className="col main-panel px-3 align-self-center">
-          <h2 className="text-muted text-center">Select a team <span className="d-none d-lg-block">on the left </span>to edit.</h2>
+          <h2 className="text-muted text-center">Select a team <span className="d-none d-lg-inline">on the left </span>to edit.</h2>
         </main>
         )
     }
