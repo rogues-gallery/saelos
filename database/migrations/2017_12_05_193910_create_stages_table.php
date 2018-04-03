@@ -19,7 +19,7 @@ class CreateStagesTable extends Migration
             $table->string('name');
             $table->integer('probability');
             $table->boolean('active')->default(1);
-            $table->string('color', 7);
+            $table->string('color', 7)->nullable();
         });
 
         Schema::table('deals', function (Blueprint $table) {

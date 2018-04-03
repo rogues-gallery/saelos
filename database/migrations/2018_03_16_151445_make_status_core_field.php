@@ -18,7 +18,7 @@ class MakeStatusCoreField extends Migration
             $table->timestamps();
             $table->string('name');
             $table->boolean('published')->default(1);
-            $table->string('color', 7);
+            $table->string('color', 7)->nullable();
         });
 
         Schema::table('people', function (Blueprint $table) {
@@ -35,6 +35,6 @@ class MakeStatusCoreField extends Migration
      */
     public function down()
     {
-        
+
     }
 }

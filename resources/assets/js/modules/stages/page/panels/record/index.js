@@ -1,10 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {getStage} from "../../../store/selectors"
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom"
 import {fetchStage, saveStage, deleteStage} from "../../../service"
 import {editingStage, editingStageFinished} from "../../../store/actions"
 import { CirclePicker } from 'react-color'
+import _ from 'lodash'
 
 class Record extends React.Component {
   constructor(props) {
@@ -90,23 +92,23 @@ class Record extends React.Component {
 	            	<div className={`form-group mb-2`}>
 		              <label htmlFor="stageColor" className="">Color</label>
                   <div className="form-group">
-                    <CirclePicker
-                      color={formState.color}
-                      name="stageColor"
-                      width="100%"
-                      circleSize={20}
-                      circleSpacing={10}
-                      onChangeComplete={(color) => {
-                        const event = {
-                          target: {
-                            name: 'color',
-                            value: color.hex
-                          }
+                  <CirclePicker
+                    color={formState.color}
+                    name="color"
+                    width="100%"
+                    circleSize={20}
+                    circleSpacing={10}
+                    onChangeComplete={(color) => {
+                      const event = {
+                        target: {
+                          name: 'color',
+                          value: color.hex
                         }
+                      }
 
-                        this._handleInputChange(event)
-                      }}
-                      placeholder={formState.color} />
+                      this._handleInputChange(event)
+                    }}
+                    placeholder={stage.color} />
                   </div>
 	            	</div>
 	            </li>
@@ -127,6 +129,10 @@ class Record extends React.Component {
       </main>
     )
   }
+}
+
+Record.propTypes = {
+  stage: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({
