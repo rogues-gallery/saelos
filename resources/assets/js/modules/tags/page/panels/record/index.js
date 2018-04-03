@@ -80,6 +80,9 @@ class Record extends React.Component {
     const { formState, pickerOpen, inEdit } = this.state
     const { contacts, opportunities, companies, activities } = tag
 
+    //@TODO Simplify this check somehow/somewhere
+    formState.color = formState.color === null ? '' : formState.color
+
     if (tag.id === null) {
       return (
         <main className="col main-panel px-3 align-self-center full-panel">

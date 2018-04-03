@@ -4,10 +4,10 @@ import _ from 'lodash'
 import FieldLayout from './FieldLayout'
 
 export const renderGroupedFields = (inEdit, order, groups, model, changeHandler, isAdmin = false) =>
+
   order.map(key => {
     const emptyGroup = inEdit || (groups.hasOwnProperty(key) && groups[key].length) ? '' : 'd-none'
-
-
+    
     return (
       <ul key={`group-key-${key}-model-${model.id}`} className={`list-group list-group-flush ${emptyGroup}`}>
         <li className="list-group-item">
