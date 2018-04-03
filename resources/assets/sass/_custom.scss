@@ -167,6 +167,10 @@ a:hover {
       margin-bottom: 1rem !important;
     }
 
+    &.single-height {
+      height: calc(100vh - 52px);
+    }
+
     .list-group-flush:last-child .list-group-item:last-child {
       border-bottom: inherit;
     }

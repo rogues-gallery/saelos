@@ -1,8 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {getStatus} from "../../../store/selectors"
 import {connect} from "react-redux"
 import {withRouter} from "react-router-dom"
-import {fetchStatus, deleteStatus, saveStatus} from "../../../service";
+import {fetchStatus, deleteStatus, saveStatus} from "../../../service"
+import _ from 'lodash'
 
 class Record extends React.Component {
   constructor(props) {
@@ -42,6 +44,8 @@ class Record extends React.Component {
     let name = target.name
     const { formState } = this.state
 
+    _.set(formState, name, value);
+
     this.setState({
       formState
     })
@@ -59,7 +63,7 @@ class Record extends React.Component {
     const { status, user } = this.props
     const { formState } = this.state
 
-    if (status.id === null) {
+    if (status.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">Select a status <span className="d-none d-lg-inline">on the left </span>to edit.</h2>
@@ -71,7 +75,7 @@ class Record extends React.Component {
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">
 	          <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
-          Edit Status: {formState.name}
+          {formState.name ? formState.name : `New Status`}
         </h4>
 
         <div className="h-scroll">
@@ -108,6 +112,10 @@ class Record extends React.Component {
       </main>
     )
   }
+}
+
+Record.propTypes = {
+  status: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({

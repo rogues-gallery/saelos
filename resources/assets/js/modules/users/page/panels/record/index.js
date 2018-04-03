@@ -96,7 +96,7 @@ class Record extends React.Component {
           Edit User: {user.name}
         </h4>
 
-        <div className="h-scroll">
+        <div className="h-scroll single-height">
           <div className="card mb-1">
             <ul className={`list-group list-group-flush`}>
 			        <li className="list-group-item">
@@ -138,45 +138,47 @@ class Record extends React.Component {
 	            	</div>
 	            </li>
 			        <li className="list-group-item">
-	            	<div className={`form-group mb-2`}>
-                  <label htmlFor="team_id" className="">Team</label>
-                  <div className="">
-                    <Select
-                      name="team_id"
-                      options={teamOptions}
-                      value={formState.team_id}
-                      onChange={(value) => {
-                        const event = {
-                          target: {
-                            name: 'team_id',
-                            value: value ? value.value : ''
+                <div className="form-row">
+  	            	<div className={`form-group mb-2 col-6`}>
+                    <label htmlFor="team_id" className="">Team</label>
+                    <div className="">
+                      <Select
+                        name="team_id"
+                        options={teamOptions}
+                        value={formState.team_id}
+                        onChange={(value) => {
+                          const event = {
+                            target: {
+                              name: 'team_id',
+                              value: value ? value.value : ''
+                            }
                           }
-                        }
 
-                        this._handleInputChange(event)
-                      }}
-                      />
+                          this._handleInputChange(event)
+                        }}
+                        />
+                    </div>
                   </div>
-                </div>
-                <div className={`form-group mb-2`}>
-                  <label htmlFor="roles" className="">Role</label>
-                  <div className="">
-                    <Select
-                      name="roles"
-                      options={roleOptions}
-                      value={formState.roles.map(r => r.id)}
-                      multi={true}
-                      onChange={(value) => {
-                        const event = {
-                          target: {
-                            name: 'roles',
-                            value: value ? value.map(v => ({id: v.value})) : []
+                  <div className={`form-group mb-2 col-6`}>
+                    <label htmlFor="roles" className="">Role</label>
+                    <div className="">
+                      <Select
+                        name="roles"
+                        options={roleOptions}
+                        value={formState.roles.map(r => r.id)}
+                        multi={true}
+                        onChange={(value) => {
+                          const event = {
+                            target: {
+                              name: 'roles',
+                              value: value ? value.map(v => ({id: v.value})) : []
+                            }
                           }
-                        }
 
-                        this._handleInputChange(event)
-                      }}
-                    />
+                          this._handleInputChange(event)
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               </li>
