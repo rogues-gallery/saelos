@@ -74,6 +74,7 @@ export default function fieldReducer(state = initialState, action) {
       }
     case types.POSTING_FIELD_SUCCESS:
     case types.FETCHING_SINGLE_FIELD_SUCCESS:
+    case types.RESTORING_FIELD_SUCCESS:
       const newData = injectFieldIntoState(action.data, state.data)
 
       return {
@@ -83,9 +84,24 @@ export default function fieldReducer(state = initialState, action) {
         error: false,
         isPosting: false
       }
+
+    case types.DELETING_FIELD_SUCCESS:
+      const updatedData = removeFieldFromState(action.data, state.data)
+
+      return {
+        ...state,
+        data: updatedData
+      }
+
     default:
       return state
   }
+}
+
+const removeFieldFromState = (id, data) => {
+  _.remove(data, (f) => f.id === parseInt(id))
+
+  return data
 }
 
 // @TODO Merge into state in correct order

@@ -11,6 +11,7 @@ import { fetchTags } from './modules/tags/service'
 import { fetchRoles } from './modules/roles/service'
 import { fetchTeams } from './modules/teams/service'
 import { fetchFields } from './modules/fields/service'
+import { fetchStatuses} from './modules/statuses/service'
 
 class Main extends Component {
   componentWillMount() {
@@ -30,6 +31,7 @@ class Main extends Component {
       dispatch(fetchTags())
       dispatch(fetchRoles())
       dispatch(fetchTeams())
+      dispatch(fetchStatuses())
     }
   }
 

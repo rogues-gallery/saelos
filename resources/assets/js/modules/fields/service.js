@@ -74,14 +74,28 @@ export const saveField = (params) => (dispatch) => {
 }
 
 export const deleteField = (id) => (dispatch) => {
-  dispatch(actions.deletingField());
+  dispatch(actions.deletingField())
 
   return Http.delete(`fields/${id}`)
     .then(res => {
-      dispatch(actions.deletingFieldSuccess(res.data))
+      dispatch(actions.deletingFieldSuccess(id))
     })
     .catch(err => {
       console.log(err)
       dispatch(actions.deletingFieldFailure())
+    })
+}
+
+export const restoreField = (id) => {
+  store.dispatch(actions.restoringField())
+  const params = {action: 'restore'}
+
+  return Http.patch(`fields/${id}`, params)
+    .then(res => {
+      store.dispatch(actions.restoringFieldSuccess(res.data.data))
+    })
+    .catch(err => {
+      console.log(err)
+      store.dispatch(actions.restoringFieldFailure())
     })
 }

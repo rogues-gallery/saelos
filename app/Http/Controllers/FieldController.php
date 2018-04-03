@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\FieldCollection;
 use App\Field;
+use App\Http\Resources\FieldCollection;
 use Illuminate\Http\Request;
 use App\Http\Resources\Field as FieldResource;
 
@@ -35,15 +35,22 @@ class FieldController extends Controller
 
     public function update(Request $request, $id)
     {
-        $stage = Field::findOrFail($id);
+
+      if ($request->input('action') == 'restore'
+        && Field::onlyTrashed()->where('id', $id)->restore()) {
+            $field = Field::findOrFail($id);
+            return $this->show($field->id);
+      }
+
+        $field = Field::findOrFail($id);
         $data = $request->all();
 
         // Cannot change alias after creation
         unset($data['alias']);
 
-        $stage->update($data);
+        $field->update($data);
 
-        return $this->show($stage->id);
+        return $this->show($field->id);
     }
 
     public function store(Request $request)

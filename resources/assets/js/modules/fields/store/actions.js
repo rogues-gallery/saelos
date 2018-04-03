@@ -1,4 +1,5 @@
 import * as types from './action-types';
+import * as notifications from '../notifications'
 
 export const fetchingField = () => ({
   type: types.FETCHING_SINGLE_FIELD
@@ -31,10 +32,14 @@ export const postingField = () => ({
   type: types.POSTING_FIELD
 })
 
-export const postingFieldSuccess = (payload) => ({
+export const postingFieldSuccess = (payload) => {
+  notifications.onFieldSave(payload)
+
+  return {
   type: types.POSTING_FIELD_SUCCESS,
   data: payload
-})
+  }
+}
 
 export const postingFieldFailure = () => ({
   type: types.POSTING_FIELD_FAILURE
@@ -44,11 +49,28 @@ export const deletingField = () => ({
   type: types.DELETING_FIELD
 })
 
-export const deletingFieldSuccess = (payload) => ({
-  type: types.DELETING_FIELD_SUCCESS,
-  data: payload
-})
+export const deletingFieldSuccess = (payload) => {
+  notifications.onDeleteFieldSuccess(payload)
+
+  return {
+    type: types.DELETING_FIELD_SUCCESS,
+    data: payload
+  }
+}
 
 export const deletingFieldFailure = () => ({
   type: types.DELETING_FIELD_FAILURE
 })
+
+export const restoringField = () => ({
+  type: types.RESTORING_FIELD
+})
+
+export const restoringFieldSuccess = (payload) => {
+  notifications.onRestoreFieldSuccess(payload)
+
+  return {
+    type: types.RESTORING_FIELD_SUCCESS,
+    data: payload
+  }
+}

@@ -1,9 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {getField} from "../../../store/selectors"
 import {connect} from "react-redux"
 import {withRouter} from "react-router-dom"
 import {deleteField, fetchField, saveField} from "../../../service"
 import Select from 'react-select'
+import _ from 'lodash'
 
 class Record extends React.Component {
   constructor(props) {
@@ -34,7 +36,6 @@ class Record extends React.Component {
 
   _submit() {
     this.props.dispatch(saveField(this.state.formState))
-    //this.props.dispatch(editingFieldFinished())
   }
 
   // @todo: Abstract this out
@@ -52,12 +53,10 @@ class Record extends React.Component {
   }
 
   _delete () {
-    const { dispatch, field } = this.props
+    const { dispatch, field} = this.props
 
-    if (confirm('Are you sure?')) {
-      dispatch(deleteField(field.id))
-
-    }
+    dispatch(deleteField(field.id))
+    // this.context.router.history.push('/config/fields')
   }
 
 	render() {
@@ -112,9 +111,12 @@ class Record extends React.Component {
 
     return (
       <main className="col main-panel px-3">
+        <div className="list-inline pt-3 float-right">
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}>Delete</button>
+          <button className="btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
+        </div>
         <h4 className="border-bottom py-3">
-          <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
-          Edit Field: {formState.label}
+          {formState.label || 'New Field'}
         </h4>
 
         <div className="h-scroll">
@@ -227,6 +229,14 @@ class Record extends React.Component {
       </main>
     )
   }
+}
+
+Record.propTypes = {
+  field: PropTypes.object.isRequired
+}
+
+Record.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({
