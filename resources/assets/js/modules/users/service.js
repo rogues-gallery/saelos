@@ -85,3 +85,15 @@ export const deleteUser = (id) => (dispatch) => {
       dispatch(actions.deletingUserFailure())
     })
 }
+
+export const createView = (params) => (dispatch) => {
+  dispatch(actions.creatingUserView())
+
+  dispatch(actions.creatingUserViewSuccess(params))
+}
+
+export const removeView = (params) => (dispatch) => {
+  dispatch(actions.deletingUserView())
+
+  dispatch(actions.deletingUserViewSuccess(params))
+}

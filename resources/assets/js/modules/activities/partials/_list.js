@@ -22,7 +22,10 @@ class ListActivities extends React.Component {
       const dateInstance = moment(activity.due_date ? activity.due_date : null)
 
       return (
-        <div onClick={() => this.openActivityRecord(activity.id)} className={`list-group-item list-group-item-action align-items-start ${activity.id === 0 ? 'active' : ''}`}>
+        <div
+          key={activity.id}
+          onClick={() => this.openActivityRecord(activity.id)}
+          className={`list-group-item list-group-item-action align-items-start ${activity.id === 0 ? 'active' : ''}`}>
           <span className={`mini-text ${dateInstance.isBefore(moment()) ? 'text-danger' : 'text-muted'} float-right`}><b>{dateInstance.fromNow()}</b></span>
           <h6>{activity.name}</h6>
         </div>

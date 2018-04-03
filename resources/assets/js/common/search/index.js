@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { parseSearchString } from '../../utils/helpers'
-import ContentEditable from 'react-contenteditable'
 import * as MDIcons from 'react-icons/lib/md'
-import {getViews} from "../../modules/user/store/selectors";
+import {getUser, getViews} from '../../modules/user/store/selectors'
+import { CirclePicker } from 'react-color'
+import {createView, removeView} from "../../modules/users/service";
 
 class AdvancedSearch extends React.Component {
   constructor(props) {
@@ -16,11 +17,19 @@ class AdvancedSearch extends React.Component {
     this._onKeyPress = this._onKeyPress.bind(this)
     this._submit = this._submit.bind(this)
     this._removeView = this._removeView.bind(this)
-    this._addView = this._addView.bind(this)
+    this._toggleAdd = this._toggleAdd.bind(this)
+    this._createView = this._createView.bind(this)
+    this._handleInputChange = this._handleInputChange.bind(this)
     this._clearSearch = this._clearSearch.bind(this)
 
     this.state = {
-      searchString: props.searchString
+      searchString: props.searchString,
+      addingView: false,
+      formState: {
+        linkText: '',
+        color: '',
+        parentItem: props.parentItem
+      }
     }
   }
 
@@ -33,6 +42,18 @@ class AdvancedSearch extends React.Component {
   _handleOnChange(e) {
     this.setState({
       searchString: e.target.value
+    })
+  }
+
+  _handleInputChange(event) {
+    const { target } = event
+    const { value, name } = target
+    const { formState } = this.state
+
+    _.set(formState, name, value)
+
+    this.setState({
+      formState
     })
   }
 
@@ -76,12 +97,37 @@ class AdvancedSearch extends React.Component {
     }) || value
   }
 
-  _removeView() {
-    // @TODO
+  _toggleAdd() {
+    this.setState({
+      addingView: !this.state.addingView
+    })
   }
 
-  _addView() {
-    // @TODO
+  _createView() {
+    const { dispatch, parentItem } = this.props
+    const { formState, searchString } = this.state
+
+    _.set(formState, 'searchString', searchString)
+
+    dispatch(createView(formState))
+
+    this.setState({
+      formState: {
+        name: '',
+        color: '',
+        parentItem
+      }
+    })
+  }
+
+  _removeView() {
+    const { dispatch } = this.props
+    const { searchString, parentItem } = this.state
+
+    dispatch(removeView({
+      searchString,
+      parentItem
+    }))
   }
 
   _clearSearch() {
@@ -95,7 +141,7 @@ class AdvancedSearch extends React.Component {
   }
 
   render() {
-    const { searchString } = this.state
+    const { searchString, addingView, formState } = this.state
     const { views } = this.props
     const viewSearchStrings = views.map(v => v.searchString)
 
@@ -126,9 +172,47 @@ class AdvancedSearch extends React.Component {
               </button>
               : searchString ?
               <button className="btn btn-outline border">
-                <span className="text-muted" onClick={this._addView}><MDIcons.MdAdd /></span>
+                <span className="text-muted" onClick={this._toggleAdd}><MDIcons.MdAdd /></span>
               </button>
                 : '' }
+              {addingView ?
+                <div className="add-tag-container">
+                  <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
+                    <div className="px-2 py-2">
+                      <div className="form-group">
+                        <label htmlFor="linkText">Create New View</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          id="linkText"
+                          name="linkText"
+                          placeholder="View Name"
+                          value={formState.linkText}
+                          onChange={this._handleInputChange} />
+                      </div>
+                      <div className="form-group">
+                        <CirclePicker
+                          color={formState.color}
+                          name="tagColor"
+                          circleSize={20}
+                          circleSpacing={10}
+                          onChangeComplete={(color) => {
+                            const event = {
+                              target: {
+                                name: 'color',
+                                value: color.hex
+                              }
+                            }
+
+                            this._handleInputChange(event)
+                          }}
+                          placeholder={formState.color} />
+                      </div>
+                      <button type="submit" className="btn btn-primary btn-sm" onClick={this._createView}>Create</button>
+                    </div>
+                  </div>
+                </div>
+                : ''}
             </div>
         </div>
         <div className="micro-text row text-center pt-3 pb-2">
@@ -145,9 +229,12 @@ AdvancedSearch.propTypes = {
   searchString: PropTypes.string.isRequired,
   searchFunc: PropTypes.func.isRequired,
   searchFields: PropTypes.object.isRequired,
-  views: PropTypes.array.isRequired
+  views: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
+  parentItem: PropTypes.string.isRequired
 }
 
-export default connect(state => ({
-  views: getViews(state)
+export default connect((state, ownProps) => ({
+  views: getViews(state, ownProps.parentItem),
+  user: getUser(state)
 }))(AdvancedSearch)

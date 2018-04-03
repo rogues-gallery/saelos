@@ -52,3 +52,29 @@ export const deletingUserSuccess = (payload) => ({
 export const deletingUserFailure = () => ({
   type: types.DELETING_USER_FAILURE
 })
+
+export const creatingUserView = () => ({
+  type: types.CREATING_USER_VIEW
+})
+
+export const creatingUserViewSuccess = (payload) => ({
+  type: types.CREATING_USER_VIEW_SUCCESS,
+  data: payload
+})
+
+export const creatingUserViewFailure = () => ({
+  type: types.CREATING_USER_VIEW_FAILURE
+})
+
+export const deletingUserView = () => ({
+  type: types.DELETING_USER_VIEW
+})
+
+export const deletingUserViewSuccess = (payload) => ({
+  type: types.DELETING_USER_VIEW_SUCCESS,
+  data: payload
+})
+
+export const deletingUserViewFailure = () => ({
+  type: types.DELETING_USER_VIEW_FAILURE
+})

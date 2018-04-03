@@ -37,7 +37,8 @@ export default function companyReducer(state = initialState, action) {
     case types.FETCHING_COMPANIES:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        searchString: action.data.hasOwnProperty('searchString') ? action.data.searchString : ''
       }
     case types.FETCHING_COMPANIES_SUCCESS:
       let { data, meta } = action.data

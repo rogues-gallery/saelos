@@ -47,7 +47,7 @@ class List extends React.Component {
 
     return (
       <div className={`col list-panel border-right ${inEdit ? 'inEdit' : ''}`}>
-        <AdvancedSearch searchFunc={fetchContacts} searchFields={fields} searchString={searchString} />
+        <AdvancedSearch searchFunc={fetchContacts} searchFields={fields} searchString={searchString} parentItem='contacts' />
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {contacts.map(contact => (
             <div

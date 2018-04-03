@@ -47,7 +47,7 @@ export const fetchCompanies = (params) => (dispatch) => {
 
   delete params.searchString
 
-  return Http.get('companies', {params: params})
+  return Http.get('companies', {params})
     .then(res => {
       dispatch(actions.fetchingCompaniesSuccess(res.data))
     })

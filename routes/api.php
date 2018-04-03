@@ -66,7 +66,7 @@ Route::group([
         Route::resource('activities', 'ActivityController');
 
         Route::resource('users', 'UserController')
-            ->middleware('scope:admin');
+            ->middleware('scope:admin,manager');
 
         Route::resource('reports', 'ReportController')
             ->middleware('scope:admin,manager');

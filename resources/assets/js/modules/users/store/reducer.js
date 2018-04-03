@@ -83,6 +83,12 @@ export default function userReducer(state = initialState, action) {
         error: false,
         isPosting: false
       }
+    case types.CREATING_USER_VIEW_SUCCESS:
+
+
+      return {
+        ...state
+      }
     default:
       return state
   }

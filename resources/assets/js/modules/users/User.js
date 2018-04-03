@@ -22,18 +22,7 @@ class User extends Model {
     this.custom_fields = props.custom_fields || []
 
     this.team = props.team && new Team(props.team) || new Team({})
-    this.views = [
-      {
-        searchString: 'first_name:"Don"',
-        linkText: 'First Name: Don',
-        color: '#565656'
-      },
-      {
-        searchString: 'first_name:"David"',
-        linkText: 'First Name: David',
-        color: '#656565'
-      }
-    ]
+    this.views = props.views || []
   }
 
   authorized(role) {

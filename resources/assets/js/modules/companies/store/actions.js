@@ -14,11 +14,12 @@ export const fetchingCompanyFailure = () => ({
   type: types.FETCHING_SINGLE_COMPANY_FAILURE
 })
 
-export const fetchingCompanies = () => {
+export const fetchingCompanies = (payload) => {
   notifications.onFetchingCompanies()
 
   return {
-    type: types.FETCHING_COMPANIES
+    type: types.FETCHING_COMPANIES,
+    data: payload
   }
 }
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import Page from './page'
-import {getFirstContactId} from "./store/selectors"
+import {getFirstContactId, getSearchStringForContacts} from "./store/selectors"
 import Main from '../../Main'
 import * as MDIcons from "react-icons/lib/md/index"
 import { getViews } from '../user/store/selectors'
@@ -28,13 +28,15 @@ const navToSearch = ({ searchString }, dispatch, router) => {
   return router.history.push(`/contacts`)
 }
 
-const ViewsList = ({views, dispatch}, { router }) => {
+const ViewsList = ({views, dispatch, searchString, location}, { router }) => {
   return (
     <li className="nav-item">
       <ul className="nav">
         {views.map((v, i) =>
           <li className="nav-item" key={i}>
-            <a className="nav-link pl-4 small" href="javascript:void(0)" onClick={() => navToSearch(v, dispatch, router)}>
+            <a
+              className={`nav-link pl-4 small ${v.searchString === searchString && /contacts/.test(location.pathname) ? 'active' : ''}`}
+              href="javascript:void(0)" onClick={() => navToSearch(v, dispatch, router)}>
               <span className="dot mr-2" style={{backgroundColor: v.color}} />
               {v.linkText}
             </a>
@@ -54,7 +56,8 @@ ViewsList.contextTypes = {
 }
 
 const ViewsMenu = withRouter(connect(state => ({
-  views: getViews(state)
+  views: getViews(state, 'contacts'),
+  searchString: getSearchStringForContacts(state)
 }))(ViewsList))
 
 
