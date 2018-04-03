@@ -4,6 +4,7 @@ import {getStatus} from "../../../store/selectors"
 import {connect} from "react-redux"
 import {withRouter} from "react-router-dom"
 import {fetchStatus, deleteStatus, saveStatus} from "../../../service"
+import { CirclePicker} from 'react-color'
 import _ from 'lodash'
 
 class Record extends React.Component {
@@ -91,7 +92,23 @@ class Record extends React.Component {
 	            	<div className={`form-group mb-2`}>
 		              <label htmlFor="statusColor" className="">Color</label>
 		              <div className="">
-		                <input type="text" id="statusColor" name="color" onChange={this._handleInputChange} className="form-control" value={formState.color}  />
+                  <CirclePicker
+                    color={formState.color}
+                    name="color"
+                    width="100%"
+                    circleSize={20}
+                    circleSpacing={10}
+                    onChangeComplete={(color) => {
+                      const event = {
+                        target: {
+                          name: 'color',
+                          value: color.hex
+                        }
+                      }
+
+                      this._handleInputChange(event)
+                    }}
+                    placeholder={status.color} />
 		              </div>
 	            	</div>
 	            </li>

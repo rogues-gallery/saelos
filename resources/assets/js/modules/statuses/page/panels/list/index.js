@@ -74,10 +74,13 @@ class List extends React.Component {
               defaultValue={searchString}
             />
           </form>
-          <div className="micro-text row text-center pt-3 pb-2"><div className="text-dark col"><b>All</b></div> <div className="text-muted col"><b>Unpublished</b></div></div>
+          <div className="micro-text row text-center pt-3 pb-2">
+            <div className="text-dark col cursor-pointer"><b>All</b></div>
+            <div className="text-muted col cursor-pointer"><b>Unpublished</b></div>
+          </div>
         </div>
         <div className="list-group h-scroll" onScroll={this._onScroll}>
-          {statuses.map(status => <Stage key={status.id} status={status} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
+          {statuses.map(status => <Status key={status.id} status={status} dispatch={dispatch} router={this.context.router} activeID={activeIndex} />)}
         </div>
       </div>
     )
@@ -96,7 +99,7 @@ List.contextTypes = {
   router: PropTypes.object
 }
 
-const Stage = ({ status, dispatch, router, activeID }) => {
+const Status = ({ status, dispatch, router, activeID }) => {
   const openStatusRecord = (id) => {
     dispatch(fetchStatus(status.id))
     router.history.push(`/config/statuses/${id}`)
@@ -112,7 +115,7 @@ const Stage = ({ status, dispatch, router, activeID }) => {
   );
 }
 
-Stage.propTypes = {
+Status.propTypes = {
   status: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
