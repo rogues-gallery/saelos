@@ -32,15 +32,27 @@ const ViewsList = ({views, dispatch, searchString, location}, { router }) => {
   return (
     <li className="nav-item">
       <ul className="nav">
-        {views.map((v, i) =>
-          <li className="nav-item" key={i}>
-            <a
-              className={`nav-link pl-4 small ${v.searchString === searchString && /contacts/.test(location.pathname) ? 'active' : ''}`}
-              href="javascript:void(0)" onClick={() => navToSearch(v, dispatch, router)}>
-              <span className="dot mr-2" style={{backgroundColor: v.color}} />
-              {v.linkText}
-            </a>
-          </li>
+        {views.map((v, i) => {
+
+          //@TODO Review implementation here for optimization.
+          let emojis = v.linkText.match(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)
+          let viewDisplay = emojis instanceof Array ?
+              <span><span className="emoji">{emojis[0]}</span> {_.replace(v.linkText,emojis[0],'')}</span>
+            :
+              v.color ?
+                <span><span className="dot mr-2" style={{backgroundColor: v.color}} /> {v.linkText}</span>
+              :
+                <span><span className="dot mr-2" />{v.linkText}</span>
+          return (
+            <li className="nav-item" key={i}>
+              <a
+                className={`nav-link pl-4 small ${v.searchString === searchString && /contacts/.test(location.pathname) ? 'active' : ''}`}
+                href="javascript:void(0)" onClick={() => navToSearch(v, dispatch, router)}>
+                {viewDisplay}
+              </a>
+            </li>
+          )
+        }
         )}
       </ul>
     </li>

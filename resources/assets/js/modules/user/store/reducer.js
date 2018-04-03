@@ -15,18 +15,6 @@ const initialState = {
       linkText: 'Assigned to me',
       color: '#b21e22',
       parentItem: 'contacts'
-    },
-    {
-      searchString: 'assignee:me',
-      linkText: 'Assigned to me',
-      color: '#b21e22',
-      parentItem: 'opportunities'
-    },
-    {
-      searchString: 'assignee:me',
-      linkText: 'Assigned to me',
-      color: '#b21e22',
-      parentItem: 'companies'
     }
   ]
 }
