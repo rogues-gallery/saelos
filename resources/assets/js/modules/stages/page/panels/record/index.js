@@ -58,6 +58,9 @@ class Record extends React.Component {
     const { stage, user } = this.props
     const { formState } = this.state
 
+    //@TODO Simplify this check somehow/somewhere 
+    formState.color = formState.color === null ? '' : formState.color
+
     if (stage.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
