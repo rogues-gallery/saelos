@@ -55,7 +55,7 @@ export const saveStatus = (params) => (dispatch) => {
   if (params.id) {
     return Http.patch(`statuses/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingStatusSuccess(res.data.data))
+        dispatch(actions.postingStatusSuccess(res.data))
       })
       .catch(err => {
         console.log(err)
@@ -64,7 +64,7 @@ export const saveStatus = (params) => (dispatch) => {
   } else {
     return Http.post(`statuses`, params)
       .then(res => {
-        dispatch(actions.postingStatusSuccess(res.data.data))
+        dispatch(actions.postingStatusSuccess(res.data))
       })
       .catch(err => {
         console.log(err)
