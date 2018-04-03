@@ -12,26 +12,71 @@ import Opportunities from '../../../../opportunities/partials/_opportunities'
 import Companies from "../../../../companies/partials/_companies"
 import Contact from '../../../Contact'
 import Notes from '../../../../notes/partials/_notes'
+import {saveContact} from '../../../service'
 import {getContact, getFirstContactId, isStateDirty} from '../../../store/selectors'
 import {isInEdit} from "../../../../contacts/store/selectors"
 import ListActivities from '../../../../activities/partials/_list'
+import {getStatuses} from '../../../../statuses/store/selectors'
 
 class Detail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      formState: props.contact.originalProps,
       view: "default"
     }
 
     this._toggleView = this._toggleView.bind(this)
+    this._statusChange = this._statusChange.bind(this)
+    this._handleInputChange = this._handleInputChange.bind(this)
+    this._submit = this._submit.bind(this)
   }
 
+  _submit() {
+    this.props.dispatch(saveContact(this.state.formState))
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({formState: nextProps.contact.originalProps})
+  }
+  
   _toggleView(view) {
     this.setState({view})
   }
 
+  // @todo: Abstract this out
+  _handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    let name = target.name;
+    let contactState = this.state.formState;
+
+    _.set(contactState, name, value);
+
+    this.setState({
+      formState: contactState
+    });
+
+    // Set the value on the contact prop as well
+    _.set(this.props.contact, name, value)
+  }
+
+
+  _statusChange(id) {
+    const event = {
+      target: {
+        type: 'text',
+        name: 'status_id',
+        value: id
+      }
+    }
+
+    this._handleInputChange(event)
+    this._submit()
+  }
+
   render() {
-    const { contact, dispatch, user, inEdit } = this.props
+    const { contact, dispatch, user, inEdit, statuses } = this.props
 
     if (contact.id === null) {
       return ''
@@ -39,14 +84,14 @@ class Detail extends React.Component {
 
     switch(this.state.view) {
       case 'default':
-        return <Details contact={contact} dispatch={dispatch} toggle={this._toggleView} user={user} inEdit={inEdit} />
+        return <Details contact={contact} dispatch={dispatch} toggle={this._toggleView} user={user} inEdit={inEdit} statuses={statuses} statusChange={this._statusChange} />
       case 'history':
         return <History activities={contact.activities} dispatch={dispatch} toggle={this._toggleView} inEdit={inEdit} />
     }
   }
 }
 
-const Details = ({contact, dispatch, toggle, user, inEdit}) => (
+const Details = ({contact, dispatch, toggle, user, inEdit, statuses, statusChange}) => (
   <div className={`col detail-panel border-left ${inEdit ? 'inEdit' : ''}`}>
     <div className="border-bottom  py-2 heading">
       <a href="javascript:void(0)" className="mt-1 btn btn-xs btn-outline-secondary position-absolute r-0 mr-2" onClick={() => toggle('history')}><span className="h5"><MDIcons.MdKeyboardArrowRight /></span></a>
@@ -55,7 +100,7 @@ const Details = ({contact, dispatch, toggle, user, inEdit}) => (
       </div>
     </div>
     <div className="h-scroll">
-      <StatusTimeline contact={contact} />
+      <StatusTimeline contact={contact} statuses={statuses} statusChange={statusChange} />
       <ActivityList contact={contact} dispatch={dispatch} />
       <Opportunities opportunities={contact.opportunities} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
       <Companies companies={contact.companies} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
@@ -82,7 +127,8 @@ const History = ({activities, dispatch, toggle, inEdit}) => (
   </div>
 )
 
-const StatusTimeline = ({contact}) => {
+const StatusTimeline = ({contact, statuses, statusChange}) => {
+
   const data = {series: [[null, null, null, 1, 1], [1, 1, 1, 1,null]] }
   const options = {
     low: 0,
@@ -112,12 +158,21 @@ const StatusTimeline = ({contact}) => {
     <div className="card ct-container-inverse">
       <div className="card-header" id="statusTimeline">
         <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTimeline" aria-expanded="true" aria-controls="collapseTimeline">
-          <MDIcons.MdKeyboardArrowDown /> Snapshot
+          <MDIcons.MdKeyboardArrowDown /> Status Snapshot
         </h6>
       </div>
       <div id="collapseTimeline" className="collapse show" aria-labelledby="statusTimeline">
         <div className="card-body border-bottom">
-          <div className="h1 text-center">{contact.status.name}</div>
+
+          <div className="dropdown show">
+            <div id="statusDropdown" data-toggle="dropdown" className="h1 text-center cursor-pointer dropdown">{contact.status.name}</div>
+            <div className="dropdown-menu absolute-centered" aria-labelledby="statusDropdown">
+              {statuses.map(status => (
+                <a key={`contact-${contact.id}-status-${status.id}`} className="dropdown-item" href="javascript:void(0)" onClick={() => statusChange(status.id)}>{status.name}</a>
+              ))}
+            </div>
+          </div>
+
           <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Last touched <span className="text-dark">{moment(contact.updated_at).fromNow()}</span></div>
           <ChartistGraph data={data} options={options} type="Line" className="status-timeline" />
           <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Next Task</div>
@@ -159,5 +214,6 @@ export default withRouter(connect((state, ownProps) => ({
   contact: getContact(state, ownProps.match.params.id || getFirstContactId(state)),
   user: state.user,
   isFetching: isStateDirty(state),
-  inEdit: isInEdit(state)
+  inEdit: isInEdit(state),
+  statuses: getStatuses(state)
 }))(Detail))

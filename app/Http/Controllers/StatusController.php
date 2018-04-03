@@ -10,16 +10,24 @@ use App\Http\Resources\Status as StatusResource;
 class StatusController extends Controller
 {
     const INDEX_WITH = [
-        'contacts',
+        // 'contacts',
     ];
 
     const SHOW_WITH = [
-        'contacts',
+        // 'contacts',
     ];
 
-    public function index()
+    public function index(Request $request)
     {
-        return new StatusCollection(Status::with(static::INDEX_WITH)->paginate());
+      $statuses = Status::with(static::INDEX_WITH);
+
+        if ($searchString = $request->get('searchString')) {
+            $statuses->where('name', 'LIKE', $searchString.'%');
+        }
+
+        $statuses->orderBy('name');
+
+        return new StatusCollection($statuses->paginate());
     }
 
     public function show($id)
