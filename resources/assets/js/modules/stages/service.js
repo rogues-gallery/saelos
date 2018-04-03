@@ -78,10 +78,24 @@ export const deleteStage = (id) => (dispatch) => {
 
   return Http.delete(`stages/${id}`)
     .then(res => {
-      dispatch(actions.deletingStageSuccess(res.data))
+      dispatch(actions.deletingStageSuccess(id))
     })
     .catch(err => {
       console.log(err)
       dispatch(actions.deletingStageFailure())
+    })
+}
+
+export const restoreStage = (id) => {
+  store.dispatch(actions.restoringStage());
+  const params = {action: 'restore'}
+
+  return Http.patch(`stages/${id}`, params)
+    .then(res => {
+      store.dispatch(actions.restoringStageSuccess(res.data.data))
+    })
+    .catch(err => {
+      console.log(err)
+      store.dispatch(actions.restoringStageFailure())
     })
 }

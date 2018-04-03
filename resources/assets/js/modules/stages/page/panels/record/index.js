@@ -47,18 +47,15 @@ class Record extends React.Component {
   _delete () {
     const { dispatch, stage} = this.props
 
-    if (confirm('Are you sure?')) {
-      dispatch(deleteStage(stage.id))
-
-      this.context.router.history.push('/config/stages')
-    }
+    dispatch(deleteStage(stage.id))
+    this.context.router.history.push('/config/stages')
   }
 
 	render() {
     const { stage, user } = this.props
     const { formState } = this.state
 
-    //@TODO Simplify this check somehow/somewhere 
+    //@TODO Simplify this check somehow/somewhere
     formState.color = formState.color === null ? '' : formState.color
 
     if (stage.id === null && this.props.match.params.id !== 'new') {
@@ -71,8 +68,11 @@ class Record extends React.Component {
 
     return (
       <main className="col main-panel px-3">
+        <div className="list-inline pt-3 float-right">
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}>Delete</button>
+          <button className="btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
+        </div>
         <h4 className="border-bottom py-3">
-          <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
           {formState.name ? formState.name : 'New Stage'}
         </h4>
 
@@ -136,6 +136,10 @@ class Record extends React.Component {
 
 Record.propTypes = {
   stage: PropTypes.object.isRequired
+}
+
+Record.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({

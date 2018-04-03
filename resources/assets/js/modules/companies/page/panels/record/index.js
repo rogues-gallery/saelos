@@ -92,8 +92,6 @@ class Record extends React.Component {
     this.setState({
       formState: companyState
     })
-
-    console.log(this.state.formState)
   }
 
   render() {

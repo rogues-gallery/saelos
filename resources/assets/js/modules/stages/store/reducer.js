@@ -70,6 +70,15 @@ export default function stageReducer(state = initialState, action) {
         isFetching: false,
         error: false
       }
+
+      case types.DELETING_STAGE_SUCCESS:
+        const updatedData = removeStageFromState(action.data, state.data)
+
+        return {
+          ...state,
+          data: updatedData
+        }
+
     case types.FETCHING_SINGLE_STAGE_FAILURE:
     case types.FETCHING_STAGES_FAILURE:
       return {
@@ -84,6 +93,7 @@ export default function stageReducer(state = initialState, action) {
       }
     case types.POSTING_STAGE_SUCCESS:
     case types.FETCHING_SINGLE_STAGE_SUCCESS:
+    case types.RESTORING_STAGE_SUCCESS:
       const newData = injectStageIntoState(action.data, state.data)
 
       return {
@@ -96,6 +106,12 @@ export default function stageReducer(state = initialState, action) {
     default:
       return state
   }
+}
+
+const removeStageFromState = (id, data) => {
+  _.remove(data, (s) => s.id === parseInt(id))
+
+  return data
 }
 
 const injectStageIntoState = (stage, data) => {

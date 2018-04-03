@@ -41,6 +41,19 @@ export const postingStageSuccess = (payload) => {
   }
 }
 
+export const restoringStage = () => ({
+  type: types.RESTORING_STAGE
+})
+
+export const restoringStageSuccess = (payload) => {
+  notifications.onRestoreStageSuccess(payload)
+
+  return {
+    type: types.RESTORING_STAGE_SUCCESS,
+    data: payload
+  }
+}
+
 export const postingStageFailure = () => ({
   type: types.POSTING_STAGE_FAILURE
 })
@@ -49,10 +62,14 @@ export const deletingStage = () => ({
   type: types.DELETING_STAGE
 })
 
-export const deletingStageSuccess = (payload) => ({
-  type: types.DELETING_STAGE_SUCCESS,
-  data: payload
-})
+export const deletingStageSuccess = (payload) => {
+  notifications.onDeleteStageSuccess(payload)
+
+  return {
+    type: types.DELETING_STAGE_SUCCESS,
+    data: payload
+  }
+}
 
 export const deletingStageFailure = () => ({
   type: types.DELETING_STAGE_FAILURE

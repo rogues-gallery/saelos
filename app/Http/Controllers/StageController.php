@@ -29,6 +29,12 @@ class StageController extends Controller
 
     public function update(Request $request, $id)
     {
+        if ($request->input('action') == 'restore'
+          && Stage::onlyTrashed()->where('id', $id)->restore()) {
+              $stage = Stage::findOrFail($id);
+              return $this->show($stage->id);
+        }
+
         $stage = Stage::findOrFail($id);
         $data = $request->all();
 

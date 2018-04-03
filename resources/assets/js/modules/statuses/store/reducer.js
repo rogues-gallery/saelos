@@ -60,6 +60,15 @@ export default function statusReducer(state = initialState, action) {
         isFetching: false,
         error: false
       }
+
+      case types.DELETING_STATUS_SUCCESS:
+        const updatedData = removeStatusFromState(action.data, state.data)
+
+        return {
+          ...state,
+          data: updatedData
+        }
+
     case types.FETCHING_SINGLE_STATUS_FAILURE:
     case types.FETCHING_STATUSES_FAILURE:
       return {
@@ -74,6 +83,7 @@ export default function statusReducer(state = initialState, action) {
       }
     case types.POSTING_STATUS_SUCCESS:
     case types.FETCHING_SINGLE_STATUS_SUCCESS:
+    case types.RESTORING_STATUS_SUCCESS:
       const newData = injectStatusIntoState(action.data, state.data)
 
       return {
@@ -86,6 +96,12 @@ export default function statusReducer(state = initialState, action) {
     default:
       return state
   }
+}
+
+const removeStatusFromState = (id, data) => {
+  _.remove(data, (s) => s.id === parseInt(id))
+
+  return data
 }
 
 const injectStatusIntoState = (status, data) => {

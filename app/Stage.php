@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Stage
@@ -12,11 +14,19 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Stage extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = [
         'id',
         'opportunities',
         'userOpportunities',
         'teamOpportunities',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function opportunities()

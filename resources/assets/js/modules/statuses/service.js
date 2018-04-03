@@ -78,10 +78,24 @@ export const deleteStatus = (id) => (dispatch) => {
 
   return Http.delete(`statuses/${id}`)
     .then(res => {
-      dispatch(actions.deletingStatusSuccess(res.data))
+      dispatch(actions.deletingStatusSuccess(id))
     })
     .catch(err => {
       console.log(err)
       dispatch(actions.deletingStatusFailure())
+    })
+}
+
+export const restoreStatus = (id) => {
+  store.dispatch(actions.restoringStatus());
+  const params = {action: 'restore'}
+
+  return Http.patch(`statuses/${id}`, params)
+    .then(res => {
+      store.dispatch(actions.restoringStatusSuccess(res.data.data))
+    })
+    .catch(err => {
+      console.log(err)
+      store.dispatch(actions.restoringStatusFailure())
     })
 }

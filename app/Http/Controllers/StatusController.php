@@ -37,12 +37,18 @@ class StatusController extends Controller
 
     public function update(Request $request, $id)
     {
-        $stage = Status::findOrFail($id);
+
+      if ($request->input('action') == 'restore'
+        && Status::onlyTrashed()->where('id', $id)->restore()) {
+            $status = Status::findOrFail($id);
+            return $this->show($status->id);
+      }
+        $status = Status::findOrFail($id);
         $data = $request->all();
 
-        $stage->update($data);
+        $status->update($data);
 
-        return $stage;
+        return $status;
     }
 
     public function store(Request $request)

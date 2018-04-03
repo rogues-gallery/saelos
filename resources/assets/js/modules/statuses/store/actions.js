@@ -1,4 +1,5 @@
-import * as types from './action-types';
+import * as types from './action-types'
+import * as notifications from '../notifications'
 
 export const fetchingStatus = () => ({
   type: types.FETCHING_SINGLE_STATUS
@@ -31,10 +32,27 @@ export const postingStatus = () => ({
   type: types.POSTING_STATUS
 })
 
-export const postingStatusSuccess = (payload) => ({
-  type: types.POSTING_STATUS_SUCCESS,
-  data: payload
+export const postingStatusSuccess = (payload) => {
+  notifications.onStatusSave(payload)
+
+  return {
+    type: types.POSTING_STATUS_SUCCESS,
+    data: payload
+  }
+}
+
+export const restoringStatus = () => ({
+  type: types.RESTORING_STATUS
 })
+
+export const restoringStatusSuccess = (payload) => {
+  notifications.onRestoreStatusSuccess(payload)
+
+  return {
+    type: types.RESTORING_STATUS_SUCCESS,
+    data: payload
+  }
+}
 
 export const postingStatusFailure = () => ({
   type: types.POSTING_STATUS_FAILURE
@@ -44,10 +62,14 @@ export const deletingStatus = () => ({
   type: types.DELETING_STATUS
 })
 
-export const deletingStatusSuccess = (payload) => ({
-  type: types.DELETING_STATUS_SUCCESS,
-  data: payload
-})
+export const deletingStatusSuccess = (payload) => {
+  notifications.onDeleteStatusSuccess(payload)
+
+  return {
+    type: types.DELETING_STATUS_SUCCESS,
+    data: payload
+  }
+}
 
 export const deletingStatusFailure = () => ({
   type: types.DELETING_STATUS_FAILURE

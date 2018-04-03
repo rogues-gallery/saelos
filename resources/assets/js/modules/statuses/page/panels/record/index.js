@@ -55,9 +55,8 @@ class Record extends React.Component {
   _delete () {
     const { dispatch, status} = this.props
 
-    if (confirm('Are you sure?')) {
-      dispatch(deleteStatus(status.id))
-    }
+    dispatch(deleteStatus(status.id))
+    this.context.router.history.push('/config/statuses')
   }
 
 	render() {
@@ -77,8 +76,11 @@ class Record extends React.Component {
 
     return (
       <main className="col main-panel px-3">
+        <div className="list-inline pt-3 float-right">
+          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}>Delete</button>
+          <button className="btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
+        </div>
         <h4 className="border-bottom py-3">
-	          <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
           {formState.name ? formState.name : `New Status`}
         </h4>
 
@@ -136,6 +138,10 @@ class Record extends React.Component {
 
 Record.propTypes = {
   status: PropTypes.object.isRequired
+}
+
+Record.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default withRouter(connect((state, ownProps) => ({
