@@ -6,6 +6,7 @@ import {withRouter} from "react-router-dom"
 import { CirclePicker } from 'react-color'
 import {deleteTag, fetchTag, fetchTags, saveTag} from "../../../service"
 import moment from "moment/moment"
+import _ from 'lodash'
 
 class Record extends React.Component {
   constructor(props) {
@@ -87,6 +88,16 @@ class Record extends React.Component {
         )
     }
 
+    let emojis = tag.name.match(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)
+    let tagDisplay = emojis instanceof Array ?
+        <span><span className="emoji">{emojis[0]}</span> {_.replace(tag.name,emojis[0],'')}</span>
+      :
+        tag.color ?
+          <span><span className="dot mr-2" style={{backgroundColor: tag.color}} /> {tag.name}</span>
+        :
+          <span><span className="dot mr-2" />{tag.name}</span>
+
+
     return (
       <main className="col main-panel full-panel">
         <h4 className="border-bottom pl-3 py-3 mb-0">
@@ -94,7 +105,7 @@ class Record extends React.Component {
             <button className="btn btn-link list-inline-item" onClick={this._delete}>Delete</button>
             <button className="btn btn-primary mr-3 list-inline-item" onClick={this._toggleEdit}>Edit</button>
           </div>
-          <span className="dot mr-1" style={{backgroundColor: tag.color}} /> {tag.name}
+          {tagDisplay}
         </h4>
 
         {this.state.inEdit ?

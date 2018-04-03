@@ -12,11 +12,24 @@ const TagList = ({tags}) => {
   return (
     <li className="nav-item">
       <ul className="nav">
-        {tags.map(t =>
-          <NavItem key={`tag-nav-item-${t.id}`} path={`/tags/${t.id}`} className="pl-4 small">
-            <span className="dot mr-2" style={{backgroundColor: t.color}} />
-            {t.name}
-          </NavItem>
+        {tags.map(t => {
+          
+          //@TODO Review implementation here for optimization.
+          let emojis = t.name.match(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)
+          let tagDisplay = emojis instanceof Array ?
+              <span><span className="emoji">{emojis[0]}</span> {_.replace(t.name,emojis[0],'')}</span>
+            :
+              t.color ?
+                <span><span className="dot mr-2" style={{backgroundColor: t.color}} /> {t.name}</span>
+              :
+                <span><span className="dot mr-2" />{t.name}</span>
+
+            return (
+              <NavItem key={`tag-nav-item-${t.id}`} path={`/tags/${t.id}`} className="pl-4 small">
+                {tagDisplay}
+              </NavItem>
+            )
+          }
         )}
       </ul>
     </li>

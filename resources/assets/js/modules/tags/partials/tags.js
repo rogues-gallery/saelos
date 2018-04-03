@@ -174,7 +174,6 @@ class TagsPartial extends React.Component {
     const { allTags, tags, entityId } = this.props
     const { formState, addTagOpen } = this.state
 
-    // @TODO Make myTags and filtered tags part of state instead of filtering here.
     const filtered = _.filter(allTags, at => _.findIndex(tags, t => t.id === at.id) < 0)
     const myTags = _.filter(allTags, at => _.findIndex(tags, t => t.id === at.id) >= 0)
 
@@ -183,7 +182,7 @@ class TagsPartial extends React.Component {
         <small className="ml-3">
           {myTags.map(t =>
             {
-              let tagStyle = t.color !== 'null' ? 
+              let tagStyle = t.color !== 'null' ?
                 {backgroundColor: convertHex(t.color, 10), borderColor: t.color, color: t.color}
                 : {}
 
@@ -191,7 +190,7 @@ class TagsPartial extends React.Component {
                 <div key={`entity-${entityId}-tag-${t.id}-${t.color}`} className="btn-group mr-2">
                   <button
                     onClick={() => this._navToSearch(`tag:"${t.name}"`)}
-                    style={{backgroundColor: convertHex(t.color, 10), borderColor: t.color, color: t.color}}
+                    style={tagStyle}
                     className="btn btn-outline-secondary btn-sm">
                     {t.name}
                   </button>
@@ -214,14 +213,17 @@ class TagsPartial extends React.Component {
         {addTagOpen ?
             <div className="add-tag-container">
               <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
-                {filtered.map(t => (
+                {filtered.map(t => {
+                  return(
                   <span
                     key={`entity-${entityId}-tag-${t.id}-${t.color}`}
                     className="dropdown-item px-2 py-2 cursor-pointer" onClick={() => this._tagEntity(t.id)}>
-                      <span className="dot mr-2" style={{backgroundColor: t.color}} />
+                        <span className="dot mr-2" style={{backgroundColor: t.color}} />
                       {t.name}
                     </span>
-                ))}
+                    )
+                  }
+                )}
                 <div className="dropdown-divider" />
                 <div className="px-2 py-2">
                   <div className="form-group">
