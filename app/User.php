@@ -4,6 +4,7 @@ namespace App;
 
 use App\Contracts\HasCustomFieldsInterface;
 use App\ModelTraits\HasCustomFieldsTrait;
+use App\ModelTraits\UserSettingsTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -25,6 +26,7 @@ class User extends Authenticatable implements HasCustomFieldsInterface
 {
     use Notifiable, HasApiTokens;
     use HasCustomFieldsTrait;
+    use UserSettingsTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -110,6 +112,7 @@ class User extends Authenticatable implements HasCustomFieldsInterface
         $array = parent::toArray();
 
         $array['team_leader'] = (isset($array['team']) && $array['team']['leader_id'] === $array['id']);
+        $array['settings'] = $this->getSettings();
 
         $array['vector'] = rand(45, 100);
 

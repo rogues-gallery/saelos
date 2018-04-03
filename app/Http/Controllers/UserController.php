@@ -17,6 +17,7 @@ class UserController extends Controller
         'opportunities',
         'customFields',
         'roles',
+        'settings',
     ];
 
     const SHOW_WITH = [
@@ -24,6 +25,7 @@ class UserController extends Controller
         'opportunities',
         'customFields',
         'roles',
+        'settings',
     ];
 
     public function index()
@@ -56,7 +58,8 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $data = $request->all();
         $customFields = $data['custom_fields'] ?? [];
-        $roleId = $data['role_id'] ?? [];
+        $settings = $data['settings'] ?? [];
+        $roleId = $data['role_id'] ?? null;
         $roles = $data['roles'] ?? $user->roles()->get()->all();
         $password = $data['password'] ?? null;
         $secondPassword = $data['second_password'] ?? null;
@@ -75,6 +78,11 @@ class UserController extends Controller
             $user->save();
         }
 
+        $settings = array_map(function ($setting) {
+            return is_array($setting) ? json_encode($setting) : $setting;
+        }, $settings);
+
+        $user->setSettings($settings);
         $user->assignCustomFields($customFields);
 
         return $this->show($user->id);

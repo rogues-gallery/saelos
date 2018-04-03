@@ -1,6 +1,7 @@
 import Model from '../../utils/Model'
 import Team from '../teams/Team'
 import Role from '../roles/Role'
+import _ from 'lodash'
 
 const jwt_decode = require('jwt-decode')
 
@@ -20,9 +21,10 @@ class User extends Model {
     this.phone = props.phone || ''
     this.roles = props.roles && props.roles.map(r => new Role(r)) || []
     this.custom_fields = props.custom_fields || []
-
+    this.settings = props.settings || {}
     this.team = props.team && new Team(props.team) || new Team({})
-    this.views = props.views || []
+
+    this.views = _.get(props.settings, 'views')
   }
 
   authorized(role) {

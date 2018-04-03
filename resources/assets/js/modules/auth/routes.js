@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import Login from "./pages/login"
-import {deleteState} from "../../store/localStorage"
+import Login from './pages/login'
+import {deleteState} from '../../store/localStorage'
 import * as actions from './store/actions'
 
 const Logout = ({dispatch}) => {

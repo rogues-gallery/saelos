@@ -116,13 +116,14 @@ class AdvancedSearch extends React.Component {
         name: '',
         color: '',
         parentItem
-      }
+      },
+      addingView: false
     })
   }
 
   _removeView() {
-    const { dispatch } = this.props
-    const { searchString, parentItem } = this.state
+    const { dispatch, parentItem } = this.props
+    const { searchString } = this.state
 
     dispatch(removeView({
       searchString,

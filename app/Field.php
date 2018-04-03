@@ -13,21 +13,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Field extends Model
 {
-		use SoftDeletes;
+    use SoftDeletes;
 
-		protected $table = 'fields';
+    protected $table = 'fields';
 
-	    protected $casts = [
-	        'values' => 'array',
-	    ];
+    protected $casts = [
+        'values' => 'array',
+    ];
 
-	    protected $guarded = [
-	        'id',
-	    ];
+    protected $guarded = [
+        'id',
+    ];
 
-			protected $dates = [
-					'created_at',
-					'updated_at',
-					'deleted_at',
-			];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }
