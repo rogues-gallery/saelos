@@ -73,7 +73,7 @@ class AdvancedSearch extends React.Component {
     const { value } = input
     const { dispatch, searchFunc } = this.props
 
-    if (value.length >= 3) {
+    if (value.length >= 3 || (/([\uD800-\uDBFF][\uDC00-\uDFFF])/).test(value)) {
       dispatch(searchFunc({page: 1, searchString: value}))
     } else if (value.length === 0) {
       dispatch(searchFunc({page: 1, searchString: ''}))
