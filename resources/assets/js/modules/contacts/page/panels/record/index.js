@@ -34,7 +34,7 @@ class Record extends React.Component {
 
     if (this.props.match.params.id === 'new') {
       dispatch(editingContact())
-    } else {
+    } else if (this.props.match.params.id > 0) {
       dispatch(fetchContact(this.props.match.params.id))
     }
   }
@@ -123,7 +123,7 @@ class Record extends React.Component {
       this._submit()
     }
 
-    if (contact.id === null || contact.id === 0) {
+    if (contact.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">Select a contact on the left to view.</h2>
