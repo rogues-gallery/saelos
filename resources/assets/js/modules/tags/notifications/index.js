@@ -1,10 +1,12 @@
 import React from 'react'
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"
 import { restoreTag } from '../service'
+import _ from 'lodash'
 
-export const onTagSave = (payload) =>
-  toast(`${payload.name} has been updated.`)
-
+export const onTagSave = (payload, entityType) => {
+  const objectType = _.replace(entityType, 'App\\', '')
+  toast(`${objectType} has been updated.`)
+}
 export const onDeleteTagSuccess = (payload) => {
   toast(<div>
     Tag deleted.

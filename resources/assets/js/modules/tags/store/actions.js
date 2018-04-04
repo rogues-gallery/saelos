@@ -32,8 +32,8 @@ export const postingTag = () => ({
   type: types.POSTING_TAG
 })
 
-export const postingTagSuccess = (payload) => {
-  notifications.onTagSave(payload)
+export const postingTagSuccess = (payload, entityType) => {
+  notifications.onTagSave(payload, entityType)
 
   return {
     type: types.POSTING_TAG_SUCCESS,

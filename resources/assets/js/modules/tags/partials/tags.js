@@ -52,7 +52,7 @@ class TagsPartial extends React.Component {
   _submit(tag) {
     const { entityId, dispatch } = this.props
     const submitData = typeof tag !== 'undefined' ? tag : this.state.formState
-    dispatch(saveTag(submitData))
+    dispatch(saveTag(submitData, this.props.entityType))
       .then(() => {
         switch(this.props.entityType) {
           case 'App\\Contact':

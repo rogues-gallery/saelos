@@ -49,13 +49,13 @@ export const fetchTags = (params) => (dispatch) => {
     })
 }
 
-export const saveTag = (params) => (dispatch) => {
+export const saveTag = (params, entityType) => (dispatch) => {
   dispatch(actions.postingTag());
 
   if (params.id) {
     return Http.patch(`tags/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingTagSuccess(res.data.data))
+        dispatch(actions.postingTagSuccess(res.data.data, entityType))
       })
       .catch(err => {
         console.log(err)
@@ -64,7 +64,7 @@ export const saveTag = (params) => (dispatch) => {
   } else {
     return Http.post(`tags`, params)
       .then(res => {
-        dispatch(actions.postingTagSuccess(res.data.data))
+        dispatch(actions.postingTagSuccess(res.data.data, entityType))
       })
       .catch(err => {
         console.log(err)
