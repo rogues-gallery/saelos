@@ -204,62 +204,64 @@ class TagsPartial extends React.Component {
               )
             }
           )}
-          <button
-            onClick={this._toggleAddTag}
-            className="btn btn-outline-secondary btn-sm">
-            + ADD TAG
-          </button>
-        </small>
-        {addTagOpen ?
-            <div className="add-tag-container">
-              <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
-                {filtered.map(t => {
-                  return(
-                  <span
-                    key={`entity-${entityId}-tag-${t.id}-${t.color}`}
-                    className="dropdown-item px-2 py-2 cursor-pointer" onClick={() => this._tagEntity(t.id)}>
-                        <span className="dot mr-2" style={{backgroundColor: t.color}} />
-                      {t.name}
-                    </span>
-                    )
-                  }
-                )}
-                <div className="dropdown-divider" />
-                <div className="px-2 py-2">
-                  <div className="form-group">
-                    <label htmlFor="name">Create New Tag</label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      id="name"
-                      name="name"
-                      placeholder="Tag Name"
-                      value={formState.name}
-                      onChange={this._handleInputChange} />
-                  </div>
-                  <div className="form-group">
-                    <CirclePicker
-                      color={formState.color}
-                      name="tagColor"
-                      circleSize={20}
-                      circleSpacing={10}
-                      onChangeComplete={(color) => {
-                        const event = {
-                          target: {
-                            name: 'color',
-                            value: color.hex
-                          }
-                        }
+          <div className="dropdown d-inline-block">
+            <button
+              onClick={this._toggleAddTag}
+              className="btn btn-outline-secondary btn-sm">
+              + ADD TAG
+            </button>
+            {addTagOpen ?
+                <div className="add-tag-container">
+                  <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
+                    {filtered.map(t => {
+                      return(
+                      <span
+                        key={`entity-${entityId}-tag-${t.id}-${t.color}`}
+                        className="dropdown-item px-2 py-2 cursor-pointer" onClick={() => this._tagEntity(t.id)}>
+                            <span className="dot mr-2" style={{backgroundColor: t.color}} />
+                          {t.name}
+                        </span>
+                        )
+                      }
+                    )}
+                    <div className="dropdown-divider" />
+                    <div className="px-2 py-2">
+                      <div className="form-group">
+                        <label htmlFor="name">Create New Tag</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          id="name"
+                          name="name"
+                          placeholder="Tag Name"
+                          value={formState.name}
+                          onChange={this._handleInputChange} />
+                      </div>
+                      <div className="form-group">
+                        <CirclePicker
+                          color={formState.color}
+                          name="tagColor"
+                          circleSize={20}
+                          circleSpacing={10}
+                          onChangeComplete={(color) => {
+                            const event = {
+                              target: {
+                                name: 'color',
+                                value: color.hex
+                              }
+                            }
 
-                        this._handleInputChange(event)
-                      }}
-                      placeholder={formState.color} />
+                            this._handleInputChange(event)
+                          }}
+                          placeholder={formState.color} />
+                      </div>
+                      <button type="submit" className="btn btn-primary btn-sm" onClick={() => this._tagEntity()}>Create</button>
+                    </div>
                   </div>
-                  <button type="submit" className="btn btn-primary btn-sm" onClick={() => this._tagEntity()}>Create</button>
                 </div>
+                : ''}
               </div>
-            </div>
-            : ''}
+        </small>
       </React.Fragment>
     )
   }
