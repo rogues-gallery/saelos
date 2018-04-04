@@ -46,7 +46,7 @@ const ViewsList = ({views, dispatch, searchString, location}, { router }) => {
           return (
             <li className="nav-item" key={i}>
               <a
-                className={`nav-link pl-4 small ${v.searchString === searchString && /contacts/.test(location.pathname) ? 'active' : ''}`}
+                className={`nav-link pl-3 ml-1 small ${v.searchString === searchString && /contacts/.test(location.pathname) ? 'active' : ''}`}
                 href="javascript:void(0)" onClick={() => navToSearch(v, dispatch, router)}>
                 {viewDisplay}
               </a>

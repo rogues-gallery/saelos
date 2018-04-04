@@ -13,7 +13,7 @@ const TagList = ({tags}) => {
     <li className="nav-item">
       <ul className="nav">
         {tags.map(t => {
-          
+
           //@TODO Review implementation here for optimization.
           let emojis = t.name.match(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)
           let tagDisplay = emojis instanceof Array ?
@@ -25,7 +25,7 @@ const TagList = ({tags}) => {
                 <span><span className="dot mr-2" />{t.name}</span>
 
             return (
-              <NavItem key={`tag-nav-item-${t.id}`} path={`/tags/${t.id}`} className="pl-4 small">
+              <NavItem key={`tag-nav-item-${t.id}`} path={`/tags/${t.id}`} className="pl-3 ml-1 small">
                 {tagDisplay}
               </NavItem>
             )
