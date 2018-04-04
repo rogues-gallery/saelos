@@ -35,7 +35,7 @@ class Record extends React.Component {
 
     if (this.props.match.params.id === 'new') {
       dispatch(editingOpportunity())
-    } else {
+    } else if (this.props.match.params.id > 0) {
       dispatch(fetchOpportunity(this.props.match.params.id))
     }
   }
@@ -120,7 +120,7 @@ class Record extends React.Component {
       this._submit()
     }
 
-    if (opportunity.id === null || opportunity.id == 0) {
+    if (opportunity.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">Select an opportunity on the left to view.</h2>

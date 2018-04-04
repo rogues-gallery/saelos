@@ -34,7 +34,7 @@ class Record extends React.Component {
 
     if (this.props.match.params.id === 'new') {
       dispatch(editingCompany())
-    } else {
+    } else if (this.props.match.params.id > 0) {
       dispatch(fetchCompany(this.props.match.params.id))
     }
   }
@@ -117,7 +117,7 @@ class Record extends React.Component {
       this._submit()
     }
 
-    if (company.id == 0) {
+    if (company.id === null && this.props.match.params.id !== 'new') {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">Select a company on the left to view.</h2>
