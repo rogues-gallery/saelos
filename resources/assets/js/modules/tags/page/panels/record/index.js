@@ -60,16 +60,12 @@ class Record extends React.Component {
   }
 
   _delete () {
-    const { dispatch, tag } = this.props
+    const { dispatch, tag} = this.props
 
-    if (confirm('Are you sure?')) {
-      dispatch(deleteTag(tag.id)).then(() =>
-        dispatch(fetchTags({page: 1}))
-      )
-
-      this.context.router.history.push('/tags');
-    }
+    dispatch(deleteTag(tag.id))
+    this.context.router.history.push('/tags')
   }
+
 
   _openRecord(base, id) {
     this.context.router.history.push(`/${base}/${id}`)
@@ -232,6 +228,10 @@ class Record extends React.Component {
       </main>
     )
   }
+}
+
+Record.propTypes = {
+  tag: PropTypes.object.isRequired
 }
 
 Record.contextTypes = {

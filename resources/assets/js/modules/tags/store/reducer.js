@@ -60,6 +60,15 @@ export default function tagReducer(state = initialState, action) {
         isFetching: false,
         error: false
       }
+
+    case types.DELETING_TAG_SUCCESS:
+      const updatedData = removeTagFromState(action.data, state.data)
+
+      return {
+        ...state,
+        data: updatedData
+      }
+
     case types.FETCHING_SINGLE_TAG_FAILURE:
     case types.FETCHING_TAGS_FAILURE:
       return {
@@ -74,6 +83,7 @@ export default function tagReducer(state = initialState, action) {
       }
     case types.POSTING_TAG_SUCCESS:
     case types.FETCHING_SINGLE_TAG_SUCCESS:
+    case types.RESTORING_TAG_SUCCESS:
       const newData = injectTagIntoState(action.data, state.data)
 
       return {
@@ -86,6 +96,12 @@ export default function tagReducer(state = initialState, action) {
     default:
       return state
   }
+}
+
+const removeTagFromState = (id, data) => {
+  _.remove(data, (t) => t.id === parseInt(id))
+
+  return data
 }
 
 const injectTagIntoState = (tag, data) => {

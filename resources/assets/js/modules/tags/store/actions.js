@@ -41,6 +41,19 @@ export const postingTagSuccess = (payload) => {
   }
 }
 
+export const restoringTag = () => ({
+  type: types.RESTORING_TAG
+})
+
+export const restoringTagSuccess = (payload) => {
+  notifications.onRestoreTagSuccess(payload)
+
+  return {
+    type: types.RESTORING_TAG_SUCCESS,
+    data: payload
+  }
+}
+
 export const postingTagFailure = () => ({
   type: types.POSTING_TAG_FAILURE
 })
@@ -49,10 +62,14 @@ export const deletingTag = () => ({
   type: types.DELETING_TAG
 })
 
-export const deletingTagSuccess = (payload) => ({
-  type: types.DELETING_TAG_SUCCESS,
-  data: payload
-})
+export const deletingTagSuccess = (payload) => {
+  notifications.onDeleteTagSuccess(payload)
+
+  return {
+    type: types.DELETING_TAG_SUCCESS,
+    data: payload
+  }
+}
 
 export const deletingTagFailure = () => ({
   type: types.DELETING_TAG_FAILURE

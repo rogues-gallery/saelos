@@ -61,13 +61,13 @@ export default function statusReducer(state = initialState, action) {
         error: false
       }
 
-      case types.DELETING_STATUS_SUCCESS:
-        const updatedData = removeStatusFromState(action.data, state.data)
+    case types.DELETING_STATUS_SUCCESS:
+      const updatedData = removeStatusFromState(action.data, state.data)
 
-        return {
-          ...state,
-          data: updatedData
-        }
+      return {
+        ...state,
+        data: updatedData
+      }
 
     case types.FETCHING_SINGLE_STATUS_FAILURE:
     case types.FETCHING_STATUSES_FAILURE:

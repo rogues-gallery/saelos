@@ -160,6 +160,13 @@ a:hover {
 
 .main-panel {
 
+  &.full-panel {
+
+    div.list-group-item {
+      cursor: pointer;
+    }
+  }
+  
   .h-scroll {
     height: calc(100vh - 120px);
 
@@ -746,6 +753,7 @@ a:hover {
           padding: 0;
         }
     }
+
     &.full-panel {
     min-width: inherit;
     max-width: 100%;

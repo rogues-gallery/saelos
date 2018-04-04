@@ -78,10 +78,24 @@ export const deleteTag = (id) => (dispatch) => {
 
   return Http.delete(`tags/${id}`)
     .then(res => {
-      dispatch(actions.deletingTagSuccess(res.data))
+      dispatch(actions.deletingTagSuccess(id))
     })
     .catch(err => {
       console.log(err)
       dispatch(actions.deletingTagFailure())
+    })
+}
+
+export const restoreTag = (id) => {
+  store.dispatch(actions.restoringTag());
+  const params = {action: 'restore'}
+
+  return Http.patch(`tags/${id}`, params)
+    .then(res => {
+      store.dispatch(actions.restoringTagSuccess(res.data.data))
+    })
+    .catch(err => {
+      console.log(err)
+      store.dispatch(actions.restoringTagFailure())
     })
 }

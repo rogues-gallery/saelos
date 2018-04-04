@@ -37,6 +37,9 @@ class TagController extends Controller
 
     public function update(Request $request, $id)
     {
+      if ($request->input('action') == 'restore'
+        && Tag::onlyTrashed()->where('id', $id)->restore()) {
+      }
         /** @var Tag $tag */
         $tag = Tag::findOrFail($id);
         $data = $request->all();
