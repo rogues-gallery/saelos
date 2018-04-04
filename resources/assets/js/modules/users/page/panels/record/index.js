@@ -82,7 +82,7 @@ class Record extends React.Component {
     const roleOptions = roles.map(r => ({value: r.id, label: r.name}))
     const customFields = renderGroupedFields(
       true,
-      ['core'],
+      ['quota','weighting'],
       groups,
       user,
       this._handleInputChange,
@@ -93,7 +93,7 @@ class Record extends React.Component {
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">
           <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
-          Edit User: {user.name}
+          {user.name ? user.name : 'New User'}
         </h4>
 
         <div className="h-scroll single-height">
@@ -182,12 +182,8 @@ class Record extends React.Component {
                   </div>
                 </div>
               </li>
-              <li className="list-group-item">
-                <div className={`form-group mb-2`}>
-                  {customFields}
-                </div>
-              </li>
-			      </ul>
+            </ul>
+            {customFields}
           </div>
         </div>
       </main>

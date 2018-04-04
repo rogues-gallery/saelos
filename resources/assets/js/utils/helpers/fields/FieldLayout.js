@@ -172,7 +172,7 @@ class FieldLayout extends React.Component {
     if (isAdmin) {
       return (
         <div className={`form-group mb-2`}>
-          <label htmlFor={field.alias}>{field.label}</label>
+          <label htmlFor={field.alias} className="col-form-label">{field.label}</label>
           <div>
             {this._buildHtml()}
           </div>
