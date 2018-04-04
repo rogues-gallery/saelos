@@ -1,13 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchCompanies, fetchCompany } from '../../../service'
 import moment from 'moment'
 import { Money } from 'react-format'
-import { getUser } from '../../../../user/store/selectors'
-import {getCustomFieldsForCompanies, getSearchStringForCompanies, getCompanies, getPaginationForCompanies} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
-import {isInEdit} from "../../../../companies/store/selectors";
+import { fetchCompanies, fetchCompany } from '../../../service'
+import { getActiveUser } from '../../../../users/store/selectors'
+import {
+  getCustomFieldsForCompanies,
+  getSearchStringForCompanies,
+  getCompanies,
+  getPaginationForCompanies
+} from '../../../store/selectors'
+import { isInEdit } from "../../../../companies/store/selectors";
 
 class List extends React.Component {
   constructor(props) {
@@ -85,6 +90,6 @@ export default connect(state => ({
   fields: getCustomFieldsForCompanies(state),
   companies: getCompanies(state),
   inEdit: isInEdit(state),
-  user: getUser(state),
+  user: getActiveUser(state),
   pagination: getPaginationForCompanies(state)
 }))(List)

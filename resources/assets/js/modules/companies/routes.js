@@ -7,8 +7,8 @@ import Page from './page'
 import {getFirstCompanyId, getSearchStringForCompanies} from './store/selectors'
 import Main from '../../Main'
 import * as MDIcons from 'react-icons/lib/md/index'
-import { getViews } from '../user/store/selectors'
-import {fetchCompanies} from './service'
+import { getViews } from '../users/store/selectors'
+import { fetchCompanies } from './service'
 
 let MyRedirect = ({firstId}) => {
   // update search state to === ''

@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -9,14 +9,15 @@ import ChartistGraph from 'react-chartist'
 import { NavLink } from 'react-router-dom'
 
 import Opportunities from '../../../../opportunities/partials/_opportunities'
-import Companies from "../../../../companies/partials/_companies"
+import Companies from '../../../../companies/partials/_companies'
 import Contact from '../../../Contact'
 import Notes from '../../../../notes/partials/_notes'
-import {saveContact} from '../../../service'
-import {getContact, getFirstContactId, isStateDirty} from '../../../store/selectors'
-import {isInEdit} from "../../../../contacts/store/selectors"
+import { saveContact } from '../../../service'
+import { getContact, getFirstContactId, isStateDirty } from '../../../store/selectors'
+import { isInEdit } from '../../../../contacts/store/selectors'
 import ListActivities from '../../../../activities/partials/_list'
-import {getStatuses} from '../../../../statuses/store/selectors'
+import { getStatuses } from '../../../../statuses/store/selectors'
+import { getActiveUser } from '../../../../users/store/selectors'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -212,7 +213,7 @@ Detail.propTypes = {
 
 export default withRouter(connect((state, ownProps) => ({
   contact: getContact(state, ownProps.match.params.id || getFirstContactId(state)),
-  user: state.user,
+  user: getActiveUser(state),
   isFetching: isStateDirty(state),
   inEdit: isInEdit(state),
   statuses: getStatuses(state)

@@ -12,6 +12,7 @@ import { fetchRoles } from './modules/roles/service'
 import { fetchTeams } from './modules/teams/service'
 import { fetchFields } from './modules/fields/service'
 import { fetchStatuses} from './modules/statuses/service'
+import { getActiveUser } from './modules/users/store/selectors'
 
 class Main extends Component {
   componentWillMount() {
@@ -22,7 +23,7 @@ class Main extends Component {
       return
     }
 
-    if (!user.id) {
+    if (typeof user.id === 'undefined' || !user.id) {
       dispatch(fetchUser())
       dispatch(fetchContactFields())
       dispatch(fetchCompanyFields())
@@ -57,5 +58,5 @@ Main.contextTypes = {
 
 export default withRouter(connect(state => ({
   isAuthenticated: getAuth(state),
-  user: state.user,
+  user: getActiveUser(state),
 }))(Main))

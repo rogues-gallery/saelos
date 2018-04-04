@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { parseSearchString } from '../../utils/helpers'
 import * as MDIcons from 'react-icons/lib/md'
-import {getUser, getViews} from '../../modules/user/store/selectors'
+import {getActiveUser, getViews} from '../../modules/users/store/selectors'
 import { CirclePicker } from 'react-color'
 import {createView, removeView} from "../../modules/users/service";
 
@@ -237,5 +237,5 @@ AdvancedSearch.propTypes = {
 
 export default connect((state, ownProps) => ({
   views: getViews(state, ownProps.parentItem),
-  user: getUser(state)
+  user: getActiveUser(state)
 }))(AdvancedSearch)

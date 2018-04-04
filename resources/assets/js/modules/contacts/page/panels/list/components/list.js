@@ -38,7 +38,10 @@ class ListContacts extends React.Component {
           }
 
           return (
-            <div onClick={() => this.openContactRecord(contact.id)} className="list-group-item list-group-item-action align-items-start">
+            <div
+              key={contact.id}
+              onClick={() => this.openContactRecord(contact.id)}
+              className="list-group-item list-group-item-action align-items-start">
               <p className="mini-text text-muted float-right"><b>{contact.status.name}</b></p>
               <p>
                 { contact.pivot.primary ? <span className="dot bg-primary mini" /> : '' }

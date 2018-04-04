@@ -7,7 +7,7 @@ import Page from './page'
 import {getFirstOpportunityId, getSearchStringForOpportunities} from "./store/selectors"
 import Main from '../../Main'
 import * as MDIcons from "react-icons/lib/md/index"
-import { getViews } from '../user/store/selectors'
+import { getViews } from '../users/store/selectors'
 import {fetchOpportunities} from "./service"
 
 let MyRedirect = ({firstId}) => {

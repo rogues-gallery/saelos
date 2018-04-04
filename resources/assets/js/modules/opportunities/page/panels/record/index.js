@@ -2,16 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getUser } from '../../../../user/store/selectors'
-import { getOpportunity, getCustomFieldsForOpportunities, isStateDirty, getFirstOpportunityId, isInEdit } from '../../../store/selectors'
-import { fetchOpportunity, saveOpportunity, deleteOpportunity } from '../../../service'
 import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
-import {editingOpportunity, editingOpportunityFinished} from "../../../store/actions"
-import {renderGroupedFields} from "../../../../../utils/helpers/fields"
-import Conversations from "../../../../conversations/partials/_conversations"
+import Conversations from '../../../../conversations/partials/_conversations'
 import TagsPartial from '../../../../tags/partials/tags'
 import { ActionView } from '../../../../contacts/page/panels/record/components'
+import { getActiveUser } from '../../../../users/store/selectors'
+import {
+  getOpportunity,
+  getCustomFieldsForOpportunities,
+  isStateDirty,
+  getFirstOpportunityId,
+  isInEdit
+} from '../../../store/selectors'
+import { fetchOpportunity, saveOpportunity, deleteOpportunity } from '../../../service'
+import { editingOpportunity, editingOpportunityFinished } from '../../../store/actions'
+import { renderGroupedFields } from '../../../../../utils/helpers/fields'
 
 class Record extends React.Component {
   constructor(props) {
@@ -197,6 +203,6 @@ export default withRouter(connect((state, ownProps) => ({
   opportunity: getOpportunity(state, ownProps.match.params.id || getFirstOpportunityId(state)),
   customFields: getCustomFieldsForOpportunities(state),
   isDirty: isStateDirty(state),
-  user: getUser(state),
+  user: getActiveUser(state),
   inEdit: isInEdit(state)
 }))(Record))

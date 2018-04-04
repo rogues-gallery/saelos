@@ -1,6 +1,6 @@
 import Model from '../../utils/Model'
-import User from '../../modules/user/User'
-import Company from '../../modules/companies/Company'
+import User from '../users/User'
+import Company from '../companies/Company'
 import store from '../../store'
 import { getCustomFieldsForContacts } from './store/selectors'
 import { getCustomFieldValue } from '../../utils/helpers/customFieldsHelper'

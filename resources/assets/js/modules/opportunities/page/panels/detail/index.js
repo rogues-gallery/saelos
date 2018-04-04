@@ -11,9 +11,10 @@ import Contacts from '../../../../contacts/partials/_contacts'
 import Companies from '../../../../companies/partials/_companies'
 import Notes from '../../../../notes/partials/_notes'
 import Opportunity from '../../../Opportunity'
-import {getFirstOpportunityId, getOpportunity} from '../../../store/selectors'
-import {isInEdit} from "../../../../contacts/store/selectors"
+import { getFirstOpportunityId, getOpportunity } from '../../../store/selectors'
+import { isInEdit } from '../../../../contacts/store/selectors'
 import ListActivities from '../../../../activities/partials/_list'
+import { getActiveUser } from '../../../../users/store/selectors'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -151,6 +152,6 @@ Detail.propTypes = {
 
 export default withRouter(connect((state, ownProps) => ({
   opportunity: getOpportunity(state, ownProps.match.params.id || getFirstOpportunityId(state)),
-  user: state.user,
+  user: getActiveUser(state),
   inEdit: isInEdit(state)
 }))(Detail))

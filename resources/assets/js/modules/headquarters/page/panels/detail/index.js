@@ -11,9 +11,10 @@ import Calls from '../partials/_calls'
 import Team from '../partials/_team'
 import Opportunities from '../partials/_opportunities'
 import Responses from '../partials/_responses'
-import {getStatuses} from "../../../../statuses/store/selectors"
-import {fetchStatuses} from "../../../../statuses/service"
-import {fetchContacts} from "../../../../contacts/service"
+import { getStatuses } from '../../../../statuses/store/selectors'
+import { fetchStatuses } from '../../../../statuses/service'
+import { fetchContacts } from '../../../../contacts/service'
+import { getActiveUser } from '../../../../users/store/selectors'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -189,6 +190,6 @@ Detail.contextTypes = {
 }
 
 export default withRouter(connect((state, ownProps) => ({
-  user: state.user,
+  user: getActiveUser(state),
   statuses: getStatuses(state)
 }))(Detail))

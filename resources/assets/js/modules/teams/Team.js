@@ -1,5 +1,5 @@
 import Model from '../../utils/Model'
-import User from '../../modules/user/User'
+import User from '../users/User'
 
 class Team extends Model {
   constructor(props) {

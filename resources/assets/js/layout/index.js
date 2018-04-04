@@ -1,14 +1,9 @@
-//import libs
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-
-// import services actions
 import { fetchUser } from '../modules/auth/service'
-import { getAuth } from '../modules/auth/store/selectors';
-
-// import components
+import { getActiveUser } from '../modules/users/store/selectors'
 import PrivateLayout from './Private'
 import ConfigLayout from './Config'
 import PublicLayout from './Public'
@@ -45,5 +40,5 @@ Layout.propTypes = {
 }
 
 export default withRouter(connect(state => ({
-  user: state.user,
+  user: getActiveUser(state),
 }))(Layout))

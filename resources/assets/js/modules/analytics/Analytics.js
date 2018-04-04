@@ -1,6 +1,5 @@
 import Model from '../../utils/Model'
-import User from '../../modules/user/User'
-import store from '../../store'
+import User from '../users/User'
 
 class Analytics extends Model {
   constructor(props) {

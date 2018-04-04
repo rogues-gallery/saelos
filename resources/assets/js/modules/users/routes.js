@@ -1,7 +1,14 @@
-import Page from './page';
-import * as MDIcons from "react-icons/lib/md/index";
+import Page from './page'
+import ProfilePage from './page/profile'
+import * as MDIcons from 'react-icons/lib/md'
 
 export default [
+  {
+    path: '/user/profile',
+    exact: true,
+    auth: true,
+    component: ProfilePage
+  },
   {
     path: '/config/users',
     exact: true,

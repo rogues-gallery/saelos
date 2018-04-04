@@ -6,7 +6,7 @@ export const authCheck = () => ({
 
 export const authLogin = (payload) => ({
   type: types.AUTH_LOGIN,
-  payload,
+  data: payload,
 });
 
 export const authLogout = () => ({
@@ -15,7 +15,7 @@ export const authLogout = () => ({
 
 export const authRefreshToken = (payload) => ({
   type: types.AUTH_REFRESH_TOKEN,
-  payload
+  data: payload
 });
 
 export const authResetPassword = () => ({
@@ -24,5 +24,5 @@ export const authResetPassword = () => ({
 
 export const authUser = (payload) => ({
   type: types.AUTH_USER,
-  payload
+  data: payload
 });

@@ -2,16 +2,24 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getUser } from '../../../../user/store/selectors'
-import {getContact, getCustomFieldsForContacts, isStateDirty, getFirstContactId, isInEdit} from '../../../store/selectors'
-import {deleteContact, fetchContact, saveContact} from '../../../service'
-import {editingContact, editingContactFinished} from '../../../store/actions'
-import Conversations from '../../../../conversations/partials/_conversations'
-import { ActionView } from './components'
 import _ from 'lodash';
 import * as MDIcons from 'react-icons/lib/md'
-import {renderGroupedFields} from "../../../../../utils/helpers/fields"
+
+import Conversations from '../../../../conversations/partials/_conversations'
+import { ActionView } from './components'
 import TagsPartial from '../../../../tags/partials/tags'
+
+import { getActiveUser } from '../../../../users/store/selectors'
+import {
+  getContact,
+  getCustomFieldsForContacts,
+  isStateDirty,
+  getFirstContactId,
+  isInEdit
+} from '../../../store/selectors'
+import { deleteContact, fetchContact, saveContact } from '../../../service'
+import { editingContact, editingContactFinished } from '../../../store/actions'
+import { renderGroupedFields } from '../../../../../utils/helpers/fields'
 
 class Record extends React.Component {
   constructor(props) {
@@ -214,6 +222,6 @@ export default withRouter(connect((state, ownProps) => ({
   contact: getContact(state, ownProps.match.params.id || getFirstContactId(state)),
   customFields: getCustomFieldsForContacts(state),
   isDirty: isStateDirty(state),
-  user: getUser(state),
+  user: getActiveUser(state),
   inEdit: isInEdit(state)
 }))(Record))

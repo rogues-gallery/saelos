@@ -14,6 +14,7 @@ import {getCompany, getFirstCompanyId} from '../../../store/selectors'
 import { Link } from 'react-router-dom'
 import ListActivities from '../../../../activities/partials/_list'
 import { Money } from 'react-format'
+import { getActiveUser } from '../../../../users/store/selectors'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -149,5 +150,5 @@ Detail.propTypes = {
 
 export default withRouter(connect((state, ownProps) => ({
   company: getCompany(state, ownProps.match.params.id || getFirstCompanyId(state)),
-  user: state.user
+  user: getActiveUser(state)
 }))(Detail))

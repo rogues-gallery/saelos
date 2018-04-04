@@ -1,10 +1,10 @@
 import Model from '../../utils/Model'
 import moment from 'moment'
-import User from "../user/User";
-import Contact from "../contacts/Contact"
-import Company from "../companies/Company"
-import Opportunity from "../opportunities/Opportunity"
-import Tag from "../tags/Tag";
+import User from '../users/User'
+import Contact from '../contacts/Contact'
+import Company from '../companies/Company'
+import Opportunity from '../opportunities/Opportunity'
+import Tag from '../tags/Tag'
 
 class Activity extends Model {
   constructor(props) {

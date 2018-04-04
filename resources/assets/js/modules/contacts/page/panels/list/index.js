@@ -2,11 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { fetchContact, fetchContacts } from '../../../service'
-import {getSearchStringForContacts, getCustomFieldsForContacts, getContacts, getPaginationForContacts} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
-import { getUser } from '../../../../user/store/selectors'
-import {isInEdit} from "../../../../contacts/store/selectors"
+import { fetchContact, fetchContacts } from '../../../service'
+import {
+  getSearchStringForContacts,
+  getCustomFieldsForContacts,
+  getContacts,
+  getPaginationForContacts
+} from '../../../store/selectors'
+import { getActiveUser } from '../../../../users/store/selectors'
+import { isInEdit } from "../../../../contacts/store/selectors"
 
 class List extends React.Component {
   constructor(props) {
@@ -85,6 +90,6 @@ export default connect(state => ({
   fields: getCustomFieldsForContacts(state),
   contacts: getContacts(state),
   inEdit: isInEdit(state),
-  user: getUser(state),
+  user: getActiveUser(state),
   pagination: getPaginationForContacts(state)
 }))(List)

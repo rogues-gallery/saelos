@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ReactQuill from 'react-quill'
-import { getUser } from '../../../../../../user/store/selectors'
-import {saveActivity} from "../../../../../../activities/service"
 import Select from 'react-select'
 import DatePicker from '../../../../../../../common/ui/datepicker'
+import { getActiveUser } from '../../../../../../users/store/selectors'
+import { saveActivity } from '../../../../../../activities/service'
 
 class TaskAction extends Component {
   constructor(props) {
@@ -213,6 +213,10 @@ class TaskAction extends Component {
   }
 }
 
+TaskAction.propTypes = {
+  user: PropTypes.object.isRequired
+}
+
 export default connect(state => ({
-  user: getUser(state)
+  user: getActiveUser(state)
 }))(TaskAction)

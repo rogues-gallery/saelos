@@ -1,5 +1,5 @@
 import Model from '../../utils/Model'
-import User from '../user/User'
+import User from '../users/User'
 import Contact from '../contacts/Contact'
 import Company from '../companies/Company'
 import Stage from '../stages/Stage'

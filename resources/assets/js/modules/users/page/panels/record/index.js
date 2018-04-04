@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {getFieldsForUsers, getUser} from '../../../store/selectors'
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
-import {deleteUser, saveUser} from '../../../service'
-import {getTeams} from '../../../../teams/store/selectors'
-import { getRoles } from '../../../../roles/store/selectors'
+import { connect } from 'react-redux'
+import { withRouter}  from 'react-router-dom'
 import Select from 'react-select'
-import {renderGroupedFields} from '../../../../../utils/helpers/fields'
 import _ from 'lodash'
+import { getFieldsForUsers, getUser } from '../../../store/selectors'
+import { deleteUser, saveUser } from '../../../service'
+import { getTeams } from '../../../../teams/store/selectors'
+import { getRoles } from '../../../../roles/store/selectors'
+import { renderGroupedFields } from '../../../../../utils/helpers/fields'
 
 class Record extends React.Component {
   constructor(props) {

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { getActiveUser } from '../modules/users/store/selectors'
 
 const ConfigRoute = ({ component: Component, user, ...rest, router }) => {
   return <Route {...rest} render={props => (<Component {...props}/>)}/>
@@ -18,5 +19,5 @@ ConfigRoute.contextTypes = {
 }
 
 export default withRouter(connect(state => ({
-  user: state.user
+  user: getActiveUser(state)
 }))(ConfigRoute))

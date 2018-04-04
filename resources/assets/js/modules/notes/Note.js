@@ -1,5 +1,5 @@
 import Model from '../../utils/Model'
-import User from '../../modules/user/User'
+import User from '../users/User'
 import Document from './Document'
 
 class Note extends Model {

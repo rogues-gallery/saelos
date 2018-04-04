@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {getUser} from "../../store/selectors"
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 import _ from 'lodash'
-import * as MDIcons from 'react-icons/lib/md'
-import {saveUser} from "../../../users/service";
+import { connect } from 'react-redux'
+import { getActiveUser } from '../../store/selectors'
+import { saveUser } from '../../service'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -37,11 +35,11 @@ class Profile extends React.Component {
     this.props.dispatch(saveUser(this.state.formState))
   }
 
-	render() {
+  render() {
     const { user } = this.props
     const { formState } = this.state
 
-		return (
+    return (
       <main className="col main-panel px-3 full-panel">
         <h4 className="border-bottom py-3">
           <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
@@ -54,7 +52,7 @@ class Profile extends React.Component {
                 <div className="mini-text text-muted mb-2">Personal</div>
                 <div className="row">
                   <div className="col fw-100">
-                   <label htmlFor="avatar">Photo</label>
+                    <label htmlFor="avatar">Photo</label>
                     { user.avatar ? <img src="" className="img-thumbnail w-100" /> : <div className="card"><div className="card-body p-2 text-center"><div className="h1 text-muted">{user.name.match(/\b(\w)/g).join('')}</div></div></div>}
                     <div className="text-center">
                       <button className="mt-2 btn btn-outline-primary btn-sm w-100"><span className="">Upload</span></button>
@@ -96,13 +94,13 @@ class Profile extends React.Component {
         </div>
       </main>
     )
-	}
+  }
 }
 
 Profile.propTypes = {
-
+  user: PropTypes.object.isRequired
 }
 
-export default withRouter(connect((state, ownProps) => ({
-  user: getUser(state, ownProps.match.params.id),
-}))(Profile))
+export default connect(state => ({
+  user: getActiveUser(state),
+}))(Profile)

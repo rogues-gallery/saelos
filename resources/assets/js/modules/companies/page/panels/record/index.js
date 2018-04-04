@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getUser } from '../../../../user/store/selectors'
+import { getActiveUser } from '../../../../users/store/selectors'
 import { getCompany, getCustomFieldsForCompanies, isStateDirty, getFirstCompanyId, isInEdit } from '../../../store/selectors'
 import {fetchCompany, saveCompany, deleteCompany} from '../../../service'
 import _ from 'lodash'
@@ -205,6 +205,6 @@ export default withRouter(connect((state, ownProps) => ({
   company: getCompany(state, ownProps.match.params.id || getFirstCompanyId(state)),
   customFields: getCustomFieldsForCompanies(state),
   isDirty: isStateDirty(state),
-  user: getUser(state),
+  user: getActiveUser(state),
   inEdit: isInEdit(state)
 }))(Record))

@@ -1,5 +1,6 @@
-import * as types from './action-types';
-import User from "../User";
+import * as types from './action-types'
+import User from '../User'
+import { AUTH_USER, AUTH_LOGOUT } from '../../auth/store/action-types'
 
 const initialState = {
   data: [],
@@ -15,11 +16,28 @@ const initialState = {
   isFetching: false,
   isPosting: false,
   error: false,
+  active: {
+    name: '',
+    username: '',
+    settings: {
+      views: []
+    }
+  },
   searchString: ''
 }
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case AUTH_USER:
+      return {
+        ...state,
+        active: action.data
+      }
+    case AUTH_LOGOUT:
+      return {
+        ...state,
+        active: Object.assign({}, initialState.active)
+      }
     case types.FETCHING_USERS:
       return {
         ...state,
@@ -81,13 +99,8 @@ export default function userReducer(state = initialState, action) {
         data: newData,
         isFetching: false,
         error: false,
-        isPosting: false
-      }
-    case types.CREATING_USER_VIEW_SUCCESS:
-
-
-      return {
-        ...state
+        isPosting: false,
+        activeUser: action.data.id === state.active.id ? action.data : state.active
       }
     default:
       return state
@@ -116,5 +129,9 @@ export const getUser = (state, id) => {
 
   return user;
 }
-export const getSearchStringForUsers = (state) => state.searchString;
-export const getPaginationForUsers = (state) => state.meta;
+export const getSearchStringForUsers = (state) => state.searchString
+export const getPaginationForUsers = (state) => state.meta
+
+export const getActiveUser = (state) => new User(state.active)
+export const getSettings = (state) => getActiveUser(state).settings
+export const getViews = (state, parentItem) => _.filter(getSettings(state).views, v => v.parentItem === parentItem)

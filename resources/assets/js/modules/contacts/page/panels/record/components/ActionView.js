@@ -4,10 +4,9 @@ import EmailAction from './actions/email'
 import CallAction from './actions/call'
 import SmsAction from './actions/sms'
 import TaskAction from './actions/task'
-import MergeAction from './actions/merge'
-import Company from "../../../../../companies/Company";
-import Contact from "../../../../Contact";
-import User from "../../../../../user/User";
+import Company from '../../../../../companies/Company'
+import Contact from '../../../../Contact'
+import User from '../../../../../users/User'
 
 class ActionView extends React.Component {
   render() {

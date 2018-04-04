@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchOpportunities, fetchOpportunity } from "../../../service"
 import { Money } from 'react-format'
-import { getUser } from '../../../../user/store/selectors'
-import {getCustomFieldsForOpportunities, getSearchStringForOpportunities, getOpportunities, getPaginationForOpportunities} from "../../../store/selectors"
 import AdvancedSearch from '../../../../../common/search'
-import {isInEdit} from "../../../../opportunities/store/selectors";
+import { getActiveUser } from '../../../../users/store/selectors'
+import { fetchOpportunities, fetchOpportunity } from '../../../service'
+import {
+  getCustomFieldsForOpportunities,
+  getSearchStringForOpportunities,
+  getOpportunities,
+  getPaginationForOpportunities
+} from '../../../store/selectors'
+import { isInEdit } from '../../../../opportunities/store/selectors'
 
 class List extends React.Component {
   constructor(props) {
@@ -84,6 +89,6 @@ export default connect(state => ({
   searchString: getSearchStringForOpportunities(state),
   fields: getCustomFieldsForOpportunities(state),
   inEdit: isInEdit(state),
-  user: getUser(state),
+  user: getActiveUser(state),
   pagination: getPaginationForOpportunities(state)
 }))(List)

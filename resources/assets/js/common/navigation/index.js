@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { logout } from '../../modules/auth/service'
-
-// import components
 import { Link } from 'react-router-dom'
 import PrivateNav from './PrivateNav'
 import ConfigNav from './ConfigNav'
@@ -16,10 +14,7 @@ import { getAuth } from '../../modules/auth/store/selectors'
 import { isInEdit as isContactInEdit } from '../../modules/contacts/store/selectors'
 import { isInEdit as isCompanyInEdit } from '../../modules/companies/store/selectors'
 import { isInEdit as isOpportunityInEdit } from '../../modules/opportunities/store/selectors'
-
-import * as MDIcons from 'react-icons/lib/md'
-import _ from 'lodash';
-import {getUser} from "../../modules/user/store/selectors";
+import { getActiveUser } from '../../modules/users/store/selectors'
 
 class Navigation extends Component {
   constructor(props) {
@@ -105,6 +100,6 @@ Navigation.contextTypes = {
 
 export default withRouter(connect(state => ({
   isAuthenticated: getAuth(state),
-  user: getUser(state),
+  user: getActiveUser(state),
   inEdit: isInEdit(state)
 }))(Navigation))

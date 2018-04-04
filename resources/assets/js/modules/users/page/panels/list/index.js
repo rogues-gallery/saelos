@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { fetchUsers, fetchUser } from '../../../service'
-import moment from 'moment'
-import ReactDOM from 'react-dom'
 
 class List extends React.Component {
   constructor(props) {

@@ -1,8 +1,8 @@
 import Model from '../../utils/Model'
-import Opportunity from '../opportunities/Opportunity';
-import Company from '../companies/Company';
-import Contact from '../contacts/Contact';
-import Activity from '../activities/Activity';
+import Opportunity from '../opportunities/Opportunity'
+import Company from '../companies/Company'
+import Contact from '../contacts/Contact'
+import Activity from '../activities/Activity'
 
 class Tag extends Model {
   constructor(props) {

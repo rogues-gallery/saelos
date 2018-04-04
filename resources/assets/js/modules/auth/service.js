@@ -7,16 +7,14 @@ import Transformer from '../../utils/Transformer'
  *
  * @returns {function(*)}
  */
-export const fetchUser = () => {
-  return dispatch => {
-    return Http.get('auth/user')
-      .then(res => {
-        dispatch(authActions.authUser(res.data))
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
+export const fetchUser = () => (dispatch) => {
+  return Http.get('auth/user')
+    .then(res => {
+      dispatch(authActions.authUser(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
 
 /**

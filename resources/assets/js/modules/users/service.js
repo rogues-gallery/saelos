@@ -2,7 +2,7 @@ import Http from '../../utils/Http'
 import * as actions from './store/actions'
 import store from '../../store'
 import _ from 'lodash'
-import {getSettings, getUser} from '../user/store/selectors'
+import { getSettings, getActiveUser } from '../users/store/selectors'
 
 /**
  * Fetch the full user by id
@@ -94,7 +94,7 @@ export const createView = (params) => (dispatch) => {
   dispatch(actions.creatingUserView())
 
   const state = store.getState()
-  const { id } = getUser(state)
+  const { id } = getActiveUser(state)
   const settings = getSettings(state)
 
   settings.views.push(params)
@@ -112,7 +112,7 @@ export const removeView = (params) => (dispatch) => {
   dispatch(actions.deletingUserView())
 
   const state = store.getState()
-  const { id } = getUser(state)
+  const { id } = getActiveUser(state)
   const settings = getSettings(state)
 
   settings.views = _.filter(

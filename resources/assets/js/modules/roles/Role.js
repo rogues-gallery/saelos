@@ -1,5 +1,4 @@
 import Model from '../../utils/Model'
-import Team from '../teams/Team'
 
 class Role extends Model {
   constructor(props) {
