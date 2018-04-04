@@ -131,7 +131,7 @@ const ActivityList = ({opportunity, dispatch}) => {
     <div className="card ct-container">
       <div className="card-header" id="taskList">
         <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTasks" aria-expanded="true" aria-controls="collapseTasks">
-          <MDIcons.MdKeyboardArrowDown /> Tasks
+          <MDIcons.MdKeyboardArrowDown /> Tasks <span className="text-muted font-weight-normal">({filtered.length})</span>
         </h6>
       </div>
       <div id="collapseTasks" className="collapse mh-200" aria-labelledby="taskList">

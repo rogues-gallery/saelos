@@ -12,6 +12,7 @@ import Notes from '../../../../notes/partials/_notes'
 import Company from '../../../Company'
 import {getCompany, getFirstCompanyId} from '../../../store/selectors'
 import { Link } from 'react-router-dom'
+import ListActivities from '../../../../activities/partials/_list'
 import { Money } from 'react-format'
 
 class Detail extends React.Component {
@@ -40,7 +41,7 @@ class Detail extends React.Component {
     const options = {
             low: 0,
             fullWidth: true,
-            showArea: true, 
+            showArea: true,
             showLabel: false,
             axisX: {
               showGrid: true,
@@ -87,7 +88,7 @@ const Details = ({company, dispatch, toggle, user, data, options, inEdit}) => (
           </div>
         </div>
       </div>
-
+      <ActivityList company={company} dispatch={dispatch} />
       <Contacts contacts={company.contacts} dispatch={dispatch} entityId={company.id} entityType="App\Company" />
       <Opportunities opportunities={company.opportunities} dispatch={dispatch} entityId={company.id} entityType="App\Company" />
       <Notes notes={company.notes} dispatch={dispatch} entityId={company.id} entityType="App\Company" user={user} />
@@ -116,6 +117,28 @@ const History = ({activities, dispatch, toggle, inEdit}) => (
 const ScoreChart = ({data, options, type}) => {
   return (
     <ChartistGraph data={data} options={options} type={type} className="sri-chart" />
+  )
+}
+
+const ActivityList = ({company, dispatch}) => {
+  const filtered = _.filter(
+    _.filter(company.activities, a => a.details_type !== 'App\\FieldUpdateActivity'),
+    fa => fa.completed === 0
+  )
+
+  return (
+    <div className="card ct-container">
+      <div className="card-header" id="taskList">
+        <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTasks" aria-expanded="true" aria-controls="collapseTasks">
+          <MDIcons.MdKeyboardArrowDown /> Tasks <span className="text-muted font-weight-normal">({filtered.length})</span>
+        </h6>
+      </div>
+      <div id="collapseTasks" className="collapse mh-200" aria-labelledby="taskList">
+        <div className="list-group">
+          <ListActivities activities={filtered} dispatch={dispatch} view={'headquarters'} />
+        </div>
+      </div>
+    </div>
   )
 }
 
