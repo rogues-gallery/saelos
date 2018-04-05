@@ -151,6 +151,7 @@ class UserController extends Controller
 
         $contact = Contact::where('phone', $request->get('Caller'))->first();
 
+        // @TODO: Determine contact info from request if unknown
         if ($contact) {
             $activity->contact()->attach($contact);
         }
@@ -196,6 +197,8 @@ class UserController extends Controller
             'completed' => 1
         ]);
 
+
+        // @TODO: Determine contact info from request if unknown
         if ($contact) {
             $activity->contact()->attach($contact);
         }
