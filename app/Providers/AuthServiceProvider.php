@@ -28,7 +28,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::routes();
 
-        // Assign all role names as available token scopes
-        Passport::tokensCan(Role::all()->pluck('description','name')->all());
+        if (file_exists(storage_path('installed'))) {
+            // Assign all role names as available token scopes
+            Passport::tokensCan(Role::all()->pluck('description','name')->all());
+        }
     }
 }
