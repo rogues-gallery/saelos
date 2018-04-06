@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contact;
 use App\Notifications\UserUpdated;
 use App\Role;
 use Auth;
@@ -9,6 +10,10 @@ use App\User;
 use App\Http\Resources\UserCollection;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
+use Twilio\Twiml;
+use App\Activity;
+use App\CallActivity;
+use App\SmsActivity;
 
 class UserController extends Controller
 {
@@ -109,5 +114,95 @@ class UserController extends Controller
         User::findOrFail($id)->delete();
 
         return '';
+    }
+
+    public function inboundcall(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $twiml = new Twiml();
+
+        if ($user === null) {
+            $twiml->say("I'm sorry, but the number you have dialed has been disconnected.");
+
+            return response($twiml, 200, [
+                'Content-Type' => 'text/xml'
+            ]);
+        } else {
+            $twiml->dial($user->phone, [
+                'record' => 'record-from-answer-dual',
+                'recordingStatusCallback' => route('api.users.inbound.recording', $user->id)
+            ]);
+        }
+
+        $details = CallActivity::create([
+            'uuid' => $request->get('CallSid'),
+            'details' => ['direction' => 'inbound'],
+            'start_date' => new \DateTime,
+        ]);
+
+        $activity = Activity::create([
+            'name' => 'Inbound Call',
+            'description' => sprintf('Contact made an inbound call to %s', $user->name),
+            'user_id' => $user->id,
+            'details_id' => $details->id,
+            'details_type' => CallActivity::class
+        ]);
+
+        $contact = Contact::where('phone', $request->get('Caller'))->first();
+
+        // @TODO: Determine contact info from request if unknown
+        if ($contact) {
+            $activity->contact()->attach($contact);
+        }
+
+        return response($twiml, 200, [
+            'Content-Type' => 'text/xml'
+        ]);
+    }
+
+    public function recording(Request $request, $id)
+    {
+        $activity = CallActivity::where('uuid', $request->get('CallSid'))->first();
+
+        if ($activity) {
+            $activity->update([
+                'recording' => $request->get('RecordingUrl')
+            ]);
+
+            $activity->activity()->update([
+                'completed' => 1
+            ]);
+        }
+    }
+
+    public function inboundsms(Request $request, $id)
+    {
+        $user = User::find($id);
+        $contact = Contact::where('phone', $request->get('From'))->first();
+
+        $details = SmsActivity::create([
+            'uuid' => $request->get('SmsMessageSid'),
+            'details' => ['direction' => 'inbound'],
+            'start_date' => new \DateTime,
+            'message' => $request->get('Body')
+        ]);
+
+        $activity = Activity::create([
+            'name' => 'SMS Received',
+            'description' => sprintf('Contact sent an sms to %s', $user->name),
+            'user_id' => $user->id,
+            'details_id' => $details->id,
+            'details_type' => SmsActivity::class,
+            'completed' => 1
+        ]);
+
+
+        // @TODO: Determine contact info from request if unknown
+        if ($contact) {
+            $activity->contact()->attach($contact);
+        }
+
+        return response();
     }
 }

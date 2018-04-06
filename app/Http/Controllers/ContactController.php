@@ -347,13 +347,15 @@ class ContactController extends Controller
     {
         $activity = CallActivity::where('uuid', $request->get('CallSid'))->first();
 
-        $activity->update([
-            'recording' => $request->get('RecordingUrl')
-        ]);
+        if ($activity) {
+            $activity->update([
+                'recording' => $request->get('RecordingUrl')
+            ]);
 
-        $activity->activity()->update([
-            'completed' => 1
-        ]);
+            $activity->activity()->update([
+                'completed' => 1
+            ]);
+        }
     }
 
     public function count(Request $request)

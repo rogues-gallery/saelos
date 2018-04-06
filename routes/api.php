@@ -18,6 +18,13 @@ Route::group([
 ], function () {
     Route::prefix('auth')->group(base_path('routes/api/auth.php'));
 
+    Route::post('users/{id}/inboundcall', 'UserController@inboundcall')
+        ->name('users.inbound');
+    Route::post('users/{id}/inbound/recording', 'UserController@recording')
+        ->name('users.inbound.recording');
+    Route::post('users/{id}/inboundsms', 'UserController@inboundsms')
+        ->name('users.sms.inbound');
+
     Route::post('/contacts/{id}/outbound/recording', 'ContactController@recording')
         ->name('contacts.outbound.recording');
 
