@@ -3,8 +3,9 @@
 namespace App\Providers;
 
 use App\Subscribers\ContactSubscriber;
-use App\Subscribers\PlivoSubscriber;
+use App\Subscribers\InstallListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use RachidLaasri\LaravelInstaller\Events\LaravelInstallerFinished;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -16,11 +17,13 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\Event' => [
             'App\Listeners\EventListener',
+        ],
+        LaravelInstallerFinished::class => [
+            InstallListener::class
         ]
     ];
 
     protected $subscribe = [
-        PlivoSubscriber::class,
         ContactSubscriber::class,
     ];
 

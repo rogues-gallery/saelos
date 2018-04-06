@@ -30,6 +30,7 @@
     },
     "autoload": {
         "classmap": [
+            "app/overrides/EnvironmentController.php",
             "database/seeds",
             "database/factories"
         ],
