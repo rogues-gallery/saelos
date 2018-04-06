@@ -51,13 +51,6 @@ class Profile extends React.Component {
               <li className="list-group-item">
                 <div className="mini-text text-muted mb-2">Personal</div>
                 <div className="row">
-                  <div className="col fw-100">
-                    <label htmlFor="avatar">Photo</label>
-                    { user.avatar ? <img src="" className="img-thumbnail w-100" /> : <div className="card"><div className="card-body p-2 text-center"><div className="h1 text-muted">{user.name.match(/\b(\w)/g).join('')}</div></div></div>}
-                    <div className="text-center">
-                      <button className="mt-2 btn btn-outline-primary btn-sm w-100"><span className="">Upload</span></button>
-                    </div>
-                  </div>
                   <div className="col">
                     <div className={`form-group mb-2`}>
                       <label htmlFor="name" className="">Name</label>
