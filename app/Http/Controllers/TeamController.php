@@ -33,17 +33,23 @@ class TeamController extends Controller
 
     public function update(Request $request, $id)
     {
+        /** @var Team $team */
         $team = Team::findOrFail($id);
         $data = $request->all();
+        $users = $data['users'] ?? [];
+
+        $team->syncUsers($users);
 
         $team->update($data);
 
-        return $team;
+        return $this->show($team->id);
     }
 
     public function store(Request $request)
     {
-        return Team::create($request->all());
+        $team = Team::create($request->all());
+
+        return $this->update($request, $team->id);
     }
 
     public function destroy($id)

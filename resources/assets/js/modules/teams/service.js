@@ -1,9 +1,8 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
-import Transformer from '../../utils/Transformer'
 
 /**
- * Fetch the full contact by id
+ * Fetch the full team by id
  *
  * @returns {function(*)}
  */
@@ -12,8 +11,7 @@ export const fetchTeam = (id) => (dispatch) => {
 
   return Http.get(`teams/${id}`)
     .then(res => {
-      const data = Transformer.fetch(res.data.data)
-      dispatch(actions.fetchingTeamSuccess(data))
+      dispatch(actions.fetchingTeamSuccess(res.data.data))
     })
     .catch(err => {
       console.log(err)
@@ -22,7 +20,7 @@ export const fetchTeam = (id) => (dispatch) => {
 }
 
 /**
- * Fetch a paginated list of contacts
+ * Fetch a paginated list of team
  *
  * @param params
  * @returns {function(*)}
@@ -34,8 +32,7 @@ export const fetchTeams = (params) => (dispatch) => {
 
   return Http.get('teams', {params: params})
     .then(res => {
-      const data = Transformer.fetch(res.data)
-      dispatch(actions.fetchingTeamsSuccess(data))
+      dispatch(actions.fetchingTeamsSuccess(res.data))
     })
     .catch(err => {
       console.log(err)
@@ -55,8 +52,7 @@ export const saveTeam = (params) => (dispatch) => {
   if (params.id) {
     return Http.patch(`teams/${params.id}`, params)
       .then(res => {
-        const data = Transformer.fetch(res.data)
-        dispatch(actions.postingTeamSuccess(data))
+        dispatch(actions.postingTeamSuccess(res.data))
       })
       .catch(err => {
         console.log(err)
@@ -65,8 +61,7 @@ export const saveTeam = (params) => (dispatch) => {
   } else {
     return Http.post(`teams`, params)
       .then(res => {
-        const data = Transformer.fetch(res.data)
-        dispatch(actions.postingTeamSuccess(data))
+        dispatch(actions.postingTeamSuccess(res.data))
       })
       .catch(err => {
         console.log(err)
@@ -86,8 +81,7 @@ export const deleteTeam = (id) => (dispatch) => {
 
   return Http.delete(`teams/${id}`)
     .then(res => {
-      const data = Transformer.fetch(res.data)
-      dispatch(actions.deletingTeamSuccess(data))
+      dispatch(actions.deletingTeamSuccess(res.data))
     })
     .catch(err => {
       console.log(err)

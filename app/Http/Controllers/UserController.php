@@ -35,7 +35,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return new UserCollection(User::with(static::INDEX_WITH)->paginate());
+        return new UserCollection(User::with(static::INDEX_WITH)->paginate(50));
     }
 
     /**
