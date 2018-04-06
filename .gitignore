@@ -5,6 +5,7 @@
 /public/undefined.js
 /storage/*.key
 /storage/debugbar
+/storage/installed
 /vendor
 /.idea
 /.phpstorm.meta.php

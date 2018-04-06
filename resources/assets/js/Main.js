@@ -13,6 +13,7 @@ import { fetchTeams } from './modules/teams/service'
 import { fetchFields } from './modules/fields/service'
 import { fetchStatuses} from './modules/statuses/service'
 import { getActiveUser } from './modules/users/store/selectors'
+import ErrorBoundary from "./utils/ErrorBoundry";
 
 class Main extends Component {
   componentWillMount() {
@@ -38,7 +39,11 @@ class Main extends Component {
 
   render() {
     if (this.props.user.id) {
-      return this.props.children
+      return (
+        <ErrorBoundary>
+          {this.props.children}
+        </ErrorBoundary>
+      )
     }
 
     return ''
