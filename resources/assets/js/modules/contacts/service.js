@@ -69,6 +69,17 @@ export const fetchContactFields = () => (dispatch) => {
     })
 }
 
+export const fetchContactCount = (params) => (dispatch) => {
+  return Http.get('contacts/count', {params})
+    .then(res => {
+      dispatch(actions.fetchingContactCountSuccess(res.data))
+    })
+    .catch(err => {
+      console.log(err)
+      // dispatch(actions.fetchingContactCountFailure())
+    })
+}
+
 export const saveContact = (params) => (dispatch) => {
   dispatch(actions.postingContact());
 

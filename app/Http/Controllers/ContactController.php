@@ -355,4 +355,18 @@ class ContactController extends Controller
             'completed' => 1
         ]);
     }
+
+    public function count(Request $request)
+    {
+        $groupBy = $request->get('groupBy');
+        $user = \Auth::user();
+
+        $count = \DB::table('contacts')
+                    ->select($groupBy, \DB::raw('count(*) as total'))
+                    ->where('user_id', $user->id)
+                    ->groupBy($groupBy)
+                    ->pluck('total', $groupBy);
+
+        return response(['success' => true, 'data' => $count]);
+    }
 }

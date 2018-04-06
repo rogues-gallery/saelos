@@ -12,15 +12,18 @@ import Team from '../partials/_team'
 import Opportunities from '../partials/_opportunities'
 import Responses from '../partials/_responses'
 import { getStatuses } from '../../../../statuses/store/selectors'
+import { getActiveUser } from '../../../../users/store/selectors'
+
 import { fetchStatuses } from '../../../../statuses/service'
 import { fetchContacts } from '../../../../contacts/service'
-import { getActiveUser } from '../../../../users/store/selectors'
+import { fetchContactCount } from '../../../../contacts/service'
 
 class Detail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      view: "default"
+      view: "default",
+      contactCount: []
     }
 
     this._toggleView = this._toggleView.bind(this)
@@ -37,6 +40,8 @@ class Detail extends React.Component {
   render() {
     const contacts = {}
 
+    // console.log(this.props.dispatch(fetchContactCount({'groupBy': 'status_id'})))
+
     switch(this.state.view) {
       case 'default':
         return <Pipeline contacts={contacts} dispatch={this.props.dispatch}  toggle={this._toggleView} user={this.props.user} router={this.context.router} statuses={this.props.statuses} />
@@ -47,6 +52,7 @@ class Detail extends React.Component {
 }
 
 const Vector = ({dispatch, toggle, user}) => {
+
   const data = {labels: ['V', 'E', 'C', 'T', 'O', 'R'], series: [[4, 5, 6, 7, 5, 8], [10,10,10,10,10,10]] }
   const options = {
     high: 10,
@@ -110,7 +116,7 @@ const VectorChart = ({data, options, type}) => {
   )
 }
 
-const Pipeline = ({contacts, dispatch, toggle, user, statuses, router}) => {
+const Pipeline = ({contacts, dispatch, toggle, user, statuses, router }) => {
 
   const data = {series: [{name: 'stage', data: [10, 8, 4, 3, 1, 5] }]}
   const options = {
@@ -132,7 +138,6 @@ const Pipeline = ({contacts, dispatch, toggle, user, statuses, router}) => {
 
   const openContactSearch = (string) => {
     dispatch(fetchContacts({page: 1, searchString: string}))
-
     router.history.push('/contacts');
   }
 

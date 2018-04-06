@@ -127,4 +127,18 @@ class OpportunityController extends Controller
 
         return '';
     }
+
+
+    public function count(Request $request)
+    {
+        $groupBy = $request-get('groupBy');
+        $user = \Auth::user();
+
+        $count = DB::table('opportunities')
+                    ->select($groupBy, DB::raw('count(*) as total'))
+                    ->where('user_id', $user->id)
+                    ->groupBy($groupBy)
+                    ->pluck('total', $groupBy);
+        return $count;
+    }
 }
