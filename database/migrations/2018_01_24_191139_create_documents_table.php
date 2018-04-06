@@ -16,13 +16,15 @@ class CreateDocumentsTable extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->morphs('entity');
+            $table->softDeletes();
             $table->string('name');
             $table->string('filename');
             $table->string('mimetype');
             $table->integer('size');
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('note_id')->unsigned()->nullable();
+            $table->foreign('note_id')->references('id')->on('notes');
         });
     }
 

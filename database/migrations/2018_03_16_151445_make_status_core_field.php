@@ -16,12 +16,13 @@ class MakeStatusCoreField extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->softDeletes();
             $table->string('name');
             $table->boolean('published')->default(1);
             $table->string('color', 7)->nullable();
         });
 
-        Schema::table('people', function (Blueprint $table) {
+        Schema::table('contacts', function (Blueprint $table) {
             $table->integer('status_id')->unsigned()->nullable();
             $table->foreign('status_id')->references('id')->on('statuses');
         });

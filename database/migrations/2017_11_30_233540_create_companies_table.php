@@ -15,6 +15,8 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
+            $table->softDeletes();
             $table->string('name');
             $table->boolean('published')->default(1);
             $table->text('description')->nullable();
@@ -30,12 +32,6 @@ class CreateCompaniesTable extends Migration
             $table->text('info')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->timestamps();
-        });
-
-        Schema::table('people', function(Blueprint $table) {
-            $table->integer('company_id')->unsigned()->nullable();
-            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

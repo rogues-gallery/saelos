@@ -13,8 +13,10 @@ class CreateDealsTable extends Migration
      */
     public function up()
     {
-        Schema::create('deals', function (Blueprint $table) {
+        Schema::create('opportunities', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
+            $table->softDeletes();
             $table->boolean('published')->default(1);
             $table->string('name');
             $table->text('summary')->nullable();
@@ -23,11 +25,8 @@ class CreateDealsTable extends Migration
             $table->dateTime('expected_close')->nullable();
             $table->dateTime('actual_close')->nullable();
             $table->dateTime('last_viewed')->nullable();
-            $table->integer('company_id')->unsigned()->nullable();
-            $table->foreign('company_id')->references('id')->on('companies');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->timestamps();
         });
     }
 
@@ -38,6 +37,6 @@ class CreateDealsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deals');
+        Schema::dropIfExists('opportunities');
     }
 }

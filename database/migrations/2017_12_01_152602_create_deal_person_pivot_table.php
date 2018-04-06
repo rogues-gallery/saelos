@@ -13,13 +13,14 @@ class CreateDealPersonPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('deal_person', function (Blueprint $table) {
-            $table->integer('deal_id')->unsigned()->index();
-            $table->foreign('deal_id')->references('id')->on('deals')->onDelete('cascade');
-            $table->integer('person_id')->unsigned()->index();
-            $table->foreign('person_id')->references('id')->on('people')->onDelete('cascade');
+        Schema::create('opportunity_contact', function (Blueprint $table) {
+            $table->integer('opportunity_id')->unsigned()->index();
+            $table->foreign('opportunity_id')->references('id')->on('opportunities')->onDelete('cascade');
+            $table->integer('contact_id')->unsigned()->index();
+            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
             $table->boolean('primary')->default(0);
-            $table->primary(['deal_id', 'person_id']);
+            $table->string('position')->nullable();
+            $table->primary(['opportunity_id', 'contact_id']);
         });
     }
 
@@ -30,6 +31,6 @@ class CreateDealPersonPivotTable extends Migration
      */
     public function down()
     {
-        Schema::drop('deal_person');
+        Schema::drop('opportunity_contact');
     }
 }

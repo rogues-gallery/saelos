@@ -16,13 +16,13 @@ class CreateActivitiesTable extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->morphs('entity');
             $table->nullableMorphs('details');
             $table->string('name');
             $table->text('description')->nullable();
             $table->boolean('completed')->default(0);
             $table->dateTime('due_date')->nullable();
             $table->dateTime('fulfillment_date')->nullable();
+            $table->integer('sentiment_score')->nullable();
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });

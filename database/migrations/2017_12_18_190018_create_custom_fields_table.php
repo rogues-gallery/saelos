@@ -13,9 +13,10 @@ class CreateCustomFieldsTable extends Migration
      */
     public function up()
     {
-        Schema::create('custom_fields', function (Blueprint $table) {
+        Schema::create('fields', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->softDeletes();
             $table->string('label');
             $table->string('alias');
             $table->string('model');
@@ -25,6 +26,11 @@ class CreateCustomFieldsTable extends Migration
             $table->string('default')->nullable();
             $table->json('values')->nullable();
             $table->boolean('required')->default(0);
+            $table->boolean('protected')->default(0);
+            $table->boolean('hidden')->default(0);
+            $table->boolean('searchable')->default(0);
+            $table->boolean('summary')->default(false);
+            $table->integer('ordering')->default(0);
         });
 
         Schema::create('custom_field_values', function (Blueprint $table) {
@@ -32,7 +38,7 @@ class CreateCustomFieldsTable extends Migration
             $table->timestamps();
             $table->morphs('model');
             $table->integer('custom_field_id')->unsigned()->index();
-            $table->foreign('custom_field_id')->references('id')->on('custom_fields')->onDelete('cascade');
+            $table->foreign('custom_field_id')->references('id')->on('fields')->onDelete('cascade');
             $table->text('value');
         });
     }
@@ -45,6 +51,6 @@ class CreateCustomFieldsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('custom_field_values');
-        Schema::dropIfExists('custom_fields');
+        Schema::dropIfExists('fields');
     }
 }

@@ -13,12 +13,13 @@ class CreatePeopleTable extends Migration
      */
     public function up()
     {
-        Schema::create('people', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
+            $table->softDeletes();
             $table->boolean('published')->default(1);
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('position')->nullable();
             $table->string('email')->nullable();
             $table->string('address1')->nullable();
             $table->string('address2')->nullable();
@@ -32,7 +33,6 @@ class CreatePeopleTable extends Migration
             $table->text('info')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->timestamps();
         });
     }
 
@@ -43,6 +43,6 @@ class CreatePeopleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('people');
+        Schema::dropIfExists('contacts');
     }
 }

@@ -21,6 +21,7 @@ class CreateNotesTable extends Migration
             $table->nullableMorphs('entity');
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->boolean('private')->default(false);
         });
     }
 

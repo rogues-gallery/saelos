@@ -20,7 +20,7 @@ return [
     'final' => [
         'key' => true,
         'publish' => false
-    ],    
+    ],
     'requirements' => [
         'php' => [
             'openssl',
@@ -80,10 +80,10 @@ return [
                 'broadcast_driver'      => 'required|string|max:50',
                 'cache_driver'          => 'required|string|max:50',
                 'session_driver'        => 'required|string|max:50',
-                'queue_driver'          => 'required|string|max:50',
-                'redis_hostname'        => 'required|string|max:50',
-                'redis_password'        => 'required|string|max:50',
-                'redis_port'            => 'required|numeric',
+                'queue_driver'          => 'string|max:50',
+                'redis_hostname'        => 'string|max:50',
+                'redis_password'        => 'string|max:50',
+                'redis_port'            => 'numeric',
                 'mail_driver'           => 'required|string|max:50',
                 'mail_host'             => 'required|string|max:50',
                 'mail_port'             => 'required|string|max:50',
