@@ -43,6 +43,10 @@ export const fetchingContactCountSuccess = (payload) => {
   }
 }
 
+export const fetchingContactCountFailure = () => ({
+  type: types.FETCHING_CONTACT_COUNT_FAILURE
+})
+
 export const postingContact = () => ({
   type: types.POSTING_CONTACT
 })

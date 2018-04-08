@@ -73,10 +73,11 @@ export const fetchContactCount = (params) => (dispatch) => {
   return Http.get('contacts/count', {params})
     .then(res => {
       dispatch(actions.fetchingContactCountSuccess(res.data))
+      return res.data
     })
     .catch(err => {
       console.log(err)
-      // dispatch(actions.fetchingContactCountFailure())
+      dispatch(actions.fetchingContactCountFailure())
     })
 }
 

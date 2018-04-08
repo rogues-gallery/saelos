@@ -360,7 +360,7 @@ class ContactController extends Controller
 
     public function count(Request $request)
     {
-        $groupBy = $request->get('groupBy');
+        $groupBy = $request->get('groupBy', 'status_id');
         $user = \Auth::user();
 
         $count = \DB::table('contacts')

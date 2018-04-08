@@ -33,18 +33,20 @@ class Detail extends React.Component {
     this.props.dispatch(fetchStatuses())
   }
 
+  componentDidMount(){
+    const count = Promise.all(this.props.dispatch(fetchContactCount()))
+    this.setState({contactCount: count})
+  }
+
   _toggleView(view) {
     this.setState({view})
   }
 
   render() {
     const contacts = {}
-
-    // console.log(this.props.dispatch(fetchContactCount({'groupBy': 'status_id'})))
-
     switch(this.state.view) {
       case 'default':
-        return <Pipeline contacts={contacts} dispatch={this.props.dispatch}  toggle={this._toggleView} user={this.props.user} router={this.context.router} statuses={this.props.statuses} />
+        return <Pipeline contacts={contacts} dispatch={this.props.dispatch}  toggle={this._toggleView} user={this.props.user} router={this.context.router} statuses={this.props.statuses} count={this.state.contactCount} />
       case 'vector':
         return <Vector dispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} />
     }
@@ -116,8 +118,8 @@ const VectorChart = ({data, options, type}) => {
   )
 }
 
-const Pipeline = ({contacts, dispatch, toggle, user, statuses, router }) => {
-
+const Pipeline = ({contacts, dispatch, toggle, user, statuses, router, count }) => {
+console.log(count)
   const data = {series: [{name: 'stage', data: [10, 8, 4, 3, 1, 5] }]}
   const options = {
     low: 0,
