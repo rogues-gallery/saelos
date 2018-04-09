@@ -12,6 +12,7 @@ class Status extends Model {
 
     this.name = props.name || 'Untouched'
     this.color = props.color || ''
+    this.ordering = props.ordering || 0
   }
 }
 

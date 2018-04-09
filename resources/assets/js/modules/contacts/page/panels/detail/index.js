@@ -129,8 +129,14 @@ const History = ({activities, dispatch, toggle, inEdit}) => (
 )
 
 const StatusTimeline = ({contact, statuses, statusChange}) => {
+  const ordered = _.orderBy(statuses, 'ordering')
 
-  const data = {series: [[null, null, null, 1, 1], [1, 1, 1, 1,null]] }
+  const data = {
+    series: [
+      ordered.map(s => parseInt(s.ordering) >= parseInt(contact.status.ordering) ? 1 : null),
+      ordered.map(s => parseInt(s.ordering) > parseInt(contact.status.ordering) ? null : 1)
+    ]
+  }
   const options = {
     low: 0,
     high: 2,
