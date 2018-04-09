@@ -12,7 +12,7 @@ export default [
       location: 'main',
       linkText: 'Analytics',
       subLinks: false,
-      roles: false
+      roles: ['admin', 'manager']
     }
   }
 ];
