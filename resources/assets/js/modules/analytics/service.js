@@ -2,6 +2,12 @@ import Http from '../../utils/Http'
 import * as actions from './store/actions'
 import store from '../../store'
 
+export const fetchActivityGraph = () => (dispatch) => {
+  return Http.get('activities/graph')
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
+
 /**
  * Fetch the full report by id
  *

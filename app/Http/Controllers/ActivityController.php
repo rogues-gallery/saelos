@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Company;
+use App\FieldUpdateActivity;
 use App\Opportunity;
 use App\Contact;
 use App\Http\Resources\Activity as ActivityResource;
 use App\Http\Resources\ActivityCollection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -97,5 +99,26 @@ class ActivityController extends Controller
         Activity::findOrFail($id)->delete();
 
         return '';
+    }
+
+    public function graph(Request $request)
+    {
+        $timeSpan = [
+            (new Carbon())->startOfWeek(),
+            (new Carbon())->endOfWeek()
+        ];
+
+        $results = \DB::table('activities')
+            ->select(\DB::raw('count(*) as count, user_id, DAYNAME(created_at) as weekday'))
+            ->where('details_type', '!=', FieldUpdateActivity::class)
+            ->whereNotNull('user_id')
+            ->whereBetween('created_at', $timeSpan)
+            ->groupBy([
+                'user_id',
+                'weekday'
+            ])
+            ->get();
+
+        return response($results);
     }
 }

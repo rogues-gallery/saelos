@@ -72,6 +72,8 @@ Route::group([
         Route::resource('teams', 'TeamController')
             ->middleware('scope:admin,manager');
 
+        Route::get('activities/graph', 'ActivityController@graph');
+
         Route::resource('activities', 'ActivityController');
 
         Route::resource('users', 'UserController')

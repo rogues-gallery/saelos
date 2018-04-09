@@ -57,6 +57,7 @@
         "tether": "^1.4.3"
     },
     "dependencies": {
+        "chartist-plugin-legend": "^0.6.2",
         "jwt-decode": "^2.2.0",
         "react-bootstrap": "^0.32.1",
         "react-color": "^2.14.0",
