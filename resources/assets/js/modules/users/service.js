@@ -51,6 +51,20 @@ export const fetchUsers = (params) => (dispatch) => {
     })
 }
 
+export const fetchQuotaCount = (params) => (dispatch) => {
+  dispatch(actions.fetchingQuotaCount(params));
+
+  return Http.get(`users/${params.id}/count`, {params})
+    .then(res => {
+      dispatch(actions.fetchingQuotaCountSuccess(res.data))
+      return res.data
+    })
+    .catch(err => {
+      console.log(err)
+      dispatch(actions.fetchingQuotaCountFailure())
+    })
+}
+
 export const saveUser = (params) => (dispatch) => {
   dispatch(actions.postingUser());
 

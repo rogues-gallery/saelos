@@ -205,4 +205,18 @@ class UserController extends Controller
 
         return response();
     }
+
+    public function count(Request $request)
+    {
+        $count = [
+            'volume' => 31,
+            'email' => 5,
+            'calls' => 6,
+            'team' => 7,
+            'opportunities' => 5,
+            'responses' => 8
+        ];
+
+        return response(['success' => true, 'data' => $count]);
+    }
 }

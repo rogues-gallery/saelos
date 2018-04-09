@@ -10,5 +10,5 @@ export const getCustomField = (customField, fields) => {
 export const getCustomFieldValue = (customField, fields, defaultValue) => {
   const field = getCustomField(customField, fields)
 
-  return field.value === null ? defaultValue : field.value
+  return field.value === undefined ? defaultValue : field.value
 };

@@ -1,16 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as MDIcons from 'react-icons/lib/md'
+import _ from 'lodash'
 
 class Opportunities extends React.Component {
   render() {
-    const { ...props } = this.props;
+    const { quota, total } = this.props
+    const percent = _.floor((total/quota)*100)
 
     return (
       <div className="card">
         <div className="card-header" id="headingOpportunities">
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseOpportunities" aria-expanded="false" aria-controls="collapseOpportunities">
-            <MDIcons.MdKeyboardArrowDown /> Opportunities <span className="text-muted font-weight-normal">(30%)</span>
+            <MDIcons.MdKeyboardArrowDown /> Opportunities <span className="text-muted font-weight-normal">({percent}%)</span>
           </h6>
         </div>
 
@@ -22,6 +24,11 @@ class Opportunities extends React.Component {
       </div>
     )
   }
+}
+
+Opportunities.propTypes = {
+  quota: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired
 }
 
 export default Opportunities

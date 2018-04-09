@@ -32,6 +32,7 @@ Route::group([
         ->name('contacts.outbound');
 
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('/users/{id}/count', 'UserController@count');
         Route::get('/contacts/count','ContactController@count');
         Route::post('/contacts/{id}/call', 'ContactController@call');
         Route::post('/contacts/{id}/sms', 'ContactController@sms');

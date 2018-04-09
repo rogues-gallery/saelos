@@ -27,6 +27,20 @@ export const fetchingUsersFailure = () => ({
   type: types.FETCHING_USERS_FAILURE
 })
 
+export const fetchingQuotaCount = (payload) => ({
+  type: types.FETCHING_USER_QUOTA,
+  data: payload
+})
+
+export const fetchingQuotaCountSuccess = (payload) => ({
+  type: types.FETCHING_USER_QUOTA_SUCCESS,
+  data: payload
+})
+
+export const fetchingQuotaCountFailure = () => ({
+  type: types.FETCHING_USER_QUOTA_FAILURE
+})
+
 export const postingUser = () => ({
   type: types.POSTING_USER
 })

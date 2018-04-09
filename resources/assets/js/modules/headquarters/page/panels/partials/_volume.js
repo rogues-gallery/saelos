@@ -1,16 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as MDIcons from 'react-icons/lib/md'
+import _ from 'lodash'
 
 class Volume extends React.Component {
   render() {
-    const { ...props } = this.props;
+    const { quota, total } = this.props
+    const percent = _.floor((total/quota)*100)
 
     return (
       <div className="card">
         <div className="card-header" id="headingVolume">
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseVolume" aria-expanded="true" aria-controls="collapseVolume">
-            <MDIcons.MdKeyboardArrowDown /> Volume <span className="text-muted font-weight-normal">(27%)</span>
+            <MDIcons.MdKeyboardArrowDown /> Volume <span className="text-muted font-weight-normal">({percent}%)</span>
           </h6>
         </div>
 
@@ -22,6 +24,11 @@ class Volume extends React.Component {
       </div>
     )
   }
+}
+
+Volume.propTypes = {
+  quota: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired
 }
 
 export default Volume

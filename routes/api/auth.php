@@ -9,6 +9,6 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::delete('logout', 'Api\Auth\LoginController@logout')->name('auth.logout');
 
     Route::get('/user', function(Request $request) {
-        return $request->user()->load(['team', 'team.users', 'settings']);
+        return $request->user()->load(['team', 'team.users', 'settings', 'customFields']);
     });
 });

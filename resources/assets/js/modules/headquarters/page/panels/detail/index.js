@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as MDIcons from 'react-icons/lib/md'
 import ChartistGraph from 'react-chartist'
+import _ from 'lodash'
 
 import Volume from '../partials/_volume'
 import Email from '../partials/_email'
@@ -17,13 +18,16 @@ import { getActiveUser } from '../../../../users/store/selectors'
 import { fetchStatuses } from '../../../../statuses/service'
 import { fetchContacts } from '../../../../contacts/service'
 import { fetchContactCount } from '../../../../contacts/service'
+import { fetchQuotaCount } from '../../../../users/service'
+import { getCustomFieldValue } from '../../../../../utils/helpers'
 
 class Detail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       view: "default",
-      contactCount: []
+      contactCount: [],
+      quotaCount: [],
     }
 
     this._toggleView = this._toggleView.bind(this)
@@ -34,10 +38,19 @@ class Detail extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchContactCount())
-      .then(count => {
+    const { dispatch, user } = this.props
+
+    dispatch(fetchContactCount(user.id))
+      .then(res => {
         this.setState({
-          contactCount: count.data
+          contactCount: res.data
+        })
+      })
+
+    dispatch(fetchQuotaCount(user.id))
+      .then(res => {
+        this.setState({
+          quotaCount: res.data
         })
       })
   }
@@ -47,19 +60,28 @@ class Detail extends React.Component {
   }
 
   render() {
+    const { dispatch, statuses, user } = this.props
+    const { contactCount, quotaCount } = this.state
     const contacts = {}
+
     switch(this.state.view) {
       case 'default':
-        return <Pipeline contacts={contacts} dispatch={this.props.dispatch}  toggle={this._toggleView} user={this.props.user} router={this.context.router} statuses={this.props.statuses} count={this.state.contactCount} />
+        return <Pipeline contacts={contacts} dispatch={dispatch}  toggle={this._toggleView} user={user} router={this.context.router} statuses={statuses} count={contactCount} />
       case 'vector':
-        return <Vector dispatch={this.props.dispatch} toggle={this._toggleView} user={this.props.user} />
+        return <Vector dispatch={dispatch} toggle={this._toggleView} user={user} count={quotaCount} />
     }
   }
 }
 
-const Vector = ({dispatch, toggle, user}) => {
+const Vector = ({dispatch, toggle, user, count}) => {
 
-  const data = {labels: ['V', 'E', 'C', 'T', 'O', 'R'], series: [[4, 5, 6, 7, 5, 8], [10,10,10,10,10,10]] }
+  const data = {
+    labels: ['V', 'E', 'C', 'T', 'O', 'R'],
+    series: [
+      ['volume', 'email', 'calls', 'team', 'opportunities', 'responses'].map(k => count[k])
+    ]
+  }
+
   const options = {
     high: 10,
     low: 0,
@@ -78,6 +100,13 @@ const Vector = ({dispatch, toggle, user}) => {
       offset: 0
     }
   }
+
+  const emailQuota = parseInt(getCustomFieldValue('number_of_emails', user.custom_fields, 15))
+  const callQuota = parseInt(getCustomFieldValue('number_of_calls', user.custom_fields, 15))
+  const teamQuota = parseInt(getCustomFieldValue('number_of_sms', user.custom_fields, 15))
+  const oppQuota = parseInt(getCustomFieldValue('number_of_opportunities', user.custom_fields, 15))
+  const responseQuota = parseInt(getCustomFieldValue('number_of_responses', user.custom_fields, 15))
+  const volumeQuota = _.sum([emailQuota, callQuota, teamQuota, oppQuota, responseQuota])
 
   return (
     <div className="col detail-panel border-left">
@@ -98,15 +127,14 @@ const Vector = ({dispatch, toggle, user}) => {
               <VectorChart data={data} options={options} type="Bar" />
             </div>
           </div>
-
         </div>
 
-        <Volume />
-        <Email />
-        <Calls />
-        <Team />
-        <Opportunities />
-        <Responses />
+        <Volume quota={volumeQuota} total={count.volume} />
+        <Email quota={emailQuota} total={count.email} />
+        <Calls quota={callQuota} total={count.calls} />
+        <Team quota={teamQuota} total={count.team} />
+        <Opportunities quota={oppQuota} total={count.opportunities} />
+        <Responses quota={responseQuota} total={count.responses} />
       </div>
     </div>
   )
@@ -123,15 +151,19 @@ const VectorChart = ({data, options, type}) => {
 }
 
 const Pipeline = ({contacts, dispatch, toggle, user, statuses, router, count }) => {
-  const data = {series: [{name: 'stage', data: [10, 8, 4, 3, 1, 5] }]}
+  const data = {
+    labels: Object.keys(count).map(k => _.find(statuses, s => s.id === parseInt(k)).name),
+    series: [
+      Object.keys(count).map(k => count[k])
+    ]
+  }
   const options = {
     low: 0,
     fullWidth: true,
     showArea: true,
-    showLabel: false,
     axisX: {
       showGrid: false,
-      showLabel: false,
+      showLabel: true,
       offset: 0
     },
     axisY: {
@@ -163,7 +195,10 @@ const Pipeline = ({contacts, dispatch, toggle, user, statuses, router, count }) 
           <div className="card-body border-bottom">
             <div className="pipelineGraph">
               <div className="h1 text-center">283</div>
-              <div className="text-center mini-text text-muted text-uppercase pb-2"><span className="text-danger h5"><MDIcons.MdArrowDropDown /></span><span className="text-dark">3% decrease</span> since last week</div>
+              <div className="text-center mini-text text-muted text-uppercase pb-2">
+                <span className="text-danger h5"><MDIcons.MdArrowDropDown /></span>
+                <span className="text-dark">3% decrease</span> since last week
+              </div>
               <ChartistGraph data={data} options={options} type="Bar" className="graph" />
             </div>
           </div>
