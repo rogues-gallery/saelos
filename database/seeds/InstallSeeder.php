@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 
-use Hash;
 use App\Role;
 use App\User;
 
@@ -15,7 +14,6 @@ class InstallSeeder extends Seeder
      */
     public function run()
     {
-
         Role::create([
             'name' => 'admin',
             'description' => 'Admin User'

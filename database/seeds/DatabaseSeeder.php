@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            InstallSeeder::class
+            InstallSeeder::class,
+            FieldTableSeeder::class
         ]);
     }
 }
