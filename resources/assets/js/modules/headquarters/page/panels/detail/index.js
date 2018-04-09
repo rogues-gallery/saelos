@@ -33,9 +33,13 @@ class Detail extends React.Component {
     this.props.dispatch(fetchStatuses())
   }
 
-  componentDidMount(){
-    const count = Promise.all(this.props.dispatch(fetchContactCount()))
-    this.setState({contactCount: count})
+  componentDidMount() {
+    this.props.dispatch(fetchContactCount())
+      .then(count => {
+        this.setState({
+          contactCount: count.data
+        })
+      })
   }
 
   _toggleView(view) {
@@ -119,7 +123,6 @@ const VectorChart = ({data, options, type}) => {
 }
 
 const Pipeline = ({contacts, dispatch, toggle, user, statuses, router, count }) => {
-console.log(count)
   const data = {series: [{name: 'stage', data: [10, 8, 4, 3, 1, 5] }]}
   const options = {
     low: 0,
@@ -173,13 +176,17 @@ console.log(count)
           </div>
 
           <div id="collapseStatus" className="show collapse mh-200" aria-labelledby="headingStatus">
-            {statuses.map(s => (
-              <div key={`user-${user.id}-status-${s.id}`} className="list-group">
-                <div className="list-group-item list-group-item-action align-items-start">
-                  <p onClick={() => openContactSearch(`assignee:${user.id} status:"${s.name}"`)}><strong>{s.name}</strong></p>
+            {statuses.map(s => {
+              const thisCount = _.get(count, s.id, null)
+
+              return (
+                <div key={`user-${user.id}-status-${s.id}`} className="list-group">
+                  <div className="list-group-item list-group-item-action align-items-start">
+                    <p onClick={() => openContactSearch(`assignee:${user.id} status:"${s.name}"`)}><strong>{s.name} {thisCount ? <span className="text-muted">({thisCount})</span> : ''}</strong></p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>

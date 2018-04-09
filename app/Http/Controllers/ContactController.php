@@ -364,10 +364,11 @@ class ContactController extends Controller
         $user = \Auth::user();
 
         $count = \DB::table('contacts')
-                    ->select($groupBy, \DB::raw('count(*) as total'))
-                    ->where('user_id', $user->id)
-                    ->groupBy($groupBy)
-                    ->pluck('total', $groupBy);
+            ->select($groupBy, \DB::raw('count(*) as total'))
+            ->where('user_id', $user->id)
+            ->whereNotNull($groupBy)
+            ->groupBy($groupBy)
+            ->pluck('total', $groupBy);
 
         return response(['success' => true, 'data' => $count]);
     }
