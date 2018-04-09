@@ -12,6 +12,7 @@ import {
   getPaginationForOpportunities
 } from '../../../store/selectors'
 import { isInEdit } from '../../../../opportunities/store/selectors'
+import { fetchStages } from '../../../../stages/service'
 
 class List extends React.Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class List extends React.Component {
 
     if (opportunities.length === 0) {
       dispatch(fetchOpportunities({page: 1, searchString}))
+      dispatch(fetchStages({page: 1}))
     }
   }
 
