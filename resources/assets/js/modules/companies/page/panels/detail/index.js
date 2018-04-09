@@ -81,11 +81,14 @@ const Details = ({company, dispatch, toggle, user, data, options, inEdit}) => (
 
         <div id="collapseSnapshot" className="collapse show" aria-labelledby="headingSnapshot">
           <div className="card-body border-bottom">
-            <div className="h1 text-center">$65,000</div>
-            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Current <span className="text-dark">Lifetime Value</span></div>
+            <div className="h1 text-center"><Money>{_.sum(_.map(company.opportunities, 'amount'))}</Money></div>
+            <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Current <span className="text-dark">Pipeline Value</span></div>
+            {/*
+            @TODO: Add this back when we figure out what data to display
             <ScoreChart data={data} options={options} type="Line" />
             <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Active Pipeline</div>
             <p><Link className="hidden-link" to={`/opportunities/?searchString=${company.name}`}><Money>{_.sum(_.map(company.opportunities, 'amount'))}</Money> in open opportunities</Link></p>
+            */}
           </div>
         </div>
       </div>
