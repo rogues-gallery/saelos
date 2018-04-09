@@ -610,6 +610,26 @@ class FieldTableSeeder extends Seeder
                 "ordering" => 0,
                 "searchable" => 0,
             ],
+            [
+                "label" => "Quota is For",
+                "alias" => "quota_is_for",
+                "model" => User::class,
+                "group" => "core",
+                "type" => "picklist",
+                "entity_class" => null,
+                "default" => 'weekly',
+                "values" => json_encode([
+                    'weekly' => 'Weekly',
+                    'monthly' => 'Monthly',
+                    'quarterly' => 'Quarterly'
+                ]),
+                "required" => 0,
+                "protected" => 1,
+                "hidden" => 0,
+                "summary" => 0,
+                "ordering" => 0,
+                "searchable" => 0,
+            ],
         ];
 
         foreach ($coreFields as $field) {

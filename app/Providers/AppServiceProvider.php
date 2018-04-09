@@ -9,6 +9,7 @@ use App\Observers\ApplyWorkflowObserver;
 use App\Observers\CustomFieldWorkflowObserver;
 use App\Observers\ModelUpdateObserver;
 use App\Contact;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Console;
 
@@ -21,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Carbon::setWeekStartsAt(Carbon::SUNDAY);
+        Carbon::setWeekEndsAt(Carbon::SATURDAY);
+
         Contact::observe(ApplyWorkflowObserver::class);
         Contact::observe(ModelUpdateObserver::class);
 

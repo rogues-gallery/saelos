@@ -51,10 +51,10 @@ export const fetchUsers = (params) => (dispatch) => {
     })
 }
 
-export const fetchQuotaCount = (params) => (dispatch) => {
-  dispatch(actions.fetchingQuotaCount(params));
+export const fetchQuotaCount = (id) => (dispatch) => {
+  dispatch(actions.fetchingQuotaCount(id));
 
-  return Http.get(`users/${params.id}/count`, {params})
+  return Http.get(`users/${id}/count`)
     .then(res => {
       dispatch(actions.fetchingQuotaCountSuccess(res.data))
       return res.data

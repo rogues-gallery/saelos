@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\EmailActivity;
 use App\Notifications\UserUpdated;
 use App\Role;
 use Auth;
 use App\User;
 use App\Http\Resources\UserCollection;
+use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
 use Twilio\Twiml;
@@ -206,15 +209,76 @@ class UserController extends Controller
         return response();
     }
 
+    /**
+     * @param Request $request
+     *
+     * @TODO: Need to calc team & responses
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function count(Request $request)
     {
+        $user = \Auth::user();
+
+        $timeFrame = $user->customFields()
+                ->where('custom_field_alias', 'quota_is_for')
+                ->first();
+
+        $timeFrame = $timeFrame ? $timeFrame->value : 'weekly';
+
+        $timeFunc = function(Builder $query) use ($timeFrame) {
+            switch ($timeFrame) {
+                case 'monthly':
+                    $timeSpan = [
+                        (new Carbon())->startOfMonth(),
+                        (new Carbon())->endOfMonth()
+                    ];
+                    break;
+                case 'quarterly':
+                    $timeSpan = [
+                        (new Carbon())->startOfQuarter(),
+                        (new Carbon())->endOfQuarter()
+                    ];
+                    break;
+                case 'weekly':
+                default:
+                    $timeSpan = [
+                        (new Carbon())->startOfWeek(),
+                        (new Carbon())->endOfWeek()
+                    ];
+                    break;
+            }
+
+            $query->whereBetween('created_at', $timeSpan);
+        };
+
+        $emailCount = \DB::table('activities')
+            ->select(\DB::raw('count(*) as total'))
+            ->where('details_type', EmailActivity::class)
+            ->where('user_id', \Auth::user()->id)
+            ->where($timeFunc)
+            ->first()->total;
+
+        $callCount = \DB::table('activities')
+            ->select(\DB::raw('count(*) as total'))
+            ->where('details_type', CallActivity::class)
+            ->where('user_id', \Auth::user()->id)
+            ->where($timeFunc)
+            ->first()->total;
+
+        $oppCount = \DB::table('opportunities')
+            ->select(\DB::raw('count(*) as total'))
+            ->where('user_id', \Auth::user()->id)
+            ->where($timeFunc)
+            ->first()->total;
+
         $count = [
-            'volume' => 31,
-            'email' => 5,
-            'calls' => 6,
-            'team' => 7,
-            'opportunities' => 5,
-            'responses' => 8
+            'volume' => array_sum([$emailCount, $callCount, 0, $oppCount, 0]),
+            'email' => $emailCount,
+            'calls' => $callCount,
+            'team' => 0,
+            'opportunities' => $oppCount,
+            'responses' => 0
         ];
 
         return response(['success' => true, 'data' => $count]);

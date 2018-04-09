@@ -20,6 +20,7 @@ class MakeStatusCoreField extends Migration
             $table->string('name');
             $table->boolean('published')->default(1);
             $table->string('color', 7)->nullable();
+            $table->integer('ordering')->default(0);
         });
 
         Schema::table('contacts', function (Blueprint $table) {

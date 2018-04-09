@@ -88,12 +88,18 @@ class Record extends React.Component {
           <div className="card mb-1">
             <ul className={`list-group list-group-flush`}>
 			        <li className="list-group-item">
-			          <div className={`form-group mb-2`}>
-		              <label htmlFor="statusName" className="">Name</label>
-		              <div className="">
-		                <input type="text" id="statusName" name="name" onChange={this._handleInputChange} className="form-control" value={formState.name} />
-		              </div>
-	            	</div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="statusName" className="">Name</label>
+                  <div className="">
+                    <input type="text" id="statusName" name="name" onChange={this._handleInputChange} className="form-control" value={formState.name} />
+                  </div>
+                </div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="statusOrdering" className="">Ordering</label>
+                  <div className="">
+                    <input type="number" id="statusOrdering" name="ordering" onChange={this._handleInputChange} className="form-control" value={formState.ordering} />
+                  </div>
+                </div>
 	            	<div className={`form-group mb-2`}>
 		              <label htmlFor="statusColor" className="">Color</label>
 		              <div className="">
