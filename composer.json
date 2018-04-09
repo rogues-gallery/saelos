@@ -15,7 +15,7 @@
         "laravel/tinker": "~1.0",
         "phpsafari/health-checks": "^0.0.7",
         "pusher/pusher-php-server": "^3.0@dev",
-        "rachidlaasri/laravel-installer": "^4.0",
+        "rachidlaasri/laravel-installer": "dev-master as 4.1",
         "rap2hpoutre/create-user-command": "^0.1.4",
         "twilio/sdk": "^5.16"
     },
@@ -30,7 +30,6 @@
     },
     "autoload": {
         "classmap": [
-            "app/overrides/EnvironmentController.php",
             "database/seeds",
             "database/factories"
         ],

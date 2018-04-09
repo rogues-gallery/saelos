@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+
 use Closure;
+use File;
 
 class Installed
 {
@@ -15,7 +17,9 @@ class Installed
      */
     public function handle($request, Closure $next)
     {
-        if (!file_exists(base_path('.env'))) {
+        if (strpos($request->path(), 'install') !== 0 && !file_exists(storage_path('installed'))) {
+            File::copy(base_path('.env.example'), base_path('.env'));
+
             return redirect()->to(route('LaravelInstaller::welcome'));
         }
 

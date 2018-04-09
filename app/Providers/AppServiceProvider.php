@@ -10,6 +10,7 @@ use App\Observers\CustomFieldWorkflowObserver;
 use App\Observers\ModelUpdateObserver;
 use App\Contact;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Console;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +33,21 @@ class AppServiceProvider extends ServiceProvider
         CustomFieldValue::observe(CustomFieldWorkflowObserver::class);
         CustomFieldValue::observe(ModelUpdateObserver::class);
 
+        // Register passport commands so they can be ran via web
+        if (!$this->app->runningInConsole()) {
+            $this->registerPassportForWeb();
+        }
+    }
+
+    private function registerPassportForWeb()
+    {
+        $this->loadMigrationsFrom(base_path('vendor/laravel/passport/database/migrations'));
+
+        $this->commands([
+            Console\InstallCommand::class,
+            Console\ClientCommand::class,
+            Console\KeysCommand::class,
+        ]);
     }
 
     /**

@@ -12,7 +12,14 @@
 @section('container')
     <div class="tabs tabs-full">
 
-        <input id="tab2" type="radio" name="tabs" class="tab-input" checked />
+        <input id="tab1" type="radio" name="tabs" class="tab-input" checked />
+        <label for="tab1" class="tab-label">
+            <i class="fa fa-user fa-2x fa-fw" aria-hidden="true"></i>
+            <br />
+            App Info
+        </label>
+
+        <input id="tab2" type="radio" name="tabs" class="tab-input" />
         <label for="tab2" class="tab-label">
             <i class="fa fa-database fa-2x fa-fw" aria-hidden="true"></i>
             <br />
@@ -29,7 +36,7 @@
         <form method="post" action="{{ route('LaravelInstaller::environmentSaveWizard') }}" class="tabs-wrap">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-            <div class="tab" id="tab2content">
+            <div class="tab" id="tab1content">
                 <input type="hidden" name="app_name" value="Saelos" />
                 <input type="hidden" name="environment" value="production" />
                 <input type="hidden" name="app_debug" value="false" />
@@ -39,7 +46,7 @@
                     <label for="app_url">
                         {{ trans('installer_messages.environment.wizard.form.app_url_label') }}
                     </label>
-                    <input type="url" name="app_url" id="app_url" value="http://localhost" placeholder="{{ trans('installer_messages.environment.wizard.form.app_url_placeholder') }}" />
+                    <input type="url" name="app_url" id="app_url" value="http://" placeholder="{{ trans('installer_messages.environment.wizard.form.app_url_placeholder') }}" />
                     @if ($errors->has('app_url'))
                         <span class="error-block">
                             <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
@@ -47,6 +54,65 @@
                         </span>
                     @endif
                 </div>
+
+                <div class="form-group {{ $errors->has('user_name') ? ' has-error ' : '' }}">
+                    <label for="user_name">
+                        Your Name
+                    </label>
+                    <input type="text" name="user_name" id="user_name" value="" placeholder="Name" />
+                    @if ($errors->has('user_name'))
+                        <span class="error-block">
+                            <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{ $errors->first('user_name') }}
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group {{ $errors->has('user_username') ? ' has-error ' : '' }}">
+                    <label for="user_username">
+                        Username
+                    </label>
+                    <input type="text" name="user_username" id="user_username" value="" placeholder="Username" />
+                    @if ($errors->has('user_username'))
+                        <span class="error-block">
+                            <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{ $errors->first('user_username') }}
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group {{ $errors->has('user_email') ? ' has-error ' : '' }}">
+                    <label for="user_email">
+                        Email
+                    </label>
+                    <input type="email" name="user_email" id="user_email" value="" placeholder="Email" />
+                    @if ($errors->has('user_email'))
+                        <span class="error-block">
+                            <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{ $errors->first('user_email') }}
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group {{ $errors->has('user_password') ? ' has-error ' : '' }}">
+                    <label for="user_password">
+                        Password
+                    </label>
+                    <input type="password" name="user_password" id="user_password" value="" placeholder="Password" />
+                    @if ($errors->has('user_password'))
+                        <span class="error-block">
+                            <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{ $errors->first('user_password') }}
+                        </span>
+                    @endif
+                </div>
+
+                <div class="buttons">
+                    <button class="button" onclick="showDatabaseSettings();return false">
+                        {{ trans('installer_messages.environment.wizard.form.buttons.setup_database') }}
+                        <i class="fa fa-angle-right fa-fw" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tab" id="tab2content">
 
                 <div class="form-group {{ $errors->has('database_connection') ? ' has-error ' : '' }}">
                     <label for="database_connection">

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdf96b577ad98a97be472dfab94604d4",
+    "content-hash": "7bf04fdcbc447d97ef4db58323d7d3c1",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -2594,16 +2594,16 @@
         },
         {
             "name": "rachidlaasri/laravel-installer",
-            "version": "4.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RachidLaasri/LaravelInstaller.git",
-                "reference": "28b8c412d8ad86c6588afc84b7027e8e8ae196be"
+                "reference": "6a16e283bf925ba0796eb63461f81891381e7885"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RachidLaasri/LaravelInstaller/zipball/28b8c412d8ad86c6588afc84b7027e8e8ae196be",
-                "reference": "28b8c412d8ad86c6588afc84b7027e8e8ae196be",
+                "url": "https://api.github.com/repos/RachidLaasri/LaravelInstaller/zipball/6a16e283bf925ba0796eb63461f81891381e7885",
+                "reference": "6a16e283bf925ba0796eb63461f81891381e7885",
                 "shasum": ""
             },
             "require": {
@@ -2640,7 +2640,7 @@
                 }
             ],
             "description": "Laravel web installer",
-            "time": "2018-03-23T15:17:33+00:00"
+            "time": "2018-04-06T21:10:00+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -4742,7 +4742,7 @@
             ],
             "authors": [
                 {
-                    "name": "Pádraic Brady",
+                    "name": "Padraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 },
@@ -6228,10 +6228,18 @@
             "time": "2018-01-29T19:49:41+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "4.1",
+            "alias_normalized": "4.1.0.0",
+            "version": "9999999-dev",
+            "package": "rachidlaasri/laravel-installer"
+        }
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "pusher/pusher-php-server": 20,
+        "rachidlaasri/laravel-installer": 20,
         "laravel/dusk": 20
     },
     "prefer-stable": false,

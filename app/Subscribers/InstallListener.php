@@ -2,12 +2,13 @@
 
 namespace App\Subscribers;
 
-use App\Role;
 use Artisan;
 use DB;
+use File;
+use App\User;
+use App\Role;
 use RachidLaasri\LaravelInstaller\Events\LaravelInstallerFinished;
 use Symfony\Component\Console\Output\BufferedOutput;
-
 
 /**
  * Class InstallListener
@@ -20,38 +21,30 @@ class InstallListener
     {
         $output = new BufferedOutput;
 
-        Role::create([
-            'name' => 'admin',
-            'description' => 'Admin User'
-        ]);
+        try {
+            Artisan::call('passport:install', ['--force' => true], $output);
 
-        Role::create([
-            'name' => 'manager',
-            'description' => 'Manager User'
-        ]);
+            $passwordClient = DB::table('oauth_clients')
+                ->select(['id', 'secret'])
+                ->where('password_client', 1)
+                ->first();
 
-        Role::create([
-            'name' => 'user',
-            'description' => 'User'
-        ]);
+            $envContent = "\n";
+            $envContent .= "PASSWORD_CLIENT_ID=".$passwordClient->id."\n";
+            $envContent .= "PASSWORD_CLIENT_SECRET=".$passwordClient->secret."\n";
 
-        Artisan::call('passport:install', ['--force' => true, '--quiet' => true], $output);
-        Artisan::call('passport:keys', ['--force' => true, '--quiet' => true], $output);
-        Artisan::call('passport:client', [
-            '--password' => true,
-            '--quiet' => true,
-            '--name' => 'Saelos Password Client'
-        ], $output);
+            file_put_contents(base_path('.env'), $envContent, FILE_APPEND);
 
-        $passwordClient = DB::table('oauth_clients')
-            ->select(['id', 'secret'])
-            ->where('name', 'Saelos Password Client')
-            ->first();
+            if (File::exists(storage_path('install.json'))) {
+                $info = json_decode(File::get(storage_path('install.json')), true);
+                $user = User::create($info);
 
-        $envContent = "\n";
-        $envContent .= "PASSPORT_CLIENT_ID=".$passwordClient->id."\n";
-        $envContent .= "PASSPORT_CLIENT_SECRET=".$passwordClient->secret."\n";
+                $user->roles()->sync(Role::all()->pluck('id')->toArray());
 
-        file_put_contents(base_path('.env'), $envContent, FILE_APPEND);
+                File::delete(storage_path('install.json'));
+            }
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());die;
+        }
     }
 }

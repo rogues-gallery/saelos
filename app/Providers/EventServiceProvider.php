@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Subscribers\ContactSubscriber;
 use App\Subscribers\InstallListener;
+use App\Subscribers\EnvironmentSavedListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use RachidLaasri\LaravelInstaller\Events\LaravelInstallerFinished;
+use RachidLaasri\LaravelInstaller\Events\EnvironmentSaved;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         LaravelInstallerFinished::class => [
             InstallListener::class
+        ],
+        EnvironmentSaved::class => [
+            EnvironmentSavedListener::class
         ]
     ];
 
