@@ -14,6 +14,17 @@ class Stage extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $array = parent::toArray($request);
+
+        if ($request->route()->getName() === 'api.stage_pipeline') {
+            $user_id = $request->get('user_id');
+
+
+            $array['count'] = $this->resource->opportunities()->count();
+            $array['count_for_team'] = $this->resource->teamOpportunities($user_id)->count();
+            $array['count_for_user'] = $this->resource->userOpportunities($user_id)->count();
+        }
+
+        return $array;
     }
 }

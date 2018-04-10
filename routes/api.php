@@ -32,6 +32,9 @@ Route::group([
         ->name('contacts.outbound');
 
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('stages/pipeline', 'StageController@pipeline')
+            ->name('stage_pipeline');
+        Route::get('activities/graph', 'ActivityController@graph');
         Route::get('/users/{id}/count', 'UserController@count');
         Route::get('/contacts/count','ContactController@count');
         Route::post('/contacts/{id}/call', 'ContactController@call');
@@ -71,8 +74,6 @@ Route::group([
 
         Route::resource('teams', 'TeamController')
             ->middleware('scope:admin,manager');
-
-        Route::get('activities/graph', 'ActivityController@graph');
 
         Route::resource('activities', 'ActivityController');
 

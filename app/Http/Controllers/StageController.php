@@ -54,4 +54,9 @@ class StageController extends Controller
 
         return '';
     }
+
+    public function pipeline(Request $request)
+    {
+        return new StageCollection(Stage::all());
+    }
 }

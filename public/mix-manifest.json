@@ -1,6 +1,10 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/app.js.map": "/js/app.js.map",
     "/undefined.js": "/undefined.js",
     "/css/app.css": "/css/app.css",
-    "/css/installer.css": "/css/installer.css"
+    "/css/installer.css": "/css/installer.css",
+    "/undefined.js.map": "/undefined.js.map",
+    "/css/app.css.map": "/css/app.css.map",
+    "/css/installer.css.map": "/css/installer.css.map"
 }

@@ -34,19 +34,23 @@ class Stage extends Model
         return $this->hasMany(Opportunity::class);
     }
 
-    public function userOpportunities()
+    public function userOpportunities($id = null)
     {
-        return $this->opportunities()->where('user_id', '=', \Auth::user()->id);
+        $user = $id ? User::findOrFail($id) : \Auth::user();
+
+        return $this->opportunities()->where('user_id', '=', $user->id);
     }
 
-    public function teamOpportunities()
+    public function teamOpportunities($id = null)
     {
+        $user = $id ? User::findOrFail($id) : \Auth::user();
+
         $relation = $this->opportunities();
 
         $relation->getQuery()
             ->select('opportunities.*')
             ->join('users', 'opportunities.user_id', '=', 'users.id')
-            ->where('users.team_id', '=', \Auth::user()->team_id);
+            ->where('users.team_id', '=', $user->team_id);
 
         return $relation;
     }

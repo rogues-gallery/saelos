@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import * as MDIcons from 'react-icons/lib/md'
 import { withRouter } from 'react-router-dom'
 import ChartistGraph from 'react-chartist'
