@@ -160,6 +160,8 @@ const StatusTimeline = ({contact, statuses, statusChange}) => {
   const link = firstNotCompleted
     ? <NavLink to={`/headquarters/${firstNotCompleted.id}`}>{firstNotCompleted.name}</NavLink>
     : 'All caught up!'
+  const recentlyCompleted = _.find(_.orderBy(_.find(contact.activities, 'completed'), 'created_at'), a => a.details_type !== 'App\\FieldUpdateActivity')
+  const lastTouch  = recentlyCompleted ? recentlyCompleted.created_at : contact.updated_at
 
   return (
     <div className="card ct-container-inverse">
@@ -180,7 +182,9 @@ const StatusTimeline = ({contact, statuses, statusChange}) => {
             </div>
           </div>
 
-          <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Last touched <span className="text-dark">{moment(contact.updated_at).fromNow()}</span></div>
+          <div className="text-center mini-text text-muted text-uppercase pb-2">
+            <MDIcons.MdAccessTime /> Last touched <span className="text-dark">{moment(lastTouch).fromNow()}</span>
+          </div>
           <ChartistGraph data={data} options={options} type="Line" className="status-timeline" />
           <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Next Task</div>
           <p>{link}</p>
