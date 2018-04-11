@@ -31,7 +31,6 @@ class Record extends React.Component {
     const { formState } = this.state
 
     _.set(formState, 'completed', 1)
-
     this._submit(formState)
   }
 
