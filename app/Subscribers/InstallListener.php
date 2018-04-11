@@ -42,6 +42,12 @@ class InstallListener
                 $user->roles()->sync(Role::all()->pluck('id')->toArray());
 
                 File::delete(storage_path('install.json'));
+
+                // Create the Assigned to Me contact filter menu item
+                $user->setSetting(
+                    'views',
+                    '[{"linkText":"Assigned to Me","parentItem":"contacts","color":"#b21e22","searchString":"assignee:me"}]'
+                );
             }
         } catch (\Exception $e) {
             var_dump($e->getMessage());die;

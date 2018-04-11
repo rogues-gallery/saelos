@@ -103,19 +103,36 @@ class ActivityController extends Controller
 
     public function graph(Request $request)
     {
-        $timeSpan = [
-            (new Carbon())->startOfWeek(),
-            (new Carbon())->endOfWeek()
-        ];
+        $timeframe = $request->get('timeframe');
+
+        switch ($timeframe) {
+            case 'monthly':
+                $groupByExtra = 'monthday';
+                $select = 'count(*) as count, user_id, DAY(created_at) as monthday';
+                $timeSpan = [
+                    (new Carbon())->startOfMonth(),
+                    (new Carbon())->endOfMonth()
+                ];
+                break;
+            case 'weekly':
+            default:
+                $groupByExtra = 'weekday';
+                $select = 'count(*) as count, user_id, DAYNAME(created_at) as weekday';
+                $timeSpan = [
+                    (new Carbon())->startOfWeek(),
+                    new Carbon()
+                ];
+                break;
+        }
 
         $results = \DB::table('activities')
-            ->select(\DB::raw('count(*) as count, user_id, DAYNAME(created_at) as weekday'))
+            ->select(\DB::raw($select))
             ->where('details_type', '!=', FieldUpdateActivity::class)
             ->whereNotNull('user_id')
             ->whereBetween('created_at', $timeSpan)
             ->groupBy([
                 'user_id',
-                'weekday'
+                $groupByExtra
             ])
             ->get();
 

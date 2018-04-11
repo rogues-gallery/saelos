@@ -3,7 +3,7 @@ import * as actions from './store/actions'
 import store from '../../store'
 
 export const fetchActivityGraph = (params) => (dispatch) => {
-  return Http.get('activities/graph')
+  return Http.get('activities/graph', {params})
     .then(res => res.data)
     .catch(err => console.log(err))
 }

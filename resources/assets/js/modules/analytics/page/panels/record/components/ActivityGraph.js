@@ -20,10 +20,10 @@ class ActivityGraph extends React.Component {
     this._updateActivityGraph()
   }
 
-  _updateActivityGraph = (params) => {
+  _updateActivityGraph = (timeframe) => {
     const { dispatch } = this.props
 
-    dispatch(fetchActivityGraph(params))
+    dispatch(fetchActivityGraph({timeframe}))
       .then(res => {
         this.setState({
           graphData: res,
@@ -35,6 +35,7 @@ class ActivityGraph extends React.Component {
   render() {
     const { users } = this.props
     const { graphData, fetching, activityView } = this.state
+    let labels = []
 
     if (fetching) {
       return <div>Loading...</div>
@@ -43,24 +44,53 @@ class ActivityGraph extends React.Component {
     const groupedActivityData = _.groupBy(graphData, 'user_id')
     const seriesData = Object.keys(groupedActivityData).map(k => {
       const groupData = groupedActivityData[k]
-      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(d => {
-        const tmp = _.findIndex(groupData, i => i.weekday === d)
 
-        if (tmp > -1) {
-          return groupData[tmp].count
+      if (activityView === 'weekly') {
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(d => {
+          if (!labels.includes(d)) {
+            labels.push(d)
+          }
+
+          const tmp = _.findIndex(groupData, i => i.weekday === d)
+
+          if (tmp > -1) {
+            return groupData[tmp].count
+          }
+
+          return 0
+        })
+
+        return {
+          name: _.find(users, u => parseInt(u.id) === parseInt(k)).name,
+          data: days
         }
+      }
 
-        return 0
-      })
+      if (activityView === 'monthly') {
+        const daysInMonth = new Date(null, null, 0).getDate()
+        const days = [...Array(daysInMonth + 1).keys()].slice(1).map(d => {
+          if (!labels.includes(d)) {
+            labels.push(d)
+          }
 
-      return {
-        name: _.find(users, u => parseInt(u.id) === parseInt(k)).name,
-        data: days
+          const tmp = _.findIndex(groupData, i => i.monthday === d)
+
+          if (tmp > -1) {
+            return groupData[tmp].count
+          }
+
+          return 0
+        })
+
+        return {
+          name: _.find(users, u => parseInt(u.id) === parseInt(k)).name,
+          data: days
+        }
       }
     })
 
     const data = {
-      labels: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+      labels: labels,
       series: seriesData
     }
 
@@ -95,11 +125,13 @@ class ActivityGraph extends React.Component {
               <Select
                 value={activityView}
                 clearable={false}
-                options={[{value: 'weekly', label: 'Weekly'}, {value: 'monthly', label: 'Monthly'}]}
+                options={[{value: 'weekly', label: 'This week'}, {value: 'monthly', label: 'This month'}]}
                 onChange={selection => {
                   this.setState({
                     activityView: selection.value
                   })
+
+                  this._updateActivityGraph(selection.value)
                 }}
                 />
             </div>
