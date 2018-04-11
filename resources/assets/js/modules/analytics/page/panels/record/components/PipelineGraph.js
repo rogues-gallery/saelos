@@ -115,11 +115,6 @@ class PipelineGraph extends React.Component {
               />
             </div>
             <div className="analyticsGraph">
-              <div className="h1 text-center">74%</div>
-              <div className="text-center mini-text text-muted text-uppercase pb-2">
-                <span className="text-success h5"><MDIcons.MdArrowDropUp /></span>
-                <span className="text-dark">23% improvement</span> since last week
-              </div>
               <ChartistGraph data={data} options={options} type="Bar" className="analytics-graph" />
             </div>
           </div>
