@@ -108,8 +108,7 @@ export const createView = (params) => (dispatch) => {
   dispatch(actions.creatingUserView())
 
   const state = store.getState()
-  const { id } = getActiveUser(state)
-  const settings = getSettings(state)
+  const { id, settings } = getActiveUser(state)
 
   if (typeof settings.views === 'undefined') {
     settings.views = []
