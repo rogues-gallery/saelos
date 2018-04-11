@@ -74,6 +74,7 @@ class PipelineGraph extends React.Component {
 
     const options = {
       low: 0,
+      height: '400px',
       stackBars: false,
       fullWidth: true,
       showArea: true,
