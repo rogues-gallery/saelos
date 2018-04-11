@@ -106,7 +106,7 @@ class Record extends React.Component {
         )
     }
 
-    const userHasNumber = _.findIndex(user.custom_fields, f => f.custom_field_alias === 'twilio_number') >= 0
+    const userHasNumber = _.findIndex(user.originalProps.custom_fields, f => f.custom_field_alias === 'twilio_number') >= 0
 
     const teamOptions = teams.map(t => ({value: t.id, label: t.name}))
     const roleOptions = roles.map(r => ({value: r.id, label: r.name}))

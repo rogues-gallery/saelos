@@ -297,7 +297,10 @@ class UserController extends Controller
             ]);
 
             $number = $client->incomingPhoneNumbers->create([
-                'phoneNumber' => $numbers[0]->phoneNumber
+                'friendlyName' => $user->name,
+                'phoneNumber' => $numbers[0]->phoneNumber,
+                'voiceUrl' => route('api.users.inbound', $user->id),
+                'smsUrl' => route('api.users.sms.inbound', $user->id)
             ]);
 
             $user->setCustomFieldValue('twilio_number', $number->phoneNumber);
