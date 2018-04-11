@@ -60,23 +60,25 @@ class ActivityGraph extends React.Component {
     })
 
     const data = {
-      labels: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       series: seriesData
     }
 
     const options = {
       low: 0,
+      high: 50,
+      ticks: [1,5,10,15,20,25,30,35,40,45,50],
       stackBars: false,
       height: '400px',
       fullWidth: true,
       showArea: true,
       axisX: {
-        showGrid: false,
+        showGrid: true,
         showLabel: true,
       },
       axisY: {
         showGrid: true,
-        showLabel: false,
+        showLabel: true,
       },
       plugins: [
         Chartist.plugins.legend()
