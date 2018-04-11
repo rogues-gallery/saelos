@@ -5,7 +5,7 @@ import { withRouter}  from 'react-router-dom'
 import Select from 'react-select'
 import _ from 'lodash'
 import { getFieldsForUsers, getUser } from '../../../store/selectors'
-import { deleteUser, saveUser, purchaseNumber } from '../../../service'
+import {deleteUser, saveUser, purchaseNumber, fetchUser} from '../../../service'
 import { getTeams } from '../../../../teams/store/selectors'
 import { getRoles } from '../../../../roles/store/selectors'
 import { renderGroupedFields } from '../../../../../utils/helpers/fields'
@@ -21,6 +21,18 @@ class Record extends React.Component {
     this.state = {
       formState: props.user.originalProps
     }
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props
+
+    if (this.props.match.params.id > 0) {
+      dispatch(fetchUser(this.props.match.params.id))
+    }
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({formState: nextProps.user.originalProps})
   }
 
   _submit() {
