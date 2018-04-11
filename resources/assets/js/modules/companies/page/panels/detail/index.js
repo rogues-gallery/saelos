@@ -72,6 +72,11 @@ const Details = ({company, dispatch, toggle, user, data, options, inEdit}) => (
         <div className="pt-1 mt-1 h5 text-center">Company Details</div>
     </div>
     <div className="h-scroll">
+
+      <Contacts contacts={company.contacts} dispatch={dispatch} entityId={company.id} entityType="App\Company" />
+
+      {/*
+      @TODO: Add this back when we figure out what data to display
       <div className="card ct-container">
         <div className="card-header" id="headingSnapshot">
           <h6 className="mb-0" data-toggle="collapse" data-target="#collapseSnapshot" aria-expanded="true" aria-controls="collapseSRI">
@@ -83,17 +88,16 @@ const Details = ({company, dispatch, toggle, user, data, options, inEdit}) => (
           <div className="card-body border-bottom">
             <div className="h1 text-center"><Money>{_.sum(_.map(company.opportunities, 'amount'))}</Money></div>
             <div className="text-center mini-text text-muted text-uppercase pb-2"><MDIcons.MdAccessTime /> Current <span className="text-dark">Pipeline Value</span></div>
-            {/*
-            @TODO: Add this back when we figure out what data to display
+
             <ScoreChart data={data} options={options} type="Line" />
             <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">Active Pipeline</div>
             <p><Link className="hidden-link" to={`/opportunities/?searchString=${company.name}`}><Money>{_.sum(_.map(company.opportunities, 'amount'))}</Money> in open opportunities</Link></p>
-            */}
           </div>
         </div>
       </div>
+      */}
+      
       <ActivityList company={company} dispatch={dispatch} />
-      <Contacts contacts={company.contacts} dispatch={dispatch} entityId={company.id} entityType="App\Company" />
       <Opportunities opportunities={company.opportunities} dispatch={dispatch} entityId={company.id} entityType="App\Company" />
       <Notes notes={company.notes} dispatch={dispatch} entityId={company.id} entityType="App\Company" user={user} />
     </div>
