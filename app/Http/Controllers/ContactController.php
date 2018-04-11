@@ -137,7 +137,7 @@ class ContactController extends Controller
 
 
 
-        $user = $contactUser ? User::find($contactUser) : Auth::user();
+        $user = isset($contactUser['id']) ? User::find($contactUser['id']) : Auth::user();
 
         if (isset($data['user_id']) && is_string($data['user_id']) && !is_numeric($data['user_id'])) {
             $user = User::where('name', $data['user_id'])->first();
