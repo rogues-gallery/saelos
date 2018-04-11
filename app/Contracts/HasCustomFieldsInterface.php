@@ -12,6 +12,16 @@ interface HasCustomFieldsInterface
     public function customFields(): MorphMany;
 
     /**
+     * @param string $alias
+     * @param        $value
+     *
+     * @return void
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function setCustomFieldValue(string $alias, $value): void;
+
+    /**
      * @param $value
      *
      * @return null

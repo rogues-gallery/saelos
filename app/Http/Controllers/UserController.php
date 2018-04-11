@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
+use Twilio\Rest\Client;
 use Twilio\Twiml;
 use App\Activity;
 use App\CallActivity;
@@ -282,5 +283,33 @@ class UserController extends Controller
         ];
 
         return response(['success' => true, 'data' => $count]);
+    }
+
+    public function purchaseNumber(Request $request, $id)
+    {
+        /** @var User $user */
+        $user = User::findOrFail($id);
+
+        try {
+            $client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
+            $numbers = $client->availablePhoneNumbers(env('TWILIO_COUNTRY_CODE'))->local->read([
+                'areaCode' => env('TWILIO_AREA_CODE'),
+            ]);
+
+            $number = $client->incomingPhoneNumbers->create([
+                'phoneNumber' => $numbers[0]->phoneNumber
+            ]);
+
+            $user->setCustomFieldValue('twilio_number', $number->phoneNumber);
+
+        } catch (\Exception $e) {
+            return response(['success' => false, 'message' => $e->getMessage()]);
+        }
+
+        return response([
+            'data' => [
+                'number' => $number->phoneNumber
+            ]
+        ]);
     }
 }

@@ -13,6 +13,33 @@ trait HasCustomFieldsTrait
         return $this->morphMany(CustomFieldValue::class, 'model');
     }
 
+    public function setCustomFieldValue(string $alias, $value): void
+    {
+        $customField = Field::where('alias', $alias)->get()->first();
+
+        if (!$customField) {
+            throw new \InvalidArgumentException(
+                sprintf('There is no field with an alias of %s. Create it then try again', $alias)
+            );
+        }
+
+        $customFieldValue = CustomFieldValue::where('model_id', $this->id)
+            ->where('model_type', get_class($this))
+            ->where('custom_field_alias', $alias)
+            ->first();
+
+        if (!$customFieldValue) {
+            $customFieldValue = new CustomFieldValue();
+            $customFieldValue->field()->associate($customField);
+        }
+
+        $customFieldValue->custom_field_alias = $alias;
+        $customFieldValue->value = $value;
+        $customFieldValue->model()->associate($this);
+
+        $customFieldValue->save();
+    }
+
     public function assignCustomFields($value)
     {
         if (!is_array($value)) {
@@ -27,32 +54,7 @@ trait HasCustomFieldsTrait
                 continue;
             }
 
-            $customFieldValue = CustomFieldValue::where('model_id', $this->id)
-                ->where('model_type', get_class($this))
-                ->where('custom_field_id', $customField->id)
-                ->first();
-
-            if (!$customFieldValue) {
-                $customFieldValue = new CustomFieldValue();
-                $customFieldValue->field()->associate($customField);
-            }
-
-            // If the value is empty, delete the entry and continue
-            if (empty($field['value'])) {
-                if ($customFieldValue->id) {
-                    $customFieldValue->delete();
-                }
-
-                unset($customFieldValue);
-
-                continue;
-            }
-
-            $customFieldValue->custom_field_alias = $customField->alias;
-            $customFieldValue->value = $field['value'];
-            $customFieldValue->model()->associate($this);
-
-            $customFieldValue->save();
+            $this->setCustomFieldValue($customField->alias, $field['value']);
         }
     }
 }

@@ -35,6 +35,7 @@ Route::group([
         Route::get('stages/pipeline', 'StageController@pipeline')
             ->name('stage_pipeline');
         Route::get('activities/graph', 'ActivityController@graph');
+        Route::post('/users/{id}/purchaseNumber', 'UserController@purchaseNumber');
         Route::get('/users/{id}/count', 'UserController@count');
         Route::get('/contacts/count','ContactController@count');
         Route::post('/contacts/{id}/call', 'ContactController@call');

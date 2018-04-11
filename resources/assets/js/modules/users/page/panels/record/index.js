@@ -5,7 +5,7 @@ import { withRouter}  from 'react-router-dom'
 import Select from 'react-select'
 import _ from 'lodash'
 import { getFieldsForUsers, getUser } from '../../../store/selectors'
-import { deleteUser, saveUser } from '../../../service'
+import { deleteUser, saveUser, purchaseNumber } from '../../../service'
 import { getTeams } from '../../../../teams/store/selectors'
 import { getRoles } from '../../../../roles/store/selectors'
 import { renderGroupedFields } from '../../../../../utils/helpers/fields'
@@ -65,6 +65,22 @@ class Record extends React.Component {
     }
   }
 
+  _purchaseNumber = () => {
+    const { dispatch, user } = this.props
+
+    dispatch(purchaseNumber({id: user.id}))
+      .then(res => {
+        const event = {
+          target: {
+            name: 'twilio_number',
+            value: res.number
+          }
+        }
+
+        this._handleInputChange(event)
+      })
+  }
+
 	render() {
     const { user, teams, roles, fields } = this.props
     const { formState } = this.state
@@ -77,6 +93,8 @@ class Record extends React.Component {
         </main>
         )
     }
+
+    const userHasNumber = _.findIndex(user.custom_fields, f => f.custom_field_alias === 'twilio_number') >= 0
 
     const teamOptions = teams.map(t => ({value: t.id, label: t.name}))
     const roleOptions = roles.map(r => ({value: r.id, label: r.name}))
@@ -92,6 +110,9 @@ class Record extends React.Component {
     return (
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">
+          {userHasNumber ? '' :
+            <button className="float-right btn btn-danger list-inline-item" onClick={this._purchaseNumber}>Purchase Number</button>
+          }
           <button className="float-right btn btn-primary list-inline-item" onClick={this._submit}>Save</button>
           {user.name ? user.name : 'New User'}
         </h4>

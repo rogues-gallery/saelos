@@ -148,3 +148,11 @@ export const removeView = (params) => (dispatch) => {
   dispatch(saveUser(submitData))
   dispatch(actions.deletingUserViewSuccess(params))
 }
+
+export const purchaseNumber = (params) => (dispatch) => {
+  // @TODO: Dispatch a "purchasing number" action
+
+  return Http.post(`users/${params.id}/purchaseNumber`, {params})
+    .then(res => res.data)
+    .catch(err => console.log(err))
+}
