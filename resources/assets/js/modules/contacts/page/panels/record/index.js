@@ -48,6 +48,10 @@ class Record extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
+    if (nextProps.match.params.id === 'new' && !nextProps.inEdit) {
+      nextProps.dispatch(editingContact())
+    }
+
     this.setState({formState: nextProps.contact.originalProps})
   }
 
@@ -68,6 +72,10 @@ class Record extends React.Component {
 
   _toggleEdit() {
     this.props.dispatch(editingContact())
+
+    if (this.props.match.params.id === 'new' && this.props.inEdit) {
+      this.context.router.history.push('/contacts');
+    }
   }
 
   _submit() {
