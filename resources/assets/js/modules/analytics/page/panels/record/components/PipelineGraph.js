@@ -50,8 +50,8 @@ class PipelineGraph extends React.Component {
     ]
 
     graphData.map(d => {
-      data[0].data.push(d.count - d.count_for_team)
-      data[1].data.push(d.count_for_team - d.count_for_user)
+      data[0].data.push(d.count)
+      data[1].data.push(d.count_for_team)
       data[2].data.push(d.count_for_user)
     })
 
