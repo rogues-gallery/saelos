@@ -79,12 +79,12 @@ class PipelineGraph extends React.Component {
       fullWidth: true,
       showArea: true,
       axisX: {
-        showGrid: false,
+        showGrid: true,
         showLabel: true,
       },
       axisY: {
         showGrid: true,
-        showLabel: false,
+        showLabel: true,
       },
       plugins: [
         Chartist.plugins.legend()

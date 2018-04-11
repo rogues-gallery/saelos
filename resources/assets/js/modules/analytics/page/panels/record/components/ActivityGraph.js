@@ -47,8 +47,10 @@ class ActivityGraph extends React.Component {
 
       if (activityView === 'weekly') {
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(d => {
-          if (!labels.includes(d)) {
-            labels.push(d)
+          const truncated = d.substr(0, 3)
+
+          if (!labels.includes(truncated)) {
+            labels.push(truncated)
           }
 
           const tmp = _.findIndex(groupData, i => i.weekday === d)
@@ -96,17 +98,19 @@ class ActivityGraph extends React.Component {
 
     const options = {
       low: 0,
+      high: 50,
+      ticks: [1,5,10,15,20,25,30,35,40,45,50],
       stackBars: false,
       height: '400px',
       fullWidth: true,
       showArea: true,
       axisX: {
-        showGrid: false,
+        showGrid: true,
         showLabel: true,
       },
       axisY: {
         showGrid: true,
-        showLabel: false,
+        showLabel: true,
       },
       plugins: [
         Chartist.plugins.legend()
