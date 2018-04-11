@@ -394,22 +394,48 @@ a:hover {
 
 .analyticsGraph {
   .ct-bar {
-    stroke-width: 10%;
+    stroke-width: 25px;
+  }
+
+  .ct-legend li {
+    padding-left: 15px;
+    margin-right: 10px;
+  }
+
+  .ct-legend li:before {
+    margin-top: 4px;
   }
 
   //All
-  .ct-series-a .ct-bar {
+  .ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-legend .ct-series-0:before {
+    background-color: $blue;
+    border-color: $blue;
     stroke: $blue;
+  }
+  .ct-series-a .ct-area {
+    fill: $blue;
   }
 
   //Team
-  .ct-series-b .ct-bar {
+  .ct-series-b .ct-bar, .ct-series-b .ct-line, .ct-series-b .ct-point, .ct-legend .ct-series-1:before {
+    background-color: $pink;
+    border-color: $pink;
     stroke: $pink;
   }
 
+  .ct-series-b .ct-area {
+    fill: $pink;
+  }
+
   //Rep
-  .ct-series-c .ct-bar {
+  .ct-series-c .ct-bar, .ct-series-c .ct-line, .ct-series-c .ct-point, .ct-legend .ct-series-2:before {
+    background-color: $purple;
+    border-color: $purple;
     stroke: $purple;
+  }
+
+  .ct-series-c .ct-area {
+    fill: $purple;
   }
 
 }

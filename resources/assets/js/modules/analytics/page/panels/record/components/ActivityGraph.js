@@ -66,7 +66,7 @@ class ActivityGraph extends React.Component {
 
     const options = {
       low: 0,
-      stackBars: true,
+      stackBars: false,
       fullWidth: true,
       showArea: true,
       axisX: {
