@@ -64,7 +64,11 @@ class PipelineGraph extends React.Component {
 
 
     if (fetching) {
-      return <div>Loading...</div>
+      return (
+        <div className="col main-panel px-3 align-self-center full-panel">
+          <h3 className="text-center text-muted">Loading...</h3>
+        </div>
+      )
     }
 
     const data = {

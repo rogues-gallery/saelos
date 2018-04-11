@@ -38,7 +38,11 @@ class ActivityGraph extends React.Component {
     let labels = []
 
     if (fetching) {
-      return <div>Loading...</div>
+      return (
+        <div className="col main-panel px-3 align-self-center full-panel">
+          <h3 className="text-center text-muted">Loading...</h3>
+        </div>
+      )
     }
 
     const groupedActivityData = _.groupBy(graphData, 'user_id')
