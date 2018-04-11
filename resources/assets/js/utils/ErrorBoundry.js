@@ -1,12 +1,8 @@
 import React from 'react'
 
 class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      hasError: false
-    }
+  state = {
+    hasError: false
   }
 
   componentDidCatch(error, info) {
@@ -19,7 +15,11 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      return <div className="col main-panel px-3 align-self-center full-panel"><h3 className="text-center text-muted">Woops, something went wrong.</h3></div>
+      return (
+        <div className="col main-panel px-3 align-self-center full-panel">
+          <h3 className="text-center text-muted">Whoops, something went wrong.</h3>
+        </div>
+      )
     }
 
     return this.props.children;
