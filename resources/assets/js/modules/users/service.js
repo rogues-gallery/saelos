@@ -111,6 +111,10 @@ export const createView = (params) => (dispatch) => {
   const { id } = getActiveUser(state)
   const settings = getSettings(state)
 
+  if (typeof settings.views === 'undefined') {
+    settings.views = []
+  }
+
   settings.views.push(params)
 
   const submitData = {
