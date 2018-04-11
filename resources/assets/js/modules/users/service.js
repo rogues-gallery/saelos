@@ -129,8 +129,11 @@ export const removeView = (params) => (dispatch) => {
   dispatch(actions.deletingUserView())
 
   const state = store.getState()
-  const { id } = getActiveUser(state)
-  const settings = getSettings(state)
+  const { id, settings } = getActiveUser(state)
+
+  if (typeof settings.views === 'undefined') {
+    settings.views = []
+  }
 
   settings.views = _.filter(
     settings.views,
