@@ -107,7 +107,7 @@ class TaskAction extends Component {
                     <option key={`team-${user.team.id}-member-${u.id}`} value={u.id}>{u.name}</option>
                   ))}
                 </select>
-              : '' }
+              : <input type="text" className="form-control" value={user.name} /> }
             </div>
             <div className="form-group col-md-4">
               <label htmlFor="due_date">Type</label>
@@ -195,9 +195,7 @@ class TaskAction extends Component {
               </div>
               : ''}
           </div>
-        </div>
-        <div className="card-footer">
-          <div className="float-right">
+          <div className="mt-3">
             <button className="btn btn-primary mr-2" onClick={this._submit}>Send</button>
             <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
           </div>

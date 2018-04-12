@@ -155,9 +155,6 @@ class CallAction extends Component {
             </div>
           </div>
         </div>
-        <div className="card-footer">
-
-        </div>
       </React.Fragment>
     )
   }
