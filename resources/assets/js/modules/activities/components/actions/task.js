@@ -107,7 +107,7 @@ class TaskAction extends Component {
                     <option key={`team-${user.team.id}-member-${u.id}`} value={u.id}>{u.name}</option>
                   ))}
                 </select>
-              : <input type="text" readOnly className="form-control" value={u.id}>{u.name}</input> }
+              : '' }
             </div>
             <div className="form-group col-md-4">
               <label htmlFor="due_date">Type</label>
