@@ -35,7 +35,7 @@ const DatePicker = ({value, defaultValue, onChange, name, className}) => {
 };
 
 DatePicker.propTypes = {
-  value: PropTypes.object,
+  value: PropTypes.string,
   defaultValue: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string

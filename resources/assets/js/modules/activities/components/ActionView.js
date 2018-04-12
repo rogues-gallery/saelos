@@ -34,10 +34,10 @@ class ActionView extends React.Component {
 ActionView.propTypes = {
   view: PropTypes.string.isRequired,
   model: PropTypes.oneOfType([
+    PropTypes.object,
     PropTypes.instanceOf(Company),
     PropTypes.instanceOf(Contact),
-    PropTypes.instanceOf(Opportunity),
-    PropTypes.exact(null)
+    PropTypes.instanceOf(Opportunity)
   ]),
   user: PropTypes.instanceOf(User)
 }
