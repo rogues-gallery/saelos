@@ -95,111 +95,114 @@ class TaskAction extends Component {
       companyOptions = model.companies.map(c => ({value: c.id, label: c.name}))
     }
 
-    return(
-      <div className="card-body taskActionView">
-        <div className="form-row">
-          <div className="form-group col-md-4">
-            <label htmlFor="assignee_name">Assignee</label>
-            { user.authorized(['admin', 'manager']) ?
-              <select className="form-control" defaultValue={user.id}>
-                {user.team.users.map(u => (
-                  <option key={`team-${user.team.id}-member-${u.id}`} value={u.id}>{u.name}</option>
-                ))}
-              </select>
-            : <input type="text" readOnly className="form-control" value={u.id}>{u.name}</input> }
-          </div>
-          <div className="form-group col-md-4">
-            <label htmlFor="due_date">Type</label>
-            <select className="form-control" name="details_type" onChange={this._handleInputChange}>
-              <option value="">Select...</option>
-              <option value="App\CallActivity">Call</option>
-              <option value="App\EmailActivity">Email</option>
-              <option value="App\SmsActivity">Sms</option>
-            </select>
-          </div>
-          <div className="form-group col-md-4">
-            <label htmlFor="due_date">Due Date</label>
-            <DatePicker className="form-control" name="due_date" placeholder="Enter due date" onChange={this._handleInputChange} value={formState.due_date} />
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="form-group col-md-12">
-            <label htmlFor="task_name">Name</label>
-            <input type="text" className="form-control" name="name" placeholder="Enter task name" onChange={this._handleInputChange} value={formState.name} />
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="form-group col">
-            <ReactQuill onChange={this._handleContentChange} />
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="col pt-4">
-            <button className="btn btn-primary" onClick={this._submit}>Create</button>
-            <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
-          </div>
-
-          {opportunityOptions ?
-            <div className="col">
-              <label htmlFor="emailOpportunity">Opportunity</label>
-              <Select
-                multi={false}
-                value={formState.opportunity_id}
-                onChange={(value) => {
-                  const event = {
-                    target: {
-                      name: 'opportunity_id',
-                      value: value ? value.value : null
-                    }
-                  }
-
-                  this._handleInputChange(event)
-                }}
-                options={opportunityOptions} />
+    return (
+      <React.Fragment>
+        <div className="card-body taskActionView">
+          <div className="form-row">
+            <div className="form-group col-md-4">
+              <label htmlFor="assignee_name">Assignee</label>
+              { user.authorized(['admin', 'manager']) ?
+                <select className="form-control" defaultValue={user.id}>
+                  {user.team.users.map(u => (
+                    <option key={`team-${user.team.id}-member-${u.id}`} value={u.id}>{u.name}</option>
+                  ))}
+                </select>
+              : <input type="text" readOnly className="form-control" value={u.id}>{u.name}</input> }
             </div>
-            : ''}
-
-            {contactOptions ?
+            <div className="form-group col-md-4">
+              <label htmlFor="due_date">Type</label>
+              <select className="form-control" name="details_type" onChange={this._handleInputChange}>
+                <option value="">Select...</option>
+                <option value="App\CallActivity">Call</option>
+                <option value="App\EmailActivity">Email</option>
+                <option value="App\SmsActivity">Sms</option>
+              </select>
+            </div>
+            <div className="form-group col-md-4">
+              <label htmlFor="due_date">Due Date</label>
+              <DatePicker className="form-control" name="due_date" placeholder="Enter due date" onChange={this._handleInputChange} value={formState.due_date} />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group col-md-12">
+              <label htmlFor="task_name">Name</label>
+              <input type="text" className="form-control" name="name" placeholder="Enter task name" onChange={this._handleInputChange} value={formState.name} />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group col">
+              <ReactQuill onChange={this._handleContentChange} />
+            </div>
+          </div>
+          <div className="form-row">
+            {opportunityOptions ?
               <div className="col">
-                <label htmlFor="emailOpportunity">Contact</label>
+                <label htmlFor="emailOpportunity">Opportunity</label>
                 <Select
                   multi={false}
-                  value={formState.contact_id}
+                  value={formState.opportunity_id}
                   onChange={(value) => {
                     const event = {
                       target: {
-                        name: 'contact_id',
+                        name: 'opportunity_id',
                         value: value ? value.value : null
                       }
                     }
 
                     this._handleInputChange(event)
                   }}
-                  options={contactOptions} />
+                  options={opportunityOptions} />
               </div>
               : ''}
 
-          {companyOptions ?
-            <div className="col">
-              <label htmlFor="emailCompany">Company</label>
-              <Select
-                multi={false}
-                value={formState.company_id}
-                onChange={(value) => {
-                  const event = {
-                    target: {
-                      name: 'company_id',
-                      value: value ? value.value : null
-                    }
-                  }
+              {contactOptions ?
+                <div className="col">
+                  <label htmlFor="emailOpportunity">Contact</label>
+                  <Select
+                    multi={false}
+                    value={formState.contact_id}
+                    onChange={(value) => {
+                      const event = {
+                        target: {
+                          name: 'contact_id',
+                          value: value ? value.value : null
+                        }
+                      }
 
-                  this._handleInputChange(event)
-                }}
-                options={companyOptions} />
-            </div>
-            : ''}
+                      this._handleInputChange(event)
+                    }}
+                    options={contactOptions} />
+                </div>
+                : ''}
+
+            {companyOptions ?
+              <div className="col">
+                <label htmlFor="emailCompany">Company</label>
+                <Select
+                  multi={false}
+                  value={formState.company_id}
+                  onChange={(value) => {
+                    const event = {
+                      target: {
+                        name: 'company_id',
+                        value: value ? value.value : null
+                      }
+                    }
+
+                    this._handleInputChange(event)
+                  }}
+                  options={companyOptions} />
+              </div>
+              : ''}
+          </div>
         </div>
-      </div>
+        <div className="card-footer">
+          <div className="float-right">
+            <button className="btn btn-primary mr-2" onClick={this._submit}>Send</button>
+            <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
+          </div>
+        </div>
+      </React.Fragment>
     )
   }
 }
@@ -208,6 +211,4 @@ TaskAction.propTypes = {
   user: PropTypes.object.isRequired
 }
 
-export default connect(state => ({
-  user: getActiveUser(state)
-}))(TaskAction)
+export default connect()(TaskAction)

@@ -5,15 +5,14 @@ import { connect } from 'react-redux'
 import ActionView from './ActionView'
 import { getModel, getActionView, isOpen } from '../store/selectors'
 import { closeTaskContainer } from '../store/actions'
+import ErrorBoundary from '../../../utils/ErrorBoundry'
 
-const TaskContainer = ({open, actionView, model, dispatch}) => {
-  const headerText = actionView === 'task' ? 'Create Task' : `${actionView} ${model.name}`
-
-  return (
-    <div className={`task-container card ${open ? '' : 'd-none'}`}>
+const TaskContainer = ({open, actionView, model, dispatch}) => (
+  <div className={`task-container card ${open ? '' : 'd-none'}`}>
+    <ErrorBoundary>
       <div className="card-header bg-dark-grey">
         <h3>
-          {headerText}
+          {actionView === 'task' || actionView === 'create' ? 'Create Task' : `${actionView} ${model.name}`}
           <a
             href="javascript:void(0)" onClick={() => dispatch(closeTaskContainer())}
             className="float-right text-muted btn btn-xs btn-outline-secondary px-2">
@@ -21,13 +20,11 @@ const TaskContainer = ({open, actionView, model, dispatch}) => {
           </a>
         </h3>
       </div>
-      {/* card-body div class is in the action views */}
-      <div style={{minHeight: "400px"}}>
-        <ActionView view={actionView} model={model} toggle={() => dispatch(closeTaskContainer())} />
-      </div>
-    </div>
-  )
-}
+      {/* card-body and card-footer are in the action views */}
+      <ActionView view={actionView} model={model} toggle={() => dispatch(closeTaskContainer())} />
+    </ErrorBoundary>
+  </div>
+)
 
 TaskContainer.propTypes = {
   dispatch: PropTypes.func.isRequired

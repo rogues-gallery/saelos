@@ -84,76 +84,81 @@ class CallAction extends Component {
     }
 
     return (
-      <div className="card-body callActionView">
-        <div className="row">
-          <div className="col fw-100 border-right">
-            <button
-              className={`btn btn-lg w-100 pb-3 ${callState.id ? 'btn-outline-primary' : 'btn-primary'}`}
-              onClick={this._initCall}>
-              <span className="h2"><MDIcons.MdLocalPhone /></span>
-            </button>
-            <button
-              className={`mt-2 btn btn-sm w-100 ${callState.id ? 'btn-primary' : 'btn-outline-primary'}`}
-              onClick={this._submitScore}>
-              <span className="">SCORE</span>
-            </button>
-          </div>
-          <div className="col">
-            <p>
-              Click the button to the left to initiate a call to this user. Once the call is completed please enter your Rep Sentiment Score below.
-            </p>
+      <React.Fragment>
+        <div className="card-body callActionView">
+          <div className="row">
+            <div className="col fw-100 border-right">
+              <button
+                className={`btn btn-lg w-100 pb-3 ${callState.id ? 'btn-outline-primary' : 'btn-primary'}`}
+                onClick={this._initCall}>
+                <span className="h2"><MDIcons.MdLocalPhone /></span>
+              </button>
+              <button
+                className={`mt-2 btn btn-sm w-100 ${callState.id ? 'btn-primary' : 'btn-outline-primary'}`}
+                onClick={this._submitScore}>
+                <span className="">SCORE</span>
+              </button>
+            </div>
+            <div className="col">
+              <p>
+                Click the button to the left to initiate a call to this user. Once the call is completed please enter your Rep Sentiment Score below.
+              </p>
 
-            <div className="row pt-3">
-              <div className={`col ${callState.id ? '' : 'text-muted'}`}>
-                <label htmlFor="repSentiment">Rep Sentiment Score</label>
-                <div className="pt-1">
-                  <input type="range" min="1" max="10" className="slider" name="repSentiment" onChange={this._updateSentimentScore} defaultValue="0" />
+              <div className="row pt-3">
+                <div className={`col ${callState.id ? '' : 'text-muted'}`}>
+                  <label htmlFor="repSentiment">Rep Sentiment Score</label>
+                  <div className="pt-1">
+                    <input type="range" min="1" max="10" className="slider" name="repSentiment" onChange={this._updateSentimentScore} defaultValue="0" />
+                  </div>
                 </div>
-              </div>
-                {opportunityOptions ?
-                <div className="col">
-                  <label htmlFor="callOpportunity">Opportunity</label>
-                  <Select
-                    multi={false}
-                    value={formState.opportunity_id}
-                    onChange={(value) => {
-                      const event = {
-                        target: {
-                          name: 'opportunity_id',
-                          value: value ? value.value : null
+                  {opportunityOptions ?
+                  <div className="col">
+                    <label htmlFor="callOpportunity">Opportunity</label>
+                    <Select
+                      multi={false}
+                      value={formState.opportunity_id}
+                      onChange={(value) => {
+                        const event = {
+                          target: {
+                            name: 'opportunity_id',
+                            value: value ? value.value : null
+                          }
                         }
-                      }
 
-                      this._handleInputChange(event)
-                    }}
-                     options={opportunityOptions} />
-                </div>
+                        this._handleInputChange(event)
+                      }}
+                       options={opportunityOptions} />
+                  </div>
+                      : ''}
+
+
+                  {companyOptions ?
+                  <div className="col">
+                    <label htmlFor="callCompany">Company</label>
+                    <Select
+                      multi={false}
+                      value={formState.company_id}
+                      onChange={(value) => {
+                        const event = {
+                          target: {
+                            name: 'company_id',
+                            value: value ? value.value : null
+                          }
+                        }
+
+                        this._handleInputChange(event)
+                      }}
+                      options={companyOptions} />
+                  </div>
                     : ''}
-
-
-                {companyOptions ?
-                <div className="col">
-                  <label htmlFor="callCompany">Company</label>
-                  <Select
-                    multi={false}
-                    value={formState.company_id}
-                    onChange={(value) => {
-                      const event = {
-                        target: {
-                          name: 'company_id',
-                          value: value ? value.value : null
-                        }
-                      }
-
-                      this._handleInputChange(event)
-                    }}
-                    options={companyOptions} />
-                </div>
-                  : ''}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <div className="card-footer">
+
+        </div>
+      </React.Fragment>
     )
   }
 }

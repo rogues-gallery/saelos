@@ -87,64 +87,67 @@ class EmailAction extends Component {
     }
 
     return (
-      <div className="card-body emailActionView">
-        <div className="float-right">
-          <span className="mini-text text-muted font-weight-bold">CC | BCC</span>
+      <React.Fragment>
+        <div className="card-body emailActionView">
+          <div className="float-right">
+            <span className="mini-text text-muted font-weight-bold">CC | BCC</span>
+          </div>
+          <div className="form-group">
+            <label htmlFor="email_subject">Subject</label>
+            <input type="text" onChange={this._handleInputChange} value={formState.email_subject} name="email_subject" className="form-control" placeholder="Enter email subject" />
+          </div>
+          <div className="form-group">
+            <ReactQuill name="email_content" onChange={this._handleContentChange} />
+          </div>
+          <div className="row">
+              {opportunityOptions ?
+                <div className="col">
+                  <label htmlFor="emailOpportunity">Opportunity</label>
+                  <Select
+                    multi={false}
+                    value={formState.opportunity_id}
+                    onChange={(value) => {
+                      const event = {
+                        target: {
+                          name: 'opportunity_id',
+                          value: value.value
+                        }
+                      }
+
+                      this._handleInputChange(event)
+                    }}
+                    options={opportunityOptions} />
+                  </div>
+                : ''}
+
+              {companyOptions ?
+                <div className="col">
+                  <label htmlFor="emailCompany">Company</label>
+                  <Select
+                    multi={false}
+                    value={formState.company_id}
+                    onChange={(value) => {
+                      const event = {
+                        target: {
+                          name: 'company_id',
+                          value: value.value
+                        }
+                      }
+
+                      this._handleInputChange(event)
+                    }}
+                    options={companyOptions} />
+                </div>
+                : ''}
+          </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="email_subject">Subject</label>
-          <input type="text" onChange={this._handleInputChange} value={formState.email_subject} name="email_subject" className="form-control" placeholder="Enter email subject" />
-        </div>
-        <div className="form-group">
-          <ReactQuill name="email_content" onChange={this._handleContentChange} />
-        </div>
-        <div className="row">
-          <div className="col pt-4">
-            <button className="btn btn-primary" onClick={this._submit}>Send</button>
+        <div className="card-footer">
+          <div className="float-right">
+            <button className="btn btn-primary mr-2" onClick={this._submit}>Send</button>
             <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
           </div>
-
-            {opportunityOptions ?
-              <div className="col">
-                <label htmlFor="emailOpportunity">Opportunity</label>
-                <Select
-                  multi={false}
-                  value={formState.opportunity_id}
-                  onChange={(value) => {
-                    const event = {
-                      target: {
-                        name: 'opportunity_id',
-                        value: value.value
-                      }
-                    }
-
-                    this._handleInputChange(event)
-                  }}
-                  options={opportunityOptions} />
-                </div>
-              : ''}
-
-            {companyOptions ?
-              <div className="col">
-                <label htmlFor="emailCompany">Company</label>
-                <Select
-                  multi={false}
-                  value={formState.company_id}
-                  onChange={(value) => {
-                    const event = {
-                      target: {
-                        name: 'company_id',
-                        value: value.value
-                      }
-                    }
-
-                    this._handleInputChange(event)
-                  }}
-                  options={companyOptions} />
-              </div>
-              : ''}
         </div>
-      </div>
+      </React.Fragment>
     )
   }
 }
