@@ -36,7 +36,7 @@ class Detail extends React.Component {
     const { opportunity, dispatch, user, inEdit, stages } = this.props
     const ordered = _.orderBy(stages, 'probability')
     const currentIndex = _.findIndex(ordered, s => s.id === opportunity.stage.id)
-    const nextStage = currentIndex + 1 > ordered.length ? 'None' : ordered[currentIndex + 1].name
+    const nextStage = currentIndex + 1 >= ordered.length ? 'In final stage' : ordered[currentIndex + 1].name
 
     const data = {
       series: [
