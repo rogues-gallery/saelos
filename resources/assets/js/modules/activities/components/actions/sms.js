@@ -94,7 +94,7 @@ class SmsAction extends React.Component {
     }
 
     return (
-      <div className="smsActionView">
+      <div className="card-body smsActionView">
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Message</label>
           <input type="text" className="form-control" name="message" onChange={this._handleInputChange} value={formState.message} placeholder="Enter SMS message"/>

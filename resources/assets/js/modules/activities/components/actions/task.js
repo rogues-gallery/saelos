@@ -96,7 +96,7 @@ class TaskAction extends Component {
     }
 
     return(
-      <div className="taskActionView">
+      <div className="card-body taskActionView">
         <div className="form-row">
           <div className="form-group col-md-4">
             <label htmlFor="assignee_name">Assignee</label>

@@ -87,7 +87,7 @@ class EmailAction extends Component {
     }
 
     return (
-      <div className="emailActionView">
+      <div className="card-body emailActionView">
         <div className="float-right">
           <span className="mini-text text-muted font-weight-bold">CC | BCC</span>
         </div>

@@ -21,7 +21,8 @@ const TaskContainer = ({open, actionView, model, dispatch}) => {
           </a>
         </h3>
       </div>
-      <div className="card-body" style={{minHeight: "400px"}}>
+      {/* card-body div class is in the action views */}
+      <div style={{minHeight: "400px"}}>
         <ActionView view={actionView} model={model} toggle={() => dispatch(closeTaskContainer())} />
       </div>
     </div>

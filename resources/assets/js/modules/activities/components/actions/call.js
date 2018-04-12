@@ -84,7 +84,7 @@ class CallAction extends Component {
     }
 
     return (
-      <div className="callActionView">
+      <div className="card-body callActionView">
         <div className="row">
           <div className="col fw-100 border-right">
             <button
