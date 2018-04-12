@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { getActivity } from '../../../../activities/store/selectors'
 import { getStatuses } from '../../../../statuses/store/selectors'
 import { getStages } from '../../../../stages/store/selectors'
-import { ActionView } from '../../../../contacts/page/panels/record/components'
+import ActionView from '../../../../activities/components/ActionView'
 import { Link } from "react-router-dom"
 import { Money } from 'react-format'
 import * as MDIcons from 'react-icons/lib/md'
@@ -17,35 +17,31 @@ class Record extends React.Component {
   constructor(props) {
     super(props)
 
-    this._toggleEdit = this._toggleEdit.bind(this)
-    this._submit = this._submit.bind(this)
-    this._complete = this._complete.bind(this)
-    this._delete = this._delete.bind(this)
-
     this.state = {
       formState: props.activity.originalProps
     }
   }
 
-  _complete() {
+  _complete = () => {
     const { formState } = this.state
 
     _.set(formState, 'completed', 1)
+
     this._submit(formState)
   }
 
 
-  _toggleEdit() {
+  _toggleEdit = () => {
     this.props.dispatch(editingCompany())
   }
 
-  _submit(state) {
+  _submit = (state) => {
     const submitData = state.id ? state : this.state.formState
 
     this.props.dispatch(saveActivity(submitData))
   }
 
-  _delete() {
+  _delete = () => {
     this.props.dispatch(deleteActivity(this.props.activity.id))
   }
 
@@ -92,7 +88,7 @@ class Record extends React.Component {
         <div className="h-scroll">
           <div className="card mb-2">
             <div className="card-body border-bottom" dangerouslySetInnerHTML={{__html: activity.description}} />
-            <ActionView view={actionView} contact={activity.contact} user={activity.user} />
+            <ActionView view={actionView} model={activity.contact} />
           </div>
           <div className="row">
 

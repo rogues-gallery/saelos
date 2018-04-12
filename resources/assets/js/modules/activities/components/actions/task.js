@@ -3,30 +3,28 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ReactQuill from 'react-quill'
 import Select from 'react-select'
-import DatePicker from '../../../../../../../common/ui/datepicker'
-import { getActiveUser } from '../../../../../../users/store/selectors'
-import { saveActivity } from '../../../../../../activities/service'
+import DatePicker from '../../../../common/ui/datepicker/index'
+import { getActiveUser } from '../../../users/store/selectors'
+import { saveActivity } from '../../service'
+import Contact from '../../../contacts/Contact'
+import Opportunity from '../../../opportunities/Opportunity'
+import Company from '../../../companies/Company'
 
 class TaskAction extends Component {
   constructor(props) {
     super(props)
 
-    this._handleInputChange = this._handleInputChange.bind(this)
-    this._handleContentChange = this._handleContentChange.bind(this)
-    this._submit = this._submit.bind(this)
-    this._cancel = this._cancel.bind(this)
-
     this.state = {
       formState: {
         user_id: this.props.user.id,
-        contact_id: typeof this.props.contact !== 'undefined' ? this.props.contact.id : null,
-        opportunity_id: typeof this.props.opportunity !== 'undefined' ? this.props.opportunity.id : null,
-        company_id: typeof this.props.company !== 'undefined' ? this.props.company.id : null
+        contact_id: this.props.model instanceof Contact ? this.props.model.id : null,
+        opportunity_id: this.props.model instanceof Opportunity ? this.props.model.id : null,
+        company_id: this.props.model instanceof Company ? this.props.model.id : null
       }
     }
   }
 
-  _handleInputChange(event) {
+  _handleInputChange = (event) => {
     const { target } = event
     const { name, value } = target
     const { formState } = this.state
@@ -38,7 +36,7 @@ class TaskAction extends Component {
     });
   }
 
-  _handleContentChange(value) {
+  _handleContentChange = (value) => {
     const { formState } = this.state
 
     formState.description = value
@@ -48,7 +46,7 @@ class TaskAction extends Component {
     })
   }
 
-  _submit() {
+  _submit = () => {
     const { formState } = this.state
 
     if (typeof formState.details_type === 'undefined') {
@@ -56,56 +54,49 @@ class TaskAction extends Component {
     } else {
       this.props.dispatch(saveActivity(formState))
         .then(() => {
-          this.setState({
-            formState: {
-              user_id: this.props.user.id,
-              contact_id: typeof this.props.contact !== 'undefined' ? this.props.contact.id : null,
-              opportunity_id: typeof this.props.opportunity !== 'undefined' ? this.props.opportunity.id : null,
-              company_id: typeof this.props.company !== 'undefined' ? this.props.company.id : null
-            }
-          })
-
-          this.props.toggle('task')
+          this._cancel()
         })
     }
   }
 
-  _cancel() {
+  _cancel = () => {
     this.setState({
       formState: {
         user_id: this.props.user.id,
-        contact_id: typeof this.props.contact !== 'undefined' ? this.props.contact.id : null,
-        opportunity_id: typeof this.props.opportunity !== 'undefined' ? this.props.opportunity.id : null,
-        company_id: typeof this.props.company !== 'undefined' ? this.props.company.id : null
+        contact_id: this.props.model instanceof Contact ? this.props.model.id : null,
+        opportunity_id: this.props.model instanceof Opportunity ? this.props.model.id : null,
+        company_id: this.props.model instanceof Company ? this.props.model.id : null
       }
     })
 
-    this.props.toggle('task')
+    this.props.toggle()
   }
 
   render() {
-    const { contact, company, opportunity, user } = this.props
+    const { model, user } = this.props
     const { formState } = this.state
 
-    const contactOptions = typeof company !== 'undefined' ?
-      company.contacts.map(c => ({value: c.id, label: c.name}))
-      : typeof opportunity !== 'undefined' ?
-        opportunity.contacts.map(c => ({value: c.id, label: c.name}))
-        : []
-    const companyOptions = typeof contact !== 'undefined' ?
-      contact.companies.map(c => ({value: c.id, label: c.name}))
-      : typeof opportunity !== 'undefined' ?
-        opportunity.companies.map(c => ({value: c.id, label: c.name}))
-        : []
-    const opportunityOptions = typeof contact !== 'undefined' ?
-      contact.opportunities.map(o => ({value: o.id, label: o.name}))
-      : typeof company !== 'undefined' ?
-          company.opportunities.map(o => ({value: o.id, label: o.name}))
-        : []
+    let opportunityOptions = null
+    let companyOptions = null
+    let contactOptions = null
 
+    if (model instanceof Opportunity) {
+      companyOptions = model.companies.map(c => ({value: c.id, label: c.name}))
+      contactOptions = model.contacts.map(c => ({value: c.id, label: c.name}))
+    }
+
+    if (model instanceof Company) {
+      opportunityOptions = model.opportunities.map(o => ({value: o.id, label: o.name}))
+      contactOptions = model.contacts.map(c => ({value: c.id, label: c.name}))
+    }
+
+    if (model instanceof Contact) {
+      opportunityOptions = model.opportunities.map(o => ({value: o.id, label: o.name}))
+      companyOptions = model.companies.map(c => ({value: c.id, label: c.name}))
+    }
 
     return(
-      <div className="card-body taskActionView">
+      <div className="taskActionView">
         <div className="form-row">
           <div className="form-group col-md-4">
             <label htmlFor="assignee_name">Assignee</label>
@@ -148,12 +139,12 @@ class TaskAction extends Component {
             <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
           </div>
 
-          {opportunityOptions.length ?
+          {opportunityOptions ?
             <div className="col">
               <label htmlFor="emailOpportunity">Opportunity</label>
               <Select
                 multi={false}
-                value={this.state.formState.opportunity_id}
+                value={formState.opportunity_id}
                 onChange={(value) => {
                   const event = {
                     target: {
@@ -168,12 +159,12 @@ class TaskAction extends Component {
             </div>
             : ''}
 
-            {contactOptions.length ?
+            {contactOptions ?
               <div className="col">
                 <label htmlFor="emailOpportunity">Contact</label>
                 <Select
                   multi={false}
-                  value={this.state.formState.contact_id}
+                  value={formState.contact_id}
                   onChange={(value) => {
                     const event = {
                       target: {
@@ -188,12 +179,12 @@ class TaskAction extends Component {
               </div>
               : ''}
 
-          {companyOptions.length ?
+          {companyOptions ?
             <div className="col">
               <label htmlFor="emailCompany">Company</label>
               <Select
                 multi={false}
-                value={this.state.formState.company_id}
+                value={formState.company_id}
                 onChange={(value) => {
                   const event = {
                     target: {

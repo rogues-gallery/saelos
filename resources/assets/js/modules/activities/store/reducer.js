@@ -15,7 +15,10 @@ const initialState = {
   isFetching: false,
   isPosting: false,
   error: false,
-  searchString: ''
+  searchString: '',
+  model: {},
+  actionType: 'create',
+  open: false
 }
 
 export default function activityReducer(state = initialState, action) {
@@ -83,6 +86,20 @@ export default function activityReducer(state = initialState, action) {
         error: false,
         isPosting: false
       }
+
+    case types.OPEN_TASK_CONTAINER:
+      return {
+        ...state,
+        ...action.data,
+        open: true
+      }
+    case types.CLOSE_TASK_CONTAINER:
+      return {
+        ...state,
+        model: initialState.model,
+        open: initialState.open,
+        actionType: initialState.actionType
+      }
     default:
       return state
   }
@@ -113,3 +130,6 @@ export const getActivity = (state, id) => {
 export const getSearchStringForActivities = (state) => state.searchString
 export const getPaginationForActivities = (state) => state.meta
 export const getFirstActivityId = (state) => state.data.length ? state.data[0].id : 0
+export const getModel = (state) => state.model
+export const isOpen = (state) => state.open
+export const getActionView = (state) => state.actionType

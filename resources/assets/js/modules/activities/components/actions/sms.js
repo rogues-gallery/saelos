@@ -2,7 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
-import {smsContact} from "../../../../../service"
+import {smsContact} from "../../../contacts/service"
+import Opportunity from "../../../opportunities/Opportunity";
+import Company from "../../../companies/Company";
+import Contact from "../../../contacts/Contact";
 
 class SmsAction extends React.Component {
   constructor(props) {
@@ -14,7 +17,7 @@ class SmsAction extends React.Component {
 
     this.state = {
       formState: {
-        id: props.contact.id,
+        id: props.model.id,
         opportunity_id: null,
         company_id: null,
         message: ''
@@ -44,14 +47,12 @@ class SmsAction extends React.Component {
         .then(() => {
           this.setState({
             formState: {
-              id: this.props.contact.id,
+              id: this.props.model.id,
               opportunity_id: null,
               company_id: null,
               message: ''
             }
           })
-
-          this.props.toggle('sms')
         })
     }
   }
@@ -70,14 +71,30 @@ class SmsAction extends React.Component {
   }
 
   render() {
-    const { contact } = this.props
+    const { model } = this.props
     const { formState } = this.state
 
-    const opportunityOptions = contact.opportunities.map(o => ({value: o.id, label: o.name}))
-    const companyOptions = contact.companies.map(c => ({value: c.id, label: c.name}))
+    let opportunityOptions = null
+    let companyOptions = null
+    let contactOptions = null
+
+    if (model instanceof Opportunity) {
+      companyOptions = model.companies.map(c => ({value: c.id, label: c.name}))
+      contactOptions = model.contacts.map(c => ({value: c.id, label: c.name}))
+    }
+
+    if (model instanceof Company) {
+      opportunityOptions = model.opportunities.map(o => ({value: o.id, label: o.name}))
+      contactOptions = model.contacts.map(c => ({value: c.id, label: c.name}))
+    }
+
+    if (model instanceof Contact) {
+      opportunityOptions = model.opportunities.map(o => ({value: o.id, label: o.name}))
+      companyOptions = model.companies.map(c => ({value: c.id, label: c.name}))
+    }
 
     return (
-      <div className="card-body smsActionView">
+      <div className="smsActionView">
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Message</label>
           <input type="text" className="form-control" name="message" onChange={this._handleInputChange} value={formState.message} placeholder="Enter SMS message"/>
@@ -88,7 +105,7 @@ class SmsAction extends React.Component {
             <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
           </div>
 
-          {opportunityOptions.length ?
+          {opportunityOptions ?
             <div className="col">
               <label htmlFor="emailOpportunity">Opportunity</label>
               <Select
@@ -108,7 +125,7 @@ class SmsAction extends React.Component {
             </div>
             : ''}
 
-          {companyOptions.length ?
+          {companyOptions ?
             <div className="col">
               <label htmlFor="emailCompany">Company</label>
               <Select

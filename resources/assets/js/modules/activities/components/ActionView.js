@@ -1,12 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import EmailAction from './actions/email'
 import CallAction from './actions/call'
 import SmsAction from './actions/sms'
 import TaskAction from './actions/task'
-import Company from '../../../../../companies/Company'
-import Contact from '../../../../Contact'
-import User from '../../../../../users/User'
+import Company from '../../companies/Company'
+import Contact from '../../contacts/Contact'
+import Opportunity from '../../opportunities/Opportunity'
+import User from '../../users/User'
+import { getActiveUser } from '../../users/store/selectors'
 
 class ActionView extends React.Component {
   render() {
@@ -30,9 +33,15 @@ class ActionView extends React.Component {
 
 ActionView.propTypes = {
   view: PropTypes.string.isRequired,
-  company: PropTypes.instanceOf(Company),
-  contact: PropTypes.instanceOf(Contact),
+  model: PropTypes.oneOfType([
+    PropTypes.instanceOf(Company),
+    PropTypes.instanceOf(Contact),
+    PropTypes.instanceOf(Opportunity),
+    PropTypes.exact(null)
+  ]),
   user: PropTypes.instanceOf(User)
 }
 
-export default ActionView
+export default connect(state => ({
+  user: getActiveUser(state)
+}))(ActionView)

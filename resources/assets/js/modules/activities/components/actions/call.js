@@ -1,23 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {callContact, submitCallScore} from "../../../../../service"
-import Contact from "../../../../../Contact"
+import {callContact, submitCallScore} from "../../../contacts/service"
+import Contact from "../../../contacts/Contact"
 import * as MDIcons from 'react-icons/lib/md'
 import Select from 'react-select'
+import Opportunity from "../../../opportunities/Opportunity";
+import Company from "../../../companies/Company";
 
 class CallAction extends Component {
   constructor(props) {
     super(props)
 
-    this._handleInputChange = this._handleInputChange.bind(this)
-    this._initCall = this._initCall.bind(this)
-    this._updateSentimentScore = this._updateSentimentScore.bind(this)
-    this._submitScore = this._submitScore.bind(this)
-
     this.state = {
       formState: {
-        id: props.contact.id,
+        id: props.model.id,
         sentiment_score: null,
         opportunity_id: null,
         company_id: null
@@ -26,7 +23,7 @@ class CallAction extends Component {
     }
   }
 
-  _handleInputChange(event) {
+  _handleInputChange = (event) => {
     const { target } = event
     const { name, value } = target
     const { formState } = this.state
@@ -38,7 +35,7 @@ class CallAction extends Component {
     });
   }
 
-  _initCall() {
+  _initCall = () => {
     this.props.dispatch(callContact(this.state.formState))
       .then(call => {
         this.setState({
@@ -47,11 +44,11 @@ class CallAction extends Component {
       })
   }
 
-  _submitScore() {
+  _submitScore = () => {
     this.props.dispatch(submitCallScore(this.state.callState))
   }
 
-  _updateSentimentScore(event) {
+  _updateSentimentScore = (event) => {
     const { target } = event
     const { value } = target
     const { callState } = this.state
@@ -64,14 +61,30 @@ class CallAction extends Component {
   }
 
   render() {
-    const { contact } = this.props
-    const { callState } = this.state
+    const { model } = this.props
+    const { callState, formState } = this.state
 
-    const opportunityOptions = contact.opportunities.map(o => ({value: o.id, label: o.name}))
-    const companyOptions = contact.companies.map(c => ({value: c.id, label: c.name}))
+    let opportunityOptions = null
+    let companyOptions = null
+    let contactOptions = null
+
+    if (model instanceof Opportunity) {
+      companyOptions = model.companies.map(c => ({value: c.id, label: c.name}))
+      contactOptions = model.contacts.map(c => ({value: c.id, label: c.name}))
+    }
+
+    if (model instanceof Company) {
+      opportunityOptions = model.opportunities.map(o => ({value: o.id, label: o.name}))
+      contactOptions = model.contacts.map(c => ({value: c.id, label: c.name}))
+    }
+
+    if (model instanceof Contact) {
+      opportunityOptions = model.opportunities.map(o => ({value: o.id, label: o.name}))
+      companyOptions = model.companies.map(c => ({value: c.id, label: c.name}))
+    }
 
     return (
-      <div className="card-body callActionView">
+      <div className="callActionView">
         <div className="row">
           <div className="col fw-100 border-right">
             <button
@@ -97,12 +110,12 @@ class CallAction extends Component {
                   <input type="range" min="1" max="10" className="slider" name="repSentiment" onChange={this._updateSentimentScore} defaultValue="0" />
                 </div>
               </div>
-                {opportunityOptions.length ?
+                {opportunityOptions ?
                 <div className="col">
                   <label htmlFor="callOpportunity">Opportunity</label>
                   <Select
                     multi={false}
-                    value={this.state.formState.opportunity_id}
+                    value={formState.opportunity_id}
                     onChange={(value) => {
                       const event = {
                         target: {
@@ -118,12 +131,12 @@ class CallAction extends Component {
                     : ''}
 
 
-                {companyOptions.length ?
+                {companyOptions ?
                 <div className="col">
                   <label htmlFor="callCompany">Company</label>
                   <Select
                     multi={false}
-                    value={this.state.formState.company_id}
+                    value={formState.company_id}
                     onChange={(value) => {
                       const event = {
                         target: {
@@ -147,7 +160,7 @@ class CallAction extends Component {
 
 CallAction.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  contact: PropTypes.instanceOf(Contact).isRequired,
+  model: PropTypes.instanceOf(Contact),
   activeCall: PropTypes.object
 }
 

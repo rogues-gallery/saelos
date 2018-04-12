@@ -2,22 +2,19 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ReactQuill from 'react-quill'
-import {emailContact} from "../../../../../service"
-import Contact from "../../../../../Contact"
+import { emailContact } from '../../../contacts/service'
+import Contact from '../../../contacts/Contact'
 import Select from 'react-select'
+import Opportunity from "../../../opportunities/Opportunity";
+import Company from "../../../companies/Company";
 
 class EmailAction extends Component {
   constructor(props) {
     super(props)
 
-    this._handleInputChange = this._handleInputChange.bind(this)
-    this._handleContentChange = this._handleContentChange.bind(this)
-    this._submit = this._submit.bind(this)
-    this._cancel = this._cancel.bind(this)
-
     this.state = {
       formState: {
-        id: props.contact.id,
+        id: props.model.id,
         email_subject: '',
         email_content: '',
         opportunity_id: null,
@@ -26,7 +23,7 @@ class EmailAction extends Component {
     }
   }
 
-  _handleInputChange(event) {
+  _handleInputChange = (event) => {
     const { target } = event
     const { name, value } = target
     const { formState } = this.state
@@ -38,7 +35,7 @@ class EmailAction extends Component {
     });
   }
 
-  _handleContentChange(value) {
+  _handleContentChange = (value) => {
     const { formState } = this.state
 
     formState.email_content = value
@@ -48,11 +45,11 @@ class EmailAction extends Component {
     })
   }
 
-  _submit() {
+  _submit = () => {
     this.props.dispatch(emailContact(this.state.formState))
   }
 
-  _cancel() {
+  _cancel = () => {
     this.setState({
       formState: {
         id: this.props.contact.id,
@@ -63,18 +60,34 @@ class EmailAction extends Component {
       }
     })
 
-    this.props.toggle('email')
+    this.props.toggle()
   }
 
   render() {
-    const { contact } = this.props
+    const { model } = this.props
     const { formState } = this.state
 
-    const opportunityOptions = contact.opportunities.map(o => ({value: o.id, label: o.name}))
-    const companyOptions = contact.companies.map(c => ({value: c.id, label: c.name}))
+    let opportunityOptions = null
+    let companyOptions = null
+    let contactOptions = null
+
+    if (model instanceof Opportunity) {
+      companyOptions = model.companies.map(c => ({value: c.id, label: c.name}))
+      contactOptions = model.contacts.map(c => ({value: c.id, label: c.name}))
+    }
+
+    if (model instanceof Company) {
+      opportunityOptions = model.opportunities.map(o => ({value: o.id, label: o.name}))
+      contactOptions = model.contacts.map(c => ({value: c.id, label: c.name}))
+    }
+
+    if (model instanceof Contact) {
+      opportunityOptions = model.opportunities.map(o => ({value: o.id, label: o.name}))
+      companyOptions = model.companies.map(c => ({value: c.id, label: c.name}))
+    }
 
     return (
-      <div className="card-body emailActionView">
+      <div className="emailActionView">
         <div className="float-right">
           <span className="mini-text text-muted font-weight-bold">CC | BCC</span>
         </div>
@@ -91,12 +104,12 @@ class EmailAction extends Component {
             <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
           </div>
 
-            {opportunityOptions.length ?
+            {opportunityOptions ?
               <div className="col">
                 <label htmlFor="emailOpportunity">Opportunity</label>
                 <Select
                   multi={false}
-                  value={this.state.formState.opportunity_id}
+                  value={formState.opportunity_id}
                   onChange={(value) => {
                     const event = {
                       target: {
@@ -111,12 +124,12 @@ class EmailAction extends Component {
                 </div>
               : ''}
 
-            {companyOptions.length ?
+            {companyOptions ?
               <div className="col">
                 <label htmlFor="emailCompany">Company</label>
                 <Select
                   multi={false}
-                  value={this.state.formState.company_id}
+                  value={formState.company_id}
                   onChange={(value) => {
                     const event = {
                       target: {
@@ -138,7 +151,7 @@ class EmailAction extends Component {
 
 EmailAction.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  contact: PropTypes.instanceOf(Contact).isRequired
+  model: PropTypes.instanceOf(Contact).isRequired
 }
 
 export default connect()(EmailAction)

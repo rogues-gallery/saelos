@@ -1,11 +1,10 @@
-//import libs
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ToastContainer } from 'react-toastify'
 
-// import components
 import Main from '../Main'
 import Navigation from '../common/navigation'
+import TaskContainer from '../modules/activities/components/TaskContainer'
 
 const PrivateLayout = ({ children }) => (
   <Main>
@@ -19,6 +18,7 @@ const PrivateLayout = ({ children }) => (
         toastClassName="toast"
       />
     </div>
+    <TaskContainer />
   </Main>
 )
 

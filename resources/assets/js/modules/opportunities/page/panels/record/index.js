@@ -6,7 +6,6 @@ import _ from 'lodash'
 import * as MDIcons from 'react-icons/lib/md'
 import Conversations from '../../../../conversations/partials/_conversations'
 import TagsPartial from '../../../../tags/partials/tags'
-import { ActionView } from '../../../../contacts/page/panels/record/components'
 import { getActiveUser } from '../../../../users/store/selectors'
 import {
   getOpportunity,
@@ -18,21 +17,15 @@ import {
 import { fetchOpportunity, saveOpportunity, deleteOpportunity } from '../../../service'
 import { editingOpportunity, editingOpportunityFinished } from '../../../store/actions'
 import { renderGroupedFields } from '../../../../../utils/helpers/fields'
+import { openTaskContainer } from '../../../../activities/store/actions'
 
 class Record extends React.Component {
   constructor(props) {
     super(props)
 
-    this._toggleEdit = this._toggleEdit.bind(this)
-    this._submit = this._submit.bind(this)
-    this._handleInputChange = this._handleInputChange.bind(this)
-    this._delete = this._delete.bind(this)
-    this._setActionView = this._setActionView.bind(this)
-
     this.state = {
       inEdit: props.inEdit,
-      formState: props.opportunity.originalProps,
-      actionView: "none"
+      formState: props.opportunity.originalProps
     }
   }
 
@@ -54,20 +47,24 @@ class Record extends React.Component {
     this.setState({formState: nextProps.opportunity.originalProps})
   }
 
-  _delete () {
+  _delete = () => {
     const { dispatch, opportunity } = this.props
 
     dispatch(deleteOpportunity(opportunity.id))
     this.context.router.history.push('/opportunities')
   }
 
-  _setActionView(view) {
-    view = view === this.state.actionView ? "none" : view
+  _toggleTaskCompose = (view) => {
+    const { dispatch, opportunity } = this.props
 
-    this.setState({actionView: view})
+    dispatch(openTaskContainer(
+      () => alert('hi'),
+      opportunity,
+      view
+    ))
   }
 
-  _toggleEdit() {
+  _toggleEdit = () => {
     this.props.dispatch(editingOpportunity())
 
     if (this.props.match.params.id === 'new' && this.props.inEdit) {
@@ -75,13 +72,13 @@ class Record extends React.Component {
     }
   }
 
-  _submit() {
+  _submit = () => {
     this.props.dispatch(saveOpportunity(this.state.formState))
     this.props.dispatch(editingOpportunityFinished())
   }
 
   // @todo: Extract this crap. Mercy, this is embarrassing
-  _handleInputChange(event) {
+  _handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     let name = target.name;
@@ -145,7 +142,7 @@ class Record extends React.Component {
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading">
-          <button className="btn btn-primary mr-2 btn-sm list-inline-item" onClick={() => this._setActionView('task')}><span className="h5"><MDIcons.MdPlaylistAdd /></span></button>
+          <button className="btn btn-primary mr-2 btn-sm list-inline-item" onClick={() => this._toggleTaskCompose('task')}><span className="h5"><MDIcons.MdPlaylistAdd /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
           <div className="float-right text-right pt-2">
@@ -162,16 +159,6 @@ class Record extends React.Component {
             : <div className="text-dark mini-text"><b>{opportunity.user.name ? opportunity.user.name : 'Unassigned'}</b></div> }
           </div>
         </div>
-
-        {this.state.actionView !== "none" ?
-          <div className="border-bottom">
-            <div className="card actionView my-2">
-              <ActionView view={this.state.actionView} toggle={this._setActionView} opportunity={opportunity} user={user} />
-            </div>
-          </div>
-          :
-          ''
-        }
 
         {inEdit ?
           <span className="float-right py-3 mt-1">

@@ -52,3 +52,16 @@ export const deletingActivitySuccess = (payload) => ({
 export const deletingActivityFailure = () => ({
   type: types.DELETING_ACTIVITY_FAILURE
 })
+
+export const openTaskContainer = (submitFunc, model, actionType = 'create') => ({
+  type: types.OPEN_TASK_CONTAINER,
+  data: {
+    submitFunc,
+    model,
+    actionType
+  }
+})
+
+export const closeTaskContainer = () => ({
+  type: types.CLOSE_TASK_CONTAINER
+})

@@ -14,3 +14,12 @@ export const getPaginationForActivities = (state) =>
 
 export const getFirstActivityId = (state) =>
   fromReducer.getFirstActivityId(state.activityState)
+
+export const getModel = (state) =>
+  fromReducer.getModel(state.activityState)
+
+export const isOpen = (state) =>
+  fromReducer.isOpen(state.activityState)
+
+export const getActionView = (state) =>
+  fromReducer.getActionView(state.activityState)
