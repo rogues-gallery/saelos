@@ -202,7 +202,7 @@ class AdvancedSearch extends React.Component {
                   key={i}
                   className="btn btn-sm btn-outline-secondary"
                   onClick={() => {
-                    this._updateSearchString(`${a}:`)
+                    this._updateSearchString(` ${a}:`)
                   }}>
                   {a}
                 </span>
@@ -220,7 +220,7 @@ class AdvancedSearch extends React.Component {
                   key={f.id}
                   className="btn btn-sm btn-outline-secondary"
                   onClick={() => {
-                    this._updateSearchString(`${f.alias}:`)
+                    this._updateSearchString(` ${f.alias}:`)
                   }}>
                   {f.alias}
                 </span>
