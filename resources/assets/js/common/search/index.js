@@ -19,8 +19,7 @@ class AdvancedSearch extends React.Component {
         color: '',
         parentItem: props.parentItem
       },
-      expandSearch: false,
-      advancedSearchCursor: false
+      expandSearch: false
     }
 
     this.searchInputRef = null
@@ -36,9 +35,6 @@ class AdvancedSearch extends React.Component {
   }
 
   _focusSearchInput = () => {
-    this.setState({
-      advancedSearchCursor: true
-    })
     this.searchInputRef.focus()
     this.searchInputRef.selectionStart = this.searchInputRef.value.length
     this.searchInputRef.selectionEnd = this.searchInputRef.value.length
@@ -106,7 +102,7 @@ class AdvancedSearch extends React.Component {
       ].includes(v.keyword)
 
       if (v.keyword === 'freetext') {
-        return ''
+        return ' '
       }
 
       if (!hasTag) {
@@ -116,12 +112,7 @@ class AdvancedSearch extends React.Component {
       const excluded = parsed.exclude.hasOwnProperty(v.keyword)
 
       return (
-        <div className="btn-group mr-2" key={k}>
-          <button className="btn btn-outline-secondary btn-sm">{excluded ? '-' : ''}{v.keyword}:{v.value}</button>
-          <button className="btn btn-outline-secondary btn-sm" onClick={(e) => this._onSearchTagClick(e, v.keyword)}>
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+          <span className="highlight">{excluded ? '-' : ''}{v.keyword}:{v.value}</span>
       )
     })
 
@@ -141,7 +132,7 @@ class AdvancedSearch extends React.Component {
     const toString = parsedToString(parsed, searchFields, new Array(alias))
 
     this.setState({
-      searchString: toString.trim()
+      searchString: toString //toString.trim()
     })
   }
 
@@ -190,7 +181,7 @@ class AdvancedSearch extends React.Component {
   }
 
   render() {
-    const { searchString, addingView, formState, expandSearch, advancedSearchCursor } = this.state
+    const { searchString, addingView, formState, expandSearch } = this.state
     const { views, searchFields } = this.props
     const viewSearchStrings = views.map(v => v.searchString)
 
@@ -204,7 +195,7 @@ class AdvancedSearch extends React.Component {
               return (
                 <span
                   key={i}
-                  className="btn btn-sm btn-outline-secondary"
+                  className="highlight"
                   onClick={() => {
                     this._updateSearchString(` ${a}:`)
                   }}>
@@ -222,7 +213,7 @@ class AdvancedSearch extends React.Component {
               return !f.searchable ? '' : (
                 <span
                   key={f.id}
-                  className="btn btn-sm btn-outline-secondary"
+                  className="highlight"
                   onClick={() => {
                     this._updateSearchString(` ${f.alias}:`)
                   }}>
@@ -240,7 +231,6 @@ class AdvancedSearch extends React.Component {
               this.searchInputRef.value = this.searchInputRef.value + ' '
             }}>
               {this._buildHtmlFromSearchString(searchString)}
-              {advancedSearchCursor ? <span className="blink">|</span> : ''}
             </div>
             <input
               ref={searchInput => { this.searchInputRef = searchInput }}
@@ -249,7 +239,6 @@ class AdvancedSearch extends React.Component {
               id="search-input"
               placeholder="Search..."
               dir="auto"
-              autocomplete="false"
               onKeyPress={this._onKeyPress}
               onChange={this._handleOnChange}
               value={searchString}

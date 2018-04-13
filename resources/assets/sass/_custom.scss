@@ -893,10 +893,11 @@ a:hover {
 
 #search-input {
   position:fixed;
-  opacity:0;
   vertical-align: top;
-  left:-1000px;
-  top: -1000px;
+  top: 24px;
+  background: transparent;
+  border: 0;
+  padding: 6px;
 }
 
 .select-search-tags {
@@ -907,17 +908,6 @@ a:hover {
   border:1px solid #000;
   padding: 10px;
 }
-
-.blink {
-  animation: 1s blink step-end infinite;
-}
-
-@keyframes blink {
-  from, to {
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 1;
-  }
+.highlight {
+  background: #fcffe7;
 }
