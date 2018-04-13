@@ -183,14 +183,14 @@ class AdvancedSearch extends React.Component {
 
     return (
       <div className="position-relative px-3 pt-4 bg-white border-bottom">
-        <div className={`select-search-tags ${expandSearch ? '' : 'd-none'}`}>
+        <div className={`select-search-tags position-absolute card p-2 fw-200 ${expandSearch ? '' : 'd-none'}`}>
           <div className="search-relationships">
-            <h5>Relationships</h5>
+            <h5>Has</h5>
             {['assignee', 'status', 'stage', 'tag', 'opportunity', 'contact', 'company'].map((a, i) => {
               return (
                 <span
                   key={i}
-                  className="highlight-relation"
+                  className="cursor-pointer highlight-relation p-1 m-1 d-inline-block"
                   onClick={() => {
                     this._updateSearchString(`${a}:`)
                   }}>
@@ -206,14 +206,14 @@ class AdvancedSearch extends React.Component {
               const f = searchFields[a]
 
               return !f.searchable ? '' : (
-                <span
-                  key={f.id}
-                  className="highlight-field"
-                  onClick={() => {
-                    this._updateSearchString(`${f.alias}:`)
-                  }}>
-                  {f.alias}
-                </span>
+                  <span
+                    key={f.id}
+                    className="cursor-pointer highlight-field p-1 m-1 d-inline-block"
+                    onClick={() => {
+                      this._updateSearchString(`${f.alias}:`)
+                    }}>
+                    {f.alias}
+                  </span>
               )
             })}
           </div>
@@ -227,6 +227,7 @@ class AdvancedSearch extends React.Component {
               ref={searchInput => { this.searchInputRef = searchInput }}
               type="search"
               className="form-control"
+              autoComplete="off"
               id="search-input"
               placeholder="Search..."
               dir="auto"

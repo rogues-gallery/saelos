@@ -909,34 +909,18 @@ a:hover {
 }
 
 .select-search-tags {
-  position:absolute;
-  background:#FFF;
-  z-index: 9;
+  z-index: $zindex-dropdown;
   top:64px;
-  border:1px solid #000;
-  padding: 10px;
-
-  .highlight {
-    &-field {
-      background: #c0deff;
-      color: #000;
-    }
-
-    &-relation {
-      background: #f9dada;
-      color: #000;
-    }
-  }
 }
 
 .highlight {
   &-field {
-    background: #c0deff;
-    color: #c0deff;
+    background: #ecf3fc;
+    color: $gray-700;
   }
 
   &-relation {
-    background: #f9dada;
-    color: #f9dada;
+    background: #fdccd1;
+    color: $gray-700;
   }
 }
