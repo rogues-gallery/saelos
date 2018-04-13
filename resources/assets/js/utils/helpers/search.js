@@ -17,6 +17,18 @@ export const parseSearchString = (string, fields) => {
   return parse(string, options)
 }
 
+export const parsedToString = (parsed, fields, ignore = []) => {
+  const isParsed = typeof parsed === 'object' && parsed.hasOwnProperty('offsets')
+
+  return !isParsed ? parsed : parsed.offsets.map(o => {
+    if (o.keyword === 'freetext') {
+      return ''
+    }
+
+    return ignore.includes(o.keyword) ? '' : `${o.keyword}:${o.value}`
+  }).join(' ') + ' ' + (typeof parsed.text !== 'undefined' ? parsed.text : '')
+}
+
 /**
  * Based on nepsilon/search-query-parser, modified for our needs.
  *

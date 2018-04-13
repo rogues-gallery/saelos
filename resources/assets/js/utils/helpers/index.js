@@ -1,4 +1,4 @@
 export { customFieldsHelper, getCustomField, getCustomFieldValue } from './customFieldsHelper'
 export { togglePanelById, togglePanelByClass, togglePreventContentScroll } from './togglePanelHelper'
 export { getPageCount, getPageNumber } from './pagination'
-export { parseSearchString } from './search'
+export { parseSearchString, parsedToString } from './search'

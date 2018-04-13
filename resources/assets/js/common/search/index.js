@@ -1,26 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { parseSearchString } from '../../utils/helpers'
 import * as MDIcons from 'react-icons/lib/md'
-import {getActiveUser, getViews} from '../../modules/users/store/selectors'
 import { CirclePicker } from 'react-color'
-import {createView, removeView} from "../../modules/users/service";
+import { parseSearchString, parsedToString } from '../../utils/helpers'
+import { getActiveUser, getViews} from '../../modules/users/store/selectors'
+import { createView, removeView} from '../../modules/users/service'
 
 class AdvancedSearch extends React.Component {
   constructor(props) {
     super(props)
-
-    this._updateSearchString = this._updateSearchString.bind(this)
-    this._handleOnChange = this._handleOnChange.bind(this)
-    this._buildHtmlFromSearchString = this._buildHtmlFromSearchString.bind(this)
-    this._onKeyPress = this._onKeyPress.bind(this)
-    this._submit = this._submit.bind(this)
-    this._removeView = this._removeView.bind(this)
-    this._toggleAdd = this._toggleAdd.bind(this)
-    this._createView = this._createView.bind(this)
-    this._handleInputChange = this._handleInputChange.bind(this)
-    this._clearSearch = this._clearSearch.bind(this)
 
     this.state = {
       searchString: props.searchString,
@@ -31,21 +20,23 @@ class AdvancedSearch extends React.Component {
         parentItem: props.parentItem
       }
     }
+
+    this.searchInputRef = null
   }
 
-  _updateSearchString(string) {
+  _updateSearchString = (string) => {
     this.setState({
       searchString: `${this.state.searchString}${string}`
     })
   }
 
-  _handleOnChange(e) {
+  _handleOnChange = (e) => {
     this.setState({
       searchString: e.target.value
     })
   }
 
-  _handleInputChange(event) {
+  _handleInputChange = (event) => {
     const { target } = event
     const { value, name } = target
     const { formState } = this.state
@@ -57,7 +48,7 @@ class AdvancedSearch extends React.Component {
     })
   }
 
-  _onKeyPress(event) {
+  _onKeyPress = (event) => {
     const { target, charCode } = event
 
     if (charCode !== 13) {
@@ -69,7 +60,7 @@ class AdvancedSearch extends React.Component {
     this._submit(target)
   }
 
-  _submit(input) {
+  _submit = (input) => {
     const { value } = input
     const { dispatch, searchFunc } = this.props
 
@@ -80,30 +71,73 @@ class AdvancedSearch extends React.Component {
     }
   }
 
-  _buildHtmlFromSearchString(value) {
-    const parsed = parseSearchString(value, this.props.searchFields)
+  _buildHtmlFromSearchString = (value) => {
+    if (!value.trim()) {
+      return 'Search...'
+    }
 
-    return typeof parsed === 'object' && parsed.offsets.map((v, k) => {
-      const field = this.props.searchFields[v.keyword]
+    const { searchFields } = this.props
+    const parsed = parseSearchString(value, searchFields)
+
+    const toReturn = typeof parsed !== 'object' ? value : parsed.offsets.map((v, k) => {
+      const field = searchFields[v.keyword]
+      const hasTag = typeof field !== 'undefined' || [
+        'assignee',
+        'stage',
+        'status',
+        'opportunity',
+        'company',
+        'contact',
+        'tag'
+      ].includes(v.keyword)
+
+      if (v.keyword === 'freetext') {
+        return ''
+      }
+
+      if (!hasTag) {
+        return v.value
+      }
+
+      const excluded = parsed.exclude.hasOwnProperty(v.keyword)
 
       return (
-        <span className="tag-container" key={`search-tag-${k}`}>
-          {typeof field !== 'undefined'
-            ? <span className="tag">{field.alias}:</span>
-            : ''
-          }{v.value}
-        </span>
+        <div className="btn-group mr-2" key={k}>
+          <button className="btn btn-outline-secondary btn-sm">{excluded ? '-' : ''}{v.keyword}:{v.value}</button>
+          <button className="btn btn-outline-secondary btn-sm" onClick={(e) => this._onSearchTagClick(e, v.keyword)}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       )
-    }) || value
+    })
+
+    if(toReturn instanceof Array) {
+      toReturn.push(parsed.text)
+    }
+
+    return toReturn
   }
 
-  _toggleAdd() {
+  _onSearchTagClick = (event, alias) => {
+    event.stopPropagation()
+
+    const { searchString } = this.state
+    const { searchFields } = this.props
+    const parsed = parseSearchString(searchString, searchFields)
+    const toString = parsedToString(parsed, searchFields, new Array(alias))
+
+    this.setState({
+      searchString: toString.trim()
+    })
+  }
+
+  _toggleAdd = () => {
     this.setState({
       addingView: !this.state.addingView
     })
   }
 
-  _createView() {
+  _createView = () => {
     const { dispatch, parentItem } = this.props
     const { formState, searchString } = this.state
 
@@ -121,7 +155,7 @@ class AdvancedSearch extends React.Component {
     })
   }
 
-  _removeView() {
+  _removeView = () => {
     const { dispatch, parentItem } = this.props
     const { searchString } = this.state
 
@@ -131,7 +165,7 @@ class AdvancedSearch extends React.Component {
     }))
   }
 
-  _clearSearch() {
+  _clearSearch = () => {
     const { dispatch, searchFunc } = this.props
 
     this.setState({
@@ -150,17 +184,27 @@ class AdvancedSearch extends React.Component {
     return (
       <div className="position-relative px-3 pt-4 bg-white border-bottom">
         <div id="advanced-search-container" className={searchString ? 'input-group' : ''}>
+          <div className="input-container">
+            <div className="advanced-search-tags" onClick={() => {
+              this.searchInputRef.focus()
+              this.searchInputRef.selectionStart = this.searchInputRef.value.length
+              this.searchInputRef.selectionEnd = this.searchInputRef.value.length
+              this.searchInputRef.value = this.searchInputRef.value + ' '
+            }}>
+              {this._buildHtmlFromSearchString(searchString)}
+            </div>
             <input
+              ref={searchInput => { this.searchInputRef = searchInput }}
               type="search"
               className="form-control ds-input"
               id="search-input"
               placeholder="Search..."
               dir="auto"
-              style={{position:"relative", verticalAlign:"top"}}
               onKeyPress={this._onKeyPress}
               onChange={this._handleOnChange}
               value={searchString}
             />
+          </div>
             <div className="input-group-append">
               {searchString ?
                 <button className="btn btn-outline border">
