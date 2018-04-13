@@ -19,15 +19,21 @@ class AdvancedSearch extends React.Component {
         color: '',
         parentItem: props.parentItem
       },
-      expandSearch: false
+      expandSearch: false,
+      searchDivScrollLeft: 0
     }
 
     this.searchInputRef = null
+    this.searchDivRef = null
   }
 
   _updateSearchString = (string) => {
+    const { searchString } = this.state
+    const lastChar = searchString.substring(searchString.length - 1);
+    const trimmed = lastChar === '+' ? searchString.substring(0, searchString.length - 1) : searchString
+
     this.setState({
-      searchString: `${this.state.searchString}${string}`,
+      searchString: `${trimmed}${string}`,
       expandSearch: false
     })
 
@@ -61,6 +67,13 @@ class AdvancedSearch extends React.Component {
   _onKeyPress = (event) => {
     const { target, charCode } = event
 
+    if (charCode === 43) { // +
+      this.setState({
+        expandSearch: true,
+        searchDivScrollLeft: document.getElementById('search-input').scollLeft
+      })
+    }
+
     if (charCode !== 13) {
       return
     }
@@ -87,11 +100,13 @@ class AdvancedSearch extends React.Component {
     }
 
     const { searchFields } = this.props
-    const parsed = parseSearchString(value, searchFields)
+    const { originalText, offsets, exclude } = parseSearchString(value, searchFields)
 
-    const toReturn = typeof parsed !== 'object' ? value : parsed.offsets.map((v, k) => {
+    return typeof offsets === 'undefined' ? value : offsets.map((v, k) => {
       const field = searchFields[v.keyword]
-      const hasTag = typeof field !== 'undefined' || [
+      const excluded = exclude.hasOwnProperty(v.keyword)
+      const isField = typeof field !== 'undefined'
+      const isRelation = [
         'assignee',
         'stage',
         'status',
@@ -100,39 +115,20 @@ class AdvancedSearch extends React.Component {
         'contact',
         'tag'
       ].includes(v.keyword)
+      const hasTag = isRelation || isField
 
-      if (v.keyword === 'freetext') {
-        return ' '
-      }
-
-      if (!hasTag) {
+      if (!hasTag || v.keyword === 'freetext') {
         return v.value
       }
 
-      const excluded = parsed.exclude.hasOwnProperty(v.keyword)
-
       return (
-          <span className="highlight">{excluded ? '-' : ''}{v.keyword}:{v.value}</span>
+        <React.Fragment>
+          <span key={k} className={`highlight-${isRelation ? 'relation' : 'field'}`}>
+            {excluded ? '-' : ''}{v.keyword}:{v.exact ? `"${v.value}"` : v.value}
+          </span>
+          &nbsp;
+        </React.Fragment>
       )
-    })
-
-    if(toReturn instanceof Array) {
-      toReturn.push(parsed.text)
-    }
-
-    return toReturn
-  }
-
-  _onSearchTagClick = (event, alias) => {
-    event.stopPropagation()
-
-    const { searchString } = this.state
-    const { searchFields } = this.props
-    const parsed = parseSearchString(searchString, searchFields)
-    const toString = parsedToString(parsed, searchFields, new Array(alias))
-
-    this.setState({
-      searchString: toString //toString.trim()
     })
   }
 
@@ -185,7 +181,6 @@ class AdvancedSearch extends React.Component {
     const { views, searchFields } = this.props
     const viewSearchStrings = views.map(v => v.searchString)
 
-
     return (
       <div className="position-relative px-3 pt-4 bg-white border-bottom">
         <div className={`select-search-tags ${expandSearch ? '' : 'd-none'}`}>
@@ -195,9 +190,9 @@ class AdvancedSearch extends React.Component {
               return (
                 <span
                   key={i}
-                  className="highlight"
+                  className="highlight-relation"
                   onClick={() => {
-                    this._updateSearchString(` ${a}:`)
+                    this._updateSearchString(`${a}:`)
                   }}>
                   {a}
                 </span>
@@ -213,9 +208,9 @@ class AdvancedSearch extends React.Component {
               return !f.searchable ? '' : (
                 <span
                   key={f.id}
-                  className="highlight"
+                  className="highlight-field"
                   onClick={() => {
-                    this._updateSearchString(` ${f.alias}:`)
+                    this._updateSearchString(`${f.alias}:`)
                   }}>
                   {f.alias}
                 </span>
@@ -224,18 +219,14 @@ class AdvancedSearch extends React.Component {
           </div>
         </div>
         <div id="advanced-search-container" className={searchString ? 'input-group' : ''}>
-          <div className="input-container">
-            <div className="advanced-search-tags" onClick={() => {
-              this.setState({expandSearch: true})
-              this._focusSearchInput()
-              this.searchInputRef.value = this.searchInputRef.value + ' '
-            }}>
+          <div className="input-container form-control">
+            <div className="advanced-search-tags" id="search-div" ref={divInput => { this.searchDivRef = divInput }}>
               {this._buildHtmlFromSearchString(searchString)}
             </div>
             <input
               ref={searchInput => { this.searchInputRef = searchInput }}
               type="search"
-              className="form-control ds-input"
+              className="form-control"
               id="search-input"
               placeholder="Search..."
               dir="auto"
@@ -244,60 +235,60 @@ class AdvancedSearch extends React.Component {
               value={searchString}
             />
           </div>
-            <div className="input-group-append">
-              {searchString ?
-                <button className="btn btn-outline border">
-                  <span className="text-muted" onClick={this._clearSearch}><MDIcons.MdClearAll /></span>
-                </button>
+          <div className="input-group-append">
+            {searchString ?
+              <button className="btn btn-outline border">
+                <span className="text-muted" onClick={this._clearSearch}><MDIcons.MdClearAll /></span>
+              </button>
+            : '' }
+            {viewSearchStrings.includes(searchString) ?
+            <button className="btn btn-outline border">
+              <span className="text-danger" onClick={this._removeView}><MDIcons.MdDelete /></span>
+            </button>
+            : searchString ?
+            <button className="btn btn-outline border">
+              <span className="text-muted" onClick={this._toggleAdd}><MDIcons.MdAdd /></span>
+            </button>
               : '' }
-              {viewSearchStrings.includes(searchString) ?
-              <button className="btn btn-outline border">
-                <span className="text-danger" onClick={this._removeView}><MDIcons.MdDelete /></span>
-              </button>
-              : searchString ?
-              <button className="btn btn-outline border">
-                <span className="text-muted" onClick={this._toggleAdd}><MDIcons.MdAdd /></span>
-              </button>
-                : '' }
-              {addingView ?
-                <div className="add-tag-container">
-                  <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
-                    <div className="px-2 py-2">
-                      <div className="form-group">
-                        <label htmlFor="linkText">Create New View</label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          id="linkText"
-                          name="linkText"
-                          placeholder="View Name"
-                          value={formState.linkText}
-                          onChange={this._handleInputChange} />
-                      </div>
-                      <div className="form-group">
-                        <CirclePicker
-                          color={formState.color}
-                          name="tagColor"
-                          circleSize={20}
-                          circleSpacing={10}
-                          onChangeComplete={(color) => {
-                            const event = {
-                              target: {
-                                name: 'color',
-                                value: color.hex
-                              }
-                            }
-
-                            this._handleInputChange(event)
-                          }}
-                          placeholder={formState.color} />
-                      </div>
-                      <button type="submit" className="btn btn-primary btn-sm" onClick={this._createView}>Create</button>
+            {addingView ?
+              <div className="add-tag-container">
+                <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
+                  <div className="px-2 py-2">
+                    <div className="form-group">
+                      <label htmlFor="linkText">Create New View</label>
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                        id="linkText"
+                        name="linkText"
+                        placeholder="View Name"
+                        value={formState.linkText}
+                        onChange={this._handleInputChange} />
                     </div>
+                    <div className="form-group">
+                      <CirclePicker
+                        color={formState.color}
+                        name="tagColor"
+                        circleSize={20}
+                        circleSpacing={10}
+                        onChangeComplete={(color) => {
+                          const event = {
+                            target: {
+                              name: 'color',
+                              value: color.hex
+                            }
+                          }
+
+                          this._handleInputChange(event)
+                        }}
+                        placeholder={formState.color} />
+                    </div>
+                    <button type="submit" className="btn btn-primary btn-sm" onClick={this._createView}>Create</button>
                   </div>
                 </div>
-                : ''}
-            </div>
+              </div>
+              : ''}
+          </div>
         </div>
         <div className="micro-text row text-center pt-3 pb-2">
           <div className="cursor-pointer text-dark col" onClick={() => this._updateSearchString(' active:true')}><b>Active</b></div>

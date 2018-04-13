@@ -54,7 +54,7 @@ const parse = (string, options) => {
   // }
 
   // When no keywords or ranges set, treat as a simple string
-  if (!options.keywords && !options.ranges){
+  if (!options.keywords && !options.ranges) {
     return string
   }
 
@@ -282,5 +282,6 @@ const parse = (string, options) => {
 
   // Return forged query object
   query.exclude = exclusion;
+  query.originalText = string
   return query
 }
