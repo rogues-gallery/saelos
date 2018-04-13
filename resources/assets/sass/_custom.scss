@@ -887,3 +887,12 @@ a:hover {
   left:-1000px;
   top: -1000px;
 }
+
+.select-search-tags {
+  position:absolute;
+  background:white;
+  z-index: 9;
+  top:64px;
+  border:1px solid #000;
+  padding: 10px;
+}

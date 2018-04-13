@@ -18,7 +18,8 @@ class AdvancedSearch extends React.Component {
         linkText: '',
         color: '',
         parentItem: props.parentItem
-      }
+      },
+      expandSearch: false
     }
 
     this.searchInputRef = null
@@ -26,8 +27,17 @@ class AdvancedSearch extends React.Component {
 
   _updateSearchString = (string) => {
     this.setState({
-      searchString: `${this.state.searchString}${string}`
+      searchString: `${this.state.searchString}${string}`,
+      expandSearch: false
     })
+
+    this._focusSearchInput()
+  }
+
+  _focusSearchInput = () => {
+    this.searchInputRef.focus()
+    this.searchInputRef.selectionStart = this.searchInputRef.value.length
+    this.searchInputRef.selectionEnd = this.searchInputRef.value.length
   }
 
   _handleOnChange = (e) => {
@@ -176,19 +186,53 @@ class AdvancedSearch extends React.Component {
   }
 
   render() {
-    const { searchString, addingView, formState } = this.state
-    const { views } = this.props
+    const { searchString, addingView, formState, expandSearch } = this.state
+    const { views, searchFields } = this.props
     const viewSearchStrings = views.map(v => v.searchString)
 
 
     return (
       <div className="position-relative px-3 pt-4 bg-white border-bottom">
+        <div className={`select-search-tags ${expandSearch ? '' : 'd-none'}`}>
+          <div className="search-relationships">
+            <h5>Relationships</h5>
+            {['assignee', 'status', 'stage', 'tag', 'opportunity', 'contact', 'company'].map((a, i) => {
+              return (
+                <span
+                  key={i}
+                  className="btn btn-sm btn-outline-secondary"
+                  onClick={() => {
+                    this._updateSearchString(`${a}:`)
+                  }}>
+                  {a}
+                </span>
+              )
+            })}
+          </div>
+          <hr />
+          <h5>Fields</h5>
+          <div className="search-fields">
+            {Object.keys(searchFields).map(a => {
+              const f = searchFields[a]
+
+              return !f.searchable ? '' : (
+                <span
+                  key={f.id}
+                  className="btn btn-sm btn-outline-secondary"
+                  onClick={() => {
+                    this._updateSearchString(`${f.alias}:`)
+                  }}>
+                  {f.alias}
+                </span>
+              )
+            })}
+          </div>
+        </div>
         <div id="advanced-search-container" className={searchString ? 'input-group' : ''}>
           <div className="input-container">
             <div className="advanced-search-tags" onClick={() => {
-              this.searchInputRef.focus()
-              this.searchInputRef.selectionStart = this.searchInputRef.value.length
-              this.searchInputRef.selectionEnd = this.searchInputRef.value.length
+              this.setState({expandSearch: true})
+              this._focusSearchInput()
               this.searchInputRef.value = this.searchInputRef.value + ' '
             }}>
               {this._buildHtmlFromSearchString(searchString)}
