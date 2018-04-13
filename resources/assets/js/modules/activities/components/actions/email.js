@@ -19,6 +19,10 @@ class EmailAction extends Component {
         email_content: '',
         opportunity_id: null,
         company_id: null
+      },
+      visibility: {
+        showCC: false,
+        showBCC: false
       }
     }
   }
@@ -55,6 +59,8 @@ class EmailAction extends Component {
         id: this.props.contact.id,
         email_subject: '',
         email_content: '',
+        email_cc: '',
+        email_bcc: '',
         opportunity_id: null,
         company_id: null
       }
@@ -63,9 +69,21 @@ class EmailAction extends Component {
     this.props.toggle()
   }
 
+  _toggleInput = (name) => {
+    const { showCC, showBCC } = this.state.visibility
+
+    this.setState({
+      visibility: {
+        showCC: name === 'showCC' ? !showCC : showCC,
+        showBCC: name === 'showBCC' ? !showBCC : showBCC,
+      }
+    })
+  }
+
   render() {
     const { model } = this.props
-    const { formState } = this.state
+    const { formState, visibility } = this.state
+    const { showCC, showBCC } = visibility
 
     let opportunityOptions = null
     let companyOptions = null
@@ -90,12 +108,25 @@ class EmailAction extends Component {
       <React.Fragment>
         <div className="card-body emailActionView">
           <div className="float-right">
-            <span className="mini-text text-muted font-weight-bold">CC | BCC</span>
+            <span className="mini-text font-weight-bold">
+              <span className={`${showCC ? '' : 'text-muted'}`} onClick={() => this._toggleInput('showCC')}>CC</span>
+               |
+              <span className={`${showBCC ? '' : 'text-muted'}`} onClick={() => this._toggleInput('showBCC')}>BCC</span>
+            </span>
           </div>
           <div className="form-group">
             <label htmlFor="email_subject">Subject</label>
             <input type="text" onChange={this._handleInputChange} value={formState.email_subject} name="email_subject" className="form-control" placeholder="Enter email subject" />
           </div>
+          <div className={`form-group ${showCC ? '' : 'd-none'}`}>
+            <label htmlFor="email_cc">CC</label>
+            <input type="text" onChange={this._handleInputChange} value={formState.email_cc} name="email_cc" className="form-control" placeholder="Enter CC" />
+          </div>
+          <div className={`form-group ${showBCC ? '' : 'd-none'}`}>
+            <label htmlFor="email_bcc">BCC</label>
+            <input type="text" onChange={this._handleInputChange} value={formState.email_bcc} name="email_bcc" className="form-control" placeholder="Enter BCC" />
+          </div>
+
           <div className="form-group">
             <ReactQuill name="email_content" onChange={this._handleContentChange} />
           </div>

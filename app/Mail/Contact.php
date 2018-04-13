@@ -14,17 +14,23 @@ class Contact extends Mailable
 
     private $emailContent;
     private $emailSubject;
+    private $emailCC;
+    private $emailBCC;
 
     /**
      * Contact constructor.
      *
      * @param string $content
      * @param string $subject
+     * @param string $cc
+     * @param string $bcc
      */
-    public function __construct(string $content, string $subject)
+    public function __construct(string $content, string $subject, string $cc, string $bcc)
     {
         $this->emailContent = $content;
         $this->emailSubject = $subject;
+        $this->emailCC = $cc;
+        $this->emailBCC = $bcc;
     }
 
     /**
@@ -44,6 +50,22 @@ class Contact extends Mailable
     }
 
     /**
+     * @return string
+     */
+    public function getEmailCC(): string
+    {
+        return $this->emailCC;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailBCC(): string
+    {
+        return $this->emailBCC;
+    }
+
+    /**
      * Build the message.
      *
      * @return $this
@@ -55,6 +77,8 @@ class Contact extends Mailable
         return $this->from($user->email, $user->name)
             ->view('emails.contact.default')
             ->subject($this->getEmailSubject())
+            ->cc($this->getEmailCC())
+            ->bcc($this->getEmailBCC())
             ->with([
                 'content' => nl2br($this->getEmailContent()),
             ]);
