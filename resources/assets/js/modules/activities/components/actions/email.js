@@ -126,7 +126,7 @@ class EmailAction extends Component {
 
           <div className="form-group">
           <label htmlFor="email_content">Message</label>
-            <ReactQuill name="email_content" onChange={this._handleContentChange} />
+            <ReactQuill name="email_content" className="fh-200" onChange={this._handleContentChange} />
           </div>
           <div className="row">
               {opportunityOptions ?
