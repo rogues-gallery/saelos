@@ -19,7 +19,8 @@ class AdvancedSearch extends React.Component {
         color: '',
         parentItem: props.parentItem
       },
-      expandSearch: false
+      expandSearch: false,
+      advancedSearchCursor: false
     }
 
     this.searchInputRef = null
@@ -35,6 +36,9 @@ class AdvancedSearch extends React.Component {
   }
 
   _focusSearchInput = () => {
+    this.setState({
+      advancedSearchCursor: true
+    })
     this.searchInputRef.focus()
     this.searchInputRef.selectionStart = this.searchInputRef.value.length
     this.searchInputRef.selectionEnd = this.searchInputRef.value.length
@@ -186,7 +190,7 @@ class AdvancedSearch extends React.Component {
   }
 
   render() {
-    const { searchString, addingView, formState, expandSearch } = this.state
+    const { searchString, addingView, formState, expandSearch, advancedSearchCursor } = this.state
     const { views, searchFields } = this.props
     const viewSearchStrings = views.map(v => v.searchString)
 
@@ -236,6 +240,7 @@ class AdvancedSearch extends React.Component {
               this.searchInputRef.value = this.searchInputRef.value + ' '
             }}>
               {this._buildHtmlFromSearchString(searchString)}
+              {advancedSearchCursor ? <span className="blink">|</span> : ''}
             </div>
             <input
               ref={searchInput => { this.searchInputRef = searchInput }}
@@ -244,6 +249,8 @@ class AdvancedSearch extends React.Component {
               id="search-input"
               placeholder="Search..."
               dir="auto"
+              autocomplete="false"
+              onBlur={() => this.setState({advancedSearchCursor: false, expandSearch: false})}
               onKeyPress={this._onKeyPress}
               onChange={this._handleOnChange}
               value={searchString}

@@ -896,3 +896,17 @@ a:hover {
   border:1px solid #000;
   padding: 10px;
 }
+
+.blink {
+  animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+  from, to {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
