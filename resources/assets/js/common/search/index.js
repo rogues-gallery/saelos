@@ -250,7 +250,6 @@ class AdvancedSearch extends React.Component {
               placeholder="Search..."
               dir="auto"
               autocomplete="false"
-              onBlur={() => this.setState({advancedSearchCursor: false, expandSearch: false})}
               onKeyPress={this._onKeyPress}
               onChange={this._handleOnChange}
               value={searchString}
