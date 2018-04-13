@@ -107,27 +107,25 @@ class EmailAction extends Component {
     return (
       <React.Fragment>
         <div className="card-body emailActionView">
-          <div className="float-right">
-            <span className="mini-text font-weight-bold">
-              <span className={`${showCC ? '' : 'text-muted'}`} onClick={() => this._toggleInput('showCC')}>CC</span>
-               |
-              <span className={`${showBCC ? '' : 'text-muted'}`} onClick={() => this._toggleInput('showBCC')}>BCC</span>
-            </span>
-          </div>
+            <div className="float-right mb-2">
+              <span className="mini-text font-weight-bold">
+                <a href="javascript:void(0)" className="btn btn-sm btn-link" onClick={() => this._toggleInput('showCC')}>CC</a>
+                <a href="javascript:void(0)" className="btn btn-sm btn-link" onClick={() => this._toggleInput('showBCC')}>BCC</a>
+              </span>
+            </div>
+            <div className={`float-right mb-2 ml-2 ${showBCC ? '' : 'd-none'}`}>
+              <input type="text" onChange={this._handleInputChange} value={formState.email_bcc} name="email_bcc" className="form-control form-control-sm" placeholder="Enter BCC" />
+            </div>
+            <div className={`float-right mb-2 ${showCC ? '' : 'd-none'}`}>
+              <input type="text" onChange={this._handleInputChange} value={formState.email_cc} name="email_cc" className="form-control form-control-sm" placeholder="Enter CC" />
+            </div>
           <div className="form-group">
             <label htmlFor="email_subject">Subject</label>
             <input type="text" onChange={this._handleInputChange} value={formState.email_subject} name="email_subject" className="form-control" placeholder="Enter email subject" />
           </div>
-          <div className={`form-group ${showCC ? '' : 'd-none'}`}>
-            <label htmlFor="email_cc">CC</label>
-            <input type="text" onChange={this._handleInputChange} value={formState.email_cc} name="email_cc" className="form-control" placeholder="Enter CC" />
-          </div>
-          <div className={`form-group ${showBCC ? '' : 'd-none'}`}>
-            <label htmlFor="email_bcc">BCC</label>
-            <input type="text" onChange={this._handleInputChange} value={formState.email_bcc} name="email_bcc" className="form-control" placeholder="Enter BCC" />
-          </div>
 
           <div className="form-group">
+          <label htmlFor="email_content">Message</label>
             <ReactQuill name="email_content" onChange={this._handleContentChange} />
           </div>
           <div className="row">
@@ -171,7 +169,7 @@ class EmailAction extends Component {
                 </div>
                 : ''}
           </div>
-          <div className="mt-3">
+          <div className="mt-2">
             <button className="btn btn-primary mr-2" onClick={this._submit}>Send</button>
             <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
           </div>

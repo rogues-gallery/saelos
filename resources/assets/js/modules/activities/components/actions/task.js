@@ -195,7 +195,7 @@ class TaskAction extends Component {
               </div>
               : ''}
           </div>
-          <div className="mt-3">
+          <div className="mt-2">
             <button className="btn btn-primary mr-2" onClick={this._submit}>Send</button>
             <button className="btn btn-link text-muted" onClick={this._cancel}>Cancel</button>
           </div>
