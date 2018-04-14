@@ -19,8 +19,10 @@ class ActivityController extends Controller
         'user',
         'company',
         'opportunity',
+        'opportunity.stage',
         'contact',
         'contact.companies',
+        'contact.status',
         'tags'
     ];
 
@@ -29,8 +31,10 @@ class ActivityController extends Controller
         'user',
         'company',
         'opportunity',
+        'opportunity.stage',
         'contact',
         'contact.companies',
+        'contact.status',
         'tags'
     ];
 

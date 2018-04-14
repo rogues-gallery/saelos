@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Select from 'react-select'
 import { getActivity } from '../../../../activities/store/selectors'
 import { getStatuses } from '../../../../statuses/store/selectors'
 import { getStages } from '../../../../stages/store/selectors'
@@ -9,17 +10,59 @@ import ActionView from '../../../../activities/components/ActionView'
 import { Link } from "react-router-dom"
 import { Money } from 'react-format'
 import * as MDIcons from 'react-icons/lib/md'
-import {deleteActivity, saveActivity} from '../../../../activities/service'
+import {deleteActivity, fetchActivity, saveActivity} from '../../../../activities/service'
 import TagsPartial from '../../../../tags/partials/tags'
 import _ from 'lodash'
+import { saveContact } from '../../../../contacts/service'
+import { saveOpportunity } from '../../../../opportunities/service'
+import { fetchStages } from '../../../../stages/service'
+import { fetchStatuses } from '../../../../statuses/service'
 
 class Record extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      formState: props.activity.originalProps
+      formState: props.activity.originalProps,
+      contact: {
+        id: props.activity.contact ? props.activity.contact.id : null,
+        status_id: props.activity.contact ? props.activity.contact.status.id : null
+      },
+      opportunity: {
+        id: props.activity.opportunity ? props.activity.opportunity.id : null,
+        stage_id: props.activity.opportunity ? props.activity.opportunity.stage.id : null
+      }
     }
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchStatuses())
+    this.props.dispatch(fetchStages())
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({
+      formState: nextProps.activity.originalProps,
+      contact: {
+        id: nextProps.activity.contact ? nextProps.activity.contact.id : null,
+        status_id: nextProps.activity.contact ? nextProps.activity.contact.status.id : null
+      },
+      opportunity: {
+        id: nextProps.activity.opportunity ? nextProps.activity.opportunity.id : null,
+        stage_id: nextProps.activity.opportunity ? nextProps.activity.opportunity.stage.id : null
+      }
+    })
+  }
+
+  _handleInputChange = (event) => {
+    const { name, value } = event.target
+    const state = this.state
+
+    _.set(state, name, value)
+
+    this.setState({
+      state
+    })
   }
 
   _complete = () => {
@@ -30,15 +73,28 @@ class Record extends React.Component {
     this._submit(formState)
   }
 
-
-  _toggleEdit = () => {
-    this.props.dispatch(editingCompany())
-  }
-
   _submit = (state) => {
     const submitData = state.id ? state : this.state.formState
 
     this.props.dispatch(saveActivity(submitData))
+  }
+
+  _submitStatusChange = () => {
+    const { dispatch, activity } = this.props
+
+    dispatch(saveContact(this.state.contact))
+      .then(() => {
+        dispatch(fetchActivity(activity.id))
+      })
+  }
+
+  _submitStageChange = () => {
+    const { dispatch, activity } = this.props
+
+    dispatch(saveOpportunity(this.state.opportunity))
+      .then(() => {
+        dispatch(fetchActivity(activity.id))
+      })
   }
 
   _delete = () => {
@@ -46,7 +102,8 @@ class Record extends React.Component {
   }
 
   render() {
-    const { inEdit, activity, statuses, stages } = this.props
+    const { activity, statuses, stages } = this.props
+    const { formState, contact, opportunity } = this.state
     const actionView = activity.details_type === 'App\\CallActivity' ? 'call' : 'email'
 
     if (activity.id === null && this.props.match.params.id !== 'new') {
@@ -69,17 +126,6 @@ class Record extends React.Component {
           </div>
 
         </div>
-
-        {inEdit ?
-          <span className="float-right py-3 mt-1">
-            <a href="javascript:void(0);" onClick={this._toggleEdit}>Cancel</a>
-            <span className="ml-2 btn btn-primary btn-sm" onClick={this._submit}>Save</span>
-          </span>
-          :
-          <span className="float-right py-3 mt-1">
-            <a href="javascript:void(0);" onClick={this._toggleEdit}>Edit</a>
-          </span>
-        }
         <h4 className="border-bottom py-3">
           {activity.name}
           <TagsPartial tags={activity.tags} entityId={activity.id} entityType="App\Activity" />
@@ -106,11 +152,21 @@ class Record extends React.Component {
                         </div>
                         <div className="col-4">
                           <label htmlFor="contact-status">Status</label>
-                          <select className="form-control" name="contactStatus" defaultValue={activity.contact.status.id}>
-                            {statuses.map(status => (
-                              <option key={`contact-${status.id}-${activity.id}`} value={status.id}>{status.name}</option>
-                            ))}
-                          </select>
+                          <Select
+                            value={contact.status_id}
+                            options={statuses.map(s => ({value: s.id, label: s.name}))}
+                            onChange={selection => {
+                              const event = {
+                                target: {
+                                  name: 'contact.status_id',
+                                  value: selection ? selection.value : null
+                                }
+                              }
+
+                              this._handleInputChange(event)
+                              this._submitStatusChange()
+                            }}
+                            />
                         </div>
                       </div>
                     </li>
@@ -150,11 +206,21 @@ class Record extends React.Component {
                       </div>
                       <div className="col-4">
                         <label htmlFor="opportunity-stage">Stage</label>
-                        <select className="form-control" name="contactStatus" defaultValue={activity.opportunity.stage.id}>
-                          {stages.map(stage => (
-                            <option key={`opportunity-${stage.id}-${activity.id}`} value={stage.id}>{stage.name}</option>
-                          ))}
-                        </select>
+                        <Select
+                          value={opportunity.stage_id}
+                          options={stages.map(s => ({value: s.id, label: s.name}))}
+                          onChange={selection => {
+                            const event = {
+                              target: {
+                                name: 'opportunity.stage_id',
+                                value: selection ? selection.value : null
+                              }
+                            }
+
+                            this._handleInputChange(event)
+                            this._submitStageChange()
+                          }}
+                        />
                       </div>
                     </div>
                   </li>
@@ -177,6 +243,5 @@ Record.propTypes = {
 export default withRouter(connect((state, ownProps) => ({
   activity: getActivity(state, ownProps.match.params.id || {}),
   statuses: getStatuses(state),
-  stages: getStages(state),
-  // inEdit: isInEdit(state)
+  stages: getStages(state)
 }))(Record))
