@@ -15,11 +15,19 @@ trait SearchableTrait
             ->where('searchable', true)
             ->get();
 
-		$builder->where('published', 1);
-
 		if (!empty($searchArray['offsets'])) {
             $builder->where(function(Builder $q) use ($searchArray, $searchableFields) {
                 foreach ($searchArray['offsets'] as $criteria) {
+                    if ($criteria['keyword'] === 'active' && $criteria['value'] === 'false') {
+                        $q->where('published', 0);
+                    } else {
+                        $q->where('published', 1);
+                    }
+
+                    if (empty($criteria['value'])) {
+                        continue;
+                    }
+
                     $field = $searchableFields->where('alias', $criteria['keyword'])->first();
 
                     if ($criteria['exact']) {

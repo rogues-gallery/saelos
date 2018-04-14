@@ -20,7 +20,8 @@ class AdvancedSearch extends React.Component {
         parentItem: props.parentItem
       },
       expandSearch: false,
-      searchDivScrollLeft: 0
+      searchDivScrollLeft: 0,
+      activeOnly: "true"
     }
 
     this.searchInputRef = null
@@ -31,9 +32,24 @@ class AdvancedSearch extends React.Component {
     const { searchString } = this.state
     const lastChar = searchString.substring(searchString.length - 1);
     const trimmed = lastChar === '+' ? searchString.substring(0, searchString.length - 1) : searchString
+    let newSearchString = `${trimmed}${string}`
+
+    if (string.trim() === 'active:false' || string.trim() === 'active:true') {
+      const parsed = parseSearchString(trimmed)
+      const active = parseSearchString(string)
+      const activeIndex = _.findIndex(parsed.offsets, o => o.keyword === 'active')
+
+      if (activeIndex >= 0) {
+        parsed.offsets[activeIndex].value = active.offsets[0].value
+
+        newSearchString = parsedToString(parsed)
+      }
+
+      this._submit({value: newSearchString})
+    }
 
     this.setState({
-      searchString: `${trimmed}${string}`,
+      searchString: newSearchString,
       expandSearch: false
     })
 
@@ -103,6 +119,12 @@ class AdvancedSearch extends React.Component {
     const { originalText, offsets, exclude } = parseSearchString(value, searchFields)
 
     return typeof offsets === 'undefined' ? value : offsets.map((v, k) => {
+      if (v.keyword === 'active' && this.state.activeOnly !== v.value) {
+        this.setState({
+          activeOnly: v.value
+        })
+      }
+
       const field = searchFields[v.keyword]
       const excluded = exclude.hasOwnProperty(v.keyword)
       const isField = typeof field !== 'undefined'
@@ -177,7 +199,7 @@ class AdvancedSearch extends React.Component {
   }
 
   render() {
-    const { searchString, addingView, formState, expandSearch } = this.state
+    const { searchString, addingView, formState, expandSearch, activeOnly } = this.state
     const { views, searchFields } = this.props
     const viewSearchStrings = views.map(v => v.searchString)
 
@@ -292,8 +314,8 @@ class AdvancedSearch extends React.Component {
           </div>
         </div>
         <div className="micro-text row text-center pt-3 pb-2">
-          <div className="cursor-pointer text-dark col" onClick={() => this._updateSearchString(' active:true')}><b>Active</b></div>
-          <div className="cursor-pointer text-muted col" onClick={() => this._updateSearchString(' active:false')}><b>All</b></div>
+          <div className={`cursor-pointer text-${activeOnly === "true" ? 'dark' : 'muted'} col`} onClick={() => this._updateSearchString(' active:true')}><b>Active</b></div>
+          <div className={`cursor-pointer text-${activeOnly === "true" ? 'muted' : 'dark'} col`} onClick={() => this._updateSearchString(' active:false')}><b>Inactive</b></div>
         </div>
       </div>
     )

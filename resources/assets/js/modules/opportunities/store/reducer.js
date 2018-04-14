@@ -44,13 +44,6 @@ export default function opportunityReducer(state = initialState, action) {
       let { data, meta } = action.data
       let newOpportunitiesForState
 
-      if (data.length === 0) {
-        return {
-          ...state,
-          isFetching: false
-        }
-      }
-
       // When fetching the first page, always replace the opps in the app state
       if (meta.current_page === 1) {
         newOpportunitiesForState = data
