@@ -66,6 +66,11 @@ class List extends React.Component {
               <p className="text-muted">{contact.status.name}</p>
             </div>
           ))}
+          {contacts.length === 0 ?
+            <div className="col main-panel px-3 align-self-center">
+              <h2 className="text-muted text-center">No results for this search.</h2>
+            </div>
+            : ''}
         </div>
       </div>
     )
