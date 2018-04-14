@@ -10,7 +10,7 @@ import Transformer from '../../utils/Transformer'
 export const fetchUser = () => (dispatch) => {
   return Http.get('auth/user')
     .then(res => {
-      dispatch(authActions.authUser(res.data))
+      dispatch(authActions.authUser(res.data.data))
     })
     .catch(err => {
       console.log(err)

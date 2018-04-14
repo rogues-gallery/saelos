@@ -23,6 +23,8 @@ class User extends Model {
     this.custom_fields = props.custom_fields || []
     this.settings = props.settings || {}
     this.team = props.team && new Team(props.team) || new Team({})
+    this.total_contacts = props.total_contacts || 0
+    this.total_contacts_last_week = props.total_contacts_last_week || 0
 
     this.views = _.get(props.settings, 'views')
   }

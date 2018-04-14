@@ -20,6 +20,7 @@ import { fetchContacts } from '../../../../contacts/service'
 import { fetchContactCount } from '../../../../contacts/service'
 import { fetchQuotaCount } from '../../../../users/service'
 import { getCustomFieldValue } from '../../../../../utils/helpers'
+import { fetchUser } from '../../../../auth/service'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class Detail extends React.Component {
   }
 
   componentWillMount() {
+    this.props.dispatch(fetchUser())
     this.props.dispatch(fetchStatuses())
   }
 
@@ -151,12 +153,16 @@ const VectorChart = ({data, options, type}) => {
 }
 
 const Pipeline = ({contacts, dispatch, toggle, user, statuses, router, count }) => {
+  const contact_percent_difference = ((user.total_contacts - user.total_contacts_last_week)/user.total_contacts_last_week) * 100
+  const percent = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 2 }).format(contact_percent_difference)
+
   const data = {
     labels: Object.keys(count).map(k => _.find(statuses, s => s.id === parseInt(k)).name),
     series: [
       Object.keys(count).map(k => count[k])
     ]
   }
+
   const options = {
     low: 0,
     fullWidth: true,
@@ -194,10 +200,14 @@ const Pipeline = ({contacts, dispatch, toggle, user, statuses, router, count }) 
 
           <div className="card-body border-bottom">
             <div className="pipelineGraph">
-              <div className="h1 text-center">283</div>
+              <div className="h1 text-center">{user.total_contacts}</div>
               <div className="text-center mini-text text-muted text-uppercase pb-2">
-                <span className="text-danger h5"><MDIcons.MdArrowDropDown /></span>
-                <span className="text-dark">3% decrease</span> since last week
+                {user.total_contacts > user.total_contacts_last_week
+                  ? <span className="text-success h5"><MDIcons.MdArrowDropUp /></span>
+                  : <span className="text-danger h5"><MDIcons.MdArrowDropDown /></span>
+                }
+
+                <span className="text-dark">{percent}% change</span> since last week
               </div>
               <ChartistGraph data={data} options={options} type="Bar" className="graph" />
             </div>
