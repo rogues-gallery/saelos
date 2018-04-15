@@ -18,7 +18,8 @@ class Responses extends React.Component {
 
         <div id="collapseResponses" className="collapse mh-200" aria-labelledby="headingResponses">
           <div className="card-body border-bottom">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+            <span className="text-muted pb-2"><b>Feature Coming Soon</b></span>
+            <p className="text-muted">Your responses in this quarter is significantly under your quota levels. There are <b>23 contacts</b> assigned to you who have not responded.</p>
           </div>
         </div>
       </div>

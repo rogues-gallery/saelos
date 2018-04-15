@@ -18,7 +18,8 @@ class Calls extends React.Component {
 
         <div id="collapseCalls" className="collapse mh-200" aria-labelledby="headingCalls">
           <div className="card-body border-bottom">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+            <span className="text-muted pb-2"><b>Feature Coming Soon</b></span>
+            <p className="text-muted">Your call volume in this quarter is significantly under your quota levels. There are <b>23 contacts</b> assigned to you who prefer phone calls or have a status that may be ready to be updated.</p>
           </div>
         </div>
       </div>
