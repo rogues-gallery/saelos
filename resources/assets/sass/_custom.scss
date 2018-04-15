@@ -875,27 +875,6 @@ a:hover {
 
 }
 
-#advanced-search-container {
-  max-width:100%;
-  white-space: nowrap;
-
-  .input-container {
-    position:relative;
-
-    #search-input {
-      position:absolute;
-      background: transparent;
-      top:0;
-      left:0;
-      border: 0;
-    }
-  }
-
-  input {
-    border:none;
-    -webkit-appearance: none;
-  }
-}
 
 .advanced-search-tags {
   overflow:scroll;

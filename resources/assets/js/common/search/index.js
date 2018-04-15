@@ -42,6 +42,10 @@ class AdvancedSearch extends React.Component {
       if (activeIndex >= 0) {
         parsed.offsets[activeIndex].value = active.offsets[0].value
 
+        this.setState({
+          activeOnly: active.offsets[0].value
+        })
+
         newSearchString = parsedToString(parsed)
       }
 
@@ -241,23 +245,18 @@ class AdvancedSearch extends React.Component {
           </div>
         </div>
         <div id="advanced-search-container" className={searchString ? 'input-group' : ''}>
-          <div className="input-container form-control">
-            <div className="advanced-search-tags" id="search-div" ref={divInput => { this.searchDivRef = divInput }}>
-              {this._buildHtmlFromSearchString(searchString)}
-            </div>
-            <input
-              ref={searchInput => { this.searchInputRef = searchInput }}
-              type="search"
-              className="form-control"
-              autoComplete="off"
-              id="search-input"
-              placeholder="Search..."
-              dir="auto"
-              onKeyPress={this._onKeyPress}
-              onChange={this._handleOnChange}
-              value={searchString}
-            />
-          </div>
+          <input
+            ref={searchInput => { this.searchInputRef = searchInput }}
+            type="search"
+            className="form-control"
+            autoComplete="off"
+            id="search-input"
+            placeholder="Search..."
+            dir="auto"
+            onKeyPress={this._onKeyPress}
+            onChange={this._handleOnChange}
+            value={searchString}
+          />
           <div className="input-group-append">
             {searchString ?
               <button className="btn btn-outline border">
