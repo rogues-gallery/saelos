@@ -195,7 +195,10 @@ a:hover {
     .card-header {
       border-top: 0;
       h6 {
-        cursor: pointer; 
+        cursor: pointer;
+      }
+      h6.collapsed > svg {
+        transform: rotate(270deg);
       }
     }
 
