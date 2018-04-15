@@ -67,8 +67,8 @@ class List extends React.Component {
             </div>
           ))}
           {companies.length === 0 ?
-            <div className="col main-panel px-3 align-self-center">
-              <h2 className="text-muted text-center">No results for this search.</h2>
+            <div className="d-flex align-items-center h-100 text-center">
+              <h5 className="text-muted w-100">No results for this search.</h5>
             </div>
             : ''}
         </div>
