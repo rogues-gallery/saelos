@@ -12,7 +12,7 @@ const TaskContainer = ({open, actionView, model, dispatch}) => (
     <ErrorBoundary>
       <div className="card-header bg-dark-grey py-3">
         <h5 className="m-0 text-light">
-          {actionView === 'task' || actionView === 'create' ? 'Create Task' : `${actionView} ${model.name}`}
+          {actionView === 'task' || actionView === 'create' || typeof model === 'undefined' ? 'Create Task' : `${actionView} ${model.name}`}
           <button type="button" className="close" aria-label="Close" onClick={() => dispatch(closeTaskContainer())}>
             <span aria-hidden="true" className="text-light">×</span>
           </button>

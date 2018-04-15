@@ -64,5 +64,11 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
-    }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/dongilbert/LaravelInstaller.git"
+        }
+    ],
 }
