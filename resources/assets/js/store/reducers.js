@@ -5,7 +5,6 @@ import usersReducer from '../modules/users/store/reducer'
 import companyReducer from '../modules/companies/store/reducer'
 import opportunityReducer from '../modules/opportunities/store/reducer'
 import analyticsReducer from '../modules/analytics/store/reducer'
-import workflowReducer from '../modules/workflows/store/reducer'
 import teamReducer from '../modules/teams/store/reducer'
 import stageReducer from '../modules/stages/store/reducer'
 import statusReducer from '../modules/statuses/store/reducer'
@@ -21,7 +20,6 @@ export default combineReducers({
   companyState: companyReducer,
   opportunityState: opportunityReducer,
   analyticsState: analyticsReducer,
-  workflowState: workflowReducer,
   teamState: teamReducer,
   stageState: stageReducer,
   statusState: statusReducer,

@@ -87,9 +87,6 @@ Route::group([
         Route::resource('fields', 'FieldController')
             ->middleware('scope:admin,manager');
 
-        Route::resource('workflows', 'WorkflowController')
-            ->middleware('scope:admin,manager');
-
         Route::resource('roles', 'RoleController')
             ->middleware('scope:admin,manager');
     });

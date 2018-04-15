@@ -5,13 +5,11 @@ namespace App;
 use App\Contracts\HasActivitiesInterface;
 use App\Contracts\HasCustomFieldsInterface;
 use App\Contracts\HasTagsInterface;
-use App\Contracts\HasWorkflowsInterface;
 use App\Contracts\SearchableInterface;
 use App\ModelTraits\HasActivitiesTrait;
 use App\ModelTraits\HasCustomFieldsTrait;
 use App\ModelTraits\HasNotesTrait;
 use App\ModelTraits\HasTagsTrait;
-use App\ModelTraits\HasWorkflowsTrait;
 use App\ModelTraits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,13 +27,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\User                                                        $user
  * @mixin \Eloquent
  */
-class Company extends Model implements HasWorkflowsInterface, HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasTagsInterface
+class Company extends Model implements HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasTagsInterface
 {
     use SoftDeletes;
     use HasActivitiesTrait;
     use HasCustomFieldsTrait;
     use HasNotesTrait;
-    use HasWorkflowsTrait;
     use HasTagsTrait;
     use SearchableTrait;
 

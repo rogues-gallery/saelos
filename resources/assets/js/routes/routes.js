@@ -3,7 +3,6 @@ import authRoutes from '../modules/auth/routes'
 import companyRoutes from '../modules/companies/routes'
 import opportunityRoutes from '../modules/opportunities/routes'
 import analyticsRoutes from '../modules/analytics/routes'
-import workflowRoutes from '../modules/workflows/routes'
 import teamRoutes from '../modules/teams/routes'
 import hqRoutes from '../modules/headquarters/routes'
 
@@ -29,5 +28,4 @@ export default [
   ...statusRoutes,
   ...teamRoutes,
   ...usersRoutes,
-  ...workflowRoutes,
 ];

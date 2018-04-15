@@ -5,8 +5,6 @@ namespace App\Providers;
 use App\Company;
 use App\CustomFieldValue;
 use App\Opportunity;
-use App\Observers\ApplyWorkflowObserver;
-use App\Observers\CustomFieldWorkflowObserver;
 use App\Observers\ModelUpdateObserver;
 use App\Contact;
 use Carbon\Carbon;
@@ -25,16 +23,12 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setWeekStartsAt(Carbon::SUNDAY);
         Carbon::setWeekEndsAt(Carbon::SATURDAY);
 
-        Contact::observe(ApplyWorkflowObserver::class);
         Contact::observe(ModelUpdateObserver::class);
 
-        Opportunity::observe(ApplyWorkflowObserver::class);
         Opportunity::observe(ModelUpdateObserver::class);
 
-        Company::observe(ApplyWorkflowObserver::class);
         Company::observe(ModelUpdateObserver::class);
 
-        CustomFieldValue::observe(CustomFieldWorkflowObserver::class);
         CustomFieldValue::observe(ModelUpdateObserver::class);
 
         // Register passport commands so they can be ran via web
