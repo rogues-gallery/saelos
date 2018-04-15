@@ -2598,12 +2598,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RachidLaasri/LaravelInstaller.git",
-                "reference": "7a84c233af9cbc779a21467d46b8663dc11cc6f1"
+                "reference": "68c0ab38d63561558ee7fc478ae8451f741413fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RachidLaasri/LaravelInstaller/zipball/7a84c233af9cbc779a21467d46b8663dc11cc6f1",
-                "reference": "7a84c233af9cbc779a21467d46b8663dc11cc6f1",
+                "url": "https://api.github.com/repos/RachidLaasri/LaravelInstaller/zipball/68c0ab38d63561558ee7fc478ae8451f741413fb",
+                "reference": "68c0ab38d63561558ee7fc478ae8451f741413fb",
                 "shasum": ""
             },
             "require": {
@@ -2640,7 +2640,7 @@
                 }
             ],
             "description": "Laravel web installer",
-            "time": "2018-04-15T18:13:13+00:00"
+            "time": "2018-04-15T18:58:43+00:00"
         },
         {
             "name": "ramsey/uuid",
