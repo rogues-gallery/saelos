@@ -19,7 +19,7 @@ class CreateEmailActivitiesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->text('content');
-            $table->json('details');
+            $table->longText('details');
         });
     }
 

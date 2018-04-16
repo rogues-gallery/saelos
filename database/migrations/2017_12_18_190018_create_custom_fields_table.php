@@ -26,7 +26,7 @@ class CreateCustomFieldsTable extends Migration
             $table->enum('type', ['text', 'textarea', 'radio', 'checkbox', 'select', 'lookup', 'picklist', 'number', 'date', 'email', 'url', 'entity']);
             $table->string('entity_class')->nullable();
             $table->string('default')->nullable();
-            $table->json('values')->nullable();
+            $table->longText('values')->nullable();
             $table->boolean('required')->default(0);
             $table->boolean('protected')->default(0);
             $table->boolean('hidden')->default(0);
