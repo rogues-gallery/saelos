@@ -210,7 +210,7 @@
                 <input type="hidden" name="session_driver" value="file" />
                 <input type="hidden" name="queue_driver" value="null" />
                 <input type="hidden" name="redis_hostname" value="null" />
-                <input type="hidden" name="redis_pasword" value="null" />
+                <input type="hidden" name="redis_password" value="null" />
                 <input type="hidden" name="redis_port" value="6379" />
                 <input type="hidden" name="pusher_app_id" value="" />
                 <input type="hidden" name="pusher_app_key" value="" />
