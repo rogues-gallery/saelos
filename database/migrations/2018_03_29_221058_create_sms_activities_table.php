@@ -21,7 +21,7 @@ class CreateSmsActivitiesTable extends Migration
             $table->dateTime('start_date');
             $table->text('message');
             $table->uuid('uuid');
-            $table->json('details');
+            $table->longText('details');
         });
     }
 

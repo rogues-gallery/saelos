@@ -189,7 +189,12 @@ class ContactController extends Controller
     public function email(Request $request, int $id)
     {
         $contact = Contact::findOrFail($id);
-        $email = new ContactMail($request->get('email_content'), $request->get('email_subject'));
+        $email = new ContactMail(
+            $request->get('email_content'),
+            $request->get('email_subject'),
+            $request->get('email_cc'),
+            $request->get('email_bcc')
+        );
 
         Mail::to($contact->email)
             ->send($email);
