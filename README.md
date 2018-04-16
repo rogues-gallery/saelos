@@ -4,8 +4,8 @@ Saelos
 ### Requirements
 
 - PHP 7.1+
-- MySQL
-
+- MySQL 5.7.8+ or MariaDB 10.2.7+ (due JSON Datatype support)
+ 
 ### Installation
 
 - Download the latest release from the releases tab.
