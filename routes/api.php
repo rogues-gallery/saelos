@@ -63,31 +63,17 @@ Route::group([
         Route::resource('contacts', 'ContactController');
         Route::resource('opportunities', 'OpportunityController');
         Route::resource('companies', 'CompanyController');
-
-        Route::resource('stages', 'StageController')
-            ->middleware('scope:admin,manager');
-
-        Route::resource('tags', 'TagController')
-            ->middleware('scope:admin,manager');
-
-        Route::resource('statuses', 'StatusController')
-            ->middleware('scope:admin,manager');
-
-        Route::resource('teams', 'TeamController')
-            ->middleware('scope:admin,manager');
-
+        Route::resource('stages', 'StageController');
+        Route::resource('tags', 'TagController');
+        Route::resource('statuses', 'StatusController');
         Route::resource('activities', 'ActivityController');
+        Route::resource('fields', 'FieldController');
 
-        Route::resource('users', 'UserController')
-            ->middleware('scope:admin,manager');
-
-        Route::resource('reports', 'ReportController')
-            ->middleware('scope:admin,manager');
-
-        Route::resource('fields', 'FieldController')
-            ->middleware('scope:admin,manager');
-
-        Route::resource('roles', 'RoleController')
-            ->middleware('scope:admin,manager');
+        Route::group(['middleware' => 'scope:admin,manager'], function () {
+            Route::resource('teams', 'TeamController');
+            Route::resource('users', 'UserController');
+            Route::resource('reports', 'ReportController');
+            Route::resource('roles', 'RoleController');
+        });
     });
 });
