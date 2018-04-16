@@ -14,6 +14,8 @@ class CreateTagsTable extends Migration
     public function up()
     {
         Schema::create('tags', function (Blueprint $table) {
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
             $table->increments('id');
             $table->timestamps();
             $table->softDeletes();
@@ -22,6 +24,8 @@ class CreateTagsTable extends Migration
         });
 
         Schema::create('tag_xref', function (Blueprint $table) {
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
             $table->increments('id');
             $table->morphs('entity');
             $table->integer('tag_id')->unsigned()->index();

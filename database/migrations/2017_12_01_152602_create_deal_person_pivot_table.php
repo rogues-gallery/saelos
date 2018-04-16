@@ -14,6 +14,8 @@ class CreateDealPersonPivotTable extends Migration
     public function up()
     {
         Schema::create('opportunity_contact', function (Blueprint $table) {
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
             $table->integer('opportunity_id')->unsigned()->index();
             $table->foreign('opportunity_id')->references('id')->on('opportunities')->onDelete('cascade');
             $table->integer('contact_id')->unsigned()->index();
