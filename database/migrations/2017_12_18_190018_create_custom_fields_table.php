@@ -14,6 +14,8 @@ class CreateCustomFieldsTable extends Migration
     public function up()
     {
         Schema::create('fields', function (Blueprint $table) {
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
             $table->increments('id');
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +36,8 @@ class CreateCustomFieldsTable extends Migration
         });
 
         Schema::create('custom_field_values', function (Blueprint $table) {
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
             $table->increments('id');
             $table->timestamps();
             $table->morphs('model');
