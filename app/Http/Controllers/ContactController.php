@@ -192,8 +192,8 @@ class ContactController extends Controller
         $email = new ContactMail(
             $request->get('email_content'),
             $request->get('email_subject'),
-            $request->get('email_cc'),
-            $request->get('email_bcc')
+            $request->get('email_cc', ''),
+            $request->get('email_bcc', '')
         );
 
         Mail::to($contact->email)

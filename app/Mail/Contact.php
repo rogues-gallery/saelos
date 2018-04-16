@@ -74,11 +74,19 @@ class Contact extends Mailable
     {
         $user = Auth::user();
 
-        return $this->from($user->email, $user->name)
+        $email = $this->from($user->email, $user->name)
             ->view('emails.contact.default')
-            ->subject($this->getEmailSubject())
-            ->cc($this->getEmailCC())
-            ->bcc($this->getEmailBCC())
+            ->subject($this->getEmailSubject());
+
+        if ($this->getEmailCC()) {
+            $email->cc($this->getEmailCC());
+        }
+
+        if ($this->getEmailBCC()) {
+            $email->bcc($this->getEmailBCC());
+        }
+
+        return $email
             ->with([
                 'content' => nl2br($this->getEmailContent()),
             ]);
