@@ -22,3 +22,4 @@ yarn-error.log
 /public/css/app.css
 /public/css/app.css.map
 /public/uploads/*
+/build
