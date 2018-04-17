@@ -33,7 +33,7 @@ const Form = ({ email, password, remember, errors, handleChange, handleSubmit })
       <label className="custom-control custom-checkbox">
         <input type="checkbox"
                name="remember"
-               className="custom-control-input"
+               className="form-check-input"
                onChange={e => handleChange(e.target.name, !remember)}/>
         <span className="custom-control-indicator" />
         <span className="custom-control-description small">Remember me on this computer</span>
