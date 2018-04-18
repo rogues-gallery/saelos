@@ -160,7 +160,7 @@ export const getOpportunity = (state, id) => {
   let opportunity = _.find(getOpportunities(state), (o) => o.id === parseInt(id));
 
   if (typeof opportunity === 'undefined') {
-    return new Opportunity({})
+    return new Opportunity({custom_fields:[]})
   }
 
   return opportunity
