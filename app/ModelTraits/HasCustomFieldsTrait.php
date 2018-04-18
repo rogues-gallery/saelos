@@ -33,11 +33,14 @@ trait HasCustomFieldsTrait
             $customFieldValue->field()->associate($customField);
         }
 
-        $customFieldValue->custom_field_alias = $alias;
-        $customFieldValue->value = $value;
-        $customFieldValue->model()->associate($this);
-
-        $customFieldValue->save();
+        if ($customFieldValue->id && empty($value)) {
+            $customFieldValue->delete();
+        } else {
+            $customFieldValue->custom_field_alias = $alias;
+            $customFieldValue->value = $value;
+            $customFieldValue->model()->associate($this);
+            $customFieldValue->save();
+        }
     }
 
     public function assignCustomFields($value)
