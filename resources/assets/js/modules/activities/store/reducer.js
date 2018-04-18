@@ -18,7 +18,8 @@ const initialState = {
   searchString: '',
   model: {},
   actionType: 'create',
-  open: false
+  open: false,
+  minimized: false,
 }
 
 export default function activityReducer(state = initialState, action) {
@@ -98,7 +99,13 @@ export default function activityReducer(state = initialState, action) {
         ...state,
         model: initialState.model,
         open: initialState.open,
+        minimized: initialState.minimized,
         actionType: initialState.actionType
+      }
+    case types.MINIMIZE_TASK_CONTAINER:
+      return {
+        ...state,
+        minimized: !state.minimized
       }
     default:
       return state
@@ -132,4 +139,5 @@ export const getPaginationForActivities = (state) => state.meta
 export const getFirstActivityId = (state) => state.data.length ? state.data[0].id : 0
 export const getModel = (state) => state.model
 export const isOpen = (state) => state.open
+export const isMinimized = (state) => state.minimized
 export const getActionView = (state) => state.actionType

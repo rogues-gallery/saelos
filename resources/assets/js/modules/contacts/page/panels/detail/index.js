@@ -105,7 +105,7 @@ const Details = ({contact, dispatch, toggle, user, inEdit, statuses, statusChang
       <ActivityList contact={contact} dispatch={dispatch} />
       <Opportunities opportunities={contact.opportunities} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
       <Companies companies={contact.companies} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} />
-      <Notes notes={contact.notes} dispatch={dispatch} entityType="App\Contact" entityId={contact.id} user={user} />
+      <Notes model={contact} dispatch={dispatch} user={user} />
     </div>
   </div>
 )

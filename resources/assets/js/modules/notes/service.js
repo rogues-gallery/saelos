@@ -1,29 +1,31 @@
 import Http from '../../utils/Http'
 import * as actions from './store/actions'
+import Contact from '../contacts/Contact'
+import Opportunity from '../opportunities/Opportunity'
+import Company from '../companies/Company'
 
 export const saveNote = (params) => (dispatch) => {
   dispatch(actions.postingNote());
+  console.log(params)
 
   let url
   let prefix
   let method = 'post'
   let config = {}
 
-  switch (params.entity_type) {
-    case 'App\\Contact':
-      prefix = `/contacts`
-      break;
-    case 'App\\Company':
-      prefix = `/companies`
-      break;
-    case 'App\\Opportunity':
-      prefix = `/opportunities`
-      break;
-    default:
-      break;
+  if (params.model instanceof Contact) {
+    prefix = '/contacts'
   }
 
-  url = `${prefix}/${params.entity_id}/notes`
+  if (params.model instanceof Company) {
+    prefix = '/companies'
+  }
+
+  if (params.model instanceof Opportunity) {
+    prefix = '/opportunities'
+  }
+
+  url = `${prefix}/${params.model.id}/notes`
 
   if (params.id) {
     url = `${url}/${params.id}`
@@ -33,7 +35,7 @@ export const saveNote = (params) => (dispatch) => {
   const formData = new FormData
 
   _.forOwn(params, (v, k) => {
-    if (k !== 'user') {
+    if (k !== 'user' && k !== 'model') {
       formData.append(k, v)
     }
   })

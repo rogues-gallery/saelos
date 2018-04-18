@@ -21,5 +21,8 @@ export const getModel = (state) =>
 export const isOpen = (state) =>
   fromReducer.isOpen(state.activityState)
 
+export const isMinimized = (state) =>
+  fromReducer.isMinimized(state.activityState)
+
 export const getActionView = (state) =>
   fromReducer.getActionView(state.activityState)

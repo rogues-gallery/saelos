@@ -99,7 +99,7 @@ const Details = ({company, dispatch, toggle, user, data, options, inEdit}) => (
       
       <ActivityList company={company} dispatch={dispatch} />
       <Opportunities opportunities={company.opportunities} dispatch={dispatch} entityId={company.id} entityType="App\Company" />
-      <Notes notes={company.notes} dispatch={dispatch} entityId={company.id} entityType="App\Company" user={user} />
+      <Notes model={company} dispatch={dispatch} user={user} />
     </div>
   </div>
 )

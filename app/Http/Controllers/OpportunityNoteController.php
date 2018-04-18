@@ -28,8 +28,8 @@ class OpportunityNoteController extends Controller
     public function store(Request $request, Opportunity $opportunity)
     {
         $note = Note::create([
-            'name' => $request->get('name'),
-            'note' => $request->get('note'),
+            'name' => $request->get('note_name'),
+            'note' => $request->get('note_content'),
             'private' => (int) $request->get('private')
         ]);
 

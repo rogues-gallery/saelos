@@ -107,18 +107,18 @@ class EmailAction extends Component {
     return (
       <React.Fragment>
         <div className="card-body emailActionView">
-            <div className="float-right mb-2">
-              <span className="mini-text font-weight-bold">
-                <a href="javascript:void(0)" className="btn btn-sm btn-link" onClick={() => this._toggleInput('showCC')}>CC</a>
-                <a href="javascript:void(0)" className="btn btn-sm btn-link" onClick={() => this._toggleInput('showBCC')}>BCC</a>
-              </span>
-            </div>
-            <div className={`float-right mb-2 ml-2 ${showBCC ? '' : 'd-none'}`}>
-              <input type="text" onChange={this._handleInputChange} value={formState.email_bcc} name="email_bcc" className="form-control form-control-sm" placeholder="Enter BCC" />
-            </div>
-            <div className={`float-right mb-2 ${showCC ? '' : 'd-none'}`}>
-              <input type="text" onChange={this._handleInputChange} value={formState.email_cc} name="email_cc" className="form-control form-control-sm" placeholder="Enter CC" />
-            </div>
+          <div className="float-right mb-2">
+            <span className="mini-text font-weight-bold">
+              <a href="javascript:void(0)" className="btn btn-sm btn-link" onClick={() => this._toggleInput('showCC')}>CC</a>
+              <a href="javascript:void(0)" className="btn btn-sm btn-link" onClick={() => this._toggleInput('showBCC')}>BCC</a>
+            </span>
+          </div>
+          <div className={`float-right mb-2 ml-2 ${showBCC ? '' : 'd-none'}`}>
+            <input type="text" onChange={this._handleInputChange} value={formState.email_bcc} name="email_bcc" className="form-control form-control-sm" placeholder="Enter BCC" />
+          </div>
+          <div className={`float-right mb-2 ${showCC ? '' : 'd-none'}`}>
+            <input type="text" onChange={this._handleInputChange} value={formState.email_cc} name="email_cc" className="form-control form-control-sm" placeholder="Enter CC" />
+          </div>
           <div className="form-group">
             <label htmlFor="email_subject">Subject</label>
             <input type="text" onChange={this._handleInputChange} value={formState.email_subject} name="email_subject" className="form-control" placeholder="Enter email subject" />

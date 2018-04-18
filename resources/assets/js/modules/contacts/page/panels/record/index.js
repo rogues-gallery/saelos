@@ -61,7 +61,6 @@ class Record extends React.Component {
     const { dispatch, contact } = this.props
 
     dispatch(openTaskContainer(
-      () => alert('hi'),
       contact,
       view
     ))

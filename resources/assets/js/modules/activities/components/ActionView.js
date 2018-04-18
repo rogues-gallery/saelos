@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import EmailAction from './actions/email'
+import NoteAction from './actions/note'
 import CallAction from './actions/call'
 import SmsAction from './actions/sms'
 import TaskAction from './actions/task'
@@ -18,6 +19,8 @@ class ActionView extends React.Component {
     switch (view) {
       case "email":
         return <EmailAction {...rest} />
+      case "note":
+        return <NoteAction {...rest} />
       case "call":
         return <CallAction {...rest} />
       case "sms":
