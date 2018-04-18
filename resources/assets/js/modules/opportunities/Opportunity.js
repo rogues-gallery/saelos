@@ -19,7 +19,7 @@ class Opportunity extends Model {
   }
 
   initialize(props) {
-    super.initialize(props)
+    props.custom_fields = props.custom_fields ? props.custom_fields : []
 
     const fields = getCustomFieldsForOpportunities(store.getState())
 
@@ -31,9 +31,15 @@ class Opportunity extends Model {
 
           this[key] = field.type === 'date' ? moment(value) : value
         } else {
-            this[key] = props[key]   
+          if (! props.hasOwnProperty(key)) {
+            props[key] = null
+          }
+
+          this[key] = props[key]
         }
     })
+
+    super.initialize(props)
 
     this.primary = props.pivot && props.pivot.primary || 0
     this.role = props.pivot && props.pivot.position || ''
