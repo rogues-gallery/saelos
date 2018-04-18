@@ -158,7 +158,7 @@ export const getCompany = (state, id) => {
   let company = _.find(getCompanies(state), (c) => c.id === parseInt(id));
 
   if (typeof company === 'undefined') {
-    return new Company({})
+    return new Company({custom_fields:[]})
   }
 
   return company

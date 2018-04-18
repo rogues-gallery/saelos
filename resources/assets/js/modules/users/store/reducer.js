@@ -124,7 +124,7 @@ export const getUser = (state, id) => {
   let user = _.find(getUsers(state), (u) => u.id === parseInt(id));
 
   if (typeof user === 'undefined') {
-    return new User({})
+    return new User({custom_fields:[]})
   }
 
   return user;

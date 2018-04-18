@@ -17,7 +17,7 @@ class Company extends Model {
   }
 
   initialize(props) {
-    super.initialize(props)
+    props.custom_fields = props.custom_fields ? props.custom_fields : []
 
     const fields = getCustomFieldsForCompanies(store.getState())
 
@@ -29,9 +29,15 @@ class Company extends Model {
 
           this[key] = field.type === 'date' ? moment(value) : value
         } else {
-            this[key] = props[key]
+          if (! props.hasOwnProperty(key)) {
+            props[key] = null
+          }
+
+          this[key] = props[key]
         }
     })
+
+    super.initialize(props)
 
     this.primary = props.pivot && props.pivot.primary || 0
     this.position = props.pivot && props.pivot.position || 'Works'
