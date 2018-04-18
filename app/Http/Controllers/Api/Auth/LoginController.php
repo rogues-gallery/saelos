@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use GuzzleHttp\Client;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
+use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 class LoginController extends Controller
 {
@@ -14,25 +15,28 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        try {
-            $http = new Client;
+        /** @var AccessTokenController $controller */
+        $controller = app()->build(AccessTokenController::class);
 
-            $response = $http->post(env('APP_URL') . '/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => env('PASSWORD_CLIENT_ID'),
-                    'client_secret' => env('PASSWORD_CLIENT_SECRET'),
-                    'username' => $request->get('email'),
-                    'password' => $request->get('password'),
-                    'remember' => $request->get('remember'),
-                    'scope' => $user->roleScopeString(),
-                ],
-            ]);
+        $newReq = Request::create(
+            env('APP_URL') . '/oauth/token',
+            'POST',
+            [
+                'grant_type' => 'password',
+                'client_id' => env('PASSWORD_CLIENT_ID'),
+                'client_secret' => env('PASSWORD_CLIENT_SECRET'),
+                'username' => $request->get('email'),
+                'password' => $request->get('password'),
+                'remember' => $request->get('remember'),
+                'scope' => $user->roleScopeString(),
+            ]
+        );
 
-            return json_decode((string)$response->getBody(), true);
-        } catch (\Exception $e) {
-            return $this->sendFailedLoginResponse($request);
-        }
+        $factory = new DiactorosFactory();
+
+        $sri = $factory->createRequest($newReq);
+
+        return $controller->issueToken($sri);
     }
 
     /**
