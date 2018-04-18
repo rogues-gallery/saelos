@@ -18,6 +18,7 @@ import { isInEdit } from '../../../../contacts/store/selectors'
 import ListActivities from '../../../../activities/partials/_list'
 import { getStatuses } from '../../../../statuses/store/selectors'
 import { getActiveUser } from '../../../../users/store/selectors'
+import { openTaskContainer } from '../../../../activities/store/actions'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -195,6 +196,13 @@ const StatusTimeline = ({contact, statuses, statusChange}) => {
 }
 
 const ActivityList = ({contact, dispatch}) => {
+  const _toggleAdd = () => {
+    dispatch(openTaskContainer(
+      contact,
+      'task'
+    ))
+  }
+
   const filtered = _.filter(
     _.filter(contact.activities, a => a.details_type !== 'App\\FieldUpdateActivity'),
     fa => fa.completed === 0
@@ -203,6 +211,9 @@ const ActivityList = ({contact, dispatch}) => {
   return (
     <div className="card ct-container">
       <div className="card-header" id="taskList">
+        <a href="javascript:void(0);" className="float-right" onClick={_toggleAdd}>
+          <strong>+ Add</strong>
+        </a>
         <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTasks" aria-expanded="true" aria-controls="collapseTasks">
           <MDIcons.MdKeyboardArrowDown /> Tasks <span className="text-muted font-weight-normal">({filtered.length})</span>
         </h6>

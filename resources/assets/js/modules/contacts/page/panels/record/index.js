@@ -149,7 +149,6 @@ class Record extends React.Component {
           <button className="btn btn-primary mr-3 btn-sm list-inline-item" onClick={() => this._toggleTaskCompose('call')}><span className="h5"><MDIcons.MdLocalPhone /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._toggleTaskCompose('email')}><span className="h2"><MDIcons.MdMailOutline /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._toggleTaskCompose('sms')}><span className="h3"><MDIcons.MdPermPhoneMsg /></span></button>
-          <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={() => this._toggleTaskCompose('task')}><span className="h2"><MDIcons.MdPlaylistAdd /></span></button>
           <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
           <div className="float-right text-right pt-2">

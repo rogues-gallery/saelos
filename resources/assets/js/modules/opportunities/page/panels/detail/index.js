@@ -16,6 +16,7 @@ import { getFirstOpportunityId, getOpportunity } from '../../../store/selectors'
 import { isInEdit } from '../../../../contacts/store/selectors'
 import { getActiveUser } from '../../../../users/store/selectors'
 import { getStages } from '../../../../stages/store/selectors'
+import { openTaskContainer } from '../../../../activities/store/actions'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -135,11 +136,21 @@ const OpportunityTimeline = ({data, options, type}) => {
 }
 
 const ActivityList = ({opportunity, dispatch}) => {
+  const _toggleAdd = () => {
+    dispatch(openTaskContainer(
+      opportunity,
+      'task'
+    ))
+  }
+
   const filtered = _.filter(opportunity.activities, a => a.details_type !== 'App\\FieldUpdateActivity')
 
   return (
     <div className="card ct-container">
       <div className="card-header" id="taskList">
+        <a href="javascript:void(0);" className="float-right" onClick={_toggleAdd}>
+          <strong>+ Add</strong>
+        </a>
         <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTasks" aria-expanded="true" aria-controls="collapseTasks">
           <MDIcons.MdKeyboardArrowDown /> Tasks <span className="text-muted font-weight-normal">({filtered.length})</span>
         </h6>

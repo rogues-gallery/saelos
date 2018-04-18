@@ -10,11 +10,10 @@ import Opportunities from '../../../../opportunities/partials/_opportunities'
 import Contacts from '../../../../contacts/partials/_contacts'
 import Notes from '../../../../notes/partials/_notes'
 import Company from '../../../Company'
-import {getCompany, getFirstCompanyId} from '../../../store/selectors'
-import { Link } from 'react-router-dom'
 import ListActivities from '../../../../activities/partials/_list'
-import { Money } from 'react-format'
+import {getCompany, getFirstCompanyId} from '../../../store/selectors'
 import { getActiveUser } from '../../../../users/store/selectors'
+import { openTaskContainer } from '../../../../activities/store/actions'
 
 class Detail extends React.Component {
   constructor(props) {
@@ -129,6 +128,13 @@ const ScoreChart = ({data, options, type}) => {
 }
 
 const ActivityList = ({company, dispatch}) => {
+  const _toggleAdd = () => {
+    dispatch(openTaskContainer(
+      company,
+      'task'
+    ))
+  }
+
   const filtered = _.filter(
     _.filter(company.activities, a => a.details_type !== 'App\\FieldUpdateActivity'),
     fa => fa.completed === 0
@@ -137,6 +143,9 @@ const ActivityList = ({company, dispatch}) => {
   return (
     <div className="card ct-container">
       <div className="card-header" id="taskList">
+        <a href="javascript:void(0);" className="float-right" onClick={_toggleAdd}>
+          <strong>+ Add</strong>
+        </a>
         <h6 className="mb-0" data-toggle="collapse" data-target="#collapseTasks" aria-expanded="true" aria-controls="collapseTasks">
           <MDIcons.MdKeyboardArrowDown /> Tasks <span className="text-muted font-weight-normal">({filtered.length})</span>
         </h6>

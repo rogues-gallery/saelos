@@ -134,7 +134,6 @@ class Record extends React.Component {
     return (
       <main className="col main-panel px-3">
         <div className="toolbar border-bottom py-2 heading list-inline">
-        <button className="btn btn-primary mr-2 btn-sm list-inline-item" onClick={() => this._toggleTaskCompose('task')}><span className="h5"><MDIcons.MdPlaylistAdd /></span></button>
         <button className="btn btn-link mr-2 btn-sm list-inline-item" onClick={this._delete}><span className="h2"><MDIcons.MdDelete /></span></button>
 
           <div className="float-right text-right pt-2">
