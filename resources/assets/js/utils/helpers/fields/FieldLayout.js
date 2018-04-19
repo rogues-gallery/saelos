@@ -208,6 +208,7 @@ class FieldLayout extends React.Component {
       ? ""
       : typeof fieldValue === "undefined" ||
         field.hidden ||
+        fieldValue === null ||
         fieldValue.length === 0
         ? "d-none"
         : "";
