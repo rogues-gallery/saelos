@@ -8,6 +8,7 @@ use Auth;
 use App\Company;
 use App\Opportunity;
 use App\Http\Resources\OpportunityCollection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\Opportunity as OpportunityResource;
 
@@ -55,6 +56,10 @@ class OpportunityController extends Controller
 
         if ($searchParams = json_decode($request->get('searchParams'), true)) {
             $opportunities = Opportunity::search($searchParams, $opportunities);
+        }
+
+        if ($modifiedSince = $request->get('modified_since')) {
+            $opportunities->where('updated_at', '>', new Carbon($modifiedSince));
         }
 
         return new OpportunityCollection($opportunities->paginate());

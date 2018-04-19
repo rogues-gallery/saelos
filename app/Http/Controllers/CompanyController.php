@@ -7,6 +7,7 @@ use App\Company;
 use App\Opportunity;
 use App\Contact;
 use App\Http\Resources\CompanyCollection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\Company as CompanyResource;
 
@@ -58,6 +59,10 @@ class CompanyController extends Controller
 
         if ($searchParams = json_decode($request->get('searchParams'), true)) {
             $companies = Company::search($searchParams, $companies);
+        }
+
+        if ($modifiedSince = $request->get('modified_since')) {
+            $companies->where('updated_at', '>', new Carbon($modifiedSince));
         }
 
         $companies->orderBy('id', 'desc');

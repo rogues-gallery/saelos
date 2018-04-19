@@ -12,6 +12,7 @@ use App\Company;
 use App\Opportunity;
 use App\Http\Resources\ContactCollection;
 use App\Contact;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\Contact as ContactResource;
 use Illuminate\Support\Facades\Mail;
@@ -72,6 +73,10 @@ class ContactController extends Controller
 
         if ($searchParams = json_decode($request->get('searchParams'), true)) {
             $contacts = Contact::search($searchParams, $contacts);
+        }
+
+        if ($modifiedSince = $request->get('modified_since')) {
+            $contacts->where('updated_at', '>', new Carbon($modifiedSince));
         }
 
         $contacts->orderBy('contacts.id', 'desc');
