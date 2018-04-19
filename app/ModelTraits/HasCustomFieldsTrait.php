@@ -33,8 +33,13 @@ trait HasCustomFieldsTrait
             $customFieldValue->field()->associate($customField);
         }
 
-        if ($customFieldValue->id && empty($value)) {
-            $customFieldValue->delete();
+        if (empty($value)) {
+            // If it's an existing customFieldValue, delete it
+            if ($customFieldValue->id) {
+                $customFieldValue->delete();
+            } else {
+                unset($customFieldValue);
+            }
         } else {
             $customFieldValue->custom_field_alias = $alias;
             $customFieldValue->value = $value;
