@@ -1,9 +1,5 @@
-import ConversationCall from './_call'
-import ConversationSms from './_sms'
-import ConversationEmail from './_email'
+import ConversationCall from "./_call";
+import ConversationSms from "./_sms";
+import ConversationEmail from "./_email";
 
-export {
-	ConversationCall,
-  ConversationSms,
-	ConversationEmail
-}
+export { ConversationCall, ConversationSms, ConversationEmail };

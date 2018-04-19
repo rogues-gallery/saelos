@@ -1,19 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
-import routes from '../../routes/routes'
-import NavItem from './NavItem'
+import routes from "../../routes/routes";
+import NavItem from "./NavItem";
 
 const PrivateNav = ({ user }) => (
   <ul className="nav">
     {routes.map((route, i) => {
-      if (typeof route.menu !== 'object') {
-        return
+      if (typeof route.menu !== "object") {
+        return;
       }
 
-      const { linkText, icon: Icon, location, subLinks: SubLinks, roles } = route.menu
+      const {
+        linkText,
+        icon: Icon,
+        location,
+        subLinks: SubLinks,
+        roles
+      } = route.menu;
 
-      if (location === 'main' && user.authorized(roles)) {
+      if (location === "main" && user.authorized(roles)) {
         return (
           <React.Fragment key={`route-nav-item-${i}-main`}>
             <NavItem path={route.path}>
@@ -22,18 +28,16 @@ const PrivateNav = ({ user }) => (
               </i>
               {linkText}
             </NavItem>
-            {route.menu.subLinks ?
-              <SubLinks />
-            : '' }
+            {route.menu.subLinks ? <SubLinks /> : ""}
           </React.Fragment>
-        )
+        );
       }
     })}
   </ul>
-)
+);
 
 PrivateNav.propTypes = {
   user: PropTypes.object.isRequired
-}
+};
 
-export default PrivateNav
+export default PrivateNav;

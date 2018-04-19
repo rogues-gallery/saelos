@@ -1,1 +1,1 @@
-import * as fromReducer from './reducer'
+import * as fromReducer from "./reducer";

@@ -1,6 +1,6 @@
 export const loadState = () => {
   try {
-    const serializedState = localStorage.getItem('saelosState');
+    const serializedState = localStorage.getItem("saelosState");
 
     if (serializedState === null) {
       return undefined;
@@ -12,14 +12,14 @@ export const loadState = () => {
   }
 };
 
-export const saveState = (state) => {
+export const saveState = state => {
   try {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
 
     if (token) {
       const serializedState = JSON.stringify(state);
 
-      localStorage.setItem('saelosState', serializedState);
+      localStorage.setItem("saelosState", serializedState);
     }
   } catch (err) {
     // ignore
@@ -28,8 +28,8 @@ export const saveState = (state) => {
 
 export const deleteState = () => {
   try {
-    localStorage.removeItem('saelosState');
-    localStorage.removeItem('access_token');
+    localStorage.removeItem("saelosState");
+    localStorage.removeItem("access_token");
   } catch (err) {
     // ignore
   }

@@ -1,24 +1,24 @@
-import Page from './page';
+import Page from "./page";
 import * as MDIcons from "react-icons/lib/md/index";
 
 export default [
   {
-    path: '/config',
+    path: "/config",
     exact: true,
     auth: true,
     component: Page
   },
   {
-    path: '/config/settings',
+    path: "/config/settings",
     exact: true,
     auth: true,
     component: Page,
     menu: {
       icon: MDIcons.MdSettings,
-      location: 'config',
-      linkText: 'Settings',
+      location: "config",
+      linkText: "Settings",
       subLinks: false,
-      roles: ['admin', 'manager']
+      roles: ["admin", "manager"]
     }
   }
 ];

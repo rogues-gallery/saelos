@@ -1,23 +1,23 @@
-import Model from '../../utils/Model'
-import User from '../users/User'
+import Model from "../../utils/Model";
+import User from "../users/User";
 
 class Team extends Model {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.initialize(props)
+    this.initialize(props);
   }
 
   initialize(props) {
-    super.initialize(props)
+    super.initialize(props);
 
-    this.name = props.name || ''
-    this.description = props.description || ''
+    this.name = props.name || "";
+    this.description = props.description || "";
 
     // relate user model
-    this.leader = props.user && new User(props.leader) || {}
-    this.users = props.users && props.users.map(u => new User(u)) || [] 
+    this.leader = (props.user && new User(props.leader)) || {};
+    this.users = (props.users && props.users.map(u => new User(u))) || [];
   }
 }
 
-export default Team
+export default Team;

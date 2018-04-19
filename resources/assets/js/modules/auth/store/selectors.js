@@ -1,4 +1,3 @@
-import * as fromReducer from './reducer';
+import * as fromReducer from "./reducer";
 
-export const getAuth = (state) =>
-  fromReducer.getAuth(state.auth);
+export const getAuth = state => fromReducer.getAuth(state.auth);

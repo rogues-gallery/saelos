@@ -1,2 +1,2 @@
-export { svgToImage } from './svgToImage'
-export { convertHex } from './convertHex'
+export { svgToImage } from "./svgToImage";
+export { convertHex } from "./convertHex";

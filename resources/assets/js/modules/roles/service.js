@@ -1,23 +1,23 @@
-import Http from '../../utils/Http'
-import * as actions from './store/actions'
+import Http from "../../utils/Http";
+import * as actions from "./store/actions";
 
 /**
  * Fetch the full role by id
  *
  * @returns {function(*)}
  */
-export const fetchRole = (id) => (dispatch) => {
+export const fetchRole = id => dispatch => {
   dispatch(actions.fetchingRole());
 
   return Http.get(`roles/${id}`)
     .then(res => {
-      dispatch(actions.fetchingRoleSuccess(res.data.data))
+      dispatch(actions.fetchingRoleSuccess(res.data.data));
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
       dispatch(actions.fetchingRoleFailure());
-    })
-}
+    });
+};
 
 /**
  * Fetch a paginated list of roles
@@ -25,20 +25,20 @@ export const fetchRole = (id) => (dispatch) => {
  * @param params
  * @returns {function(*)}
  */
-export const fetchRoles = (params) => (dispatch) => {
+export const fetchRoles = params => dispatch => {
   dispatch(actions.fetchingRoles());
 
-  params = params || {}
+  params = params || {};
 
-  return Http.get('roles', {params})
+  return Http.get("roles", { params })
     .then(res => {
-      dispatch(actions.fetchingRolesSuccess(res.data))
+      dispatch(actions.fetchingRolesSuccess(res.data));
     })
     .catch(err => {
-      console.log(err)
-      dispatch(actions.fetchingRolesFailure())
-    })
-}
+      console.log(err);
+      dispatch(actions.fetchingRolesFailure());
+    });
+};
 
 /**
  * Save a role
@@ -46,29 +46,29 @@ export const fetchRoles = (params) => (dispatch) => {
  * @param params
  * @returns {function(*)}
  */
-export const saveRole = (params) => (dispatch) => {
+export const saveRole = params => dispatch => {
   dispatch(actions.postingRole());
 
   if (params.id) {
     return Http.patch(`roles/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingRoleSuccess(res.data))
+        dispatch(actions.postingRoleSuccess(res.data));
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         dispatch(actions.postingRoleFailure());
-      })
+      });
   } else {
     return Http.post(`roles`, params)
       .then(res => {
-        dispatch(actions.postingRoleSuccess(res.data))
+        dispatch(actions.postingRoleSuccess(res.data));
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         dispatch(actions.postingRoleFailure());
-      })
+      });
   }
-}
+};
 
 /**
  * Delete a role
@@ -76,15 +76,15 @@ export const saveRole = (params) => (dispatch) => {
  * @param id
  * @returns {function(*)}
  */
-export const deleteRole = (id) => (dispatch) => {
+export const deleteRole = id => dispatch => {
   dispatch(actions.deletingRole());
 
   return Http.delete(`roles/${id}`)
     .then(res => {
-      dispatch(actions.deletingRoleSuccess(res.data))
+      dispatch(actions.deletingRoleSuccess(res.data));
     })
     .catch(err => {
-      console.log(err)
-      dispatch(actions.deletingRoleFailure())
-    })
-}
+      console.log(err);
+      dispatch(actions.deletingRoleFailure());
+    });
+};

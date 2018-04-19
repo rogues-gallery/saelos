@@ -1,24 +1,24 @@
-import Http from '../../utils/Http'
-import * as actions from './store/actions'
-import store from '../../store'
+import Http from "../../utils/Http";
+import * as actions from "./store/actions";
+import store from "../../store";
 
 /**
  * Fetch the full stage by id
  *
  * @returns {function(*)}
  */
-export const fetchTag = (id) => (dispatch) => {
-  dispatch(actions.fetchingTag())
+export const fetchTag = id => dispatch => {
+  dispatch(actions.fetchingTag());
 
   return Http.get(`tags/${id}`)
     .then(res => {
-      dispatch(actions.fetchingTagSuccess(res.data.data))
+      dispatch(actions.fetchingTagSuccess(res.data.data));
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
       dispatch(actions.fetchingTagFailure());
-    })
-}
+    });
+};
 
 /**
  * Fetch a paginated list of tags
@@ -26,76 +26,78 @@ export const fetchTag = (id) => (dispatch) => {
  * @param params
  * @returns {function(*)}
  */
-export const fetchTags = (params) => (dispatch) => {
+export const fetchTags = params => dispatch => {
   const { isFetching } = store.getState().stageState;
 
   if (isFetching) {
-    return
+    return;
   }
 
-  dispatch(actions.fetchingTags({
-    ...params
-  }));
+  dispatch(
+    actions.fetchingTags({
+      ...params
+    })
+  );
 
-  params = params || {}
+  params = params || {};
 
-  return Http.get('tags', {params: params})
+  return Http.get("tags", { params: params })
     .then(res => {
-      dispatch(actions.fetchingTagsSuccess(res.data))
+      dispatch(actions.fetchingTagsSuccess(res.data));
     })
     .catch(err => {
-      console.log(err)
-      dispatch(actions.fetchingTagsFailure())
-    })
-}
+      console.log(err);
+      dispatch(actions.fetchingTagsFailure());
+    });
+};
 
-export const saveTag = (params, entityType) => (dispatch) => {
+export const saveTag = (params, entityType) => dispatch => {
   dispatch(actions.postingTag());
 
   if (params.id) {
     return Http.patch(`tags/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingTagSuccess(res.data.data, entityType))
+        dispatch(actions.postingTagSuccess(res.data.data, entityType));
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         dispatch(actions.postingTagFailure());
-      })
+      });
   } else {
     return Http.post(`tags`, params)
       .then(res => {
-        dispatch(actions.postingTagSuccess(res.data.data, entityType))
+        dispatch(actions.postingTagSuccess(res.data.data, entityType));
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         dispatch(actions.postingTagFailure());
-      })
+      });
   }
-}
+};
 
-export const deleteTag = (id) => (dispatch) => {
+export const deleteTag = id => dispatch => {
   dispatch(actions.deletingTag());
 
   return Http.delete(`tags/${id}`)
     .then(res => {
-      dispatch(actions.deletingTagSuccess(id))
+      dispatch(actions.deletingTagSuccess(id));
     })
     .catch(err => {
-      console.log(err)
-      dispatch(actions.deletingTagFailure())
-    })
-}
+      console.log(err);
+      dispatch(actions.deletingTagFailure());
+    });
+};
 
-export const restoreTag = (id) => {
+export const restoreTag = id => {
   store.dispatch(actions.restoringTag());
-  const params = {action: 'restore'}
+  const params = { action: "restore" };
 
   return Http.patch(`tags/${id}`, params)
     .then(res => {
-      store.dispatch(actions.restoringTagSuccess(res.data.data))
+      store.dispatch(actions.restoringTagSuccess(res.data.data));
     })
     .catch(err => {
-      console.log(err)
-      store.dispatch(actions.restoringTagFailure())
-    })
-}
+      console.log(err);
+      store.dispatch(actions.restoringTagFailure());
+    });
+};

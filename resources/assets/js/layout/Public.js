@@ -1,20 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
 const containerStyle = {
-  paddingTop: '3.5rem',
-}
+  paddingTop: "3.5rem"
+};
 
 const PublicLayout = ({ children }) => (
   <div style={containerStyle}>
-    <main style={{ minHeight: '100vh'}}>
-      { children }
-    </main>
+    <main style={{ minHeight: "100vh" }}>{children}</main>
   </div>
-)
+);
 
 PublicLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-}
+  children: PropTypes.node.isRequired
+};
 
-export default PublicLayout
+export default PublicLayout;

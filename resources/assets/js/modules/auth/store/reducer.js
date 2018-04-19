@@ -1,46 +1,51 @@
-import * as types from './action-types';
+import * as types from "./action-types";
 
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: false
 };
 
 const reducer = (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case types.AUTH_REFRESH_TOKEN:
     case types.AUTH_LOGIN:
-      localStorage.setItem('access_token', action.data);
-      window.axios.defaults.headers.common['Authorization'] = `Bearer ${action.data}`;
+      localStorage.setItem("access_token", action.data);
+      window.axios.defaults.headers.common["Authorization"] = `Bearer ${
+        action.data
+      }`;
 
       return {
         ...state,
-        isAuthenticated: true,
-      }
+        isAuthenticated: true
+      };
     case types.AUTH_CHECK:
       state = Object.assign({}, state, {
-        isAuthenticated: !!localStorage.getItem('access_token')
-      })
+        isAuthenticated: !!localStorage.getItem("access_token")
+      });
 
       if (state.isAuthenticated) {
-        window.axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
+        window.axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${localStorage.getItem("access_token")}`;
       }
 
       return state;
     case types.AUTH_LOGOUT:
-      localStorage.removeItem('access_token')
+      localStorage.removeItem("access_token");
 
       return {
-        ...state, isAuthenticated: false
-      }
+        ...state,
+        isAuthenticated: false
+      };
     case types.AUTH_RESET_PASSWORD:
       return {
         ...state,
-        resetPassword: true,
-      }
+        resetPassword: true
+      };
     default:
       return state;
   }
-}
+};
 
-export const getAuth = (state) => state.isAuthenticated;
+export const getAuth = state => state.isAuthenticated;
 
 export default reducer;

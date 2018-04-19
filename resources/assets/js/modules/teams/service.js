@@ -1,23 +1,23 @@
-import Http from '../../utils/Http'
-import * as actions from './store/actions'
+import Http from "../../utils/Http";
+import * as actions from "./store/actions";
 
 /**
  * Fetch the full team by id
  *
  * @returns {function(*)}
  */
-export const fetchTeam = (id) => (dispatch) => {
+export const fetchTeam = id => dispatch => {
   dispatch(actions.fetchingTeam());
 
   return Http.get(`teams/${id}`)
     .then(res => {
-      dispatch(actions.fetchingTeamSuccess(res.data.data))
+      dispatch(actions.fetchingTeamSuccess(res.data.data));
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
       dispatch(actions.fetchingTeamFailure());
-    })
-}
+    });
+};
 
 /**
  * Fetch a paginated list of team
@@ -25,20 +25,20 @@ export const fetchTeam = (id) => (dispatch) => {
  * @param params
  * @returns {function(*)}
  */
-export const fetchTeams = (params) => (dispatch) => {
+export const fetchTeams = params => dispatch => {
   dispatch(actions.fetchingTeams());
 
-  params = params || {}
+  params = params || {};
 
-  return Http.get('teams', {params: params})
+  return Http.get("teams", { params: params })
     .then(res => {
-      dispatch(actions.fetchingTeamsSuccess(res.data))
+      dispatch(actions.fetchingTeamsSuccess(res.data));
     })
     .catch(err => {
-      console.log(err)
-      dispatch(actions.fetchingTeamsFailure())
-    })
-}
+      console.log(err);
+      dispatch(actions.fetchingTeamsFailure());
+    });
+};
 
 /**
  * Save a team
@@ -46,29 +46,29 @@ export const fetchTeams = (params) => (dispatch) => {
  * @param params
  * @returns {function(*)}
  */
-export const saveTeam = (params) => (dispatch) => {
+export const saveTeam = params => dispatch => {
   dispatch(actions.postingTeam());
 
   if (params.id) {
     return Http.patch(`teams/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingTeamSuccess(res.data))
+        dispatch(actions.postingTeamSuccess(res.data));
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         dispatch(actions.postingTeamFailure());
-      })
+      });
   } else {
     return Http.post(`teams`, params)
       .then(res => {
-        dispatch(actions.postingTeamSuccess(res.data))
+        dispatch(actions.postingTeamSuccess(res.data));
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         dispatch(actions.postingTeamFailure());
-      })
+      });
   }
-}
+};
 
 /**
  * Delete a team
@@ -76,15 +76,15 @@ export const saveTeam = (params) => (dispatch) => {
  * @param id
  * @returns {function(*)}
  */
-export const deleteTeam = (id) => (dispatch) => {
+export const deleteTeam = id => dispatch => {
   dispatch(actions.deletingTeam());
 
   return Http.delete(`teams/${id}`)
     .then(res => {
-      dispatch(actions.deletingTeamSuccess(res.data))
+      dispatch(actions.deletingTeamSuccess(res.data));
     })
     .catch(err => {
-      console.log(err)
-      dispatch(actions.deletingTeamFailure())
-    })
-}
+      console.log(err);
+      dispatch(actions.deletingTeamFailure());
+    });
+};

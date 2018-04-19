@@ -1,23 +1,23 @@
-import Page from './page';
+import Page from "./page";
 import * as MDIcons from "react-icons/lib/md/index";
 
 export default [
   {
-    path: '/config/fields',
+    path: "/config/fields",
     exact: true,
     auth: true,
     config: true,
     component: Page,
     menu: {
       icon: MDIcons.MdFeaturedPlayList,
-      location: 'config',
-      linkText: 'Fields',
+      location: "config",
+      linkText: "Fields",
       subLinks: false,
-      roles: ['admin', 'manager']
+      roles: ["admin", "manager"]
     }
   },
   {
-    path: '/config/fields/:id',
+    path: "/config/fields/:id",
     exact: true,
     auth: true,
     config: true,

@@ -1,6 +1,6 @@
-import * as types from './action-types';
-import _ from 'lodash';
-import Analytics from '../Analytics';
+import * as types from "./action-types";
+import _ from "lodash";
+import Analytics from "../Analytics";
 
 const initialState = {
   data: [],
@@ -8,16 +8,16 @@ const initialState = {
     currentPage: 0,
     from: 0,
     lastPage: 0,
-    path: '',
+    path: "",
     perPage: 0,
     to: 0,
-    total: 0,
+    total: 0
   },
   isFetching: false,
   isPosting: false,
   error: false,
-  searchString: ''
-}
+  searchString: ""
+};
 
 export default function analyticsReducer(state = initialState, action) {
   switch (action.type) {
@@ -25,13 +25,13 @@ export default function analyticsReducer(state = initialState, action) {
       return {
         ...state,
         isFetching: true
-      }
+      };
     case types.FETCHING_ANALYTICS_SUCCESS:
-      let { data, meta } = action.data
-      let newAnalyticsForState
-      
+      let { data, meta } = action.data;
+      let newAnalyticsForState;
+
       if (data.length === 0) {
-        return state
+        return state;
       }
 
       return {
@@ -40,15 +40,15 @@ export default function analyticsReducer(state = initialState, action) {
         meta: meta,
         isFetching: false,
         error: false
-      }
+      };
     case types.FETCHING_ANALYTICS_FAILURE:
       return {
         ...state,
         isFetching: false,
         error: true
-      }
+      };
     case types.FETCHING_SINGLE_REPORT_SUCCESS:
-      const newData = injectAnalyticsIntoState(action.data, state.data)
+      const newData = injectAnalyticsIntoState(action.data, state.data);
 
       return {
         ...state,
@@ -56,17 +56,16 @@ export default function analyticsReducer(state = initialState, action) {
         isFetching: false,
         error: false,
         isPosting: false
-      }
+      };
     default:
-      return state
+      return state;
   }
 }
 
 export const getAnalytics = (state, id) => {
-
-  if (typeof analytics === 'undefined') {
-    return new Analytics({})
+  if (typeof analytics === "undefined") {
+    return new Analytics({});
   }
 
-  return analytics
-}
+  return analytics;
+};

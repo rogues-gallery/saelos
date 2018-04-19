@@ -1,4 +1,4 @@
-import * as types from './action-types';
+import * as types from "./action-types";
 import Stage from "../Stage";
 
 const initialState = {
@@ -7,16 +7,16 @@ const initialState = {
     currentPage: 0,
     from: 0,
     lastPage: 0,
-    path: '',
+    path: "",
     perPage: 0,
     to: 0,
-    total: 0,
+    total: 0
   },
   isFetching: false,
   isPosting: false,
   error: false,
-  searchString: ''
-}
+  searchString: ""
+};
 
 export default function stageReducer(state = initialState, action) {
   switch (action.type) {
@@ -24,43 +24,43 @@ export default function stageReducer(state = initialState, action) {
       return {
         ...state,
         inEdit: !state.inEdit
-      }
+      };
     case types.EDITING_STAGE_FINISHED:
       return {
         ...state,
         inEdit: false
-      }
+      };
     case types.FETCHING_STAGES:
       return {
         ...state,
         isFetching: true,
         searchString: action.data.searchString
-      }
+      };
     case types.FETCHING_SINGLE_STAGE:
       return {
         ...state,
         isFetching: true
-      }
+      };
     case types.FETCHING_STAGES_SUCCESS:
-      let { data, meta } = action.data
-      let newStagesForState
+      let { data, meta } = action.data;
+      let newStagesForState;
 
       if (data.length === 0) {
         return {
           ...state,
           isFetching: false
-        }
+        };
       }
 
       // When fetching the first page, always replace the contacts in the app state
       if (meta.current_page === 1) {
-        newStagesForState = data
+        newStagesForState = data;
       } else {
-        newStagesForState = state.data
+        newStagesForState = state.data;
 
         data.map(c => {
-          newStagesForState = injectStageIntoState(c, newStagesForState)
-        })
+          newStagesForState = injectStageIntoState(c, newStagesForState);
+        });
       }
 
       return {
@@ -69,15 +69,15 @@ export default function stageReducer(state = initialState, action) {
         meta: meta,
         isFetching: false,
         error: false
-      }
+      };
 
-      case types.DELETING_STAGE_SUCCESS:
-        const updatedData = removeStageFromState(action.data, state.data)
+    case types.DELETING_STAGE_SUCCESS:
+      const updatedData = removeStageFromState(action.data, state.data);
 
-        return {
-          ...state,
-          data: updatedData
-        }
+      return {
+        ...state,
+        data: updatedData
+      };
 
     case types.FETCHING_SINGLE_STAGE_FAILURE:
     case types.FETCHING_STAGES_FAILURE:
@@ -85,16 +85,16 @@ export default function stageReducer(state = initialState, action) {
         ...state,
         isFetching: false,
         error: true
-      }
+      };
     case types.POSTING_STAGE:
       return {
         ...state,
         isPosting: true
-      }
+      };
     case types.POSTING_STAGE_SUCCESS:
     case types.FETCHING_SINGLE_STAGE_SUCCESS:
     case types.RESTORING_STAGE_SUCCESS:
-      const newData = injectStageIntoState(action.data, state.data)
+      const newData = injectStageIntoState(action.data, state.data);
 
       return {
         ...state,
@@ -102,39 +102,39 @@ export default function stageReducer(state = initialState, action) {
         isFetching: false,
         error: false,
         isPosting: false
-      }
+      };
     default:
-      return state
+      return state;
   }
 }
 
 const removeStageFromState = (id, data) => {
-  _.remove(data, (s) => s.id === parseInt(id))
+  _.remove(data, s => s.id === parseInt(id));
 
-  return data
-}
+  return data;
+};
 
 const injectStageIntoState = (stage, data) => {
-  const index = _.findIndex(data, (s) => s.id === parseInt(stage.id))
+  const index = _.findIndex(data, s => s.id === parseInt(stage.id));
 
   if (index >= 0) {
-    data[index] = stage
+    data[index] = stage;
   } else {
-    data.push(stage)
+    data.push(stage);
   }
 
-  return data
-}
+  return data;
+};
 
-export const getStages = (state) => state.data.map(s => new Stage(s))
+export const getStages = state => state.data.map(s => new Stage(s));
 export const getStage = (state, id) => {
-  let stage = _.find(getStages(state), (s) => s.id === parseInt(id));
+  let stage = _.find(getStages(state), s => s.id === parseInt(id));
 
-  if (typeof stage === 'undefined') {
-    return Stage.create()
+  if (typeof stage === "undefined") {
+    return Stage.create();
   }
 
   return stage;
-}
-export const getSearchStringForStages = (state) => state.searchString;
-export const getPaginationForStages = (state) => state.meta;
+};
+export const getSearchStringForStages = state => state.searchString;
+export const getPaginationForStages = state => state.meta;

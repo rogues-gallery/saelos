@@ -1,13 +1,12 @@
-import * as fromReducer from './reducer'
+import * as fromReducer from "./reducer";
 
-export const getStatuses = (state) =>
-  fromReducer.getStatuses(state.statusState)
+export const getStatuses = state => fromReducer.getStatuses(state.statusState);
 
 export const getStatus = (state, id) =>
-  fromReducer.getStatus(state.statusState, id)
+  fromReducer.getStatus(state.statusState, id);
 
-export const getSearchStringForStatuses = (state) =>
+export const getSearchStringForStatuses = state =>
   fromReducer.getSearchStringForStatuses(state.statusState);
 
-export const getPaginationForStatuses = (state) =>
+export const getPaginationForStatuses = state =>
   fromReducer.getPaginationForStatuses(state.statusState);

@@ -1,16 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { ToastContainer } from 'react-toastify'
+import React from "react";
+import PropTypes from "prop-types";
+import { ToastContainer } from "react-toastify";
 
-import Main from '../Main'
-import Navigation from '../common/navigation'
-import TaskContainer from '../modules/activities/components/TaskContainer'
+import Main from "../Main";
+import Navigation from "../common/navigation";
+import TaskContainer from "../modules/activities/components/TaskContainer";
 
 const PrivateLayout = ({ children }) => (
   <Main>
     <div className="row no-gutters">
-      <Navigation/>
-      { children }
+      <Navigation />
+      {children}
       <ToastContainer
         position="bottom-center"
         closeButton={false}
@@ -20,10 +20,10 @@ const PrivateLayout = ({ children }) => (
     </div>
     <TaskContainer />
   </Main>
-)
+);
 
 PrivateLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-}
+  children: PropTypes.node.isRequired
+};
 
-export default PrivateLayout
+export default PrivateLayout;

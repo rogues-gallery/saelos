@@ -22,4 +22,4 @@ export const togglePanelByClass = (classname, panelClass) =>
  * Toggle prevention of content scrolling
  */
 export const togglePreventContentScroll = () =>
-  document.querySelector('body').classList.toggle('panel-open');
+  document.querySelector("body").classList.toggle("panel-open");

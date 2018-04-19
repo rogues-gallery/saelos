@@ -10,7 +10,7 @@
  * they will be camelCased.
  */
 
-import _ from 'lodash';
+import _ from "lodash";
 
 export default class Transformer {
   /**
@@ -22,12 +22,12 @@ export default class Transformer {
   static fetch(param) {
     if (param && Array.isArray(param)) {
       return Transformer.fetchCollection(param);
-    } else if (param && typeof param === 'object') {
+    } else if (param && typeof param === "object") {
       return Transformer.fetchObject(param);
     }
-    return param
+    return param;
   }
-  
+
   /**
    * Method used to transform a fetched collection
    *
@@ -37,7 +37,7 @@ export default class Transformer {
   static fetchCollection(param) {
     return param.map(item => Transformer.fetch(item));
   }
-  
+
   /**
    * Method used to transform a fetched object
    *
@@ -46,13 +46,13 @@ export default class Transformer {
    */
   static fetchObject(param) {
     const data = {};
-    
+
     _.forOwn(param, (value, key) => {
       data[_.camelCase(key)] = Transformer.fetch(value);
     });
     return data;
   }
-  
+
   /**
    * Method used to transform a send data
    *
@@ -62,12 +62,12 @@ export default class Transformer {
   static send(param) {
     if (param && Array.isArray(param)) {
       return Transformer.sendCollection(param);
-    } else if (param && typeof param === 'object') {
+    } else if (param && typeof param === "object") {
       return Transformer.sendObject(param);
     }
-    return param
+    return param;
   }
-  
+
   /**
    * Method used to transform a collection to be send
    *
@@ -77,7 +77,7 @@ export default class Transformer {
   static sendCollection(param) {
     return param.map(item => Transformer.send(item));
   }
-  
+
   /**
    * Method used to transform a object to be send
    *
@@ -86,13 +86,13 @@ export default class Transformer {
    */
   static sendObject(param) {
     const data = {};
-    
+
     _.forOwn(param, (value, key) => {
       data[_.snakeCase(key)] = Transformer.send(value);
     });
     return data;
   }
-  
+
   /**
    * Method used to transform a form errors
    *
@@ -102,11 +102,16 @@ export default class Transformer {
    * @param replaceStr String
    * @returns {{}}
    */
-  static resetValidationFields({ errors, replace = false, searchStr = '', replaceStr = '' }) {
-    console.log(errors)
+  static resetValidationFields({
+    errors,
+    replace = false,
+    searchStr = "",
+    replaceStr = ""
+  }) {
+    console.log(errors);
     const data = {};
     _.forOwn(errors, (value, key) => {
-      let index = '';
+      let index = "";
       if (replace) {
         index = _.camelCase(key.replace(searchStr, replaceStr));
       } else {

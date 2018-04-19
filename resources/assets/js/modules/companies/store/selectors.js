@@ -1,25 +1,24 @@
-import * as fromReducer from './reducer';
+import * as fromReducer from "./reducer";
 
-export const getCompanies = (state) =>
+export const getCompanies = state =>
   fromReducer.getCompanies(state.companyState);
 
 export const getCompany = (state, id) =>
   fromReducer.getCompany(state.companyState, id);
 
-export const getPaginationForCompanies = (state) =>
+export const getPaginationForCompanies = state =>
   fromReducer.getPaginationForCompanies(state.companyState);
 
-export const getCustomFieldsForCompanies = (state) =>
+export const getCustomFieldsForCompanies = state =>
   fromReducer.getCustomFieldsForCompanies(state.companyState);
 
-export const isStateDirty = (state) =>
+export const isStateDirty = state =>
   fromReducer.isStateDirty(state.companyState);
 
-export const getSearchStringForCompanies = (state) =>
+export const getSearchStringForCompanies = state =>
   fromReducer.getSearchStringForCompanies(state.companyState);
 
-export const getFirstCompanyId = (state) =>
+export const getFirstCompanyId = state =>
   fromReducer.getFirstCompanyId(state.companyState);
 
-export const isInEdit = (state) =>
-  fromReducer.isInEdit(state.companyState);
+export const isInEdit = state => fromReducer.isInEdit(state.companyState);

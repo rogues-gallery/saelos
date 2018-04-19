@@ -1,24 +1,24 @@
-import Http from '../../utils/Http'
-import * as actions from './store/actions'
-import store from '../../store'
+import Http from "../../utils/Http";
+import * as actions from "./store/actions";
+import store from "../../store";
 
 /**
  * Fetch the full activity by id
  *
  * @returns {function(*)}
  */
-export const fetchActivity = (id) => (dispatch) => {
-  dispatch(actions.fetchingActivity())
+export const fetchActivity = id => dispatch => {
+  dispatch(actions.fetchingActivity());
 
   return Http.get(`activities/${id}`)
     .then(res => {
-      dispatch(actions.fetchingActivitySuccess(res.data.data))
+      dispatch(actions.fetchingActivitySuccess(res.data.data));
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
       dispatch(actions.fetchingActivityFailure());
-    })
-}
+    });
+};
 
 /**
  * Fetch a paginated list of activities
@@ -26,66 +26,68 @@ export const fetchActivity = (id) => (dispatch) => {
  * @param params
  * @returns {function(*)}
  */
-export const fetchActivities = (params) => (dispatch) => {
+export const fetchActivities = params => dispatch => {
   const { isFetching } = store.getState().stageState;
 
   if (isFetching) {
-    return
+    return;
   }
 
-  dispatch(actions.fetchingActivities({
-    ...params
-  }));
+  dispatch(
+    actions.fetchingActivities({
+      ...params
+    })
+  );
 
-  params = params || {}
+  params = params || {};
 
-  return Http.get('activities', {params: params})
+  return Http.get("activities", { params: params })
     .then(res => {
-      dispatch(actions.fetchingActivitiesSuccess(res.data))
+      dispatch(actions.fetchingActivitiesSuccess(res.data));
 
-      return res.data
+      return res.data;
     })
     .catch(err => {
-      console.log(err)
-      dispatch(actions.fetchingActivitiesFailure())
-    })
-}
+      console.log(err);
+      dispatch(actions.fetchingActivitiesFailure());
+    });
+};
 
-export const saveActivity = (params) => (dispatch) => {
+export const saveActivity = params => dispatch => {
   dispatch(actions.postingActivity());
 
   if (params.id) {
     return Http.patch(`activities/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingActivitySuccess(res.data.data))
+        dispatch(actions.postingActivitySuccess(res.data.data));
 
-        return res.data.data
+        return res.data.data;
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         dispatch(actions.postingActivityFailure());
-      })
+      });
   } else {
     return Http.post(`activities`, params)
       .then(res => {
-        dispatch(actions.postingActivitySuccess(res.data.data))
+        dispatch(actions.postingActivitySuccess(res.data.data));
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         dispatch(actions.postingActivityFailure());
-      })
+      });
   }
-}
+};
 
-export const deleteActivity = (id) => (dispatch) => {
+export const deleteActivity = id => dispatch => {
   dispatch(actions.deletingActivity());
 
   return Http.delete(`activities/${id}`)
     .then(res => {
-      dispatch(actions.deletingActivitySuccess(res.data))
+      dispatch(actions.deletingActivitySuccess(res.data));
     })
     .catch(err => {
-      console.log(err)
-      dispatch(actions.deletingActivityFailure())
-    })
-}
+      console.log(err);
+      dispatch(actions.deletingActivityFailure());
+    });
+};

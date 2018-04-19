@@ -1,5 +1,5 @@
-import * as types from './action-types'
-import Status from "../Status"
+import * as types from "./action-types";
+import Status from "../Status";
 
 const initialState = {
   data: [],
@@ -7,16 +7,16 @@ const initialState = {
     currentPage: 0,
     from: 0,
     lastPage: 0,
-    path: '',
+    path: "",
     perPage: 0,
     to: 0,
-    total: 0,
+    total: 0
   },
   isFetching: false,
   isPosting: false,
   error: false,
-  searchString: ''
-}
+  searchString: ""
+};
 
 export default function statusReducer(state = initialState, action) {
   switch (action.type) {
@@ -25,32 +25,32 @@ export default function statusReducer(state = initialState, action) {
         ...state,
         isFetching: true,
         searchString: action.data.searchString
-      }
+      };
     case types.FETCHING_SINGLE_STATUS:
       return {
         ...state,
         isFetching: true
-      }
+      };
     case types.FETCHING_STATUSES_SUCCESS:
-      let { data, meta } = action.data
-      let newStatusesForState
+      let { data, meta } = action.data;
+      let newStatusesForState;
 
       if (data.length === 0) {
         return {
           ...state,
           isFetching: false
-        }
+        };
       }
 
       // When fetching the first page, always replace the contacts in the app state
       if (meta.current_page === 1) {
-        newStatusesForState = data
+        newStatusesForState = data;
       } else {
-        newStatusesForState = state.data
+        newStatusesForState = state.data;
 
         data.map(c => {
-          newStatusesForState = injectStatusIntoState(c, newStatusesForState)
-        })
+          newStatusesForState = injectStatusIntoState(c, newStatusesForState);
+        });
       }
 
       return {
@@ -59,15 +59,15 @@ export default function statusReducer(state = initialState, action) {
         meta: meta,
         isFetching: false,
         error: false
-      }
+      };
 
     case types.DELETING_STATUS_SUCCESS:
-      const updatedData = removeStatusFromState(action.data, state.data)
+      const updatedData = removeStatusFromState(action.data, state.data);
 
       return {
         ...state,
         data: updatedData
-      }
+      };
 
     case types.FETCHING_SINGLE_STATUS_FAILURE:
     case types.FETCHING_STATUSES_FAILURE:
@@ -75,16 +75,16 @@ export default function statusReducer(state = initialState, action) {
         ...state,
         isFetching: false,
         error: true
-      }
+      };
     case types.POSTING_STATUS:
       return {
         ...state,
         isPosting: true
-      }
+      };
     case types.POSTING_STATUS_SUCCESS:
     case types.FETCHING_SINGLE_STATUS_SUCCESS:
     case types.RESTORING_STATUS_SUCCESS:
-      const newData = injectStatusIntoState(action.data, state.data)
+      const newData = injectStatusIntoState(action.data, state.data);
 
       return {
         ...state,
@@ -92,39 +92,39 @@ export default function statusReducer(state = initialState, action) {
         isFetching: false,
         error: false,
         isPosting: false
-      }
+      };
     default:
-      return state
+      return state;
   }
 }
 
 const removeStatusFromState = (id, data) => {
-  _.remove(data, (s) => s.id === parseInt(id))
+  _.remove(data, s => s.id === parseInt(id));
 
-  return data
-}
+  return data;
+};
 
 const injectStatusIntoState = (status, data) => {
-  const index = _.findIndex(data, (c) => c.id === parseInt(status.id))
+  const index = _.findIndex(data, c => c.id === parseInt(status.id));
 
   if (index >= 0) {
-    data[index] = status
+    data[index] = status;
   } else {
-    data.push(status)
+    data.push(status);
   }
 
-  return data
-}
+  return data;
+};
 
-export const getStatuses = (state) => state.data.map(s => new Status(s))
+export const getStatuses = state => state.data.map(s => new Status(s));
 export const getStatus = (state, id) => {
-  let status = _.find(getStatuses(state), (s) => s.id === parseInt(id));
+  let status = _.find(getStatuses(state), s => s.id === parseInt(id));
 
-  if (typeof status === 'undefined') {
-    return new Status({})
+  if (typeof status === "undefined") {
+    return new Status({});
   }
 
   return status;
-}
-export const getSearchStringForStatuses = (state) => state.searchString;
-export const getPaginationForStatuses = (state) => state.meta;
+};
+export const getSearchStringForStatuses = state => state.searchString;
+export const getPaginationForStatuses = state => state.meta;

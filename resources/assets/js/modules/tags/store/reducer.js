@@ -1,4 +1,4 @@
-import * as types from './action-types';
+import * as types from "./action-types";
 import Tag from "../Tag";
 
 const initialState = {
@@ -7,16 +7,16 @@ const initialState = {
     currentPage: 0,
     from: 0,
     lastPage: 0,
-    path: '',
+    path: "",
     perPage: 0,
     to: 0,
-    total: 0,
+    total: 0
   },
   isFetching: false,
   isPosting: false,
   error: false,
-  searchString: ''
-}
+  searchString: ""
+};
 
 export default function tagReducer(state = initialState, action) {
   switch (action.type) {
@@ -25,32 +25,32 @@ export default function tagReducer(state = initialState, action) {
         ...state,
         isFetching: true,
         searchString: action.data.searchString
-      }
+      };
     case types.FETCHING_SINGLE_TAG:
       return {
         ...state,
         isFetching: true
-      }
+      };
     case types.FETCHING_TAGS_SUCCESS:
-      let { data, meta } = action.data
-      let newTagsForState
+      let { data, meta } = action.data;
+      let newTagsForState;
 
       if (data.length === 0) {
         return {
           ...state,
           isFetching: false
-        }
+        };
       }
 
       // When fetching the first page, always replace the contacts in the app state
       if (meta.current_page === 1) {
-        newTagsForState = data
+        newTagsForState = data;
       } else {
-        newTagsForState = state.data
+        newTagsForState = state.data;
 
         data.map(t => {
-          newTagsForState = injectTagIntoState(t, newTagsForState)
-        })
+          newTagsForState = injectTagIntoState(t, newTagsForState);
+        });
       }
 
       return {
@@ -59,15 +59,15 @@ export default function tagReducer(state = initialState, action) {
         meta: meta,
         isFetching: false,
         error: false
-      }
+      };
 
     case types.DELETING_TAG_SUCCESS:
-      const updatedData = removeTagFromState(action.data, state.data)
+      const updatedData = removeTagFromState(action.data, state.data);
 
       return {
         ...state,
         data: updatedData
-      }
+      };
 
     case types.FETCHING_SINGLE_TAG_FAILURE:
     case types.FETCHING_TAGS_FAILURE:
@@ -75,16 +75,16 @@ export default function tagReducer(state = initialState, action) {
         ...state,
         isFetching: false,
         error: true
-      }
+      };
     case types.POSTING_TAG:
       return {
         ...state,
         isPosting: true
-      }
+      };
     case types.POSTING_TAG_SUCCESS:
     case types.FETCHING_SINGLE_TAG_SUCCESS:
     case types.RESTORING_TAG_SUCCESS:
-      const newData = injectTagIntoState(action.data, state.data)
+      const newData = injectTagIntoState(action.data, state.data);
 
       return {
         ...state,
@@ -92,39 +92,39 @@ export default function tagReducer(state = initialState, action) {
         isFetching: false,
         error: false,
         isPosting: false
-      }
+      };
     default:
-      return state
+      return state;
   }
 }
 
 const removeTagFromState = (id, data) => {
-  _.remove(data, (t) => t.id === parseInt(id))
+  _.remove(data, t => t.id === parseInt(id));
 
-  return data
-}
+  return data;
+};
 
 const injectTagIntoState = (tag, data) => {
-  const index = _.findIndex(data, (t) => t.id === parseInt(tag.id))
+  const index = _.findIndex(data, t => t.id === parseInt(tag.id));
 
   if (index >= 0) {
-    data[index] = tag
+    data[index] = tag;
   } else {
-    data.push(tag)
+    data.push(tag);
   }
 
-  return data
-}
+  return data;
+};
 
-export const getTags = (state) => state.data.map(t => new Tag(t))
+export const getTags = state => state.data.map(t => new Tag(t));
 export const getTag = (state, id) => {
-  let tag = _.find(getTags(state), (t) => t.id === parseInt(id));
+  let tag = _.find(getTags(state), t => t.id === parseInt(id));
 
-  if (typeof tag === 'undefined') {
-    return new Tag({})
+  if (typeof tag === "undefined") {
+    return new Tag({});
   }
 
   return tag;
-}
-export const getSearchStringForTags = (state) => state.searchString;
-export const getPaginationForTags = (state) => state.meta;
+};
+export const getSearchStringForTags = state => state.searchString;
+export const getPaginationForTags = state => state.meta;

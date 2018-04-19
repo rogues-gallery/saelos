@@ -1,31 +1,31 @@
-import Model from '../../utils/Model'
+import Model from "../../utils/Model";
 
 const initialShape = {
-  name: '',
-  probability: '',
-  active: '',
-  color: ''
-}
+  name: "",
+  probability: "",
+  active: "",
+  color: ""
+};
 
 class Stage extends Model {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.initialize(props)
+    this.initialize(props);
   }
 
   initialize(props) {
-    super.initialize(props)
+    super.initialize(props);
 
-    this.name = props.name || ''
-    this.probability = props.probability || ''
-    this.color = props.color || ''
-    this.active = props.active || 0
+    this.name = props.name || "";
+    this.probability = props.probability || "";
+    this.color = props.color || "";
+    this.active = props.active || 0;
   }
 
   static create() {
-    return new Stage(initialShape)
+    return new Stage(initialShape);
   }
 }
 
-export default Stage
+export default Stage;

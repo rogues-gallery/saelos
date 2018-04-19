@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Get number of page from pagination
@@ -6,10 +6,10 @@ import React from 'react';
  * @param pagination
  * @returns {number}
  */
-export const getPageNumber = (pagination) => {
+export const getPageNumber = pagination => {
   let initialPage = 0;
-  if (pagination.hasOwnProperty('current_page')) {
-    initialPage = (pagination.current_page - 1);
+  if (pagination.hasOwnProperty("current_page")) {
+    initialPage = pagination.current_page - 1;
   }
 
   return initialPage;
@@ -21,9 +21,9 @@ export const getPageNumber = (pagination) => {
  * @param pagination
  * @returns {number}
  */
-export const getPageCount = (pagination) => {
+export const getPageCount = pagination => {
   let pageCount = 10;
-  if (pagination.hasOwnProperty('last_page')) {
+  if (pagination.hasOwnProperty("last_page")) {
     pageCount = pagination.last_page;
   }
 

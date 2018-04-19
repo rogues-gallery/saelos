@@ -1,252 +1,297 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import * as MDIcons from 'react-icons/lib/md'
-import { CirclePicker } from 'react-color'
-import { parseSearchString, parsedToString } from '../../utils/helpers'
-import { getActiveUser, getViews} from '../../modules/users/store/selectors'
-import { createView, removeView} from '../../modules/users/service'
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import * as MDIcons from "react-icons/lib/md";
+import { CirclePicker } from "react-color";
+import { parseSearchString, parsedToString } from "../../utils/helpers";
+import { getActiveUser, getViews } from "../../modules/users/store/selectors";
+import { createView, removeView } from "../../modules/users/service";
 
 class AdvancedSearch extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       searchString: props.searchString,
       addingView: false,
       formState: {
-        linkText: '',
-        color: '',
+        linkText: "",
+        color: "",
         parentItem: props.parentItem
       },
       expandSearch: false,
       searchDivScrollLeft: 0,
       activeOnly: "true"
-    }
+    };
 
-    this.searchInputRef = null
-    this.searchDivRef = null
+    this.searchInputRef = null;
+    this.searchDivRef = null;
   }
 
-  _updateSearchString = (string) => {
-    const { searchString } = this.state
+  _updateSearchString = string => {
+    const { searchString } = this.state;
     const lastChar = searchString.substring(searchString.length - 1);
-    const trimmed = lastChar === '+' ? searchString.substring(0, searchString.length - 1) : searchString
-    let newSearchString = `${trimmed}${string}`
+    const trimmed =
+      lastChar === "+"
+        ? searchString.substring(0, searchString.length - 1)
+        : searchString;
+    let newSearchString = `${trimmed}${string}`;
 
-    if (string.trim() === 'active:false' || string.trim() === 'active:true') {
-      const parsed = parseSearchString(trimmed)
-      const active = parseSearchString(string)
-      const activeIndex = _.findIndex(parsed.offsets, o => o.keyword === 'active')
+    if (string.trim() === "active:false" || string.trim() === "active:true") {
+      const parsed = parseSearchString(trimmed);
+      const active = parseSearchString(string);
+      const activeIndex = _.findIndex(
+        parsed.offsets,
+        o => o.keyword === "active"
+      );
 
       if (activeIndex >= 0) {
-        parsed.offsets[activeIndex].value = active.offsets[0].value
+        parsed.offsets[activeIndex].value = active.offsets[0].value;
 
         this.setState({
           activeOnly: active.offsets[0].value
-        })
+        });
 
-        newSearchString = parsedToString(parsed)
+        newSearchString = parsedToString(parsed);
       }
 
-      this._submit({value: newSearchString})
+      this._submit({ value: newSearchString });
     }
 
     this.setState({
       searchString: newSearchString,
       expandSearch: false
-    })
+    });
 
-    this._focusSearchInput()
-  }
+    this._focusSearchInput();
+  };
 
   _focusSearchInput = () => {
-    this.searchInputRef.focus()
-    this.searchInputRef.selectionStart = this.searchInputRef.value.length
-    this.searchInputRef.selectionEnd = this.searchInputRef.value.length
-  }
+    this.searchInputRef.focus();
+    this.searchInputRef.selectionStart = this.searchInputRef.value.length;
+    this.searchInputRef.selectionEnd = this.searchInputRef.value.length;
+  };
 
-  _handleOnChange = (e) => {
+  _handleOnChange = e => {
     this.setState({
       searchString: e.target.value
-    })
-  }
+    });
+  };
 
-  _handleInputChange = (event) => {
-    const { target } = event
-    const { value, name } = target
-    const { formState } = this.state
+  _handleInputChange = event => {
+    const { target } = event;
+    const { value, name } = target;
+    const { formState } = this.state;
 
-    _.set(formState, name, value)
+    _.set(formState, name, value);
 
     this.setState({
       formState
-    })
-  }
+    });
+  };
 
-  _onKeyPress = (event) => {
-    const { target, charCode } = event
+  _onKeyPress = event => {
+    const { target, charCode } = event;
 
-    if (charCode === 43) { // +
+    if (charCode === 43) {
+      // +
       this.setState({
         expandSearch: true,
-        searchDivScrollLeft: document.getElementById('search-input').scollLeft
-      })
+        searchDivScrollLeft: document.getElementById("search-input").scollLeft
+      });
     }
 
     if (charCode !== 13) {
-      return
+      return;
     }
 
-    event.preventDefault()
+    event.preventDefault();
 
-    this._submit(target)
-  }
+    this._submit(target);
+  };
 
-  _submit = (input) => {
-    const { value } = input
-    const { dispatch, searchFunc } = this.props
+  _submit = input => {
+    const { value } = input;
+    const { dispatch, searchFunc } = this.props;
 
-    if (value.length >= 3 || (/([\uD800-\uDBFF][\uDC00-\uDFFF])/).test(value)) {
-      dispatch(searchFunc({page: 1, searchString: value}))
+    if (value.length >= 3 || /([\uD800-\uDBFF][\uDC00-\uDFFF])/.test(value)) {
+      dispatch(searchFunc({ page: 1, searchString: value }));
     } else if (value.length === 0) {
-      dispatch(searchFunc({page: 1, searchString: ''}))
+      dispatch(searchFunc({ page: 1, searchString: "" }));
     }
-  }
+  };
 
-  _buildHtmlFromSearchString = (value) => {
+  _buildHtmlFromSearchString = value => {
     if (!value.trim()) {
-      return 'Search...'
+      return "Search...";
     }
 
-    const { searchFields } = this.props
-    const { originalText, offsets, exclude } = parseSearchString(value, searchFields)
+    const { searchFields } = this.props;
+    const { originalText, offsets, exclude } = parseSearchString(
+      value,
+      searchFields
+    );
 
-    return typeof offsets === 'undefined' ? value : offsets.map((v, k) => {
-      if (v.keyword === 'active' && this.state.activeOnly !== v.value) {
-        this.setState({
-          activeOnly: v.value
-        })
-      }
+    return typeof offsets === "undefined"
+      ? value
+      : offsets.map((v, k) => {
+          if (v.keyword === "active" && this.state.activeOnly !== v.value) {
+            this.setState({
+              activeOnly: v.value
+            });
+          }
 
-      const field = searchFields[v.keyword]
-      const excluded = exclude.hasOwnProperty(v.keyword)
-      const isField = typeof field !== 'undefined'
-      const isRelation = [
-        'assignee',
-        'stage',
-        'status',
-        'opportunity',
-        'company',
-        'contact',
-        'tag'
-      ].includes(v.keyword)
-      const hasTag = isRelation || isField
+          const field = searchFields[v.keyword];
+          const excluded = exclude.hasOwnProperty(v.keyword);
+          const isField = typeof field !== "undefined";
+          const isRelation = [
+            "assignee",
+            "stage",
+            "status",
+            "opportunity",
+            "company",
+            "contact",
+            "tag"
+          ].includes(v.keyword);
+          const hasTag = isRelation || isField;
 
-      if (!hasTag || v.keyword === 'freetext') {
-        return v.value
-      }
+          if (!hasTag || v.keyword === "freetext") {
+            return v.value;
+          }
 
-      return (
-        <React.Fragment>
-          <span key={k} className={`highlight-${isRelation ? 'relation' : 'field'}`}>
-            {excluded ? '-' : ''}{v.keyword}:{v.exact ? `"${v.value}"` : v.value}
-          </span>
-          &nbsp;
-        </React.Fragment>
-      )
-    })
-  }
+          return (
+            <React.Fragment>
+              <span
+                key={k}
+                className={`highlight-${isRelation ? "relation" : "field"}`}
+              >
+                {excluded ? "-" : ""}
+                {v.keyword}:{v.exact ? `"${v.value}"` : v.value}
+              </span>
+              &nbsp;
+            </React.Fragment>
+          );
+        });
+  };
 
   _toggleAdd = () => {
     this.setState({
       addingView: !this.state.addingView
-    })
-  }
+    });
+  };
 
   _createView = () => {
-    const { dispatch, parentItem } = this.props
-    const { formState, searchString } = this.state
+    const { dispatch, parentItem } = this.props;
+    const { formState, searchString } = this.state;
 
-    _.set(formState, 'searchString', searchString)
+    _.set(formState, "searchString", searchString);
 
-    dispatch(createView(formState))
+    dispatch(createView(formState));
 
     this.setState({
       formState: {
-        name: '',
-        color: '',
+        name: "",
+        color: "",
         parentItem
       },
       addingView: false
-    })
-  }
+    });
+  };
 
   _removeView = () => {
-    const { dispatch, parentItem } = this.props
-    const { searchString } = this.state
+    const { dispatch, parentItem } = this.props;
+    const { searchString } = this.state;
 
-    dispatch(removeView({
-      searchString,
-      parentItem
-    }))
-  }
+    dispatch(
+      removeView({
+        searchString,
+        parentItem
+      })
+    );
+  };
 
   _clearSearch = () => {
-    const { dispatch, searchFunc } = this.props
+    const { dispatch, searchFunc } = this.props;
 
     this.setState({
-      searchString: ''
-    })
+      searchString: ""
+    });
 
-    dispatch(searchFunc({page: 1, searchString: ''}))
-  }
+    dispatch(searchFunc({ page: 1, searchString: "" }));
+  };
 
   render() {
-    const { searchString, addingView, formState, expandSearch, activeOnly } = this.state
-    const { views, searchFields } = this.props
-    const viewSearchStrings = views.map(v => v.searchString)
+    const {
+      searchString,
+      addingView,
+      formState,
+      expandSearch,
+      activeOnly
+    } = this.state;
+    const { views, searchFields } = this.props;
+    const viewSearchStrings = views.map(v => v.searchString);
 
     return (
       <div className="position-relative px-3 pt-4 bg-white border-bottom">
-        <div className={`select-search-tags position-absolute card p-2 fw-200 ${expandSearch ? '' : 'd-none'}`}>
+        <div
+          className={`select-search-tags position-absolute card p-2 fw-200 ${
+            expandSearch ? "" : "d-none"
+          }`}
+        >
           <div className="search-relationships">
             <h5>Has</h5>
-            {['assignee', 'status', 'stage', 'tag', 'opportunity', 'contact', 'company'].map((a, i) => {
+            {[
+              "assignee",
+              "status",
+              "stage",
+              "tag",
+              "opportunity",
+              "contact",
+              "company"
+            ].map((a, i) => {
               return (
                 <span
                   key={i}
                   className="cursor-pointer highlight-relation p-1 m-1 d-inline-block"
                   onClick={() => {
-                    this._updateSearchString(`${a}:`)
-                  }}>
+                    this._updateSearchString(`${a}:`);
+                  }}
+                >
                   {a}
                 </span>
-              )
+              );
             })}
           </div>
           <hr />
           <h5>Fields</h5>
           <div className="search-fields">
             {Object.keys(searchFields).map(a => {
-              const f = searchFields[a]
+              const f = searchFields[a];
 
-              return !f.searchable ? '' : (
-                  <span
-                    key={f.id}
-                    className="cursor-pointer highlight-field p-1 m-1 d-inline-block"
-                    onClick={() => {
-                      this._updateSearchString(`${f.alias}:`)
-                    }}>
-                    {f.alias}
-                  </span>
-              )
+              return !f.searchable ? (
+                ""
+              ) : (
+                <span
+                  key={f.id}
+                  className="cursor-pointer highlight-field p-1 m-1 d-inline-block"
+                  onClick={() => {
+                    this._updateSearchString(`${f.alias}:`);
+                  }}
+                >
+                  {f.alias}
+                </span>
+              );
             })}
           </div>
         </div>
-        <div id="advanced-search-container" className={searchString ? 'input-group' : ''}>
+        <div
+          id="advanced-search-container"
+          className={searchString ? "input-group" : ""}
+        >
           <input
-            ref={searchInput => { this.searchInputRef = searchInput }}
+            ref={searchInput => {
+              this.searchInputRef = searchInput;
+            }}
             type="search"
             className="form-control"
             autoComplete="off"
@@ -258,21 +303,31 @@ class AdvancedSearch extends React.Component {
             value={searchString}
           />
           <div className="input-group-append">
-            {searchString ?
+            {searchString ? (
               <button className="btn btn-outline border">
-                <span className="text-muted" onClick={this._clearSearch}><MDIcons.MdClearAll /></span>
+                <span className="text-muted" onClick={this._clearSearch}>
+                  <MDIcons.MdClearAll />
+                </span>
               </button>
-            : '' }
-            {viewSearchStrings.includes(searchString) ?
-            <button className="btn btn-outline border">
-              <span className="text-danger" onClick={this._removeView}><MDIcons.MdDelete /></span>
-            </button>
-            : searchString ?
-            <button className="btn btn-outline border">
-              <span className="text-muted" onClick={this._toggleAdd}><MDIcons.MdAdd /></span>
-            </button>
-              : '' }
-            {addingView ?
+            ) : (
+              ""
+            )}
+            {viewSearchStrings.includes(searchString) ? (
+              <button className="btn btn-outline border">
+                <span className="text-danger" onClick={this._removeView}>
+                  <MDIcons.MdDelete />
+                </span>
+              </button>
+            ) : searchString ? (
+              <button className="btn btn-outline border">
+                <span className="text-muted" onClick={this._toggleAdd}>
+                  <MDIcons.MdAdd />
+                </span>
+              </button>
+            ) : (
+              ""
+            )}
+            {addingView ? (
               <div className="add-tag-container">
                 <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
                   <div className="px-2 py-2">
@@ -285,7 +340,8 @@ class AdvancedSearch extends React.Component {
                         name="linkText"
                         placeholder="View Name"
                         value={formState.linkText}
-                        onChange={this._handleInputChange} />
+                        onChange={this._handleInputChange}
+                      />
                     </div>
                     <div className="form-group">
                       <CirclePicker
@@ -293,31 +349,54 @@ class AdvancedSearch extends React.Component {
                         name="tagColor"
                         circleSize={20}
                         circleSpacing={10}
-                        onChangeComplete={(color) => {
+                        onChangeComplete={color => {
                           const event = {
                             target: {
-                              name: 'color',
+                              name: "color",
                               value: color.hex
                             }
-                          }
+                          };
 
-                          this._handleInputChange(event)
+                          this._handleInputChange(event);
                         }}
-                        placeholder={formState.color} />
+                        placeholder={formState.color}
+                      />
                     </div>
-                    <button type="submit" className="btn btn-primary btn-sm" onClick={this._createView}>Create</button>
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-sm"
+                      onClick={this._createView}
+                    >
+                      Create
+                    </button>
                   </div>
                 </div>
               </div>
-              : ''}
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="micro-text row text-center pt-3 pb-2">
-          <div className={`cursor-pointer text-${activeOnly === "true" ? 'dark' : 'muted'} col`} onClick={() => this._updateSearchString(' active:true')}><b>Active</b></div>
-          <div className={`cursor-pointer text-${activeOnly === "true" ? 'muted' : 'dark'} col`} onClick={() => this._updateSearchString(' active:false')}><b>Inactive</b></div>
+          <div
+            className={`cursor-pointer text-${
+              activeOnly === "true" ? "dark" : "muted"
+            } col`}
+            onClick={() => this._updateSearchString(" active:true")}
+          >
+            <b>Active</b>
+          </div>
+          <div
+            className={`cursor-pointer text-${
+              activeOnly === "true" ? "muted" : "dark"
+            } col`}
+            onClick={() => this._updateSearchString(" active:false")}
+          >
+            <b>Inactive</b>
+          </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -329,9 +408,9 @@ AdvancedSearch.propTypes = {
   views: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   parentItem: PropTypes.string.isRequired
-}
+};
 
 export default connect((state, ownProps) => ({
   views: getViews(state, ownProps.parentItem),
   user: getActiveUser(state)
-}))(AdvancedSearch)
+}))(AdvancedSearch);

@@ -1,21 +1,21 @@
-import Http from '../../utils/Http'
-import * as authActions from './store/actions'
-import Transformer from '../../utils/Transformer'
+import Http from "../../utils/Http";
+import * as authActions from "./store/actions";
+import Transformer from "../../utils/Transformer";
 
 /**
  * fetch the current logged in user
  *
  * @returns {function(*)}
  */
-export const fetchUser = () => (dispatch) => {
-  return Http.get('auth/user')
+export const fetchUser = () => dispatch => {
+  return Http.get("auth/user")
     .then(res => {
-      dispatch(authActions.authUser(res.data.data))
+      dispatch(authActions.authUser(res.data.data));
     })
     .catch(err => {
-      console.log(err)
-    })
-}
+      console.log(err);
+    });
+};
 
 /**
  * login user
@@ -23,47 +23,47 @@ export const fetchUser = () => (dispatch) => {
  * @param credentials
  * @returns {function(*)}
  */
-export const login = (credentials) => (dispatch) => {
+export const login = credentials => dispatch => {
   return new Promise((resolve, reject) => {
-    Http.post('auth/login', credentials)
+    Http.post("auth/login", credentials)
       .then(res => {
-        dispatch(authActions.authLogin(res.data.access_token))
-        return resolve()
+        dispatch(authActions.authLogin(res.data.access_token));
+        return resolve();
       })
-      .catch((err) => {
+      .catch(err => {
         const statusCode = err.response.status;
         const data = {
           error: null,
-          statusCode,
+          statusCode
         };
 
         if (statusCode === 422) {
           const resetErrors = {
             errors: err.response.data.errors,
             replace: false,
-            searchStr: '',
-            replaceStr: '',
+            searchStr: "",
+            replaceStr: ""
           };
           data.error = Transformer.resetValidationFields(resetErrors);
         } else if (statusCode === 401) {
           data.error = err.response.data.message;
         }
         return reject(data);
-      })
-  })
-}
+      });
+  });
+};
 
 /**
  * logout user
  *
  * @returns {function(*)}
  */
-export const logout = () => (dispatch) => {
-  return Http.delete('auth/logout')
+export const logout = () => dispatch => {
+  return Http.delete("auth/logout")
     .then(() => {
-      dispatch(authActions.authLogout())
+      dispatch(authActions.authLogout());
     })
     .catch(err => {
-      console.log(err)
-    })
-}
+      console.log(err);
+    });
+};

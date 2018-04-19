@@ -1,34 +1,41 @@
-import _ from 'lodash'
+import _ from "lodash";
 
 export const parseSearchString = (string, fields) => {
-  const searchable = _.filter(fields, f => f.searchable)
+  const searchable = _.filter(fields, f => f.searchable);
   const options = {
-    keywords: _.map(searchable, 'alias'),
-  }
+    keywords: _.map(searchable, "alias")
+  };
 
-  options.keywords.push('stage')
-  options.keywords.push('status')
-  options.keywords.push('opportunity')
-  options.keywords.push('company')
-  options.keywords.push('contact')
-  options.keywords.push('assignee')
-  options.keywords.push('tag')
-  options.keywords.push('active')
+  options.keywords.push("stage");
+  options.keywords.push("status");
+  options.keywords.push("opportunity");
+  options.keywords.push("company");
+  options.keywords.push("contact");
+  options.keywords.push("assignee");
+  options.keywords.push("tag");
+  options.keywords.push("active");
 
-  return parse(string, options)
-}
+  return parse(string, options);
+};
 
 export const parsedToString = (parsed, fields, ignore = []) => {
-  const isParsed = typeof parsed === 'object' && parsed.hasOwnProperty('offsets')
+  const isParsed =
+    typeof parsed === "object" && parsed.hasOwnProperty("offsets");
 
-  return !isParsed ? parsed : parsed.offsets.map(o => {
-    if (o.keyword === 'freetext') {
-      return ''
-    }
+  return !isParsed
+    ? parsed
+    : parsed.offsets
+        .map(o => {
+          if (o.keyword === "freetext") {
+            return "";
+          }
 
-    return ignore.includes(o.keyword) ? '' : `${o.keyword}:${o.value}`
-  }).join(' ') + ' ' + (typeof parsed.text !== 'undefined' ? parsed.text : '')
-}
+          return ignore.includes(o.keyword) ? "" : `${o.keyword}:${o.value}`;
+        })
+        .join(" ") +
+        " " +
+        (typeof parsed.text !== "undefined" ? parsed.text : "");
+};
 
 /**
  * Based on nepsilon/search-query-parser, modified for our needs.
@@ -39,14 +46,13 @@ export const parsedToString = (parsed, fields, ignore = []) => {
  * @param options
  */
 const parse = (string, options) => {
-
   // Set an empty options object when none provided
   if (!options) {
-    options = {}
+    options = {};
   }
 
   if (!string) {
-    string = ''
+    string = "";
   }
 
   // When a simple string, return it
@@ -56,7 +62,7 @@ const parse = (string, options) => {
 
   // When no keywords or ranges set, treat as a simple string
   if (!options.keywords && !options.ranges) {
-    return string
+    return string;
   }
 
   // Otherwise parse the advanced query syntax
@@ -64,52 +70,52 @@ const parse = (string, options) => {
   const query = {
     text: [],
     offsets: []
-  }
+  };
 
-  let exclusion = {}
-  let terms = []
+  let exclusion = {};
+  let terms = [];
 
   // Get a list of search terms respecting single and double quotes
-  const regex = /(\S+:\s?'(?:[^'\\]|\\.)*')|(\S+:\s?"(?:[^"\\]|\\.)*")|\S+:\s?\S+|\S+/g
-  let match
+  const regex = /(\S+:\s?'(?:[^'\\]|\\.)*')|(\S+:\s?"(?:[^"\\]|\\.)*")|\S+:\s?\S+|\S+/g;
+  let match;
 
   while ((match = regex.exec(string)) !== null) {
-    const term = match[0]
-    const sepIndex = term.indexOf(':')
+    const term = match[0];
+    const sepIndex = term.indexOf(":");
 
     if (sepIndex !== -1) {
-      const key = term.slice(0, sepIndex)
-      const val = term.slice(sepIndex + 1).trim()
+      const key = term.slice(0, sepIndex);
+      const val = term.slice(sepIndex + 1).trim();
 
       // Strip surrounding quotes
-      const strippedVal = val.replace(/^\"|\"$|^\'|\'$/g, '')
+      const strippedVal = val.replace(/^\"|\"$|^\'|\'$/g, "");
 
       // Strip backslashes respecting escapes
-      const newVal = (strippedVal + '').replace(/\\(.?)/g, (s, n1) => {
+      const newVal = (strippedVal + "").replace(/\\(.?)/g, (s, n1) => {
         switch (n1) {
-          case '\\':
-            return '\\';
-          case '0':
-            return '\u0000';
-          case '':
-            return '';
+          case "\\":
+            return "\\";
+          case "0":
+            return "\u0000";
+          case "":
+            return "";
           default:
             return n1;
         }
-      })
+      });
 
       terms.push({
         keyword: key,
         value: newVal,
-        exact: strippedVal !== val, // if these aren't equal, then the value was wrapped in quotes
-      })
+        exact: strippedVal !== val // if these aren't equal, then the value was wrapped in quotes
+      });
     } else {
       terms.push({
-        keyword: 'freetext',
+        keyword: "freetext",
         value: term,
         exact: false,
         text: term
-      })
+      });
     }
   }
 
@@ -117,27 +123,27 @@ const parse = (string, options) => {
   terms.reverse();
 
   // For each search term
-  let term
+  let term;
 
-  while (term = terms.pop()) {
+  while ((term = terms.pop())) {
     // When just a simple term
     if (term.text) {
       // We add it as pure text
-      query.text.push(term.text)
-      query.offsets.push(term)
+      query.text.push(term.text);
+      query.offsets.push(term);
     }
     // We got an advanced search syntax
     else {
       let key = term.keyword;
       // Check if the key is a registered keyword
       options.keywords = options.keywords || [];
-      let isKeyword = false
-      let isExclusion = false
+      let isKeyword = false;
+      let isExclusion = false;
       if (!/^-/.test(key)) {
         isKeyword = !(-1 === options.keywords.indexOf(key));
-      } else  if (key[0] === '-') {
-        let _key = key.slice(1)
-        isKeyword = !(-1 === options.keywords.indexOf(_key))
+      } else if (key[0] === "-") {
+        let _key = key.slice(1);
+        isKeyword = !(-1 === options.keywords.indexOf(_key));
         if (isKeyword) {
           key = _key;
           isExclusion = true;
@@ -159,7 +165,7 @@ const parse = (string, options) => {
         // When value is a thing
         if (value.length) {
           // Get an array of values when several are there
-          let values = value.split(',');
+          let values = value.split(",");
           if (isExclusion) {
             if (exclusion[key]) {
               // ...many times...
@@ -168,8 +174,7 @@ const parse = (string, options) => {
                 if (values.length > 1) {
                   // ... concatenate both arrays.
                   exclusion[key] = exclusion[key].concat(values);
-                }
-                else {
+                } else {
                   // ... append the current single value.
                   exclusion[key].push(value);
                 }
@@ -204,8 +209,7 @@ const parse = (string, options) => {
                 if (values.length > 1) {
                   // ... concatenate both arrays.
                   query[key] = query[key].concat(values);
-                }
-                else {
+                } else {
                   // ... append the current single value.
                   query[key].push(value);
                 }
@@ -240,7 +244,7 @@ const parse = (string, options) => {
 
         let value = term.value;
         // Range are separated with a dash
-        let rangeValues = value.split('-');
+        let rangeValues = value.split("-");
         // When both end of the range are specified
         // keyword:XXXX-YYYY
         query[key] = {};
@@ -257,10 +261,9 @@ const parse = (string, options) => {
         else {
           query[key].from = value;
         }
-      }
-      else {
+      } else {
         // We add it as pure text
-        let text = term.keyword + ':' + term.value;
+        let text = term.keyword + ":" + term.value;
         query.text.push(text);
 
         query.offsets.push({
@@ -274,7 +277,7 @@ const parse = (string, options) => {
 
   // Concatenate all text terms if any
   if (query.text.length) {
-    query.text = query.text.join(' ').trim();
+    query.text = query.text.join(" ").trim();
   }
   // Just remove the attribute text when it's empty
   else {
@@ -283,6 +286,6 @@ const parse = (string, options) => {
 
   // Return forged query object
   query.exclude = exclusion;
-  query.originalText = string
-  return query
-}
+  query.originalText = string;
+  return query;
+};
