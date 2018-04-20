@@ -13,7 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             InstallSeeder::class,
-            FieldTableSeeder::class
+            FieldTableSeeder::class,
+            StageSeeder::class,
+            StatusSeeder::class
         ]);
     }
 }
