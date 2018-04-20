@@ -225,7 +225,6 @@ class FieldLayout extends React.Component {
         <div className={`form-group mb-2`}>
           <label htmlFor={field.alias} className="col-form-label">
             {field.label}
-            {field.required ? <span className="required">*</span> : null}
           </label>
           <div>{this._buildHtml()}</div>
         </div>
@@ -235,7 +234,6 @@ class FieldLayout extends React.Component {
         <div className={`form-group mb-2 row ${hidden}`}>
           <label htmlFor={field.alias} className="col-sm-3 col-form-label">
             {field.label}
-            {field.required ? <span className="required">*</span> : null}
           </label>
           <div className="col-sm-9">{this._buildHtml()}</div>
         </div>

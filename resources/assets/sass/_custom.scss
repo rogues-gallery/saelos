@@ -997,10 +997,6 @@ a:hover {
   }
 }
 
-.required {
-  color: red;
-}
-
 input:required[value=""] {
   border-color: red;
 }
