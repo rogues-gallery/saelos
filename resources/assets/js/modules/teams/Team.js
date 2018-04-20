@@ -9,14 +9,16 @@ class Team extends Model {
   }
 
   initialize(props) {
-    super.initialize(props);
-
     this.name = props.name || "";
     this.description = props.description || "";
 
     // relate user model
     this.leader = (props.user && new User(props.leader)) || {};
     this.users = (props.users && props.users.map(u => new User(u))) || [];
+
+    props.users = props.users || [];
+
+    super.initialize(props);
   }
 }
 

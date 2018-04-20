@@ -10,10 +10,6 @@ class Record extends React.Component {
   constructor(props) {
     super(props);
 
-    this._submit = this._submit.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._delete = this._delete.bind(this);
-
     this.state = {
       formState: props.team.originalProps
     };
@@ -25,12 +21,12 @@ class Record extends React.Component {
     });
   }
 
-  _submit() {
+  _submit = () => {
     this.props.dispatch(saveTeam(this.state.formState));
-  }
+  };
 
   // @todo: Abstract this out
-  _handleInputChange(event) {
+  _handleInputChange = event => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -41,25 +37,25 @@ class Record extends React.Component {
     this.setState({
       formState
     });
-  }
+  };
 
-  _delete() {
+  _delete = () => {
     const { dispatch, team } = this.props;
 
     if (confirm("Are you sure?")) {
       dispatch(deleteTeam(team.id));
     }
-  }
+  };
 
   render() {
-    const { team, users } = this.props;
+    const { team, users, match } = this.props;
     const { formState } = this.state;
 
-    if (team.id === null) {
+    if (team.id === null && match.params.id !== "new") {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">
-            Select a team{" "}
+            Select a team
             <span className="d-none d-lg-inline">on the left </span>to edit.
           </h2>
         </main>
@@ -75,7 +71,7 @@ class Record extends React.Component {
           >
             Save
           </button>
-          {team.name}
+          {team.name ? team.name : "New Team"}
         </h4>
 
         <div className="h-scroll">

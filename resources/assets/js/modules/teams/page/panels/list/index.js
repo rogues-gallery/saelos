@@ -136,8 +136,7 @@ const Team = ({ team, dispatch, router, activeID }) => {
 Team.propTypes = {
   team: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
-  router: PropTypes.object.isRequired,
-  activeID: PropTypes.number.isRequired
+  router: PropTypes.object.isRequired
 };
 
 export default List;

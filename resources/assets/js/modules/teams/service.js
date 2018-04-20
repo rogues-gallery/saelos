@@ -52,7 +52,8 @@ export const saveTeam = params => dispatch => {
   if (params.id) {
     return Http.patch(`teams/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingTeamSuccess(res.data));
+        dispatch(actions.postingTeamSuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
         console.log(err);
@@ -61,7 +62,8 @@ export const saveTeam = params => dispatch => {
   } else {
     return Http.post(`teams`, params)
       .then(res => {
-        dispatch(actions.postingTeamSuccess(res.data));
+        dispatch(actions.postingTeamSuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
         console.log(err);

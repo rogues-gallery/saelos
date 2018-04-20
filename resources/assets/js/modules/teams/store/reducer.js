@@ -39,6 +39,7 @@ export default function teamReducer(state = initialState, action) {
         isFetching: false,
         error: true
       };
+    case types.POSTING_TEAM_SUCCESS:
     case types.FETCHING_SINGLE_TEAM_SUCCESS:
       const index = _.findIndex(
         state.data,

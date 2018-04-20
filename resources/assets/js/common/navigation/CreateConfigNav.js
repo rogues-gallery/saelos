@@ -31,7 +31,7 @@ const CreateConfigNav = ({ user }) => (
       <Link to={"/config/statuses/new"} className="dropdown-item">
         Create Status
       </Link>
-      <Link to={"/config/team/new"} className="dropdown-item">
+      <Link to={"/config/teams/new"} className="dropdown-item">
         Create Team
       </Link>
       <Link to={"/config/users/new"} className="dropdown-item">
