@@ -92,3 +92,11 @@ export const deletingUserViewSuccess = payload => ({
 export const deletingUserViewFailure = () => ({
   type: types.DELETING_USER_VIEW_FAILURE
 });
+
+export const editingUser = () => ({
+  type: types.EDITING_USER
+});
+
+export const editingUserFinished = () => ({
+  type: types.EDITING_USER_FINISHED
+});

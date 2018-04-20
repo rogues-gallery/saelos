@@ -14,7 +14,6 @@ class User extends Model {
 
   initialize(props) {
     // @TODO: Attach custom fields to top level as in Contact, Company, etc. Currently an issue with rendering / speed.
-    super.initialize(props);
 
     this.name = props.name || "";
     this.email = props.email || "";
@@ -27,6 +26,10 @@ class User extends Model {
     this.total_contacts_last_week = props.total_contacts_last_week || 0;
 
     this.views = _.get(props.settings, "views");
+
+    props.roles = props.roles || [];
+
+    super.initialize(props);
   }
 
   authorized(role) {

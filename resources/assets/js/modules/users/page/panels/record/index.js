@@ -11,6 +11,7 @@ import {
   purchaseNumber,
   fetchUser
 } from "../../../service";
+import { editingUser } from "../../../store/actions";
 import { getTeams } from "../../../../teams/store/selectors";
 import { getRoles } from "../../../../roles/store/selectors";
 import { renderGroupedFields } from "../../../../../utils/helpers/fields";
@@ -18,10 +19,6 @@ import { renderGroupedFields } from "../../../../../utils/helpers/fields";
 class Record extends React.Component {
   constructor(props) {
     super(props);
-
-    this._submit = this._submit.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._delete = this._delete.bind(this);
 
     this.state = {
       formState: props.user.originalProps
@@ -31,8 +28,13 @@ class Record extends React.Component {
   componentWillMount() {
     const { dispatch } = this.props;
 
-    if (this.props.match.params.id > 0) {
+    if (this.props.match.params.id === "new") {
+      dispatch(editingUser());
+    } else if (this.props.match.params.id > 0) {
       dispatch(fetchUser(this.props.match.params.id));
+    }
+
+    if (this.props.match.params.id > 0) {
     }
   }
 
@@ -40,12 +42,16 @@ class Record extends React.Component {
     this.setState({ formState: nextProps.user.originalProps });
   }
 
-  _submit() {
+  _submit = () => {
     this.props.dispatch(saveUser(this.state.formState));
-  }
+
+    if (this.props.match.params.id === "new") {
+      dispatch(editingUser());
+    }
+  };
 
   // @todo: Abstract this out
-  _handleInputChange(event) {
+  _handleInputChange = event => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
@@ -78,15 +84,15 @@ class Record extends React.Component {
     this.setState({
       formState
     });
-  }
+  };
 
-  _delete() {
+  _delete = () => {
     const { dispatch, user } = this.props;
 
     if (confirm("Are you sure?")) {
       dispatch(deleteUser(user.id));
     }
-  }
+  };
 
   _purchaseNumber = () => {
     const { dispatch, user } = this.props;
@@ -108,7 +114,7 @@ class Record extends React.Component {
     const { formState } = this.state;
     const groups = _.groupBy(fields, "group");
 
-    if (user.id === null) {
+    if (user.id === null && this.props.match.params.id !== "new") {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">
@@ -139,7 +145,7 @@ class Record extends React.Component {
     return (
       <main className="col main-panel px-3">
         <h4 className="border-bottom py-3">
-          {userHasNumber ? (
+          {userHasNumber || this.props.match.params.id === "new" ? (
             ""
           ) : (
             <button

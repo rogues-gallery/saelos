@@ -3,13 +3,6 @@ import PropTypes from "prop-types";
 import { fetchUsers, fetchUser } from "../../../service";
 
 class List extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this._onScroll = this._onScroll.bind(this);
-    this._onKeyPress = this._onKeyPress.bind(this);
-  }
-
   componentWillMount() {
     const { users, dispatch, searchString } = this.props;
 
@@ -18,7 +11,7 @@ class List extends React.Component {
     }
   }
 
-  _onKeyPress(event) {
+  _onKeyPress = event => {
     const { target, charCode } = event;
 
     if (charCode !== 13) {
@@ -28,9 +21,9 @@ class List extends React.Component {
     event.preventDefault();
 
     this._submit(target);
-  }
+  };
 
-  _submit(input) {
+  _submit = input => {
     const { value } = input;
     const { dispatch } = this.props;
 
@@ -39,9 +32,9 @@ class List extends React.Component {
     } else if (value.length === 0) {
       dispatch(fetchUsers({ page: 1, searchString: "" }));
     }
-  }
+  };
 
-  _onScroll(event) {
+  _onScroll = event => {
     const { target } = event;
     const { dispatch, pagination, searchString } = this.props;
     const currentPosition = target.scrollTop + target.offsetHeight;
@@ -49,12 +42,11 @@ class List extends React.Component {
     if (currentPosition + 300 >= target.scrollHeight) {
       dispatch(fetchUsers({ page: pagination.current_page + 1, searchString }));
     }
-  }
+  };
 
   render() {
     const { users, dispatch, searchString, firstUserId } = this.props;
-    const activeIndex =
-      parseInt(this.context.router.route.match.params.id) || firstUserId;
+    const activeIndex = parseInt(this.props.match.params.id) || firstUserId;
 
     return (
       <div className="col list-panel border-right">

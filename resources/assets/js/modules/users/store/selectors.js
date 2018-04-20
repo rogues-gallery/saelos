@@ -25,3 +25,5 @@ export const getSettings = state => fromReducer.getSettings(state.userState);
 
 export const getViews = (state, parentItem) =>
   fromReducer.getViews(state.userState, parentItem);
+
+export const inEdit = state => fromReducer.inEdit(state.userState);

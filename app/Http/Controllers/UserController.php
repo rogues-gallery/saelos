@@ -73,7 +73,9 @@ class UserController extends Controller
         $password = $data['password'] ?? null;
         $secondPassword = $data['second_password'] ?? null;
 
-        $roleIds = array_map(function($r) { return $r['id']; }, $roles);
+        $roleIds = array_map(function ($r) {
+            return $r['id'];
+        }, $roles);
 
         if ($roleId && !in_array($roleId, $roleIds)) {
             $roleIds[] = $roleId;
@@ -104,7 +106,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return User::create($request->all());
+        $data = $request->all();
+        $user = User::create($data);
+
+        return $this->update($request, $user->id);
     }
 
     /**
@@ -222,12 +227,12 @@ class UserController extends Controller
         $user = \Auth::user();
 
         $timeFrame = $user->customFields()
-                ->where('custom_field_alias', 'quota_is_for')
-                ->first();
+            ->where('custom_field_alias', 'quota_is_for')
+            ->first();
 
         $timeFrame = $timeFrame ? $timeFrame->value : 'weekly';
 
-        $timeFunc = function(Builder $query) use ($timeFrame) {
+        $timeFunc = function (Builder $query) use ($timeFrame) {
             switch ($timeFrame) {
                 case 'monthly':
                     $timeSpan = [

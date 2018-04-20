@@ -16,6 +16,7 @@ const initialState = {
   isFetching: false,
   isPosting: false,
   error: false,
+  inEdit: false,
   active: {
     name: "",
     username: "",
@@ -28,6 +29,16 @@ const initialState = {
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case types.EDITING_USER:
+      return {
+        ...state,
+        inEdit: !state.inEdit
+      };
+    case types.EDITING_USER_FINISHED:
+      return {
+        ...state,
+        inEdit: false
+      };
     case AUTH_USER:
       return {
         ...state,
@@ -137,3 +148,4 @@ export const getActiveUser = state => new User(state.active);
 export const getSettings = state => getActiveUser(state).settings;
 export const getViews = (state, parentItem) =>
   _.filter(getSettings(state).views, v => v.parentItem === parentItem);
+export const inEdit = state => state.inEdit;
