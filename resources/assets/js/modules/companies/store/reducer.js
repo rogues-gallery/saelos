@@ -30,7 +30,7 @@ export default function companyReducer(state = initialState, action) {
     case types.EDITING_COMPANY:
       return {
         ...state,
-        inEdit: !state.inEdit
+        inEdit: true
       };
     case types.EDITING_COMPANY_FINISHED:
       return {
@@ -83,6 +83,24 @@ export default function companyReducer(state = initialState, action) {
         isPosting: true
       };
     case types.POSTING_COMPANY_SUCCESS:
+      const newIndex = _.findIndex(
+        state.data,
+        a => a.id === parseInt(action.data.id)
+      );
+
+      if (index >= 0) {
+        state.data[newIndex] = action.data;
+      } else {
+        state.data.push(action.data);
+      }
+
+      return {
+        ...state,
+        isFetching: false,
+        error: false,
+        isPosting: false,
+        inEdit: false
+      };
     case types.FETCHING_SINGLE_COMPANY_SUCCESS:
     case types.RESTORING_COMPANY_SUCCESS:
       const index = _.findIndex(

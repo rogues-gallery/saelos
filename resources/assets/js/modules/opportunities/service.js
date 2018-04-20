@@ -80,7 +80,8 @@ export const saveOpportunity = params => dispatch => {
   if (params.id) {
     return Http.patch(`opportunities/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingOpportunitySuccess(res.data));
+        dispatch(actions.postingOpportunitySuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
         console.log(err);
@@ -89,7 +90,8 @@ export const saveOpportunity = params => dispatch => {
   } else {
     return Http.post(`opportunities`, params)
       .then(res => {
-        dispatch(actions.postingOpportunitySuccess(res.data));
+        dispatch(actions.postingOpportunitySuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
         console.log(err);

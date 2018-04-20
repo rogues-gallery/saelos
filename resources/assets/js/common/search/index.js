@@ -160,9 +160,8 @@ class AdvancedSearch extends React.Component {
           }
 
           return (
-            <React.Fragment>
+            <React.Fragment key={k}>
               <span
-                key={k}
                 className={`highlight-${isRelation ? "relation" : "field"}`}
               >
                 {excluded ? "-" : ""}
@@ -265,14 +264,12 @@ class AdvancedSearch extends React.Component {
           <hr />
           <h5>Fields</h5>
           <div className="search-fields">
-            {Object.keys(searchFields).map(a => {
+            {Object.keys(searchFields).map((a, i) => {
               const f = searchFields[a];
 
-              return !f.searchable ? (
-                ""
-              ) : (
+              return !f.searchable ? null : (
                 <span
-                  key={f.id}
+                  key={i}
                   className="cursor-pointer highlight-field p-1 m-1 d-inline-block"
                   onClick={() => {
                     this._updateSearchString(`${f.alias}:`);

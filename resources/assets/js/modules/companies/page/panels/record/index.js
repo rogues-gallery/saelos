@@ -29,22 +29,28 @@ class Record extends React.Component {
     };
   }
 
-  componentWillMount() {
-    const { dispatch } = this.props;
+  componentDidMount() {
+    const { dispatch, match } = this.props;
 
-    if (this.props.match.params.id === "new") {
+    if (match.params.id === "new") {
       dispatch(editingCompany());
-    } else if (this.props.match.params.id > 0) {
-      dispatch(fetchCompany(this.props.match.params.id));
+    } else if (match.params.id > 0) {
+      dispatch(fetchCompany(match.params.id));
     }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.match.params.id === "new" && !nextProps.inEdit) {
-      nextProps.dispatch(editingCompany());
+    const { match, inEdit, dispatch, company } = nextProps;
+
+    if (
+      match.params.id === "new" &&
+      !inEdit &&
+      this.props.match.params.id !== "new"
+    ) {
+      dispatch(editingCompany());
     }
 
-    this.setState({ formState: nextProps.company.originalProps });
+    this.setState({ formState: company.originalProps });
   }
 
   _delete = () => {
@@ -61,16 +67,24 @@ class Record extends React.Component {
   };
 
   _toggleEdit = () => {
-    this.props.dispatch(editingCompany());
+    const { dispatch, match, inEdit } = this.props;
 
-    if (this.props.match.params.id === "new" && this.props.inEdit) {
+    dispatch(inEdit ? editingCompanyFinished() : editingCompany());
+
+    if (match.params.id === "new" && inEdit) {
       this.context.router.history.push("/companies");
     }
   };
 
   _submit = () => {
-    this.props.dispatch(saveCompany(this.state.formState));
-    this.props.dispatch(editingCompanyFinished());
+    const { dispatch, match } = this.props;
+    const { formState } = this.state;
+
+    dispatch(saveCompany(formState)).then(data => {
+      if (match.params.id === "new") {
+        this.context.router.history.push(`/companies/${data.id}`);
+      }
+    });
   };
 
   // @todo: Abstract this out ... Don - looking at you.

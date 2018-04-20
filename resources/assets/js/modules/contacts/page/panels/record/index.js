@@ -30,22 +30,28 @@ class Record extends React.Component {
     };
   }
 
-  componentWillMount() {
-    const { dispatch } = this.props;
+  componentDidMount() {
+    const { dispatch, match, inEdit, contact } = this.props;
 
-    if (this.props.match.params.id === "new") {
+    if (match.params.id === "new" && !inEdit) {
       dispatch(editingContact());
-    } else if (this.props.match.params.id > 0) {
-      dispatch(fetchContact(this.props.match.params.id));
+    } else if (match.params.id > 0) {
+      dispatch(fetchContact(match.params.id));
     }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.match.params.id === "new" && !nextProps.inEdit) {
-      nextProps.dispatch(editingContact());
+    const { match, inEdit, dispatch, contact } = nextProps;
+
+    if (
+      match.params.id === "new" &&
+      !inEdit &&
+      this.props.match.params.id !== "new"
+    ) {
+      dispatch(editingContact());
     }
 
-    this.setState({ formState: nextProps.contact.originalProps });
+    this.setState({ formState: contact.originalProps });
   }
 
   _delete = () => {
@@ -64,16 +70,24 @@ class Record extends React.Component {
   };
 
   _toggleEdit = () => {
-    this.props.dispatch(editingContact());
+    const { match, dispatch, inEdit } = this.props;
 
-    if (this.props.match.params.id === "new" && this.props.inEdit) {
+    dispatch(inEdit ? editingContactFinished() : editingContact());
+
+    if (match.params.id === "new" && inEdit) {
       this.context.router.history.push("/contacts");
     }
   };
 
   _submit = () => {
-    this.props.dispatch(saveContact(this.state.formState));
-    this.props.dispatch(editingContactFinished());
+    const { dispatch, match } = this.props;
+    const { formState } = this.state;
+
+    dispatch(saveContact(formState)).then(data => {
+      if (match.params.id === "new") {
+        this.context.router.history.push(`/contacts/${data.id}`);
+      }
+    });
   };
 
   // @todo: Abstract this out

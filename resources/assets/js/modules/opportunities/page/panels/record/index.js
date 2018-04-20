@@ -36,22 +36,28 @@ class Record extends React.Component {
     };
   }
 
-  componentWillMount() {
-    const { dispatch } = this.props;
+  componentDidMount() {
+    const { dispatch, match } = this.props;
 
-    if (this.props.match.params.id === "new") {
+    if (match.params.id === "new") {
       dispatch(editingOpportunity());
-    } else if (this.props.match.params.id > 0) {
+    } else if (match.params.id > 0) {
       dispatch(fetchOpportunity(this.props.match.params.id));
     }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.match.params.id === "new" && !nextProps.inEdit) {
-      nextProps.dispatch(editingOpportunity());
+    const { dispatch, inEdit, match, opportunity } = nextProps;
+
+    if (
+      match.params.id === "new" &&
+      !inEdit &&
+      this.props.match.params.id !== "new"
+    ) {
+      dispatch(editingOpportunity());
     }
 
-    this.setState({ formState: nextProps.opportunity.originalProps });
+    this.setState({ formState: opportunity.originalProps });
   }
 
   _delete = () => {
@@ -64,20 +70,28 @@ class Record extends React.Component {
   _toggleTaskCompose = view => {
     const { dispatch, opportunity } = this.props;
 
-    dispatch(openTaskContainer(() => alert("hi"), opportunity, view));
+    dispatch(openTaskContainer(opportunity, view));
   };
 
   _toggleEdit = () => {
-    this.props.dispatch(editingOpportunity());
+    const { dispatch, match, inEdit } = this.props;
 
-    if (this.props.match.params.id === "new" && this.props.inEdit) {
+    dispatch(inEdit ? editingOpportunityFinished() : editingOpportunity());
+
+    if (match.params.id === "new" && inEdit) {
       this.context.router.history.push("/opportunities");
     }
   };
 
   _submit = () => {
-    this.props.dispatch(saveOpportunity(this.state.formState));
-    this.props.dispatch(editingOpportunityFinished());
+    const { dispatch, match } = this.props;
+    const { formState } = this.state;
+
+    dispatch(saveOpportunity(formState)).then(data => {
+      if (match.params.id === "new") {
+        this.context.router.history.push(`/opportunities/${data.id}`);
+      }
+    });
   };
 
   // @todo: Extract this crap. Mercy, this is embarrassing

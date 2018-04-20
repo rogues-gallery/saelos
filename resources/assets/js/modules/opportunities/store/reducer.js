@@ -30,7 +30,7 @@ export default function opportunityReducer(state = initialState, action) {
     case types.EDITING_OPPORTUNITY:
       return {
         ...state,
-        inEdit: !state.inEdit
+        inEdit: true
       };
     case types.EDITING_OPPORTUNITY_FINISHED:
       return {
@@ -81,6 +81,16 @@ export default function opportunityReducer(state = initialState, action) {
         isPosting: true
       };
     case types.POSTING_OPPORTUNITY_SUCCESS:
+      const newNewData = injectOpportunityIntoState(action.data, state.data);
+
+      return {
+        ...state,
+        data: newNewData,
+        isFetching: false,
+        error: false,
+        isPosting: false,
+        inEdit: false
+      };
     case types.FETCHING_SINGLE_OPPORTUNITY_SUCCESS:
       const newData = injectOpportunityIntoState(action.data, state.data);
 

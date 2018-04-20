@@ -43,11 +43,11 @@ export const postingOpportunity = () => ({
 /* @TODO Why does opportunities require payload.data instead of just payload */
 
 export const postingOpportunitySuccess = payload => {
-  notifications.onOpportunitySave(payload.data);
+  notifications.onOpportunitySave(payload);
 
   return {
     type: types.POSTING_OPPORTUNITY_SUCCESS,
-    data: payload.data
+    data: payload
   };
 };
 

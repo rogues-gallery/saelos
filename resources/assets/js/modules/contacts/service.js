@@ -93,6 +93,7 @@ export const saveContact = params => dispatch => {
     return Http.patch(`contacts/${params.id}`, params)
       .then(res => {
         dispatch(actions.postingContactSuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
         console.log(err);
@@ -102,6 +103,7 @@ export const saveContact = params => dispatch => {
     return Http.post(`contacts`, params)
       .then(res => {
         dispatch(actions.postingContactSuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
         console.log(err);

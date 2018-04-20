@@ -32,7 +32,7 @@ export default function contactReducer(state = initialState, action) {
     case types.EDITING_CONTACT:
       return {
         ...state,
-        inEdit: !state.inEdit
+        inEdit: true
       };
     case types.EDITING_CONTACT_FINISHED:
       return {
@@ -87,12 +87,22 @@ export default function contactReducer(state = initialState, action) {
         isPosting: true
       };
     case types.POSTING_CONTACT_SUCCESS:
-    case types.FETCHING_SINGLE_CONTACT_SUCCESS:
       const newData = injectContactIntoState(action.data, state.data);
 
       return {
         ...state,
         data: newData,
+        isFetching: false,
+        error: false,
+        isPosting: false,
+        inEdit: false
+      };
+    case types.FETCHING_SINGLE_CONTACT_SUCCESS:
+      const newNewData = injectContactIntoState(action.data, state.data);
+
+      return {
+        ...state,
+        data: newNewData,
         isFetching: false,
         error: false,
         isPosting: false

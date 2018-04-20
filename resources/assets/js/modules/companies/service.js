@@ -107,6 +107,7 @@ export const saveCompany = params => dispatch => {
     return Http.patch(`companies/${params.id}`, params)
       .then(res => {
         dispatch(actions.postingCompanySuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
         console.log(err);
@@ -116,6 +117,7 @@ export const saveCompany = params => dispatch => {
     return Http.post(`companies`, params)
       .then(res => {
         dispatch(actions.postingCompanySuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
         console.log(err);

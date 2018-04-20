@@ -19,12 +19,6 @@ class TagsPartial extends React.Component {
   constructor(props) {
     super(props);
 
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._submit = this._submit.bind(this);
-    this._navToSearch = this._navToSearch.bind(this);
-    this._tagEntity = this._tagEntity.bind(this);
-    this._toggleAddTag = this._toggleAddTag.bind(this);
-
     this.state = {
       formState: {},
       addTagOpen: false
@@ -36,7 +30,7 @@ class TagsPartial extends React.Component {
   }
 
   // @todo: Abstract this out
-  _handleInputChange(event) {
+  _handleInputChange = event => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
@@ -48,9 +42,9 @@ class TagsPartial extends React.Component {
     this.setState({
       formState: tagState
     });
-  }
+  };
 
-  _submit(tag) {
+  _submit = tag => {
     const { entityId, dispatch } = this.props;
     const submitData = typeof tag !== "undefined" ? tag : this.state.formState;
     dispatch(saveTag(submitData, this.props.entityType)).then(() => {
@@ -74,9 +68,9 @@ class TagsPartial extends React.Component {
       formState: {},
       addTagOpen: false
     });
-  }
+  };
 
-  _navToSearch(searchString) {
+  _navToSearch = searchString => {
     const { dispatch, entityType } = this.props;
     const { router } = this.context;
 
@@ -98,9 +92,9 @@ class TagsPartial extends React.Component {
         router.history.push(`/headquarters`);
         break;
     }
-  }
+  };
 
-  _tagEntity(id) {
+  _tagEntity = id => {
     const { entityType, entityId } = this.props;
     let name;
 
@@ -140,9 +134,9 @@ class TagsPartial extends React.Component {
     }
 
     this._submit();
-  }
+  };
 
-  _removeTag(tag) {
+  _removeTag = tag => {
     const { entityType, entityId } = this.props;
 
     switch (entityType) {
@@ -170,13 +164,13 @@ class TagsPartial extends React.Component {
     }
 
     this._submit(tag);
-  }
+  };
 
-  _toggleAddTag() {
+  _toggleAddTag = () => {
     this.setState({
       addTagOpen: !this.state.addTagOpen
     });
-  }
+  };
 
   render() {
     const { allTags, tags, entityId } = this.props;
@@ -308,7 +302,7 @@ TagsPartial.propTypes = {
   tags: PropTypes.array.isRequired,
   allTags: PropTypes.array.isRequired,
   entityType: PropTypes.string.isRequired,
-  entityId: PropTypes.number.isRequired
+  entityId: PropTypes.number
 };
 
 TagsPartial.contextTypes = {
