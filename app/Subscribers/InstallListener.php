@@ -21,6 +21,8 @@ class InstallListener
     {
         $output = new BufferedOutput;
 
+        File::move(storage_path('installed'), storage_path('install_pending'));
+
         try {
             Artisan::call('passport:install', ['--force' => true], $output);
 
@@ -30,8 +32,8 @@ class InstallListener
                 ->first();
 
             $envContent = "\n";
-            $envContent .= "PASSWORD_CLIENT_ID=".$passwordClient->id."\n";
-            $envContent .= "PASSWORD_CLIENT_SECRET=".$passwordClient->secret."\n";
+            $envContent .= "PASSWORD_CLIENT_ID=" . $passwordClient->id . "\n";
+            $envContent .= "PASSWORD_CLIENT_SECRET=" . $passwordClient->secret . "\n";
 
             file_put_contents(base_path('.env'), $envContent, FILE_APPEND);
 
@@ -50,7 +52,10 @@ class InstallListener
                 );
             }
         } catch (\Exception $e) {
-            var_dump($e->getMessage());die;
+            var_dump($e->getMessage());
+            die;
         }
+
+        File::move(storage_path('install_pending'), storage_path('installed'));
     }
 }
