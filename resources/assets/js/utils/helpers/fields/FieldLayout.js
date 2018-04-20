@@ -60,6 +60,7 @@ class FieldLayout extends React.Component {
               id={field.alias}
               name={field.alias}
               onChange={onChange}
+              {...readOnly}
               defaultValue={fieldValue}
             />
           );
@@ -71,6 +72,7 @@ class FieldLayout extends React.Component {
                 name={field.alias}
                 id={field.alias}
                 onChange={onChange}
+                {...readOnly}
                 defaultChecked={fieldValue}
               />
               <span className="toggle-slider round" />
@@ -84,6 +86,7 @@ class FieldLayout extends React.Component {
               id={field.alias}
               name={field.alias}
               onChange={onChange}
+              {...readOnly}
               defaultValue={fieldValue}
             />
           );
@@ -94,6 +97,7 @@ class FieldLayout extends React.Component {
               {...readOnly}
               id={field.alias}
               name={field.alias}
+              {...readOnly}
               onChange={onChange}
               defaultValue={fieldValue}
             />
@@ -109,6 +113,7 @@ class FieldLayout extends React.Component {
               labelKey="label"
               multi={true}
               value={fieldValue}
+              {...readOnly}
               className="form-control"
               onChange={value => {
                 const e = {
@@ -132,6 +137,7 @@ class FieldLayout extends React.Component {
               valueKey="value"
               labelKey="label"
               value={fieldValue}
+              {...readOnly}
               className="form-control"
               onChange={value => {
                 const e = {
@@ -163,6 +169,7 @@ class FieldLayout extends React.Component {
               id={field.alias}
               name={field.alias}
               onChange={onChange}
+              {...readOnly}
               defaultValue={fieldValue}
             />
           );
@@ -218,6 +225,7 @@ class FieldLayout extends React.Component {
         <div className={`form-group mb-2`}>
           <label htmlFor={field.alias} className="col-form-label">
             {field.label}
+            {field.required ? <span className="required">*</span> : null}
           </label>
           <div>{this._buildHtml()}</div>
         </div>
@@ -227,6 +235,7 @@ class FieldLayout extends React.Component {
         <div className={`form-group mb-2 row ${hidden}`}>
           <label htmlFor={field.alias} className="col-sm-3 col-form-label">
             {field.label}
+            {field.required ? <span className="required">*</span> : null}
           </label>
           <div className="col-sm-9">{this._buildHtml()}</div>
         </div>
