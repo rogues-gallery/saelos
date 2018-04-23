@@ -97,6 +97,14 @@ class Page extends Component {
             <div className="row">
               <div className="mx-auto">
                 <span className="anchor" />
+                <div class="text-center mb-4">
+                  <img
+                    src="images/logo.png"
+                    alt="Saelos"
+                    height="100"
+                    width="100"
+                  />
+                </div>
                 <div className="card has-shadow">
                   <div className="card-body">
                     <Form {...props} />
