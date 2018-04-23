@@ -19,7 +19,15 @@ if (token) {
 }
 
 axios.interceptors.response.use(
-  response => response,
+  response => {
+    if (response.data.redirect === true) {
+      document.location.href = response.data.destination;
+
+      return;
+    }
+
+    return response;
+  },
   error => {
     if (error.response.status === 401) {
       store.dispatch(authLogout());
