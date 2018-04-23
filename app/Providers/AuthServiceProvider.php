@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App;
 use App\Role;
 use Laravel\Passport\Passport;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -30,7 +31,11 @@ class AuthServiceProvider extends ServiceProvider
 
         if (file_exists(storage_path('installed'))) {
             // Assign all role names as available token scopes
-            Passport::tokensCan(Role::all()->pluck('description','name')->all());
+            Passport::tokensCan([
+                'admin' => 'Admin User',
+                'manager' => 'Manager User',
+                'user' => 'User'
+            ]);
         }
     }
 }
