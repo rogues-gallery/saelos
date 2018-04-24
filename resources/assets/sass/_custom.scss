@@ -1000,3 +1000,14 @@ a:hover {
 input:required[value=""] {
   border-color: red;
 }
+
+.bark {
+  width: 100px;
+  height: 100px;
+  .bow {
+    fill: $saelos;
+  }
+  .wow {
+    fill: $white;
+  }
+}
