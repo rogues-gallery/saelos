@@ -24,3 +24,5 @@ export const isMinimized = state =>
 
 export const getActionView = state =>
   fromReducer.getActionView(state.activityState);
+
+export const getNoteId = state => fromReducer.getNoteId(state.activityState);

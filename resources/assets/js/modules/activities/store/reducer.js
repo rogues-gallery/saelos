@@ -92,12 +92,22 @@ export default function activityReducer(state = initialState, action) {
       };
 
     case types.OPEN_TASK_CONTAINER:
+      // Remove id from state for notes if set
+      if (typeof state.id !== "undefined") {
+        delete state.id;
+      }
+
       return {
         ...state,
         ...action.data,
         open: true
       };
     case types.CLOSE_TASK_CONTAINER:
+      // Remove id from state for notes if set
+      if (typeof state.id !== "undefined") {
+        delete state.id;
+      }
+
       return {
         ...state,
         model: initialState.model,
@@ -145,3 +155,4 @@ export const getModel = state => state.model;
 export const isOpen = state => state.open;
 export const isMinimized = state => state.minimized;
 export const getActionView = state => state.actionType;
+export const getNoteId = state => state.id;

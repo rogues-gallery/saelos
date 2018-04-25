@@ -139,7 +139,16 @@ export default function opportunityReducer(state = initialState, action) {
       if (action.type === DELETING_NOTE_SUCCESS) {
         opp.notes = _.filter(opp.notes, n => n.id !== action.data.data.id);
       } else {
-        opp.notes.unshift(action.data.data);
+        const noteIndex = _.findIndex(
+          opp.notes,
+          n => n.id === action.data.data.id
+        );
+
+        if (noteIndex >= 0) {
+          opp.notes[noteIndex] = action.data.data;
+        } else {
+          opp.notes.unshift(action.data.data);
+        }
       }
 
       const updatedDataWithNotes = injectOpportunityIntoState(opp, state.data);

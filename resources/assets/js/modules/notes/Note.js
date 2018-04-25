@@ -14,6 +14,7 @@ class Note extends Model {
 
     this.published = props.published || 0;
     this.note = props.note || "";
+    this.name = props.name || "";
     this.entity_type = props.entity_type || "";
     this.entity_id = props.entity_id || 0;
     this.private = props.private || 0;

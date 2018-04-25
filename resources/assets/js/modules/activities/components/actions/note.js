@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ReactQuill from "react-quill";
 import * as MDIcons from "react-icons/lib/md";
+import _ from "lodash";
 import Dropzone from "react-dropzone";
 import Contact from "../../../contacts/Contact";
 import Opportunity from "../../../opportunities/Opportunity";
@@ -13,16 +14,34 @@ class NoteAction extends Component {
   constructor(props) {
     super(props);
 
+    let note_name = "";
+    let note_content = "";
+    let opportunity_id = 0;
+    let company_id = 0;
+    let contact_id = 0;
+    let isPrivate = 0;
+    let doc = "";
+
+    const note = _.find(props.model.notes, n => n.id === props.id);
+
+    if (note) {
+      note_name = note.name;
+      note_content = note.note;
+      isPrivate = note.private;
+      doc = note.document;
+    }
+
     this.state = {
       formState: {
+        id: props.id,
         model: props.model,
-        document: "",
-        private: 0,
-        note_name: "",
-        note_content: "",
-        opportunity_id: null,
-        company_id: null,
-        contact_id: null
+        document: doc,
+        private: isPrivate,
+        note_name,
+        note_content,
+        opportunity_id,
+        company_id,
+        contact_id
       }
     };
   }
@@ -134,6 +153,7 @@ class NoteAction extends Component {
               name="note_content"
               className="fh-200"
               onChange={this._handleContentChange}
+              value={formState.note_content}
             />
           </div>
           <div className="mt-2">
@@ -183,7 +203,8 @@ NoteAction.propTypes = {
     PropTypes.instanceOf(Contact),
     PropTypes.instanceOf(Company),
     PropTypes.instanceOf(Opportunity)
-  ])
+  ]),
+  id: PropTypes.number
 };
 
 export default connect()(NoteAction);

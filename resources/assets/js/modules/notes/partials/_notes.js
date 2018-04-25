@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as MDIcons from "react-icons/lib/md";
 import Note from "../Note";
-import TextTruncate from "react-text-truncate";
+import Truncate from "react-truncate-html";
 import { saveNote, deleteNote } from "../service";
 import ContentEditable from "react-contenteditable";
 import { openTaskContainer } from "../../activities/store/actions";
@@ -52,7 +52,13 @@ class Notes extends React.Component {
         >
           <div className="list-group">
             {notes.map(note => (
-              <Item key={note.id} note={note} user={user} dispatch={dispatch} />
+              <Item
+                key={note.id}
+                note={note}
+                user={user}
+                model={model}
+                dispatch={dispatch}
+              />
             ))}
           </div>
         </div>
@@ -77,7 +83,6 @@ class Item extends React.Component {
 
     this.state = {
       open: false,
-      inEdit: false,
       formState: props.note.originalProps
     };
   }
@@ -90,22 +95,14 @@ class Item extends React.Component {
     }
   };
 
-  _toggleEditState = event => {
-    event.stopPropagation();
+  _edit = () => {
+    const { dispatch, note, model } = this.props;
 
-    this.setState({
-      inEdit: !this.state.inEdit
-    });
+    dispatch(openTaskContainer(model, "note", note.id));
   };
 
   _delete = () => {
     this.props.dispatch(deleteNote(this.state.formState));
-  };
-
-  _handleInputChange = event => {
-    const { target } = event;
-
-    this.state.formState.note = target.value;
   };
 
   _submit = () => {
@@ -119,7 +116,7 @@ class Item extends React.Component {
 
     // don't show private notes for other users
     if (note.private && note.user.id !== this.props.user.id) {
-      return "";
+      return null;
     }
 
     return (
@@ -139,56 +136,36 @@ class Item extends React.Component {
             <span className="in-margin float-left text-muted">
               <MDIcons.MdLockOutline />
             </span>
-          ) : (
-            ""
-          )}
+          ) : null}
           <p className="font-weight-bold">{note.user.name}</p>
           <div className="note">
             {this.state.open ? (
               <div className="note-content nl2br">
-                {this.state.inEdit ? (
-                  <div className="list-group-item-edit">
-                    <ContentEditable
-                      className="fh-5 my-2 p-1 border rounded"
-                      name="note"
-                      onChange={this._handleInputChange}
-                      html={note.note}
-                    />
-                    <span className="mini-text my-2">
-                      <a
-                        href="javascript:void(0)"
-                        className="text-muted pr-1"
-                        onClick={this._toggleEditState}
-                      >
-                        Cancel
-                      </a>
-                      <a href="javascript:void(0)" onClick={this._submit}>
-                        Save
-                      </a>
-                    </span>
-                  </div>
-                ) : (
-                  <div className="list-group-item-view">
-                    {note.note}
+                <div className="list-group-item-view">
+                  <div dangerouslySetInnerHTML={{ __html: note.note }} />
+                  <span className="my-2">
                     <a
                       href="javascript:void(0)"
-                      className="mini-text d-block"
+                      className="btn btn-small btn-link btn-text mini-text mr-2"
+                      onClick={this._edit}
+                    >
+                      Edit
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      className="btn btn-small btn-link mini-text"
                       onClick={this._delete}
                     >
                       Delete
                     </a>
-                    <a
-                      href="javascript:void(0)"
-                      className="mini-text d-block"
-                      onClick={this._toggleEditState}
-                    >
-                      Edit
-                    </a>
-                  </div>
-                )}
+                  </span>
+                </div>
               </div>
             ) : (
-              <TextTruncate line={3} truncateText="..." text={note.note} />
+              <Truncate
+                lines={3}
+                dangerouslySetInnerHTML={{ __html: note.note }}
+              />
             )}
           </div>
           {note.document.id ? (
@@ -209,7 +186,12 @@ class Item extends React.Component {
 Note.propTypes = {
   user: PropTypes.object.isRequired,
   note: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  model: PropTypes.oneOfType([
+    PropTypes.instanceOf(Contact),
+    PropTypes.instanceOf(Company),
+    PropTypes.instanceOf(Opportunity)
+  ])
 };
 
 export default Notes;

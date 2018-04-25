@@ -6,11 +6,9 @@ import Company from "../companies/Company";
 
 export const saveNote = params => dispatch => {
   dispatch(actions.postingNote());
-  console.log(params);
 
   let url;
   let prefix;
-  let method = "post";
   let config = {};
 
   if (params.model instanceof Contact) {
@@ -27,11 +25,6 @@ export const saveNote = params => dispatch => {
 
   url = `${prefix}/${params.model.id}/notes`;
 
-  if (params.id) {
-    url = `${url}/${params.id}`;
-    method = "patch";
-  }
-
   const formData = new FormData();
 
   _.forOwn(params, (v, k) => {
@@ -44,7 +37,12 @@ export const saveNote = params => dispatch => {
     "content-type": "multipart/form-data"
   };
 
-  return Http[method](url, formData, config)
+  if (params.id) {
+    url = `${url}/${params.id}`;
+    formData.append("_method", "PATCH");
+  }
+
+  return Http.post(url, formData, config)
     .then(res => {
       dispatch(actions.postingNoteSuccess({ data: res.data }));
     })

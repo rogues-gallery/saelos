@@ -139,7 +139,16 @@ export default function contactReducer(state = initialState, action) {
           n => n.id !== action.data.data.id
         );
       } else {
-        contact.notes.unshift(action.data.data);
+        const noteIndex = _.findIndex(
+          contact.notes,
+          n => n.id === action.data.data.id
+        );
+
+        if (noteIndex >= 0) {
+          contact.notes[noteIndex] = action.data.data;
+        } else {
+          contact.notes.unshift(action.data.data);
+        }
       }
 
       const updatedDataWithNotes = injectContactIntoState(contact, state.data);

@@ -153,7 +153,16 @@ export default function companyReducer(state = initialState, action) {
           n => n.id !== action.data.data.id
         );
       } else {
-        company.notes.unshift(action.data.data);
+        const noteIndex = _.findIndex(
+          company.notes,
+          n => n.id === action.data.data.id
+        );
+
+        if (noteIndex >= 0) {
+          company.notes[noteIndex] = action.data.data;
+        } else {
+          company.notes.unshift(action.data.data);
+        }
       }
 
       const updatedDataWithNotes = injectCompaniesIntoState(

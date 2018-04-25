@@ -7,7 +7,8 @@ import {
   getModel,
   getActionView,
   isOpen,
-  isMinimized
+  isMinimized,
+  getNoteId
 } from "../store/selectors";
 import { closeTaskContainer, minimizeTaskContainer } from "../store/actions";
 import ErrorBoundary from "../../../utils/ErrorBoundry";
@@ -32,7 +33,7 @@ class TaskContainer extends React.Component {
   };
 
   render() {
-    const { open, actionView, model, dispatch } = this.props;
+    const { open, actionView, model, dispatch, ...rest } = this.props;
     const { minimized } = this.state;
 
     return (
@@ -76,6 +77,7 @@ class TaskContainer extends React.Component {
               view={actionView}
               model={model}
               toggle={() => dispatch(closeTaskContainer())}
+              {...rest}
             />
           </div>
         </ErrorBoundary>
@@ -92,5 +94,6 @@ export default connect(state => ({
   model: getModel(state),
   open: isOpen(state),
   minimized: isMinimized(state),
-  actionView: getActionView(state)
+  actionView: getActionView(state),
+  id: getNoteId(state)
 }))(TaskContainer);

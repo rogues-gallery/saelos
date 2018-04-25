@@ -53,11 +53,12 @@ export const deletingActivityFailure = () => ({
   type: types.DELETING_ACTIVITY_FAILURE
 });
 
-export const openTaskContainer = (model, actionType = "create") => ({
+export const openTaskContainer = (model, actionType = "create", id = null) => ({
   type: types.OPEN_TASK_CONTAINER,
   data: {
     model,
-    actionType
+    actionType,
+    id
   }
 });
 

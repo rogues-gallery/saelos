@@ -14,13 +14,13 @@ import { getActiveUser } from "../../users/store/selectors";
 
 class ActionView extends React.Component {
   render() {
-    const { view, ...rest } = this.props;
+    const { view, id, ...rest } = this.props;
 
     switch (view) {
       case "email":
         return <EmailAction {...rest} />;
       case "note":
-        return <NoteAction {...rest} />;
+        return <NoteAction id={id} {...rest} />;
       case "call":
         return <CallAction {...rest} />;
       case "sms":
