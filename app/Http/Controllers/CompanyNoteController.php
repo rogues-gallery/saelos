@@ -14,8 +14,6 @@ class CompanyNoteController extends Controller
 {
     public function update(Request $request, Company $company, Note $note)
     {
-        var_dump($request->all());
-        die;
         $note->note = $request->get('note_content');
         $note->name = $request->get('note_name');
         $note->private = $request->get('private');

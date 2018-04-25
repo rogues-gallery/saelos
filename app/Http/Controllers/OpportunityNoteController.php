@@ -14,7 +14,32 @@ class OpportunityNoteController extends Controller
 {
     public function update(Request $request, Opportunity $opportunity, Note $note)
     {
-        $note->update($request->all());
+        $note->note = $request->get('note_content');
+        $note->name = $request->get('note_name');
+        $note->private = $request->get('private');
+
+        $note->save();
+
+        if ($request->hasFile('document')) {
+            $file = $request->file('document');
+
+            if ($file->isValid()) {
+                $path = public_path('/uploads/');
+                $name = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
+                $size = $file->getSize();
+                $mime = $file->getMimeType();
+                $file->move($path, $name);
+
+                $document = Document::create([
+                    'name' => $file->getClientOriginalName(),
+                    'filename' => $name,
+                    'size' => $size,
+                    'mimetype' => $mime
+                ]);
+
+                $note->document()->save($document);
+            }
+        }
 
         return $note;
     }
@@ -30,7 +55,7 @@ class OpportunityNoteController extends Controller
         $note = Note::create([
             'name' => $request->get('note_name'),
             'note' => $request->get('note_content'),
-            'private' => (int) $request->get('private')
+            'private' => (int)$request->get('private')
         ]);
 
         if ($request->hasFile('document')) {
@@ -38,7 +63,7 @@ class OpportunityNoteController extends Controller
 
             if ($file->isValid()) {
                 $path = public_path('/uploads/');
-                $name = md5(time().$file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
+                $name = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
                 $size = $file->getSize();
                 $mime = $file->getMimeType();
                 $file->move($path, $name);
