@@ -333,9 +333,7 @@ const Pipeline = ({
                   <div className="list-group-item list-group-item-action align-items-start">
                     <p
                       onClick={() =>
-                        openContactSearch(
-                          `assignee:${user.id} status:"${s.name}"`
-                        )
+                        openContactSearch(`assignee:me status:"${s.name}"`)
                       }
                     >
                       <strong>
