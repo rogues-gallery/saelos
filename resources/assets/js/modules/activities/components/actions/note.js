@@ -46,6 +46,39 @@ class NoteAction extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    let note_name = "";
+    let note_content = "";
+    let opportunity_id = 0;
+    let company_id = 0;
+    let contact_id = 0;
+    let isPrivate = 0;
+    let doc = "";
+
+    const note = _.find(nextProps.model.notes, n => n.id === nextProps.id);
+
+    if (note) {
+      note_name = note.name;
+      note_content = note.note;
+      isPrivate = note.private;
+      doc = note.document;
+    }
+
+    this.setState({
+      formState: {
+        id: nextProps.id,
+        model: nextProps.model,
+        document: doc,
+        private: isPrivate,
+        note_name,
+        note_content,
+        opportunity_id,
+        company_id,
+        contact_id
+      }
+    });
+  }
+
   _handleInputChange = event => {
     const { target } = event;
     const { name, value } = target;
