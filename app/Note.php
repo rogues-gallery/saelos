@@ -4,6 +4,7 @@ namespace App;
 
 use App\Document;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Note
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Note extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = [
         'id',
         'entity',
