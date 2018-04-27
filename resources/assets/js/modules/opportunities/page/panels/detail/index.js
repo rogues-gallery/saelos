@@ -20,6 +20,7 @@ import {
 import { getActiveUser } from "../../../../users/store/selectors";
 import { getStages } from "../../../../stages/store/selectors";
 import { openTaskContainer } from "../../../../activities/store/actions";
+import { saveOpportunity } from "../../../service";
 
 class Detail extends React.Component {
   constructor(props) {
@@ -38,14 +39,6 @@ class Detail extends React.Component {
   render() {
     const { opportunity, dispatch, user, inEdit, stages } = this.props;
     const ordered = _.orderBy(stages, "probability");
-    const currentIndex = _.findIndex(
-      ordered,
-      s => s.id === opportunity.stage.id
-    );
-    const nextStage =
-      currentIndex + 1 >= ordered.length
-        ? "In final stage"
-        : ordered[currentIndex + 1].name;
 
     const data = {
       series: [
@@ -63,6 +56,7 @@ class Detail extends React.Component {
         )
       ]
     };
+
     const options = {
       low: 0,
       high: 2,
@@ -97,7 +91,7 @@ class Detail extends React.Component {
             data={data}
             options={options}
             inEdit={inEdit}
-            nextStage={nextStage}
+            stages={ordered}
           />
         );
       case "history":
@@ -121,7 +115,7 @@ const Details = ({
   data,
   options,
   inEdit,
-  nextStage
+  stages
 }) => (
   <div className={`col detail-panel border-left`}>
     <div className="border-bottom py-2 heading">
@@ -165,9 +159,38 @@ const Details = ({
             </div>
             <OpportunityTimeline data={data} options={options} type="Line" />
             <div className="mini-text text-muted font-weight-bold text-uppercase mt-2">
-              Next Stage
+              Stage
             </div>
-            <p>{nextStage}</p>
+            <div className="dropdown show">
+              <div
+                className="cursor-pointer"
+                id="stageDropdown"
+                data-toggle="dropdown"
+              >
+                <b>
+                  {opportunity.stage ? opportunity.stage.name : "No stage set"}
+                </b>
+              </div>
+              <div className="dropdown-menu" aria-labelledby="stageDropdown">
+                {stages.map(stage => (
+                  <a
+                    key={stage.id}
+                    className="dropdown-item"
+                    href="javascript:void(0)"
+                    onClick={() => {
+                      const model = opportunity.originalProps;
+
+                      _.remove(model, "stage");
+                      _.set(model, "stage_id", stage.id);
+
+                      dispatch(saveOpportunity(model));
+                    }}
+                  >
+                    {stage.name}
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
