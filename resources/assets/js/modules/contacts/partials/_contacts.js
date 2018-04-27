@@ -7,37 +7,53 @@ import Select from "react-select";
 import { searchContacts } from "../service";
 import { saveCompany } from "../../companies/service";
 import { saveOpportunity } from "../../opportunities/service";
+import Company from "../../companies/Company";
+import Opportunity from "../../opportunities/Opportunity";
 
 class Contacts extends React.Component {
   constructor(props) {
     super(props);
 
-    this._submit = this._submit.bind(this);
-    this._toggleAdd = this._toggleAdd.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._searchContacts = this._searchContacts.bind(this);
-
     this.state = {
+      model: props.model.originalProps,
       formState: {
-        id: props.entityId,
-        contact: {
-          id: null,
-          pivot: {
-            primary: null,
-            position: null
-          }
+        id: null,
+        pivot: {
+          primary: null,
+          position: null
         }
       },
       adding: false
     };
   }
 
-  _toggleAdd() {
-    this.setState({ adding: !this.state.adding });
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({
+      model: nextProps.model.originalProps,
+      formState: {
+        id: null,
+        pivot: {
+          primary: null,
+          position: null
+        }
+      }
+    });
   }
 
-  _searchContacts(input) {
-    return searchContacts(input).then(contacts => {
+  _toggleAdd = () => {
+    this.setState({ adding: !this.state.adding });
+  };
+
+  _searchContacts = input => {
+    let search = "";
+
+    if (input && input.length > 0) {
+      search = {
+        searchString: input
+      };
+    }
+
+    return searchContacts(search).then(contacts => {
       let options = contacts.map(c => ({
         id: c.id,
         name: `${c.first_name} ${c.last_name}`
@@ -45,46 +61,67 @@ class Contacts extends React.Component {
 
       return { options };
     });
-  }
+  };
 
-  _handleInputChange(e) {
+  _handleInputChange = e => {
     const { target } = e;
     const { name } = target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const { formState } = this.state;
 
-    _.set(formState, name, value);
+    if (name === "contact") {
+      _.set(formState, "id", value.id);
+      _.set(formState, "name", value.name);
+    } else {
+      _.set(formState, name, value);
+    }
 
     this.setState({
       formState
     });
-  }
+  };
 
-  _submit() {
+  _submit = (toggle = true) => {
     const { dispatch } = this.props;
-    const contacts = this.props.contacts.map(c => c.originalProps);
+    const { formState, model } = this.state;
+    const saveFunc = model instanceof Company ? saveCompany : saveOpportunity;
+    let contacts = model.contacts;
 
-    contacts.push(this.state.formState.contact);
+    if (formState.id) {
+      // unset primary on the rest
+      if (formState.pivot.primary) {
+        contacts = contacts.map(c => _.set(c, "pivot.primary", false));
+      }
 
-    const submitProps = {
-      id: this.state.formState.id,
-      contacts: contacts
-    };
+      contacts.push(formState);
 
-    switch (this.props.entityType) {
-      case "App\\Company":
-        dispatch(saveCompany(submitProps));
-        break;
-      case "App\\Opportunity":
-        dispatch(saveOpportunity(submitProps));
-        break;
+      model.contacts = contacts;
     }
 
-    this._toggleAdd();
-  }
+    dispatch(saveFunc(model));
+
+    toggle && this._toggleAdd();
+  };
+
+  _delete = id => {
+    const { dispatch } = this.props;
+    const { model } = this.state;
+
+    _.remove(model.contacts, c => c.id === id);
+
+    this.setState({
+      model
+    });
+
+    this._submit(false);
+  };
 
   render() {
-    const { contacts, entityType, dispatch } = this.props;
+    const { inEdit } = this.props;
+    const { formState, adding, model } = this.state;
+    const { contacts } = model;
+    const entityType =
+      this.props.model instanceof Company ? "App\\Company" : "App\\Opportunity";
 
     return (
       <div className="card">
@@ -110,21 +147,20 @@ class Contacts extends React.Component {
           </h6>
         </div>
 
-        {this.state.adding ? (
+        {adding && (
           <div id="addContact" className="py-2 px-3 border-bottom">
             <div className="form-group-sm">
               <Select.Async
                 value={
-                  this.state.formState.contact &&
-                  this.state.formState.contact.id
-                    ? this.state.formState.contact
+                  formState.id
+                    ? { id: formState.id, name: formState.name }
                     : null
                 }
-                multi={false}
                 loadOptions={this._searchContacts}
                 labelKey="name"
                 valueKey="id"
                 onChange={value => {
+                  console.log(value);
                   const event = {
                     target: {
                       type: "select",
@@ -144,7 +180,7 @@ class Contacts extends React.Component {
                         <input
                           type="checkbox"
                           id="primary"
-                          name="contact.pivot.primary"
+                          name="pivot.primary"
                           onChange={this._handleInputChange}
                           data-toggle="tooltip"
                           data-placement="top"
@@ -155,7 +191,7 @@ class Contacts extends React.Component {
                     <input
                       type="text"
                       id="position"
-                      name="contact.pivot.position"
+                      name="pivot.position"
                       placeholder={
                         entityType === "App\\Opportunity" ? "Role" : "Position"
                       }
@@ -165,15 +201,16 @@ class Contacts extends React.Component {
                   </div>
                 </div>
                 <div className="col-sm-2">
-                  <button className="btn btn-primary" onClick={this._submit}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => this._submit(true)}
+                  >
                     Add
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        ) : (
-          ""
         )}
 
         <div
@@ -182,7 +219,45 @@ class Contacts extends React.Component {
           aria-labelledby="headingContacts"
         >
           <div className="list-group">
-            <ContactList {...this.props} />
+            {contacts.map(contact => (
+              <div
+                key={contact.id}
+                onClick={() => {
+                  !inEdit &&
+                    this.context.router.history.push(`/contacts/${contact.id}`);
+                }}
+                className="list-group-item list-group-item-action align-items-start"
+              >
+                {inEdit ? (
+                  <a
+                    href="javascript:void(0)"
+                    className="mini-text text-muted float-right"
+                    onClick={e => {
+                      e.stopPropagation();
+
+                      this._delete(contact.id);
+                    }}
+                  >
+                    Delete
+                  </a>
+                ) : (
+                  <p className="mini-text text-muted float-right">
+                    <b>{contact.status ? contact.status.name : null}</b>
+                  </p>
+                )}
+
+                <p>
+                  {contact.pivot.primary ? (
+                    <span className="dot bg-primary mini" />
+                  ) : null}
+                  <strong>{`${contact.first_name} ${
+                    contact.last_name
+                  }`}</strong>
+                  <br />
+                  {contact.pivot.position}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -192,9 +267,14 @@ class Contacts extends React.Component {
 
 Contacts.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  contacts: PropTypes.array.isRequired,
-  entityType: PropTypes.string.isRequired,
-  entityId: PropTypes.number.isRequired
+  model: PropTypes.oneOfType([
+    PropTypes.instanceOf(Opportunity),
+    PropTypes.instanceOf(Company)
+  ])
+};
+
+Contacts.contextTypes = {
+  router: PropTypes.object
 };
 
 export default connect()(Contacts);

@@ -122,7 +122,7 @@ const Details = ({
   statuses,
   statusChange
 }) => (
-  <div className={`col detail-panel border-left ${inEdit ? "inEdit" : ""}`}>
+  <div className={`col detail-panel border-left`}>
     <div className="border-bottom  py-2 heading">
       <a
         href="javascript:void(0)"
@@ -142,18 +142,8 @@ const Details = ({
         statusChange={statusChange}
       />
       <ActivityList contact={contact} dispatch={dispatch} />
-      <Opportunities
-        opportunities={contact.opportunities}
-        dispatch={dispatch}
-        entityType="App\Contact"
-        entityId={contact.id}
-      />
-      <Companies
-        companies={contact.companies}
-        dispatch={dispatch}
-        entityType="App\Contact"
-        entityId={contact.id}
-      />
+      <Opportunities model={contact} inEdit={inEdit} />
+      <Companies model={contact} inEdit={inEdit} />
       <Notes model={contact} dispatch={dispatch} user={user} />
     </div>
   </div>

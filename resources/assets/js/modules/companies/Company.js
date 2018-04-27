@@ -44,7 +44,7 @@ class Company extends Model {
     super.initialize(props);
 
     this.primary = (props.pivot && props.pivot.primary) || 0;
-    this.position = (props.pivot && props.pivot.position) || "Works";
+    this.position = (props.pivot && props.pivot.position) || "";
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({});

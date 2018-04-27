@@ -7,38 +7,46 @@ import _ from "lodash";
 import { searchCompanies } from "../service";
 import { saveContact } from "../../contacts/service";
 import { saveOpportunity } from "../../opportunities/service";
+import Contact from "../../contacts/Contact";
+import Opportunity from "../../opportunities/Opportunity";
 
 class Companies extends React.Component {
   constructor(props) {
     super(props);
 
-    this._submit = this._submit.bind(this);
-    this._toggleAdd = this._toggleAdd.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._getSecondaryDetail = this._getSecondaryDetail.bind(this);
-    this._searchCompanies = this._searchCompanies.bind(this);
-
     this.state = {
+      model: props.model.originalProps,
       formState: {
-        id: props.entityId,
-        company: {
-          id: null,
-          name: null,
-          pivot: {
-            primary: null,
-            position: null
-          }
+        id: null,
+        name: null,
+        pivot: {
+          primary: null,
+          position: null
         }
       },
       adding: false
     };
   }
 
-  _toggleAdd(e) {
-    this.setState({ adding: !this.state.adding });
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({
+      model: nextProps.model.originalProps,
+      formState: {
+        id: null,
+        name: null,
+        pivot: {
+          primary: null,
+          position: null
+        }
+      }
+    });
   }
 
-  _searchCompanies(input) {
+  _toggleAdd = () => {
+    this.setState({ adding: !this.state.adding });
+  };
+
+  _searchCompanies = input => {
     let search = "";
 
     if (input && input.length > 0) {
@@ -55,61 +63,65 @@ class Companies extends React.Component {
 
       return { options };
     });
-  }
+  };
 
-  _handleInputChange(e) {
+  _handleInputChange = e => {
     const { target } = e;
     const { name } = target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const { formState } = this.state;
 
-    _.set(formState, name, value);
+    if (name === "company") {
+      _.set(formState, "id", value.id);
+      _.set(formState, "name", value.name);
+    } else {
+      _.set(formState, name, value);
+    }
 
     this.setState({
       formState
     });
-  }
+  };
 
-  _submit() {
+  _submit = (toggle = true) => {
     const { dispatch } = this.props;
-    let companies = this.props.companies.map(c => c.originalProps);
-    const { company } = this.state.formState;
+    const { formState, model } = this.state;
+    const saveFunc = model instanceof Contact ? saveContact : saveOpportunity;
+    let companies = model.companies;
 
-    if (company.pivot.primary) {
-      companies = companies.map(c => _.set(c, "pivot.primary", false));
+    if (formState.id) {
+      // unset primary on the rest
+      if (formState.pivot.primary) {
+        companies = companies.map(c => _.set(c, "pivot.primary", false));
+      }
+
+      companies.push(formState);
+
+      model.companies = companies;
     }
 
-    companies.push(company);
+    dispatch(saveFunc(model));
 
-    const submitProps = {
-      id: this.state.formState.id,
-      companies
-    };
+    toggle && this._toggleAdd();
+  };
 
-    switch (this.props.entityType) {
-      case "App\\Contact":
-        dispatch(saveContact(submitProps));
-        break;
-      case "App\\Opportunity":
-        dispatch(saveOpportunity(submitProps));
-        break;
-    }
+  _delete = id => {
+    const { dispatch } = this.props;
+    const { model } = this.state;
 
-    this._toggleAdd();
-  }
+    _.remove(model.companies, c => c.id === id);
 
-  _getSecondaryDetail(type) {
-    switch (type) {
-      case "App\\Opportunity":
-        return null;
-      default:
-        return "position";
-    }
-  }
+    this.setState({
+      model
+    });
+
+    this._submit(false);
+  };
 
   render() {
-    const { companies, entityType, entityId } = this.props;
-    const secondaryDetail = this._getSecondaryDetail(entityType);
+    const { inEdit } = this.props;
+    const { formState, adding, model } = this.state;
+    const { companies } = model;
 
     return (
       <div className="card">
@@ -134,17 +146,15 @@ class Companies extends React.Component {
             </span>
           </h6>
         </div>
-        {this.state.adding ? (
+        {adding && (
           <div id="addCompany" className="py-2 px-3 border-bottom">
             <div className="form-group-sm">
               <Select.Async
                 value={
-                  this.state.formState.company &&
-                  this.state.formState.company.id
-                    ? this.state.formState.company
+                  formState.id
+                    ? { id: formState.id, name: formState.name }
                     : null
                 }
-                multi={false}
                 loadOptions={this._searchCompanies}
                 labelKey="name"
                 valueKey="id"
@@ -168,7 +178,7 @@ class Companies extends React.Component {
                         <input
                           type="checkbox"
                           id="primary"
-                          name="company.pivot.primary"
+                          name="pivot.primary"
                           onChange={this._handleInputChange}
                           data-toggle="tooltip"
                           data-placement="top"
@@ -179,7 +189,7 @@ class Companies extends React.Component {
                     <input
                       type="text"
                       id="position"
-                      name="company.pivot.position"
+                      name="pivot.position"
                       placeholder="Position"
                       className="form-control"
                       onChange={this._handleInputChange}
@@ -187,15 +197,16 @@ class Companies extends React.Component {
                   </div>
                 </div>
                 <div className="col-2 text-right">
-                  <button className="btn btn-primary" onClick={this._submit}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => this._submit(true)}
+                  >
                     Add
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        ) : (
-          ""
         )}
 
         <div
@@ -206,22 +217,38 @@ class Companies extends React.Component {
           <div className="list-group">
             {companies.map(company => (
               <div
-                key={`company-${company.id}-${entityId}`}
-                onClick={() =>
-                  this.context.router.history.push(`/companies/${company.id}`)
-                }
+                key={company.id}
+                onClick={() => {
+                  !inEdit &&
+                    this.context.router.history.push(
+                      `/companies/${company.id}`
+                    );
+                }}
                 className="list-group-item list-group-item-action align-items-start"
               >
-                <p className="mini-text text-muted float-right" />
+                {inEdit ? (
+                  <a
+                    href="javascript:void(0)"
+                    className="mini-text text-muted float-right"
+                    onClick={e => {
+                      e.stopPropagation();
+
+                      this._delete(company.id);
+                    }}
+                  >
+                    Delete
+                  </a>
+                ) : (
+                  <p className="mini-text text-muted float-right" />
+                )}
+
                 <p>
-                  {company.primary ? (
+                  {company.pivot.primary ? (
                     <span className="dot bg-primary mini" />
-                  ) : (
-                    ""
-                  )}
+                  ) : null}
                   <strong>{company.name}</strong>
                   <br />
-                  {secondaryDetail ? company[secondaryDetail] : ""}
+                  {company.pivot.position}
                 </p>
               </div>
             ))}
@@ -234,7 +261,10 @@ class Companies extends React.Component {
 
 Companies.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  companies: PropTypes.array.isRequired
+  model: PropTypes.oneOfType([
+    PropTypes.instanceOf(Opportunity),
+    PropTypes.instanceOf(Contact)
+  ])
 };
 
 Companies.contextTypes = {

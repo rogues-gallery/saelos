@@ -90,32 +90,24 @@ class CompanyController extends Controller
         $contacts = $data['contacts'] ?? [];
         $opportunities = $data['opportunities'] ?? [];
 
-        foreach ($opportunities as $i => $companyOpp) {
-            $opportunity = Opportunity::findOrFail($companyOpp['id']);
-
-            if ($company->opportunities()->get()->contains('id', $opportunity->id)) {
-                $company->opportunities()->updateExistingPivot($company->id, [
-                    'primary' => $i === 0
-                ]);
-            } else {
-                $company->opportunities()->save($opportunity, [
-                    'primary' => $i === 0
-                ]);
-            }
+        $opportunityIds = [];
+        foreach ($opportunities as $opportunity) {
+            $opportunityIds[$opportunity['id']] = [
+                'primary' => $opportunity['pivot']['primary'] ?? 0,
+                'position' => $opportunity['pivot']['position'] ?? ''
+            ];
         }
 
-        if ($contacts) {
-            $toSync = [];
-
-            foreach ($contacts as $i => $companyContact) {
-                $contact = Contact::findOrFail($companyContact['id']);
-
-                $toSync[$contact->id] = ['primary' => $i === 0];
-            }
-
-            $company->contacts()->sync($toSync);
+        $contactIds = [];
+        foreach ($contacts as $contact) {
+            $contactIds[$contact['id']] = [
+                'primary' => $contact['pivot']['primary'] ?? 0,
+                'position' => $contact['pivot']['position'] ?? ''
+            ];
         }
 
+        $company->opportunities()->sync($companyIds);
+        $company->contacts()->sync($contactIds);
         $company->user()->associate(Auth::user());
         $company->update($data);
         $company->assignCustomFields($customFields);

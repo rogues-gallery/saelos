@@ -80,18 +80,20 @@ class OpportunityController extends Controller
         $opportunityStage = $data['stage_id'] ?? null;
         $contacts = $data['contacts'] ?? null;
 
-        foreach ($companies as $opportunityCompany) {
-            $company = Company::findOrFail($opportunityCompany['id']);
+        $companyIds = [];
+        foreach ($companies as $company) {
+            $companyIds[$company['id']] = [
+                'primary' => $company['pivot']['primary'] ?? 0,
+                'position' => $company['pivot']['position'] ?? ''
+            ];
+        }
 
-            if ($opportunity->companies()->get()->contains('id', $company->id)) {
-                $opportunity->companies()->updateExistingPivot($company->id, [
-                    'primary' => $opportunityCompany['pivot']['primary'] ?? 0
-                ]);
-            } else {
-                $opportunity->companies()->save($company, [
-                    'primary' => $opportunityCompany['pivot']['primary'] ?? 0
-                ]);
-            }
+        $contactIds = [];
+        foreach ($contacts as $contact) {
+            $contactIds[$contact['id']] = [
+                'primary' => $contact['pivot']['primary'] ?? 0,
+                'position' => $contact['pivot']['position'] ?? ''
+            ];
         }
 
         if ($opportunityStage) {
@@ -100,18 +102,8 @@ class OpportunityController extends Controller
             $opportunity->stage()->associate($stage);
         }
 
-        if ($contacts) {
-            $toSync = [];
-
-            foreach ($contacts as $i => $opportunityContact) {
-                $contact = Contact::findOrFail($opportunityContact['id']);
-
-                $toSync[$contact->id] = ['primary' => $i === 0];
-            }
-
-            $opportunity->contacts()->sync($toSync);
-        }
-
+        $opportunity->companies()->sync($companyIds);
+        $opportunity->contacts()->sync($contactIds);
         $opportunity->user()->associate(Auth::user());
         $opportunity->update($data);
         $opportunity->assignCustomFields($customFields);
@@ -140,10 +132,10 @@ class OpportunityController extends Controller
         $user = \Auth::user();
 
         $count = DB::table('opportunities')
-                    ->select($groupBy, DB::raw('count(*) as total'))
-                    ->where('user_id', $user->id)
-                    ->groupBy($groupBy)
-                    ->pluck('total', $groupBy);
+            ->select($groupBy, DB::raw('count(*) as total'))
+            ->where('user_id', $user->id)
+            ->groupBy($groupBy)
+            ->pluck('total', $groupBy);
         return $count;
     }
 }

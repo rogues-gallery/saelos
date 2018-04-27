@@ -4,6 +4,9 @@ import * as MDIcons from "react-icons/lib/md";
 import Select from "react-select";
 import { connect } from "react-redux";
 import _ from "lodash";
+import Contact from "../../contacts/Contact";
+import Company from "../../companies/Company";
+import Opportunity from "../Opportunity";
 import { saveContact } from "../../contacts/service";
 import { saveCompany } from "../../companies/service";
 import { searchOpportunities } from "../service";
@@ -12,30 +15,39 @@ class Opportunities extends React.Component {
   constructor(props) {
     super(props);
 
-    this._submit = this._submit.bind(this);
-    this._toggleAdd = this._toggleAdd.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._searchOpportunities = this._searchOpportunities.bind(this);
-
     this.state = {
+      model: props.model.originalProps,
       formState: {
-        id: props.entityId,
-        opportunity: {
-          id: null,
-          name: null
+        id: null,
+        name: null,
+        pivot: {
+          primary: null,
+          position: null
         }
       },
       adding: false
     };
   }
 
-  _toggleAdd(e) {
-    e.stopPropagation();
-
-    this.setState({ adding: !this.state.adding });
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({
+      model: nextProps.model.originalProps,
+      formState: {
+        id: null,
+        name: null,
+        pivot: {
+          primary: null,
+          position: null
+        }
+      }
+    });
   }
 
-  _searchOpportunities(input) {
+  _toggleAdd = () => {
+    this.setState({ adding: !this.state.adding });
+  };
+
+  _searchOpportunities = input => {
     let search = "";
 
     if (input && input.length > 0) {
@@ -52,43 +64,62 @@ class Opportunities extends React.Component {
 
       return { options };
     });
-  }
+  };
 
-  _handleInputChange(e) {
+  _handleInputChange = e => {
     const { target } = e;
     const { name } = target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const { formState } = this.state;
 
-    _.set(formState, name, value);
+    if (name === "opportunity") {
+      _.set(formState, "id", value.id);
+      _.set(formState, "name", value.name);
+    } else {
+      _.set(formState, name, value);
+    }
 
     this.setState({
       formState
     });
-  }
+  };
 
-  _submit(e) {
+  _submit = (toggle = true) => {
     const { dispatch } = this.props;
-    const opportunities = this.props.opportunities.map(c => c.originalProps);
+    const { formState, model } = this.state;
+    const saveFunc = model instanceof Company ? saveCompany : saveContact;
+    let opportunities = model.opportunities;
 
-    opportunities.push(this.state.formState.opportunity);
+    if (formState.id) {
+      // unset primary on the rest
+      if (formState.pivot.primary) {
+        opportunities = opportunities.map(c =>
+          _.set(c, "pivot.primary", false)
+        );
+      }
 
-    const submitProps = {
-      id: this.state.formState.id,
-      opportunities: opportunities
-    };
+      opportunities.push(formState);
 
-    switch (this.props.entityType) {
-      case "App\\Contact":
-        dispatch(saveContact(submitProps));
-        break;
-      case "App\\Company":
-        dispatch(saveCompany(submitProps));
-        break;
+      model.opportunities = opportunities;
     }
 
-    this._toggleAdd(e);
-  }
+    dispatch(saveFunc(model));
+
+    toggle && this._toggleAdd();
+  };
+
+  _delete = id => {
+    const { dispatch } = this.props;
+    const { model } = this.state;
+
+    _.remove(model.opportunities, o => o.id === id);
+
+    this.setState({
+      model
+    });
+
+    this._submit(false);
+  };
 
   _getSecondaryDetail(type) {
     switch (type) {
@@ -100,7 +131,12 @@ class Opportunities extends React.Component {
   }
 
   render() {
-    const { opportunities, dispatch, entityType, entityId } = this.props;
+    const { inEdit } = this.props;
+    const { formState, adding, model } = this.state;
+    const { opportunities } = model;
+    const entityType =
+      this.props.model instanceof Company ? "App\\Company" : "App\\Contact";
+
     const secondaryDetail = this._getSecondaryDetail(entityType);
 
     return (
@@ -132,12 +168,10 @@ class Opportunities extends React.Component {
             <div className="form-group-sm">
               <Select.Async
                 value={
-                  this.state.formState.opportunity &&
-                  this.state.formState.opportunity.id
-                    ? this.state.formState.opportunity
+                  formState.id
+                    ? { id: formState.id, name: formState.name }
                     : null
                 }
-                multi={false}
                 loadOptions={this._searchOpportunities}
                 labelKey="name"
                 valueKey="id"
@@ -161,7 +195,7 @@ class Opportunities extends React.Component {
                         <input
                           type="checkbox"
                           id="primary"
-                          name="company.pivot.primary"
+                          name="pivot.primary"
                           onChange={this._handleInputChange}
                           data-toggle="tooltip"
                           data-placement="top"
@@ -172,7 +206,7 @@ class Opportunities extends React.Component {
                     <input
                       type="text"
                       id="role"
-                      name="opportunity.pivot.position"
+                      name="pivot.position"
                       placeholder="Role"
                       className="form-control"
                       onChange={this._handleInputChange}
@@ -180,7 +214,10 @@ class Opportunities extends React.Component {
                   </div>
                 </div>
                 <div className="col-2 text-right">
-                  <button className="btn btn-primary" onClick={this._submit}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => this._submit(true)}
+                  >
                     Add
                   </button>
                 </div>
@@ -199,21 +236,40 @@ class Opportunities extends React.Component {
           <div className="list-group">
             {opportunities.map(opportunity => (
               <div
-                key={`opportunity-${opportunity.id}-${entityId}`}
-                onClick={() =>
-                  this.context.router.history.push(
-                    `/opportunities/${opportunity.id}`
-                  )
-                }
+                key={opportunity.id}
+                onClick={() => {
+                  !inEdit &&
+                    this.context.router.history.push(
+                      `/opportunities/${opportunity.id}`
+                    );
+                }}
                 className="list-group-item list-group-item-action align-items-start"
               >
-                <p className="mini-text text-muted float-right">
-                  {opportunity.stage.name}
-                </p>
+                {inEdit ? (
+                  <a
+                    href="javascript:void(0)"
+                    className="mini-text text-muted float-right"
+                    onClick={e => {
+                      e.stopPropagation();
+
+                      this._delete(opportunity.id);
+                    }}
+                  >
+                    Delete
+                  </a>
+                ) : (
+                  <p className="mini-text text-muted float-right">
+                    <b>{opportunity.stage ? opportunity.stage.name : null}</b>
+                  </p>
+                )}
+
                 <p>
+                  {opportunity.pivot.primary ? (
+                    <span className="dot bg-primary mini" />
+                  ) : null}
                   <strong>{opportunity.name}</strong>
                   <br />
-                  {_.get(opportunity, secondaryDetail)}
+                  {opportunity.pivot.position}
                 </p>
               </div>
             ))}
@@ -226,9 +282,10 @@ class Opportunities extends React.Component {
 
 Opportunities.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  opportunities: PropTypes.array.isRequired,
-  entityType: PropTypes.string.isRequired,
-  entityId: PropTypes.number
+  model: PropTypes.oneOfType([
+    PropTypes.instanceOf(Company),
+    PropTypes.instanceOf(Contact)
+  ])
 };
 
 Opportunities.contextTypes = {

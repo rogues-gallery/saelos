@@ -42,7 +42,7 @@ class Record extends React.Component {
     if (match.params.id === "new") {
       dispatch(editingOpportunity());
     } else if (match.params.id > 0) {
-      dispatch(fetchOpportunity(this.props.match.params.id));
+      dispatch(fetchOpportunity(match.params.id));
     }
   }
 

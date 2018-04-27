@@ -104,13 +104,6 @@ const Details = ({
       <div className="pt-1 mt-1 h5 text-center">Company Details</div>
     </div>
     <div className="h-scroll">
-      <Contacts
-        contacts={company.contacts}
-        dispatch={dispatch}
-        entityId={company.id}
-        entityType="App\Company"
-      />
-
       {/*
       @TODO: Add this back when we figure out what data to display
       <div className="card ct-container">
@@ -134,12 +127,8 @@ const Details = ({
       */}
 
       <ActivityList company={company} dispatch={dispatch} />
-      <Opportunities
-        opportunities={company.opportunities}
-        dispatch={dispatch}
-        entityId={company.id}
-        entityType="App\Company"
-      />
+      <Contacts model={company} inEdit={inEdit} />
+      <Opportunities model={company} inEdit={inEdit} />
       <Notes model={company} dispatch={dispatch} user={user} />
     </div>
   </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import * as MDIcons from "react-icons/lib/md";
 import Note from "../Note";
 import Truncate from "react-truncate-html";
@@ -194,4 +195,4 @@ Note.propTypes = {
   ])
 };
 
-export default Notes;
+export default connect()(Notes);

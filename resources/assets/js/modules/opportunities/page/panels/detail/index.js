@@ -14,9 +14,9 @@ import Opportunity from "../../../Opportunity";
 import ListActivities from "../../../../activities/partials/_list";
 import {
   getFirstOpportunityId,
-  getOpportunity
+  getOpportunity,
+  isInEdit
 } from "../../../store/selectors";
-import { isInEdit } from "../../../../contacts/store/selectors";
 import { getActiveUser } from "../../../../users/store/selectors";
 import { getStages } from "../../../../stages/store/selectors";
 import { openTaskContainer } from "../../../../activities/store/actions";
@@ -123,7 +123,7 @@ const Details = ({
   inEdit,
   nextStage
 }) => (
-  <div className={`col detail-panel border-left ${inEdit ? "inEdit" : ""}`}>
+  <div className={`col detail-panel border-left`}>
     <div className="border-bottom py-2 heading">
       <a
         href="javascript:void(0)"
@@ -172,19 +172,9 @@ const Details = ({
         </div>
       </div>
       <ActivityList opportunity={opportunity} dispatch={dispatch} />
-      <Contacts
-        contacts={opportunity.contacts}
-        dispatch={dispatch}
-        entityType="App\Opportunity"
-        entityId={opportunity.id}
-      />
-      <Companies
-        companies={opportunity.companies}
-        dispatch={dispatch}
-        entityType="App\Opportunity"
-        entityId={opportunity.id}
-      />
-      <Notes model={opportunity} dispatch={dispatch} user={user} />
+      <Contacts model={opportunity} inEdit={inEdit} />
+      <Companies model={opportunity} inEdit={inEdit} />
+      <Notes model={opportunity} user={user} />
     </div>
   </div>
 );

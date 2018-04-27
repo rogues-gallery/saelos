@@ -108,39 +108,21 @@ class ContactController extends Controller
         $contactUser = $data['user'] ?? null;
         $customFields = $data['custom_fields'] ?? [];
 
-        foreach ($companies as $contactCompany) {
-            $company = Company::findOrFail($contactCompany['id']);
-
-            if ($contact->companies()->get()->contains('id', $company->id)) {
-                $contact->companies()->updateExistingPivot($company->id, [
-                    'primary' => $contactCompany['pivot']['primary'] ?? 0,
-                    'position' => $contactCompany['pivot']['position'] ?? ''
-                ]);
-            } else {
-                $contact->companies()->save($company, [
-                    'primary' => $contactCompany['pivot']['primary'] ?? 0,
-                    'position' => $contactCompany['pivot']['position'] ?? ''
-                ]);
-            }
+        $companyIds = [];
+        foreach ($companies as $company) {
+            $companyIds[$company['id']] = [
+                'primary' => $company['pivot']['primary'] ?? 0,
+                'position' => $company['pivot']['position'] ?? ''
+            ];
         }
 
-        foreach ($opportunities as $contactOpp) {
-            $opportunity = Opportunity::findOrFail($contactOpp['id']);
-
-            if ($contact->opportunities()->get()->contains('id', $opportunity->id)) {
-                $contact->opportunities()->updateExistingPivot($opportunity->id, [
-                    'primary' => $contactOpp['pivot']['primary'] ?? 0,
-                    'position' => $contactOpp['pivot']['position'] ?? ''
-                ]);
-            } else {
-                $contact->opportunities()->save($opportunity, [
-                    'primary' => $contactOpp['pivot']['primary'] ?? 0,
-                    'position' => $contactOpp['pivot']['position'] ?? ''
-                ]);
-            }
+        $opportunityIds = [];
+        foreach ($opportunities as $opportunity) {
+            $opportunityIds[$company['id']] = [
+                'primary' => $company['pivot']['primary'] ?? 0,
+                'position' => $company['pivot']['position'] ?? ''
+            ];
         }
-
-
 
         $user = isset($contactUser['id']) ? User::find($contactUser['id']) : Auth::user();
 
@@ -149,6 +131,8 @@ class ContactController extends Controller
             unset($data['user_id']);
         }
 
+        $contact->companies()->sync($companyIds);
+        $contact->opportunities()->sync($opportunityIds);
         $contact->user()->associate($user);
         $contact->update($data);
         $contact->assignCustomFields($customFields);
