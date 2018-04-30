@@ -63,8 +63,9 @@ class Record extends React.Component {
   _delete = () => {
     const { dispatch, opportunity } = this.props;
 
-    dispatch(deleteOpportunity(opportunity.id));
-    this.context.router.history.push("/opportunities");
+    dispatch(deleteOpportunity(opportunity.id)).then(() =>
+      this.context.router.history.push("/opportunities")
+    );
   };
 
   _toggleTaskCompose = view => {

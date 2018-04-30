@@ -58,8 +58,9 @@ class Record extends React.Component {
     const { dispatch, contact } = this.props;
 
     if (confirm("Are you sure?")) {
-      dispatch(deleteContact(contact.id));
-      this.context.router.history.push("/contacts");
+      dispatch(deleteContact(contact.id)).then(() =>
+        this.context.router.history.push("/contacts")
+      );
     }
   };
 
