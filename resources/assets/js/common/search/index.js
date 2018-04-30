@@ -92,14 +92,17 @@ class AdvancedSearch extends React.Component {
 
   _onKeyPress = event => {
     const { target, charCode } = event;
-    const { searchString } = this.state;
+    const { searchString, expandSearch } = this.state;
     const lastChar = searchString.substr(searchString.length - 1);
 
     if (charCode === 43 && (target.value.length === 0 || lastChar === " ")) {
       // +
       this.setState({
-        expandSearch: true,
-        searchDivScrollLeft: document.getElementById("search-input").scollLeft
+        expandSearch: true
+      });
+    } else {
+      this.setState({
+        expandSearch: false
       });
     }
 
@@ -299,6 +302,15 @@ class AdvancedSearch extends React.Component {
             dir="auto"
             onKeyPress={this._onKeyPress}
             onChange={this._handleOnChange}
+            onBlur={() => {
+              const lastChar = searchString.substr(searchString.length - 1);
+
+              if (lastChar !== "+") {
+                this.setState({
+                  expandSearch: false
+                });
+              }
+            }}
             value={searchString}
           />
           <div className="input-group-append">
