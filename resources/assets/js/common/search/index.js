@@ -92,8 +92,10 @@ class AdvancedSearch extends React.Component {
 
   _onKeyPress = event => {
     const { target, charCode } = event;
+    const { searchString } = this.state;
+    const lastChar = searchString.substr(searchString.length - 1);
 
-    if (charCode === 43) {
+    if (charCode === 43 && (target.value.length === 0 || lastChar === " ")) {
       // +
       this.setState({
         expandSearch: true,
