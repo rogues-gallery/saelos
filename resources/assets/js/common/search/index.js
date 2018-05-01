@@ -315,29 +315,28 @@ class AdvancedSearch extends React.Component {
           />
           <div className="input-group-append">
             {searchString ? (
-              <button className="btn btn-outline border">
-                <span className="text-muted" onClick={this._clearSearch}>
-                  <MDIcons.MdClearAll />
-                </span>
+              <button
+                className="btn btn-outline border text-muted"
+                onClick={this._clearSearch}
+              >
+                <MDIcons.MdClearAll />
               </button>
-            ) : (
-              ""
-            )}
+            ) : null}
             {viewSearchStrings.includes(searchString) ? (
-              <button className="btn btn-outline border">
-                <span className="text-danger" onClick={this._removeView}>
-                  <MDIcons.MdDelete />
-                </span>
+              <button
+                className="btn btn-outline border text-danger"
+                onClick={this._removeView}
+              >
+                <MDIcons.MdDelete />
               </button>
             ) : searchString ? (
-              <button className="btn btn-outline border">
-                <span className="text-muted" onClick={this._toggleAdd}>
-                  <MDIcons.MdAdd />
-                </span>
+              <button
+                className="btn btn-outline border text-muted"
+                onClick={this._toggleAdd}
+              >
+                <MDIcons.MdAdd />
               </button>
-            ) : (
-              ""
-            )}
+            ) : null}
             {addingView ? (
               <div className="add-tag-container">
                 <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
@@ -383,9 +382,7 @@ class AdvancedSearch extends React.Component {
                   </div>
                 </div>
               </div>
-            ) : (
-              ""
-            )}
+            ) : null}
           </div>
         </div>
         <div className="micro-text row text-center pt-3 pb-2">
