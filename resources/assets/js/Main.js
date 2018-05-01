@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getAuth } from "./modules/auth/store/selectors";
-import { fetchContactFields } from "./modules/contacts/service";
-import { fetchCompanyFields } from "./modules/companies/service";
-import { fetchOpportunityFields } from "./modules/opportunities/service";
 import { fetchUser } from "./modules/auth/service";
 import { fetchTags } from "./modules/tags/service";
 import { fetchRoles } from "./modules/roles/service";
@@ -27,9 +24,6 @@ class Main extends Component {
 
     if (typeof user.id === "undefined" || !user.id) {
       dispatch(fetchUser());
-      dispatch(fetchContactFields());
-      dispatch(fetchCompanyFields());
-      dispatch(fetchOpportunityFields());
       dispatch(fetchFields());
       dispatch(fetchTags());
       dispatch(fetchRoles());

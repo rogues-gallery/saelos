@@ -13,13 +13,15 @@ import {
 } from "../../../store/selectors";
 import { isInEdit } from "../../../../opportunities/store/selectors";
 import { fetchStages } from "../../../../stages/service";
+import Opportunity from "../../../Opportunity";
 
 class List extends React.Component {
   constructor(props) {
     super(props);
 
-    this._onScroll = this._onScroll.bind(this);
-    this._openRecord = this._openRecord.bind(this);
+    this.state = {
+      activeID: props.opportunity.id
+    };
   }
 
   componentWillMount() {
@@ -31,7 +33,7 @@ class List extends React.Component {
     }
   }
 
-  _onScroll(event) {
+  _onScroll = event => {
     const { target } = event;
     const { dispatch, pagination, searchString } = this.props;
     const currentPosition = target.scrollTop + target.offsetHeight;
@@ -41,17 +43,19 @@ class List extends React.Component {
         fetchOpportunities({ page: pagination.current_page + 1, searchString })
       );
     }
-  }
+  };
 
-  _openRecord(id) {
-    const { dispatch } = this.props;
-    dispatch(fetchOpportunity(id));
+  _openRecord = id => {
+    this.setState({
+      activeID: id
+    });
+
     this.context.router.history.push(`/opportunities/${id}`);
-  }
+  };
 
   render() {
     const { opportunities, searchString, inEdit, fields, user } = this.props;
-    const activeIndex = parseInt(this.context.router.route.match.params.id);
+    const { activeID } = this.state;
 
     return (
       <div className={`col list-panel border-right ${inEdit ? "inEdit" : ""}`}>
@@ -64,10 +68,10 @@ class List extends React.Component {
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {opportunities.map(opportunity => (
             <div
-              key={`opportunity-list-${opportunity.id}`}
+              key={opportunity.id}
               onClick={() => this._openRecord(opportunity.id)}
               className={`list-group-item list-group-item-action align-items-start ${
-                opportunity.id === activeIndex ? "active" : ""
+                opportunity.id === activeID ? "active" : ""
               } ${opportunity.user.id === user.id ? "corner-flag" : ""}`}
             >
               <span className="text-muted mini-text float-right">
@@ -92,12 +96,13 @@ class List extends React.Component {
 }
 
 List.propTypes = {
+  opportunity: PropTypes.instanceOf(Opportunity).isRequired,
   opportunities: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
   searchString: PropTypes.string,
-  fields: PropTypes.object.isRequired
+  fields: PropTypes.array.isRequired
 };
 
 List.contextTypes = {

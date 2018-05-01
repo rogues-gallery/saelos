@@ -1,4 +1,5 @@
 import * as fromReducer from "./reducer";
+import filter from "lodash/filter";
 
 export const getOpportunities = state =>
   fromReducer.getOpportunities(state.opportunityState);
@@ -10,7 +11,7 @@ export const getPaginationForOpportunities = state =>
   fromReducer.getPaginationForOpportunities(state.opportunityState);
 
 export const getCustomFieldsForOpportunities = state =>
-  fromReducer.getCustomFieldsForOpportunities(state.opportunityState);
+  filter(state.fieldState.data, f => f.model === "App\\Opportunity");
 
 export const isStateDirty = state =>
   fromReducer.isStateDirty(state.opportunityState);

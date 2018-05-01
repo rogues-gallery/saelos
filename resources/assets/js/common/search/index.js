@@ -412,7 +412,8 @@ AdvancedSearch.propTypes = {
   dispatch: PropTypes.func.isRequired,
   searchString: PropTypes.string.isRequired,
   searchFunc: PropTypes.func.isRequired,
-  searchFields: PropTypes.object.isRequired,
+  searchFields: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+    .isRequired,
   views: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   parentItem: PropTypes.string.isRequired

@@ -62,19 +62,6 @@ export const fetchCompanies = params => dispatch => {
     });
 };
 
-export const fetchCompanyFields = () => dispatch => {
-  dispatch(actions.fetchingCustomFieldsForCompanies());
-
-  return Http.get(`contexts/Company`)
-    .then(res => {
-      dispatch(actions.fetchingCustomFieldsForCompaniesSuccess(res.data));
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch(actions.fetchingCustomFieldsForCompaniesFailure());
-    });
-};
-
 /**
  *
  * @param params

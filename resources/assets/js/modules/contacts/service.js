@@ -61,19 +61,6 @@ export const fetchContacts = params => dispatch => {
     });
 };
 
-export const fetchContactFields = () => dispatch => {
-  dispatch(actions.fetchingCustomFieldsForContacts());
-
-  return Http.get(`contexts/Contact`)
-    .then(res => {
-      dispatch(actions.fetchingCustomFieldsForContactsSuccess(res.data));
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch(actions.fetchingCustomFieldsForContactsFailure());
-    });
-};
-
 export const fetchContactCount = params => dispatch => {
   return Http.get("contacts/count", { params })
     .then(res => {

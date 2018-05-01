@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import _ from "lodash";
 import * as MDIcons from "react-icons/lib/md";
@@ -19,6 +18,7 @@ import { fetchCompany, saveCompany, deleteCompany } from "../../../service";
 import { editingCompany, editingCompanyFinished } from "../../../store/actions";
 import { renderGroupedFields } from "../../../../../utils/helpers/fields";
 import { openTaskContainer } from "../../../../activities/store/actions";
+import Company from "../../../Company";
 
 class Record extends React.Component {
   constructor(props) {
@@ -264,22 +264,16 @@ class Record extends React.Component {
 }
 
 Record.propTypes = {
-  company: PropTypes.object.isRequired
+  company: PropTypes.instanceOf(Company).isRequired
 };
 
 Record.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default withRouter(
-  connect((state, ownProps) => ({
-    company: getCompany(
-      state,
-      ownProps.match.params.id || getFirstCompanyId(state)
-    ),
-    customFields: getCustomFieldsForCompanies(state),
-    isDirty: isStateDirty(state),
-    user: getActiveUser(state),
-    inEdit: isInEdit(state)
-  }))(Record)
-);
+export default connect(state => ({
+  customFields: getCustomFieldsForCompanies(state),
+  isDirty: isStateDirty(state),
+  user: getActiveUser(state),
+  inEdit: isInEdit(state)
+}))(Record);

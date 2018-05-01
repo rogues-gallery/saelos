@@ -13,16 +13,18 @@ import {
   getPaginationForCompanies
 } from "../../../store/selectors";
 import { isInEdit } from "../../../../companies/store/selectors";
+import Company from "../../../Company";
 
 class List extends React.Component {
   constructor(props) {
     super(props);
 
-    this._onScroll = this._onScroll.bind(this);
-    this._openRecord = this._openRecord.bind(this);
+    this.state = {
+      activeID: props.company.id
+    };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { companies, dispatch, searchString } = this.props;
 
     if (companies.length === 0) {
@@ -30,7 +32,7 @@ class List extends React.Component {
     }
   }
 
-  _onScroll(event) {
+  _onScroll = event => {
     const { target } = event;
     const { dispatch, pagination, searchString } = this.props;
     const currentPosition = target.scrollTop + target.offsetHeight;
@@ -40,17 +42,19 @@ class List extends React.Component {
         fetchCompanies({ page: pagination.current_page + 1, searchString })
       );
     }
-  }
+  };
 
-  _openRecord(id) {
-    const { dispatch } = this.props;
-    dispatch(fetchCompany(id));
+  _openRecord = id => {
+    this.setState({
+      activeID: id
+    });
+
     this.context.router.history.push(`/companies/${id}`);
-  }
+  };
 
   render() {
     const { companies, searchString, inEdit, fields, user } = this.props;
-    const activeIndex = parseInt(this.context.router.route.match.params.id);
+    const { activeID } = this.state;
 
     return (
       <div className={`col list-panel border-right ${inEdit ? "inEdit" : ""}`}>
@@ -66,7 +70,7 @@ class List extends React.Component {
               key={`company-list-${company.id}`}
               onClick={() => this._openRecord(company.id)}
               className={`list-group-item list-group-item-action align-items-start ${
-                company.id === activeIndex ? "active" : ""
+                company.id === activeID ? "active" : ""
               } ${company.user.id === user.id ? "corner-flag" : ""}`}
             >
               <span className="text-muted mini-text float-right">
@@ -80,12 +84,10 @@ class List extends React.Component {
               </p>
             </div>
           ))}
-          {companies.length === 0 ? (
+          {companies.length === 0 && (
             <div className="d-flex align-items-center h-100 text-center">
               <h5 className="text-muted w-100">No results for this search.</h5>
             </div>
-          ) : (
-            ""
           )}
         </div>
       </div>
@@ -94,12 +96,13 @@ class List extends React.Component {
 }
 
 List.propTypes = {
+  company: PropTypes.instanceOf(Company).isRequired,
   companies: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
   searchString: PropTypes.string.isRequired,
-  fields: PropTypes.object.isRequired
+  fields: PropTypes.array.isRequired
 };
 
 List.contextTypes = {

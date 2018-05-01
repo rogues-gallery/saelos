@@ -16,15 +16,17 @@ const Routes = () => (
     <Layout>
       <Switch>
         {routes.map((route, i) => {
+          route.key = i;
+
           if (route.auth) {
             if (route.config) {
-              return <ConfigRoute key={i} {...route} />;
+              return <ConfigRoute {...route} />;
             }
 
-            return <PrivateRoute key={i} {...route} />;
+            return <PrivateRoute {...route} />;
           }
 
-          return <ConfigRoute key={i} {...route} />;
+          return <ConfigRoute {...route} />;
         })}
       </Switch>
     </Layout>

@@ -20,7 +20,6 @@ const initialState = {
   isFetching: false,
   isPosting: false,
   error: false,
-  customFields: [],
   searchString: "",
   inEdit: false
 };
@@ -100,11 +99,6 @@ export default function opportunityReducer(state = initialState, action) {
         isFetching: false,
         error: false,
         isPosting: false
-      };
-    case types.FETCHING_CUSTOM_FIELDS_FOR_OPPORTUNITIES_SUCCESS:
-      return {
-        ...state,
-        customFields: action.data
       };
     case types.DELETING_OPPORTUNITY_SUCCESS:
       const updatedData = removeOpportunityFromState(action.data, state.data);
@@ -194,7 +188,6 @@ export const getOpportunity = (state, id) => {
 export const getOpportunities = state =>
   state.data.map(o => new Opportunity(o));
 export const getPaginationForOpportunities = state => state.meta;
-export const getCustomFieldsForOpportunities = state => state.customFields;
 export const isStateDirty = state => state.isPosting;
 export const getSearchStringForOpportunities = state => state.searchString;
 export const getFirstOpportunityId = state =>

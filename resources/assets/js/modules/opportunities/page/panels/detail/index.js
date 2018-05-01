@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as MDIcons from "react-icons/lib/md";
-import { withRouter } from "react-router-dom";
 import ChartistGraph from "react-chartist";
 import { connect } from "react-redux";
 import { Money } from "react-format";
@@ -25,16 +24,15 @@ import { saveOpportunity } from "../../../service";
 class Detail extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       view: "default"
     };
-
-    this._toggleView = this._toggleView.bind(this);
   }
 
-  _toggleView(view) {
+  _toggleView = view => {
     this.setState({ view: view });
-  }
+  };
 
   render() {
     const { opportunity, dispatch, user, inEdit, stages } = this.props;
@@ -302,14 +300,8 @@ Detail.propTypes = {
   stages: PropTypes.array.isRequired
 };
 
-export default withRouter(
-  connect((state, ownProps) => ({
-    opportunity: getOpportunity(
-      state,
-      ownProps.match.params.id || getFirstOpportunityId(state)
-    ),
-    user: getActiveUser(state),
-    inEdit: isInEdit(state),
-    stages: getStages(state)
-  }))(Detail)
-);
+export default connect(state => ({
+  user: getActiveUser(state),
+  inEdit: isInEdit(state),
+  stages: getStages(state)
+}))(Detail);

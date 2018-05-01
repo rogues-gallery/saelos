@@ -2,6 +2,9 @@ import Model from "../../utils/Model";
 import Team from "../teams/Team";
 import Role from "../roles/Role";
 import _ from "lodash";
+import store from "../../store";
+import { getFieldsForUsers } from "./store/selectors";
+import { getCustomFieldValue } from "../../utils/helpers/customFieldsHelper";
 
 const jwt_decode = require("jwt-decode");
 
@@ -13,7 +16,27 @@ class User extends Model {
   }
 
   initialize(props) {
-    // @TODO: Attach custom fields to top level as in Contact, Company, etc. Currently an issue with rendering / speed.
+    props.custom_fields = props.custom_fields ? props.custom_fields : [];
+
+    const fields = getFieldsForUsers(store.getState());
+
+    fields.map(field => {
+      if (field.is_custom) {
+        const value = getCustomFieldValue(
+          field.alias,
+          props.custom_fields,
+          field.default
+        );
+
+        this[field.alias] = field.type === "date" ? moment(value) : value;
+      } else {
+        if (!props.hasOwnProperty(field.alias)) {
+          props[field.alias] = null;
+        }
+
+        this[field.alias] = props[field.alias];
+      }
+    });
 
     this.name = props.name || "";
     this.email = props.email || "";

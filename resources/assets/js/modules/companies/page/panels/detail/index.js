@@ -236,12 +236,6 @@ Detail.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-export default withRouter(
-  connect((state, ownProps) => ({
-    company: getCompany(
-      state,
-      ownProps.match.params.id || getFirstCompanyId(state)
-    ),
-    user: getActiveUser(state)
-  }))(Detail)
-);
+export default connect(state => ({
+  user: getActiveUser(state)
+}))(Detail);

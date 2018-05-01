@@ -82,19 +82,6 @@ export const deletingCompanyFailure = () => ({
   type: types.DELETING_COMPANY_FAILURE
 });
 
-export const fetchingCustomFieldsForCompanies = () => ({
-  type: types.FETCHING_CUSTOM_FIELDS_FOR_COMPANIES
-});
-
-export const fetchingCustomFieldsForCompaniesSuccess = payload => ({
-  type: types.FETCHING_CUSTOM_FIELDS_FOR_COMPANIES_SUCCESS,
-  data: payload
-});
-
-export const fetchingCustomFieldsForCompaniesFailure = () => ({
-  type: types.FETCHING_CUSTOM_FIELDS_FOR_COMPANIES_FAILURE
-});
-
 export const editingCompany = () => ({
   type: types.EDITING_COMPANY
 });

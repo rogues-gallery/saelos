@@ -77,19 +77,6 @@ export const deletingContactFailure = () => ({
   type: types.DELETING_CONTACT_FAILURE
 });
 
-export const fetchingCustomFieldsForContacts = () => ({
-  type: types.FETCHING_CUSTOM_FIELDS_FOR_CONTACTS
-});
-
-export const fetchingCustomFieldsForContactsSuccess = payload => ({
-  type: types.FETCHING_CUSTOM_FIELDS_FOR_CONTACTS_SUCCESS,
-  data: payload
-});
-
-export const fetchingCustomFieldsForContactsFailure = () => ({
-  type: types.FETCHING_CUSTOM_FIELDS_FOR_CONTACTS_FAILURE
-});
-
 export const emailingContact = () => ({
   type: types.EMAILING_CONTACT
 });

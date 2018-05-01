@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import _ from "lodash";
 import * as MDIcons from "react-icons/lib/md";
@@ -267,15 +266,9 @@ Record.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default withRouter(
-  connect((state, ownProps) => ({
-    opportunity: getOpportunity(
-      state,
-      ownProps.match.params.id || getFirstOpportunityId(state)
-    ),
-    customFields: getCustomFieldsForOpportunities(state),
-    isDirty: isStateDirty(state),
-    user: getActiveUser(state),
-    inEdit: isInEdit(state)
-  }))(Record)
-);
+export default connect(state => ({
+  customFields: getCustomFieldsForOpportunities(state),
+  isDirty: isStateDirty(state),
+  user: getActiveUser(state),
+  inEdit: isInEdit(state)
+}))(Record);

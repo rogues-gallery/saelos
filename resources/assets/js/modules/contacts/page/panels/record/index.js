@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import _ from "lodash";
 import * as MDIcons from "react-icons/lib/md";
@@ -20,6 +19,8 @@ import { deleteContact, fetchContact, saveContact } from "../../../service";
 import { editingContact, editingContactFinished } from "../../../store/actions";
 import { renderGroupedFields } from "../../../../../utils/helpers/fields";
 import { openTaskContainer } from "../../../../activities/store/actions";
+import Contact from "../../../Contact";
+import User from "../../../../users/User";
 
 class Record extends React.Component {
   constructor(props) {
@@ -287,9 +288,7 @@ class Record extends React.Component {
                   </div>
                 </li>
               </ul>
-            ) : (
-              ""
-            )}
+            ) : null}
             {contactFields}
           </div>
           <Conversations
@@ -306,22 +305,17 @@ class Record extends React.Component {
 }
 
 Record.propTypes = {
-  contact: PropTypes.object.isRequired
+  contact: PropTypes.instanceOf(Contact).isRequired,
+  user: PropTypes.instanceOf(User).isRequired
 };
 
 Record.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default withRouter(
-  connect((state, ownProps) => ({
-    contact: getContact(
-      state,
-      ownProps.match.params.id || getFirstContactId(state)
-    ),
-    customFields: getCustomFieldsForContacts(state),
-    isDirty: isStateDirty(state),
-    user: getActiveUser(state),
-    inEdit: isInEdit(state)
-  }))(Record)
-);
+export default connect(state => ({
+  customFields: getCustomFieldsForContacts(state),
+  isDirty: isStateDirty(state),
+  user: getActiveUser(state),
+  inEdit: isInEdit(state)
+}))(Record);

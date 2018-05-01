@@ -1,6 +1,5 @@
 import * as fromReducer from "./reducer";
-import * as fromFieldReducer from "../../fields/store/reducer";
-import _ from "lodash";
+import filter from "lodash/filter";
 
 export const getActiveUser = state =>
   fromReducer.getActiveUser(state.userState);
@@ -16,10 +15,7 @@ export const getPaginationForUsers = state =>
   fromReducer.getPaginationForUsers(state.userState);
 
 export const getFieldsForUsers = state =>
-  _.filter(
-    fromFieldReducer.getFields(state.fieldState),
-    f => f.model === "App\\User"
-  );
+  filter(state.fieldState.data, f => f.model === "App\\User");
 
 export const getSettings = state => fromReducer.getSettings(state.userState);
 

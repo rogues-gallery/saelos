@@ -1,4 +1,5 @@
 import * as fromReducer from "./reducer";
+import filter from "lodash/filter";
 
 export const getCompanies = state =>
   fromReducer.getCompanies(state.companyState);
@@ -10,7 +11,7 @@ export const getPaginationForCompanies = state =>
   fromReducer.getPaginationForCompanies(state.companyState);
 
 export const getCustomFieldsForCompanies = state =>
-  fromReducer.getCustomFieldsForCompanies(state.companyState);
+  filter(state.fieldState.data, f => f.model === "App\\Company");
 
 export const isStateDirty = state =>
   fromReducer.isStateDirty(state.companyState);

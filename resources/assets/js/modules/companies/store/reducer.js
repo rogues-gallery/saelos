@@ -20,7 +20,6 @@ const initialState = {
   isFetching: false,
   isPosting: false,
   error: false,
-  customFields: [],
   searchString: "",
   inEdit: false
 };
@@ -120,11 +119,6 @@ export default function companyReducer(state = initialState, action) {
         error: false,
         isPosting: false
       };
-    case types.FETCHING_CUSTOM_FIELDS_FOR_COMPANIES_SUCCESS:
-      return {
-        ...state,
-        customFields: action.data
-      };
     case types.DELETING_COMPANY_SUCCESS:
       const updatedData = removeCompanyFromState(action.data, state.data);
 
@@ -210,7 +204,6 @@ export const getCompany = (state, id) => {
 };
 export const getCompanies = state => state.data.map(c => new Company(c));
 export const getPaginationForCompanies = state => state.meta;
-export const getCustomFieldsForCompanies = state => state.customFields;
 export const isStateDirty = state => state.isPosting;
 export const getSearchStringForCompanies = state => state.searchString;
 export const getFirstCompanyId = state =>

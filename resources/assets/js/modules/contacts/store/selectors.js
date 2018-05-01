@@ -1,4 +1,6 @@
 import * as fromReducer from "./reducer";
+import * as fromFieldReducer from "../../fields/store/reducer";
+import filter from "lodash/filter";
 
 export const getContacts = state => fromReducer.getContacts(state.contactState);
 
@@ -9,7 +11,7 @@ export const getPaginationForContacts = state =>
   fromReducer.getPaginationForContacts(state.contactState);
 
 export const getCustomFieldsForContacts = state =>
-  fromReducer.getCustomFieldsForContacts(state.contactState);
+  filter(state.fieldState.data, f => f.model === "App\\Contact");
 
 export const isStateDirty = state =>
   fromReducer.isStateDirty(state.contactState);

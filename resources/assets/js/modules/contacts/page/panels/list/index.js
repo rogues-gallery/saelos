@@ -12,16 +12,18 @@ import {
 } from "../../../store/selectors";
 import { getActiveUser } from "../../../../users/store/selectors";
 import { isInEdit } from "../../../../contacts/store/selectors";
+import Contact from "../../../Contact";
 
 class List extends React.Component {
   constructor(props) {
     super(props);
 
-    this._onScroll = this._onScroll.bind(this);
-    this._openRecord = this._openRecord.bind(this);
+    this.state = {
+      activeID: props.contact.id
+    };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { contacts, dispatch, searchString } = this.props;
 
     if (contacts.length === 0) {
@@ -29,7 +31,7 @@ class List extends React.Component {
     }
   }
 
-  _onScroll(event) {
+  _onScroll = event => {
     const { target } = event;
     const { dispatch, pagination, searchString } = this.props;
     const currentPosition = target.scrollTop + target.offsetHeight;
@@ -39,18 +41,19 @@ class List extends React.Component {
         fetchContacts({ page: pagination.current_page + 1, searchString })
       );
     }
-  }
+  };
 
-  _openRecord(id) {
-    const { dispatch } = this.props;
-    dispatch(fetchContact(id));
+  _openRecord = id => {
+    this.setState({
+      activeID: id
+    });
+
     this.context.router.history.push(`/contacts/${id}`);
-  }
+  };
 
   render() {
-    const { router } = this.context;
     const { contacts, inEdit, fields, searchString, user } = this.props;
-    const activeIndex = parseInt(router.route.match.params.id);
+    const { activeID } = this.state;
 
     return (
       <div className={`col list-panel border-right ${inEdit ? "inEdit" : ""}`}>
@@ -61,30 +64,28 @@ class List extends React.Component {
           parentItem="contacts"
         />
         <div className="list-group h-scroll" onScroll={this._onScroll}>
-          {contacts.map(contact => (
+          {contacts.map(c => (
             <div
-              key={`contact-list-${contact.id}`}
-              onClick={() => this._openRecord(contact.id)}
+              key={c.id}
+              onClick={() => this._openRecord(c.id)}
               className={`list-group-item list-group-item-action align-items-start ${
-                contact.id === activeIndex ? "active" : ""
-              } ${contact.user.id === user.id ? "corner-flag" : ""}`}
+                c.id === activeID ? "active" : ""
+              } ${c.user.id === user.id ? "corner-flag" : ""}`}
             >
               <span className="text-muted mini-text float-right">
-                {moment(contact.updated_at).fromNow()}
+                {moment(c.updated_at).fromNow()}
               </span>
               <h6>
-                {contact.first_name} {contact.last_name}
+                {c.first_name} {c.last_name}
               </h6>
-              <p>{contact.company.name}</p>
-              <p className="text-muted">{contact.status.name}</p>
+              <p>{c.company.name}</p>
+              <p className="text-muted">{c.status.name}</p>
             </div>
           ))}
-          {contacts.length === 0 ? (
+          {contacts.length === 0 && (
             <div className="d-flex align-items-center h-100 text-center">
               <h5 className="text-muted w-100">No results for this search.</h5>
             </div>
-          ) : (
-            ""
           )}
         </div>
       </div>
@@ -98,7 +99,8 @@ List.propTypes = {
   isPosting: PropTypes.bool,
   pagination: PropTypes.object.isRequired,
   searchString: PropTypes.string.isRequired,
-  fields: PropTypes.object.isRequired
+  fields: PropTypes.array.isRequired,
+  contact: PropTypes.instanceOf(Contact).isRequired
 };
 
 List.contextTypes = {

@@ -22,7 +22,6 @@ const initialState = {
   isFetching: false,
   isPosting: false,
   error: false,
-  customFields: [],
   searchString: "",
   inEdit: false
 };
@@ -106,11 +105,6 @@ export default function contactReducer(state = initialState, action) {
         isFetching: false,
         error: false,
         isPosting: false
-      };
-    case types.FETCHING_CUSTOM_FIELDS_FOR_CONTACTS_SUCCESS:
-      return {
-        ...state,
-        customFields: action.data
       };
     case types.DELETING_CONTACT_SUCCESS:
       const updatedData = removeContactFromState(action.data, state.data);
@@ -244,14 +238,13 @@ export const getContact = (state, id) => {
   let contact = _.find(getContacts(state), c => c.id === parseInt(id));
 
   if (typeof contact === "undefined") {
-    return new Contact({ custom_fields: [] });
+    return new Contact();
   }
 
   return contact;
 };
 export const getContacts = state => state.data.map(c => new Contact(c));
 export const getPaginationForContacts = state => state.meta;
-export const getCustomFieldsForContacts = state => state.customFields;
 export const isStateDirty = state => state.isPosting || state.isFetching;
 export const getSearchStringForContacts = state => state.searchString;
 export const getFirstContactId = state =>

@@ -8,20 +8,11 @@ import {
   getFirstOpportunityId,
   getSearchStringForOpportunities
 } from "./store/selectors";
-import Main from "../../Main";
 import * as MDIcons from "react-icons/lib/md/index";
 import { getViews } from "../users/store/selectors";
 import { fetchOpportunities } from "./service";
 
-let MyRedirect = ({ firstId }) => {
-  // update search state to === ''
-
-  return (
-    <Main>
-      <Redirect to={`/opportunities/${firstId}`} />
-    </Main>
-  );
-};
+let MyRedirect = ({ firstId }) => <Redirect to={`/opportunities/${firstId}`} />;
 
 const RedirectToFirst = connect(state => ({
   firstId: getFirstOpportunityId(state)

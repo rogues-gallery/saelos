@@ -23,6 +23,7 @@ import ListActivities from "../../../../activities/partials/_list";
 import { getStatuses } from "../../../../statuses/store/selectors";
 import { getActiveUser } from "../../../../users/store/selectors";
 import { openTaskContainer } from "../../../../activities/store/actions";
+import User from "../../../../users/User";
 
 class Detail extends React.Component {
   constructor(props) {
@@ -351,18 +352,12 @@ const ActivityList = ({ contact, dispatch }) => {
 
 Detail.propTypes = {
   contact: PropTypes.instanceOf(Contact).isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.instanceOf(User).isRequired
 };
 
-export default withRouter(
-  connect((state, ownProps) => ({
-    contact: getContact(
-      state,
-      ownProps.match.params.id || getFirstContactId(state)
-    ),
-    user: getActiveUser(state),
-    isFetching: isStateDirty(state),
-    inEdit: isInEdit(state),
-    statuses: getStatuses(state)
-  }))(Detail)
-);
+export default connect(state => ({
+  user: getActiveUser(state),
+  isFetching: isStateDirty(state),
+  inEdit: isInEdit(state),
+  statuses: getStatuses(state)
+}))(Detail);

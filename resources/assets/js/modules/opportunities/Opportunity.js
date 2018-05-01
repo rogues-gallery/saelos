@@ -17,14 +17,12 @@ class Opportunity extends Model {
     this.initialize(props);
   }
 
-  initialize(props) {
+  initialize(props = {}) {
     props.custom_fields = props.custom_fields ? props.custom_fields : [];
 
     const fields = getCustomFieldsForOpportunities(store.getState());
 
-    Object.keys(fields).map(key => {
-      const field = fields[key];
-
+    fields.map(field => {
       if (field.is_custom) {
         const value = getCustomFieldValue(
           field.alias,
@@ -32,13 +30,13 @@ class Opportunity extends Model {
           field.default
         );
 
-        this[key] = field.type === "date" ? moment(value) : value;
+        this[field.alias] = field.type === "date" ? moment(value) : value;
       } else {
-        if (!props.hasOwnProperty(key)) {
-          props[key] = null;
+        if (!props.hasOwnProperty(field.alias)) {
+          props[field.alias] = null;
         }
 
-        this[key] = props[key];
+        this[field.alias] = props[field.alias];
       }
     });
 
