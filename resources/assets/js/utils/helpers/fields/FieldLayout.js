@@ -8,13 +8,7 @@ import DatePicker from "../../../common/ui/datepicker";
 import "react-day-picker/lib/style.css";
 
 class FieldLayout extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this._buildHtml = this._buildHtml.bind(this);
-  }
-
-  _buildHtml() {
+  _buildHtml = () => {
     const { model, field, inEdit, onChange } = this.props;
     let fieldValue;
 
@@ -156,7 +150,7 @@ class FieldLayout extends React.Component {
             <DatePicker
               className="form-control"
               name={field.alias}
-              value={new Date(model.toJson()[field.alias])}
+              value={fieldValue}
               onChange={onChange}
             />
           );
@@ -200,7 +194,7 @@ class FieldLayout extends React.Component {
           );
       }
     }
-  }
+  };
 
   render() {
     const { model, field, inEdit, isAdmin } = this.props;
