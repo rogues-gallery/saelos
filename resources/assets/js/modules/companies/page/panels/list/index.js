@@ -57,7 +57,7 @@ class List extends React.Component {
     const { activeID } = this.state;
 
     return (
-      <div className={`col list-panel border-right ${inEdit ? "inEdit" : ""}`}>
+      <div className={`col list-panel border-right`}>
         <AdvancedSearch
           searchFunc={fetchCompanies}
           searchFields={fields}

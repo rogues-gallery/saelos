@@ -561,11 +561,6 @@ a:hover {
   cursor: pointer;
 }
 
-.inEdit {
-  pointer-events: none;
-  opacity: 0.4;
-}
-
 .corner-flag::before,
 .corner-flag::after {
   content: "";
