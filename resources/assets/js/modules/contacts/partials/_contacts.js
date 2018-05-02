@@ -84,7 +84,8 @@ class Contacts extends React.Component {
   _submit = (toggle = true) => {
     const { dispatch } = this.props;
     const { formState, model } = this.state;
-    const saveFunc = model instanceof Company ? saveCompany : saveOpportunity;
+    const saveFunc =
+      this.props.model instanceof Company ? saveCompany : saveOpportunity;
     let contacts = model.contacts;
 
     if (formState.id) {

@@ -86,7 +86,8 @@ class Companies extends React.Component {
   _submit = (toggle = true) => {
     const { dispatch } = this.props;
     const { formState, model } = this.state;
-    const saveFunc = model instanceof Contact ? saveContact : saveOpportunity;
+    const saveFunc =
+      this.props.model instanceof Contact ? saveContact : saveOpportunity;
     let companies = model.companies;
 
     if (formState.id) {
