@@ -30,4 +30,13 @@ class Field extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+
+        $array['is_custom'] = !$array['protected'];
+
+        return $array;
+    }
 }

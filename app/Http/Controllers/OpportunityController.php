@@ -78,7 +78,7 @@ class OpportunityController extends Controller
         $companies = $data['companies'] ?? [];
         $customFields = $data['custom_fields'] ?? [];
         $opportunityStage = $data['stage_id'] ?? null;
-        $contacts = $data['contacts'] ?? null;
+        $contacts = $data['contacts'] ?? [];
 
         $companyIds = [];
         foreach ($companies as $company) {
