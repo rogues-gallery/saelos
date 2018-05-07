@@ -11,10 +11,6 @@ class Record extends React.Component {
   constructor(props) {
     super(props);
 
-    this._submit = this._submit.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._delete = this._delete.bind(this);
-
     this.state = {
       formState: props.field.originalProps
     };
@@ -34,12 +30,12 @@ class Record extends React.Component {
     this.setState({ formState: nextProps.field.originalProps });
   }
 
-  _submit() {
+  _submit = () => {
     this.props.dispatch(saveField(this.state.formState));
-  }
+  };
 
   // @todo: Abstract this out
-  _handleInputChange(event) {
+  _handleInputChange = event => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -50,14 +46,14 @@ class Record extends React.Component {
     this.setState({
       formState
     });
-  }
+  };
 
-  _delete() {
+  _delete = () => {
     const { dispatch, field } = this.props;
 
     dispatch(deleteField(field.id));
     // this.context.router.history.push('/config/fields')
-  }
+  };
 
   render() {
     const { field } = this.props;
@@ -109,6 +105,45 @@ class Record extends React.Component {
       {
         value: "additional",
         label: "Additional"
+      }
+    ];
+
+    const typeOptions = [
+      {
+        value: "text",
+        label: "Text"
+      },
+      {
+        value: "textarea",
+        label: "Textarea"
+      },
+      {
+        value: "radio",
+        label: "Radio"
+      },
+      {
+        value: "checkbox",
+        label: "Checkbox"
+      },
+      {
+        value: "select",
+        label: "Select"
+      },
+      {
+        value: "number",
+        label: "Number"
+      },
+      {
+        value: "date",
+        label: "Date"
+      },
+      {
+        value: "email",
+        label: "Email"
+      },
+      {
+        value: "url",
+        label: "URL"
       }
     ];
 
@@ -216,6 +251,27 @@ class Record extends React.Component {
                       onChange={this._handleInputChange}
                       className="form-control"
                       value={formState.ordering}
+                    />
+                  </div>
+                </div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="type">Field type</label>
+                  <div>
+                    <Select
+                      options={typeOptions}
+                      value={formState.type}
+                      valueKey="value"
+                      labelKey="label"
+                      onChange={value => {
+                        const event = {
+                          target: {
+                            name: "type",
+                            value: value ? value.value : null
+                          }
+                        };
+
+                        this._handleInputChange(event);
+                      }}
                     />
                   </div>
                 </div>
