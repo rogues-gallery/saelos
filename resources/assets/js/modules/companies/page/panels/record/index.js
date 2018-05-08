@@ -97,25 +97,19 @@ class Record extends React.Component {
 
     // Special handling for custom field state
     if (this.state.formState.hasOwnProperty(name) === false) {
+      let customField = _.find(this.props.customFields, f => f.alias === name);
       let companyCustomFieldIndex = _.findIndex(
         companyState.custom_fields,
-        o => o.custom_field_id === customField.field_id
+        o => o.custom_field_id === customField.id
       );
 
       if (companyCustomFieldIndex >= 0) {
         companyState.custom_fields[companyCustomFieldIndex].value = value;
       } else {
-        let customField = _.find(
-          this.props.customFields,
-          f => f.alias === name
-        );
-
-        if (customField.field_id) {
-          companyState.custom_fields.push({
-            custom_field_id: customField.field_id,
-            value: value
-          });
-        }
+        companyState.custom_fields.push({
+          custom_field_id: customField.id,
+          value: value
+        });
       }
     } else {
       _.set(companyState, name, value);

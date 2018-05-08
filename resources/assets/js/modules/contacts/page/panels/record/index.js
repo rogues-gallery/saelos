@@ -104,25 +104,19 @@ class Record extends React.Component {
       this.state.formState.hasOwnProperty(name) === false &&
       this.props.customFields[name]
     ) {
+      let customField = _.find(this.props.customFields, f => f.alias === name);
       let contactCustomFieldIndex = _.findIndex(
         contactState.custom_fields,
-        o => o.custom_field_id === customField.field_id
+        o => o.custom_field_id === customField.id
       );
 
       if (contactCustomFieldIndex >= 0) {
         contactState.custom_fields[contactCustomFieldIndex].value = value;
       } else {
-        let customField = _.find(
-          this.props.customFields,
-          f => f.alias === name
-        );
-
-        if (customField.field_id) {
-          contactState.custom_fields.push({
-            custom_field_id: customField.field_id,
-            value: value
-          });
-        }
+        contactState.custom_fields.push({
+          custom_field_id: customField.id,
+          value: value
+        });
       }
     } else {
       _.set(contactState, name, value);
