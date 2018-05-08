@@ -103,7 +103,6 @@ class Record extends React.Component {
 
     // Special handling for custom field state
     if (this.state.formState.hasOwnProperty(name) === false) {
-      let customField = this.props.customFields[name];
       let opportunityCustomFieldIndex = _.findIndex(
         opportunityState.custom_fields,
         o => o.custom_field_id === customField.field_id
@@ -114,10 +113,17 @@ class Record extends React.Component {
           opportunityCustomFieldIndex
         ].value = value;
       } else {
-        opportunityState.custom_fields.push({
-          custom_field_id: customField.field_id,
-          value: value
-        });
+        let customField = _.find(
+          this.props.customFields,
+          f => f.alias === name
+        );
+
+        if (customField.field_id) {
+          opportunityState.custom_fields.push({
+            custom_field_id: customField.field_id,
+            value: value
+          });
+        }
       }
     } else {
       _.set(opportunityState, name, value);
