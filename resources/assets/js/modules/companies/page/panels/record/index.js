@@ -64,7 +64,7 @@ class Record extends React.Component {
   _toggleTaskCompose = view => {
     const { dispatch, company } = this.props;
 
-    dispatch(openTaskContainer(() => alert("hi"), company, view));
+    dispatch(openTaskContainer(company, view));
   };
 
   _toggleEdit = () => {

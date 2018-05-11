@@ -21,6 +21,8 @@ class Contact extends Model {
   initialize(props = {}) {
     props.custom_fields = props.custom_fields ? props.custom_fields : [];
 
+    super.initialize(Object.assign({}, props));
+
     const fields = getCustomFieldsForContacts(store.getState());
 
     fields.map(field => {
@@ -40,8 +42,6 @@ class Contact extends Model {
         this[field.alias] = props[field.alias];
       }
     });
-
-    super.initialize(props);
 
     // relate user model
     this.user = props.user ? new User(props.user) : new User({});

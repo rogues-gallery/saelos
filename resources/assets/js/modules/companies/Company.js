@@ -19,6 +19,8 @@ class Company extends Model {
   initialize(props = {}) {
     props.custom_fields = props.custom_fields ? props.custom_fields : [];
 
+    super.initialize(Object.assign({}, props));
+
     const fields = getCustomFieldsForCompanies(store.getState());
 
     fields.map(field => {
@@ -38,8 +40,6 @@ class Company extends Model {
         this[field.alias] = props[field.alias];
       }
     });
-
-    super.initialize(props);
 
     this.primary = (props.pivot && props.pivot.primary) || 0;
     this.position = (props.pivot && props.pivot.position) || "";
