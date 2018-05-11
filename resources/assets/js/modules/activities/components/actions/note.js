@@ -151,6 +151,7 @@ class NoteAction extends Component {
 
   render() {
     const { formState } = this.state;
+    const { document } = formState;
 
     return (
       <React.Fragment>
