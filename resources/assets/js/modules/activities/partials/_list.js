@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import moment from "moment";
 import { fetchActivity } from "../service";
 
@@ -16,7 +18,7 @@ class ListActivities extends React.Component {
   }
 
   render() {
-    const { activities } = this.props;
+    const { activities, match } = this.props;
     return activities.map(activity => {
       // @TODO: Check fulfillment_date in some capacity
       const dateInstance = moment(activity.due_date ? activity.due_date : null);
@@ -26,7 +28,7 @@ class ListActivities extends React.Component {
           key={activity.id}
           onClick={() => this.openActivityRecord(activity.id)}
           className={`list-group-item list-group-item-action align-items-start ${
-            activity.id === 0 ? "active" : ""
+            activity.id == match.params.id ? "active" : ""
           }`}
         >
           <span
@@ -51,4 +53,4 @@ ListActivities.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default ListActivities;
+export default withRouter(connect()(ListActivities));

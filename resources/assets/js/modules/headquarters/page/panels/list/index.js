@@ -25,7 +25,7 @@ class List extends React.Component {
     }
   }
 
-  _onKeyPress(event) {
+  _onKeyPress = event => {
     const { target, charCode } = event;
 
     if (charCode !== 13) {
@@ -35,9 +35,9 @@ class List extends React.Component {
     event.preventDefault();
 
     this._submit(target);
-  }
+  };
 
-  _submit(input) {
+  _submit = input => {
     const { value } = input;
     const { dispatch } = this.props;
 
@@ -46,9 +46,9 @@ class List extends React.Component {
     } else if (value.length === 0) {
       dispatch(fetchActivities({ page: 1, searchString: "" }));
     }
-  }
+  };
 
-  _onScroll(event) {
+  _onScroll = event => {
     const { target } = event;
     const { dispatch, pagination, searchString } = this.props;
     const currentPosition = target.scrollTop + target.offsetHeight;
@@ -58,18 +58,21 @@ class List extends React.Component {
         fetchActivities({ page: pagination.current_page + 1, searchString })
       );
     }
-  }
+  };
 
-  _toggleListFilter(filter) {
+  _toggleListFilter = filter => {
     this.setState({
       filter
     });
-  }
+  };
 
   render() {
     const { activities, dispatch, searchString } = this.props;
     const filtered = _.filter(
-      _.filter(activities, a => a.details_type !== "App\\FieldUpdateActivity"),
+      _.filter(
+        _.orderBy(activities, "due_date", "desc"),
+        a => a.details_type !== "App\\FieldUpdateActivity"
+      ),
       item => {
         switch (this.state.filter) {
           case "current":

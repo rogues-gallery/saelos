@@ -27,6 +27,7 @@ class Record extends React.Component {
     super(props);
 
     this.state = {
+      inEdit: false,
       formState: props.activity.originalProps,
       contact: {
         id: props.activity.contact ? props.activity.contact.id : null,
@@ -50,6 +51,7 @@ class Record extends React.Component {
 
   componentWillReceiveProps(nextProps, nextContext) {
     this.setState({
+      inEdit: false,
       formState: nextProps.activity.originalProps,
       contact: {
         id: nextProps.activity.contact ? nextProps.activity.contact.id : null,
@@ -113,11 +115,30 @@ class Record extends React.Component {
     this.props.dispatch(deleteActivity(this.props.activity.id));
   };
 
+  _toggleEdit = () => {
+    this.setState({
+      inEdit: !this.state.inEdit
+    });
+  };
+
   render() {
     const { activity, statuses, stages } = this.props;
-    const { formState, contact, opportunity } = this.state;
-    const actionView =
-      activity.details_type === "App\\CallActivity" ? "call" : "email";
+    const { formState, contact, opportunity, inEdit } = this.state;
+    let actionView = "task";
+
+    if (!inEdit) {
+      switch (activity.details_type) {
+        case "App\\CallActivity":
+          actionView = "call";
+          break;
+        case "App\\EmailActivity":
+          actionView = "email";
+          break;
+        case "App\\SmsActivity":
+          actionView = "sms";
+          break;
+      }
+    }
 
     if (activity.id === null && this.props.match.params.id !== "new") {
       return (
@@ -158,6 +179,33 @@ class Record extends React.Component {
             </div>
           </div>
         </div>
+        {inEdit ? (
+          <span className="float-right py-3 mt-1">
+            <a
+              href="javascript:void(0);"
+              className="btn btn-link text-muted btn-sm"
+              onClick={this._toggleEdit}
+            >
+              Cancel
+            </a>
+            <span
+              className="ml-2 btn btn-primary btn-sm"
+              onClick={this._submit}
+            >
+              Save
+            </span>
+          </span>
+        ) : (
+          <span className="float-right py-3 mt-1">
+            <a
+              href="javascript:void(0);"
+              className="btn btn-link btn-sm text-primary"
+              onClick={this._toggleEdit}
+            >
+              Edit
+            </a>
+          </span>
+        )}
         <h4 className="border-bottom py-3">
           {activity.name}
           <TagsPartial
@@ -169,13 +217,23 @@ class Record extends React.Component {
 
         <div className="h-scroll">
           <div className="card mb-2">
-            <div
-              className="card-body border-bottom"
-              dangerouslySetInnerHTML={{ __html: activity.description }}
+            {!inEdit ? (
+              <div className="card-body border-bottom">
+                <p className="float-right text-muted">
+                  {activity.due_date.format("YYYY-MM-DD")}
+                </p>
+                <div
+                  dangerouslySetInnerHTML={{ __html: activity.description }}
+                />
+              </div>
+            ) : null}
+            <ActionView
+              view={actionView}
+              model={activity.contact}
+              activity={activity}
             />
-            <ActionView view={actionView} model={activity.contact} />
           </div>
-          <div className="row">
+          <div className="row no-gutters">
             {activity.contact.id ? (
               <div className="col-12">
                 <div className="card mb-1">

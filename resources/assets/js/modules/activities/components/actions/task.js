@@ -9,22 +9,27 @@ import { saveActivity } from "../../service";
 import Contact from "../../../contacts/Contact";
 import Opportunity from "../../../opportunities/Opportunity";
 import Company from "../../../companies/Company";
+import Activity from "../../Activity";
 
 class TaskAction extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      formState: {
-        user_id: this.props.user.id,
-        contact_id:
-          this.props.model instanceof Contact ? this.props.model.id : null,
-        opportunity_id:
-          this.props.model instanceof Opportunity ? this.props.model.id : null,
-        company_id:
-          this.props.model instanceof Company ? this.props.model.id : null
-      }
-    };
+    if (props.activity) {
+      this.state = {
+        formState: props.activity.originalProps
+      };
+    } else {
+      this.state = {
+        formState: {
+          user_id: props.user.id,
+          contact_id: props.model instanceof Contact ? props.model.id : null,
+          opportunity_id:
+            props.model instanceof Opportunity ? props.model.id : null,
+          company_id: props.model instanceof Company ? props.model.id : null
+        }
+      };
+    }
   }
 
   _handleInputChange = event => {
@@ -178,7 +183,10 @@ class TaskAction extends Component {
           </div>
           <div className="form-row">
             <div className="form-group col">
-              <ReactQuill onChange={this._handleContentChange} />
+              <ReactQuill
+                onChange={this._handleContentChange}
+                defaultValue={formState.description}
+              />
             </div>
           </div>
           <div className="form-row">
@@ -251,14 +259,19 @@ class TaskAction extends Component {
               ""
             )}
           </div>
-          <div className="mt-2">
-            <button className="btn btn-primary mr-2" onClick={this._submit}>
-              Send
-            </button>
-            <button className="btn btn-link text-muted" onClick={this._cancel}>
-              Cancel
-            </button>
-          </div>
+          {this.props.activity instanceof Activity ? null : (
+            <div className="mt-2">
+              <button className="btn btn-primary mr-2" onClick={this._submit}>
+                Save
+              </button>
+              <button
+                className="btn btn-link text-muted"
+                onClick={this._cancel}
+              >
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
       </React.Fragment>
     );
@@ -266,7 +279,8 @@ class TaskAction extends Component {
 }
 
 TaskAction.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  activity: PropTypes.instanceOf(Activity)
 };
 
 export default connect()(TaskAction);
