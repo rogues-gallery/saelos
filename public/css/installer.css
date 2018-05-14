@@ -3093,7 +3093,7 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 400;
   margin: 0 0 15px;
   border: none;
@@ -3160,27 +3160,27 @@ body {
 }
 
 .step__icon.welcome:before {
-  content: '\F144';
+  content: "\F144";
   font-family: Ionicons;
 }
 
 .step__icon.requirements:before {
-  content: '\F127';
+  content: "\F127";
   font-family: Ionicons;
 }
 
 .step__icon.permissions:before {
-  content: '\F296';
+  content: "\F296";
   font-family: Ionicons;
 }
 
 .step__icon.database:before {
-  content: '\F454';
+  content: "\F454";
   font-family: Ionicons;
 }
 
 .step__icon.update:before {
-  content: '\F2BF';
+  content: "\F2BF";
   font-family: Ionicons;
 }
 
@@ -3196,7 +3196,7 @@ body {
 }
 
 .buttons .button {
-  margin: .5em;
+  margin: 0.5em;
 }
 
 .buttons--right {
@@ -3208,7 +3208,7 @@ body {
   background-color: #3886d9;
   border-radius: 4px;
   padding: 7px 20px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
   outline: none;
   border: none;
@@ -3216,7 +3216,7 @@ body {
 }
 
 .button:hover {
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: #2673c5;
 }
 
@@ -3305,7 +3305,7 @@ body {
 }
 
 .list__item--permissions:before {
-  content: '' !important;
+  content: "" !important;
 }
 
 .list__item--permissions span {
@@ -3427,12 +3427,12 @@ body {
           box-shadow: 0 3px 1px darkgray;
 }
 
-.block input[type='radio'] {
+.block input[type="radio"] {
   width: 100%;
   display: none;
 }
 
-.block input[type='radio'] + label {
+.block input[type="radio"] + label {
   background: #008080;
   color: #fff;
   padding-top: 5px;
@@ -3440,24 +3440,24 @@ body {
   transition: all 0.1s ease-in-out;
 }
 
-.block input[type='radio'] + label:hover {
+.block input[type="radio"] + label:hover {
   background: #144242;
   color: #fff;
   padding-top: 5px;
 }
 
-.block input[type='radio']:checked + label {
+.block input[type="radio"]:checked + label {
   background-color: #a9a9a9;
 }
 
-.block input[type='radio']:checked ~ .info {
+.block input[type="radio"]:checked ~ .info {
   height: 200px;
   overflow-y: auto;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
 
-.block input[type='radio'] ~ .info > div {
+.block input[type="radio"] ~ .info > div {
   padding-top: 15px;
 }
 
@@ -3488,8 +3488,8 @@ body {
   overflow: hidden;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  -webkit-transition: .3s ease-out;
-  transition: .3s ease-out;
+  -webkit-transition: 0.3s ease-out;
+  transition: 0.3s ease-out;
 }
 
 ::-moz-selection {
@@ -3607,27 +3607,26 @@ svg:not(:root) {
   border-color: #ff0000;
 }
 
-.form-group.has-error input[type='text'] {
+.form-group.has-error input[type="text"] {
   border-color: #ff0000;
 }
 
-.form-group.has-error input[type='password'] {
+.form-group.has-error input[type="password"] {
   border-color: #ff0000;
 }
 
-.form-group.has-error input[type='url'] {
+.form-group.has-error input[type="url"] {
   border-color: #ff0000;
 }
 
-.form-group.has-error input[type='number'] {
+.form-group.has-error input[type="number"] {
   border-color: #ff0000;
 }
 
 .form-group.has-error .error-block {
-  margin: -12px 0 0;
   display: block;
   width: 100%;
-  font-size: .9em;
+  font-size: 0.9em;
   color: #ff0000;
   font-weight: 500;
 }

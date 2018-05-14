@@ -108,9 +108,12 @@
         <script type="text/javascript">
             var x = document.getElementById('error_alert');
             var y = document.getElementById('close_alert');
-            y.onclick = function() {
-                x.style.display = "none";
-            };
+
+            if (y !== null) {
+                y.onclick = function() {
+                    x.style.display = "none";
+                };
+            }
         </script>
     </body>
 </html>

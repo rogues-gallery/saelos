@@ -33,7 +33,7 @@
             {{ trans('installer_messages.environment.wizard.tabs.email') }}
         </label>
 
-        <form method="post" action="{{ route('LaravelInstaller::environmentSaveWizard') }}" class="tabs-wrap">
+        <form method="post" action="{{ route('LaravelInstaller::environmentSaveWizard') }}" class="tabs-wrap" novalidate>
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             <div class="tab" id="tab1content">
