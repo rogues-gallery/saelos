@@ -89,6 +89,7 @@ class TaskAction extends Component {
     let opportunityOptions = null;
     let companyOptions = null;
     let contactOptions = null;
+    let assigneeOptions = null;
 
     if (model instanceof Opportunity) {
       companyOptions = model.companies.map(c => ({
@@ -123,6 +124,11 @@ class TaskAction extends Component {
       }));
     }
 
+    assigneeOptions = user.team.users.map(u => ({
+      value: u.id,
+      label: u.name
+    }));
+
     return (
       <React.Fragment>
         <div className="card-body taskActionView">
@@ -130,32 +136,49 @@ class TaskAction extends Component {
             <div className="form-group col-md-4">
               <label htmlFor="assignee_name">Assignee</label>
               {user.authorized(["admin", "manager"]) ? (
-                <select className="form-control" defaultValue={user.id}>
-                  {user.team.users.map(u => (
-                    <option
-                      key={`team-${user.team.id}-member-${u.id}`}
-                      value={u.id}
-                    >
-                      {u.name}
-                    </option>
-                  ))}
-                </select>
+                <Select
+                  value={formState.user_id}
+                  onChange={value => {
+                    const event = {
+                      target: {
+                        name: "user_id",
+                        value: value ? value.value : null
+                      }
+                    };
+
+                    this._handleInputChange(event);
+                  }}
+                  options={assigneeOptions}
+                />
               ) : (
-                <input type="text" className="form-control" value={user.name} />
+                <input
+                  type="text"
+                  readOnly={true}
+                  className="form-control"
+                  value={formState.user ? formState.user.name : user.name}
+                />
               )}
             </div>
             <div className="form-group col-md-4">
               <label htmlFor="due_date">Type</label>
-              <select
-                className="form-control"
-                name="details_type"
-                onChange={this._handleInputChange}
-              >
-                <option value="">Select...</option>
-                <option value="App\CallActivity">Call</option>
-                <option value="App\EmailActivity">Email</option>
-                <option value="App\SmsActivity">Sms</option>
-              </select>
+              <Select
+                value={formState.details_type}
+                onChange={value => {
+                  const event = {
+                    target: {
+                      name: "details_type",
+                      value: value ? value.value : null
+                    }
+                  };
+
+                  this._handleInputChange(event);
+                }}
+                options={[
+                  { value: "App\\CallActivity", label: "Call" },
+                  { value: "App\\EmailActivity", label: "Email" },
+                  { value: "App\\SmsActivity", label: "SMS" }
+                ]}
+              />
             </div>
             <div className="form-group col-md-4">
               <label htmlFor="due_date">Due Date</label>
