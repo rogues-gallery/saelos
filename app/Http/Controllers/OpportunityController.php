@@ -104,7 +104,6 @@ class OpportunityController extends Controller
 
         $opportunity->companies()->sync($companyIds);
         $opportunity->contacts()->sync($contactIds);
-        $opportunity->user()->associate(Auth::user());
         $opportunity->update($data);
         $opportunity->assignCustomFields($customFields);
 

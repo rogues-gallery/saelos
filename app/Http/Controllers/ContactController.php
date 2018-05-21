@@ -133,7 +133,6 @@ class ContactController extends Controller
 
         $contact->companies()->sync($companyIds);
         $contact->opportunities()->sync($opportunityIds);
-        $contact->user()->associate($user);
         $contact->update($data);
         $contact->assignCustomFields($customFields);
 

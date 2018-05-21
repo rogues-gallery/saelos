@@ -108,7 +108,6 @@ class CompanyController extends Controller
 
         $company->opportunities()->sync($opportunityIds);
         $company->contacts()->sync($contactIds);
-        $company->user()->associate(Auth::user());
         $company->update($data);
         $company->assignCustomFields($customFields);
 
