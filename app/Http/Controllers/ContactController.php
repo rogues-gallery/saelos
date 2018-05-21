@@ -124,7 +124,7 @@ class ContactController extends Controller
             ];
         }
 
-        $user = isset($contactUser['id']) ? User::find($contactUser['id']) : Auth::user();
+        $user = isset($contactUser['id']) ? User::find($contactUser['id']) : null;
 
         if (isset($data['user_id']) && is_string($data['user_id']) && !is_numeric($data['user_id'])) {
             $user = User::where('name', $data['user_id'])->first();
@@ -133,6 +133,11 @@ class ContactController extends Controller
 
         $contact->companies()->sync($companyIds);
         $contact->opportunities()->sync($opportunityIds);
+
+        if ($user) {
+            $contact->user()->associate($user);
+        }
+
         $contact->update($data);
         $contact->assignCustomFields($customFields);
 
