@@ -139,7 +139,7 @@ trait SearchableTrait
                     }
                 }
 
-                $query->where('user_id', $assignee);
+                $query->where('user_id', $operator, $assignee);
 
                 break;
         }
