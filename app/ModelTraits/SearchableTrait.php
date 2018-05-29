@@ -41,6 +41,19 @@ trait SearchableTrait
                         continue;
                     }
 
+                    // Handle custom fields. Only core fields (on table) are protected
+                    if (!$field->protected) {
+                        $q->whereHas('customFields', function (Builder $sq) use ($criteria, $operator, $field) {
+                            $val = strpos($operator, 'LIKE') !== false
+                                ? '%'.$criteria['value'].'%'
+                                : $criteria['value'];
+
+                            $sq->where('custom_field_id', $field->id);
+                            $sq->where('value', $operator, $val);
+                        });
+                        continue;
+                    }
+
                     if (is_array($criteria['value'])) {
                         $q->where(function (Builder $sq) use ($operator, $criteria) {
                             foreach ($criteria['value'] as $val) {
