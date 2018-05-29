@@ -23,6 +23,7 @@ class Field extends Model
 
     protected $guarded = [
         'id',
+        'is_custom',
     ];
 
     protected $dates = [
