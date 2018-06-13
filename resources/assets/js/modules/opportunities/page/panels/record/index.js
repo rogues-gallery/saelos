@@ -94,37 +94,40 @@ class Record extends React.Component {
     });
   };
 
-  // @todo: Extract this crap. Mercy, this is embarrassing
+  // @todo: Abstract this out
   _handleInputChange = event => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
-    let opportunityState = this.state.formState;
+    let thisState = this.state.formState;
+    let fieldDef = _.find(this.props.customFields, f => f.alias === name);
 
-    // Special handling for custom field state
-    if (this.state.formState.hasOwnProperty(name) === false) {
-      let customField = _.find(this.props.customFields, f => f.alias === name);
-      let opportunityCustomFieldIndex = _.findIndex(
-        opportunityState.custom_fields,
-        o => o.custom_field_id === customField.id
+    if (typeof fieldDef === "undefined") {
+      fieldDef = {
+        is_custom: false
+      };
+    }
+
+    if (fieldDef.is_custom) {
+      let customFieldIndex = _.findIndex(
+        thisState.custom_fields,
+        o => o.custom_field_id === fieldDef.field_id
       );
 
-      if (opportunityCustomFieldIndex >= 0) {
-        opportunityState.custom_fields[
-          opportunityCustomFieldIndex
-        ].value = value;
+      if (customFieldIndex >= 0) {
+        thisState.custom_fields[customFieldIndex].value = value;
       } else {
-        opportunityState.custom_fields.push({
-          custom_field_id: customField.id,
+        thisState.custom_fields.push({
+          custom_field_id: fieldDef.field_id,
           value: value
         });
       }
     } else {
-      _.set(opportunityState, name, value);
+      _.set(thisState, name, value);
     }
 
     this.setState({
-      formState: opportunityState
+      formState: thisState
     });
   };
 

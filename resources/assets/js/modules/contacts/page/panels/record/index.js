@@ -97,34 +97,36 @@ class Record extends React.Component {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
-    let contactState = this.state.formState;
+    let thisState = this.state.formState;
+    let fieldDef = _.find(this.props.customFields, f => f.alias === name);
 
-    // Special handling for custom field state
-    if (this.state.formState.hasOwnProperty(name) === false) {
-      let customField = _.find(this.props.customFields, f => f.alias === name);
-      let contactCustomFieldIndex = _.findIndex(
-        contactState.custom_fields,
-        o => o.custom_field_id === customField.id
+    if (typeof fieldDef === "undefined") {
+      fieldDef = {
+        is_custom: false
+      };
+    }
+
+    if (fieldDef.is_custom) {
+      let customFieldIndex = _.findIndex(
+        thisState.custom_fields,
+        o => o.custom_field_id === fieldDef.field_id
       );
 
-      if (contactCustomFieldIndex >= 0) {
-        contactState.custom_fields[contactCustomFieldIndex].value = value;
+      if (customFieldIndex >= 0) {
+        thisState.custom_fields[customFieldIndex].value = value;
       } else {
-        contactState.custom_fields.push({
-          custom_field_id: customField.id,
+        thisState.custom_fields.push({
+          custom_field_id: fieldDef.field_id,
           value: value
         });
       }
     } else {
-      _.set(contactState, name, value);
+      _.set(thisState, name, value);
     }
 
     this.setState({
-      formState: contactState
+      formState: thisState
     });
-
-    // Set the value on the contact prop as well
-    _.set(this.props.contact, name, value);
   };
 
   render() {
@@ -199,7 +201,7 @@ class Record extends React.Component {
 
           <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">Assigned To</div>
-            {user.authorized(["admin", "manager"]) ? (
+            {user.authorized(["admin", "manager", "user"]) ? (
               <div className="dropdown show">
                 <div
                   className="text-dark mini-text cursor-pointer"

@@ -43,6 +43,7 @@ class CreateCustomFieldsTable extends Migration
             $table->morphs('model');
             $table->integer('custom_field_id')->unsigned()->index();
             $table->foreign('custom_field_id')->references('id')->on('fields')->onDelete('cascade');
+            $table->string('custom_field_alias');
             $table->text('value');
         });
     }

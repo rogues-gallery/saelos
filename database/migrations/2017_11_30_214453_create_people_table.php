@@ -20,8 +20,8 @@ class CreatePeopleTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->boolean('published')->default(1);
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->string('address1')->nullable();
             $table->string('address2')->nullable();
