@@ -105,14 +105,14 @@ class Record extends React.Component {
     if (fieldDef.is_custom) {
       let customFieldIndex = _.findIndex(
         thisState.custom_fields,
-        o => o.custom_field_id === fieldDef.field_id
+        o => o.custom_field_id === fieldDef.id
       );
 
       if (customFieldIndex >= 0) {
         thisState.custom_fields[customFieldIndex].value = value;
       } else {
         thisState.custom_fields.push({
-          custom_field_id: fieldDef.field_id,
+          custom_field_id: fieldDef.id,
           value: value
         });
       }
