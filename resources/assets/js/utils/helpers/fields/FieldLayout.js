@@ -99,7 +99,7 @@ class FieldLayout extends React.Component {
         case "multiselect":
           return (
             <Select
-              options={Object.keys(field.options).map(v => ({
+              options={Object.keys(field.values).map(v => ({
                 value: v,
                 label: v
               }))}
@@ -124,7 +124,7 @@ class FieldLayout extends React.Component {
         case "select":
           return (
             <Select
-              options={Object.keys(field.options).map(v => ({
+              options={Object.keys(field.values).map(v => ({
                 value: v,
                 label: v
               }))}
