@@ -12,6 +12,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\Opportunity as OpportunityResource;
 
+/**
+ * @resource Opportunities
+ * 
+ * Interact with Opportunities
+ */
 class OpportunityController extends Controller
 {
     const INDEX_WITH = [
@@ -50,6 +55,13 @@ class OpportunityController extends Controller
         'tags',
     ];
 
+    /**
+     * Fetching a filtered Opportunities list.
+     * 
+     * @param Request $request
+     * 
+     * @return OpportunityCollection
+     */
     public function index(Request $request)
     {
         $opportunities = Opportunity::with(static::INDEX_WITH);
@@ -65,11 +77,26 @@ class OpportunityController extends Controller
         return new OpportunityCollection($opportunities->paginate());
     }
 
+    /**
+     * Fetch a single Opportunity
+     * 
+     * @param int $id
+     * 
+     * @return OpportunityResource
+     */
     public function show($id)
     {
         return new OpportunityResource(Opportunity::with(static::SHOW_WITH)->find($id));
     }
 
+    /**
+     * Update an existing Opportunity
+     * 
+     * @param Request $request
+     * @param int     $id
+     * 
+     * @return OpportunityResource
+     */
     public function update(Request $request, $id)
     {
         /** @var Opportunity $opportunity */
@@ -110,6 +137,13 @@ class OpportunityController extends Controller
         return $this->show($opportunity->id);
     }
 
+    /**
+     * Save a new Opportunity
+     * 
+     * @param Request $request
+     * 
+     * @return OpportunityResource
+     */
     public function store(Request $request)
     {
         $opportunity = Opportunity::create($request->all());
@@ -117,6 +151,13 @@ class OpportunityController extends Controller
         return $this->update($request, $opportunity->id);
     }
 
+    /**
+     * Delete an Opportunity
+     * 
+     * @param int $id
+     * 
+     * @return string
+     */
     public function destroy($id)
     {
         Opportunity::findOrFail($id)->delete();
@@ -124,17 +165,27 @@ class OpportunityController extends Controller
         return '';
     }
 
-
+    /**
+     * Get a count of Opportunities.
+     * 
+     * The count returned represents the number of opportunities assigned
+     * to the requesting user that are grouped by the given groupBy
+     * request parameter.
+     * 
+     * @param Request $request
+     * 
+     * @return array
+     */
     public function count(Request $request)
     {
         $groupBy = $request->get('groupBy');
-        $user = \Auth::user();
 
         $count = DB::table('opportunities')
             ->select($groupBy, DB::raw('count(*) as total'))
-            ->where('user_id', $user->id)
+            ->where('user_id', \Auth::user()->id)
             ->groupBy($groupBy)
             ->pluck('total', $groupBy);
+
         return $count;
     }
 }

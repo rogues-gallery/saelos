@@ -11,7 +11,19 @@ use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
+    use AuthenticatesUsers {
+        AuthenticatesUsers::login as authLogin;
+    }
+
+    /**
+     * @hideFromAPIDocumentation
+     * 
+     * {@inheritdoc}
+     */
+    public function login(Request $request)
+    {
+        return $this->authLogin($request);
+    }
 
     protected function authenticated(Request $request, $user)
     {
@@ -66,6 +78,9 @@ class LoginController extends Controller
         ], 401);
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function logout(Request $request)
     {
         $accessToken = $request->user()->token();

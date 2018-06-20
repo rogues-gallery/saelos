@@ -10,6 +10,11 @@ use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Resources\Tag as TagResource;
 
+/**
+ * @resource Tags
+ * 
+ * Interact with Tags
+ */
 class TagController extends Controller
 {
     const INDEX_WITH = [
@@ -25,21 +30,42 @@ class TagController extends Controller
         'activities'
     ];
 
+    /**
+     * Fetching Tags
+     * 
+     * @return TagCollection
+     */
     public function index()
     {
         return new TagCollection(Tag::with(static::INDEX_WITH)->paginate(1000));
     }
 
+    /**
+     * Fetch a single Tag
+     * 
+     * @param int $id
+     * 
+     * @return TagResource
+     */
     public function show($id)
     {
         return new TagResource(Tag::with(static::SHOW_WITH)->find($id));
     }
 
+    /**
+     * Update an existing Tag
+     * 
+     * @param Request $request
+     * @param int     $id
+     * 
+     * @return TagResource
+     */
     public function update(Request $request, $id)
     {
-      if ($request->input('action') == 'restore'
-        && Tag::onlyTrashed()->where('id', $id)->restore()) {
-      }
+        if ($request->input('action') == 'restore') {
+            Tag::onlyTrashed()->where('id', $id)->restore();
+        }
+
         /** @var Tag $tag */
         $tag = Tag::findOrFail($id);
         $data = $request->all();
@@ -86,6 +112,13 @@ class TagController extends Controller
         return $this->show($tag->id);
     }
 
+    /**
+     * Save a new Tag
+     * 
+     * @param Request $request
+     * 
+     * @return TagResource
+     */
     public function store(Request $request)
     {
         $tag = Tag::create($request->all());
@@ -93,6 +126,13 @@ class TagController extends Controller
         return $this->update($request, $tag->id);
     }
 
+    /**
+     * Delete a Tag
+     * 
+     * @param int $id
+     * 
+     * @return string
+     */
     public function destroy($id)
     {
         /** @var Tag $tag */

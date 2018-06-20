@@ -9,13 +9,33 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
+/**
+ * @resource Fields
+ * 
+ * @hideFromAPIDocumentation
+ * 
+ * @deprecated Use the /fields endpoint instead.
+ */
 class ContextController extends Controller
 {
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function index()
     {
         return new Response('Not supported');
     }
 
+    /**
+     * List the fields for a given Model
+     * 
+     * @hideFromAPIDocumentation
+     * 
+     * @param Request $request
+     * @param string  $model
+     * 
+     * @return JsonResponse
+     */
     public function show(Request $request, string $model)
     {
         $model = 'App\\'.$model;

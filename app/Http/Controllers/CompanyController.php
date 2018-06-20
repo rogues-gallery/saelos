@@ -11,6 +11,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\Company as CompanyResource;
 
+/**
+ * @resource Companies
+ * 
+ * Interact with Companies
+ */
 class CompanyController extends Controller
 {
     const INDEX_WITH = [
@@ -53,6 +58,11 @@ class CompanyController extends Controller
         'tags',
     ];
 
+    /**
+     * Fetching a filtered Company list.
+     * 
+     * @return CompanyCollection
+     */
     public function index(Request $request)
     {
         $companies = Company::with(static::INDEX_WITH);
@@ -70,11 +80,26 @@ class CompanyController extends Controller
         return new CompanyCollection($companies->paginate());
     }
 
+    /**
+     * Fetch a single Company
+     * 
+     * @param int $id
+     * 
+     * @return CompanyResource
+     */
     public function show($id)
     {
         return new CompanyResource(Company::with(static::SHOW_WITH)->find($id));
     }
 
+    /**
+     * Update an existing Company
+     * 
+     * @param Request $request
+     * @param int     $id
+     * 
+     * @return CompanyResource
+     */
     public function update(Request $request, $id)
     {
         if ($request->input('action') == 'restore'
@@ -114,6 +139,13 @@ class CompanyController extends Controller
         return $this->show($company->id);
     }
 
+    /**
+     * Save a new Company
+     * 
+     * @param Request $request
+     * 
+     * @return CompanyResource
+     */
     public function store(Request $request)
     {
         $company = Company::create($request->all());
@@ -121,6 +153,13 @@ class CompanyController extends Controller
         return $this->update($request, $company->id);
     }
 
+    /**
+     * Delete a Company
+     * 
+     * @param int $id
+     * 
+     * @return null
+     */
     public function destroy($id)
     {
         Company::findOrFail($id)->delete();

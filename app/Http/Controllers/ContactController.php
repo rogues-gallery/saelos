@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Mail;
 use Twilio\Rest\Client;
 use Twilio\Twiml;
 
+/**
+ * @resource Contacts
+ * 
+ * Interact with Contacts
+ */
 class ContactController extends Controller
 {
     const INDEX_WITH = [
@@ -67,6 +72,13 @@ class ContactController extends Controller
         'tags',
     ];
 
+    /**
+     * Fetching a filtered Contact list.
+     * 
+     * @param Request $request
+     * 
+     * @return ContactCollection
+     */
     public function index(Request $request)
     {
         $contacts = Contact::with(static::INDEX_WITH);
@@ -84,19 +96,27 @@ class ContactController extends Controller
         return new ContactCollection($contacts->paginate());
     }
 
+    /**
+     * Fetch a single Contact
+     * 
+     * @param int $id
+     * 
+     * @return ContactResource
+     */
     public function show($id)
     {
         return new ContactResource(Contact::with(static::SHOW_WITH)->find($id));
     }
 
     /**
+     * Update an existing Contact.
+     * 
      * @param Request $request
      * @param         $id
      *
      * @TODO: Move company update to Model mutators
      *
-     * @return Contact
-     * @throws \Exception
+     * @return ContactResource
      */
     public function update(Request $request, $id)
     {
@@ -145,10 +165,11 @@ class ContactController extends Controller
     }
 
     /**
+     * Save a new Contact
+     * 
      * @param Request $request
      *
-     * @return Contact
-     * @throws \Exception
+     * @return ContactResource
      */
     public function store(Request $request)
     {
@@ -167,10 +188,11 @@ class ContactController extends Controller
     }
 
     /**
+     * Delete a Contact
+     * 
      * @param $id
      *
      * @return string
-     * @throws \Exception
      */
     public function destroy($id)
     {
@@ -179,6 +201,14 @@ class ContactController extends Controller
         return '';
     }
 
+    /**
+     * Send an email to a Contact.
+     * 
+     * @param Request $request
+     * @param int     $id
+     * 
+     * @return int
+     */
     public function email(Request $request, int $id)
     {
         $contact = Contact::findOrFail($id);
@@ -195,6 +225,17 @@ class ContactController extends Controller
         return 1;
     }
 
+    /**
+     * Send an sms to a Contact.
+     * 
+     * @TODO: Fix the response to simply return the activity.
+     *        Build a server model observor that sends out notification.
+     * 
+     * @param Request $request
+     * @param int     $id
+     * 
+     * @return array
+     */
     public function sms(Request $request, $id)
     {
         $contact = Contact::findOrFail($id);
@@ -260,6 +301,17 @@ class ContactController extends Controller
         return response(['success' => true, 'message' => 'SMS Sent', 'activity' => $activity]);
     }
 
+    /**
+     * Initiate a call to a Contact.
+     * 
+     * @TODO: Fix the response to simply return the activity.
+     *        Build a server model observor that sends out notification.
+     * 
+     * @param Request $request
+     * @param int     $id
+     * 
+     * @return array
+     */
     public function call(Request $request, $id)
     {
         $contact = Contact::findOrFail($id);
@@ -323,6 +375,9 @@ class ContactController extends Controller
         return response(['success' => true, 'message' => 'Call initiated', 'activity' => $activity]);
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function outbound(Request $request, $id, $userId)
     {
         $contact = Contact::findOrFail($id);
@@ -341,6 +396,9 @@ class ContactController extends Controller
         ]);
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function recording(Request $request, $id)
     {
         $activity = CallActivity::where('uuid', $request->get('CallSid'))->first();
@@ -356,14 +414,26 @@ class ContactController extends Controller
         }
     }
 
+    /**
+     * Get a count of Contacts.
+     * 
+     * The count returned represents the number of contacts assigned
+     * to the requesting user that are grouped by the given groupBy
+     * request parameter.
+     * 
+     * @TODO: Update response to simply return the count
+     * 
+     * @param Request $request
+     * 
+     * @return array
+     */
     public function count(Request $request)
     {
         $groupBy = $request->get('groupBy', 'status_id');
-        $user = \Auth::user();
 
         $count = \DB::table('contacts')
             ->select($groupBy, \DB::raw('count(*) as total'))
-            ->where('user_id', $user->id)
+            ->where('user_id', \Auth::user()->id)
             ->whereNotNull($groupBy)
             ->groupBy($groupBy)
             ->pluck('total', $groupBy);

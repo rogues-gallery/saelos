@@ -7,6 +7,11 @@ use App\Http\Resources\FieldCollection;
 use Illuminate\Http\Request;
 use App\Http\Resources\Field as FieldResource;
 
+/**
+ * @resource Fields
+ * 
+ * Interact with core & custom fields.
+ */
 class FieldController extends Controller
 {
     const INDEX_WITH = [
@@ -15,6 +20,13 @@ class FieldController extends Controller
     const SHOW_WITH = [
     ];
 
+    /**
+     * Fetching a filtered Field list.
+     * 
+     * @param Request $request
+     * 
+     * @return FieldCollection
+     */
     public function index(Request $request)
     {
         $fields = Field::with(static::INDEX_WITH);
@@ -28,11 +40,26 @@ class FieldController extends Controller
         return new FieldCollection($fields->paginate(10000));
     }
 
+    /**
+     * Fetch a single Field
+     * 
+     * @param int $id
+     * 
+     * @return FieldResource
+     */
     public function show($id)
     {
         return new FieldResource(Field::with(static::SHOW_WITH)->find($id));
     }
 
+    /**
+     * Update an existing Field
+     * 
+     * @param Request $request
+     * @param int     $id
+     * 
+     * @return FieldResource
+     */
     public function update(Request $request, $id)
     {
 
@@ -53,6 +80,13 @@ class FieldController extends Controller
         return $this->show($field->id);
     }
 
+    /**
+     * Save a new Field
+     * 
+     * @param Request $request
+     * 
+     * @return FieldResource
+     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -74,6 +108,13 @@ class FieldController extends Controller
         return $this->update($request, $field->id);
     }
 
+    /**
+     * Delete a Field
+     * 
+     * @param int $id
+     * 
+     * @return string
+     */
     public function destroy($id)
     {
         Field::findOrFail($id)->delete();

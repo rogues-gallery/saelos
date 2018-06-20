@@ -7,11 +7,19 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
+
+/**
+ * @hideFromAPIDocumentation
+ */
 class ReportExportController extends Controller
 {
     /**
+     * Export a Report as CSV
+     * 
      * @param Request $request
      * @param int  $id
+     * 
+     * @hideFromAPIDocumentation
      *
      * @return StreamedResponse
      */

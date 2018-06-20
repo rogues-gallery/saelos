@@ -10,8 +10,39 @@ use App\Note;
 use App\Opportunity;
 use Illuminate\Http\Request;
 
+/**
+ * @resource Opportunity Notes
+ */
 class OpportunityNoteController extends Controller
 {
+    /**
+     * Fetch notes for Opportunity
+     * 
+     * @resource Opportunity
+     * 
+     * @param Request     $request
+     * @param Opportunity $opportunity
+     * 
+     * @return array
+     */
+    public function index(Request $request, Opportunity $opportunity)
+    {
+        return $opportunity->notes();
+    }
+
+    /**
+     * Fetch a single Opportunity note.
+     * 
+     * @param Opportunity $opportunity
+     * @param Note        $note
+     * 
+     * @return Note
+     */
+    public function show(Opportunity $opportunity, Note $note)
+    {
+        return $note;
+    }
+
     public function update(Request $request, Opportunity $opportunity, Note $note)
     {
         $note->note = $request->get('note_content');

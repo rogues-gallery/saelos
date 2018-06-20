@@ -10,8 +10,48 @@ use App\Note;
 use App\Company;
 use Illuminate\Http\Request;
 
+/**
+ * @resource Company Notes
+ */
 class CompanyNoteController extends Controller
 {
+    /**
+     * Fetch notes for Company
+     * 
+     * @resource Company
+     * 
+     * @param Request $request
+     * @param Company $company
+     * 
+     * @return array
+     */
+    public function index(Request $request, Company $company)
+    {
+        return $company->notes();
+    }
+
+    /**
+     * Fetch a single Company note.
+     * 
+     * @param Company $company
+     * @param Note    $note
+     * 
+     * @return Note
+     */
+    public function show(Company $company, Note $note)
+    {
+        return $note;
+    }
+
+    /**
+     * Update an existing Company note.
+     * 
+     * @param Request $request
+     * @param Company $company
+     * @param Note     $note
+     * 
+     * @return Note
+     */
     public function update(Request $request, Company $company, Note $note)
     {
         $note->note = $request->get('note_content');
@@ -45,10 +85,12 @@ class CompanyNoteController extends Controller
     }
 
     /**
+     * Save a new Company note.
+     * 
      * @param Request $request
      * @param Company  $company
      *
-     * @return mixed
+     * @return Note
      */
     public function store(Request $request, Company $company)
     {
@@ -84,6 +126,9 @@ class CompanyNoteController extends Controller
         $note->save();
         $note->load(['entity', 'user', 'document']);
 
+        /**
+         * @TODO Move this to an observor that notifies
+         */
         $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
 
         if ($mentions > 0) {
@@ -101,6 +146,14 @@ class CompanyNoteController extends Controller
         return $note;
     }
 
+    /**
+     * Delete a Company note.
+     * 
+     * @param Company $company
+     * @param Note    $note;
+     * 
+     * @return array
+     */
     public function destroy(Company $company, Note $note)
     {
         $note->document()->delete();

@@ -10,8 +10,48 @@ use App\Note;
 use App\Contact;
 use Illuminate\Http\Request;
 
+/**
+ * @resource Contact Notes
+ */
 class ContactNoteController extends Controller
 {
+    /**
+     * Fetch notes for Contact
+     * 
+     * @resource Contact
+     * 
+     * @param Request $request
+     * @param Contact $contact
+     * 
+     * @return array
+     */
+    public function index(Request $request, Contact $contact)
+    {
+        return $contact->notes();
+    }
+
+    /**
+     * Fetch a single Contact note.
+     * 
+     * @param Contact $contact
+     * @param Note    $note
+     * 
+     * @return Note
+     */
+    public function show(Contact $contact, Note $note)
+    {
+        return $note;
+    }
+
+    /**
+     * Update an existing Contact note.
+     * 
+     * @param Request $request
+     * @param Contact $contact
+     * @param Note     $note
+     * 
+     * @return Note
+     */
     public function update(Request $request, Contact $contact, Note $note)
     {
         $note->note = $request->get('note_content');
@@ -47,6 +87,8 @@ class ContactNoteController extends Controller
     }
 
     /**
+     * Save a new Contact note.
+     * 
      * @param Request $request
      * @param Contact $contact
      *
@@ -103,6 +145,14 @@ class ContactNoteController extends Controller
         return $note;
     }
 
+    /**
+     * Delete a Contact note.
+     * 
+     * @param Contact $contact
+     * @param Note    $note
+     * 
+     * @return array
+     */
     public function destroy(Contact $contact, Note $note)
     {
         $note->document()->delete();

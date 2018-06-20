@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Resources\StatusCollection;
 use App\Http\Resources\Status as StatusResource;
 
+/**
+ * @resource Statuses
+ * 
+ * Interact with Contact statuses
+ */
 class StatusController extends Controller
 {
     const INDEX_WITH = [
@@ -17,6 +22,13 @@ class StatusController extends Controller
         // 'contacts',
     ];
 
+    /**
+     * Fetching a filtered Status list
+     * 
+     * @param Request $request
+     * 
+     * @return StatusCollection
+     */
     public function index(Request $request)
     {
       $statuses = Status::with(static::INDEX_WITH);
@@ -30,32 +42,66 @@ class StatusController extends Controller
         return new StatusCollection($statuses->paginate());
     }
 
+    /**
+     * Fetch a single Status
+     * 
+     * @param int $id
+     * 
+     * @return StatusResource
+     */
     public function show($id)
     {
         return new StatusResource(Status::with(static::SHOW_WITH)->find($id));
     }
 
+    /**
+     * Update an existing Status
+     * 
+     * @param Request $request
+     * @param int     $id
+     * 
+     * @return StatusResource
+     */
     public function update(Request $request, $id)
     {
+        if (
+            $request->input('action') === 'restore'
+            && Status::onlyTrashed()->where('id', $id)->restore()
+        ) {
+              $status = Status::findOrFail($id);
 
-      if ($request->input('action') == 'restore'
-        && Status::onlyTrashed()->where('id', $id)->restore()) {
-            $status = Status::findOrFail($id);
-            return $this->show($status->id);
-      }
+              return $this->show($status->id);
+        }
+
         $status = Status::findOrFail($id);
         $data = $request->all();
 
         $status->update($data);
 
-        return $status;
+        return $this->show($status->id);
     }
 
+    /**
+     * Save a new Status
+     * 
+     * @param Request $request
+     * 
+     * @return StatusResource
+     */
     public function store(Request $request)
     {
-        return Status::create($request->all());
+        $status = Status::create($request->all());
+
+        return $this->show($status->id);
     }
 
+    /**
+     * Delete a Status
+     * 
+     * @param int $id
+     * 
+     * @return string
+     */
     public function destroy($id)
     {
         Status::findOrFail($id)->delete();

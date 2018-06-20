@@ -12,6 +12,11 @@ use App\Http\Resources\ActivityCollection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+/**
+ * @resource Activities
+ * 
+ * Interact with activities.
+ */
 class ActivityController extends Controller
 {
     const INDEX_WITH = [
@@ -38,6 +43,13 @@ class ActivityController extends Controller
         'tags'
     ];
 
+    /**
+     * Fetching a filtered activity list.
+     * 
+     * @param Request $request
+     * 
+     * @return ActivityCollection
+     */
     public function index(Request $request)
     {
         $activities = Activity::with(static::INDEX_WITH);
@@ -52,11 +64,26 @@ class ActivityController extends Controller
         return new ActivityCollection($activities->paginate());
     }
 
+    /**
+     * Fetch a single Activity
+     * 
+     * @param int $id
+     * 
+     * @return ActivityResource
+     */
     public function show($id)
     {
         return new ActivityResource(Activity::with(static::SHOW_WITH)->find($id));
     }
 
+    /**
+     * Update an existing Activity
+     * 
+     * @param Request $request
+     * @param int     $id
+     * 
+     * @return ActivityResource
+     */
     public function update(Request $request, $id)
     {
         /** @var Activity $activity */
@@ -86,10 +113,11 @@ class ActivityController extends Controller
     }
 
     /**
+     * Save a new Activity
+     * 
      * @param Request $request
      *
-     * @return Activity
-     * @throws \Exception
+     * @return ActivityResource
      */
     public function store(Request $request)
     {
@@ -98,6 +126,13 @@ class ActivityController extends Controller
         return $this->update($request, $activity->id);
     }
 
+    /**
+     * Delete an activity
+     * 
+     * @param int $id
+     * 
+     * @return null
+     */
     public function destroy($id)
     {
         Activity::findOrFail($id)->delete();
@@ -105,6 +140,9 @@ class ActivityController extends Controller
         return '';
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function graph(Request $request)
     {
         $timeframe = $request->get('timeframe');

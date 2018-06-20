@@ -19,6 +19,11 @@ use App\Activity;
 use App\CallActivity;
 use App\SmsActivity;
 
+/**
+ * @resource Users
+ * 
+ * Interact with Users
+ */
 class UserController extends Controller
 {
     const INDEX_WITH = [
@@ -37,13 +42,20 @@ class UserController extends Controller
         'settings',
     ];
 
+    /**
+     * Fetching Users
+     * 
+     * @return UserCollection
+     */
     public function index()
     {
         return new UserCollection(User::with(static::INDEX_WITH)->paginate(50));
     }
 
     /**
-     * @param $id
+     * Fetch a single User
+     * 
+     * @param int $id
      *
      * @return UserResource
      */
@@ -53,13 +65,14 @@ class UserController extends Controller
     }
 
     /**
+     * Update an existing User
+     * 
      * @param Request $request
      * @param         $id
      *
      * @TODO: Move company update to Model mutators
      *
      * @return UserResource
-     * @throws \Exception
      */
     public function update(Request $request, $id)
     {
@@ -100,20 +113,23 @@ class UserController extends Controller
     }
 
     /**
+     * Save a new User
+     * 
      * @param Request $request
      *
-     * @return $this|\Illuminate\Database\Eloquent\Model
+     * @return UserResource
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $user = User::create($data);
+        $user = User::create($request->all());
 
         return $this->update($request, $user->id);
     }
 
     /**
-     * @param $id
+     * Delete a User
+     * 
+     * @param int $id
      *
      * @return string
      * @throws \Exception
@@ -125,6 +141,9 @@ class UserController extends Controller
         return '';
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function inboundcall(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -170,6 +189,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function recording(Request $request, $id)
     {
         $activity = CallActivity::where('uuid', $request->get('CallSid'))->first();
@@ -185,6 +207,9 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function inboundsms(Request $request, $id)
     {
         $user = User::find($id);
@@ -216,6 +241,8 @@ class UserController extends Controller
     }
 
     /**
+     * Get Quota Counts
+     * 
      * @param Request $request
      *
      * @TODO: Need to calc team & responses
@@ -290,6 +317,9 @@ class UserController extends Controller
         return response(['success' => true, 'data' => $count]);
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function purchaseNumber(Request $request, $id)
     {
         /** @var User $user */
