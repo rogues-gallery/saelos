@@ -60,8 +60,9 @@ export const postingContactSuccess = payload => {
   };
 };
 
-export const postingContactFailure = () => ({
-  type: types.POSTING_CONTACT_FAILURE
+export const postingContactFailure = errors => ({
+  type: types.POSTING_CONTACT_FAILURE,
+  data: errors
 });
 
 export const deletingContact = () => ({

@@ -93,8 +93,7 @@ export const saveContact = params => dispatch => {
         return res.data.data;
       })
       .catch(err => {
-        console.log(err);
-        dispatch(actions.postingContactFailure());
+        dispatch(actions.postingContactFailure(err.response.data.errors));
       });
   }
 };

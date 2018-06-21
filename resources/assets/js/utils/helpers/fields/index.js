@@ -9,7 +9,8 @@ export const renderGroupedFields = (
   groups,
   model,
   changeHandler,
-  isAdmin = false
+  isAdmin = false,
+  error = false
 ) =>
   order.map(key => {
     const emptyGroup =
@@ -24,18 +25,23 @@ export const renderGroupedFields = (
       >
         <li className="list-group-item">
           <div className="mini-text text-muted">{key}</div>
-          {_.sortBy(groups[key], ["ordering"]).map(f => (
-            <FieldLayout
-              model={model}
-              field={f}
-              inEdit={inEdit}
-              onChange={changeHandler}
-              key={`group-field-key-${
-                typeof f.field_id === "undefined" ? f.id : f.field_id
-              }-model-${model.id}`}
-              isAdmin={isAdmin}
-            />
-          ))}
+          {_.sortBy(groups[key], ["ordering"]).map(f => {
+            const hasError = error !== false && error.hasOwnProperty(f.alias);
+
+            return (
+              <FieldLayout
+                model={model}
+                field={f}
+                inEdit={inEdit}
+                error={hasError ? error[f.alias] : []}
+                onChange={changeHandler}
+                key={`group-field-key-${
+                  typeof f.field_id === "undefined" ? f.id : f.field_id
+                }-model-${model.id}`}
+                isAdmin={isAdmin}
+              />
+            );
+          })}
         </li>
       </ul>
     );
@@ -47,5 +53,6 @@ renderGroupedFields.propTypes = {
   groups: PropTypes.array.isRequired,
   model: PropTypes.object.isRequired,
   changeHandler: PropTypes.func.isRequired,
-  isAdmin: PropTypes.bool
+  isAdmin: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
 };

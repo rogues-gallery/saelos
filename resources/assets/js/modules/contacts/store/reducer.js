@@ -96,6 +96,11 @@ export default function contactReducer(state = initialState, action) {
         isPosting: false,
         inEdit: false
       };
+    case types.POSTING_CONTACT_FAILURE:
+      return {
+        ...state,
+        error: action.data
+      };
     case types.FETCHING_SINGLE_CONTACT_SUCCESS:
       const newNewData = injectContactIntoState(action.data, state.data);
 
@@ -250,3 +255,4 @@ export const getSearchStringForContacts = state => state.searchString;
 export const getFirstContactId = state =>
   state.data.length ? state.data[0].id : 0;
 export const isInEdit = state => state.inEdit;
+export const getContactError = state => state.error;

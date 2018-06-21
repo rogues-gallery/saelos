@@ -23,3 +23,6 @@ export const getFirstContactId = state =>
   fromReducer.getFirstContactId(state.contactState);
 
 export const isInEdit = state => fromReducer.isInEdit(state.contactState);
+
+export const getContactError = state =>
+  fromReducer.getContactError(state.contactState);

@@ -26,9 +26,11 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    const { dispatch, match } = this.props;
 
-    dispatch(fetchTag(this.props.match.params.id));
+    if (match.params.id) {
+      dispatch(fetchTag(match.params.id));
+    }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {

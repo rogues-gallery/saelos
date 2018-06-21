@@ -13,7 +13,8 @@ import {
   getCustomFieldsForContacts,
   isStateDirty,
   getFirstContactId,
-  isInEdit
+  isInEdit,
+  getContactError
 } from "../../../store/selectors";
 import { deleteContact, fetchContact, saveContact } from "../../../service";
 import { editingContact, editingContactFinished } from "../../../store/actions";
@@ -86,7 +87,7 @@ class Record extends React.Component {
     const { formState } = this.state;
 
     dispatch(saveContact(formState)).then(data => {
-      if (match.params.id === "new") {
+      if (match.params.id === "new" && typeof data === "object") {
         this.context.router.history.push(`/contacts/${data.id}`);
       }
     });
@@ -130,7 +131,7 @@ class Record extends React.Component {
   };
 
   render() {
-    const { inEdit, contact, user } = this.props;
+    const { inEdit, contact, user, error } = this.props;
     const groups = _.groupBy(this.props.customFields, "group");
 
     const contactFields = renderGroupedFields(
@@ -138,7 +139,9 @@ class Record extends React.Component {
       ["core", "personal", "social", "additional"],
       groups,
       contact,
-      this._handleInputChange
+      this._handleInputChange,
+      false,
+      error
     );
 
     const onAssignmentChange = id => {
@@ -316,5 +319,6 @@ export default connect(state => ({
   customFields: getCustomFieldsForContacts(state),
   isDirty: isStateDirty(state),
   user: getActiveUser(state),
-  inEdit: isInEdit(state)
+  inEdit: isInEdit(state),
+  error: getContactError(state)
 }))(Record);

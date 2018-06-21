@@ -314,6 +314,12 @@ a:hover {
   border-width: 1px;
 }
 
+.form-group.hasError {
+  .warning {
+    color: $saelos;
+  }
+}
+
 .nl2br {
   white-space: pre-line;
 }

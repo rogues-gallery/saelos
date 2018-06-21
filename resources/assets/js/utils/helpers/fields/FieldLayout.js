@@ -197,7 +197,7 @@ class FieldLayout extends React.Component {
   };
 
   render() {
-    const { model, field, inEdit, isAdmin } = this.props;
+    const { model, field, inEdit, isAdmin, error } = this.props;
 
     let fieldValue = _.get(model, field.alias);
 
@@ -216,20 +216,28 @@ class FieldLayout extends React.Component {
 
     if (isAdmin) {
       return (
-        <div className={`form-group mb-2`}>
+        <div className={`form-group mb-2 ${error ? "hasError" : ""}`}>
           <label htmlFor={field.alias} className="col-form-label">
             {field.label}
           </label>
-          <div>{this._buildHtml()}</div>
+          <div>
+            {this._buildHtml()}
+            {error && <div className="warning">{error}</div>}
+          </div>
         </div>
       );
     } else {
       return (
-        <div className={`form-group mb-2 row ${hidden}`}>
+        <div
+          className={`form-group mb-2 row ${hidden} ${error ? "hasError" : ""}`}
+        >
           <label htmlFor={field.alias} className="col-sm-3 col-form-label">
             {field.label}
           </label>
-          <div className="col-sm-9">{this._buildHtml()}</div>
+          <div className="col-sm-9">
+            {this._buildHtml()}
+            {error && <div className="warning">{error}</div>}
+          </div>
         </div>
       );
     }
@@ -240,7 +248,8 @@ FieldLayout.propTypes = {
   model: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
   inEdit: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool
+  isAdmin: PropTypes.bool,
+  error: PropTypes.array
 };
 
 export default FieldLayout;
