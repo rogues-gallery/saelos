@@ -7,6 +7,7 @@ use App\Stage;
 use Auth;
 use App\Company;
 use App\Opportunity;
+use App\Http\Requests\StoreOpportunityRequest;
 use App\Http\Resources\OpportunityCollection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -92,12 +93,12 @@ class OpportunityController extends Controller
     /**
      * Update an existing Opportunity
      * 
-     * @param Request     $request
-     * @param Opportunity $opportunity
+     * @param StoreOpportunityRequest $request
+     * @param Opportunity             $opportunity
      * 
      * @return OpportunityResource
      */
-    public function update(Request $request, Opportunity $opportunity)
+    public function update(StoreOpportunityRequest $request, Opportunity $opportunity)
     {
         $data = $request->all();
         $companies = $data['companies'] ?? [];
@@ -138,11 +139,11 @@ class OpportunityController extends Controller
     /**
      * Save a new Opportunity
      * 
-     * @param Request $request
+     * @param StoreOpportunityRequest $request
      * 
      * @return OpportunityResource
      */
-    public function store(Request $request)
+    public function store(StoreOpportunityRequest $request)
     {
         $opportunity = Opportunity::create($request->all());
 

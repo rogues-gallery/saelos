@@ -6,6 +6,7 @@ use Auth;
 use App\Company;
 use App\Opportunity;
 use App\Contact;
+use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Resources\CompanyCollection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -95,20 +96,17 @@ class CompanyController extends Controller
     /**
      * Update an existing Company
      * 
-     * @param Request $request
-     * @param Company $company
+     * @param StoreCompanyRequest $request
+     * @param Company             $company
      * 
      * @return CompanyResource
      */
-    public function update(Request $request, Company $company)
+    public function update(StoreCompanyRequest $request, Company $company)
     {
-        if ($request->input('action') === 'restore'
-          && $company->restore()) {
-              return $this->show($company);
+        if ($request->input('action') === 'restore') {
+            $company->restore();
         }
 
-        /** @var Company $company */
-        $company = Company::findOrFail($id);
         $data = $request->all();
         $customFields = $data['custom_fields'] ?? [];
         $contacts = $data['contacts'] ?? [];
@@ -141,11 +139,11 @@ class CompanyController extends Controller
     /**
      * Save a new Company
      * 
-     * @param Request $request
+     * @param StoreCompanyRequest $request
      * 
      * @return CompanyResource
      */
-    public function store(Request $request)
+    public function store(StoreCompanyRequest $request)
     {
         $company = Company::create($request->all());
 
