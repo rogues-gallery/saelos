@@ -4,36 +4,26 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import { getActiveUser } from "../../store/selectors";
 import { saveUser } from "../../service";
+import { handleInputChange } from "../../../../utils/helpers/fields";
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-
-    this._submit = this._submit.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
 
     this.state = {
       formState: props.user.originalProps
     };
   }
 
-  // @todo: Abstract this out
-  _handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    let name = target.name;
-    let { formState } = this.state;
-
-    _.set(formState, name, value);
-
+  _handleInputChange = event => {
     this.setState({
-      formState
+      formState: handleInputChange(event, this.state.formState, {})
     });
-  }
+  };
 
-  _submit() {
+  _submit = () => {
     this.props.dispatch(saveUser(this.state.formState));
-  }
+  };
 
   render() {
     const { user } = this.props;

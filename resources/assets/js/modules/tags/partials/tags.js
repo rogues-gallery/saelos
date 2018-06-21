@@ -14,6 +14,7 @@ import { fetchCompanies, fetchCompany } from "../../companies/service";
 import { fetchActivities, fetchActivity } from "../../activities/service";
 import { fetchTags, saveTag } from "../service";
 import { CirclePicker } from "react-color";
+import { handleInputChange } from "../../../utils/helpers/fields";
 
 class TagsPartial extends React.Component {
   constructor(props) {
@@ -29,18 +30,9 @@ class TagsPartial extends React.Component {
     this.props.dispatch(fetchTags());
   }
 
-  // @todo: Abstract this out
   _handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    let name = target.name;
-    let tagState = this.state.formState;
-
-    // Set the value on the contact prop as well
-    _.set(tagState, name, value);
-
     this.setState({
-      formState: tagState
+      formState: handleInputChange(event, this.state.formState, {})
     });
   };
 

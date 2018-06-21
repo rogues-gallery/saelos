@@ -24,51 +24,37 @@ import { getStatuses } from "../../../../statuses/store/selectors";
 import { getActiveUser } from "../../../../users/store/selectors";
 import { openTaskContainer } from "../../../../activities/store/actions";
 import User from "../../../../users/User";
+import { handleInputChange } from "../../../../../utils/helpers/fields";
 
 class Detail extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       formState: props.contact.originalProps,
       view: "default"
     };
-
-    this._toggleView = this._toggleView.bind(this);
-    this._statusChange = this._statusChange.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._submit = this._submit.bind(this);
   }
 
-  _submit() {
+  _submit = () => {
     this.props.dispatch(saveContact(this.state.formState));
-  }
+  };
 
   componentWillReceiveProps(nextProps, nextContext) {
     this.setState({ formState: nextProps.contact.originalProps });
   }
 
-  _toggleView(view) {
+  _toggleView = view => {
     this.setState({ view });
-  }
+  };
 
-  // @todo: Abstract this out
-  _handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    let name = target.name;
-    let contactState = this.state.formState;
-
-    _.set(contactState, name, value);
-
+  _handleInputChange = event => {
     this.setState({
-      formState: contactState
+      formState: handleInputChange(event, this.state.formState, {})
     });
+  };
 
-    // Set the value on the contact prop as well
-    _.set(this.props.contact, name, value);
-  }
-
-  _statusChange(id) {
+  _statusChange = id => {
     const event = {
       target: {
         type: "text",
@@ -79,7 +65,7 @@ class Detail extends React.Component {
 
     this._handleInputChange(event);
     this._submit();
-  }
+  };
 
   render() {
     const { contact, dispatch, user, inEdit, statuses } = this.props;

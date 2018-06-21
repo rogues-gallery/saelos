@@ -13,12 +13,6 @@ class Record extends React.Component {
   constructor(props) {
     super(props);
 
-    this._submit = this._submit.bind(this);
-    this._toggleEdit = this._toggleEdit.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._delete = this._delete.bind(this);
-    this._openRecord = this._openRecord.bind(this);
-
     this.state = {
       formState: props.tag.originalProps,
       pickerOpen: false,
@@ -38,13 +32,13 @@ class Record extends React.Component {
     this.setState({ formState: nextProps.tag.originalProps });
   }
 
-  _submit() {
+  _submit = () => {
     this.props.dispatch(saveTag(this.state.formState)).then(this._toggleEdit);
-  }
+  };
 
-  _toggleEdit() {
+  _toggleEdit = () => {
     return this.setState({ inEdit: !this.state.inEdit });
-  }
+  };
 
   _handleInputChange = event => {
     this.setState({
@@ -53,16 +47,16 @@ class Record extends React.Component {
     });
   };
 
-  _delete() {
+  _delete = () => {
     const { dispatch, tag } = this.props;
 
     dispatch(deleteTag(tag.id));
     this.context.router.history.push("/tags");
-  }
+  };
 
-  _openRecord(base, id) {
+  _openRecord = (base, id) => {
     this.context.router.history.push(`/${base}/${id}`);
-  }
+  };
 
   render() {
     const { tag } = this.props;
