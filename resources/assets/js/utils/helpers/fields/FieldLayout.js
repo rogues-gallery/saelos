@@ -216,27 +216,29 @@ class FieldLayout extends React.Component {
 
     if (isAdmin) {
       return (
-        <div className={`form-group mb-2 ${error ? "hasError" : ""}`}>
+        <div className={`form-group mb-2 ${error.length ? "hasError" : ""}`}>
           <label htmlFor={field.alias} className="col-form-label">
             {field.label}
           </label>
           <div>
             {this._buildHtml()}
-            {error && <div className="warning">{error}</div>}
+            {error.length ? <div className="warning small">{error}</div> : null}
           </div>
         </div>
       );
     } else {
       return (
         <div
-          className={`form-group mb-2 row ${hidden} ${error ? "hasError" : ""}`}
+          className={`form-group mb-2 row ${hidden} ${
+            error.length ? "hasError" : ""
+          }`}
         >
           <label htmlFor={field.alias} className="col-sm-3 col-form-label">
             {field.label}
           </label>
           <div className="col-sm-9">
             {this._buildHtml()}
-            {error && <div className="warning">{error}</div>}
+            {error.length ? <div className="warning small">{error}</div> : null}
           </div>
         </div>
       );
