@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Field;
+use App\Http\Requests\StoreFieldRequest;
 use App\Http\Resources\FieldCollection;
 use Illuminate\Http\Request;
 use App\Http\Resources\Field as FieldResource;
@@ -55,12 +56,12 @@ class FieldController extends Controller
     /**
      * Update an existing Field
      * 
-     * @param Request $request
-     * @param int     $id
+     * @param StoreFieldRequest $request
+     * @param int               $id
      * 
      * @return FieldResource
      */
-    public function update(Request $request, $id)
+    public function update(StoreFieldRequest $request, $id)
     {
 
       if ($request->input('action') == 'restore'
@@ -70,7 +71,7 @@ class FieldController extends Controller
       }
 
         $field = Field::findOrFail($id);
-        $data = $request->all();
+        $data = $request->validated();
 
         // Cannot change alias after creation
         unset($data['alias']);
@@ -83,13 +84,13 @@ class FieldController extends Controller
     /**
      * Save a new Field
      * 
-     * @param Request $request
+     * @param StoreFieldRequest $request
      * 
      * @return FieldResource
      */
-    public function store(Request $request)
+    public function store(StoreFieldRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
         if (!array_key_exists('alias', $data) || empty($data['alias'])) {
             $data['alias'] = preg_replace('/[^a-z_]/', '', snake_case($data['label']));

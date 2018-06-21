@@ -4,17 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\CallActivity;
+use App\Company;
+use App\Contact;
 use App\Mail\Contact as ContactMail;
+use App\Opportunity;
+use App\Http\Resources\Contact as ContactResource;
+use App\Http\Resources\ContactCollection;
+use App\Http\Requests\StoreContactRequest;
 use App\SmsActivity;
 use App\User;
 use Auth;
-use App\Company;
-use App\Opportunity;
-use App\Http\Resources\ContactCollection;
-use App\Contact;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Resources\Contact as ContactResource;
 use Illuminate\Support\Facades\Mail;
 use Twilio\Rest\Client;
 use Twilio\Twiml;
@@ -111,14 +112,14 @@ class ContactController extends Controller
     /**
      * Update an existing Contact.
      * 
-     * @param Request $request
-     * @param         $id
+     * @param StoreContactRequest $request
+     * @param int                 $id
      *
      * @TODO: Move company update to Model mutators
      *
      * @return ContactResource
      */
-    public function update(Request $request, $id)
+    public function update(StoreContactRequest $request, $id)
     {
         /** @var Contact $contact */
         $contact = Contact::findOrFail($id);
@@ -167,11 +168,11 @@ class ContactController extends Controller
     /**
      * Save a new Contact
      * 
-     * @param Request $request
+     * @param StoreContactRequest $request
      *
      * @return ContactResource
      */
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)
     {
         $data = $request->all();
 
