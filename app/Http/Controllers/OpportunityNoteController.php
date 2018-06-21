@@ -144,6 +144,14 @@ class OpportunityNoteController extends Controller
         return $note;
     }
 
+    /**
+     * Delete an Opportunity note.
+     * 
+     * @param Opportunity $opportunity
+     * @param Note        $note
+     * 
+     * @return array
+     */
     public function destroy(Opportunity $opportunity, Note $note)
     {
         $note->document()->delete();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreStageRequest;
 use App\Http\Resources\StageCollection;
 use App\Stage;
 use Illuminate\Http\Request;
@@ -47,18 +48,18 @@ class StageController extends Controller
     /**
      * Update an existing Stage
      * 
-     * @param Request $request
-     * @param Stage   $stage
+     * @param StoreStageRequest $request
+     * @param Stage             $stage
      * 
      * @return StageResource
      */
-    public function update(Request $request, Stage $stage)
+    public function update(StoreStageRequest $request, Stage $stage)
     {
-        if ($request->input('action') === 'restore' && $stage->restore()) {
-              return $this->show($stage);
+        if ($request->input('action') === 'restore') {
+              $stage->restore();
         }
 
-        $stage->update($request->all());
+        $stage->update($request->validated());
 
         return $this->show($stage);
     }
@@ -66,13 +67,13 @@ class StageController extends Controller
     /**
      * Save a new Stage
      * 
-     * @param Request $request
+     * @param StoreStageRequest $request
      * 
      * @return StageResource
      */
-    public function store(Request $request)
+    public function store(StoreStageRequest $request)
     {
-        $stage = Stage::create($request->all());
+        $stage = Stage::create($request->validated());
 
         return $this->show($stage);
     }

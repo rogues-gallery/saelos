@@ -57,11 +57,10 @@ export const saveStage = params => dispatch => {
   if (params.id) {
     return Http.patch(`stages/${params.id}`, params)
       .then(res => {
-        dispatch(actions.postingStageSuccess(res.data));
+        dispatch(actions.postingStageSuccess(res.data.data));
       })
       .catch(err => {
-        console.log(err);
-        dispatch(actions.postingStageFailure());
+        dispatch(actions.postingStageFailure(err.response.data.errors));
       });
   } else {
     return Http.post(`stages`, params)
@@ -69,8 +68,7 @@ export const saveStage = params => dispatch => {
         dispatch(actions.postingStageSuccess(res.data));
       })
       .catch(err => {
-        console.log(err);
-        dispatch(actions.postingStageFailure());
+        dispatch(actions.postingStageFailure(err.response.data.errors));
       });
   }
 };

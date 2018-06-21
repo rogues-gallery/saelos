@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreStatusRequest;
 use App\Status;
 use Illuminate\Http\Request;
 use App\Http\Resources\StatusCollection;
@@ -57,18 +58,18 @@ class StatusController extends Controller
     /**
      * Update an existing Status
      * 
-     * @param Request $request
-     * @param Status  $status
+     * @param StoreStatusRequest $request
+     * @param Status             $status
      * 
      * @return StatusResource
      */
-    public function update(Request $request, Status $status)
+    public function update(StoreStatusRequest $request, Status $status)
     {
-        if ($request->input('action') === 'restore' && $status->restore()) {
-              return $this->show($status);
+        if ($request->input('action') === 'restore') {
+            $status->restore();
         }
 
-        $status->update($request->all());
+        $status->update($request->validated());
 
         return $this->show($status);
     }
@@ -80,9 +81,9 @@ class StatusController extends Controller
      * 
      * @return StatusResource
      */
-    public function store(Request $request)
+    public function store(StoreStatusRequest $request)
     {
-        $status = Status::create($request->all());
+        $status = Status::create($request->validated());
 
         return $this->show($status);
     }
