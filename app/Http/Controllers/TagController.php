@@ -49,7 +49,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        return new TagResource($tag->load(static::SHOW_WITH)));
+        return new TagResource($tag->load(static::SHOW_WITH));
     }
 
     /**
