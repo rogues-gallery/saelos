@@ -8,8 +8,10 @@ use App\Opportunity;
 use App\Observers\ModelUpdateObserver;
 use App\Contact;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Console;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +37,17 @@ class AppServiceProvider extends ServiceProvider
         if (!$this->app->runningInConsole()) {
             $this->registerPassportForWeb();
         }
+
+        Validator::extend('model_exists', function ($attribute, $value, $parameters, $validator) {
+            $modelId = (int) $value;
+            $modelType = array_get($validator->getData(), $parameters[0]);
+
+            if (! is_subclass_of($modelType, Model::class)) {
+                return false;
+            }
+
+            return (bool) $modelType::find($modelId);
+        });
     }
 
     private function registerPassportForWeb()

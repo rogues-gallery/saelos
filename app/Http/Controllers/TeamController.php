@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Team;
+use App\Http\Requests\StoreTeamRequest;
 use App\Http\Resources\TeamCollection;
 use App\Http\Resources\Team as TeamResource;
 
@@ -51,14 +52,14 @@ class TeamController extends Controller
     /**
      * Update an existing Team
      * 
-     * @param Request $request
-     * @param Team    $team
+     * @param StoreTeamRequest $request
+     * @param Team             $team
      * 
      * @return TeamResource
      */
-    public function update(Request $request, Team $team)
+    public function update(StoreTeamRequest $request, Team $team)
     {
-        $data = $request->all();
+        $data = $request->validated();
         $users = $data['users'] ?? [];
 
         $team->syncUsers($users);
@@ -71,13 +72,13 @@ class TeamController extends Controller
     /**
      * Save a new Team
      * 
-     * @param Request $request
+     * @param StoreTeamRequest $request
      * 
      * @return TeamResource
      */
-    public function store(Request $request)
+    public function store(StoreTeamRequest $request)
     {
-        $team = Team::create($request->all());
+        $team = Team::create($request->validated());
 
         return $this->update($request, $team);
     }

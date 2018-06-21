@@ -8,6 +8,7 @@ use App\User;
 use Auth;
 use App\Note;
 use App\Contact;
+use App\Http\Requests\StoreNoteRequest;
 use Illuminate\Http\Request;
 
 /**
@@ -46,13 +47,13 @@ class ContactNoteController extends Controller
     /**
      * Update an existing Contact note.
      * 
-     * @param Request $request
-     * @param Contact $contact
-     * @param Note     $note
+     * @param StoreNoteRequest $request
+     * @param Contact          $contact
+     * @param Note             $note
      * 
      * @return Note
      */
-    public function update(Request $request, Contact $contact, Note $note)
+    public function update(StoreNoteRequest $request, Contact $contact, Note $note)
     {
         $note->note = $request->get('note_content');
         $note->name = $request->get('note_name');
@@ -89,12 +90,12 @@ class ContactNoteController extends Controller
     /**
      * Save a new Contact note.
      * 
-     * @param Request $request
-     * @param Contact $contact
+     * @param StoreNoteRequest $request
+     * @param Contact          $contact
      *
      * @return mixed
      */
-    public function store(Request $request, Contact $contact)
+    public function store(StoreNoteRequest $request, Contact $contact)
     {
         $note = Note::create([
             'name' => $request->get('note_name'),

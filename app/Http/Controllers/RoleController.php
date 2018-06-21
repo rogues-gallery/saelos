@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Role;
+use App\Http\Requests\StoreRoleRequest;
 use App\Http\Resources\RoleCollection;
 use App\Http\Resources\Role as RoleResource;
 use Illuminate\Http\Request;
@@ -47,14 +48,14 @@ class RoleController extends Controller
     /**
      * Update an existing Role
      * 
-     * @param Request $request
-     * @param Role    $role
+     * @param StoreRoleRequest $request
+     * @param Role             $role
      * 
      * @return RoleResource
      */
-    public function update(Request $request, Role $role)
+    public function update(StoreRoleRequest $request, Role $role)
     {
-        $role->update($request->all());
+        $role->update($request->validated());
 
         return $this->show($role);
     }
@@ -62,13 +63,13 @@ class RoleController extends Controller
     /**
      * Save a new Role
      * 
-     * @param Request $request
+     * @param StoreRoleRequest $request
      * 
      * @return RoleResource
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        $role = Role::create($request->all());
+        $role = Role::create($request->validated());
 
         return $this->show($role);
     }

@@ -8,6 +8,7 @@ use App\User;
 use Auth;
 use App\Note;
 use App\Company;
+use App\Http\Requests\StoreNoteRequest;
 use Illuminate\Http\Request;
 
 /**
@@ -46,13 +47,13 @@ class CompanyNoteController extends Controller
     /**
      * Update an existing Company note.
      * 
-     * @param Request $request
-     * @param Company $company
-     * @param Note     $note
+     * @param StoreNoteRequest $request
+     * @param Company          $company
+     * @param Note             $note
      * 
      * @return Note
      */
-    public function update(Request $request, Company $company, Note $note)
+    public function update(StoreNoteRequest $request, Company $company, Note $note)
     {
         $note->note = $request->get('note_content');
         $note->name = $request->get('note_name');
@@ -87,12 +88,12 @@ class CompanyNoteController extends Controller
     /**
      * Save a new Company note.
      * 
-     * @param Request $request
-     * @param Company  $company
+     * @param StoreNoteRequest $request
+     * @param Company          $company
      *
      * @return Note
      */
-    public function store(Request $request, Company $company)
+    public function store(StoreNoteRequest $request, Company $company)
     {
         $note = Note::create([
             'name' => $request->get('note_name'),

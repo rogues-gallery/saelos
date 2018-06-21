@@ -104,7 +104,6 @@ class NoteAction extends Component {
   _submit = () => {
     const { dispatch, toggle } = this.props;
     const { formState } = this.state;
-    console.log(formState);
 
     dispatch(saveNote(formState));
 

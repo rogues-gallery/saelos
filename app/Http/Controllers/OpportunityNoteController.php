@@ -8,6 +8,7 @@ use App\User;
 use Auth;
 use App\Note;
 use App\Opportunity;
+use App\Http\Requests\StoreNoteRequest;
 use Illuminate\Http\Request;
 
 /**
@@ -43,7 +44,16 @@ class OpportunityNoteController extends Controller
         return $note;
     }
 
-    public function update(Request $request, Opportunity $opportunity, Note $note)
+    /**
+     * Update an existing Opportunity note.
+     * 
+     * @param StoreNoteRequest $request
+     * @param Opportunity      $opportunity
+     * @param Note             $note
+     * 
+     * @reutrn Note
+     */
+    public function update(StoreNoteRequest $request, Opportunity $opportunity, Note $note)
     {
         $note->note = $request->get('note_content');
         $note->name = $request->get('note_name');
@@ -76,12 +86,14 @@ class OpportunityNoteController extends Controller
     }
 
     /**
-     * @param Request     $request
-     * @param Opportunity $opportunity
+     * Save a new Opportunity note.
+     * 
+     * @param StoreNoteRequest $request
+     * @param Opportunity      $opportunity
      *
-     * @return mixed
+     * @return Note
      */
-    public function store(Request $request, Opportunity $opportunity)
+    public function store(StoreNoteRequest $request, Opportunity $opportunity)
     {
         $note = Note::create([
             'name' => $request->get('note_name'),
