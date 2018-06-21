@@ -100,29 +100,27 @@ class ContactController extends Controller
     /**
      * Fetch a single Contact
      * 
-     * @param int $id
+     * @param Contact $contact
      * 
      * @return ContactResource
      */
-    public function show($id)
+    public function show(Contact $contact)
     {
-        return new ContactResource(Contact::with(static::SHOW_WITH)->find($id));
+        return new ContactResource($contact->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing Contact.
      * 
      * @param StoreContactRequest $request
-     * @param int                 $id
+     * @param Contact             $contact
      *
      * @TODO: Move company update to Model mutators
      *
      * @return ContactResource
      */
-    public function update(StoreContactRequest $request, $id)
+    public function update(StoreContactRequest $request, Contact $contact)
     {
-        /** @var Contact $contact */
-        $contact = Contact::findOrFail($id);
         $data = $request->all();
         $companies = $data['companies'] ?? [];
         $opportunities = $data['opportunities'] ?? [];
@@ -162,7 +160,7 @@ class ContactController extends Controller
         $contact->update($data);
         $contact->assignCustomFields($customFields);
 
-        return $this->show($contact->id);
+        return $this->show($contact);
     }
 
     /**
@@ -185,19 +183,19 @@ class ContactController extends Controller
             $contact = Contact::create($data);
         }
 
-        return $this->update($request, $contact->id);
+        return $this->update($request, $contact);
     }
 
     /**
      * Delete a Contact
      * 
-     * @param $id
+     * @param Contact $contact
      *
      * @return string
      */
-    public function destroy($id)
+    public function destroy(Contact $contact)
     {
-        Contact::findOrFail($id)->delete();
+        $contact->delete();
 
         return '';
     }
@@ -206,13 +204,12 @@ class ContactController extends Controller
      * Send an email to a Contact.
      * 
      * @param Request $request
-     * @param int     $id
+     * @param Contact $contact
      * 
      * @return int
      */
-    public function email(Request $request, int $id)
+    public function email(Request $request, Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
         $email = new ContactMail(
             $request->get('email_content'),
             $request->get('email_subject'),
@@ -233,13 +230,12 @@ class ContactController extends Controller
      *        Build a server model observor that sends out notification.
      * 
      * @param Request $request
-     * @param int     $id
+     * @param Contact $contact
      * 
      * @return array
      */
-    public function sms(Request $request, $id)
+    public function sms(Request $request, Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
         $user = Auth::user();
         $user->load(['customFields']);
         $twilioNumberField = $user->customFields()->where('custom_field_alias', 'twilio_number')->first();
@@ -309,13 +305,12 @@ class ContactController extends Controller
      *        Build a server model observor that sends out notification.
      * 
      * @param Request $request
-     * @param int     $id
+     * @param Contact $contact
      * 
      * @return array
      */
-    public function call(Request $request, $id)
+    public function call(Request $request, Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
         $user = Auth::user();
         $user->load(['customFields']);
         $twilioNumberField = $user->customFields()->where('custom_field_alias', 'twilio_number')->first();
@@ -378,12 +373,13 @@ class ContactController extends Controller
 
     /**
      * @hideFromAPIDocumentation
+     * 
+     * @param Request $request
+     * @param Contact $contact
+     * @param User    $user
      */
-    public function outbound(Request $request, $id, $userId)
+    public function outbound(Request $request, Contact $contact, User $user)
     {
-        $contact = Contact::findOrFail($id);
-        $user = User::findOrFail($userId);
-
         // @TODO: Validate contact phone number
 
         $twiml = new Twiml();
@@ -434,7 +430,7 @@ class ContactController extends Controller
 
         $count = \DB::table('contacts')
             ->select($groupBy, \DB::raw('count(*) as total'))
-            ->where('user_id', \Auth::user()->id)
+            ->where('user_id', \Auth::id())
             ->whereNotNull($groupBy)
             ->groupBy($groupBy)
             ->pluck('total', $groupBy);

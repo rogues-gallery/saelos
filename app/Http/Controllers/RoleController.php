@@ -35,31 +35,28 @@ class RoleController extends Controller
     /**
      * Fetch a single Role
      * 
-     * @param int $id
+     * @param Role $role
      * 
      * @return RoleResource
      */
-    public function show($id)
+    public function show(Role $role)
     {
-        return new RoleResource(Role::with(static::SHOW_WITH)->find($id));
+        return new RoleResource($role->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing Role
      * 
      * @param Request $request
-     * @param int     $id
+     * @param Role    $role
      * 
      * @return RoleResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
-        $role = Role::findOrFail($id);
-        $data = $request->all();
+        $role->update($request->all());
 
-        $role->update($data);
-
-        return $this->show($role->id);
+        return $this->show($role);
     }
 
     /**
@@ -73,19 +70,19 @@ class RoleController extends Controller
     {
         $role = Role::create($request->all());
 
-        return $this->show($role->id);
+        return $this->show($role);
     }
 
     /**
      * Delete a Role
      * 
-     * @param int $id
+     * @param Role $role
      * 
      * @return string
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        Role::findOrFail($id)->delete();
+        $role->delete();
 
         return '';
     }

@@ -80,27 +80,25 @@ class OpportunityController extends Controller
     /**
      * Fetch a single Opportunity
      * 
-     * @param int $id
+     * @param Opportunity $opportunity
      * 
      * @return OpportunityResource
      */
-    public function show($id)
+    public function show(Opportunity $opportunity)
     {
-        return new OpportunityResource(Opportunity::with(static::SHOW_WITH)->find($id));
+        return new OpportunityResource($opportunity->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing Opportunity
      * 
-     * @param Request $request
-     * @param int     $id
+     * @param Request     $request
+     * @param Opportunity $opportunity
      * 
      * @return OpportunityResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Opportunity $opportunity)
     {
-        /** @var Opportunity $opportunity */
-        $opportunity = Opportunity::findOrFail($id);
         $data = $request->all();
         $companies = $data['companies'] ?? [];
         $customFields = $data['custom_fields'] ?? [];
@@ -134,7 +132,7 @@ class OpportunityController extends Controller
         $opportunity->update($data);
         $opportunity->assignCustomFields($customFields);
 
-        return $this->show($opportunity->id);
+        return $this->show($opportunity);
     }
 
     /**
@@ -148,19 +146,19 @@ class OpportunityController extends Controller
     {
         $opportunity = Opportunity::create($request->all());
 
-        return $this->update($request, $opportunity->id);
+        return $this->update($request, $opportunity);
     }
 
     /**
      * Delete an Opportunity
      * 
-     * @param int $id
+     * @param Opportunity $opportunity
      * 
      * @return string
      */
-    public function destroy($id)
+    public function destroy(Opportunity $opportunity)
     {
-        Opportunity::findOrFail($id)->delete();
+        $opportunity->delete();
 
         return '';
     }
@@ -182,7 +180,7 @@ class OpportunityController extends Controller
 
         $count = DB::table('opportunities')
             ->select($groupBy, DB::raw('count(*) as total'))
-            ->where('user_id', \Auth::user()->id)
+            ->where('user_id', \Auth::id())
             ->groupBy($groupBy)
             ->pluck('total', $groupBy);
 

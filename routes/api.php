@@ -18,17 +18,17 @@ Route::group([
 ], function () {
     Route::prefix('auth')->group(base_path('routes/api/auth.php'));
 
-    Route::post('users/{id}/inboundcall', 'UserController@inboundcall')
+    Route::post('users/{user}/inboundcall', 'UserController@inboundcall')
         ->name('users.inbound');
-    Route::post('users/{id}/inbound/recording', 'UserController@recording')
+    Route::post('users/{user}/inbound/recording', 'UserController@recording')
         ->name('users.inbound.recording');
-    Route::post('users/{id}/inboundsms', 'UserController@inboundsms')
+    Route::post('users/{user}/inboundsms', 'UserController@inboundsms')
         ->name('users.sms.inbound');
 
-    Route::post('/contacts/{id}/outbound/recording', 'ContactController@recording')
+    Route::post('/contacts/{contact}/outbound/recording', 'ContactController@recording')
         ->name('contacts.outbound.recording');
 
-    Route::post('/contacts/{id}/outbound/{user_id}', 'ContactController@outbound')
+    Route::post('/contacts/{contact}/outbound/{user}', 'ContactController@outbound')
         ->name('contacts.outbound');
 
     Route::group(['middleware' => 'auth:api'], function () {
@@ -36,19 +36,19 @@ Route::group([
             ->name('stage_pipeline');
         Route::get('activities/graph', 'ActivityController@graph')
             ->name('activities.graph');
-        Route::post('/users/{id}/purchaseNumber', 'UserController@purchaseNumber')
+        Route::post('/users/{user}/purchaseNumber', 'UserController@purchaseNumber')
             ->name('users.purchaseNumber');
-        Route::get('/users/{id}/count', 'UserController@count')
+        Route::get('/users/{user}/count', 'UserController@count')
             ->name('users.count');
         Route::get('/contacts/count','ContactController@count')
             ->name('contacts.count');
-        Route::post('/contacts/{id}/call', 'ContactController@call')
+        Route::post('/contacts/{contact}/call', 'ContactController@call')
             ->name('contacts.call');
-        Route::post('/contacts/{id}/sms', 'ContactController@sms')
+        Route::post('/contacts/{contact}/sms', 'ContactController@sms')
             ->name('contact.sms');
-        Route::post('/contacts/{id}/email', 'ContactController@email')
+        Route::post('/contacts/{contact}/email', 'ContactController@email')
             ->name('contacts.email');
-        Route::get('/reports/{id}/export', 'ReportExportController@export')
+        Route::get('/reports/{report}/export', 'ReportExportController@export')
             ->name('reports.export');
 
         /**

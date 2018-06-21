@@ -44,33 +44,30 @@ class FieldController extends Controller
     /**
      * Fetch a single Field
      * 
-     * @param int $id
+     * @param Field $field
      * 
      * @return FieldResource
      */
-    public function show($id)
+    public function show(Field $field)
     {
-        return new FieldResource(Field::with(static::SHOW_WITH)->find($id));
+        return new FieldResource($field->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing Field
      * 
      * @param StoreFieldRequest $request
-     * @param int               $id
+     * @param Field             $field
      * 
      * @return FieldResource
      */
-    public function update(StoreFieldRequest $request, $id)
+    public function update(StoreFieldRequest $request, Field $field)
     {
 
-      if ($request->input('action') == 'restore'
-        && Field::onlyTrashed()->where('id', $id)->restore()) {
-            $field = Field::findOrFail($id);
-            return $this->show($field->id);
-      }
+        if ($request->input('action') === 'restore' && $field->restore()) {
+              return $this->show($field);
+        }
 
-        $field = Field::findOrFail($id);
         $data = $request->validated();
 
         // Cannot change alias after creation
@@ -78,7 +75,7 @@ class FieldController extends Controller
 
         $field->update($data);
 
-        return $this->show($field->id);
+        return $this->show($field);
     }
 
     /**
@@ -106,19 +103,19 @@ class FieldController extends Controller
 
         $field = Field::create($data);
 
-        return $this->update($request, $field->id);
+        return $this->update($request, $field);
     }
 
     /**
      * Delete a Field
      * 
-     * @param int $id
+     * @param Field $field
      * 
      * @return string
      */
-    public function destroy($id)
+    public function destroy(Field $field)
     {
-        Field::findOrFail($id)->delete();
+        $field->delete();
 
         return '';
     }

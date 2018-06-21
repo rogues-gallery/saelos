@@ -45,40 +45,32 @@ class StatusController extends Controller
     /**
      * Fetch a single Status
      * 
-     * @param int $id
+     * @param Status $status
      * 
      * @return StatusResource
      */
-    public function show($id)
+    public function show(Status $status)
     {
-        return new StatusResource(Status::with(static::SHOW_WITH)->find($id));
+        return new StatusResource($status->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing Status
      * 
      * @param Request $request
-     * @param int     $id
+     * @param Status  $status
      * 
      * @return StatusResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Status $status)
     {
-        if (
-            $request->input('action') === 'restore'
-            && Status::onlyTrashed()->where('id', $id)->restore()
-        ) {
-              $status = Status::findOrFail($id);
-
-              return $this->show($status->id);
+        if ($request->input('action') === 'restore' && $status->restore()) {
+              return $this->show($status);
         }
 
-        $status = Status::findOrFail($id);
-        $data = $request->all();
+        $status->update($request->all());
 
-        $status->update($data);
-
-        return $this->show($status->id);
+        return $this->show($status);
     }
 
     /**
@@ -92,19 +84,19 @@ class StatusController extends Controller
     {
         $status = Status::create($request->all());
 
-        return $this->show($status->id);
+        return $this->show($status);
     }
 
     /**
      * Delete a Status
      * 
-     * @param int $id
+     * @param Status $status
      * 
      * @return string
      */
-    public function destroy($id)
+    public function destroy(Status $status)
     {
-        Status::findOrFail($id)->delete();
+        $status->delete();
 
         return '';
     }

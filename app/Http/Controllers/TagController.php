@@ -43,31 +43,29 @@ class TagController extends Controller
     /**
      * Fetch a single Tag
      * 
-     * @param int $id
+     * @param Tag $tag
      * 
      * @return TagResource
      */
-    public function show($id)
+    public function show(Tag $tag)
     {
-        return new TagResource(Tag::with(static::SHOW_WITH)->find($id));
+        return new TagResource($tag->load(static::SHOW_WITH)));
     }
 
     /**
      * Update an existing Tag
      * 
      * @param Request $request
-     * @param int     $id
+     * @param Tag     $tag
      * 
      * @return TagResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tag $tag)
     {
-        if ($request->input('action') == 'restore') {
-            Tag::onlyTrashed()->where('id', $id)->restore();
+        if ($request->input('action') === 'restore') {
+            $tag->restore();
         }
 
-        /** @var Tag $tag */
-        $tag = Tag::findOrFail($id);
         $data = $request->all();
         $contactId = $data['contact_id'] ?? null;
         $contacts = $data['contacts'] ?? $tag->contacts()->get()->all();
@@ -109,7 +107,7 @@ class TagController extends Controller
 
         $tag->update($data);
 
-        return $this->show($tag->id);
+        return $this->show($tag);
     }
 
     /**
@@ -123,21 +121,18 @@ class TagController extends Controller
     {
         $tag = Tag::create($request->all());
 
-        return $this->update($request, $tag->id);
+        return $this->update($request, $tag);
     }
 
     /**
      * Delete a Tag
      * 
-     * @param int $id
+     * @param Tag $tag
      * 
      * @return string
      */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        /** @var Tag $tag */
-        $tag = Tag::findOrFail($id);
-
         $tag->opportunities()->sync([]);
         $tag->contacts()->sync([]);
         $tag->companies()->sync([]);

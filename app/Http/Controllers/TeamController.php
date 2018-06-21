@@ -39,27 +39,25 @@ class TeamController extends Controller
     /**
      * Fetch a single Team
      * 
-     * @param int $id
+     * @param Team $team
      * 
      * @return TeamResource
      */
-    public function show($id)
+    public function show(Team $team)
     {
-        return new TeamResource(Team::with(static::SHOW_WITH)->find($id));
+        return new TeamResource($team->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing Team
      * 
      * @param Request $request
-     * @param int     $id
+     * @param Team    $team
      * 
      * @return TeamResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Team $team)
     {
-        /** @var Team $team */
-        $team = Team::findOrFail($id);
         $data = $request->all();
         $users = $data['users'] ?? [];
 
@@ -67,7 +65,7 @@ class TeamController extends Controller
 
         $team->update($data);
 
-        return $this->show($team->id);
+        return $this->show($team);
     }
 
     /**
@@ -81,19 +79,19 @@ class TeamController extends Controller
     {
         $team = Team::create($request->all());
 
-        return $this->update($request, $team->id);
+        return $this->update($request, $team);
     }
 
     /**
      * Delete a Team
      * 
-     * @param int $id
+     * @param Team $team
      * 
      * @return string
      */
-    public function destroy($id)
+    public function destroy(Team $team)
     {
-        Team::findOrFail($id)->delete();
+        $team->delete();
 
         return '';
     }

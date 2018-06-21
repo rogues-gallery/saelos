@@ -83,29 +83,28 @@ class CompanyController extends Controller
     /**
      * Fetch a single Company
      * 
-     * @param int $id
+     * @param Company $company
      * 
      * @return CompanyResource
      */
-    public function show($id)
+    public function show(Company $company)
     {
-        return new CompanyResource(Company::with(static::SHOW_WITH)->find($id));
+        return new CompanyResource($company->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing Company
      * 
      * @param Request $request
-     * @param int     $id
+     * @param Company $company
      * 
      * @return CompanyResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Company $company)
     {
-        if ($request->input('action') == 'restore'
-          && Company::onlyTrashed()->where('id', $id)->restore()) {
-              $company = Company::findOrFail($id);
-              return $this->show($company->id);
+        if ($request->input('action') === 'restore'
+          && $company->restore()) {
+              return $this->show($company);
         }
 
         /** @var Company $company */
@@ -136,7 +135,7 @@ class CompanyController extends Controller
         $company->update($data);
         $company->assignCustomFields($customFields);
 
-        return $this->show($company->id);
+        return $this->show($company);
     }
 
     /**
@@ -150,19 +149,19 @@ class CompanyController extends Controller
     {
         $company = Company::create($request->all());
 
-        return $this->update($request, $company->id);
+        return $this->update($request, $company);
     }
 
     /**
      * Delete a Company
      * 
-     * @param int $id
+     * @param Company $company
      * 
      * @return null
      */
-    public function destroy($id)
+    public function destroy(Company $company)
     {
-        Company::findOrFail($id)->delete();
+        $company->delete();
 
         return '';
     }

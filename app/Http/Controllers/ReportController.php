@@ -28,10 +28,14 @@ class ReportController extends Controller
 
     /**
      * @hideFromAPIDocumentation
+     * 
+     * @param Report $report
+     * 
+     * @return ReportResource
      */
-    public function show($id)
+    public function show(Report $report)
     {
-        $report = Report::with(static::SHOW_WITH)->find($id);
+        $report->load(static::SHOW_WITH);
 
         $report->data = $report->data()->paginate();
 
@@ -40,19 +44,25 @@ class ReportController extends Controller
 
     /**
      * @hideFromAPIDocumentation
+     * 
+     * @param Request $request
+     * @param Report  $report
+     * 
+     * @return Report
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Report $report)
     {
-        $stage = Report::findOrFail($id);
-        $data = $request->all();
-
-        $stage->update($data);
+        $stage->update($request->all());
 
         return $stage;
     }
 
     /**
      * @hideFromAPIDocumentation
+     * 
+     * @param Request $request
+     * 
+     * @return Report
      */
     public function store(Request $request)
     {
@@ -61,10 +71,14 @@ class ReportController extends Controller
 
     /**
      * @hideFromAPIDocumentation
+     * 
+     * @param Report $report
+     * 
+     * @return string
      */
-    public function destroy($id)
+    public function destroy(Report $report)
     {
-        Report::findOrFail($id)->delete();
+        $report->delete();
 
         return '';
     }

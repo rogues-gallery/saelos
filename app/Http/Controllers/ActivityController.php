@@ -67,27 +67,25 @@ class ActivityController extends Controller
     /**
      * Fetch a single Activity
      * 
-     * @param int $id
+     * @param Activity $activity
      * 
      * @return ActivityResource
      */
-    public function show($id)
+    public function show(Activity $activity)
     {
-        return new ActivityResource(Activity::with(static::SHOW_WITH)->find($id));
+        return new ActivityResource($activity->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing Activity
      * 
-     * @param Request $request
-     * @param int     $id
+     * @param Request  $request
+     * @param Activity $activity
      * 
      * @return ActivityResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Activity $activity)
     {
-        /** @var Activity $activity */
-        $activity = Activity::findOrFail($id);
         $data = $request->all();
         $contact = $data['contact_id'] ?? null;
         $company = $data['company_id'] ?? null;
@@ -109,7 +107,7 @@ class ActivityController extends Controller
         $activity->update($data);
 
 
-        return $this->show($activity->id);
+        return $this->show($activity);
     }
 
     /**
@@ -123,19 +121,19 @@ class ActivityController extends Controller
     {
         $activity = Activity::create($request->all());
 
-        return $this->update($request, $activity->id);
+        return $this->update($request, $activity);
     }
 
     /**
      * Delete an activity
      * 
-     * @param int $id
+     * @param Activity $activity
      * 
      * @return null
      */
-    public function destroy($id)
+    public function destroy(Activity $activity)
     {
-        Activity::findOrFail($id)->delete();
+        $activity->delete();
 
         return '';
     }

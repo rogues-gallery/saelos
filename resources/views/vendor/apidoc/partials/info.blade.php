@@ -5,5 +5,5 @@ Welcome to the Saelos API reference.
 [Get Postman Collection]({{url($outputPath.'/collection.json')}})
 @endif
 
-The examples you see to the left use [`GuzzleHttp`](https://packagist.org/packages/guzzlehttp/guzzle)
+The examples you see to the right use [`GuzzleHttp`](https://packagist.org/packages/guzzlehttp/guzzle)
 for PHP, `jQuery` for javascript, and `cURL` for bash.

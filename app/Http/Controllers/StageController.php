@@ -35,37 +35,32 @@ class StageController extends Controller
     /**
      * Fetch a single Stage
      * 
-     * @param int $id
+     * @param Stage $stage
      * 
      * @return StageResource
      */
-    public function show($id)
+    public function show(Stage $stage)
     {
-        return new StageResource(Stage::with(static::SHOW_WITH)->find($id));
+        return new StageResource($stage->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing Stage
      * 
      * @param Request $request
-     * @param int     $id
+     * @param Stage   $stage
      * 
      * @return StageResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Stage $stage)
     {
-        if ($request->input('action') == 'restore'
-          && Stage::onlyTrashed()->where('id', $id)->restore()) {
-              $stage = Stage::findOrFail($id);
-              return $this->show($stage->id);
+        if ($request->input('action') === 'restore' && $stage->restore()) {
+              return $this->show($stage);
         }
 
-        $stage = Stage::findOrFail($id);
-        $data = $request->all();
+        $stage->update($request->all());
 
-        $stage->update($data);
-
-        return $this->show($stage->id);
+        return $this->show($stage);
     }
 
     /**
@@ -79,19 +74,19 @@ class StageController extends Controller
     {
         $stage = Stage::create($request->all());
 
-        return $this->show($stage->id);
+        return $this->show($stage);
     }
 
     /**
      * Delete a Stage
      * 
-     * @param int $id
+     * @param Stage $stage
      * 
      * @return string
      */
-    public function destroy($id)
+    public function destroy(Stage $stage)
     {
-        Stage::findOrFail($id)->delete();
+        $stage->delete();
 
         return '';
     }

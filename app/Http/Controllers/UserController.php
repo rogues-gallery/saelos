@@ -55,29 +55,27 @@ class UserController extends Controller
     /**
      * Fetch a single User
      * 
-     * @param int $id
-     *
+     * @param User $user
+     * 
      * @return UserResource
      */
-    public function show($id)
+    public function show(User $user)
     {
-        return new UserResource(User::with(static::SHOW_WITH)->find($id));
+        return new UserResource($user->load(static::SHOW_WITH));
     }
 
     /**
      * Update an existing User
      * 
      * @param Request $request
-     * @param         $id
+     * @param User    $user
      *
      * @TODO: Move company update to Model mutators
      *
      * @return UserResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        /** @var User $user */
-        $user = User::findOrFail($id);
         $data = $request->all();
         $customFields = $data['custom_fields'] ?? [];
         $settings = $data['settings'] ?? [];
@@ -109,7 +107,7 @@ class UserController extends Controller
         $user->setSettings($settings);
         $user->assignCustomFields($customFields);
 
-        return $this->show($user->id);
+        return $this->show($user);
     }
 
     /**
@@ -123,31 +121,34 @@ class UserController extends Controller
     {
         $user = User::create($request->all());
 
-        return $this->update($request, $user->id);
+        return $this->update($request, $user);
     }
 
     /**
      * Delete a User
      * 
-     * @param int $id
+     * @param User $user
      *
      * @return string
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        User::findOrFail($id)->delete();
+        $user->delete();
 
         return '';
     }
 
     /**
      * @hideFromAPIDocumentation
+     * 
+     * @param Request $request
+     * @param User    $user
+     * 
+     * @return Response
      */
-    public function inboundcall(Request $request, $id)
+    public function inboundcall(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
-
         $twiml = new Twiml();
 
         if ($user === null) {
@@ -191,6 +192,9 @@ class UserController extends Controller
 
     /**
      * @hideFromAPIDocumentation
+     * 
+     * @param Request $request
+     * @param int     $id
      */
     public function recording(Request $request, $id)
     {
@@ -209,10 +213,14 @@ class UserController extends Controller
 
     /**
      * @hideFromAPIDocumentation
+     * 
+     * @param Request $request
+     * @param User    $user
+     * 
+     * @return Response
      */
-    public function inboundsms(Request $request, $id)
+    public function inboundsms(Request $request, User $user)
     {
-        $user = User::find($id);
         $contact = Contact::where('phone', $request->get('From'))->first();
 
         $details = SmsActivity::create([
@@ -319,12 +327,12 @@ class UserController extends Controller
 
     /**
      * @hideFromAPIDocumentation
+     * 
+     * @param Request $request
+     * @param User    $user
      */
-    public function purchaseNumber(Request $request, $id)
+    public function purchaseNumber(Request $request, User $user)
     {
-        /** @var User $user */
-        $user = User::findOrFail($id);
-
         try {
             $client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
             $numbers = $client->availablePhoneNumbers(env('TWILIO_COUNTRY_CODE'))->local->read([
