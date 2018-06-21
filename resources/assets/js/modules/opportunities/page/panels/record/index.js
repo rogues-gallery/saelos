@@ -22,7 +22,10 @@ import {
   editingOpportunity,
   editingOpportunityFinished
 } from "../../../store/actions";
-import { renderGroupedFields } from "../../../../../utils/helpers/fields";
+import {
+  renderGroupedFields,
+  handleInputChange
+} from "../../../../../utils/helpers/fields";
 import { openTaskContainer } from "../../../../activities/store/actions";
 
 class Record extends React.Component {
@@ -94,40 +97,13 @@ class Record extends React.Component {
     });
   };
 
-  // @todo: Abstract this out
   _handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    let name = target.name;
-    let thisState = this.state.formState;
-    let fieldDef = _.find(this.props.customFields, f => f.alias === name);
-
-    if (typeof fieldDef === "undefined") {
-      fieldDef = {
-        is_custom: false
-      };
-    }
-
-    if (fieldDef.is_custom) {
-      let customFieldIndex = _.findIndex(
-        thisState.custom_fields,
-        o => o.custom_field_id === fieldDef.id
-      );
-
-      if (customFieldIndex >= 0) {
-        thisState.custom_fields[customFieldIndex].value = value;
-      } else {
-        thisState.custom_fields.push({
-          custom_field_id: fieldDef.id,
-          value: value
-        });
-      }
-    } else {
-      _.set(thisState, name, value);
-    }
-
     this.setState({
-      formState: thisState
+      formState: handleInputChange(
+        event,
+        this.state.formState,
+        this.props.customFields
+      )
     });
   };
 

@@ -5,6 +5,7 @@ import Select from "react-select";
 import { getTeam } from "../../../store/selectors";
 import { deleteTeam, saveTeam } from "../../../service";
 import { getUsers } from "../../../../users/store/selectors";
+import { handleInputChange } from "../../../../../utils/helpers/fields";
 
 class Record extends React.Component {
   constructor(props) {
@@ -25,17 +26,9 @@ class Record extends React.Component {
     this.props.dispatch(saveTeam(this.state.formState));
   };
 
-  // @todo: Abstract this out
   _handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-    const { formState } = this.state;
-
-    _.set(formState, name, value);
-
     this.setState({
-      formState
+      formState: handleInputChange(event, this.state.formState, {})
     });
   };
 

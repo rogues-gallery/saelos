@@ -56,3 +56,42 @@ renderGroupedFields.propTypes = {
   isAdmin: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
 };
+
+export const handleInputChange = (event, formState, customFields) => {
+  const target = event.target;
+  const value = target.type === "checkbox" ? target.checked : target.value;
+  let name = target.name;
+  let fieldDef = _.find(customFields, f => f.alias === name);
+
+  if (typeof fieldDef === "undefined") {
+    fieldDef = {
+      is_custom: false
+    };
+  }
+
+  if (fieldDef.is_custom) {
+    let customFieldIndex = _.findIndex(
+      formState.custom_fields,
+      o => o.custom_field_id === fieldDef.id
+    );
+
+    if (customFieldIndex >= 0) {
+      formState.custom_fields[customFieldIndex].value = value;
+    } else {
+      formState.custom_fields.push({
+        custom_field_id: fieldDef.id,
+        value: value
+      });
+    }
+  } else {
+    _.set(formState, name, value);
+  }
+
+  return formState;
+};
+
+handleInputChange.propTypes = {
+  event: PropTypes.object,
+  formState: PropTypes.object,
+  customFields: PropTypes.object
+};

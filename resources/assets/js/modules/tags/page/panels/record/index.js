@@ -7,6 +7,7 @@ import { CirclePicker } from "react-color";
 import { deleteTag, fetchTag, fetchTags, saveTag } from "../../../service";
 import moment from "moment/moment";
 import _ from "lodash";
+import { handleInputChange } from "../../../../../utils/helpers/fields";
 
 class Record extends React.Component {
   constructor(props) {
@@ -45,21 +46,12 @@ class Record extends React.Component {
     return this.setState({ inEdit: !this.state.inEdit });
   }
 
-  // @todo: Abstract this out
-  _handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    let name = target.name;
-    let tagState = this.state.formState;
-
-    // Set the value on the contact prop as well
-    _.set(tagState, name, value);
-
+  _handleInputChange = event => {
     this.setState({
-      formState: tagState,
+      formState: handleInputChange(event, this.state.formState, {}),
       pickerOpen: false
     });
-  }
+  };
 
   _delete() {
     const { dispatch, tag } = this.props;

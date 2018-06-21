@@ -36,7 +36,7 @@ class Field extends Model
     {
         $array = parent::toArray();
 
-        $array['is_custom'] = !$array['protected'];
+        $array['is_custom'] = isset($array['protected']) ? !$array['protected'] : false;
 
         return $array;
     }

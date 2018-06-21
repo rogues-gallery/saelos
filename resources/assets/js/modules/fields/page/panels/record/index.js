@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { deleteField, fetchField, saveField } from "../../../service";
 import Select from "react-select";
-import _ from "lodash";
+import { handleInputChange } from "../../../../../utils/helpers/fields";
 
 class Record extends React.Component {
   constructor(props) {
@@ -34,17 +34,9 @@ class Record extends React.Component {
     this.props.dispatch(saveField(this.state.formState));
   };
 
-  // @todo: Abstract this out
   _handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-    const formState = this.state.formState;
-
-    _.set(formState, name, value);
-
     this.setState({
-      formState
+      formState: handleInputChange(event, this.state.formState, {})
     });
   };
 

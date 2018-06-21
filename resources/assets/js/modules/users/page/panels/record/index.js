@@ -14,7 +14,10 @@ import {
 import { editingUser } from "../../../store/actions";
 import { getTeams } from "../../../../teams/store/selectors";
 import { getRoles } from "../../../../roles/store/selectors";
-import { renderGroupedFields } from "../../../../../utils/helpers/fields";
+import {
+  renderGroupedFields,
+  handleInputChange
+} from "../../../../../utils/helpers/fields";
 
 class Record extends React.Component {
   constructor(props) {
@@ -50,39 +53,13 @@ class Record extends React.Component {
     }
   };
 
-  // @todo: Abstract this out
   _handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    let name = target.name;
-    const { formState } = this.state;
-    const customFieldIndex = _.findIndex(
-      this.props.fields,
-      f => f.alias === name
-    );
-
-    // Special handling for custom field state
-    if (formState.hasOwnProperty(name) === false && customFieldIndex >= 0) {
-      let customField = this.props.fields[customFieldIndex];
-      let userCustomFieldIndex = _.findIndex(
-        formState.custom_fields,
-        f => f.custom_field_id === customField.id
-      );
-
-      if (userCustomFieldIndex >= 0) {
-        formState.custom_fields[userCustomFieldIndex].value = value;
-      } else {
-        formState.custom_fields.push({
-          custom_field_id: customField.id,
-          value: value
-        });
-      }
-    } else {
-      _.set(formState, name, value);
-    }
-
     this.setState({
-      formState
+      formState: handleInputChange(
+        event,
+        this.state.formState,
+        this.props.customFields
+      )
     });
   };
 
