@@ -1,9 +1,9 @@
 title: Saelos API Reference
 
 language_tabs:
-- bash
-- javascript
 - php
+- javascript
+- bash
 
 includes:
 

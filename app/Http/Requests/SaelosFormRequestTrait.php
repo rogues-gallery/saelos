@@ -98,10 +98,17 @@ trait SaelosFormRequestTrait
         return rtrim($rule, '|');
     }
 
+    /**
+     * Modify the rules array with custom_fields data
+     * 
+     * @param array $rules
+     * 
+     * @return array
+     */
     protected function addCustomFieldRules(array $rules)
     {
         return array_merge($rules, [
-            'custom_fields'                   => 'sometimes',
+            'custom_fields'                   => 'sometimes|array',
             'custom_fields.*.custom_field_id' => 'required|numeric',
             'custom_fields.*.value'           => 'string|nullable',
         ]);

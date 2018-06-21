@@ -39,7 +39,24 @@ $.ajax(settings).done(function (response) {
 ```
 
 ```php
-PHP STUFF WITH GUZZLE
+use GuzzleHttp\Client;
+@if(count($parsedRoute['parameters']))
+use GuzzleHttp\RequestOptions;
+@endif
+
+$client = new Client;
+
+@if(count($parsedRoute['parameters']))
+$response = $client->{{strtolower($parsedRoute['methods'][0])}}("{{config('app.docs_url') ?: config('app.url')}}/{{$parsedRoute['uri']}}", [
+    RequestOptions::JSON => [
+@foreach($parsedRoute['parameters'] as $attribute => $parameter)
+        "{{$attribute}}" => "{{$parameter['value']}}",
+@endforeach
+    ]
+]);
+@else
+$response = $client->{{strtolower($parsedRoute['methods'][0])}}("{{config('app.docs_url') ?: config('app.url')}}/{{$parsedRoute['uri']}}");
+@endif
 ```
 
 @if(in_array('GET',$parsedRoute['methods']) || (isset($parsedRoute['showresponse']) && $parsedRoute['showresponse']))

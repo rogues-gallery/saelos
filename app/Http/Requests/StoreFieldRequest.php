@@ -73,7 +73,7 @@ class StoreFieldRequest extends FormRequest
             'hidden'     => 'sometimes|required|boolean',
             'searchable' => 'sometimes|required|boolean',
             'summary'    => 'string',
-            'ordering'   => 'sometimes|required|numeric',
+            'ordering'   => 'sometimes|required|integer',
         ];
     }
 }
