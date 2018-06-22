@@ -7,6 +7,7 @@ use App\Company;
 use App\FieldUpdateActivity;
 use App\Opportunity;
 use App\Contact;
+use App\Http\Requests\StoreActivityRequest;
 use App\Http\Resources\Activity as ActivityResource;
 use App\Http\Resources\ActivityCollection;
 use Carbon\Carbon;
@@ -79,14 +80,14 @@ class ActivityController extends Controller
     /**
      * Update an existing Activity
      * 
-     * @param Request  $request
-     * @param Activity $activity
+     * @param StoreActivityRequest  $request
+     * @param Activity              $activity
      * 
      * @return ActivityResource
      */
-    public function update(Request $request, Activity $activity)
+    public function update(StoreActivityRequest $request, Activity $activity)
     {
-        $data = $request->all();
+        $data = $request->validated();
         $contact = $data['contact_id'] ?? null;
         $company = $data['company_id'] ?? null;
         $opportunity = $data['opportunity_id'] ?? null;
@@ -113,13 +114,13 @@ class ActivityController extends Controller
     /**
      * Save a new Activity
      * 
-     * @param Request $request
+     * @param StoreActivityRequest $request
      *
      * @return ActivityResource
      */
-    public function store(Request $request)
+    public function store(StoreActivityRequest $request)
     {
-        $activity = Activity::create($request->all());
+        $activity = Activity::create($request->validated());
 
         return $this->update($request, $activity);
     }
