@@ -10,6 +10,19 @@ class StoreUserRequest extends FormRequest
 {
     use SaelosFormRequestTrait;
 
+    public function authorize()
+    {
+        $user = \Auth::user();
+
+        if ($user->authorizeRoles(['admin', 'manager'])) {
+            return true;
+        }
+
+        $routeUser = $this->route('user');
+
+        return $user->id === $routeUser->id;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

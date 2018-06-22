@@ -94,7 +94,7 @@ class User extends Authenticatable implements HasCustomFieldsInterface
             $roles = [$roles];
         }
 
-        return $this->hasAnyRole($roles) || abort(401, 'Unauthorized');
+        return $this->hasAnyRole($roles);
     }
 
     public function hasAnyRole($roles)

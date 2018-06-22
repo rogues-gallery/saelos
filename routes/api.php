@@ -69,10 +69,10 @@ Route::group([
         Route::apiResource('statuses', 'StatusController');
         Route::apiResource('activities', 'ActivityController');
         Route::apiResource('fields', 'FieldController');
+        Route::apiResource('users', 'UserController');
 
         Route::group(['middleware' => 'scope:admin,manager'], function () {
             Route::apiResource('teams', 'TeamController');
-            Route::apiResource('users', 'UserController');
             Route::apiResource('reports', 'ReportController');
             Route::apiResource('roles', 'RoleController');
         });

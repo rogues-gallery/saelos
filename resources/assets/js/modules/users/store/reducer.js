@@ -111,8 +111,7 @@ export default function userReducer(state = initialState, action) {
         isFetching: false,
         error: false,
         isPosting: false,
-        activeUser:
-          action.data.id === state.active.id ? action.data : state.active
+        active: action.data.id === state.active.id ? action.data : state.active
       };
     default:
       return state;
