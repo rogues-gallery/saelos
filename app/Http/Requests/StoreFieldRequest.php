@@ -54,7 +54,7 @@ class StoreFieldRequest extends FormRequest
                 ])
             ),
             'entity_class' => sprintf(
-                'required_if:type,entity|in:%s',
+                'nullable|required_if:type,entity|in:%s',
                 implode(',', [
                     Contact::class,
                     Company::class,
@@ -66,13 +66,13 @@ class StoreFieldRequest extends FormRequest
                     Stage::class,
                 ])
             ),
-            'default'   => 'string|max:255',
+            'default'   => 'nullable|string|max:255',
             'values'    => 'required_if:type,picklist|required_if:type,select',
             'required'   => 'required|boolean',
             'protected'  => 'boolean',
             'hidden'     => 'sometimes|required|boolean',
             'searchable' => 'sometimes|required|boolean',
-            'summary'    => 'string',
+            'summary'    => 'sometimes|nullable',
             'ordering'   => 'sometimes|required|integer',
         ];
     }

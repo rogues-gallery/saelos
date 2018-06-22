@@ -24,10 +24,6 @@ trait SearchableTrait
                         $q->where('published', 1);
                     }
 
-                    if (empty($criteria['value'])) {
-                        continue;
-                    }
-
                     $field = $searchableFields->where('alias', $criteria['keyword'])->first();
 
                     if ($criteria['exact']) {
@@ -43,14 +39,20 @@ trait SearchableTrait
 
                     // Handle custom fields. Only core fields (on table) are protected
                     if (!$field->protected) {
-                        $q->whereHas('customFields', function (Builder $sq) use ($criteria, $operator, $field) {
-                            $val = strpos($operator, 'LIKE') !== false
-                                ? '%'.$criteria['value'].'%'
-                                : $criteria['value'];
-
-                            $sq->where('custom_field_id', $field->id);
-                            $sq->where('value', $operator, $val);
-                        });
+                        if (empty($criteria['value'])) {
+                            $q->whereDoesntHave('customFields', function (Builder $sq) use ($field) {
+                                $sq->where('custom_field_id', $field->id);
+                            });
+                        } else {
+                            $q->whereHas('customFields', function (Builder $sq) use ($criteria, $operator, $field) {
+                                $val = strpos($operator, 'LIKE') !== false
+                                    ? '%'.$criteria['value'].'%'
+                                    : $criteria['value'];
+    
+                                $sq->where('custom_field_id', $field->id);
+                                $sq->where('value', $operator, $val);
+                            });
+                        }
                         continue;
                     }
 
