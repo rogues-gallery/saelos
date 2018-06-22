@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Contact;
+use App\Http\Requests\StoreTagRequest;
 use App\Http\Resources\TagCollection;
 use App\Opportunity;
 use App\Tag;
@@ -55,18 +56,19 @@ class TagController extends Controller
     /**
      * Update an existing Tag
      * 
-     * @param Request $request
-     * @param Tag     $tag
+     * @param StoreTagRequest $request
+     * @param Tag             $tag
      * 
      * @return TagResource
      */
-    public function update(Request $request, Tag $tag)
+    public function update(StoreTagRequest $request, Tag $tag)
     {
         if ($request->input('action') === 'restore') {
             $tag->restore();
         }
 
-        $data = $request->all();
+        $data = $request->validated();
+        var_dump($data);die;
         $contactId = $data['contact_id'] ?? null;
         $contacts = $data['contacts'] ?? $tag->contacts()->get()->all();
         $companyId = $data['company_id'] ?? null;
@@ -113,13 +115,13 @@ class TagController extends Controller
     /**
      * Save a new Tag
      * 
-     * @param Request $request
+     * @param StoreTagRequest $request
      * 
      * @return TagResource
      */
-    public function store(Request $request)
+    public function store(StoreTagRequest $request)
     {
-        $tag = Tag::create($request->all());
+        $tag = Tag::create($request->validated());
 
         return $this->update($request, $tag);
     }

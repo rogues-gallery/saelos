@@ -21,7 +21,7 @@ class StoreStageRequest extends FormRequest
             'active' => 'sometimes|boolean',
             'color' => [ // using an array here because of regex
                 'sometimes',
-                'regex:/^#(\d|a|b|c|d|e|f){6}$/i',
+                'regex:/^#(\d|[a-f]){6}$/i',
             ]
         ];
     }
