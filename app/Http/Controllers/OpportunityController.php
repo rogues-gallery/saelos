@@ -128,6 +128,7 @@ class OpportunityController extends Controller
             $opportunity->stage()->associate($stage);
         }
 
+        $opportunity->user()->associate(Auth::user());
         $opportunity->companies()->sync($companyIds);
         $opportunity->contacts()->sync($contactIds);
         $opportunity->update($data);
