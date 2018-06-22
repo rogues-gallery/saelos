@@ -137,6 +137,10 @@ export const removeView = params => dispatch => {
     settings.views = [];
   }
 
+  if (params.protected) {
+    return;
+  }
+
   settings.views = _.filter(
     settings.views,
     v =>
