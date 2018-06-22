@@ -14,6 +14,8 @@ class AppRefresh implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $shouldReload = true;
+
     /**
      * Get the channels the event should broadcast on.
      *
@@ -22,15 +24,5 @@ class AppRefresh implements ShouldBroadcast
     public function broadcastOn()
     {
         return new Channel('saelos');
-    }
-
-    /**
-     * @return array
-     */
-    public function broadcastWith()
-    {
-        return [
-            'shouldReload' => true,
-        ];
     }
 }

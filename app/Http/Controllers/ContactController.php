@@ -6,6 +6,7 @@ use App\Activity;
 use App\CallActivity;
 use App\Company;
 use App\Contact;
+use App\Events\ContactUpdated;
 use App\Mail\Contact as ContactMail;
 use App\Opportunity;
 use App\Http\Resources\Contact as ContactResource;
@@ -159,6 +160,8 @@ class ContactController extends Controller
 
         $contact->update($data);
         $contact->assignCustomFields($customFields);
+
+        event(new ContactUpdated($contact));
 
         return $this->show($contact);
     }

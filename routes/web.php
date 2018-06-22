@@ -30,6 +30,12 @@ Route::group(['prefix' => 'auth'], function () {
 
 Broadcast::routes();
 
+Route::get('/notification_test', function () {
+    event(new App\Events\AppRefresh);
+
+    return 'OK';
+});
+
 Route::get('/{any}', function () {
     return view('react.index');
 })->where('any', '.*');

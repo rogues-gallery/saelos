@@ -12,6 +12,23 @@
     <title>Saelos</title>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+    <script>
+@if (env('BROADCAST_DRIVER') === 'redis')
+        window.ECHO_CONFIG = {
+            broadcaster: "socket.io",
+            host: "{{ env('REDIS_BROADCAST_URL') }}:{{ env('REDIS_BROADCAST_PORT') }}"
+        };
+@elseif (env('BROADCAST_DRIVER') === 'pusher')
+        window.ECHO_CONFIG = {
+            broadcaster: "pusher",
+            key: "{{ env('PUSHER_APP_KEY') }}",
+            cluster: "{{ env('PUSHER_APP_CLUSTER') }}",
+            encrypted: true
+        };
+@else
+        window.ECHO_CONFIG = false;
+@endif
+    </script>
 </head>
 <body>
     <div id="root" class="page-wrapper"></div>

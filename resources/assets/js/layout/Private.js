@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
+import { NotificationContainer } from "react-notifications";
 
 import Main from "../Main";
 import Navigation from "../common/navigation";
@@ -17,6 +18,7 @@ const PrivateLayout = ({ children }) => (
         hideProgressBar={true}
         toastClassName="toast"
       />
+      <NotificationContainer />
     </div>
     <TaskContainer />
   </Main>
