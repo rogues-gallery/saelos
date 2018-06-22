@@ -18,6 +18,8 @@ class User extends Model {
   initialize(props) {
     props.custom_fields = props.custom_fields ? props.custom_fields : [];
 
+    super.initialize(Object.assign({}, props));
+
     const fields = getFieldsForUsers(store.getState());
 
     fields.map(field => {
@@ -51,8 +53,6 @@ class User extends Model {
     this.views = _.get(props.settings, "views");
 
     props.roles = props.roles || [];
-
-    super.initialize(props);
   }
 
   authorized(role) {

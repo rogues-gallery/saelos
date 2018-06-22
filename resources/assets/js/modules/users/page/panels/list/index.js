@@ -45,8 +45,8 @@ class List extends React.Component {
   };
 
   render() {
-    const { users, dispatch, searchString, firstUserId } = this.props;
-    const activeIndex = parseInt(this.props.match.params.id) || firstUserId;
+    const { users, dispatch, searchString, firstUserId, match } = this.props;
+    const activeIndex = parseInt(match.params.id) || firstUserId;
 
     return (
       <div className="col list-panel border-right">

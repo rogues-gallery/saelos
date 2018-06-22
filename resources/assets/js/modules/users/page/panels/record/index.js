@@ -29,15 +29,15 @@ class Record extends React.Component {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    const { dispatch, match } = this.props;
 
-    if (this.props.match.params.id === "new") {
+    if (match.params.id === "new") {
       dispatch(editingUser());
-    } else if (this.props.match.params.id > 0) {
-      dispatch(fetchUser(this.props.match.params.id));
+    } else if (match.params.id > 0) {
+      dispatch(fetchUser(match.params.id));
     }
 
-    if (this.props.match.params.id > 0) {
+    if (match.params.id > 0) {
     }
   }
 
@@ -46,9 +46,11 @@ class Record extends React.Component {
   }
 
   _submit = () => {
-    this.props.dispatch(saveUser(this.state.formState));
+    const { dispatch, match } = this.props;
 
-    if (this.props.match.params.id === "new") {
+    dispatch(saveUser(this.state.formState));
+
+    if (match.params.id === "new") {
       dispatch(editingUser());
     }
   };
@@ -58,7 +60,7 @@ class Record extends React.Component {
       formState: handleInputChange(
         event,
         this.state.formState,
-        this.props.customFields
+        this.props.fields
       )
     });
   };

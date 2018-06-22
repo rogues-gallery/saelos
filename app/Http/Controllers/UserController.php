@@ -8,6 +8,7 @@ use App\Notifications\UserUpdated;
 use App\Role;
 use Auth;
 use App\User;
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserCollection;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -67,16 +68,16 @@ class UserController extends Controller
     /**
      * Update an existing User
      * 
-     * @param Request $request
-     * @param User    $user
+     * @param StoreUserRequest $request
+     * @param User             $user
      *
      * @TODO: Move company update to Model mutators
      *
      * @return UserResource
      */
-    public function update(Request $request, User $user)
+    public function update(StoreUserRequest $request, User $user)
     {
-        $data = $request->all();
+        $data = $request->validated();
         $customFields = $data['custom_fields'] ?? [];
         $settings = $data['settings'] ?? [];
         $roleId = $data['role_id'] ?? null;
@@ -113,13 +114,13 @@ class UserController extends Controller
     /**
      * Save a new User
      * 
-     * @param Request $request
+     * @param StoreUserRequest $request
      *
      * @return UserResource
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $user = User::create($request->all());
+        $user = User::create($request->validated());
 
         return $this->update($request, $user);
     }

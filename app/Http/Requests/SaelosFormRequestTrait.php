@@ -53,7 +53,7 @@ trait SaelosFormRequestTrait
                 break;
             case 'picklist':
             case 'select':
-                // @TODO
+                $rule .= sprintf('in:%s|', implode(',', array_keys(json_decode($field->values, true))));
                 break;
             case 'phone':
                 // @TODO
