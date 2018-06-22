@@ -155,7 +155,7 @@ class Record extends React.Component {
 
           <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">Assigned To</div>
-            {user.authorized(["admin", "manager"]) ? (
+            {user.authorized(["admin", "manager", "user"]) ? (
               <div className="dropdown show">
                 <div
                   className="text-dark mini-text cursor-pointer"
