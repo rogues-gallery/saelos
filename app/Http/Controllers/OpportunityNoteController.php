@@ -56,7 +56,6 @@ class OpportunityNoteController extends Controller
     public function update(StoreNoteRequest $request, Opportunity $opportunity, Note $note)
     {
         $note->note = $request->get('note_content');
-        $note->name = $request->get('note_name');
         $note->private = $request->get('private');
 
         $note->save();
@@ -96,7 +95,6 @@ class OpportunityNoteController extends Controller
     public function store(StoreNoteRequest $request, Opportunity $opportunity)
     {
         $note = Note::create([
-            'name' => $request->get('note_name'),
             'note' => $request->get('note_content'),
             'private' => (int)$request->get('private')
         ]);
@@ -127,7 +125,7 @@ class OpportunityNoteController extends Controller
         $note->save();
         $note->load(['entity', 'user', 'document']);
 
-        $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
+        $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note_content'), $matches);
 
         if ($mentions > 0) {
             $opportunity->load(OpportunityController::SHOW_WITH);

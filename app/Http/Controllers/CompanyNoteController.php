@@ -56,7 +56,6 @@ class CompanyNoteController extends Controller
     public function update(StoreNoteRequest $request, Company $company, Note $note)
     {
         $note->note = $request->get('note_content');
-        $note->name = $request->get('note_name');
         $note->private = $request->get('private');
 
         $note->save();
@@ -96,7 +95,6 @@ class CompanyNoteController extends Controller
     public function store(StoreNoteRequest $request, Company $company)
     {
         $note = Note::create([
-            'name' => $request->get('note_name'),
             'note' => $request->get('note_content'),
             'private' => (int)$request->get('private')
         ]);
@@ -130,7 +128,7 @@ class CompanyNoteController extends Controller
         /**
          * @TODO Move this to an observor that notifies
          */
-        $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
+        $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note_content'), $matches);
 
         if ($mentions > 0) {
             $company->load(CompanyController::SHOW_WITH);

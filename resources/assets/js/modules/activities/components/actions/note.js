@@ -116,7 +116,6 @@ class NoteAction extends Component {
         model: this.props.model,
         document: "",
         private: 0,
-        note_name: "",
         note_content: "",
         opportunity_id: null,
         company_id: null,
@@ -167,17 +166,6 @@ class NoteAction extends Component {
                 <MDIcons.MdLockOutline />
               </a>
             </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="note_name">Name</label>
-            <input
-              type="text"
-              onChange={this._handleInputChange}
-              value={formState.note_name}
-              name="note_name"
-              className="form-control"
-              placeholder="Enter note name"
-            />
           </div>
 
           <div className="form-group">

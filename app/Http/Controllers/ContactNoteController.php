@@ -56,7 +56,6 @@ class ContactNoteController extends Controller
     public function update(StoreNoteRequest $request, Contact $contact, Note $note)
     {
         $note->note = $request->get('note_content');
-        $note->name = $request->get('note_name');
         $note->private = (int)$request->get('private');
 
         $note->save();
@@ -98,7 +97,6 @@ class ContactNoteController extends Controller
     public function store(StoreNoteRequest $request, Contact $contact)
     {
         $note = Note::create([
-            'name' => $request->get('note_name'),
             'note' => $request->get('note_content'),
             'private' => (int)$request->get('private')
         ]);
@@ -129,7 +127,7 @@ class ContactNoteController extends Controller
         $note->save();
         $note->load(['entity', 'user', 'document']);
 
-        $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note'), $matches);
+        $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note_content'), $matches);
 
         if ($mentions > 0) {
             $contact->load(ContactController::SHOW_WITH);

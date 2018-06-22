@@ -18,7 +18,6 @@ class CreateNotesTable extends Migration
             $table->collation = 'utf8_unicode_ci';
             $table->increments('id');
             $table->timestamps();
-            $table->string('name');
             $table->longText('note');
             $table->nullableMorphs('entity');
             $table->integer('user_id')->unsigned()->index()->nullable();
