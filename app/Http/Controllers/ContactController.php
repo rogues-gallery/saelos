@@ -138,9 +138,9 @@ class ContactController extends Controller
 
         $opportunityIds = [];
         foreach ($opportunities as $opportunity) {
-            $opportunityIds[$company['id']] = [
-                'primary' => $company['pivot']['primary'] ?? 0,
-                'position' => $company['pivot']['position'] ?? ''
+            $opportunityIds[$opportunity['id']] = [
+                'primary' => $opportunity['pivot']['primary'] ?? 0,
+                'position' => $opportunity['pivot']['position'] ?? ''
             ];
         }
 
