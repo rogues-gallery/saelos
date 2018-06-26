@@ -222,17 +222,19 @@ const Pipeline = ({
   count
 }) => {
   const contact_percent_difference =
-    (user.total_contacts - user.total_contacts_last_week) /
-    user.total_contacts_last_week *
+    ((user.total_contacts - user.total_contacts_last_week) /
+      user.total_contacts_last_week) *
     100;
   const percent = new Intl.NumberFormat("en-US", {
     maximumSignificantDigits: 2
   }).format(contact_percent_difference);
 
   const data = {
-    labels: Object.keys(count).map(
-      k => _.find(statuses, s => s.id === parseInt(k)).name
-    ),
+    labels: Object.keys(count).map(k => {
+      let s = _.find(statuses, s => s.id === parseInt(k));
+
+      return typeof s === "object" ? s.name : "Unknown";
+    }),
     series: [Object.keys(count).map(k => count[k])]
   };
 
