@@ -58,19 +58,19 @@ export const saveField = params => dispatch => {
     return Http.patch(`fields/${params.id}`, params)
       .then(res => {
         dispatch(actions.postingFieldSuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
-        console.log(err);
-        dispatch(actions.postingFieldFailure());
+        dispatch(actions.postingFieldFailure(err.response.data.errors));
       });
   } else {
     return Http.post(`fields`, params)
       .then(res => {
         dispatch(actions.postingFieldSuccess(res.data.data));
+        return res.data.data;
       })
       .catch(err => {
-        console.log(err);
-        dispatch(actions.postingFieldFailure());
+        dispatch(actions.postingFieldFailure(err.response.data.errors));
       });
   }
 };

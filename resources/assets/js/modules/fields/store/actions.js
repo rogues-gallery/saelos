@@ -41,8 +41,9 @@ export const postingFieldSuccess = payload => {
   };
 };
 
-export const postingFieldFailure = () => ({
-  type: types.POSTING_FIELD_FAILURE
+export const postingFieldFailure = errors => ({
+  type: types.POSTING_FIELD_FAILURE,
+  data: errors
 });
 
 export const deletingField = () => ({

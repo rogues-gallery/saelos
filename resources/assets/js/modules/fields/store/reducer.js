@@ -72,6 +72,11 @@ export default function fieldReducer(state = initialState, action) {
         ...state,
         isPosting: true
       };
+    case types.POSTING_FIELD_FAILURE:
+      return {
+        ...state,
+        error: action.data
+      };
     case types.POSTING_FIELD_SUCCESS:
     case types.FETCHING_SINGLE_FIELD_SUCCESS:
     case types.RESTORING_FIELD_SUCCESS:
@@ -129,3 +134,4 @@ export const getField = (state, id) => {
 };
 export const getSearchStringForFields = state => state.searchString;
 export const getPaginationForFields = state => state.meta;
+export const getFieldError = state => state.error;

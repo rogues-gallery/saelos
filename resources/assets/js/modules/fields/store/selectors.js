@@ -10,3 +10,6 @@ export const getSearchStringForFields = state =>
 
 export const getPaginationForFields = state =>
   fromReducer.getPaginationForFields(state.fieldState);
+
+export const getFieldError = state =>
+  fromReducer.getFieldError(state.fieldState);

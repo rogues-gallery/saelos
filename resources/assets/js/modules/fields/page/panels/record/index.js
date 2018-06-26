@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { getField } from "../../../store/selectors";
+import { getField, getFieldError } from "../../../store/selectors";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { deleteField, fetchField, saveField } from "../../../service";
@@ -27,7 +27,9 @@ class Record extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    this.setState({ formState: nextProps.field.originalProps });
+    if (nextProps.match.params.id !== "new") {
+      this.setState({ formState: nextProps.field.originalProps });
+    }
   }
 
   _submit = () => {
@@ -48,8 +50,9 @@ class Record extends React.Component {
   };
 
   render() {
-    const { field } = this.props;
+    const { field, error } = this.props;
     const { formState } = this.state;
+    const hasError = error !== false;
 
     if (field.id === null && this.props.match.params.id !== "new") {
       return (
@@ -162,7 +165,13 @@ class Record extends React.Component {
             <ul className={`list-group list-group-flush`}>
               <li className="list-group-item">
                 <div className="mini-text text-muted mb-2">Core</div>
-                <div className={`form-group mb-2`}>
+                <div
+                  className={`form-group mb-2 ${
+                    hasError && error.hasOwnProperty("label")
+                      ? "hasError"
+                      : null
+                  }`}
+                >
                   <label htmlFor="label">Name</label>
                   <div>
                     <input
@@ -173,9 +182,18 @@ class Record extends React.Component {
                       className="form-control"
                       value={formState.label}
                     />
+                    {hasError && error.hasOwnProperty("label") ? (
+                      <div className="warning small">{error.label}</div>
+                    ) : null}
                   </div>
                 </div>
-                <div className={`form-group mb-2`}>
+                <div
+                  className={`form-group mb-2 ${
+                    hasError && error.hasOwnProperty("alias")
+                      ? "hasError"
+                      : null
+                  }`}
+                >
                   <label htmlFor="alias">Alias</label>
                   <div>
                     <input
@@ -186,12 +204,21 @@ class Record extends React.Component {
                       className="form-control"
                       value={formState.alias}
                     />
+                    {hasError && error.hasOwnProperty("alias") ? (
+                      <div className="warning small">{error.alias}</div>
+                    ) : null}
                   </div>
                 </div>
               </li>
               <li className="list-group-item">
                 <div className="mini-text text-muted mb-2">Options</div>
-                <div className={`form-group mb-2`}>
+                <div
+                  className={`form-group mb-2 ${
+                    hasError && error.hasOwnProperty("model")
+                      ? "hasError"
+                      : null
+                  }`}
+                >
                   <label htmlFor="model">Object</label>
                   <div>
                     <Select
@@ -210,9 +237,18 @@ class Record extends React.Component {
                         this._handleInputChange(event);
                       }}
                     />
+                    {hasError && error.hasOwnProperty("model") ? (
+                      <div className="warning small">{error.model}</div>
+                    ) : null}
                   </div>
                 </div>
-                <div className={`form-group mb-2`}>
+                <div
+                  className={`form-group mb-2 ${
+                    hasError && error.hasOwnProperty("group")
+                      ? "hasError"
+                      : null
+                  }`}
+                >
                   <label htmlFor="group">Group</label>
                   <div>
                     <Select
@@ -231,9 +267,18 @@ class Record extends React.Component {
                         this._handleInputChange(event);
                       }}
                     />
+                    {hasError && error.hasOwnProperty("group") ? (
+                      <div className="warning small">{error.group}</div>
+                    ) : null}
                   </div>
                 </div>
-                <div className={`form-group mb-2`}>
+                <div
+                  className={`form-group mb-2 ${
+                    hasError && error.hasOwnProperty("ordering")
+                      ? "hasError"
+                      : null
+                  }`}
+                >
                   <label htmlFor="ordering">Order</label>
                   <div>
                     <input
@@ -244,9 +289,16 @@ class Record extends React.Component {
                       className="form-control"
                       value={formState.ordering}
                     />
+                    {hasError && error.hasOwnProperty("ordering") ? (
+                      <div className="warning small">{error.ordering}</div>
+                    ) : null}
                   </div>
                 </div>
-                <div className={`form-group mb-2`}>
+                <div
+                  className={`form-group mb-2 ${
+                    hasError && error.hasOwnProperty("type") ? "hasError" : null
+                  }`}
+                >
                   <label htmlFor="type">Field type</label>
                   <div>
                     <Select
@@ -265,6 +317,9 @@ class Record extends React.Component {
                         this._handleInputChange(event);
                       }}
                     />
+                    {hasError && error.hasOwnProperty("type") ? (
+                      <div className="warning small">{error.type}</div>
+                    ) : null}
                   </div>
                 </div>
               </li>
@@ -341,6 +396,7 @@ Record.contextTypes = {
 export default withRouter(
   connect((state, ownProps) => ({
     field: getField(state, ownProps.match.params.id),
-    isDirty: state.fieldState.isFetching
+    isDirty: state.fieldState.isFetching,
+    error: getFieldError(state)
   }))(Record)
 );
