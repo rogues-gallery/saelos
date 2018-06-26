@@ -128,7 +128,7 @@ class CompanyNoteController extends Controller
         /**
          * @TODO Move this to an observor that notifies
          */
-        $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note_content'), $matches);
+        $mentions = preg_match_all('/@([^@\s<]+|[a-z]+)/i', $request->get('note_content'), $matches);
 
         if ($mentions > 0) {
             $company->load(CompanyController::SHOW_WITH);

@@ -125,7 +125,7 @@ class OpportunityNoteController extends Controller
         $note->save();
         $note->load(['entity', 'user', 'document']);
 
-        $mentions = preg_match_all('/@([^@ ]+)/', $request->get('note_content'), $matches);
+        $mentions = preg_match_all('/@([^@\s<]+|[a-z]+)/i', $request->get('note_content'), $matches);
 
         if ($mentions > 0) {
             $opportunity->load(OpportunityController::SHOW_WITH);
