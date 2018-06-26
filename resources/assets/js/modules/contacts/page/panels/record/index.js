@@ -54,9 +54,15 @@ class Record extends React.Component {
       this.props.match.params.id !== "new"
     ) {
       dispatch(editingContact());
+      // When first naving to a new object, update form state
+      // We don't want to update form state due to errors
+      this.setState({ formState: contact.originalProps });
     }
 
-    this.setState({ formState: contact.originalProps });
+    if (match.params.id !== "new") {
+      // When naving to an existing object, update form state
+      this.setState({ formState: contact.originalProps });
+    }
   }
 
   _delete = () => {
@@ -90,7 +96,11 @@ class Record extends React.Component {
     const { formState } = this.state;
 
     dispatch(saveContact(formState)).then(data => {
-      if (match.params.id === "new" && typeof data === "object") {
+      if (
+        match.params.id === "new" &&
+        typeof data !== "undefined" &&
+        data.hasOwnProperty("id")
+      ) {
         this.context.router.history.push(`/contacts/${data.id}`);
       }
     });

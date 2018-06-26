@@ -79,6 +79,11 @@ export default function opportunityReducer(state = initialState, action) {
         ...state,
         isPosting: true
       };
+    case types.POSTING_OPPORTUNITY_FAILURE:
+      return {
+        ...state,
+        error: action.data
+      };
     case types.POSTING_OPPORTUNITY_SUCCESS:
       const newNewData = injectOpportunityIntoState(action.data, state.data);
 
@@ -193,3 +198,4 @@ export const getSearchStringForOpportunities = state => state.searchString;
 export const getFirstOpportunityId = state =>
   state.data.length ? state.data[0].id : 0;
 export const isInEdit = state => state.inEdit;
+export const getOpportunityError = state => state.error;

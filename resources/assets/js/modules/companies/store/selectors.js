@@ -23,3 +23,6 @@ export const getFirstCompanyId = state =>
   fromReducer.getFirstCompanyId(state.companyState);
 
 export const isInEdit = state => fromReducer.isInEdit(state.companyState);
+
+export const getCompanyError = state =>
+  fromReducer.getCompanyError(state.companyState);

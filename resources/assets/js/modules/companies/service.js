@@ -96,8 +96,7 @@ export const saveCompany = params => dispatch => {
         return res.data.data;
       })
       .catch(err => {
-        console.log(err);
-        dispatch(actions.postingCompanyFailure());
+        dispatch(actions.postingCompanyFailure(err.response.data.errors));
       });
   } else {
     return Http.post(`companies`, params)
@@ -106,8 +105,7 @@ export const saveCompany = params => dispatch => {
         return res.data.data;
       })
       .catch(err => {
-        console.log(err);
-        dispatch(actions.postingCompanyFailure());
+        dispatch(actions.postingCompanyFailure(err.response.data.errors));
       });
   }
 };

@@ -48,8 +48,9 @@ export const postingCompanySuccess = payload => {
   };
 };
 
-export const postingCompanyFailure = () => ({
-  type: types.POSTING_COMPANY_FAILURE
+export const postingCompanyFailure = errors => ({
+  type: types.POSTING_COMPANY_FAILURE,
+  data: errors
 });
 
 export const deletingCompany = () => ({

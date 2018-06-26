@@ -81,6 +81,11 @@ export default function companyReducer(state = initialState, action) {
         ...state,
         isPosting: true
       };
+    case types.POSTING_COMPANY_FAILURE:
+      return {
+        ...state,
+        error: action.data
+      };
     case types.POSTING_COMPANY_SUCCESS:
       const newIndex = _.findIndex(
         state.data,
@@ -209,3 +214,4 @@ export const getSearchStringForCompanies = state => state.searchString;
 export const getFirstCompanyId = state =>
   state.data.length ? state.data[0].id : 0;
 export const isInEdit = state => state.inEdit;
+export const getCompanyError = state => state.error;

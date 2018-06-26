@@ -51,8 +51,9 @@ export const postingOpportunitySuccess = payload => {
   };
 };
 
-export const postingOpportunityFailure = () => ({
-  type: types.POSTING_OPPORTUNITY_FAILURE
+export const postingOpportunityFailure = errors => ({
+  type: types.POSTING_OPPORTUNITY_FAILURE,
+  data: errors
 });
 
 export const deletingOpportunity = () => ({

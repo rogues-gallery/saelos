@@ -11,7 +11,8 @@ import {
   getCustomFieldsForOpportunities,
   isStateDirty,
   getFirstOpportunityId,
-  isInEdit
+  isInEdit,
+  getOpportunityError
 } from "../../../store/selectors";
 import {
   fetchOpportunity,
@@ -49,7 +50,7 @@ class Record extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    const { dispatch, inEdit, match, opportunity } = nextProps;
+    const { dispatch, inEdit, match, opportunity, error } = nextProps;
 
     if (
       match.params.id === "new" &&
@@ -57,9 +58,15 @@ class Record extends React.Component {
       this.props.match.params.id !== "new"
     ) {
       dispatch(editingOpportunity());
+      // When first naving to a new object, update form state
+      // We don't want to update form state due to errors
+      this.setState({ formState: opportunity.originalProps });
     }
 
-    this.setState({ formState: opportunity.originalProps });
+    if (match.params.id !== "new") {
+      // When naving to an existing object, update form state
+      this.setState({ formState: opportunity.originalProps });
+    }
   }
 
   _delete = () => {
@@ -91,7 +98,11 @@ class Record extends React.Component {
     const { formState } = this.state;
 
     dispatch(saveOpportunity(formState)).then(data => {
-      if (match.params.id === "new") {
+      if (
+        match.params.id === "new" &&
+        typeof data !== "undefined" &&
+        data.hasOwnProperty("id")
+      ) {
         this.context.router.history.push(`/opportunities/${data.id}`);
       }
     });
@@ -108,7 +119,7 @@ class Record extends React.Component {
   };
 
   render() {
-    const { opportunity, inEdit, user } = this.props;
+    const { opportunity, inEdit, user, error } = this.props;
     const groups = _.groupBy(this.props.customFields, "group");
 
     const opportunityFields = renderGroupedFields(
@@ -116,7 +127,9 @@ class Record extends React.Component {
       ["core", "personal", "social", "additional"],
       groups,
       opportunity,
-      this._handleInputChange
+      this._handleInputChange,
+      false,
+      error
     );
 
     const onAssignmentChange = id => {
@@ -249,5 +262,6 @@ export default connect(state => ({
   customFields: getCustomFieldsForOpportunities(state),
   isDirty: isStateDirty(state),
   user: getActiveUser(state),
-  inEdit: isInEdit(state)
+  inEdit: isInEdit(state),
+  error: getOpportunityError(state)
 }))(Record);

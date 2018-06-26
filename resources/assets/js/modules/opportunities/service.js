@@ -61,8 +61,10 @@ export const fetchOpportunities = params => dispatch => {
     });
 };
 
-export const saveOpportunity = params => dispatch => {
+export const saveOpportunity = parameters => dispatch => {
   dispatch(actions.postingOpportunity());
+
+  const params = Object.assign({}, parameters);
 
   if (params.id) {
     return Http.patch(`opportunities/${params.id}`, params)
@@ -71,8 +73,7 @@ export const saveOpportunity = params => dispatch => {
         return res.data.data;
       })
       .catch(err => {
-        console.log(err);
-        dispatch(actions.postingOpportunityFailure());
+        dispatch(actions.postingOpportunityFailure(err.response.data.errors));
       });
   } else {
     return Http.post(`opportunities`, params)
@@ -81,8 +82,7 @@ export const saveOpportunity = params => dispatch => {
         return res.data.data;
       })
       .catch(err => {
-        console.log(err);
-        dispatch(actions.postingOpportunityFailure());
+        dispatch(actions.postingOpportunityFailure(err.response.data.errors));
       });
   }
 };

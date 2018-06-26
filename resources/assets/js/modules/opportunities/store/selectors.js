@@ -23,3 +23,6 @@ export const getFirstOpportunityId = state =>
   fromReducer.getFirstOpportunityId(state.opportunityState);
 
 export const isInEdit = state => fromReducer.isInEdit(state.opportunityState);
+
+export const getOpportunityError = state =>
+  fromReducer.getOpportunityError(state.opportunityState);

@@ -12,7 +12,8 @@ import {
   getCustomFieldsForCompanies,
   isStateDirty,
   getFirstCompanyId,
-  isInEdit
+  isInEdit,
+  getCompanyError
 } from "../../../store/selectors";
 import { fetchCompany, saveCompany, deleteCompany } from "../../../service";
 import { editingCompany, editingCompanyFinished } from "../../../store/actions";
@@ -51,9 +52,15 @@ class Record extends React.Component {
       this.props.match.params.id !== "new"
     ) {
       dispatch(editingCompany());
+      // When first naving to a new object, update form state
+      // We don't want to update form state due to errors
+      this.setState({ formState: company.originalProps });
     }
 
-    this.setState({ formState: company.originalProps });
+    if (match.params.id !== "new") {
+      // When naving to an existing object, update form state
+      this.setState({ formState: company.originalProps });
+    }
   }
 
   _delete = () => {
@@ -85,7 +92,11 @@ class Record extends React.Component {
     const { formState } = this.state;
 
     dispatch(saveCompany(formState)).then(data => {
-      if (match.params.id === "new") {
+      if (
+        match.params.id === "new" &&
+        typeof data !== "undefined" &&
+        data.hasOwnProperty("id")
+      ) {
         this.context.router.history.push(`/companies/${data.id}`);
       }
     });
@@ -102,14 +113,16 @@ class Record extends React.Component {
   };
 
   render() {
-    const { inEdit, company, user } = this.props;
+    const { inEdit, company, user, error } = this.props;
     const groups = _.groupBy(this.props.customFields, "group");
     const companyFields = renderGroupedFields(
       inEdit,
       ["core", "personal", "social", "additional"],
       groups,
       company,
-      this._handleInputChange
+      this._handleInputChange,
+      false,
+      error
     );
 
     const onAssignmentChange = id => {
@@ -256,5 +269,6 @@ export default connect(state => ({
   customFields: getCustomFieldsForCompanies(state),
   isDirty: isStateDirty(state),
   user: getActiveUser(state),
-  inEdit: isInEdit(state)
+  inEdit: isInEdit(state),
+  error: getCompanyError(state)
 }))(Record);
