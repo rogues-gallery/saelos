@@ -48,6 +48,8 @@ class AppServiceProvider extends ServiceProvider
 
             return (bool) $modelType::find($modelId);
         });
+
+        $this->loadTranslationsFrom(resource_path().'/lang', 'saelos');
     }
 
     private function registerPassportForWeb()
