@@ -189,7 +189,9 @@ class Record extends React.Component {
           </button>
 
           <div className="float-right text-right pt-2">
-            <div className="mini-text text-muted">Assigned To</div>
+            <div className="mini-text text-muted">
+              {this.context.i18n.t("messages.assigned.to")}
+            </div>
             {user.authorized(["admin", "manager", "user"]) ? (
               <div className="dropdown show">
                 <div
@@ -197,7 +199,11 @@ class Record extends React.Component {
                   id="assigneeDropdown"
                   data-toggle="dropdown"
                 >
-                  <b>{contact.user.name ? contact.user.name : "Unassigned"}</b>
+                  <b>
+                    {contact.user.name
+                      ? contact.user.name
+                      : this.context.i18n.t("messages.not.assigned")}
+                  </b>
                 </div>
                 <div
                   className="dropdown-menu"
@@ -217,7 +223,11 @@ class Record extends React.Component {
               </div>
             ) : (
               <div className="text-dark mini-text">
-                <b>{contact.user.name ? contact.user.name : "Unassigned"}</b>
+                <b>
+                  {contact.user.name
+                    ? contact.user.name
+                    : this.context.i18n.t("messages.not.assigned")}
+                </b>
               </div>
             )}
           </div>
@@ -230,13 +240,13 @@ class Record extends React.Component {
               className="btn btn-link text-muted btn-sm"
               onClick={this._toggleEdit}
             >
-              Cancel
+              {this.context.i18n.t("messages.cancel")}
             </a>
             <span
               className="ml-2 btn btn-primary btn-sm"
               onClick={this._submit}
             >
-              Save
+              {this.context.i18n.t("message.save")}
             </span>
           </span>
         ) : (
@@ -246,7 +256,7 @@ class Record extends React.Component {
               className="btn btn-link btn-sm text-primary"
               onClick={this._toggleEdit}
             >
-              Edit
+              {this.context.i18n.t("message.edit")}
             </a>
           </span>
         )}
@@ -264,7 +274,9 @@ class Record extends React.Component {
             {!inEdit ? (
               <ul className="list-group list-group-flush">
                 <li key="address" className="list-group-item">
-                  <div className="mini-text text-muted">Address</div>
+                  <div className="mini-text text-muted">
+                    {this.context.i18n.t("messages.address")}
+                  </div>
                   <div className="py-2">
                     <p className="font-weight-bold">
                       {contact.address1} {contact.address2}
