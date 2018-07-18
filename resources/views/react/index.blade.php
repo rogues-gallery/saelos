@@ -28,6 +28,26 @@
 @else
         window.ECHO_CONFIG = false;
 @endif
+
+        window.i18nextOptions = {
+            escapeValue: false,
+            defaultNS: "saelos",
+            fallbackNS: "saelos",
+            debug: {{config('app.debug') ? true : false}},
+            keySeparator: '^',
+            ns: {!! i18next_namespaces() !!},
+            lng: "en",
+            fallbackLng: "en",
+            react: {
+                wait: true,
+            },
+            backend: {
+                loadPath: "/i18next/fetch/@{{lng}}/@{{ns}}",
+                allowMultiloading: false,
+                crossDomain: false,
+                withCredentials: false
+            }
+        }
     </script>
 </head>
 <body>

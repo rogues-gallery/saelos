@@ -2205,7 +2205,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dongilbert/laravel-i18next.git",
-                "reference": "edf47ce4c3e98cc6eead623480fe6a3a437459ef"
+                "reference": "6933d35ea92aadafe2d538c5108582d7bf785169"
             },
             "require-dev": {
                 "phpunit/phpunit": "^7.2"
@@ -2246,7 +2246,7 @@
                 }
             ],
             "description": "Transform Laravel localization files into i18next compatible format. Provides routes for i18next-xhr-backend.",
-            "time": "2018-07-18T18:12:04+00:00"
+            "time": "2018-07-18T18:41:34+00:00"
         },
         {
             "name": "psr/container",

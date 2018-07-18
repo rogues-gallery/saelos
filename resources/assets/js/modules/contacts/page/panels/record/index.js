@@ -146,7 +146,7 @@ class Record extends React.Component {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">
-            Select a contact on the left to view.
+            {this.context.i18n.t("messages.select.contact.to.view")}
           </h2>
         </main>
       );
@@ -298,7 +298,8 @@ Record.propTypes = {
 };
 
 Record.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect(state => ({

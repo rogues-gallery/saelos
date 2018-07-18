@@ -84,7 +84,9 @@ class List extends React.Component {
           ))}
           {contacts.length === 0 && (
             <div className="d-flex align-items-center h-100 text-center">
-              <h5 className="text-muted w-100">No results for this search.</h5>
+              <h5 className="text-muted w-100">
+                {this.context.i18n.t("messages.no.search.results")}
+              </h5>
             </div>
           )}
         </div>
@@ -104,7 +106,8 @@ List.propTypes = {
 };
 
 List.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect(state => ({
