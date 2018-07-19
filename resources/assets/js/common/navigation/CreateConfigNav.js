@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import routes from "../../routes/routes";
 import * as MDIcons from "react-icons/lib/md";
 
-const CreateConfigNav = ({ user }) => (
+const CreateConfigNav = ({ user }, { i18n }) => (
   <div className="dropdown show float-right">
     <Link
       to={"/"}
@@ -23,19 +23,19 @@ const CreateConfigNav = ({ user }) => (
     </Link>
     <div className="dropdown-menu" aria-labelledby="quickCreateConfigMenu">
       <Link to={"/config/fields/new"} className="dropdown-item">
-        Create Field
+        {i18n.t("messages.create.field")}
       </Link>
       <Link to={"/config/stages/new"} className="dropdown-item">
-        Create Stage
+        {i18n.t("messages.create.stage")}
       </Link>
       <Link to={"/config/statuses/new"} className="dropdown-item">
-        Create Status
+        {i18n.t("messages.create.status")}
       </Link>
       <Link to={"/config/teams/new"} className="dropdown-item">
-        Create Team
+        {i18n.t("messages.create.team")}
       </Link>
       <Link to={"/config/users/new"} className="dropdown-item">
-        Create User
+        {i18n.t("messages.create.user")}
       </Link>
     </div>
   </div>
@@ -43,6 +43,10 @@ const CreateConfigNav = ({ user }) => (
 
 CreateConfigNav.propTypes = {
   user: PropTypes.object.isRequired
+};
+
+CreateConfigNav.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default CreateConfigNav;

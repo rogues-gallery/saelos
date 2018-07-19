@@ -246,7 +246,7 @@ class Record extends React.Component {
               className="ml-2 btn btn-primary btn-sm"
               onClick={this._submit}
             >
-              {this.context.i18n.t("message.save")}
+              {this.context.i18n.t("messages.save")}
             </span>
           </span>
         ) : (
@@ -256,7 +256,7 @@ class Record extends React.Component {
               className="btn btn-link btn-sm text-primary"
               onClick={this._toggleEdit}
             >
-              {this.context.i18n.t("message.edit")}
+              {this.context.i18n.t("messages.edit")}
             </a>
           </span>
         )}

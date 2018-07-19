@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const LoadingComponent = ({ isLoading, error }) => {
+const LoadingComponent = ({ isLoading, error }, { i18n }) => {
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{i18n.t("messages.loading")}</div>;
   } else if (error) {
-    return <div>Sorry, there was a problem loading the page.</div>;
+    return <div>{i18n.t("messages.error.loading.page")}</div>;
   } else {
     return null;
   }
@@ -14,6 +14,10 @@ const LoadingComponent = ({ isLoading, error }) => {
 LoadingComponent.propTypes = {
   isLoading: PropTypes.bool,
   error: PropTypes.object
+};
+
+LoadingComponent.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default LoadingComponent;

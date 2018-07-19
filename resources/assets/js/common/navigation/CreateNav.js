@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import routes from "../../routes/routes";
 import * as MDIcons from "react-icons/lib/md";
 
-const CreateNav = ({ user }) => (
+const CreateNav = ({ user }, { i18n }) => (
   <div className="dropdown show float-right">
     <Link
       to={"/"}
@@ -23,13 +23,13 @@ const CreateNav = ({ user }) => (
     </Link>
     <div className="dropdown-menu" aria-labelledby="quickCreateMenu">
       <Link to={"/contacts/new"} className="dropdown-item">
-        Create Contact
+        {i18n.t("messages.create.contact")}
       </Link>
       <Link to={"/companies/new"} className="dropdown-item">
-        Create Company
+        {i18n.t("messages.create.company")}
       </Link>
       <Link to={"/opportunities/new"} className="dropdown-item">
-        Create Opportunity
+        {i18n.t("messages.create.opportunity")}
       </Link>
     </div>
   </div>
@@ -37,6 +37,10 @@ const CreateNav = ({ user }) => (
 
 CreateNav.propTypes = {
   user: PropTypes.object.isRequired
+};
+
+CreateNav.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default CreateNav;

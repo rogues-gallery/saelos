@@ -63,16 +63,16 @@ class Navigation extends Component {
             </Link>
             <div className="dropdown-menu" aria-labelledby="userMenu">
               <Link to={"/user/profile"} className="dropdown-item">
-                My Profile
+                {this.context.i18n.t("messages.my.profile")}
               </Link>
               <Link to={"/notifications"} className="dropdown-item">
-                Notifications
+                {this.context.i18n.t("messages.notifications")}
               </Link>
               <Link to={"/config/settings"} className="dropdown-item">
-                Config
+                {this.context.i18n.t("messages.config")}
               </Link>
               <Link to={"/logout"} className="dropdown-item">
-                Logout
+                {this.context.i18n.t("messages.logout")}
               </Link>
             </div>
           </div>
@@ -107,7 +107,8 @@ Navigation.propTypes = {
 };
 
 Navigation.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default withRouter(

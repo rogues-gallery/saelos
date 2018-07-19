@@ -243,7 +243,7 @@ class AdvancedSearch extends React.Component {
           }`}
         >
           <div className="search-relationships">
-            <h5>Has</h5>
+            <h5>{this.context.i18n.t("messages.has")}</h5>
             {[
               "assignee",
               "status",
@@ -267,7 +267,7 @@ class AdvancedSearch extends React.Component {
             })}
           </div>
           <hr />
-          <h5>Fields</h5>
+          <h5>{this.context.i18n.t("messages.fields")}</h5>
           <div className="search-fields">
             {Object.keys(searchFields).map((a, i) => {
               const f = searchFields[a];
@@ -342,7 +342,9 @@ class AdvancedSearch extends React.Component {
                 <div className="add-tag-menu dropdown-menu show mt-1 pt-2">
                   <div className="px-2 py-2">
                     <div className="form-group">
-                      <label htmlFor="linkText">Create New View</label>
+                      <label htmlFor="linkText">
+                        {this.context.i18n.t("messages.create.view")}
+                      </label>
                       <input
                         type="text"
                         className="form-control form-control-sm"
@@ -377,7 +379,7 @@ class AdvancedSearch extends React.Component {
                       className="btn btn-primary btn-sm"
                       onClick={this._createView}
                     >
-                      Create
+                      {this.context.i18n.t("messages.create")}
                     </button>
                   </div>
                 </div>
@@ -392,7 +394,7 @@ class AdvancedSearch extends React.Component {
             } col`}
             onClick={() => this._updateSearchString(" active:true")}
           >
-            <b>Active</b>
+            <b>{this.context.i18n.t("messages.active")}</b>
           </div>
           <div
             className={`cursor-pointer text-${
@@ -400,7 +402,7 @@ class AdvancedSearch extends React.Component {
             } col`}
             onClick={() => this._updateSearchString(" active:false")}
           >
-            <b>Inactive</b>
+            <b>{this.context.i18n.t("messages.inactive")}</b>
           </div>
         </div>
       </div>
@@ -417,6 +419,10 @@ AdvancedSearch.propTypes = {
   views: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   parentItem: PropTypes.string.isRequired
+};
+
+AdvancedSearch.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect((state, ownProps) => ({
