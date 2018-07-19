@@ -56,7 +56,7 @@ class List extends React.Component {
               type="search"
               className="form-control ds-input"
               id="search-input"
-              placeholder="Search..."
+              placeholder={this.context.i18n.t("messages.search")}
               role="combobox"
               aria-autocomplete="list"
               aria-expanded="false"
@@ -69,13 +69,13 @@ class List extends React.Component {
           </form>
           <div className="micro-text row text-center pt-3 pb-2">
             <div className="text-dark col">
-              <b>All</b>
+              <b>{this.context.i18n.t("messages.all")}</b>
             </div>{" "}
             <div className="text-muted col">
-              <b>Active</b>
+              <b>{this.context.i18n.t("messages.active")}</b>
             </div>{" "}
             <div className="text-muted col">
-              <b>Inactive</b>
+              <b>{this.context.i18n.t("messages.inactive")}</b>
             </div>
           </div>
         </div>
@@ -104,7 +104,8 @@ List.propTypes = {
 };
 
 List.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 const User = ({ user, dispatch, router, activeID }) => {

@@ -48,8 +48,7 @@ class Record extends React.Component {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">
-            Select a team
-            <span className="d-none d-lg-inline">on the left </span>to edit.
+            {this.context.i18n.t("messages.select.team.to.edit")}
           </h2>
         </main>
       );
@@ -62,9 +61,13 @@ class Record extends React.Component {
             className="float-right btn btn-primary list-inline-item"
             onClick={this._submit}
           >
-            Save
+            {this.context.i18n.t("messages.save")}
           </button>
-          {team.name ? team.name : "New Team"}
+          {team.name
+            ? team.name
+            : this.context.i18n.t("messages.generic.new", {
+                type: this.context.i18n.t("messages.team")
+              })}
         </h4>
 
         <div className="h-scroll">
@@ -72,7 +75,9 @@ class Record extends React.Component {
             <ul className={`list-group list-group-flush`}>
               <li className="list-group-item">
                 <div className={`form-group mb-2`}>
-                  <label htmlFor="name">Name</label>
+                  <label htmlFor="name">
+                    {this.context.i18n.t("messages.name")}
+                  </label>
                   <div>
                     <input
                       type="text"
@@ -86,7 +91,9 @@ class Record extends React.Component {
                   </div>
                 </div>
                 <div className={`form-group mb-2`}>
-                  <label htmlFor="description">Description</label>
+                  <label htmlFor="description">
+                    {this.context.i18n.t("messages.description")}
+                  </label>
                   <div>
                     <textarea
                       id="description"
@@ -100,7 +107,9 @@ class Record extends React.Component {
               </li>
               <li className="list-group-item">
                 <div className="form-group mb-2">
-                  <label htmlFor="leader_id">Team Leader</label>
+                  <label htmlFor="leader_id">
+                    {this.context.i18n.t("messages.team.leader")}
+                  </label>
                   <Select
                     value={formState.leader_id}
                     options={formState.users.map(u => ({
@@ -122,7 +131,9 @@ class Record extends React.Component {
               </li>
               <li className="list-group-item">
                 <div className="form-group mb-2">
-                  <label htmlFor="users">Team Members</label>
+                  <label htmlFor="users">
+                    {this.context.i18n.t("messages.team.members")}
+                  </label>
                   <Select
                     value={formState.users.map(u => u.id)}
                     multi={true}

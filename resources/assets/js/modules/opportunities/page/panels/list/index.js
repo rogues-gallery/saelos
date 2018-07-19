@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Money } from "react-format";
 import AdvancedSearch from "../../../../../common/search";
 import { getActiveUser } from "../../../../users/store/selectors";
-import { fetchOpportunities, fetchOpportunity } from "../../../service";
+import { fetchOpportunities } from "../../../service";
 import {
   getCustomFieldsForOpportunities,
   getSearchStringForOpportunities,
@@ -84,7 +84,9 @@ class List extends React.Component {
           ))}
           {opportunities.length === 0 ? (
             <div className="d-flex align-items-center h-100 text-center">
-              <h5 className="text-muted w-100">No results for this search.</h5>
+              <h5 className="text-muted w-100">
+                {this.context.i18n.t("messages.no.search.results")}
+              </h5>
             </div>
           ) : (
             ""
@@ -106,7 +108,8 @@ List.propTypes = {
 };
 
 List.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect(state => ({

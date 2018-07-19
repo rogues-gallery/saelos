@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import Contact from "../../contacts/Contact";
 import Company from "../../companies/Company";
-import Opportunity from "../Opportunity";
 import { saveContact } from "../../contacts/service";
 import { saveCompany } from "../../companies/service";
 import { searchOpportunities } from "../service";
@@ -122,14 +121,14 @@ class Opportunities extends React.Component {
     this._submit(false);
   };
 
-  _getSecondaryDetail(type) {
+  _getSecondaryDetail = type => {
     switch (type) {
       case "App\\Contact":
         return "pivot.position";
       default:
         return "company.name";
     }
-  }
+  };
 
   render() {
     const { inEdit } = this.props;
@@ -148,7 +147,7 @@ class Opportunities extends React.Component {
             className="float-right"
             onClick={this._toggleAdd}
           >
-            <strong>+ Add</strong>
+            <strong>{this.context.i18n.t("messages.add")}</strong>
           </a>
           <h6
             className="mb-0"
@@ -157,7 +156,8 @@ class Opportunities extends React.Component {
             aria-expanded="true"
             aria-controls="collapseOpportunities"
           >
-            <MDIcons.MdKeyboardArrowDown /> Opportunities{" "}
+            <MDIcons.MdKeyboardArrowDown />{" "}
+            {this.context.i18n.t("messages.opprotunity_plural")}
             <span className="text-muted font-weight-normal">
               ({opportunities.length})
             </span>
@@ -219,7 +219,7 @@ class Opportunities extends React.Component {
                     className="btn btn-primary"
                     onClick={() => this._submit(true)}
                   >
-                    Add
+                    {this.context.i18n.t("messages.add")}
                   </button>
                 </div>
               </div>
@@ -256,7 +256,7 @@ class Opportunities extends React.Component {
                       this._delete(opportunity.id);
                     }}
                   >
-                    Delete
+                    {this.context.i18n.t("messages.delete")}
                   </a>
                 ) : (
                   <p className="mini-text text-muted float-right">
@@ -290,7 +290,8 @@ Opportunities.propTypes = {
 };
 
 Opportunities.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect()(Opportunities);

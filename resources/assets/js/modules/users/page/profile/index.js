@@ -36,9 +36,9 @@ class Profile extends React.Component {
             className="float-right btn btn-primary list-inline-item"
             onClick={this._submit}
           >
-            Save
+            {this.context.i18n.t("messages.save")}
           </button>
-          My Profile
+          {this.context.i18n.t("messages.my.profile")}
         </h4>
         <div className="h-scroll">
           <div className="card mb-1">
@@ -49,7 +49,7 @@ class Profile extends React.Component {
                   <div className="col">
                     <div className={`form-group mb-2`}>
                       <label htmlFor="name" className="">
-                        Name
+                        {this.context.i18n.t("messages.name")}
                       </label>
                       <div className="">
                         <input
@@ -65,7 +65,7 @@ class Profile extends React.Component {
                     </div>
                     <div className={`form-group mb-2`}>
                       <label htmlFor="username" className="">
-                        Username
+                        {this.context.i18n.t("messages.username")}
                       </label>
                       <div className="">
                         <input
@@ -83,10 +83,12 @@ class Profile extends React.Component {
                 </div>
               </li>
               <li className="list-group-item">
-                <div className="mini-text text-muted mb-2">Contact</div>
+                <div className="mini-text text-muted mb-2">
+                  {this.context.i18n.t("messages.contact")}
+                </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="email" className="">
-                    Email
+                    {this.context.i18n.t("messages.email")}
                   </label>
                   <div className="">
                     <input
@@ -95,14 +97,14 @@ class Profile extends React.Component {
                       name="email"
                       className="form-control"
                       onChange={this._handleInputChange}
-                      placeholder="Email Address"
+                      placeholder={this.context.i18n.t("messages.email")}
                       defaultValue={formState.email}
                     />
                   </div>
                 </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="phone" className="">
-                    Phone
+                    {this.context.i18n.t("messages.phone")}
                   </label>
                   <div className="">
                     <input
@@ -111,7 +113,7 @@ class Profile extends React.Component {
                       name="phone"
                       className="form-control"
                       onChange={this._handleInputChange}
-                      placeholder="Phone"
+                      placeholder={this.context.i18n.t("messages.phone")}
                       defaultValue={formState.phone}
                     />
                   </div>
@@ -127,6 +129,10 @@ class Profile extends React.Component {
 
 Profile.propTypes = {
   user: PropTypes.object.isRequired
+};
+
+Profile.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect(state => ({

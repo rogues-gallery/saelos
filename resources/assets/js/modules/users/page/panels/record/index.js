@@ -97,8 +97,7 @@ class Record extends React.Component {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">
-            Select a user{" "}
-            <span className="d-none d-lg-inline">on the left </span>to edit.
+            {this.context.i18n.t("messages.select.user.to.edit")}
           </h2>
         </main>
       );
@@ -131,16 +130,20 @@ class Record extends React.Component {
               className="float-right btn btn-danger list-inline-item"
               onClick={this._purchaseNumber}
             >
-              Purchase Number
+              {this.context.i18n.t("messages.purchase.number")}
             </button>
           )}
           <button
             className="float-right btn btn-primary list-inline-item"
             onClick={this._submit}
           >
-            Save
+            {this.context.i18n.t("messages.save")}
           </button>
-          {user.name ? user.name : "New User"}
+          {user.name
+            ? user.name
+            : this.context.i18n.t("messages.generic.new", {
+                type: this.context.i18n.t("messages.user")
+              })}
         </h4>
 
         <div className="h-scroll single-height">
@@ -149,7 +152,7 @@ class Record extends React.Component {
               <li className="list-group-item">
                 <div className={`form-group mb-2`}>
                   <label htmlFor="name" className="">
-                    Name
+                    {this.context.i18n.t("messages.name")}
                   </label>
                   <div className="">
                     <input
@@ -164,7 +167,7 @@ class Record extends React.Component {
                 </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="username" className="">
-                    Username
+                    {this.context.i18n.t("messages.username")}
                   </label>
                   <div className="">
                     <input
@@ -179,7 +182,7 @@ class Record extends React.Component {
                 </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="password" className="">
-                    Password
+                    {this.context.i18n.t("messages.password")}
                   </label>
                   <div className="">
                     <input
@@ -194,7 +197,7 @@ class Record extends React.Component {
                 </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="second_password" className="">
-                    Confirm Password
+                    {this.context.i18n.t("messages.password.confirm")}
                   </label>
                   <div className="">
                     <input
@@ -209,7 +212,7 @@ class Record extends React.Component {
                 </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="email" className="">
-                    Email
+                    {this.context.i18n.t("messages.email")}
                   </label>
                   <div className="">
                     <input
@@ -224,7 +227,7 @@ class Record extends React.Component {
                 </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="phone" className="">
-                    Phone
+                    {this.context.i18n.t("messages.phone")}
                   </label>
                   <div className="">
                     <input
@@ -242,7 +245,7 @@ class Record extends React.Component {
                 <div className="form-row">
                   <div className={`form-group mb-2 col-6`}>
                     <label htmlFor="team_id" className="">
-                      Team
+                      {this.context.i18n.t("messages.team")}
                     </label>
                     <div className="">
                       <Select
@@ -264,7 +267,7 @@ class Record extends React.Component {
                   </div>
                   <div className={`form-group mb-2 col-6`}>
                     <label htmlFor="roles" className="">
-                      Role
+                      {this.context.i18n.t("messages.role")}
                     </label>
                     <div className="">
                       <Select
@@ -303,6 +306,10 @@ Record.propTypes = {
   teams: PropTypes.array.isRequired,
   roles: PropTypes.array.isRequired,
   fields: PropTypes.array.isRequired
+};
+
+Record.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default withRouter(

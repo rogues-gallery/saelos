@@ -70,7 +70,7 @@ class Record extends React.Component {
       return (
         <main className="col main-panel px-3 align-self-center full-panel">
           <h2 className="text-muted text-center">
-            Select a tag on the left to edit.
+            {this.context.i18n.t("messages.select.tag.to.edit")}
           </h2>
         </main>
       );
@@ -103,13 +103,13 @@ class Record extends React.Component {
               className="btn btn-link list-inline-item"
               onClick={this._delete}
             >
-              Delete
+              {this.context.i18n.t("messages.delete")}
             </button>
             <button
               className="btn btn-primary mr-3 list-inline-item"
               onClick={this._toggleEdit}
             >
-              Edit
+              {this.context.i18n.t("messages.edit")}
             </button>
           </div>
           {tagDisplay}
@@ -124,7 +124,7 @@ class Record extends React.Component {
                 <li className="list-group-item">
                   <div className={`form-group mb-2`}>
                     <label htmlFor="tagName" className="">
-                      Name
+                      {this.context.i18n.t("messages.name")}
                     </label>
                     <div className="">
                       <input
@@ -139,7 +139,7 @@ class Record extends React.Component {
                   </div>
                   <div className={`form-group mb-2`}>
                     <label htmlFor="tagColor" className="">
-                      Color
+                      {this.context.i18n.t("messages.color")}
                     </label>
                     <div className="form-group">
                       <CirclePicker
@@ -166,13 +166,13 @@ class Record extends React.Component {
                     className="btn btn-primary mr-3 list-inline-item"
                     onClick={this._submit}
                   >
-                    Save
+                    {this.context.i18n.t("messages.save")}
                   </button>
                   <button
                     className="btn btn-link mr-3 list-inline-item"
                     onClick={this._toggleEdit}
                   >
-                    Cancel
+                    {this.context.i18n.t("messages.cancel")}
                   </button>
                 </li>
               </ul>
@@ -184,7 +184,9 @@ class Record extends React.Component {
         <div className="row no-gutters">
           <div className="col-md-3 border-right pr-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
-              <div className="pt-1 mt-1 h5 text-center">Contacts</div>
+              <div className="pt-1 mt-1 h5 text-center">
+                {this.context.i18n.t("messages.contact_plural")}
+              </div>
             </div>
             <div className="list-group h-scroll">
               {contacts.map(contact => (
@@ -205,7 +207,9 @@ class Record extends React.Component {
           </div>
           <div className="col-md-3 border-right px-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
-              <div className="pt-1 mt-1 h5 text-center">Companies</div>
+              <div className="pt-1 mt-1 h5 text-center">
+                {this.context.i18n.t("messages.company_plural")}
+              </div>
             </div>
             <div className="list-group h-scroll">
               {companies.map(company => (
@@ -224,7 +228,9 @@ class Record extends React.Component {
           </div>
           <div className="col-md-3 border-right pl-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
-              <div className="pt-1 mt-1 h5 text-center">Opportunities</div>
+              <div className="pt-1 mt-1 h5 text-center">
+                {this.context.i18n.t("messages.opportunity_plural")}
+              </div>
             </div>
             <div className="list-group h-scroll">
               {opportunities.map(opportunity => (
@@ -245,7 +251,9 @@ class Record extends React.Component {
           </div>
           <div className="col-md-3 border-right pl-0 col-sm-12">
             <div className="position-relative py-2 border-bottom">
-              <div className="pt-1 mt-1 h5 text-center">Tasks</div>
+              <div className="pt-1 mt-1 h5 text-center">
+                {this.context.i18n.t("messages.task_plural")}
+              </div>
             </div>
             <div className="list-group h-scroll">
               {activities.map(activity => (
@@ -273,7 +281,8 @@ Record.propTypes = {
 };
 
 Record.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default withRouter(

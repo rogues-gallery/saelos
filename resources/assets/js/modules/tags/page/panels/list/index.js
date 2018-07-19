@@ -3,13 +3,6 @@ import PropTypes from "prop-types";
 import { fetchTags, fetchTag } from "../../../service";
 
 class List extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this._onScroll = this._onScroll.bind(this);
-    this._onKeyPress = this._onKeyPress.bind(this);
-  }
-
   componentWillMount() {
     const { tags, dispatch, searchString } = this.props;
 
@@ -18,7 +11,7 @@ class List extends React.Component {
     }
   }
 
-  _onKeyPress(event) {
+  _onKeyPress = event => {
     const { target, charCode } = event;
 
     if (charCode !== 13) {
@@ -28,9 +21,9 @@ class List extends React.Component {
     event.preventDefault();
 
     this._submit(target);
-  }
+  };
 
-  _submit(input) {
+  _submit = input => {
     const { value } = input;
     const { dispatch } = this.props;
 
@@ -39,9 +32,9 @@ class List extends React.Component {
     } else if (value.length === 0) {
       dispatch(fetchTags({ page: 1, searchString: "" }));
     }
-  }
+  };
 
-  _onScroll(event) {
+  _onScroll = event => {
     const { target } = event;
     const { dispatch, pagination, searchString } = this.props;
     const currentPosition = target.scrollTop + target.offsetHeight;
@@ -49,7 +42,7 @@ class List extends React.Component {
     if (currentPosition + 300 >= target.scrollHeight) {
       dispatch(fetchTags({ page: pagination.current_page + 1, searchString }));
     }
-  }
+  };
 
   render() {
     const { tags, dispatch, searchString, firstTagId } = this.props;
@@ -64,7 +57,7 @@ class List extends React.Component {
               type="search"
               className="form-control ds-input"
               id="search-input"
-              placeholder="Search..."
+              placeholder={this.context.i18n.t("messages.search")}
               role="combobox"
               aria-autocomplete="list"
               aria-expanded="false"
@@ -77,10 +70,10 @@ class List extends React.Component {
           </form>
           <div className="micro-text row text-center pt-3 pb-2">
             <div className="text-muted col">
-              <b>Active</b>
+              <b>{this.context.i18n.t("messages.active")}</b>
             </div>
             <div className="text-dark col">
-              <b>All</b>
+              <b>{this.context.i18n.t("messages.all")}</b>
             </div>
           </div>
         </div>
@@ -109,7 +102,8 @@ List.propTypes = {
 };
 
 List.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 const Tag = ({ tag, dispatch, router, activeID }) => {

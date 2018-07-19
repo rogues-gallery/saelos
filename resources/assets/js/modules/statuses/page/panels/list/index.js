@@ -3,13 +3,6 @@ import PropTypes from "prop-types";
 import { fetchStatuses, fetchStatus } from "../../../service";
 
 class List extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this._onScroll = this._onScroll.bind(this);
-    this._onKeyPress = this._onKeyPress.bind(this);
-  }
-
   componentWillMount() {
     const { statuses, dispatch, searchString } = this.props;
 
@@ -18,7 +11,7 @@ class List extends React.Component {
     }
   }
 
-  _onKeyPress(event) {
+  _onKeyPress = event => {
     const { target, charCode } = event;
 
     if (charCode !== 13) {
@@ -28,9 +21,9 @@ class List extends React.Component {
     event.preventDefault();
 
     this._submit(target);
-  }
+  };
 
-  _submit(input) {
+  _submit = input => {
     const { value } = input;
     const { dispatch } = this.props;
 
@@ -39,9 +32,9 @@ class List extends React.Component {
     } else if (value.length === 0) {
       dispatch(fetchStatuses({ page: 1, searchString: "" }));
     }
-  }
+  };
 
-  _onScroll(event) {
+  _onScroll = event => {
     const { target } = event;
     const { dispatch, pagination, searchString } = this.props;
     const currentPosition = target.scrollTop + target.offsetHeight;
@@ -51,7 +44,7 @@ class List extends React.Component {
         fetchStatuses({ page: pagination.current_page + 1, searchString })
       );
     }
-  }
+  };
 
   render() {
     const { statuses, dispatch, searchString, firstStageId } = this.props;
@@ -79,10 +72,10 @@ class List extends React.Component {
           </form>
           <div className="micro-text row text-center pt-3 pb-2">
             <div className="text-dark col cursor-pointer">
-              <b>All</b>
+              <b>{this.context.i18n.t("messages.all")}</b>
             </div>
             <div className="text-muted col cursor-pointer">
-              <b>Unpublished</b>
+              <b>{this.context.i18n.t("messages.unpublished")}</b>
             </div>
           </div>
         </div>
@@ -111,7 +104,8 @@ List.propTypes = {
 };
 
 List.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 const Status = ({ status, dispatch, router, activeID }) => {

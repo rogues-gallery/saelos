@@ -1,22 +1,24 @@
 import React from "react";
 import { toast } from "react-toastify";
-import { restoreTag } from "../service";
 import _ from "lodash";
+import { restoreTag } from "../service";
+import { _t } from "../../../i18n";
 
 export const onTagSave = (payload, entityType) => {
   const objectType = _.replace(entityType, "App\\", "");
-  toast(`${objectType} has been updated.`);
+  toast(__t("messages.generic.updated", { name: objectType }));
 };
+
 export const onDeleteTagSuccess = payload => {
   toast(
     <div>
-      Tag deleted.
+      {_t("messages.generic.deleted", { name: _t("messages.tag") })}
       <span className="float-right" onClick={() => restoreTag(payload)}>
-        <b>RESTORE</b>
+        <b>{_t("messages.restore").toUpperCase()}</b>
       </span>
     </div>
   );
 };
 
 export const onRestoreTagSuccess = payload =>
-  toast(`${payload.name} restored.`);
+  toast(_t("messages.generic.restored", { name: payload.name }));

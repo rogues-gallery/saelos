@@ -1,12 +1,13 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { restoreOpportunity } from "../service";
+import { _t } from "../../../i18n";
 
 export const onOpportunitySave = payload =>
-  toast(`${payload.name} has been updated.`);
+  toast(_t("messages.generic.updated", { name: payload.name }));
 
 export const onFetchingOpportunities = () => {
-  toast("Loading...", { className: "toast list-toast" });
+  toast(_t("messages.loading"), { className: "toast list-toast" });
 };
 
 export const onFetchingOpportunitiesSuccess = () => {
@@ -15,9 +16,9 @@ export const onFetchingOpportunitiesSuccess = () => {
 export const onDeleteOpportunitySuccess = payload => dispatch => {
   toast(
     <div>
-      Opportunity deleted.
+      {_t("messages.generic.deleted", { name: _t("messages.opportunity") })}
       <span className="float-right" onClick={restoreOpportunity(payload.id)}>
-        RESTORE
+        {_t("messages.restore").toUpperCase()}
       </span>
     </div>
   );

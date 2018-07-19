@@ -30,7 +30,7 @@ class Notes extends React.Component {
             className="float-right"
             onClick={this._toggleAdd}
           >
-            <strong>+ Add</strong>
+            <strong>{this.context.i18n.t("messages.add")}</strong>
           </a>
           <h6
             className="mb-0"
@@ -39,7 +39,8 @@ class Notes extends React.Component {
             aria-expanded="true"
             aria-controls="collapseNotes"
           >
-            <MDIcons.MdKeyboardArrowDown /> Notes{" "}
+            <MDIcons.MdKeyboardArrowDown />{" "}
+            {this.context.i18n.t("messages.note_plural")}
             <span className="text-muted font-weight-normal">
               ({notes.length})
             </span>
@@ -76,6 +77,10 @@ Notes.propTypes = {
     PropTypes.instanceOf(Opportunity)
   ]),
   user: PropTypes.object.isRequired
+};
+
+Notes.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 class Item extends React.Component {
@@ -150,14 +155,14 @@ class Item extends React.Component {
                       className="btn btn-small btn-link btn-text mini-text mr-2"
                       onClick={this._edit}
                     >
-                      Edit
+                      {this.context.i18n.t("messages.edit")}
                     </a>
                     <a
                       href="javascript:void(0)"
                       className="btn btn-small btn-link mini-text"
                       onClick={this._delete}
                     >
-                      Delete
+                      {this.context.i18n.t("messages.delete")}
                     </a>
                   </span>
                 </div>
@@ -184,7 +189,7 @@ class Item extends React.Component {
   }
 }
 
-Note.propTypes = {
+Item.propTypes = {
   user: PropTypes.object.isRequired,
   note: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
@@ -193,6 +198,10 @@ Note.propTypes = {
     PropTypes.instanceOf(Company),
     PropTypes.instanceOf(Opportunity)
   ])
+};
+
+Item.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect()(Notes);

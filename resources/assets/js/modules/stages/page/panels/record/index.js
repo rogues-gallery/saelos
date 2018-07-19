@@ -3,17 +3,13 @@ import PropTypes from "prop-types";
 import { getStage } from "../../../store/selectors";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { fetchStage, saveStage, deleteStage } from "../../../service";
+import { saveStage, deleteStage } from "../../../service";
 import { CirclePicker } from "react-color";
 import { handleInputChange } from "../../../../../utils/helpers/fields";
 
 class Record extends React.Component {
   constructor(props) {
     super(props);
-
-    this._submit = this._submit.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._delete = this._delete.bind(this);
 
     this.state = {
       formState: props.stage.originalProps
@@ -24,9 +20,9 @@ class Record extends React.Component {
     this.setState({ formState: nextProps.stage.originalProps });
   }
 
-  _submit() {
+  _submit = () => {
     this.props.dispatch(saveStage(this.state.formState));
-  }
+  };
 
   _handleInputChange = event => {
     this.setState({
@@ -34,12 +30,12 @@ class Record extends React.Component {
     });
   };
 
-  _delete() {
+  _delete = () => {
     const { dispatch, stage } = this.props;
 
     dispatch(deleteStage(stage.id));
     this.context.router.history.push("/config/stages");
-  }
+  };
 
   render() {
     const { stage, user } = this.props;
@@ -52,8 +48,7 @@ class Record extends React.Component {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">
-            Select a stage{" "}
-            <span className="d-none d-lg-inline">on the left </span>to edit.
+            {this.context.i18n.t("messages.select.stage.to.edit")}
           </h2>
         </main>
       );
@@ -66,17 +61,21 @@ class Record extends React.Component {
             className="btn btn-link mr-2 btn-sm list-inline-item"
             onClick={this._delete}
           >
-            Delete
+            {this.context.i18n.t("messages.delete")}
           </button>
           <button
             className="btn btn-primary list-inline-item"
             onClick={this._submit}
           >
-            Save
+            {this.context.i18n.t("messages.save")}
           </button>
         </div>
         <h4 className="border-bottom py-3">
-          {formState.name ? formState.name : "New Stage"}
+          {formState.name
+            ? formState.name
+            : this.context.i18n.t("messages.generic.new", {
+                name: this.context.i18n.t("messages.stage")
+              })}
         </h4>
 
         <div className="h-scroll">
@@ -85,7 +84,7 @@ class Record extends React.Component {
               <li className="list-group-item">
                 <div className={`form-group mb-2`}>
                   <label htmlFor="stageName" className="">
-                    Name
+                    {this.context.i18n.t("messages.name")}
                   </label>
                   <div className="">
                     <input
@@ -100,7 +99,7 @@ class Record extends React.Component {
                 </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="stageProbability" className="">
-                    Probability
+                    {this.context.i18n.t("messages.probability")}
                   </label>
                   <div className="">
                     <input
@@ -115,7 +114,7 @@ class Record extends React.Component {
                 </div>
                 <div className={`form-group mb-2`}>
                   <label htmlFor="stageColor" className="">
-                    Color
+                    {this.context.i18n.t("messages.color")}
                   </label>
                   <div className="form-group">
                     <CirclePicker
@@ -151,7 +150,9 @@ class Record extends React.Component {
                       />
                       <span className="toggle-slider round" />
                     </label>
-                    <div className="pt-1">Active</div>
+                    <div className="pt-1">
+                      {this.context.i18n.t("messages.active")}
+                    </div>
                   </div>
                 </div>
               </li>
@@ -168,7 +169,8 @@ Record.propTypes = {
 };
 
 Record.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default withRouter(

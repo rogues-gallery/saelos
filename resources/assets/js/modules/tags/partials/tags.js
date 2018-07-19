@@ -217,7 +217,8 @@ class TagsPartial extends React.Component {
               onClick={this._toggleAddTag}
               className="btn btn-outline-secondary btn-sm"
             >
-              + ADD TAG
+              {this.context.i18n.t("messages.add").toUpperCase()}{" "}
+              {this.context.i18n.t("messages.tag").toUpperCase()}
             </button>
             {addTagOpen ? (
               <div className="add-tag-container">
@@ -240,13 +241,20 @@ class TagsPartial extends React.Component {
                   <div className="dropdown-divider" />
                   <div className="px-2 py-2">
                     <div className="form-group">
-                      <label htmlFor="name">Create New Tag</label>
+                      <label htmlFor="name">
+                        {this.context.i18n.t("messages.generic.create", {
+                          name: this.context.i18n.t("messages.tag")
+                        })}
+                      </label>
                       <input
                         type="text"
                         className="form-control form-control-sm"
                         id="name"
                         name="name"
-                        placeholder="Tag Name"
+                        placeholder={this.context.i18n.t(
+                          "messages.generic.name",
+                          { name: this.contexnt.i18n.t("messages.tag") }
+                        )}
                         value={formState.name}
                         onChange={this._handleInputChange}
                       />
@@ -275,7 +283,7 @@ class TagsPartial extends React.Component {
                       className="btn btn-primary btn-sm"
                       onClick={() => this._tagEntity()}
                     >
-                      Create
+                      {this.context.i18n.t("messages.create")}
                     </button>
                   </div>
                 </div>
@@ -298,7 +306,8 @@ TagsPartial.propTypes = {
 };
 
 TagsPartial.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default withRouter(

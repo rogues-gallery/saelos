@@ -1,20 +1,21 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { restoreStage } from "../service";
+import { _t } from "../../../i18n";
 
 export const onStageSave = payload =>
-  toast(`${payload.name} has been updated.`);
+  toast(_t("messages.generic.updated", { name: payload.name }));
 
 export const onDeleteStageSuccess = payload => {
   toast(
     <div>
-      Stage deleted.
+      {_t("message.generic.deleted", { name: _t("messages.stage") })}
       <span className="float-right" onClick={() => restoreStage(payload)}>
-        <b>RESTORE</b>
+        <b>{_t("messages.restore").toUpperCase()}</b>
       </span>
     </div>
   );
 };
 
 export const onRestoreStageSuccess = payload =>
-  toast(`${payload.name} restored.`);
+  toast(_t("messages.generic.restored", { name: payload.name }));

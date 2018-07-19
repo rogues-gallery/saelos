@@ -7,10 +7,8 @@ import Conversations from "../../../../conversations/partials/_conversations";
 import TagsPartial from "../../../../tags/partials/tags";
 import { getActiveUser } from "../../../../users/store/selectors";
 import {
-  getOpportunity,
   getCustomFieldsForOpportunities,
   isStateDirty,
-  getFirstOpportunityId,
   isInEdit,
   getOpportunityError
 } from "../../../store/selectors";
@@ -148,7 +146,7 @@ class Record extends React.Component {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">
-            Select an opportunity on the left to view.
+            {this.context.i18n.t("messages.select.opportunity.to.view")}
           </h2>
         </main>
       );
@@ -167,7 +165,9 @@ class Record extends React.Component {
           </button>
 
           <div className="float-right text-right pt-2">
-            <div className="mini-text text-muted">Assigned To</div>
+            <div className="mini-text text-muted">
+              {this.context.i18n.t("message.assigned.to")}
+            </div>
             {user.authorized(["admin", "manager", "user"]) ? (
               <div className="dropdown show">
                 <div
@@ -210,19 +210,19 @@ class Record extends React.Component {
         {inEdit ? (
           <span className="float-right py-3 mt-1">
             <a href="javascript:void(0);" onClick={this._toggleEdit}>
-              Cancel
+              {this.context.i18n.t("messages.cancel")}
             </a>
             <span
               className="ml-2 btn btn-primary btn-sm"
               onClick={this._submit}
             >
-              Save
+              {this.context.i18n.t("messages.save")}
             </span>
           </span>
         ) : (
           <span className="float-right py-3 mt-1">
             <a href="javascript:void(0);" onClick={this._toggleEdit}>
-              Edit
+              {this.context.i18n.t("messages.edit")}
             </a>
           </span>
         )}
@@ -255,7 +255,8 @@ Record.propTypes = {
 };
 
 Record.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect(state => ({
