@@ -10,8 +10,8 @@ import { getStatuses } from "../../../../statuses/store/selectors";
 import { getActiveUser } from "../../../../users/store/selectors";
 import User from "../../../../users/User";
 import { handleInputChange } from "../../../../../utils/helpers/fields";
-import ContactDetails from "./ContactDetails";
-import ContactHistory from "./ContactHistory";
+import ContactDetails from "./components/ContactDetails";
+import ContactHistory from "./components/ContactHistory";
 
 class Detail extends React.Component {
   constructor(props) {

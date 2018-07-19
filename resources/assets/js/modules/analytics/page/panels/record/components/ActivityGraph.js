@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Chartist from "chartist";
@@ -9,7 +9,7 @@ import * as MDIcons from "react-icons/lib/md";
 import { fetchActivityGraph } from "../../../../service";
 import { getUsers } from "../../../../../users/store/selectors";
 
-class ActivityGraph extends React.Component {
+class ActivityGraph extends Component {
   state = {
     graphData: [],
     fetching: true,
@@ -39,7 +39,9 @@ class ActivityGraph extends React.Component {
     if (fetching) {
       return (
         <div className="col main-panel px-3 align-self-center full-panel">
-          <h3 className="text-center text-muted">Loading...</h3>
+          <h3 className="text-center text-muted">
+            {this.context.i18n.t("messages.loading")}
+          </h3>
         </div>
       );
     }
@@ -134,10 +136,10 @@ class ActivityGraph extends React.Component {
               href="javascript:void(0);"
               className="btn btn-link btn-sm text-primary"
             >
-              Take Snapshot
+              {this.context.i18n.t("messages.take.snapshot")}
             </a>
           </span>
-          Activity
+          {this.context.i18n.t("messages.activity")}
         </h5>
         <div className="card mb-1">
           <div className="card-body">
@@ -176,6 +178,10 @@ class ActivityGraph extends React.Component {
 ActivityGraph.propTypes = {
   dispatch: PropTypes.func.isRequired,
   users: PropTypes.array.isRequired
+};
+
+ActivityGraph.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect(state => ({

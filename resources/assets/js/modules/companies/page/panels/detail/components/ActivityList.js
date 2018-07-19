@@ -1,18 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as MDIcons from "react-icons/lib/md";
-import _ from "lodash";
-import ListActivities from "../../../../activities/partials/_list";
-import { openTaskContainer } from "../../../../activities/store/actions";
 
-const ContactActivityList = ({ contact, dispatch }, { i18n }) => {
+import ListActivities from "../../../../../activities/partials/_list";
+
+const ActivityList = ({ company, dispatch }, { i18n }) => {
   const _toggleAdd = () => {
-    dispatch(openTaskContainer(contact, "task"));
+    dispatch(openTaskContainer(company, "task"));
   };
 
   const filtered = _.filter(
     _.filter(
-      contact.activities,
+      company.activities,
       a => a.details_type !== "App\\FieldUpdateActivity"
     ),
     fa => fa.completed === 0
@@ -35,7 +34,7 @@ const ContactActivityList = ({ contact, dispatch }, { i18n }) => {
           aria-expanded="true"
           aria-controls="collapseTasks"
         >
-          <MDIcons.MdKeyboardArrowDown /> {i18n.t("messages.tasks")}
+          <MDIcons.MdKeyboardArrowDown /> {i18n.t("messages.task_plural")}
           <span className="text-muted font-weight-normal">
             ({filtered.length})
           </span>
@@ -58,13 +57,13 @@ const ContactActivityList = ({ contact, dispatch }, { i18n }) => {
   );
 };
 
-ContactActivityList.propTypes = {
-  contact: PropTypes.object.isRequired,
+ActivityList.propTypes = {
+  company: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
-ContactActivityList.contextTypes = {
+ActivityList.contextTypes = {
   i18n: PropTypes.object.isRequired
 };
 
-export default ContactActivityList;
+export default ActivityList;

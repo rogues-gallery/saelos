@@ -1,16 +1,15 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Chartist from "chartist";
 import ChartistGraph from "react-chartist";
 import _ from "lodash";
 import Select from "react-select";
-import * as MDIcons from "react-icons/lib/md";
 import { getStages } from "../../../../../stages/store/selectors";
 import { getUsers } from "../../../../../users/store/selectors";
 import { fetchPipelineGraph } from "../../../../service";
 
-class PipelineGraph extends React.Component {
+class PipelineGraph extends Component {
   state = {
     graphData: [],
     fetching: true,
@@ -64,7 +63,9 @@ class PipelineGraph extends React.Component {
     if (fetching) {
       return (
         <div className="col main-panel px-3 align-self-center full-panel">
-          <h3 className="text-center text-muted">Loading...</h3>
+          <h3 className="text-center text-muted">
+            {this.context.i18n.t("messages.loading")}
+          </h3>
         </div>
       );
     }
@@ -99,10 +100,10 @@ class PipelineGraph extends React.Component {
               href="javascript:void(0);"
               className="btn btn-link btn-sm text-primary"
             >
-              Take Snapshot
+              {this.context.i18n.t("messages.take.snapshot")}
             </a>
           </span>
-          Pipeline
+          {this.context.i18n.t("messages.pipeline")}
         </h5>
         <div className="card mb-1">
           <div className="card-body">
@@ -141,6 +142,10 @@ class PipelineGraph extends React.Component {
 PipelineGraph.propTypes = {
   dispatch: PropTypes.func.isRequired,
   users: PropTypes.array.isRequired
+};
+
+PipelineGraph.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect(state => ({

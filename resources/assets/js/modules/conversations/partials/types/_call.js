@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import _ from "lodash";
-import moment from "moment";
 
 class ConversationCall extends React.Component {
   render() {
@@ -11,11 +9,15 @@ class ConversationCall extends React.Component {
       <div className="col pt-3 pb-1 px-0">
         <audio controls className="w-100">
           <source src={conversation.recording} type="audio/mpeg" />
-          Your browser does not support the audio element.
+          {this.context.i18n.t("messages.browser.audio.not.supported")}
         </audio>
       </div>
     );
   }
 }
+
+ConversationCall.contextTypes = {
+  i18n: PropTypes.object.isRequired
+};
 
 export default ConversationCall;

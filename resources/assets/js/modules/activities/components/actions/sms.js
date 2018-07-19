@@ -114,20 +114,24 @@ class SmsAction extends React.Component {
       <React.Fragment>
         <div className="card-body smsActionView">
           <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Message</label>
+            <label htmlFor="exampleInputEmail1">
+              {this.context.i18n.t("messages.message")}
+            </label>
             <input
               type="text"
               className="form-control"
               name="message"
               onChange={this._handleInputChange}
               value={formState.message}
-              placeholder="Enter SMS message"
+              placeholder={this.context.i18n.t("messages.enter.sms.message")}
             />
           </div>
           <div className="form-row">
             {opportunityOptions ? (
               <div className="col">
-                <label htmlFor="emailOpportunity">Opportunity</label>
+                <label htmlFor="emailOpportunity">
+                  {this.context.i18n.t("messages.opportunity")}
+                </label>
                 <Select
                   multi={false}
                   value={formState.opportunity_id}
@@ -150,7 +154,9 @@ class SmsAction extends React.Component {
 
             {companyOptions ? (
               <div className="col">
-                <label htmlFor="emailCompany">Company</label>
+                <label htmlFor="emailCompany">
+                  {this.context.i18n.t("messages.company")}
+                </label>
                 <Select
                   multi={false}
                   value={formState.company_id}
@@ -173,10 +179,10 @@ class SmsAction extends React.Component {
           </div>
           <div className="mt-2">
             <button className="btn btn-primary mr-2" onClick={this._submit}>
-              Send
+              {this.context.i18n.t("messages.send")}
             </button>
             <button className="btn btn-link text-muted" onClick={this._cancel}>
-              Cancel
+              {this.context.i18n.t("messages.cancel")}
             </button>
           </div>
         </div>
@@ -188,6 +194,10 @@ class SmsAction extends React.Component {
 SmsAction.propTypes = {
   user: PropTypes.object.isRequired,
   toggle: PropTypes.func.isRequired
+};
+
+SmsAction.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect()(SmsAction);

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import ReactQuill from "react-quill";
 import Select from "react-select";
 import DatePicker from "../../../../common/ui/datepicker/index";
-import { getActiveUser } from "../../../users/store/selectors";
 import { saveActivity } from "../../service";
 import Contact from "../../../contacts/Contact";
 import Opportunity from "../../../opportunities/Opportunity";
@@ -134,7 +133,9 @@ class TaskAction extends Component {
         <div className="card-body taskActionView">
           <div className="form-row">
             <div className="form-group col-md-4">
-              <label htmlFor="assignee_name">Assignee</label>
+              <label htmlFor="assignee_name">
+                {this.context.i18n.t("messages.assignee")}
+              </label>
               {user.authorized(["admin", "manager"]) ? (
                 <Select
                   value={formState.user_id}
@@ -160,7 +161,9 @@ class TaskAction extends Component {
               )}
             </div>
             <div className="form-group col-md-4">
-              <label htmlFor="due_date">Type</label>
+              <label htmlFor="due_date">
+                {this.context.i18n.t("messages.type")}
+              </label>
               <Select
                 value={formState.details_type}
                 onChange={value => {
@@ -174,18 +177,29 @@ class TaskAction extends Component {
                   this._handleInputChange(event);
                 }}
                 options={[
-                  { value: "App\\CallActivity", label: "Call" },
-                  { value: "App\\EmailActivity", label: "Email" },
-                  { value: "App\\SmsActivity", label: "SMS" }
+                  {
+                    value: "App\\CallActivity",
+                    label: this.context.i18n.t("messages.call")
+                  },
+                  {
+                    value: "App\\EmailActivity",
+                    label: this.context.i18n.t("messages.email")
+                  },
+                  {
+                    value: "App\\SmsActivity",
+                    label: this.context.i18n.t("messages.sms")
+                  }
                 ]}
               />
             </div>
             <div className="form-group col-md-4">
-              <label htmlFor="due_date">Due Date</label>
+              <label htmlFor="due_date">
+                {this.context.i18n.t("messages.due_date")}
+              </label>
               <DatePicker
                 className="form-control"
                 name="due_date"
-                placeholder="Enter due date"
+                placeholder={this.context.i18n.t("messages.enter.due_date")}
                 onChange={this._handleInputChange}
                 value={formState.due_date}
               />
@@ -193,12 +207,14 @@ class TaskAction extends Component {
           </div>
           <div className="form-row">
             <div className="form-group col-md-12">
-              <label htmlFor="task_name">Name</label>
+              <label htmlFor="task_name">
+                {this.context.i18n.t("messages.name")}
+              </label>
               <input
                 type="text"
                 className="form-control"
                 name="name"
-                placeholder="Enter task name"
+                placeholder={this.context.i18n.t("messages.enter.task.name")}
                 onChange={this._handleInputChange}
                 value={formState.name}
               />
@@ -215,7 +231,9 @@ class TaskAction extends Component {
           <div className="form-row">
             {opportunityOptions ? (
               <div className="col">
-                <label htmlFor="emailOpportunity">Opportunity</label>
+                <label htmlFor="emailOpportunity">
+                  {this.context.i18n.t("messages.opportunity")}
+                </label>
                 <Select
                   multi={false}
                   value={formState.opportunity_id}
@@ -238,7 +256,9 @@ class TaskAction extends Component {
 
             {contactOptions ? (
               <div className="col">
-                <label htmlFor="emailOpportunity">Contact</label>
+                <label htmlFor="emailOpportunity">
+                  {this.context.i18n.t("messages.contact")}
+                </label>
                 <Select
                   multi={false}
                   value={formState.contact_id}
@@ -261,7 +281,9 @@ class TaskAction extends Component {
 
             {companyOptions ? (
               <div className="col">
-                <label htmlFor="emailCompany">Company</label>
+                <label htmlFor="emailCompany">
+                  {this.context.i18n.t("messages.company")}
+                </label>
                 <Select
                   multi={false}
                   value={formState.company_id}
@@ -285,13 +307,13 @@ class TaskAction extends Component {
           {this.props.activity instanceof Activity ? null : (
             <div className="mt-2">
               <button className="btn btn-primary mr-2" onClick={this._submit}>
-                Save
+                {this.context.i18n.t("messages.save")}
               </button>
               <button
                 className="btn btn-link text-muted"
                 onClick={this._cancel}
               >
-                Cancel
+                {this.context.i18n.t("messages.cancel")}
               </button>
             </div>
           )}
@@ -304,6 +326,10 @@ class TaskAction extends Component {
 TaskAction.propTypes = {
   user: PropTypes.object.isRequired,
   activity: PropTypes.instanceOf(Activity)
+};
+
+TaskAction.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect()(TaskAction);

@@ -169,7 +169,9 @@ class NoteAction extends Component {
           </div>
 
           <div className="form-group">
-            <label htmlFor="note_content">Note</label>
+            <label htmlFor="note_content">
+              {this.context.i18n.t("messages.note")}
+            </label>
             <ReactQuill
               name="note_content"
               className="fh-200"
@@ -179,10 +181,10 @@ class NoteAction extends Component {
           </div>
           <div className="mt-2">
             <button className="btn btn-primary mr-2" onClick={this._submit}>
-              Save
+              {this.context.i18n.t("messages.save")}
             </button>
             <button className="btn btn-link text-muted" onClick={this._cancel}>
-              Cancel
+              {this.context.i18n.t("messages.cancel")}
             </button>
 
             <div className="float-right mr-2">
@@ -226,6 +228,10 @@ NoteAction.propTypes = {
     PropTypes.instanceOf(Opportunity)
   ]),
   id: PropTypes.number
+};
+
+NoteAction.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect()(NoteAction);

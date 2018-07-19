@@ -121,19 +121,19 @@ class CallAction extends Component {
                 }`}
                 onClick={this._submitScore}
               >
-                <span className="">SCORE</span>
+                <span className="">
+                  {this.context.i18n.t("messages.score").toUpperCase()}
+                </span>
               </button>
             </div>
             <div className="col">
-              <p>
-                Click the button to the left to initiate a call to this user.
-                Once the call is completed please enter your Rep Sentiment Score
-                below.
-              </p>
+              <p>{this.context.i18n.t("messages.click.to.call")}</p>
 
               <div className="row pt-3">
                 <div className={`col ${callState.id ? "" : "text-muted"}`}>
-                  <label htmlFor="repSentiment">Rep Sentiment Score</label>
+                  <label htmlFor="repSentiment">
+                    {this.context.i18n.t("messages.rep.sentiment.score")}
+                  </label>
                   <div className="pt-1">
                     <input
                       type="range"
@@ -148,7 +148,9 @@ class CallAction extends Component {
                 </div>
                 {opportunityOptions ? (
                   <div className="col">
-                    <label htmlFor="callOpportunity">Opportunity</label>
+                    <label htmlFor="callOpportunity">
+                      {this.context.i18n.t("messages.opportunity")}
+                    </label>
                     <Select
                       multi={false}
                       value={formState.opportunity_id}
@@ -171,7 +173,9 @@ class CallAction extends Component {
 
                 {companyOptions ? (
                   <div className="col">
-                    <label htmlFor="callCompany">Company</label>
+                    <label htmlFor="callCompany">
+                      {this.context.i18n.t("messages.company")}
+                    </label>
                     <Select
                       multi={false}
                       value={formState.company_id}
@@ -204,6 +208,10 @@ CallAction.propTypes = {
   dispatch: PropTypes.func.isRequired,
   model: PropTypes.instanceOf(Contact),
   activeCall: PropTypes.object
+};
+
+CallAction.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect()(CallAction);

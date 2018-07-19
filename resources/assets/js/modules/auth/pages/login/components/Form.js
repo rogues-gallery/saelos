@@ -1,19 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 
-const Form = ({
-  email,
-  password,
-  remember,
-  errors,
-  handleChange,
-  handleSubmit
-}) => (
+const Form = (
+  { email, password, remember, errors, handleChange, handleSubmit },
+  { i18n }
+) => (
   <form className="form" role="form" onSubmit={handleSubmit} noValidate>
     <div className="form-group">
       <label htmlFor="email" className="sr-only">
-        Email
+        {i18n.t("messages.email")}
       </label>
       <input
         type="text"
@@ -22,7 +17,7 @@ const Form = ({
         ) && "is-invalid"}`}
         name="email"
         id="email"
-        placeholder="Email address"
+        placeholder={i18n.t("messages.email")}
         value={email || ""}
         onChange={e => handleChange(e.target.name, e.target.value)}
         required
@@ -34,7 +29,7 @@ const Form = ({
     </div>
     <div className="form-group">
       <label htmlFor="password" className="sr-only">
-        Password
+        {i18n.t("messages.password")}
       </label>
       <input
         type="password"
@@ -43,7 +38,7 @@ const Form = ({
         ) && "is-invalid"}`}
         id="password"
         name="password"
-        placeholder="Password"
+        placeholder={i18n.t("messages.password")}
         value={password || ""}
         onChange={e => handleChange(e.target.name, e.target.value)}
         required
@@ -62,7 +57,7 @@ const Form = ({
         />
         <span className="custom-control-indicator" />
         <span className="custom-control-description small">
-          Remember me on this computer
+          {i18n.t("messages.remember.me")}
         </span>
       </label>
     </div>
@@ -71,7 +66,7 @@ const Form = ({
       type="submit"
       disabled={errors.any()}
     >
-      Sign In
+      {i18n.t("messages.sign.in")}
     </button>
   </form>
 );
@@ -83,6 +78,10 @@ Form.propTypes = {
   errors: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired
+};
+
+Form.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default Form;

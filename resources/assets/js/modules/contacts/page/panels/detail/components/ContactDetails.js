@@ -4,9 +4,9 @@ import * as MDIcons from "react-icons/lib/md";
 
 import ContactStatusTimeline from "./ContactStatusTimeline";
 import ContactActivityList from "./ContactActivityList";
-import Opportunities from "../../../../opportunities/partials/_opportunities";
-import Companies from "../../../../companies/partials/_companies";
-import Notes from "../../../../notes/partials/_notes";
+import Opportunities from "../../../../../opportunities/partials/_opportunities";
+import Companies from "../../../../../companies/partials/_companies";
+import Notes from "../../../../../notes/partials/_notes";
 
 const ContactDetails = (
   { contact, dispatch, toggle, user, inEdit, statuses, statusChange },

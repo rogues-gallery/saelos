@@ -1,12 +1,13 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { restoreCompany } from "../service";
+import { _t } from "../../../i18n";
 
 export const onCompanySave = payload =>
-  toast(`${payload.name} has been updated.`);
+  toast(_t("messages.company.updated", { name: payload.name }));
 
 export const onFetchingCompanies = () => {
-  toast("Loading...", { className: "toast list-toast" });
+  toast(_t("messages.loading"), { className: "toast list-toast" });
 };
 
 export const onFetchingCompaniesSuccess = () => {
@@ -16,13 +17,13 @@ export const onFetchingCompaniesSuccess = () => {
 export const onDeleteCompanySuccess = payload => {
   toast(
     <div>
-      Company deleted.
+      {_t("messages.company.deleted")}
       <span className="float-right" onClick={() => restoreCompany(payload)}>
-        <b>RESTORE</b>
+        <b>{_t("messages.restore").toUpperCase()}</b>
       </span>
     </div>
   );
 };
 
 export const onRestoreCompanySuccess = payload =>
-  toast(`${payload.name} restored.`);
+  toast(_t("messages.company.restored", { name: payload.name }));

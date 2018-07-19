@@ -141,7 +141,8 @@ class Companies extends React.Component {
             aria-expanded="true"
             aria-controls="collapseCompanies"
           >
-            <MDIcons.MdKeyboardArrowDown /> Companies{" "}
+            <MDIcons.MdKeyboardArrowDown />{" "}
+            {this.context.i18n.t("messages.company_plural")}
             <span className="text-muted font-weight-normal">
               ({companies.length})
             </span>
@@ -202,7 +203,7 @@ class Companies extends React.Component {
                     className="btn btn-primary"
                     onClick={() => this._submit(true)}
                   >
-                    Add
+                    {this.context.i18n.t("messages.add")}
                   </button>
                 </div>
               </div>
@@ -237,7 +238,7 @@ class Companies extends React.Component {
                       this._delete(company.id);
                     }}
                   >
-                    Delete
+                    {this.context.i18n.t("messages.delete")}
                   </a>
                 ) : (
                   <p className="mini-text text-muted float-right" />
@@ -269,7 +270,8 @@ Companies.propTypes = {
 };
 
 Companies.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect()(Companies);

@@ -132,14 +132,14 @@ class EmailAction extends Component {
                 className="btn btn-sm btn-link"
                 onClick={() => this._toggleInput("showCC")}
               >
-                CC
+                {this.context.i18n.t("messages.cc")}
               </a>
               <a
                 href="javascript:void(0)"
                 className="btn btn-sm btn-link"
                 onClick={() => this._toggleInput("showBCC")}
               >
-                BCC
+                {this.context.i18n.t("messages.bcc")}
               </a>
             </span>
           </div>
@@ -164,7 +164,9 @@ class EmailAction extends Component {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="email_subject">Subject</label>
+            <label htmlFor="email_subject">
+              {this.context.i18n.t("messages.subject")}
+            </label>
             <input
               type="text"
               onChange={this._handleInputChange}
@@ -176,7 +178,9 @@ class EmailAction extends Component {
           </div>
 
           <div className="form-group">
-            <label htmlFor="email_content">Message</label>
+            <label htmlFor="email_content">
+              {this.context.i18n.t("messages.message")}
+            </label>
             <ReactQuill
               name="email_content"
               className="fh-200"
@@ -186,7 +190,9 @@ class EmailAction extends Component {
           <div className="row">
             {opportunityOptions ? (
               <div className="col">
-                <label htmlFor="emailOpportunity">Opportunity</label>
+                <label htmlFor="emailOpportunity">
+                  {this.context.i18n.t("messages.opportunity")}
+                </label>
                 <Select
                   multi={false}
                   value={formState.opportunity_id}
@@ -209,7 +215,9 @@ class EmailAction extends Component {
 
             {companyOptions ? (
               <div className="col">
-                <label htmlFor="emailCompany">Company</label>
+                <label htmlFor="emailCompany">
+                  {this.context.i18n.t("messages.company")}
+                </label>
                 <Select
                   multi={false}
                   value={formState.company_id}
@@ -232,10 +240,10 @@ class EmailAction extends Component {
           </div>
           <div className="mt-2">
             <button className="btn btn-primary mr-2" onClick={this._submit}>
-              Send
+              {this.context.i18n.t("messages.send")}
             </button>
             <button className="btn btn-link text-muted" onClick={this._cancel}>
-              Cancel
+              {this.context.i18n.t("messages.cancel")}
             </button>
           </div>
         </div>
@@ -247,6 +255,10 @@ class EmailAction extends Component {
 EmailAction.propTypes = {
   dispatch: PropTypes.func.isRequired,
   model: PropTypes.instanceOf(Contact).isRequired
+};
+
+EmailAction.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default connect()(EmailAction);
