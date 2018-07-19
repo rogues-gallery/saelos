@@ -1,12 +1,13 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { restoreField } from "../service";
+import { _t } from "../../../i18n";
 
 export const onFieldSave = payload =>
-  toast(`${payload.label} has been updated.`);
+  toast(_t("messages.generic.updated", { name: payload.label }));
 
 export const onFetchingFields = () => {
-  toast("Loading...", { className: "toast list-toast" });
+  toast(_t("messages.loading"), { className: "toast list-toast" });
 };
 
 export const onFetchingFieldsSuccess = () => {
@@ -16,13 +17,13 @@ export const onFetchingFieldsSuccess = () => {
 export const onDeleteFieldSuccess = payload => {
   toast(
     <div>
-      Company deleted.
+      {_t("messages.generic.deleted", { name: _t("messages.company") })}
       <span className="float-right" onClick={() => restoreField(payload)}>
-        <b>RESTORE</b>
+        <b>{_t("messages.restore").toUpperCase()}</b>
       </span>
     </div>
   );
 };
 
 export const onRestoreFieldSuccess = payload =>
-  toast(`${payload.label} restored.`);
+  toast(_t("messages.generic.restored", { name: payload.label }));

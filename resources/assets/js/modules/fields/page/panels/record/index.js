@@ -58,8 +58,7 @@ class Record extends React.Component {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">
-            Select a field{" "}
-            <span className="d-none d-lg-inline">on the left</span> to edit.
+            {this.context.i18n.t("messages.select.field.to.edit")}
           </h2>
         </main>
       );
@@ -68,15 +67,15 @@ class Record extends React.Component {
     const objectOptions = [
       {
         value: "App\\Company",
-        label: "Company"
+        label: this.context.i18n.t("messages.company")
       },
       {
         value: "App\\Contact",
-        label: "Contact"
+        label: this.context.i18n.t("messages.contact")
       },
       {
         value: "App\\Opportunity",
-        label: "Opportunity"
+        label: this.context.i18n.t("messages.opportunity")
       }
     ];
 
@@ -149,22 +148,29 @@ class Record extends React.Component {
             className="btn btn-link mr-2 btn-sm list-inline-item"
             onClick={this._delete}
           >
-            Delete
+            {this.context.i18n.t("messages.delete")}
           </button>
           <button
             className="btn btn-primary list-inline-item"
             onClick={this._submit}
           >
-            Save
+            {this.context.i18n.t("messages.save")}
           </button>
         </div>
-        <h4 className="border-bottom py-3">{formState.label || "New Field"}</h4>
+        <h4 className="border-bottom py-3">
+          {formState.label ||
+            this.context.i18n.t("messages.generic.new", {
+              type: this.context.i18n.t("messages.field")
+            })}
+        </h4>
 
         <div className="h-scroll">
           <div className="card mb-1">
             <ul className={`list-group list-group-flush`}>
               <li className="list-group-item">
-                <div className="mini-text text-muted mb-2">Core</div>
+                <div className="mini-text text-muted mb-2">
+                  {this.context.i18n.t("messages.core")}
+                </div>
                 <div
                   className={`form-group mb-2 ${
                     hasError && error.hasOwnProperty("label")
@@ -172,7 +178,9 @@ class Record extends React.Component {
                       : null
                   }`}
                 >
-                  <label htmlFor="label">Name</label>
+                  <label htmlFor="label">
+                    {this.context.i18n.t("messages.name")}
+                  </label>
                   <div>
                     <input
                       type="text"
@@ -194,7 +202,9 @@ class Record extends React.Component {
                       : null
                   }`}
                 >
-                  <label htmlFor="alias">Alias</label>
+                  <label htmlFor="alias">
+                    {this.context.i18n.t("messages.alias")}
+                  </label>
                   <div>
                     <input
                       type="text"
@@ -211,7 +221,9 @@ class Record extends React.Component {
                 </div>
               </li>
               <li className="list-group-item">
-                <div className="mini-text text-muted mb-2">Options</div>
+                <div className="mini-text text-muted mb-2">
+                  {this.context.i18n.t("messages.options")}
+                </div>
                 <div
                   className={`form-group mb-2 ${
                     hasError && error.hasOwnProperty("model")
@@ -219,7 +231,9 @@ class Record extends React.Component {
                       : null
                   }`}
                 >
-                  <label htmlFor="model">Object</label>
+                  <label htmlFor="model">
+                    {this.context.i18n.t("messages.object")}
+                  </label>
                   <div>
                     <Select
                       options={objectOptions}
@@ -249,7 +263,9 @@ class Record extends React.Component {
                       : null
                   }`}
                 >
-                  <label htmlFor="group">Group</label>
+                  <label htmlFor="group">
+                    {this.context.i18n.t("messages.group")}
+                  </label>
                   <div>
                     <Select
                       options={groupOptions}
@@ -279,7 +295,9 @@ class Record extends React.Component {
                       : null
                   }`}
                 >
-                  <label htmlFor="ordering">Order</label>
+                  <label htmlFor="ordering">
+                    {this.context.i18n.t("messages.order")}
+                  </label>
                   <div>
                     <input
                       type="text"
@@ -299,7 +317,9 @@ class Record extends React.Component {
                     hasError && error.hasOwnProperty("type") ? "hasError" : null
                   }`}
                 >
-                  <label htmlFor="type">Field type</label>
+                  <label htmlFor="type">
+                    {this.context.i18n.t("messages.field.type")}
+                  </label>
                   <div>
                     <Select
                       options={typeOptions}
@@ -335,7 +355,9 @@ class Record extends React.Component {
                       />
                       <span className="toggle-slider round" />
                     </label>
-                    <div className="pt-1">Hidden</div>
+                    <div className="pt-1">
+                      {this.context.i18n.t("messages.hidden")}
+                    </div>
                   </div>
                   <div className={`my-2 col`}>
                     <label className="switch float-left mr-2">
@@ -347,7 +369,9 @@ class Record extends React.Component {
                       />
                       <span className="toggle-slider round" />
                     </label>
-                    <div className="pt-1">Required</div>
+                    <div className="pt-1">
+                      {this.context.i18n.t("messages.required")}
+                    </div>
                   </div>
 
                   <div className={`my-2 col`}>
@@ -360,7 +384,9 @@ class Record extends React.Component {
                       />
                       <span className="toggle-slider round" />
                     </label>
-                    <div className="pt-1">Searchable</div>
+                    <div className="pt-1">
+                      {this.context.i18n.t("messages.searchable")}
+                    </div>
                   </div>
 
                   <div className={`my-2 col`}>
@@ -373,7 +399,9 @@ class Record extends React.Component {
                       />
                       <span className="toggle-slider round" />
                     </label>
-                    <div className="pt-1">Summary</div>
+                    <div className="pt-1">
+                      {this.context.i18n.t("messages.summary")}
+                    </div>
                   </div>
                 </div>
               </li>
@@ -390,7 +418,8 @@ Record.propTypes = {
 };
 
 Record.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default withRouter(

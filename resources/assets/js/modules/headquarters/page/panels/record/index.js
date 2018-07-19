@@ -144,9 +144,7 @@ class Record extends React.Component {
       return (
         <main className="col main-panel px-3 align-self-center">
           <h2 className="text-muted text-center">
-            Select a task{" "}
-            <span className="d-none d-lg-inline">on the left</span> to get
-            started.
+            {this.context.i18n.t("messages.select.task.to.start")}
           </h2>
         </main>
       );
@@ -173,7 +171,9 @@ class Record extends React.Component {
           </button>
 
           <div className="float-right text-right pt-2">
-            <div className="mini-text text-muted">Assigned To</div>
+            <div className="mini-text text-muted">
+              {this.context.i18n.t("messages.assigned.to")}
+            </div>
             <div className="text-dark mini-text">
               <b>{activity.user.name}</b>
             </div>
@@ -186,13 +186,13 @@ class Record extends React.Component {
               className="btn btn-link text-muted btn-sm"
               onClick={this._toggleEdit}
             >
-              Cancel
+              {this.context.i18n.t("messages.cancel")}
             </a>
             <span
               className="ml-2 btn btn-primary btn-sm"
               onClick={this._submit}
             >
-              Save
+              {this.context.i18n.t("messages.save")}
             </span>
           </span>
         ) : (
@@ -202,7 +202,7 @@ class Record extends React.Component {
               className="btn btn-link btn-sm text-primary"
               onClick={this._toggleEdit}
             >
-              Edit
+              {this.context.i18n.t("messages.edit")}
             </a>
           </span>
         )}
@@ -240,7 +240,9 @@ class Record extends React.Component {
                   <ul className="list-group list-group-flush">
                     <li key="company" className="list-group-item">
                       <div className="mini-text text-muted">
-                        Contact Information
+                        {this.context.i18n.t("messages.generic.information", {
+                          name: this.context.i18n.t("messages.contact")
+                        })}
                       </div>
                       <div className="row">
                         <div className="col-8 py-2">
@@ -267,7 +269,9 @@ class Record extends React.Component {
                           </p>
                         </div>
                         <div className="col-4">
-                          <label htmlFor="contact-status">Status</label>
+                          <label htmlFor="contact-status">
+                            {this.context.i18n.t("messages.status")}
+                          </label>
                           <Select
                             value={contact.status_id}
                             options={statuses.map(s => ({
@@ -302,7 +306,9 @@ class Record extends React.Component {
                   <ul className="list-group list-group-flush">
                     <li key="company" className="list-group-item">
                       <div className="mini-text text-muted">
-                        Company Information
+                        {this.context.i18n.t("messages.generic.information", {
+                          name: this.context.i18n.t("messages.company")
+                        })}
                       </div>
                       <div className="py-2">
                         <p className="font-weight-bold">
@@ -333,7 +339,9 @@ class Record extends React.Component {
                   <ul className="list-group list-group-flush">
                     <li key="company" className="list-group-item">
                       <div className="mini-text text-muted">
-                        Opportunity Information
+                        {this.context.i18n.t("messages.generic.information", {
+                          name: this.context.i18n.t("messages.opportunity")
+                        })}
                       </div>
                       <div className="row">
                         <div className="col-8 py-2">
@@ -353,7 +361,9 @@ class Record extends React.Component {
                           </p>
                         </div>
                         <div className="col-4">
-                          <label htmlFor="opportunity-stage">Stage</label>
+                          <label htmlFor="opportunity-stage">
+                            {this.context.i18n.t("messages.stage")}
+                          </label>
                           <Select
                             value={opportunity.stage_id}
                             options={stages.map(s => ({
@@ -390,6 +400,10 @@ class Record extends React.Component {
 
 Record.propTypes = {
   activity: PropTypes.object.isRequired
+};
+
+Record.contextTypes = {
+  i18n: PropTypes.object.isRequired
 };
 
 export default withRouter(

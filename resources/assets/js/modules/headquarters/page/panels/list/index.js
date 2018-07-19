@@ -1,16 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ListActivities from "../../../../activities/partials/_list";
-import { fetchActivities, fetchActivity } from "../../../../activities/service";
+import { fetchActivities } from "../../../../activities/service";
 import moment from "moment";
 
-class List extends React.Component {
+class List extends Component {
   constructor(props) {
     super(props);
-
-    this._onScroll = this._onScroll.bind(this);
-    this._onKeyPress = this._onKeyPress.bind(this);
-    this._toggleListFilter = this._toggleListFilter.bind(this);
 
     this.state = {
       filter: "current"
@@ -93,7 +89,7 @@ class List extends React.Component {
               type="search"
               className="form-control ds-input"
               id="search-input"
-              placeholder="Search..."
+              placeholder={this.context.i18n.t("messages.search")}
               role="combobox"
               aria-autocomplete="list"
               aria-expanded="false"
@@ -142,7 +138,8 @@ List.propTypes = {
 };
 
 List.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default List;

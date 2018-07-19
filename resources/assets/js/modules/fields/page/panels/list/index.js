@@ -8,11 +8,6 @@ class List extends React.Component {
   constructor(props) {
     super(props);
 
-    this._onScroll = this._onScroll.bind(this);
-    this._onKeyPress = this._onKeyPress.bind(this);
-    this._openRecord = this._openRecord.bind(this);
-    this._toggleListFilter = this._toggleListFilter.bind(this);
-
     this.state = {
       filter: "contact",
       searchString: props.searchString
@@ -25,7 +20,7 @@ class List extends React.Component {
     dispatch(fetchFields({ page: 1, searchString }));
   }
 
-  _onKeyPress(event) {
+  _onKeyPress = event => {
     const { target, charCode } = event;
 
     this.setState({
@@ -39,9 +34,9 @@ class List extends React.Component {
     event.preventDefault();
 
     this._submit(target);
-  }
+  };
 
-  _submit(input) {
+  _submit = input => {
     const { value } = input;
     const { dispatch } = this.props;
 
@@ -50,9 +45,9 @@ class List extends React.Component {
     } else if (value.length === 0) {
       dispatch(fetchFields({ page: 1, searchString: "" }));
     }
-  }
+  };
 
-  _onScroll(event) {
+  _onScroll = event => {
     const { target } = event;
     const { dispatch, pagination, searchString } = this.props;
     const currentPosition = target.scrollTop + target.offsetHeight;
@@ -62,18 +57,18 @@ class List extends React.Component {
         fetchFields({ page: pagination.current_page + 1, searchString })
       );
     }
-  }
+  };
 
-  _toggleListFilter(filter) {
+  _toggleListFilter = filter => {
     this.setState({
       filter
     });
-  }
+  };
 
-  _openRecord(id) {
+  _openRecord = id => {
     this.props.dispatch(fetchField(id));
     this.context.router.history.push(`/config/fields/${id}`);
-  }
+  };
 
   render() {
     const { searchString } = this.state;
@@ -93,7 +88,7 @@ class List extends React.Component {
               type="search"
               className="form-control ds-input"
               id="search-input"
-              placeholder="Search..."
+              placeholder={this.context.i18n.t("messages.search")}
               role="combobox"
               aria-autocomplete="list"
               aria-expanded="false"
@@ -117,7 +112,7 @@ class List extends React.Component {
                   className={`${className} col cursor-pointer`}
                   onClick={() => this._toggleListFilter(filter)}
                 >
-                  <b>{filter}</b>
+                  <b>{this.context.i18n.t(`messages.${filter}`)}</b>
                 </div>
               );
             })}
@@ -153,7 +148,8 @@ List.propTypes = {
 };
 
 List.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 export default List;
