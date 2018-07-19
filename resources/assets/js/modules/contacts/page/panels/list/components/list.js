@@ -1,18 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { fetchContact } from "../../../../service";
 
-class ListContacts extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.openContactRecord = this.openContactRecord.bind(this);
-  }
-
-  openContactRecord(id) {
+class ListContacts extends Component {
+  openContactRecord = id => {
     this.props.dispatch(fetchContact(id));
     this.context.router.history.push(`/contacts/${id}`);
-  }
+  };
 
   render() {
     const { contacts, entityType, entityId } = this.props;

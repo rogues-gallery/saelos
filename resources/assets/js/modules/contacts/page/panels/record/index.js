@@ -6,13 +6,10 @@ import * as MDIcons from "react-icons/lib/md";
 
 import Conversations from "../../../../conversations/partials/_conversations";
 import TagsPartial from "../../../../tags/partials/tags";
-
 import { getActiveUser } from "../../../../users/store/selectors";
 import {
-  getContact,
   getCustomFieldsForContacts,
   isStateDirty,
-  getFirstContactId,
   isInEdit,
   getContactError
 } from "../../../store/selectors";

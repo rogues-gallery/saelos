@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import moment from "moment";
 import AdvancedSearch from "../../../../../common/search";
-import { fetchContact, fetchContacts } from "../../../service";
+import { fetchContacts } from "../../../service";
 import {
   getSearchStringForContacts,
   getCustomFieldsForContacts,
