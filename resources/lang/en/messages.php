@@ -35,4 +35,12 @@ return [
     "update.message" => "Saelos has been updated. Click this now to load the latest version. Otherwise, wrap up what you're doing and reload the app at your convenience.",
     "update.available" => "Update available!",
     "error.whoops" => "Whoops, something went wrong.",
+    "contact.updated" => ":first_name :last_name has been updated!",
+    "contact.details" => "Contact Details",
+    "history" => "History",
+    "status.snapshot" => "Status Snapshot",
+    "last.touched" => "Last touched",
+    "next.task" => "Next Task",
+    "tasks" => "Tasks",
+    "add" => "+ Add",
 ];
