@@ -10,7 +10,7 @@ export default [
     menu: {
       icon: MDIcons.MdInsertChart,
       location: "main",
-      linkText: "Analytics",
+      linkText: "messages.analytics",
       subLinks: false,
       roles: ["admin", "manager"]
     }

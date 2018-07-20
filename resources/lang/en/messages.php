@@ -1,6 +1,6 @@
 <?php
 
-return [
+return array(
     "contact" => "Contact",
     "contact_plural" => "Contacts",
     "company" => "Company",
@@ -18,6 +18,7 @@ return [
     "note" => "Note",
     "note_plural" => "Notes",
     "activity" => "Activity",
+    "headquarters" => "Headquarters",
     "activity_plural" => "Activities",
     "pipeline" => "Pipeline",
     "analytics" => "Analytics",
@@ -157,4 +158,4 @@ return [
     "unknown" => "Unknown",
     "vector" => "Vector",
     "select.task.to.start" => "Select a task on the left to get started.",
-];
+);

@@ -11,7 +11,7 @@ export default [
     menu: {
       icon: MDIcons.MdFeaturedPlayList,
       location: "config",
-      linkText: "Fields",
+      linkText: "messages.field_plural",
       subLinks: false,
       roles: ["admin", "manager"]
     }

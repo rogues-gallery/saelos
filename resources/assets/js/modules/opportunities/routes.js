@@ -78,7 +78,7 @@ export default [
     menu: {
       icon: MDIcons.MdAttachMoney,
       location: "main",
-      linkText: "Opportunities",
+      linkText: "messages.opportunity_plural",
       subLinks: ViewsMenu,
       roles: false
     }

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import routes from "../../routes/routes";
 import NavItem from "./NavItem";
+import { _t } from "../../i18n";
 
 const PrivateNav = ({ user }) => (
   <ul className="nav">
@@ -26,7 +27,7 @@ const PrivateNav = ({ user }) => (
               <i className="h5 mr-2">
                 <Icon />
               </i>
-              {linkText}
+              {_t(linkText)}
             </NavItem>
             {route.menu.subLinks ? <SubLinks /> : ""}
           </React.Fragment>

@@ -1,12 +1,10 @@
-// import libs
 import React from "react";
 import PropTypes from "prop-types";
+import * as MDIcons from "react-icons/lib/md";
 
-// import components
 import NavItem from "./NavItem";
 import routes from "../../routes/routes";
-import PrivateNav from "./PrivateNav";
-import * as MDIcons from "react-icons/lib/md";
+import { _t } from "../../i18n";
 
 const ConfigNav = ({ user }) => (
   <ul className="nav">
@@ -28,7 +26,7 @@ const ConfigNav = ({ user }) => (
             <i className="h5 mr-2">
               <Icon />
             </i>
-            {linkText}
+            {_t(linkText)}
           </NavItem>
         );
       }

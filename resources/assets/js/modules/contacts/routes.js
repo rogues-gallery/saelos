@@ -103,7 +103,7 @@ export default [
     menu: {
       icon: MDIcons.MdPersonOutline,
       location: "main",
-      linkText: "Contacts",
+      linkText: "messages.contact_plural",
       subLinks: ViewsMenu,
       roles: false
     }

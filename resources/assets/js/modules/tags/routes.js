@@ -72,7 +72,7 @@ export default [
     menu: {
       icon: MDIcons.MdLocalOffer,
       location: "main",
-      linkText: "Tags",
+      linkText: "messages.tag_plural",
       subLinks: TagMenu,
       roles: false
     }

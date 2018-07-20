@@ -18,7 +18,7 @@ export default [
     menu: {
       icon: MDIcons.MdPerson,
       location: "config",
-      linkText: "Users",
+      linkText: "messages.user_plural",
       subLinks: false,
       roles: ["admin", "manager"]
     }

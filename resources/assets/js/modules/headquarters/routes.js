@@ -10,7 +10,7 @@ export default [
     menu: {
       icon: MDIcons.MdPhonelink,
       location: "main",
-      linkText: "Headquarters",
+      linkText: "messages.headquarters",
       subLinks: false,
       roles: false
     }

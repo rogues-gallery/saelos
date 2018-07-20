@@ -10,7 +10,7 @@ export default [
     menu: {
       icon: MDIcons.MdPeopleOutline,
       location: "config",
-      linkText: "Teams",
+      linkText: "messages.team_plural",
       subLinks: false,
       roles: ["admin", "manager"]
     }

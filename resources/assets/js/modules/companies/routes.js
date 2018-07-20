@@ -78,7 +78,7 @@ export default [
     menu: {
       icon: MDIcons.MdBusiness,
       location: "main",
-      linkText: "Companies",
+      linkText: "messages.company_plural",
       subLinks: ViewsMenu,
       roles: false
     }

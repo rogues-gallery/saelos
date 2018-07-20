@@ -11,7 +11,7 @@ export default [
     menu: {
       icon: MDIcons.MdLabelOutline,
       location: "config",
-      linkText: "Statuses",
+      linkText: "messages.status_plural",
       subLinks: false,
       roles: ["admin", "manager"]
     }

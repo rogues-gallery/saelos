@@ -11,7 +11,7 @@ export default [
     menu: {
       icon: MDIcons.MdFlag,
       location: "config",
-      linkText: "Stages",
+      linkText: "messages.stage_plural",
       subLinks: false,
       roles: ["admin", "manager"]
     }
