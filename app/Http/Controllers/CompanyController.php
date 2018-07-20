@@ -19,6 +19,8 @@ use App\Http\Resources\Company as CompanyResource;
  */
 class CompanyController extends Controller
 {
+    use Exportable;
+
     const INDEX_WITH = [
         'user',
         'contacts',
@@ -77,6 +79,10 @@ class CompanyController extends Controller
         }
 
         $companies->orderBy('id', 'desc');
+
+        if ($request->get('export', false)) {
+            return $this->exportQueryBuilder($companies, Company::class);
+        }
 
         return new CompanyCollection($companies->paginate());
     }

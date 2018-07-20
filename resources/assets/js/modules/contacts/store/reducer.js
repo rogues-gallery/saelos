@@ -214,6 +214,11 @@ export default function contactReducer(state = initialState, action) {
         ...state,
         data: updatedDataWithTags
       };
+    case types.DOWNLOADING_CONTACTS_SUCCESS:
+      return {
+        ...state,
+        isFetching: false
+      };
     default:
       return state;
   }

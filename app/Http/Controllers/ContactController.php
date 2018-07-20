@@ -28,6 +28,8 @@ use Twilio\Twiml;
  */
 class ContactController extends Controller
 {
+    use Exportable;
+
     const INDEX_WITH = [
         'user',
         'companies',
@@ -94,6 +96,10 @@ class ContactController extends Controller
         }
 
         $contacts->orderBy('contacts.id', 'desc');
+
+        if ($request->get('export', false)) {
+            return $this->exportQueryBuilder($contacts, Contact::class);
+        }
 
         return new ContactCollection($contacts->paginate());
     }

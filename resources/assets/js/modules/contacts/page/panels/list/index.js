@@ -62,6 +62,7 @@ class List extends React.Component {
           searchFields={fields}
           searchString={searchString}
           parentItem="contacts"
+          allowExport={true}
         />
         <div className="list-group h-scroll" onScroll={this._onScroll}>
           {contacts.map(c => (

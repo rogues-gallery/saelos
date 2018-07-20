@@ -173,6 +173,11 @@ export default function companyReducer(state = initialState, action) {
         ...state,
         data: updatedDataWithNotes
       };
+    case types.DOWNLOADING_COMPANIES_SUCCESS:
+      return {
+        ...state,
+        isFetching: false
+      };
     default:
       return state;
   }

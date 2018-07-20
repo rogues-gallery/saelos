@@ -53,7 +53,11 @@ export const fetchOpportunities = params => dispatch => {
 
   return Http.get("opportunities", { params })
     .then(res => {
-      dispatch(actions.fetchingOpportunitiesSuccess(res.data));
+      if (params.hasOwnProperty("export") && params.export) {
+        dispatch(actions.downloadingOpportunitiesSuccess(res.data));
+      } else {
+        dispatch(actions.fetchingOpportunitiesSuccess(res.data));
+      }
     })
     .catch(err => {
       console.log(err);

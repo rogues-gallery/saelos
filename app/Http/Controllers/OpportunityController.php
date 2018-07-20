@@ -20,6 +20,8 @@ use App\Http\Resources\Opportunity as OpportunityResource;
  */
 class OpportunityController extends Controller
 {
+    use Exportable;
+
     const INDEX_WITH = [
         'user',
         'team',
@@ -73,6 +75,10 @@ class OpportunityController extends Controller
 
         if ($modifiedSince = $request->get('modified_since')) {
             $opportunities->where('updated_at', '>', new Carbon($modifiedSince));
+        }
+
+        if ($request->get('export', false)) {
+            return $this->exportQueryBuilder($opportunities, Opportunity::class);
         }
 
         return new OpportunityCollection($opportunities->paginate());

@@ -156,6 +156,11 @@ export default function opportunityReducer(state = initialState, action) {
         ...state,
         data: updatedDataWithNotes
       };
+    case types.DOWNLOADING_OPPORTUNITIES_SUCCESS:
+      return {
+        ...state,
+        isFetching: false
+      };
     default:
       return state;
   }

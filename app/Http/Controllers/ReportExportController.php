@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-
 /**
  * @hideFromAPIDocumentation
  */
@@ -23,44 +22,37 @@ class ReportExportController extends Controller
      *
      * @return StreamedResponse
      */
-    public function export(Request $request, $id)
+    public function export(Request $request, Report $report)
     {
-        $report = Report::findOrFail($id);
         $filename = strtolower(str_replace(' ', '_', $report->name)).'.csv';
 
         return new StreamedResponse(function () use ($report) {
             /** @var Builder $query */
             $query = $report->data();
-            $page = 1;
             $handle = fopen('php://output', 'w');
 
             fputcsv($handle, $report->columns);
 
-            do {
-                $data = $query->paginate(30, ['*'], 'page', $page);
-
-                foreach ($data as $datum) {
+            $query->chunk(100, function ($results) use ($report, $handle) {
+                foreach ($results as $result) {
                     $row = [];
                     foreach ($report->columns as $column) {
                         if (strpos($column, '.') !== false) {
                             list($relation, $col) = explode('.', $column);
 
                             if ($relation === 'custom_fields') {
-                                $row[$column] = $datum->custom_fields[$col]['value'];
+                                $row[$column] = $result->custom_fields[$col]['value'];
                             } else {
-                                $row[$column] = $datum->{$relation}[$col];
+                                $row[$column] = $result->{$relation}[$col];
                             }
                         } else {
-                            $row[$column] = $datum->{$column};
+                            $row[$column] = $result->{$column};
                         }
                     }
 
                     fputcsv($handle, $row);
                 }
-
-                $page++;
-
-            } while($page <= $data->lastPage());
+            });
 
             fclose($handle);
         }, 200, [

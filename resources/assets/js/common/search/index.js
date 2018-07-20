@@ -224,6 +224,13 @@ class AdvancedSearch extends React.Component {
     dispatch(searchFunc({ page: 1, searchString: "" }));
   };
 
+  _download = () => {
+    const { dispatch, searchFunc } = this.props;
+    const { searchString } = this.state;
+
+    dispatch(searchFunc({ searchString, export: true }));
+  };
+
   render() {
     const {
       searchString,
@@ -232,7 +239,7 @@ class AdvancedSearch extends React.Component {
       expandSearch,
       activeOnly
     } = this.state;
-    const { views, searchFields } = this.props;
+    const { views, searchFields, allowExport } = this.props;
     const viewSearchStrings = views.map(v => v.searchString);
 
     return (
@@ -314,6 +321,14 @@ class AdvancedSearch extends React.Component {
             value={searchString}
           />
           <div className="input-group-append">
+            {searchString && allowExport ? (
+              <button
+                className="btn btn-outline border text-muted"
+                onClick={this._download}
+              >
+                <MDIcons.MdFileDownload />
+              </button>
+            ) : null}
             {searchString ? (
               <button
                 className="btn btn-outline border text-muted"
@@ -418,11 +433,16 @@ AdvancedSearch.propTypes = {
     .isRequired,
   views: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
-  parentItem: PropTypes.string.isRequired
+  parentItem: PropTypes.string.isRequired,
+  allowExport: PropTypes.bool
 };
 
 AdvancedSearch.contextTypes = {
   i18n: PropTypes.object.isRequired
+};
+
+AdvancedSearch.defaultProps = {
+  allowExport: false
 };
 
 export default connect((state, ownProps) => ({

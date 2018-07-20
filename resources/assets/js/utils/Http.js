@@ -2,6 +2,8 @@ import axios from "axios";
 import store from "../store";
 import { authLogout } from "../modules/auth/store/actions";
 
+const FileDownload = require("react-file-download");
+
 const version = "v1";
 const API_URL =
   process.env.NODE_ENV === "test"
@@ -24,6 +26,13 @@ axios.interceptors.response.use(
       document.location.href = response.data.destination;
 
       return;
+    }
+
+    if (response.headers["x-suggested-filename"]) {
+      return FileDownload(
+        response.data,
+        response.headers["x-suggested-filename"]
+      );
     }
 
     return response;
