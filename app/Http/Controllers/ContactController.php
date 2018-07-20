@@ -98,7 +98,7 @@ class ContactController extends Controller
         $contacts->orderBy('contacts.id', 'desc');
 
         if ($request->get('export', false)) {
-            return $this->exportQueryBuilder($contacts, Contact::class);
+            return $this->exportQueryBuilder($contacts, Contact::class, Contact::ADDITIONAL_CSV_HEADERS);
         }
 
         return new ContactCollection($contacts->paginate());

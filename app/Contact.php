@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\CsvExportable;
 use App\Contracts\HasActivitiesInterface;
 use App\Contracts\HasCompaniesInterface;
 use App\Contracts\HasCustomFieldsInterface;
@@ -28,7 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\User                                                        $user
  * @mixin \Eloquent
  */
-class Contact extends Model implements HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface, HasTagsInterface
+class Contact extends Model implements HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface, HasTagsInterface, CsvExportable
 {
     use SoftDeletes;
     use HasActivitiesTrait;
@@ -37,6 +38,12 @@ class Contact extends Model implements HasCustomFieldsInterface, SearchableInter
     use HasNotesTrait;
     use HasTagsTrait;
     use SearchableTrait;
+
+    const ADDITIONAL_CSV_HEADERS = [
+        'Status',
+        'Company',
+        'Assignee',
+    ];
 
     protected $guarded = [
         'id',
@@ -69,5 +76,39 @@ class Contact extends Model implements HasCustomFieldsInterface, SearchableInter
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    public function toCsvRow($fields): array
+    {
+        $row = [];
+        $aliases = $fields->pluck('alias')->all();
+
+        foreach ($aliases as $column) {
+            $field = $fields->where('alias', $column)->first();
+
+            if (!$field->protected) {
+                $row[$column] = $this->customFields->where('custom_field_alias', $column)->first()['value'];
+            } else {
+                $row[$column] = $this->{$column};
+            }
+        }
+
+        $status = $this->status()->first();
+
+        $row['status'] = $status ? $status->name : "";
+
+        $company = $this->companies()->wherePivot('primary', 1)->first();
+
+        if (empty($company)) {
+            $company = $this->companies()->first();
+        }
+
+        $row['primary_company'] = $company ? $company->name : "";
+
+        $assignee = $this->user()->first();
+
+        $row['assignee'] = $assignee ? $assignee->name : "";
+
+        return $row;
     }
 }

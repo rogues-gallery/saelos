@@ -81,7 +81,7 @@ class CompanyController extends Controller
         $companies->orderBy('id', 'desc');
 
         if ($request->get('export', false)) {
-            return $this->exportQueryBuilder($companies, Company::class);
+            return $this->exportQueryBuilder($companies, Company::class, Company::ADDITIONAL_CSV_HEADERS);
         }
 
         return new CompanyCollection($companies->paginate());

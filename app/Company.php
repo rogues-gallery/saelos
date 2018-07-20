@@ -36,6 +36,10 @@ class Company extends Model implements HasCustomFieldsInterface, SearchableInter
     use HasTagsTrait;
     use SearchableTrait;
 
+    const ADDITIONAL_CSV_HEADERS = [
+        'Assignee'
+    ];
+
     protected $guarded = [
         'id',
         'opportunities',
@@ -68,5 +72,27 @@ class Company extends Model implements HasCustomFieldsInterface, SearchableInter
     {
         return $this->morphedByMany(Opportunity::class, 'entity', 'company_xref')
             ->where('published', 1);
+    }
+
+    public function toCsvRow($fields): array
+    {
+        $row = [];
+        $aliases = $fields->pluck('alias')->all();
+
+        foreach ($aliases as $column) {
+            $field = $fields->where('alias', $column)->first();
+
+            if (!$field->protected) {
+                $row[$column] = $this->customFields->where('custom_field_alias', $column)->first()['value'];
+            } else {
+                $row[$column] = $this->{$column};
+            }
+        }
+
+        $assignee = $this->user()->first();
+
+        $row['assignee'] = $assignee ? $assignee->name : "";
+
+        return $row;
     }
 }

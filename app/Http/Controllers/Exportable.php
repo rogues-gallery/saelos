@@ -13,13 +13,13 @@ trait Exportable
      * @param Builder $query
      * @param string $model
      */
-    public function exportQueryBuilder(Builder $query, string $modelName)
+    public function exportQueryBuilder(Builder $query, string $modelName, $additionalHeaders = [])
     {
         $modelClass = array_values(array_slice(explode('\\', $modelName), -1))[0];
         $filename = strtolower(str_replace(' ', '_', $modelClass)).'.csv';
 
         /** @var Builder $query */
-        return new StreamedResponse(function () use ($query, $modelName) {
+        return new StreamedResponse(function () use ($query, $modelName, $additionalHeaders) {
             set_time_limit(0);
 
             $handle = fopen('php://output', 'w');
@@ -27,25 +27,14 @@ trait Exportable
                 ->orderBy('ordering', 'asc')
                 ->get();
 
-            fputcsv($handle, $fields->pluck('label')->all());
-            
-            $aliases = $fields->pluck('alias')->all();
+            $headers = $fields->pluck('label')->all();
+            $header = array_merge($headers, $additionalHeaders);
+            fputcsv($handle, $header);
 
-            $query->chunk(100, function ($results) use ($fields, $aliases, $handle) {
+            $query->chunk(100, function ($results) use ($fields, $handle) {
+                /** @var \App\Contracts\CsvExportable $result */
                 foreach ($results as $result) {
-                    $row = [];
-
-                    foreach ($aliases as $column) {
-                        $field = $fields->where('alias', $column)->first();
-
-                        if (!$field->protected) {
-                            $row[$column] = $result->customFields->where('custom_field_alias', $column)->first()['value'];
-                        } else {
-                            $row[$column] = $result->{$column};
-                        }
-                    }
-
-                    fputcsv($handle, $row);
+                    fputcsv($handle, $result->toCsvRow($fields));
                 }
             });
 

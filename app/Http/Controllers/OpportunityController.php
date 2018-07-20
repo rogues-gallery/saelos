@@ -78,7 +78,7 @@ class OpportunityController extends Controller
         }
 
         if ($request->get('export', false)) {
-            return $this->exportQueryBuilder($opportunities, Opportunity::class);
+            return $this->exportQueryBuilder($opportunities, Opportunity::class, Opportunity::ADDITIONAL_CSV_HEADERS);
         }
 
         return new OpportunityCollection($opportunities->paginate());

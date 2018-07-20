@@ -40,6 +40,12 @@ class Opportunity extends Model implements HasCustomFieldsInterface, SearchableI
     use HasTagsTrait;
     use SearchableTrait;
 
+    const ADDITIONAL_CSV_HEADERS = [
+        'Stage',
+        'Company',
+        'Assignee',
+    ];
+
     protected $guarded = [
         'id',
         'user',
@@ -80,5 +86,39 @@ class Opportunity extends Model implements HasCustomFieldsInterface, SearchableI
     public function stage()
     {
         return $this->belongsTo(Stage::class);
+    }
+
+    public function toCsvRow($fields): array
+    {
+        $row = [];
+        $aliases = $fields->pluck('alias')->all();
+
+        foreach ($aliases as $column) {
+            $field = $fields->where('alias', $column)->first();
+
+            if (!$field->protected) {
+                $row[$column] = $this->customFields->where('custom_field_alias', $column)->first()['value'];
+            } else {
+                $row[$column] = $this->{$column};
+            }
+        }
+
+        $stage = $this->stage()->first();
+
+        $row['stage'] = $stage ? $stage->name : "";
+
+        $company = $this->companies()->wherePivot('primary', 1)->first();
+
+        if (empty($company)) {
+            $company = $this->companies()->first();
+        }
+
+        $row['primary_company'] = $company ? $company->name : "";
+
+        $assignee = $this->user()->first();
+
+        $row['assignee'] = $assignee ? $assignee->name : "";
+
+        return $row;
     }
 }
