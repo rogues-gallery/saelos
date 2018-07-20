@@ -1,11 +1,7 @@
-// import libs
 import React from "react";
 import PropTypes from "prop-types";
 
-// import components
-import NavItem from "./NavItem";
 import { Link } from "react-router-dom";
-import routes from "../../routes/routes";
 import * as MDIcons from "react-icons/lib/md";
 
 const CreateNav = ({ user }, { i18n }) => (
