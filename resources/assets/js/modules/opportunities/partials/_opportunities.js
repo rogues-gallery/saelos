@@ -157,7 +157,7 @@ class Opportunities extends React.Component {
             aria-controls="collapseOpportunities"
           >
             <MDIcons.MdKeyboardArrowDown />{" "}
-            {this.context.i18n.t("messages.opprotunity_plural")}
+            {this.context.i18n.t("messages.opportunity_plural")}
             <span className="text-muted font-weight-normal">
               ({opportunities.length})
             </span>

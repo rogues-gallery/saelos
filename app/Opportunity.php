@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\CsvExportable;
 use App\Contracts\HasActivitiesInterface;
 use App\Contracts\HasCompaniesInterface;
 use App\Contracts\HasCustomFieldsInterface;
@@ -30,7 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\User                                                        $user
  * @mixin \Eloquent
  */
-class Opportunity extends Model implements HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface, HasTagsInterface
+class Opportunity extends Model implements HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasCompaniesInterface, HasTagsInterface, CsvExportable
 {
     use SoftDeletes;
     use HasActivitiesTrait;

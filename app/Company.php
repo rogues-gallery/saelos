@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\CsvExportable;
 use App\Contracts\HasActivitiesInterface;
 use App\Contracts\HasCustomFieldsInterface;
 use App\Contracts\HasTagsInterface;
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\User                                                        $user
  * @mixin \Eloquent
  */
-class Company extends Model implements HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasTagsInterface
+class Company extends Model implements HasCustomFieldsInterface, SearchableInterface, HasActivitiesInterface, HasTagsInterface, CsvExportable
 {
     use SoftDeletes;
     use HasActivitiesTrait;

@@ -33,9 +33,9 @@ trait Exportable
 
             $query->chunk(100, function ($results) use ($fields, $handle) {
                 /** @var \App\Contracts\CsvExportable $result */
-                foreach ($results as $result) {
+                $results->map(function($result) use ($fields, $handle) {
                     fputcsv($handle, $result->toCsvRow($fields));
-                }
+                });
             });
 
             fclose($handle);
