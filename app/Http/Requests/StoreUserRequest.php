@@ -42,9 +42,9 @@ class StoreUserRequest extends FormRequest
         $rules = $this->addCustomFieldRules($rules);
 
         $rules = array_merge($rules, [
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'name' => 'sometimes|required|string|max:255',
+            'username' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|max:255',
             'password' => 'sometimes|string',
             'second_password' => 'sometimes|required_with:password|same:password',
             'phone' => 'string|max:255',

@@ -33,7 +33,7 @@ trait SaelosFormRequestTrait
      */
     protected function buildRuleForField(Field $field)
     {
-        $rule = '';
+        $rule = 'sometimes|';
 
         if ($field->required) {
             $rule .= 'required|';

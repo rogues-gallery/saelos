@@ -33,7 +33,7 @@
             escapeValue: false,
             defaultNS: "saelos",
             fallbackNS: "saelos",
-            debug: {{config('app.debug') ? true : false}},
+            debug: {{config('app.debug') ? "true" : "false"}},
             keySeparator: '^',
             ns: {!! i18next_namespaces() !!},
             lng: "en",
