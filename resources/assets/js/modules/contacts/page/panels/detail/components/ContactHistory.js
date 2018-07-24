@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as MDIcons from "react-icons/lib/md";
+import moment from "moment";
 
 const ContactHistory = ({ activities, dispatch, toggle, inEdit }, { i18n }) => (
   <div className={`col detail-panel border-left ${inEdit ? "inEdit" : ""}`}>
