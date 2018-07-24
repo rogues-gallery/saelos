@@ -253,7 +253,7 @@ class TagsPartial extends React.Component {
                         name="name"
                         placeholder={this.context.i18n.t(
                           "messages.generic.name",
-                          { name: this.contexnt.i18n.t("messages.tag") }
+                          { name: this.context.i18n.t("messages.tag") }
                         )}
                         value={formState.name}
                         onChange={this._handleInputChange}
