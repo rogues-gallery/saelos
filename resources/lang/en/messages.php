@@ -141,7 +141,7 @@ return array(
     "time.month" => "Month",
     "time.year" => "Year",
     "time.quarter" => "Quarter",
-    "click.to.call" => "Click the button to the left to initiate a call to t  user. Once the call is completed please enter your Rep Sentiment Score below.",
+    "click.to.call" => "Click the button to the left to initiate a call to the user. Once the call is completed please enter your Rep Sentiment Score below.",
     "rep.sentiment.score" => "Rep Sentiment Score",
     "enter.sms.message" => "Enter SMS Message",
     "company.details" => "Company Details",
