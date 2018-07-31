@@ -25,11 +25,12 @@ trait SearchableTrait
                     }
 
                     $field = $searchableFields->where('alias', $criteria['keyword'])->first();
+                    $exclude = array_key_exists($criteria['keyword'], $searchArray['exclude']);
 
                     if ($criteria['exact']) {
-                        $operator = array_key_exists($criteria['keyword'], $searchArray['exclude']) ? '!=' : '=';
+                        $operator = $exclude ? '!=' : '=';
                     } else {
-                        $operator = array_key_exists($criteria['keyword'], $searchArray['exclude']) ? 'NOT LIKE' : 'LIKE';
+                        $operator = $exclude ? 'NOT LIKE' : 'LIKE';
                     }
 
                     if (!$field) {
@@ -39,20 +40,31 @@ trait SearchableTrait
 
                     // Handle custom fields. Only core fields (on table) are protected
                     if (!$field->protected) {
-                        if (empty($criteria['value'])) {
-                            $q->whereDoesntHave('customFields', function (Builder $sq) use ($field) {
-                                $sq->where('custom_field_id', $field->id);
-                            });
-                        } else {
-                            $q->whereHas('customFields', function (Builder $sq) use ($criteria, $operator, $field) {
-                                $val = strpos($operator, 'LIKE') !== false
-                                    ? '%'.$criteria['value'].'%'
-                                    : $criteria['value'];
+                        $q->where(function(Builder $sq) use ($criteria, $operator, $field, $exclude) {
+                            if (empty($criteria['value'])) {
+                                $sq->whereDoesntHave('customFields', function (Builder $ssq) use ($field) {
+                                    $ssq->where('custom_field_id', $field->id);
+                                });
+                            } else {
+                                // If they have the custom field
+                                $sq->whereHas('customFields', function (Builder $ssq) use ($criteria, $operator, $field) {
+                                    $val = strpos($operator, 'LIKE') !== false
+                                        ? '%'.$criteria['value'].'%'
+                                        : $criteria['value'];
+        
+                                    $ssq->where('custom_field_id', $field->id);
+                                    $ssq->where('value', $operator, $val);
+                                });
     
-                                $sq->where('custom_field_id', $field->id);
-                                $sq->where('value', $operator, $val);
-                            });
-                        }
+                                // Or if we want to exclude, if they do not have the custom field
+                                if ($exclude) {
+                                    $sq->orWhereDoesntHave('customFields', function (Builder $ssq) use ($field) {
+                                        $ssq->where('custom_field_id', $field->id);
+                                    });
+                                }
+                            }
+
+                        });
                         continue;
                     }
 
