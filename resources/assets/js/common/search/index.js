@@ -326,7 +326,7 @@ class AdvancedSearch extends React.Component {
                 className="btn btn-outline border text-muted"
                 onClick={this._download}
               >
-                <MDIcons.MdBackspace />
+                <MDIcons.MdFileDownload />
               </button>
             ) : null}
             {searchString ? (
@@ -334,7 +334,7 @@ class AdvancedSearch extends React.Component {
                 className="btn btn-outline border text-muted"
                 onClick={this._clearSearch}
               >
-                <MDIcons.MdClearAll />
+                <MDIcons.MdBackspace />
               </button>
             ) : null}
             {viewSearchStrings.includes(searchString) ? (
