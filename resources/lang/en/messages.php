@@ -35,6 +35,7 @@ return array(
     "assignee" => "Assignee",
     "not.assigned" => "Unassigned",
     "type" => "Type",
+    "export" => "Export",
     "cancel" => "Cancel",
     "save" => "Save",
     "edit" => "Edit",

@@ -403,6 +403,20 @@ class Record extends React.Component {
                       {this.context.i18n.t("messages.summary")}
                     </div>
                   </div>
+                  <div className={`my-2 col`}>
+                    <label className="switch float-left mr-2">
+                      <input
+                        type="checkbox"
+                        name="export"
+                        checked={formState.export}
+                        onChange={this._handleInputChange}
+                      />
+                      <span className="toggle-slider round" />
+                    </label>
+                    <div className="pt-1">
+                      {this.context.i18n.t("messages.export")}
+                    </div>
+                  </div>
                 </div>
               </li>
             </ul>

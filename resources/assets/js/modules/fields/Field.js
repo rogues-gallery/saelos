@@ -24,6 +24,7 @@ class Field extends Model {
     this.summary = props.summary ? props.summary : "";
     this.ordering = props.ordering ? props.ordering : 0;
     this.searchable = props.searchable ? props.searchable : false;
+    this.export = props.export ? props.export : 0;
   }
 }
 

@@ -24,6 +24,7 @@ trait Exportable
 
             $handle = fopen('php://output', 'w');
             $fields = Field::where('model', $modelName)
+                ->where('export', 1)
                 ->orderBy('ordering', 'asc')
                 ->get();
 

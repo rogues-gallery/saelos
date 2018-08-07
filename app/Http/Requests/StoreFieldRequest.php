@@ -74,6 +74,7 @@ class StoreFieldRequest extends FormRequest
             'searchable' => 'sometimes|required|boolean',
             'summary'    => 'sometimes|nullable',
             'ordering'   => 'sometimes|required|integer',
+            'export'     => 'sometimes|required|integer',
         ];
     }
 }
