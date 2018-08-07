@@ -326,7 +326,7 @@ class AdvancedSearch extends React.Component {
                 className="btn btn-outline border text-muted"
                 onClick={this._download}
               >
-                <MDIcons.MdFileDownload />
+                <MDIcons.MdBackspace />
               </button>
             ) : null}
             {searchString ? (

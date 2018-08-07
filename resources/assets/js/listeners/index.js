@@ -15,8 +15,35 @@ let options = window.ECHO_CONFIG || {};
 options.client = require("socket.io-client");
 window.Pusher = require("pusher-js");
 
-window.Echo = window.ECHO_CONFIG !== false ? new Echo(options) : {};
-window.axios.defaults.headers.common["X-Socket-ID"] = window.Echo.socketId();
+window.Echo = new Echo(options);
+
+if (options.broadcaster === null) {
+  const nullConnector = {
+    socketId: function() {
+      return false;
+    },
+    listen: function() {
+      return nullConnector;
+    },
+    channel: function() {
+      return nullConnector;
+    },
+    private: function() {
+      return nullConnector;
+    },
+    join: function() {
+      return nullConnector;
+    },
+    leave: function() {
+      return nullConnector;
+    },
+    disconnect: function() {
+      return true;
+    }
+  };
+
+  window.Echo.connector = nullConnector;
+}
 
 require("./app");
 require("./contacts");

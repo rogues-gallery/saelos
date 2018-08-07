@@ -9,7 +9,7 @@ const API_URL =
   process.env.NODE_ENV === "test"
     ? process.env.BASE_URL ||
       `http://localhost:${process.env.PORT}/api/${version}/`
-    : `/api/${version}`;
+    : `${window.SAELOS_CONFIG.APP_URL}/api/${version}`;
 const token = localStorage.getItem("access_token");
 
 axios.defaults.baseURL = API_URL;

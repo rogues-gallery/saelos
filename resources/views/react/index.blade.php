@@ -26,8 +26,15 @@
             encrypted: true
         };
 @else
-        window.ECHO_CONFIG = false;
+        window.ECHO_CONFIG = {
+            broadcaster: null
+        };
 @endif
+
+        window.SAELOS_CONFIG = {
+            APP_URL: "{{ env('APP_URL') }}",
+            BROADCAST_DRIVER: "{{ env('BROADCAST_DRIVER') }}"
+        };
 
         window.i18nextOptions = {
             escapeValue: false,
@@ -47,7 +54,7 @@
                 crossDomain: false,
                 withCredentials: false
             }
-        }
+        };
     </script>
 </head>
 <body>
