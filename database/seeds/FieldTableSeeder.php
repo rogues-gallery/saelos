@@ -18,38 +18,7 @@ class FieldTableSeeder extends Seeder
     public function run()
     {
         $coreFields = [
-            [
-                "label" => "Probability",
-                "alias" => "probability",
-                "model" => Opportunity::class,
-                "group" => "core",
-                "type" => "number",
-                "entity_class" => null,
-                "default" => null,
-                "values" => null,
-                "required" => 1,
-                "protected" => 1,
-                "hidden" => 0,
-                "summary" => 0,
-                "ordering" => 0,
-                "searchable" => 0,
-            ],
-            [
-                "label" => "Amount",
-                "alias" => "amount",
-                "model" => Opportunity::class,
-                "group" => "core",
-                "type" => "number",
-                "entity_class" => null,
-                "default" => null,
-                "values" => null,
-                "required" => 1,
-                "protected" => 1,
-                "hidden" => 0,
-                "summary" => 0,
-                "ordering" => 0,
-                "searchable" => 0,
-            ],
+            // Contact Fields
             [
                 "label" => "First Name",
                 "alias" => "first_name",
@@ -65,6 +34,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 1,
                 "searchable" => 1,
+                "export" => 1,
             ],
             [
                 "label" => "Last Name",
@@ -81,6 +51,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 2,
                 "searchable" => 1,
+                "export" => 1,
             ],
             [
                 "label" => "Email",
@@ -97,6 +68,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 4,
                 "searchable" => 1,
+                "export" => 1,
             ],
             [
                 "label" => "Address 1",
@@ -113,6 +85,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 5,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Address 2",
@@ -129,6 +102,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 6,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "City",
@@ -145,6 +119,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 7,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "State",
@@ -161,6 +136,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 8,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Zip",
@@ -177,6 +153,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 9,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Country",
@@ -193,6 +170,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 10,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Phone",
@@ -209,6 +187,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 11,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Fax",
@@ -225,6 +204,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 12,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Website",
@@ -241,6 +221,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 13,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Info",
@@ -257,7 +238,96 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 14,
                 "searchable" => 0,
+                "export" => 1,
             ],
+            [
+                "label" => "Mobile Phone",
+                "alias" => "mobile_phone",
+                "model" => Contact::class,
+                "group" => "personal",
+                "type" => "text",
+                "entity_class" => null,
+                "default" => null,
+                "values" => null,
+                "required" => 0,
+                "protected" => 1,
+                "hidden" => 0,
+                "summary" => 0,
+                "ordering" => 1,
+                "searchable" => 0,
+                "export" => 1,
+            ],
+            [
+                "label" => "Other Email",
+                "alias" => "other_email",
+                "model" => Contact::class,
+                "group" => "personal",
+                "type" => "email",
+                "entity_class" => null,
+                "default" => null,
+                "values" => null,
+                "required" => 0,
+                "protected" => 1,
+                "hidden" => 0,
+                "summary" => 0,
+                "ordering" => 2,
+                "searchable" => 0,
+                "export" => 1,
+            ],
+            
+            [
+                "label" => "Facebook",
+                "alias" => "facebook",
+                "model" => Contact::class,
+                "group" => "social",
+                "type" => "text",
+                "entity_class" => null,
+                "default" => null,
+                "values" => null,
+                "required" => 0,
+                "protected" => 0,
+                "hidden" => 0,
+                "summary" => 0,
+                "ordering" => 1,
+                "searchable" => 0,
+                "export" => 1,
+            ],
+            [
+                "label" => "LinkedIn",
+                "alias" => "linkedin",
+                "model" => Contact::class,
+                "group" => "social",
+                "type" => "text",
+                "entity_class" => null,
+                "default" => null,
+                "values" => null,
+                "required" => 0,
+                "protected" => 0,
+                "hidden" => 0,
+                "summary" => 0,
+                "ordering" => 2,
+                "searchable" => 0,
+                "export" => 1,
+            ],
+            [
+                "label" => "Twitter",
+                "alias" => "twitter",
+                "model" => Contact::class,
+                "group" => "social",
+                "type" => "text",
+                "entity_class" => null,
+                "default" => null,
+                "values" => null,
+                "required" => 0,
+                "protected" => 0,
+                "hidden" => 0,
+                "summary" => 0,
+                "ordering" => 3,
+                "searchable" => 0,
+                "export" => 1,
+            ],
+
+            // Company Fields
             [
                 "label" => "Name",
                 "alias" => "name",
@@ -273,6 +343,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 1,
+                "export" => 1,
             ],
             [
                 "label" => "Description",
@@ -289,6 +360,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Address 1",
@@ -305,6 +377,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Address 2",
@@ -321,6 +394,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "City",
@@ -337,6 +411,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "State",
@@ -353,6 +428,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Zip",
@@ -369,6 +445,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Country",
@@ -385,6 +462,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Phone",
@@ -401,6 +479,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Fax",
@@ -417,6 +496,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Website",
@@ -433,6 +513,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Info",
@@ -449,7 +530,10 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
+
+            // Opportunity Fields
             [
                 "label" => "Name",
                 "alias" => "name",
@@ -465,6 +549,41 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
+            ],
+            [
+                "label" => "Probability",
+                "alias" => "probability",
+                "model" => Opportunity::class,
+                "group" => "core",
+                "type" => "number",
+                "entity_class" => null,
+                "default" => null,
+                "values" => null,
+                "required" => 1,
+                "protected" => 1,
+                "hidden" => 0,
+                "summary" => 0,
+                "ordering" => 0,
+                "searchable" => 0,
+                "export" => 1,
+            ],
+            [
+                "label" => "Amount",
+                "alias" => "amount",
+                "model" => Opportunity::class,
+                "group" => "core",
+                "type" => "number",
+                "entity_class" => null,
+                "default" => null,
+                "values" => null,
+                "required" => 1,
+                "protected" => 1,
+                "hidden" => 0,
+                "summary" => 0,
+                "ordering" => 0,
+                "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Summary",
@@ -481,6 +600,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Expected Close",
@@ -497,6 +617,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Actual Close",
@@ -513,6 +634,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Last Viewed",
@@ -529,7 +651,10 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
+
+            // User Fields
             [
                 "label" => "Twilio Number",
                 "alias" => "twilio_number",
@@ -545,6 +670,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Number of Calls",
@@ -561,6 +687,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Number of Emails",
@@ -577,6 +704,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Number of Opportunities",
@@ -593,6 +721,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Number of Responses",
@@ -609,6 +738,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Number of Texts",
@@ -625,6 +755,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
             [
                 "label" => "Quota is For",
@@ -645,6 +776,7 @@ class FieldTableSeeder extends Seeder
                 "summary" => 0,
                 "ordering" => 0,
                 "searchable" => 0,
+                "export" => 1,
             ],
         ];
 

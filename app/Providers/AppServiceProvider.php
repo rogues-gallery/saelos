@@ -6,7 +6,9 @@ use App\Company;
 use App\CustomFieldValue;
 use App\Opportunity;
 use App\Observers\ModelUpdateObserver;
+use App\Observers\UserObserver;
 use App\Contact;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
@@ -32,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
         Company::observe(ModelUpdateObserver::class);
 
         CustomFieldValue::observe(ModelUpdateObserver::class);
+
+        User::observe(UserObserver::class);
 
         // Register passport commands so they can be ran via web
         if (!$this->app->runningInConsole()) {
