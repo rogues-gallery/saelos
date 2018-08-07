@@ -33,7 +33,7 @@ class Opportunities extends React.Component {
               <b>Feature Coming Soon</b>
             </span>
             <p className="text-muted">
-              Your opporunity volume in this quarter is significantly under your
+              Your opportunity volume in this quarter is significantly under your
               quota levels. There are <b>23 contacts</b> assigned to you who
               have a status that may be ready to be updated.
             </p>

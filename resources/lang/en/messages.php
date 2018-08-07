@@ -67,7 +67,7 @@ return array(
     "due_date" => "Due Date",
     "enter.due_date" => "Enter due date",
     "my.profile" => "My Profile",
-    "my.contact" => "My Contact",
+    "my.contacts" => "My Contacts",
     "notifications" => "Notifications",
     "status" => "Status",
     "status_plural" => "Statuses",
