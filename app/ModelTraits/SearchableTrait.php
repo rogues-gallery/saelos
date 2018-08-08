@@ -166,6 +166,10 @@ trait SearchableTrait
                     }
                 }
 
+                if ($assignee === 'unassigned') {
+                    $assignee = null;
+                }
+
                 $query->where('user_id', $operator, $assignee);
 
                 break;
