@@ -33,6 +33,9 @@
 
         window.SAELOS_CONFIG = {
             APP_URL: "{{ env('APP_URL') }}",
+@foreach (config('settings') as $key => $value)
+            {{ strtoupper($key) }}: "{{ $value }}",
+@endforeach
             BROADCAST_DRIVER: "{{ env('BROADCAST_DRIVER') }}"
         };
 

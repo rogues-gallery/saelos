@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as MDIcons from "react-icons/lib/md";
 import ChartistGraph from "react-chartist";
-import { Money } from "react-format";
 import moment from "moment";
 import _ from "lodash";
 
+import { Money } from "../../../../../../utils/formatters";
 import Contacts from "../../../../../contacts/partials/_contacts";
 import Companies from "../../../../../companies/partials/_companies";
 import Notes from "../../../../../notes/partials/_notes";

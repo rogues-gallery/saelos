@@ -51,6 +51,9 @@ Route::group([
         Route::get('/reports/{report}/export', 'ReportExportController@export')
             ->name('reports.export');
 
+        Route::post('/settings', 'SettingsController@store')
+            ->name('settings.store');
+
         /**
          * @deprecated Use the /fields endpoint instead
          */

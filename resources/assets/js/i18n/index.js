@@ -6,7 +6,7 @@ let i18nextOptions = window.i18nextOptions || {
   defaultNS: "saelos",
   fallbackNS: "saelos",
   keySeparator: "^",
-  lng: "en",
+  lng: window.SAELOS_CONFIG.LANG,
   fallbackLng: "en",
   react: {
     wait: true

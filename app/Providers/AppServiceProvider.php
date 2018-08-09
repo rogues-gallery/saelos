@@ -2,15 +2,18 @@
 
 namespace App\Providers;
 
+use App\Contact;
 use App\Company;
 use App\CustomFieldValue;
-use App\Opportunity;
 use App\Observers\ModelUpdateObserver;
 use App\Observers\UserObserver;
-use App\Contact;
+use App\Opportunity;
+use App\Settings;
 use App\User;
 use Carbon\Carbon;
+use Config;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Console;
 use Validator;
@@ -54,6 +57,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->loadTranslationsFrom(resource_path().'/lang', 'saelos');
+
+        if (count(Schema::getColumnListing('settings'))) {
+            $settings = Settings::where('user_id', '')->orWhereNull('user_id')->get();
+
+            foreach ($settings as $setting) {
+                Config::set('settings.'.$setting->name, $setting->value);
+            }
+        }
     }
 
     private function registerPassportForWeb()
