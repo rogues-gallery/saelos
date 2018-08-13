@@ -18,11 +18,12 @@
     "laravel/tinker": "~1.0",
     "phpsafari/health-checks": "^0.0.7",
     "predis/predis": "^1.1",
+    "processmaker/laravel-i18next": "dev-master as 1.0",
     "pusher/pusher-php-server": "^3.0@dev",
     "rachidlaasri/laravel-installer": "dev-master as 4.1",
     "rap2hpoutre/create-user-command": "^0.1.4",
     "twilio/sdk": "^5.16",
-    "processmaker/laravel-i18next": "dev-master as 1.0"
+    "webklex/laravel-imap": "^1.2"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.1",

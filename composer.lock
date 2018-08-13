@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f46b3b8e0f5e611cd9df60bcfd89f62",
+    "content-hash": "0befec121584d37621fb94fbb39346eb",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -4107,6 +4107,69 @@
             "time": "2018-07-01T10:25:50+00:00"
         },
         {
+            "name": "webklex/laravel-imap",
+            "version": "1.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Webklex/laravel-imap.git",
+                "reference": "4a0e0af8b0f4b293abe82fac0f1323b19a7f6969"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Webklex/laravel-imap/zipball/4a0e0af8b0f4b293abe82fac0f1323b19a7f6969",
+                "reference": "4a0e0af8b0f4b293abe82fac0f1323b19a7f6969",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "ext-iconv": "*",
+                "ext-imap": "*",
+                "ext-mbstring": "*",
+                "laravel/framework": ">=5.0.0",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Webklex\\IMAP\\Providers\\LaravelServiceProvider"
+                    ],
+                    "aliases": {
+                        "Client": "Webklex\\IMAP\\Facades\\Client"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webklex\\IMAP\\": "src/IMAP"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Malte Goldenbaum",
+                    "email": "github@webklex.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel IMAP client",
+            "homepage": "https://github.com/webklex/laravel-imap",
+            "keywords": [
+                "imap",
+                "laravel",
+                "laravel-imap",
+                "mail",
+                "webklex"
+            ],
+            "time": "2018-08-06T19:26:50+00:00"
+        },
+        {
             "name": "zendframework/zend-diactoros",
             "version": "1.8.1",
             "source": {
@@ -6731,23 +6794,23 @@
     ],
     "aliases": [
         {
-            "alias": "4.1",
-            "alias_normalized": "4.1.0.0",
-            "version": "9999999-dev",
-            "package": "rachidlaasri/laravel-installer"
-        },
-        {
             "alias": "1.0",
             "alias_normalized": "1.0.0.0",
             "version": "9999999-dev",
             "package": "processmaker/laravel-i18next"
+        },
+        {
+            "alias": "4.1",
+            "alias_normalized": "4.1.0.0",
+            "version": "9999999-dev",
+            "package": "rachidlaasri/laravel-installer"
         }
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "processmaker/laravel-i18next": 20,
         "pusher/pusher-php-server": 20,
         "rachidlaasri/laravel-installer": 20,
-        "processmaker/laravel-i18next": 20,
         "laravel/dusk": 20,
         "mpociot/laravel-apidoc-generator": 20
     },

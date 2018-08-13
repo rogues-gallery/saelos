@@ -5,6 +5,7 @@ namespace App;
 use App\Contracts\HasCustomFieldsInterface;
 use App\ModelTraits\HasCustomFieldsTrait;
 use App\ModelTraits\UserSettingsTrait;
+use App\ModelTraits\EmailTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -27,6 +28,7 @@ class User extends Authenticatable implements HasCustomFieldsInterface
     use Notifiable, HasApiTokens;
     use HasCustomFieldsTrait;
     use UserSettingsTrait;
+    use EmailTrait;
 
     /**
      * The attributes that are mass assignable.

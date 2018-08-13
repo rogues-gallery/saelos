@@ -119,6 +119,86 @@ class Profile extends React.Component {
                   </div>
                 </div>
               </li>
+              <li className="list-group-item">
+                <div className="mini-text text-muted mb-2">
+                  {this.context.i18n.t("messages.imap.settings")}
+                </div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="email" className="">
+                    {this.context.i18n.t("messages.imap.settings.host")}
+                  </label>
+                  <div className="">
+                    <input
+                      type="text"
+                      id="imap_host"
+                      name="settings.imap_host"
+                      className="form-control"
+                      onChange={this._handleInputChange}
+                      defaultValue={formState.settings.imap_host}
+                    />
+                  </div>
+                </div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="email" className="">
+                    {this.context.i18n.t("messages.imap.settings.port")}
+                  </label>
+                  <div className="">
+                    <input
+                      type="text"
+                      id="imap_host"
+                      name="settings.imap_port"
+                      className="form-control"
+                      onChange={this._handleInputChange}
+                      defaultValue={formState.settings.imap_port}
+                    />
+                  </div>
+                </div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="email" className="">
+                    {this.context.i18n.t("messages.imap.settings.encryption")}
+                  </label>
+                  <div className="">
+                    <input
+                      type="text"
+                      id="imap_host"
+                      name="settings.imap_encryption"
+                      className="form-control"
+                      onChange={this._handleInputChange}
+                      defaultValue={formState.settings.imap_encryption}
+                    />
+                  </div>
+                </div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="email" className="">
+                    {this.context.i18n.t("messages.imap.settings.username")}
+                  </label>
+                  <div className="">
+                    <input
+                      type="text"
+                      id="imap_host"
+                      name="settings.imap_username"
+                      className="form-control"
+                      onChange={this._handleInputChange}
+                      defaultValue={formState.settings.imap_username}
+                    />
+                  </div>
+                </div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="email" className="">
+                    {this.context.i18n.t("messages.imap.settings.password")}
+                  </label>
+                  <div className="">
+                    <input
+                      type="password"
+                      id="imap_host"
+                      name="settings.imap_password"
+                      className="form-control"
+                      onChange={this._handleInputChange}
+                      defaultValue={formState.settings.imap_password}
+                    />
+                  </div>
+                </div>
+              </li>
             </ul>
           </div>
         </div>

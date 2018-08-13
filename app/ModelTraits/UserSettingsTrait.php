@@ -5,6 +5,7 @@ namespace App\ModelTraits;
 use App\Settings;
 use Cache;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 trait UserSettingsTrait
 {
@@ -34,7 +35,7 @@ trait UserSettingsTrait
             }
         }
 
-        return $settings;
+        return new Collection($settings);
     }
 
     public function setSetting(string $name, $value)

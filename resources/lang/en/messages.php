@@ -159,4 +159,10 @@ return array(
     "unknown" => "Unknown",
     "vector" => "Vector",
     "select.task.to.start" => "Select a task on the left to get started.",
+    "imap.settings" => "IMAP Settings",
+    "imap.settings.host" => "Host",
+    "imap.settings.port" => "Port",
+    "imap.settings.encryption" => "Encryption",
+    "imap.settings.username" => "Username",
+    "imap.settings.password" => "Password",
 );

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use Auth;
 use App\Activity;
 use App\CustomFieldValue;
 use App\FieldUpdateActivity;
@@ -31,7 +32,7 @@ class ModelUpdateObserver
 
                 $fieldUpdate->save();
 
-                $user = \Auth::user();
+                $user = Auth::check() ? Auth::user() : $model->user;
 
                 if ($fieldAlias === 'user_id') {
                     $newAssignee = \DB::table('users')->select('name')->where('id', $fieldUpdate->new_value)->first();
@@ -58,7 +59,11 @@ class ModelUpdateObserver
                         ])
                         ->first()->label;
                     $name = sprintf('%s updated', $fieldName);
-                    $description = sprintf('%s updated %s from %s to %s', $user->name, $fieldName, $fieldUpdate->old_value, $fieldUpdate->new_value);
+                    $description = sprintf('%s updated %s from %s to %s',
+                     $user->name,
+                      $fieldName,
+                       $fieldUpdate->old_value,
+                        $fieldUpdate->new_value);
                 }
 
                 $activity = Activity::create([
