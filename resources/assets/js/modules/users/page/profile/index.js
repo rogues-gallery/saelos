@@ -167,7 +167,7 @@ class Profile extends React.Component {
                   <div className="">
                     <input
                       type="text"
-                      id="imap_host"
+                      id="imap_port"
                       name="settings.imap_port"
                       className="form-control"
                       onChange={this._handleInputChange}
@@ -182,7 +182,7 @@ class Profile extends React.Component {
                   <div className="">
                     <input
                       type="text"
-                      id="imap_host"
+                      id="imap_encryption"
                       name="settings.imap_encryption"
                       className="form-control"
                       onChange={this._handleInputChange}
@@ -197,7 +197,7 @@ class Profile extends React.Component {
                   <div className="">
                     <input
                       type="text"
-                      id="imap_host"
+                      id="imap_username"
                       name="settings.imap_username"
                       className="form-control"
                       onChange={this._handleInputChange}
@@ -212,7 +212,7 @@ class Profile extends React.Component {
                   <div className="">
                     <input
                       type="password"
-                      id="imap_host"
+                      id="imap_password"
                       name="settings.imap_password"
                       className="form-control"
                       onChange={this._handleInputChange}

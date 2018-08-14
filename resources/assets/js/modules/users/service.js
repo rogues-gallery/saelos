@@ -165,8 +165,10 @@ export const purchaseNumber = params => dispatch => {
     .catch(err => console.log(err));
 };
 
-export const getEmailFolders = () => {
-  return Http.get("users/email/folders")
+export const getEmailFolders = (forSaelos = false) => {
+  const endpoint = forSaelos ? "email/folders" : "users/email/folders";
+
+  return Http.get(endpoint)
     .then(res => res.data)
     .catch(err => console.log(err));
 };

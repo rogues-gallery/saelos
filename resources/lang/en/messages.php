@@ -166,4 +166,5 @@ return array(
     "imap.settings.encryption" => "Encryption",
     "imap.settings.username" => "Username",
     "imap.settings.password" => "Password",
+    "imap.settings.excluded_domains" => "Excluded Domains",
 );

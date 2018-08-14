@@ -9,6 +9,7 @@ use App\EmailActivity;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Webklex\IMAP\Message;
 
 class ImapSync extends Command
@@ -28,6 +29,13 @@ class ImapSync extends Command
     protected $description = 'Fetch email for each user with configured IMAP settings.';
 
     /**
+     * Array of domains for which NOT to create contacts
+     * 
+     * @var Collection
+     */
+    protected $excludedDomains = [];
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -35,6 +43,8 @@ class ImapSync extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->excludedDomains = collect(explode("\n", config('settings.imap_excluded_domains', '')));
     }
 
     /**
@@ -72,6 +82,12 @@ class ImapSync extends Command
     private function importEmailsForUser(User $user)
     {
         $user->watchedFolder()->query()->since(new Carbon('-10 min'))->get()->each(function (Message $message) use ($user) {
+            $from = $message->getFrom()[0];
+
+            if ($this->excludedDomains->contains($from['host'])) {
+                return;
+            }
+
             $details = EmailActivity::firstOrNew([
                 'message_id' => $message->getMessageId()
             ]);
@@ -86,7 +102,6 @@ class ImapSync extends Command
 
             $details->save();
 
-            $from = $message->getFrom()[0];
             $contact = Contact::firstOrNew(['email' => $from->mail]);
 
             if (! $contact->id) {
