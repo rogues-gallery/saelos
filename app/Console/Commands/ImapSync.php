@@ -84,7 +84,7 @@ class ImapSync extends Command
         $user->watchedFolder()->query()->since(new Carbon('-10 min'))->get()->each(function (Message $message) use ($user) {
             $from = $message->getFrom()[0];
 
-            if ($this->excludedDomains->contains($from['host'])) {
+            if ($this->excludedDomains->contains($from->host)) {
                 return;
             }
 
