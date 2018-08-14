@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { connect } from "react-redux";
+import Select from "react-select";
 import { getActiveUser } from "../../store/selectors";
-import { saveUser } from "../../service";
+import { saveUser, getEmailFolders } from "../../service";
 import { handleInputChange } from "../../../../utils/helpers/fields";
 
 class Profile extends React.Component {
@@ -11,8 +12,20 @@ class Profile extends React.Component {
     super(props);
 
     this.state = {
+      folderOptions: [],
       formState: props.user.originalProps
     };
+  }
+
+  componentDidMount() {
+    getEmailFolders().then(folders => {
+      this.setState({
+        folderOptions: folders.map(folder => ({
+          label: folder,
+          value: folder
+        }))
+      });
+    });
   }
 
   _handleInputChange = event => {
@@ -25,9 +38,18 @@ class Profile extends React.Component {
     this.props.dispatch(saveUser(this.state.formState));
   };
 
+  handleFolderChange = selection => {
+    this._handleInputChange({
+      target: {
+        name: "settings.imap_folder",
+        value: selection.value
+      }
+    });
+  };
+
   render() {
     const { user } = this.props;
-    const { formState } = this.state;
+    const { formState, folderOptions } = this.state;
 
     return (
       <main className="col main-panel px-3 full-panel">
@@ -195,6 +217,21 @@ class Profile extends React.Component {
                       className="form-control"
                       onChange={this._handleInputChange}
                       defaultValue={formState.settings.imap_password}
+                    />
+                  </div>
+                </div>
+                <div className={`form-group mb-2`}>
+                  <label htmlFor="email" className="">
+                    {this.context.i18n.t("messages.imap.settings.folder")}
+                  </label>
+                  <div className="">
+                    <Select
+                      multi={false}
+                      valueKey="value"
+                      labelKey="label"
+                      value={formState.settings.imap_folder}
+                      onChange={this.handleFolderChange}
+                      options={folderOptions}
                     />
                   </div>
                 </div>

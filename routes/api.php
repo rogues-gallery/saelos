@@ -54,6 +54,9 @@ Route::group([
         Route::post('/settings', 'SettingsController@store')
             ->name('settings.store');
 
+        Route::get('users/email/folders', 'UserController@getEmailFolders')
+            ->name('users.email.folders');
+
         /**
          * @deprecated Use the /fields endpoint instead
          */

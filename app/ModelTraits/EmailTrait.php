@@ -7,15 +7,27 @@ use Webklex\IMAP\Client;
 
 trait EmailTrait
 {
+    /**
+     * @var Client
+     */
+    protected $imapClient;
+
+    protected $watchedFolder;
+
     protected function getImapClient()
     {
-        $settings = $this->getSettings();
-
-        if (! $settings->has('imap_host')) {
-            throw new MissingSettingException('imap_host');
+        if ($this->imapClient instanceof Client) {
+            return $this->imapClient;
         }
 
-        $client = new Client([
+        $settings = $this->getSettings();
+
+        if (! $settings->has('imap_host', 'imap_username', 'imap_password')) {
+            throw new MissingSettingException('imap');
+        }
+
+        $this->watchedFolder = $settings->get('imap_folder', 'INBOX');
+        $this->imapClient = new Client([
             'host' => $settings->get('imap_host'),
             'port' => $settings->get('imap_port', 993),
             'encryption' => $settings->get('imap_encryption', 'ssl'),
@@ -25,19 +37,19 @@ trait EmailTrait
             'protocol' => 'imap',
         ]);
 
-        $client->connect();
+        $this->imapClient->connect();
 
-        return $client;
+        return $this->imapClient;
     }
 
-    public function getFolders()
+    public function getFolders($hierarchical = true, $parentFolder = null)
     {
-        return $this->getImapClient()->getFolders();
+        return $this->getImapClient()->getFolders($hierarchical, $parentFolder);
     }
 
     public function getFolderNames()
     {
-        return $this->getFolders()->pluck('name');
+        return $this->getFolders(false)->pluck('fullName');
     }
 
     public function getFolder($name)
@@ -48,5 +60,10 @@ trait EmailTrait
     public function inbox()
     {
         return $this->getFolder('INBOX');
+    }
+
+    public function watchedFolder()
+    {
+        return $this->getFolder($this->watchedFolder);
     }
 }

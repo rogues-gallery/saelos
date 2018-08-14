@@ -16,9 +16,27 @@ class LoginTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->driver->manage()->deleteAllCookies();
-            $browser->visit('/')
-                ->pause(5000)
+            $browser
+                ->visit('/')
                 ->assertPathIs('/login');
+        });
+    }
+
+    public function testLoginAction()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser
+                ->visit('/')
+                ->assertSee('Sign in');
+
+            $browser->type('email', 'don.gilbert@mautic.com');
+            $browser->type('password', 'Mautic12');
+
+            $browser->click('button[type="submit"]');
+
+            // Give browser time to redirect
+            $browser->pause(2000);
+            $browser->assertPathBeginsWith('/contacts');
         });
     }
 }

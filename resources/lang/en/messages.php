@@ -160,6 +160,7 @@ return array(
     "vector" => "Vector",
     "select.task.to.start" => "Select a task on the left to get started.",
     "imap.settings" => "IMAP Settings",
+    "imap.settings.folder" => "Folder",
     "imap.settings.host" => "Host",
     "imap.settings.port" => "Port",
     "imap.settings.encryption" => "Encryption",

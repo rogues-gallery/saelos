@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contact;
 use App\EmailActivity;
+use App\Exceptions\MissingSettingException;
 use App\Notifications\UserUpdated;
 use App\Role;
 use Auth;
@@ -358,5 +359,19 @@ class UserController extends Controller
                 'number' => $number->phoneNumber
             ]
         ]);
+    }
+
+    /**
+     * Get folder names for the IMAP connection
+     */
+    public function getEmailFolders()
+    {
+        try {
+            return Auth::user()->getFolderNames()->all();
+        } catch (MissingSettingException $e) {
+            // noop
+        }
+        
+        return [];
     }
 }

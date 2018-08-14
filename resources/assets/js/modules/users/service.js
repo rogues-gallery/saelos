@@ -164,3 +164,9 @@ export const purchaseNumber = params => dispatch => {
     .then(res => res.data)
     .catch(err => console.log(err));
 };
+
+export const getEmailFolders = () => {
+  return Http.get("users/email/folders")
+    .then(res => res.data)
+    .catch(err => console.log(err));
+};
