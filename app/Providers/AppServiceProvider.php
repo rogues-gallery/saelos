@@ -58,12 +58,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(resource_path().'/lang', 'saelos');
 
-        if (count(Schema::getColumnListing('settings'))) {
+        if (file_exists(storage_path().'/installed') && count(Schema::getColumnListing('settings'))) {
             $settings = Settings::where('user_id', '')->orWhereNull('user_id')->get();
 
             foreach ($settings as $setting) {
                 Config::set('settings.'.$setting->name, $setting->value);
             }
+        } else {
+            Config::set('settings', []);
         }
     }
 
