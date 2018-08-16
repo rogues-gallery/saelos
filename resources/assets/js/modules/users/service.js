@@ -166,7 +166,7 @@ export const purchaseNumber = params => dispatch => {
 };
 
 export const getEmailFolders = (forSaelos = false) => {
-  const endpoint = forSaelos ? "email/folders" : "users/email/folders";
+  const endpoint = forSaelos ? "/email/folders" : "/users/email/folders";
 
   return Http.get(endpoint)
     .then(res => res.data)

@@ -367,7 +367,7 @@ class UserController extends Controller
     public function getEmailFolders()
     {
         try {
-            return Auth::user()->getFolderNames()->all();
+            return Auth::user()->getFolderNames();
         } catch (MissingSettingException $e) {
             // noop
         }

@@ -35,7 +35,7 @@ class SettingsController extends Controller implements ConnectsToImap
     public function getEmailFolders()
     {
         try {
-            return $this->getFolderNames()->all();
+            return $this->getFolderNames();
         } catch (MissingSettingException $e) {
             // noop
         }

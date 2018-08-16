@@ -32,11 +32,13 @@
 @endif
 
         window.SAELOS_CONFIG = {
-            APP_URL: "{{ env('APP_URL') }}",
+            app_url: "{{ env('APP_URL') }}",
 @foreach (config("settings", []) as $key => $value)
-            {{ strtoupper($key) }}: `{{ $value }}`,
+@if (strpos($key, 'password') === false)
+            {{ $key }}: `{{ $value }}`,
+@endif
 @endforeach
-            BROADCAST_DRIVER: "{{ env('BROADCAST_DRIVER') }}"
+            broadcast_driver: "{{ env('BROADCAST_DRIVER') }}"
         };
 
         window.i18nextOptions = {

@@ -10,15 +10,8 @@ import { getEmailFolders } from "../../../users/service";
 
 class Settings extends React.Component {
   state = {
-    lang: window.SAELOS_CONFIG.LANG,
-    currency: window.SAELOS_CONFIG.CURRENCY,
-    date_format: window.SAELOS_CONFIG.DATE_FORMAT,
-    imap_host: window.SAELOS_CONFIG.IMAP_HOST,
-    imap_port: window.SAELOS_CONFIG.IMAP_PORT,
-    imap_encryption: window.SAELOS_CONFIG.IMAP_ENCRYPTION,
-    imap_folder: window.SAELOS_CONFIG.IMAP_FOLDER,
-    imap_username: window.SAELOS_CONFIG.IMAP_USERNAME,
-    imap_excluded_domains: window.SAELOS_CONFIG.IMAP_EXCLUDED_DOMAINS
+    folderOptions: [],
+    formState: window.SAELOS_CONFIG
   };
 
   componentDidMount() {
@@ -40,6 +33,8 @@ class Settings extends React.Component {
       value
     };
 
+    _.set(window.SAELOS_CONFIG, name, value);
+
     const state = Object.assign({}, this.state);
 
     _.set(state, name, value);
@@ -50,8 +45,6 @@ class Settings extends React.Component {
   };
 
   handleCurrencyChange = selection => {
-    window.SAELOS_CONFIG.CURRENCY = selection.value;
-
     this.handleInputChange({
       target: {
         name: "currency",
@@ -61,7 +54,6 @@ class Settings extends React.Component {
   };
 
   handleLanguageChange = selection => {
-    window.SAELOS_CONFIG.LANG = selection.value;
     this.context.i18n.changeLanguage(selection.value);
 
     this.handleInputChange({
@@ -82,7 +74,7 @@ class Settings extends React.Component {
   };
 
   render() {
-    const { folderOptions } = this.state;
+    const { formState, folderOptions } = this.state;
 
     return (
       <main className="col main-panel px-3 full-panel">
@@ -103,7 +95,7 @@ class Settings extends React.Component {
                   <div className="">
                     <Select
                       multi={false}
-                      value={this.state.language}
+                      value={formState.lang}
                       onChange={this.handleLanguageChange}
                       options={languageOptions}
                     />
@@ -116,7 +108,7 @@ class Settings extends React.Component {
                   <div className="">
                     <Select
                       multi={false}
-                      value={this.state.currency}
+                      value={formState.currency}
                       onChange={this.handleCurrencyChange}
                       options={currencyOptions}
                     />
@@ -134,6 +126,7 @@ class Settings extends React.Component {
                       className="form-control"
                       placeholder="Y-m-d H:i:s"
                       onChange={this.handleInputChange}
+                      defaultValue={formState.date_format}
                     />
                   </div>
                 </div>
@@ -153,7 +146,7 @@ class Settings extends React.Component {
                       name="imap_host"
                       className="form-control"
                       onChange={this.handleInputChange}
-                      defaultValue={this.state.imap_host}
+                      defaultValue={formState.imap_host}
                     />
                   </div>
                 </div>
@@ -168,7 +161,7 @@ class Settings extends React.Component {
                       name="imap_port"
                       className="form-control"
                       onChange={this.handleInputChange}
-                      defaultValue={this.state.imap_port}
+                      defaultValue={formState.imap_port}
                     />
                   </div>
                 </div>
@@ -183,7 +176,7 @@ class Settings extends React.Component {
                       name="imap_encryption"
                       className="form-control"
                       onChange={this.handleInputChange}
-                      defaultValue={this.state.imap_encryption}
+                      defaultValue={formState.imap_encryption}
                     />
                   </div>
                 </div>
@@ -199,7 +192,7 @@ class Settings extends React.Component {
                       className="form-control"
                       autoComplete="off"
                       onChange={this.handleInputChange}
-                      defaultValue={this.state.imap_username}
+                      defaultValue={formState.imap_username}
                     />
                   </div>
                 </div>
@@ -227,7 +220,7 @@ class Settings extends React.Component {
                       multi={false}
                       valueKey="value"
                       labelKey="label"
-                      value={this.state.imap_folder}
+                      value={formState.imap_folder}
                       onChange={this.handleFolderChange}
                       options={folderOptions}
                     />
@@ -244,7 +237,7 @@ class Settings extends React.Component {
                       className="form-control"
                       name="imap_excluded_domains"
                       onChange={this.handleInputChange}
-                      defaultValue={this.state.imap_excluded_domains}
+                      defaultValue={formState.imap_excluded_domains}
                     />
                   </div>
                 </div>

@@ -51,7 +51,7 @@ trait EmailTrait
 
     public function getFolderNames(): array
     {
-        return $this->getFolders(false)->pluck('fullName');
+        return $this->getFolders(false)->pluck('fullName')->all();
     }
 
     public function getFolder($name): Folder
