@@ -4,6 +4,8 @@ namespace App\ModelTraits;
 
 use App\Exceptions\MissingSettingException;
 use Webklex\IMAP\Client;
+use Webklex\IMAP\Folder;
+use Webklex\IMAP\Support\FolderCollection;
 
 trait EmailTrait
 {
@@ -14,7 +16,7 @@ trait EmailTrait
 
     protected $watchedFolder;
 
-    protected function getImapClient()
+    protected function getImapClient(): Client
     {
         if ($this->imapClient instanceof Client) {
             return $this->imapClient;
@@ -42,28 +44,28 @@ trait EmailTrait
         return $this->imapClient;
     }
 
-    public function getFolders($hierarchical = true, $parentFolder = null)
+    public function getFolders($hierarchical = true, $parentFolder = null): FolderCollection
     {
         return $this->getImapClient()->getFolders($hierarchical, $parentFolder);
     }
 
-    public function getFolderNames()
+    public function getFolderNames(): array
     {
         return $this->getFolders(false)->pluck('fullName');
     }
 
-    public function getFolder($name)
+    public function getFolder($name): Folder
     {
         return $this->getImapClient()->getFolder($name);
     }
 
-    public function inbox()
+    public function inbox(): Folder
     {
         return $this->getFolder('INBOX');
     }
 
-    public function watchedFolder()
+    public function watchedFolder(): Folder
     {
-        return $this->getFolder($this->watchedFolder);
+        return $this->getImapClient()->getFolder($this->watchedFolder);
     }
 }

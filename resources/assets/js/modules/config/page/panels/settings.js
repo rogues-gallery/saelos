@@ -244,9 +244,8 @@ class Settings extends React.Component {
                       className="form-control"
                       name="imap_excluded_domains"
                       onChange={this.handleInputChange}
-                    >
-                      {this.state.imap_excluded_domains}
-                    </textarea>
+                      defaultValue={this.state.imap_excluded_domains}
+                    />
                   </div>
                 </div>
               </li>

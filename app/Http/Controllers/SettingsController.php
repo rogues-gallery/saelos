@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\ConnectsToImap;
 use App\Exceptions\MissingSettingException;
 use App\ModelTraits\EmailTrait;
 use App\Settings;
 use App\Http\Requests\StoreSettingRequest;
 
-class SettingsController extends Controller
+class SettingsController extends Controller implements ConnectsToImap
 {
     use EmailTrait;
 
@@ -23,7 +24,7 @@ class SettingsController extends Controller
         return $setting;
     }
 
-    protected function getSettings()
+    public function getSettings()
     {
         return collect(config('settings'));
     }

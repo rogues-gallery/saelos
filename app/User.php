@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\ConnectsToImap;
 use App\Contracts\HasCustomFieldsInterface;
 use App\ModelTraits\HasCustomFieldsTrait;
 use App\ModelTraits\UserSettingsTrait;
@@ -23,7 +24,7 @@ use Laravel\Passport\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[]                                        $tokens
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements HasCustomFieldsInterface
+class User extends Authenticatable implements HasCustomFieldsInterface, ConnectsToImap
 {
     use Notifiable, HasApiTokens;
     use HasCustomFieldsTrait;

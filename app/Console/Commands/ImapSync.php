@@ -59,13 +59,16 @@ class ImapSync extends Command
 
         $users->each(function (User $user) use ($bar) {
             try {
-                $this->importEmailsForUser($user);
+                $this->importEmails($user);
             } catch (MissingSettingException $e) {
                 // noop
             } finally {
                 $bar->advance();
             }
         });
+
+        // Import the global configured imap folder
+        $this->importEmails(app(SettingsController::class));
 
         $bar->finish();
         $this->line('Done!');
@@ -74,17 +77,28 @@ class ImapSync extends Command
     /**
      * Run the email sync for the given user.
      * 
-     * @param User $user
+     * @param ConnectsToImap $imap
      * 
      * @return void
      * @throws MissingSettingException
      */
-    private function importEmailsForUser(User $user)
+    private function importEmails(ConnectsToImap $imap)
     {
-        $user->watchedFolder()->query()->since(new Carbon('-10 min'))->get()->each(function (Message $message) use ($user) {
+        $imap->watchedFolder()->query()->since(new Carbon('-10 min'))->get()->each(function (Message $message) use ($imap) {
             $from = $message->getFrom()[0];
 
             if ($this->excludedDomains->contains($from->host)) {
+                return;
+            }
+
+            if ($imap instanceof User) {
+                $user = $imap;
+            } else {
+                $to = $message->getTo()[0];
+                $user = User::where(['email' => $to->mail])->first();
+            }
+
+            if (!$user) {
                 return;
             }
 
