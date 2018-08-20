@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import { getTeam } from "../../../store/selectors";
@@ -161,6 +162,10 @@ class Record extends React.Component {
     );
   }
 }
+
+Record.contextTypes = {
+  i18n: PropTypes.object.isRequired
+};
 
 export default withRouter(
   connect((state, ownProps) => ({
