@@ -40,6 +40,7 @@ return array(
     "save" => "Save",
     "edit" => "Edit",
     "delete" => "Delete",
+    "reset" => "Reset",
     "send" => "Send",
     "call" => "Call",
     "email" => "Email",
@@ -167,4 +168,9 @@ return array(
     "imap.settings.username" => "Username",
     "imap.settings.password" => "Password",
     "imap.settings.excluded_domains" => "Excluded Domains",
+    "import" => "Import",
+    "import_plural" => "Imports",
+    "import.field_mapping" => "Field Mapping",
+    "import.drop_to_upload" => "Drop file here to upload or",
+    "import.click_to_select" => "Click to select",
 );

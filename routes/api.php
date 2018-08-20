@@ -79,6 +79,7 @@ Route::group([
         Route::apiResource('activities', 'ActivityController');
         Route::apiResource('fields', 'FieldController');
         Route::apiResource('users', 'UserController');
+        Route::apiResource('imports', 'ImportController');
 
         Route::group(['middleware' => 'scope:admin,manager'], function () {
             Route::apiResource('teams', 'TeamController');

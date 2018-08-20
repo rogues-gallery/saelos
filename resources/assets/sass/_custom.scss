@@ -1017,3 +1017,16 @@ input:required[value=""] {
     fill: $white;
   }
 }
+
+.csv-dropzone {
+  .dropzone {
+    margin: 10px;
+    border: 2px dashed #808080;
+    padding: 10px;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

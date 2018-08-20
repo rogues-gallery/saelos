@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('saelos:imap:sync')->everyFiveMinutes();
+        $schedule->command('saelos:import')->everyMinute();
     }
 
     /**

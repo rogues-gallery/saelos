@@ -12,6 +12,7 @@ import stageRoutes from "../modules/stages/routes";
 import statusRoutes from "../modules/statuses/routes";
 import tagRoutes from "../modules/tags/routes";
 import usersRoutes from "../modules/users/routes";
+import importRoutes from "../modules/imports/routes";
 
 export default [
   ...contactRoutes,
@@ -27,5 +28,6 @@ export default [
   ...stageRoutes,
   ...statusRoutes,
   ...teamRoutes,
-  ...usersRoutes
+  ...usersRoutes,
+  ...importRoutes
 ];

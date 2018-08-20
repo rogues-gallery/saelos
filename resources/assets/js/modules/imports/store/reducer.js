@@ -1,5 +1,5 @@
 import * as types from "./action-types";
-import Field from "../Field";
+import Import from "../Import";
 
 const initialState = {
   data: [],
@@ -18,22 +18,22 @@ const initialState = {
   searchString: ""
 };
 
-export default function fieldReducer(state = initialState, action) {
+export default function importReducer(state = initialState, action) {
   switch (action.type) {
-    case types.FETCHING_FIELDS:
+    case types.FETCHING_IMPORTS:
       return {
         ...state,
         isFetching: true,
         searchString: action.data.searchString
       };
-    case types.FETCHING_SINGLE_FIELD:
+    case types.FETCHING_SINGLE_IMPORT:
       return {
         ...state,
         isFetching: true
       };
-    case types.FETCHING_FIELDS_SUCCESS:
+    case types.FETCHING_IMPORTS_SUCCESS:
       let { data, meta } = action.data;
-      let newFieldsForState;
+      let newImportsForState;
 
       if (data.length === 0) {
         return {
@@ -44,43 +44,43 @@ export default function fieldReducer(state = initialState, action) {
 
       // When fetching the first page, always replace the contacts in the app state
       if (meta.current_page === 1) {
-        newFieldsForState = data;
+        newImportsForState = data;
       } else {
-        newFieldsForState = state.data;
+        newImportsForState = state.data;
 
         data.map(c => {
-          newFieldsForState = injectFieldIntoState(c, newFieldsForState);
+          newImportsForState = injectImportIntoState(c, newImportsForState);
         });
       }
 
       return {
         ...state,
-        data: newFieldsForState,
+        data: newImportsForState,
         meta: meta,
         isFetching: false,
         error: false
       };
-    case types.FETCHING_SINGLE_FIELD_FAILURE:
-    case types.FETCHING_FIELDS_FAILURE:
+    case types.FETCHING_SINGLE_IMPORT_FAILURE:
+    case types.FETCHING_IMPORTS_FAILURE:
       return {
         ...state,
         isFetching: false,
         error: true
       };
-    case types.POSTING_FIELD:
+    case types.POSTING_IMPORT:
       return {
         ...state,
         isPosting: true
       };
-    case types.POSTING_FIELD_FAILURE:
+    case types.POSTING_IMPORT_FAILURE:
       return {
         ...state,
         error: action.data
       };
-    case types.POSTING_FIELD_SUCCESS:
-    case types.FETCHING_SINGLE_FIELD_SUCCESS:
-    case types.RESTORING_FIELD_SUCCESS:
-      const newData = injectFieldIntoState(action.data, state.data);
+    case types.POSTING_IMPORT_SUCCESS:
+    case types.FETCHING_SINGLE_IMPORT_SUCCESS:
+    case types.RESTORING_IMPORT_SUCCESS:
+      const newData = injectImportIntoState(action.data, state.data);
 
       return {
         ...state,
@@ -90,8 +90,8 @@ export default function fieldReducer(state = initialState, action) {
         isPosting: false
       };
 
-    case types.DELETING_FIELD_SUCCESS:
-      const updatedData = removeFieldFromState(action.data, state.data);
+    case types.DELETING_IMPORT_SUCCESS:
+      const updatedData = removeImportFromState(action.data, state.data);
 
       return {
         ...state,
@@ -103,35 +103,35 @@ export default function fieldReducer(state = initialState, action) {
   }
 }
 
-const removeFieldFromState = (id, data) => {
+const removeImportFromState = (id, data) => {
   _.remove(data, f => f.id === parseInt(id));
 
   return data;
 };
 
 // @TODO Merge into state in correct order
-const injectFieldIntoState = (field, data) => {
-  const index = _.findIndex(data, c => c.id === parseInt(field.id));
+const injectImportIntoState = (imp, data) => {
+  const index = _.findIndex(data, c => c.id === parseInt(imp.id));
 
   if (index >= 0) {
-    data[index] = field;
+    data[index] = imp;
   } else {
-    data.push(field);
+    data.push(imp);
   }
 
   return data;
 };
 
-export const getFields = state => state.data.map(s => new Field(s));
-export const getField = (state, id) => {
-  let field = _.find(getFields(state), s => s.id === parseInt(id));
+export const getImports = state => state.data.map(s => new Import(s));
+export const getImport = (state, id) => {
+  let imp = _.find(getImports(state), s => s.id === parseInt(id));
 
-  if (typeof field === "undefined") {
-    return new Field({});
+  if (typeof imp === "undefined") {
+    return new Import({});
   }
 
-  return field;
+  return imp;
 };
-export const getSearchStringForFields = state => state.searchString;
-export const getPaginationForFields = state => state.meta;
-export const getFieldError = state => state.error;
+export const getSearchStringForImports = state => state.searchString;
+export const getPaginationForImports = state => state.meta;
+export const getImportError = state => state.error;

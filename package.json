@@ -28,6 +28,8 @@
     "laravel-mix": "^2.1.11",
     "lodash": "^4.17.10",
     "moment": "^2.20.1",
+    "object-to-formdata": "^1.5.2",
+    "papaparse": "^4.6.0",
     "popper.js": "^1.14.3",
     "prop-types": "^15.6.0",
     "pusher-js": "^4.2.2",

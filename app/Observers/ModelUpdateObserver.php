@@ -60,9 +60,9 @@ class ModelUpdateObserver
                         ->first()->label;
                     $name = sprintf('%s updated', $fieldName);
                     $description = sprintf('%s updated %s from %s to %s',
-                     $user->name,
-                      $fieldName,
-                       $fieldUpdate->old_value,
+                        $user ? $user->name : 'unknown',
+                        $fieldName,
+                        $fieldUpdate->old_value,
                         $fieldUpdate->new_value);
                 }
 
@@ -70,7 +70,7 @@ class ModelUpdateObserver
                     'name' => $name,
                     'description' => $description,
                     'completed' => 1,
-                    'user_id' => $user->id,
+                    'user_id' => $user ? $user->id : null,
                     'details_id' => $fieldUpdate->id,
                     'details_type' => FieldUpdateActivity::class
                 ]);
@@ -101,9 +101,9 @@ class ModelUpdateObserver
 
             $activity = Activity::create([
                 'name' => sprintf('%s updated', $fieldName),
-                'description' => sprintf('%s updated %s to %s', $user->name, $fieldUpdate->old_value, $fieldUpdate->new_value),
+                'description' => sprintf('%s updated %s to %s', $user ? $user->name : 'Unknown', $fieldUpdate->old_value, $fieldUpdate->new_value),
                 'completed' => 1,
-                'user_id' => $user->id,
+                'user_id' => $user ? $user->id : null,
                 'details_id' => $fieldUpdate->id,
                 'details_type' => FieldUpdateActivity::class
             ]);
