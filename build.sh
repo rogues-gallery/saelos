@@ -36,6 +36,9 @@ rm webpack.mix.js
 rm .babelrc
 rm .gitignore
 rm .gitattributes
+rm -rf .git
+rm -rf .github
+
 
 echo 'Compressing and zipping...'
 tar -czf ../saelos_full_install.tar.gz ./
