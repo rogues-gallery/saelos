@@ -1,8 +1,5 @@
 #! /bin/sh
 
-echo 'Removing previous build dir...'
-rm -rf build
-
 echo 'Making build dir...'
 mkdir build
 
@@ -42,5 +39,8 @@ rm -rf .github
 
 echo 'Compressing and zipping...'
 tar -czf ../saelos_full_install.tar.gz ./
+
+echo 'Removing previous build dir...'
+rm -rf build
 
 echo 'Packaging Complete.'
