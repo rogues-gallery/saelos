@@ -13,6 +13,7 @@
 - Unzip in a web accessible directory.
 - Navigate to your site.
 - Follow installation instructions.
+- Set up the following cron on your server: `* * * * * /usr/bin/env php /path/to/saelos/artisan schedule:run`
 
 # Development
 
