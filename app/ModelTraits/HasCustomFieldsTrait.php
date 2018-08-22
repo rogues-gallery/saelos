@@ -15,11 +15,11 @@ trait HasCustomFieldsTrait
 
     public function setCustomFieldValue(string $alias, $value): void
     {
-        $customField = Field::where('alias', $alias)->get()->first();
+        $customField = Field::where('alias', $alias)->where('model', static::class)->get()->first();
 
         if (!$customField) {
             throw new \InvalidArgumentException(
-                sprintf('There is no field with an alias of %s. Create it then try again', $alias)
+                sprintf('There is no field with an alias of %s on the %s object. Create it then try again', $alias, static::class)
             );
         }
 
