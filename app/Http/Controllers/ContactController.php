@@ -133,6 +133,7 @@ class ContactController extends Controller
         $opportunities = $data['opportunities'] ?? [];
         $contactUser = $data['user'] ?? null;
         $customFields = $data['custom_fields'] ?? [];
+        $activities = $data['activities'] ?? [];
 
         $companyIds = [];
         foreach ($companies as $company) {
@@ -166,6 +167,7 @@ class ContactController extends Controller
 
         $contact->update($data);
         $contact->assignCustomFields($customFields);
+        $contact->addActivities($activities);
 
         event(new ContactUpdated($contact));
 

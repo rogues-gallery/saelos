@@ -28,6 +28,8 @@ class StoreContactRequest extends FormRequest
 
         $rules = $this->addCustomFieldRules($rules);
 
+        $rules['activities'] = 'sometimes|array';
+
         return $rules;
     }
 }
