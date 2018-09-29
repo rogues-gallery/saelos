@@ -32,6 +32,8 @@ const reducer = (state = initialState, action) => {
     case types.AUTH_LOGOUT:
       localStorage.removeItem("access_token");
 
+      // @todo delete window.axios.defaults.headers.common["Authorization"]
+
       return {
         ...state,
         isAuthenticated: false
