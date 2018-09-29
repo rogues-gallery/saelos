@@ -92,7 +92,7 @@ class ContactsType extends GraphQLType
                 'type' => GraphQL::type('status'),
                 'description' => 'The status of the contact'
             ],
-            'custom_field_values' => [
+            'customFields' => [
                 'type' => Type::listOf(GraphQL::type('custom_field_value')),
                 'description' => 'The custom field values for the contact'
             ]
