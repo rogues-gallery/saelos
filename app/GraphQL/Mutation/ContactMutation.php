@@ -31,10 +31,6 @@ class ContactMutation extends Mutation
         $select = $fields->getSelect();
         $with = $fields->getRelations();
 
-        $user = Contact::find(id, $argsp['id']);
-
-        $contact->first_name = $args['first_name'];
-
-        return [];
+        return Contact::find($args['id'])->update($args);
     }
 }

@@ -117,6 +117,9 @@ return [
         'contacts' => App\GraphQL\Type\ContactsType::class,
         'companies' => App\GraphQL\Type\CompaniesType::class,
         'opportunities' => App\GraphQL\Type\OpportunitiesType::class,
+        'user' => App\GraphQL\Type\UserType::class,
+        'status' => App\GraphQL\Type\StatusType::class,
+        'custom_field_value' => App\GraphQL\Type\CustomFieldValueType::class,
     ],
 
     // This callable will be passed the Error object for each errors GraphQL catch.
