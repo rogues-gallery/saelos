@@ -18,7 +18,7 @@ class CompaniesQuery extends Query
 
     public function type()
     {
-        return GraphQL::paginate('companies');
+        return GraphQL::paginate('company');
     }
 
     public function args()

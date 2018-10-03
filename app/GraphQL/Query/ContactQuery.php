@@ -18,7 +18,7 @@ class ContactQuery extends Query
 
     public function type()
     {
-        return GraphQL::type('contacts');
+        return GraphQL::type('contact');
     }
 
     public function args()
@@ -26,9 +26,11 @@ class ContactQuery extends Query
         return [
             'id' => [
                 'name' => 'id',
-                'type' => Type::int(),
-                'required' => true
+                'type' => Type::int()
             ],
+            'email' => [
+                'type' => Type::string(),
+            ]
         ];
     }
 
@@ -38,6 +40,10 @@ class ContactQuery extends Query
             ->where(function($query) use ($args) {
                 if (isset($args['id'])) {
                     $query->where('id', $args['id']);
+                }
+
+                if (isset($args['email'])) {
+                    $query->where('email', $args['email']);
                 }
             })
             ->select($fields->getSelect())

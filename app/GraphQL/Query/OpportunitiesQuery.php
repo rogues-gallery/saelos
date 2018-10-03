@@ -18,7 +18,7 @@ class OpportunitiesQuery extends Query
 
     public function type()
     {
-        return GraphQL::paginate("opportunities");
+        return GraphQL::paginate("opportunity");
     }
 
     public function args()

@@ -18,7 +18,7 @@ class ContactsQuery extends Query
 
     public function type()
     {
-        return GraphQL::paginate('contacts');
+        return GraphQL::paginate('contact');
     }
 
     public function args()
@@ -31,6 +31,10 @@ class ContactsQuery extends Query
             'email' => [
                 'name' => 'email',
                 'type' => Type::string()
+            ],
+            'search' => [
+                'type' => Type::string(),
+                'description' => 'Search based on parameters'
             ],
             'limit' => [
                 'name' => 'limit',

@@ -1,5 +1,7 @@
 <?php
 
+use App\GraphQL as gql;
+
 return [
 
     // The prefix for routes
@@ -65,7 +67,7 @@ return [
     //  'schemas' => [
     //      'default' => [
     //          'query' => [
-    //              'users' => 'App\GraphQL\Query\UsersQuery'
+    //              'users' => 'gql\Query\UsersQuery'
     //          ],
     //          'mutation' => [
     //
@@ -73,7 +75,7 @@ return [
     //      ],
     //      'user' => [
     //          'query' => [
-    //              'profile' => 'App\GraphQL\Query\ProfileQuery'
+    //              'profile' => 'gql\Query\ProfileQuery'
     //          ],
     //          'mutation' => [
     //
@@ -82,7 +84,7 @@ return [
     //      ],
     //      'user/me' => [
     //          'query' => [
-    //              'profile' => 'App\GraphQL\Query\MyProfileQuery'
+    //              'profile' => 'gql\Query\MyProfileQuery'
     //          ],
     //          'mutation' => [
     //
@@ -94,10 +96,13 @@ return [
     'schemas' => [
         'default' => [
             'query' => [
-                'contact' => App\GraphQL\Query\ContactQuery::class,
-                'contacts' => App\GraphQL\Query\ContactsQuery::class,
-                'companies' => App\GraphQL\Query\CompaniesQuery::class,
-                'opportunities' => App\GraphQL\Query\OpportunitiesQuery::class,
+                'contact' => gql\Query\ContactQuery::class,
+                'contacts' => gql\Query\ContactsQuery::class,
+                'companies' => gql\Query\CompaniesQuery::class,
+                'opportunities' => gql\Query\OpportunitiesQuery::class,
+            ],
+            'mutation' => [
+                gql\Mutation\ContactMutation::NAME => gql\Mutation\ContactMutation::class,
             ],
             'middleware' => [],
             'method' => ['get', 'post'],
@@ -110,16 +115,16 @@ return [
     // Example:
     //
     // 'types' => [
-    //     'user' => 'App\GraphQL\Type\UserType'
+    //     'user' => 'gql\Type\UserType'
     // ]
     //
     'types' => [
-        'contacts' => App\GraphQL\Type\ContactsType::class,
-        'companies' => App\GraphQL\Type\CompaniesType::class,
-        'opportunities' => App\GraphQL\Type\OpportunitiesType::class,
-        'user' => App\GraphQL\Type\UserType::class,
-        'status' => App\GraphQL\Type\StatusType::class,
-        'custom_field_value' => App\GraphQL\Type\CustomFieldValueType::class,
+        'contact' => gql\Type\ContactType::class,
+        'company' => gql\Type\CompanyType::class,
+        'opportunity' => gql\Type\OpportunityType::class,
+        'user' => gql\Type\UserType::class,
+        'status' => gql\Type\StatusType::class,
+        'custom_field_value' => gql\Type\CustomFieldValueType::class,
     ],
 
     // This callable will be passed the Error object for each errors GraphQL catch.

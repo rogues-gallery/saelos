@@ -7,10 +7,10 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use App\Company;
 
-class CompaniesType extends GraphQLType
+class CompanyType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Companies',
+        'name' => 'Company',
         'description' => 'A type',
         'model' => Company::class
     ];
@@ -26,9 +26,18 @@ class CompaniesType extends GraphQLType
                 'type' => Type::string(),
                 'description' => 'The name of the company'
             ],
+            // field relations
             'contacts' => [
-                'type' => Type::listOf(GraphQL::type('contacts')),
+                'type' => Type::listOf(GraphQL::type('contact')),
                 'description' => 'List of contacts for this company'
+            ],
+            'opportunities' => [
+                'type' => Type::listOf(GraphQL::type('opportunity')),
+                'description' => 'The opportunities of the contact',
+            ],
+            'customFields' => [
+                'type' => Type::listOf(GraphQL::type('custom_field_value')),
+                'description' => 'The custom field values for the contact'
             ]
         ];
     }

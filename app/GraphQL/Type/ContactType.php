@@ -8,11 +8,11 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 use App\Contact;
 use App\Field;
 
-class ContactsType extends GraphQLType
+class ContactType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Contacts',
-        'description' => 'A type',
+        'name' => 'Contact',
+        'description' => 'A contact',
         'model' => Contact::class,
     ];
 
@@ -21,7 +21,7 @@ class ContactsType extends GraphQLType
         return [
             'id' => [
                 'type' => Type::nonNull(Type::int()),
-                'description' => 'The id of the user'
+                'description' => 'The id of the contact'
             ],
             'email' => [
                 'type' => Type::string(),
@@ -75,13 +75,13 @@ class ContactsType extends GraphQLType
                 'type' => Type::string(),
                 'description' => 'The info of the contact'
             ],
-            // field relation to model companies
+            // field relations
             'companies' => [
-                'type' => Type::listOf(GraphQL::type('companies')),
+                'type' => Type::listOf(GraphQL::type('company')),
                 'description' => 'The companies of the contact',
             ],
             'opportunities' => [
-                'type' => Type::listOf(GraphQL::type('opportunities')),
+                'type' => Type::listOf(GraphQL::type('opportunity')),
                 'description' => 'The opportunities of the contact',
             ],
             'user' => [

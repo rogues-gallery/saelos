@@ -2,27 +2,43 @@
 
 namespace App\GraphQL\Mutation;
 
+use App\Contact;
+use App\GraphQL\Type\ContactType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use GraphQL;
 use Rebing\GraphQL\Support\Mutation;
 use Rebing\GraphQL\Support\SelectFields;
 
 class ContactMutation extends Mutation
 {
+    const NAME = 'createOrUpdateContact';
+
     protected $attributes = [
-        'name' => 'ContactMutation',
-        'description' => 'A mutation'
+        'name' => self::NAME,
+        'description' => 'Create a contact if no ID is specified, otherwise update.',
     ];
 
     public function type()
     {
-        return Type::listOf(Type::string());
+        return GraphQL::type('contact');
     }
 
     public function args()
     {
         return [
-
+            'id' => [
+                'type' => Type::int(),
+            ],
+            'email' => [
+                'type' => Type::string(),
+            ],
+            'first_name' => [
+                'type' => Type::string(),
+            ],
+            'last_name' => [
+                'type' => Type::string()
+            ],
         ];
     }
 
@@ -31,6 +47,14 @@ class ContactMutation extends Mutation
         $select = $fields->getSelect();
         $with = $fields->getRelations();
 
-        return Contact::find($args['id'])->update($args);
+        ['id' => $id] = $args;
+        unset($args['id']);
+        
+
+        $contact = Contact::find($id);
+        
+        $contact->update($args);
+
+        return $contact;
     }
 }
