@@ -166,7 +166,7 @@ class Record extends React.Component {
 
           <div className="float-right text-right pt-2">
             <div className="mini-text text-muted">
-              {this.context.i18n.t("message.assigned.to")}
+              {this.context.i18n.t("messages.assigned.to")}
             </div>
             {user.authorized(["admin", "manager", "user"]) ? (
               <div className="dropdown show">
