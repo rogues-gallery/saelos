@@ -664,7 +664,7 @@ class FieldTableSeeder extends Seeder
                 "entity_class" => null,
                 "default" => null,
                 "values" => null,
-                "required" => 1,
+                "required" => 0,
                 "protected" => 1,
                 "hidden" => 0,
                 "summary" => 0,
