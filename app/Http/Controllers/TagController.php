@@ -68,7 +68,6 @@ class TagController extends Controller
         }
 
         $data = $request->validated();
-        var_dump($data);die;
         $contactId = $data['contact_id'] ?? null;
         $contacts = $data['contacts'] ?? $tag->contacts()->get()->all();
         $companyId = $data['company_id'] ?? null;
