@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use App\Role;
+use App\Team;
 use App\User;
 
 class InstallSeeder extends Seeder
@@ -27,6 +28,11 @@ class InstallSeeder extends Seeder
         Role::create([
             'name' => 'user',
             'description' => 'User'
+        ]);
+
+        Team::create([
+            'name' => 'Sales Team',
+            'description' => 'Your organization\'s sales team.'
         ]);
     }
 }
