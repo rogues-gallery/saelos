@@ -7,6 +7,7 @@ use DB;
 use File;
 use App\User;
 use App\Role;
+use App\Team;
 use RachidLaasri\LaravelInstaller\Events\LaravelInstallerFinished;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -39,6 +40,7 @@ class InstallListener
 
             if (File::exists(storage_path('install.json'))) {
                 $info = json_decode(File::get(storage_path('install.json')), true);
+                /** @var User $user */
                 $user = User::create($info);
 
                 $user->roles()->sync(Role::all()->pluck('id')->toArray());
@@ -50,6 +52,11 @@ class InstallListener
                     'views',
                     '[{"linkText":"Assigned to Me","parentItem":"contacts","color":"#b21e22","searchString":"assignee:me"}]'
                 );
+
+                // Attach the user to the teams created during install
+                $user->team()->associate(Team::first());
+
+                $user->save();
             }
         } catch (\Exception $e) {
             var_dump($e->getMessage());
