@@ -22,15 +22,13 @@ class Main extends Component {
       return;
     }
 
-    if (typeof user.id === "undefined" || !user.id) {
-      dispatch(fetchUser());
-      dispatch(fetchFields());
-      dispatch(fetchTags());
-      dispatch(fetchRoles());
-      dispatch(fetchTeams());
-      dispatch(fetchStatuses());
-      dispatch(fetchStages());
-    }
+    dispatch(fetchUser());
+    dispatch(fetchFields());
+    dispatch(fetchTags());
+    dispatch(fetchRoles());
+    dispatch(fetchTeams());
+    dispatch(fetchStatuses());
+    dispatch(fetchStages());
   }
 
   render() {
