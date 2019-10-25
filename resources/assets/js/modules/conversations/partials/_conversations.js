@@ -82,14 +82,14 @@ class Conversation extends React.Component {
     return (
       <li className="list-group-item" key={`conversation-${conversation.id}`}>
         <div className={`conversations-partial`}>
-          <div onClick={this._toggleOpenState}>
+          <div>
             <span className="mini-text text-muted float-right pt-1">
               {moment(conversation.created_at).fromNow()}
             </span>
             <span className="text-muted pr-2 h5">
               <MDIcons.MdArrowBack />
             </span>
-            <span className="font-weight-bold">{conversation.name}</span>
+            <span className="font-weight-bold" onClick={this._toggleOpenState}>{conversation.name}</span>
             <span className="message-body pr-2">
               <TextTruncate
                 line={1}

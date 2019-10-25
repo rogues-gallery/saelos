@@ -76,7 +76,7 @@ return array(
     "stage" => "Stage",
     "stage_plural" => "Stages",
     "tag" => "Tag",
-    "tag_plural" => "tags",
+    "tag_plural" => "Tags",
     "team" => "Team",
     "team_plural" => "Teams",
     "role" => "Role",

@@ -1,4 +1,8 @@
-#! /bin/sh
+#! /bin/bash
+if [ -d './build' ]; then
+  echo 'Build directory exists, removing...'
+  rm -rf ./build
+fi
 
 echo 'Making build dir...'
 mkdir build
@@ -11,13 +15,13 @@ git clone --depth 1 git@github.com:saelos/saelos .
 echo 'Cloning finished.'
 
 echo 'Composer install...'
-composer install --no-dev
+composer install --no-dev --quiet
 
 echo 'NPM install...'
-npm install
+npm --silent install
 
 echo 'Building app...'
-npm run prod
+npm run --silent prod
 
 echo 'Packaging...'
 rm build.sh

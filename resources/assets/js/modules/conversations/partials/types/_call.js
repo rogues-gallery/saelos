@@ -8,7 +8,7 @@ class ConversationCall extends React.Component {
     return (
       <div className="col pt-3 pb-1 px-0">
         <audio controls className="w-100">
-          <source src={conversation.recording} type="audio/mpeg" />
+          <source src={conversation.details.recording} type="audio/mpeg" />
           {this.context.i18n.t("messages.browser.audio.not.supported")}
         </audio>
       </div>
