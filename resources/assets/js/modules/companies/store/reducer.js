@@ -87,19 +87,11 @@ export default function companyReducer(state = initialState, action) {
         error: action.data
       };
     case types.POSTING_COMPANY_SUCCESS:
-      const newIndex = _.findIndex(
-        state.data,
-        a => a.id === parseInt(action.data.id)
-      );
-
-      if (index >= 0) {
-        state.data[newIndex] = action.data;
-      } else {
-        state.data.push(action.data);
-      }
+      const newData = injectCompaniesIntoState(action.data, state.data);
 
       return {
         ...state,
+        data: newData,
         isFetching: false,
         error: false,
         isPosting: false,
